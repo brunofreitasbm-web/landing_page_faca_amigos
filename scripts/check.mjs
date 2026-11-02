@@ -23,7 +23,7 @@ const EXCLUIDAS = (f) => f === 'admin.html' || f === 'gestao.html' || f === 'des
 
 const read = (p) => readFileSync(join(root, p), 'utf8');
 // HTML da raiz + subpastas de conteúdo (aprender/ e as páginas de unidade/equipe), sempre com "/" no nome (Windows e CI/Linux iguais).
-const CONTEUDO_SUBPASTAS = ['aprender', 'playground', 'equipe', 'clinica', 'trabalhe-conosco'];
+const CONTEUDO_SUBPASTAS = ['aprender', 'playground', 'equipe', 'clinica', 'trabalhe-conosco', 'lp'];
 function htmlEm(dir) {
   const abs = join(root, dir || '.');
   if (dir && !existsSync(abs)) return [];

@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import LpTopo from '../components/LpTopo.astro';
+import LpRodape from '../components/LpRodape.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { SITE, abs, waUrl } from '../data/marca';
 import type { UnidadeId } from '../data/marca';
@@ -25,8 +27,9 @@ interface Props {
   semWa?: boolean; // esconde o botão de WhatsApp do cabeçalho e o flutuante (páginas legais, 404)
   waTexto?: string; // mensagem inicial do WhatsApp (padrão: a da unidade)
   cta?: { label: string; href: string; event: string }; // barra de ação no celular (assets/fa-cta.js)
+  minimo?: boolean; // landing de campanha: só o logo no topo e um rodapé enxuto (sem menu do site)
 }
-const { title, ogTitle, ogDescription, siteName = 'FaçaAmigos', articleAuthor, description, path, ogImage = 'img/og/og-hub.jpg', ogImageAlt = 'FaçaAmigos', ogType = 'website', noindex = false, jsonLd = [], secao = '', wa = 'parque', waTexto, semWa = false, cta } = Astro.props;
+const { title, ogTitle, ogDescription, siteName = 'FaçaAmigos', articleAuthor, description, path, ogImage = 'img/og/og-hub.jpg', ogImageAlt = 'FaçaAmigos', ogType = 'website', noindex = false, jsonLd = [], secao = '', wa = 'parque', waTexto, semWa = false, cta, minimo = false } = Astro.props;
 const canonical = abs(path);
 const robots = noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 const imagem = abs('/' + ogImage);
@@ -73,9 +76,9 @@ const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org',
 <body>
   <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${SITE.gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  <Nav atual={secao} wa={wa} texto={waTexto} semWa={semWa} />
+  {minimo ? <LpTopo /> : <Nav atual={secao} wa={wa} texto={waTexto} semWa={semWa} />}
   <main id="conteudo"><slot /></main>
-  <Footer kind="hub" />
+  {minimo ? <LpRodape wa={wa} /> : <Footer kind="hub" />}
   {!semWa && <WhatsAppFloat href={waUrl(wa, waTexto)} />}
   {cta && <script is:inline src="/assets/fa-cta.js" defer data-label={cta.label} data-href={cta.href} data-event={cta.event}></script>}
 </body>
