@@ -174,7 +174,7 @@ Extensões exigidas e não declaradas: `pg_cron`, `pg_net`, `vault`.
 - `package.json` (`facaamigos-site`): só declara `@vercel/functions` (usado por `middleware.js`); sem lockfile. Scripts: `npm run check`, `sitemap`, `geo`, `geo:check`. Não há build/dev.
 - **`scripts/check.mjs`** (Node 18+, 0 dependências): ERROS = falta de fa-track/title/canonical/description, link interno quebrado ou `.html`, âncora inexistente, host errado, canonical/og:url inconsistente, ≠1 `<h1>`, FAQ visível ≠ JSON-LD, `@id` duplicado, sitemap incoerente, robots inválido, 2º GTM, preços do `llms*.txt` fora das páginas. Exclui `admin`, `gestao`, `descadastrar`, `google*.html`. Subpastas de conteúdo em `CONTEUDO_SUBPASTAS` (linha 19). Estado: 25 páginas, 0 erros, 3 avisos (h1→h3).
 - **`scripts/geo-build.mjs`**: gera `llms.txt`/`llms-full.txt` a partir de `scripts/geo-templates/*.tpl` + `geo-facts.json` (`--fetch` baixa da função, `--check` não escreve). Não editar os `llms*.txt` à mão.
-- **`scripts/sitemap-lastmod.mjs`**: `lastmod` vem do `git log`; rodar `npm run sitemap` antes do push (hoje 7 defasados; o CI não verifica).
+- **`scripts/sitemap-lastmod.mjs`**: lê `dist/` (rode `npm run build` antes) e sincroniza as URLs do `sitemap.xml` com as páginas indexáveis (canonical do hub, sem noindex): página nova entra, página que saiu ou virou noindex sai; `lastmod` vem do `git log`. Rodar `npm run build && npm run sitemap` antes do push; o CI não confere o `lastmod` (checkout raso), mas o `check.mjs` falha se o sitemap listar página que não existe, canonical fora do sitemap ou noindex dentro dele.
 - **`bing-submit.mjs`**: manual, precisa de `BING_WEBMASTER_API_KEY`, aceita `--dry`.
 - **Workflows**: `check.yml` (push/PR: check + geo --check); `auto-publicar.yml` (push em `auto/**` → check e, se fast-forward, `git push origin HEAD:main`, que dispara o deploy); `geo-sync.yml` (diário 09:00 UTC, abre PR `geo-sync/atualizacao-automatica`; PRs do `GITHUB_TOKEN` podem não disparar `check.yml`). Nenhum workflow implanta funções Supabase.
 
@@ -230,4 +230,4 @@ Portal cativo para um hEX S (arquivos vão em `flash/hotspot/`). `login.html` va
 | Novo evento | painel `/admin` → aba Eventos (não requer deploy) |
 | Novo sistema no Hub | `gestao.html` (tile `data-app`), `launch` em `gestao-hub`, `fa_gestao_contas` |
 | Novo cron | `supabase/ops/*.sql` + secret no Vault; incluir no `fa_health_snapshot` |
-| Antes de publicar | `npm run check`, `npm run geo:check`, `npm run sitemap` |
+| Antes de publicar | `npm run build`, `npm run check`, `npm run geo:check`, `npm run sitemap` |

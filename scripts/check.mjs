@@ -477,6 +477,13 @@ if (nomesOrganization.size > 1) {
   for (const [arq, canon] of canonicais) {
     if (!locs.has(canon)) globais.erros.push(`${arq}: canonical ${canon} não está em nenhum sitemap.`);
   }
+  // O contrário: URL do hub no sitemap.xml sem página indexável por trás (página apagada ou renomeada).
+  if (existsSync(join(root, 'sitemap.xml'))) {
+    const existentes = new Set([...canonicais.values()]);
+    for (const m of read('sitemap.xml').matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)) {
+      if (!existentes.has(m[1]) && !noindexCanonicals.includes(m[1])) globais.erros.push(`sitemap.xml lista ${m[1]}, mas nenhuma página construída tem esse canonical.`);
+    }
+  }
   for (const canon of noindexCanonicals) {
     if (locs.has(canon)) globais.erros.push(`sitemap lista ${canon}, que é noindex.`);
   }

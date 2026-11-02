@@ -22,13 +22,13 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 - **Publicar um profissional:** `src/data/equipe.json`, `publicar: true` (só com aprovação dele). Com 2 ou mais perfis, `/clinica/equipe` passa a ser indexável e entra no sitemap.
 - **Texto do glossário, termos, política, índice de Aprender, 404, trabalhe conosco e eventos:** `src/data/paginas/<slug>.html` (o texto), `<slug>.json` (metadados e JSON-LD) e `<slug>.N.js` (scripts da página, copiados como estavam). Os cartões do índice de Aprender saem do campo `card` de cada artigo.
 - **Texto de um artigo de Aprender:** `src/data/aprender/<slug>.html` (o texto) e `<slug>.json` (título, metadados, botões, "leia também"). Um artigo novo = um par de arquivos novo; a rota `aprender/[slug]` gera a página. A URL entra em `public/sitemap.xml`.
-- **Nova página:** `src/pages/x.astro` usando `Base`; incluir a URL em `public/sitemap.xml` (o `lastmod` é mantido por `npm run sitemap`).
+- **Nova página:** `src/pages/x.astro` usando `Base`; depois `npm run build && npm run sitemap`: a URL entra sozinha em `public/sitemap.xml` (páginas com canonical do hub e sem noindex; changefreq 0.6/monthly por padrão, ajustável no arquivo) e o `lastmod` vem do git. Commitar o `sitemap.xml`.
 
 ### Pendências conhecidas
 - As páginas legadas em `public/*.html` (ingresso, descadastrar e família) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
 - `/trabalhe-conosco`: vagas com schema `JobPosting` (hoje a página é só o formulário de candidatura); `/parcerias` (depende de haver oferta de dia útil).
 - `evento` (acoplada ao `middleware.js`, que reescreve o HTML dela por texto exato), `ingresso`, `teste` (questionário), `guia` e `codigo` (checkout da Hotmart) e as páginas grandes de venda ficaram de fora de propósito: têm lógica ou CSS próprio que exige migração com mais cuidado.
-- `sitemap.xml` ainda é mantido à mão (`public/`).
+- `sitemap.xml` é gerado a partir das páginas construídas (`npm run build && npm run sitemap`) e fica versionado em `public/`: o `lastmod` sai do git local, e o CI faz checkout raso. `sitemap-playground.xml` segue fixo (transição).
 - Hoje são servidos publicamente `NEWVITTA/`, `contexto.md`, `EXPERIMENTOS-TV2.md` e `chatbot-clinica/`. Decidir se saem de `public/`.
 - Textos dos artigos de Aprender que talvez estejam velhos: "Conhecer a Clínica FaçaAmigos, em breve no Umarizal" (todos os 9) e "entrar na lista de espera da Clínica" (2). A página da Clínica diz "já está atendendo". Confirmar qual é a verdade.
 - Preço do Parque no caixa (50% para o público geral) diverge do site e de `geo-facts.json` do repositório (40%).
