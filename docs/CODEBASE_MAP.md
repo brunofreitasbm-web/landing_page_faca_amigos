@@ -44,7 +44,7 @@ Deploy: push na `main` publica na Vercel. **Funções e migrations não vão pel
 ├── circuito.html         Circuito de carrinhos (host playground.)
 ├── servicos.html         Clínica / serviços
 ├── teste.html            funil do Mapeamento Comportamental (+ teste-perguntas.json)
-├── guia.html, codigo.html     landings dos e-books (Hotmart)
+├── src/pages/{guia,codigo}.astro + layouts/Landing.astro   landings dos e-books (Hotmart)
 ├── eventos.html, evento.html, ingresso.html, descadastrar.html   módulo de eventos
 ├── aprender.html + aprender/*.html (9 artigos), glossario.html   conteúdo/SEO
 ├── wifi.html             página pós-portal Wi-Fi (noindex)
@@ -222,7 +222,7 @@ Portal cativo para um hEX S (arquivos vão em `flash/hotspot/`). `login.html` va
 | Quero... | Mexer em |
 |---|---|
 | Mudar preço do Playground/Circuito | HTML + JSON-LD da página, `npm run geo` (ou `geo-build`), `ESPERADO` em `fa-health`, conferir `fa-cta`/FAQ |
-| Mudar preço/checkout de e-book | `guia.html`/`codigo.html`, `CHECKOUTS` em `fa-track.js`, `HOTMART_*_PRODUCT_ID`, `EBOOK_*` |
+| Mudar preço/checkout de e-book | `src/data/paginas/guia.*`/`codigo.*`, `CHECKOUTS` em `fa-track.js`, `HOTMART_*_PRODUCT_ID`, `EBOOK_*` |
 | Abrir a Clínica ou o Bosque ("Em breve") | `UNITS.clinica.status`/`UNITS.graopara.status` em `fa-footer.js` + textos estáticos dos footers + JSON-LD do playground |
 | Nova pergunta/versão do teste | `teste-perguntas.json`, `TEST_VERSION`/IDs no webhook, `QUESTION_LABELS_BY_VERSION` no admin, migration se preciso; deploy: migration → função → site |
 | Novo artigo em `aprender/` | copiar template, JSON-LD, `aprender.html`, sitemap, `llms` templates, `CONTEUDO_SUBPASTAS` se subpasta nova |

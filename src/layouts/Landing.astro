@@ -1,0 +1,29 @@
+---
+// Layout das páginas de venda (guia, codigo): mesma estrutura de antes, sem o menu e o rodapé do hub.
+// Cabeçalho, rodapé e CSS são da própria página (conversão: pouca coisa competindo com o botão de compra).
+// Os metas vêm do JSON da página, na ordem original, para a fidelidade ser comprovável.
+import { SITE, abs } from '../data/marca';
+interface Props { d: { titleTag: string; path: string; metas: Record<string, string>[]; links: string; jsonLd: unknown[] }; css: string; corpo: string; scripts: string[] }
+const { d, css, corpo, scripts } = Astro.props;
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <script is:inline src="/assets/fa-track.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{d.titleTag}</title>
+  {d.metas.map((m) => <meta {...m} />)}
+  <link rel="canonical" href={abs(d.path)} />
+  <Fragment set:html={d.links} />
+  <style is:inline set:html={css}></style>
+  {d.jsonLd.map((no) => <script is:inline type="application/ld+json" set:html={JSON.stringify(no)} />)}
+  <link rel="stylesheet" href="/assets/fa-logo.css?v=20261021" />
+</head>
+<body>
+  <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${SITE.gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <Fragment set:html={corpo} />
+  <script is:inline src="/assets/fa-footer.js?v=20261101" defer></script>
+  {scripts.map((s) => <script is:inline set:html={s} />)}
+</body>
+</html>

@@ -1,0 +1,214 @@
+{
+  "slug": "codigo",
+  "path": "/codigo",
+  "titleTag": "O Código do Desenvolvimento Infantil: e-book para pais | FaçaAmigos",
+  "metas": [
+    {
+      "name": "description",
+      "content": "Guia curto e acolhedor de Análise do Comportamento: 9 capítulos para entender o comportamento do seu filho, sem jargão e sem culpa. E-book em PDF, acesso imediato."
+    },
+    {
+      "name": "robots",
+      "content": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    },
+    {
+      "name": "theme-color",
+      "content": "#065264"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:site_name",
+      "content": "FaçaAmigos — Centro de Terapia Comportamental"
+    },
+    {
+      "property": "og:title",
+      "content": "O Código do Desenvolvimento Infantil — Um guia de coração para mães, pais e famílias"
+    },
+    {
+      "property": "og:description",
+      "content": "O comportamento do seu filho tem lógica. Um guia curto e acolhedor de Análise do Comportamento, em linguagem simples. E-book em PDF."
+    },
+    {
+      "property": "og:url",
+      "content": "https://institutofacaamigos.com.br/codigo"
+    },
+    {
+      "property": "og:image",
+      "content": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg"
+    },
+    {
+      "property": "og:image:type",
+      "content": "image/jpeg"
+    },
+    {
+      "property": "og:image:width",
+      "content": "1200"
+    },
+    {
+      "property": "og:image:height",
+      "content": "630"
+    },
+    {
+      "property": "og:image:alt",
+      "content": "Capa do e-book O Código do Desenvolvimento Infantil, um guia de coração para mães, pais e famílias"
+    },
+    {
+      "property": "og:locale",
+      "content": "pt_BR"
+    },
+    {
+      "name": "twitter:card",
+      "content": "summary_large_image"
+    },
+    {
+      "name": "twitter:title",
+      "content": "O Código do Desenvolvimento Infantil — Um guia de coração para mães, pais e famílias"
+    },
+    {
+      "name": "twitter:image",
+      "content": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg"
+    },
+    {
+      "name": "twitter:image:alt",
+      "content": "Capa do e-book O Código do Desenvolvimento Infantil, um guia de coração para mães, pais e famílias"
+    }
+  ],
+  "links": "<link rel=\"icon\" type=\"image/png\" href=\"img/logo-simbolo.png\">\n<link rel=\"icon\" href=\"/favicon.ico\" sizes=\"any\">\n<link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\">\n<link rel=\"manifest\" href=\"/site.webmanifest\">\n<link rel=\"alternate\" type=\"text/plain\" href=\"/llms.txt\" title=\"FaçaAmigos AI &amp; LLM Summary\">\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link rel=\"preload\" as=\"style\" href=\"https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap\" onload=\"this.onload=null;this.rel='stylesheet'\">\n<noscript><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap\"></noscript>\n<link rel=\"preload\" as=\"image\" href=\"img/codigo/capa.webp\" type=\"image/webp\">",
+  "jsonLd": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Book",
+      "@id": "https://institutofacaamigos.com.br/codigo#livro",
+      "name": "O Código do Desenvolvimento Infantil — Um guia de coração para mães, pais e famílias",
+      "description": "Guia curto e acolhedor que traduz a Análise do Comportamento para a linguagem da sua casa: 9 capítulos para entender o comportamento do seu filho, sem jargão e sem culpa. E-book em PDF, com acesso imediato. Material educativo.",
+      "image": "https://institutofacaamigos.com.br/img/codigo/capa.webp",
+      "url": "https://institutofacaamigos.com.br/codigo",
+      "inLanguage": "pt-BR",
+      "bookFormat": "https://schema.org/EBook",
+      "numberOfPages": 40,
+      "author": {
+        "@type": "Person",
+        "name": "Isabella Gonçalves Freitas",
+        "jobTitle": "Psicóloga",
+        "identifier": "CRP 10/4727",
+        "@id": "https://institutofacaamigos.com.br/#isabella"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Instituto Faça Amigos Ltda",
+        "url": "https://institutofacaamigos.com.br/"
+      },
+      "isAccessibleForFree": false,
+      "offers": {
+        "@type": "Offer",
+        "url": "https://institutofacaamigos.com.br/codigo",
+        "price": "9.90",
+        "priceCurrency": "BRL",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "Organization",
+          "name": "Instituto Faça Amigos Ltda",
+          "url": "https://institutofacaamigos.com.br/"
+        }
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como eu recebo o e-book?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Assim que o pagamento é confirmado, a Hotmart envia o acesso para o e-mail que você usou na compra. Você baixa o PDF e pode guardar no celular, no tablet ou no computador."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Para quem é o livro?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Para mães, pais, avós, tias e cuidadores de crianças pequenas, com ou sem diagnóstico. Os exemplos vêm da rotina da primeira infância e a linguagem é a de uma conversa, não a de um manual técnico."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Preciso de diagnóstico para usar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. O livro é para qualquer família que queira entender melhor o comportamento do filho. Ele é um material educativo: não faz diagnóstico e não substitui avaliação e acompanhamento profissional."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Serve para quem tem um filho autista?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. O capítulo 4 fala do autismo e dos transtornos do neurodesenvolvimento e de como a família pode sustentar em casa o que se aprende na terapia. O livro não promete cura nem fórmula pronta: a ciência do comportamento começa sempre por observar quem é aquela criança."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto tempo leva para ler?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "É um livro curto, com 40 páginas. Dá para ler em uma tarde ou aos poucos, um capítulo por vez."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso imprimir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, para o uso da sua família. O conteúdo não pode ser revendido nem compartilhado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O livro substitui a terapia?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. Ele ajuda você a apoiar seu filho no dia a dia, mas não substitui a avaliação e o acompanhamento de profissionais. Se algo preocupar você, converse com um profissional de confiança."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como funciona a garantia?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Você tem 7 dias, a partir da compra, para pedir o reembolso diretamente pela Hotmart, sem complicação."
+          }
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/codigo#webpage",
+      "url": "https://institutofacaamigos.com.br/codigo",
+      "name": "O Código do Desenvolvimento Infantil: e-book para pais | FaçaAmigos",
+      "description": "Guia curto e acolhedor que traduz a Análise do Comportamento para a linguagem da sua casa: 9 capítulos para entender o comportamento do seu filho, sem jargão e sem culpa. E-book em PDF, com acesso imediato. Material educativo.",
+      "inLanguage": "pt-BR",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#website"
+      },
+      "about": {
+        "@id": "https://institutofacaamigos.com.br/codigo#livro"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://institutofacaamigos.com.br/img/codigo/capa.webp",
+        "width": 760,
+        "height": 1077
+      },
+      "mainEntity": {
+        "@id": "https://institutofacaamigos.com.br/codigo#livro"
+      }
+    }
+  ],
+  "scripts": 1
+}
