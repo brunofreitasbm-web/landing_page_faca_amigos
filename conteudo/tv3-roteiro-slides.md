@@ -832,6 +832,13 @@ Para pôr a TV em pé, a edição é uma linha: `orientacao: 'vertical'`. Os lay
 - Mascote por destino: macaco no Portal e na Avaliação, tartaruga no Mapeamento e nas dicas, tucano no Circuito, cachorro no Playground, Grão-Pará, Clínica e Planos (`img/tv3/mascote-*.webp`).
 - Leitura medida com o decodificador de teste (jsQR, com desfoque): o clássico lê a partir de 56 px de largura na imagem; o QR com arte, de 56 a 85 px conforme o endereço. Os testes `qr` decodificam todos os QR de todos os slides em pé e deitado.
 
+## Painel HD de 32" e qualidade da imagem
+
+- Pensado para painel HD (1366x768 ou 1280x720), que mostra o palco a ~71% (ou 67%) do tamanho. Os textos têm um piso (o encolhimento automático para em 80%) e o menor texto na tela fica em ~14 px em 1366x768. Sem `backdrop-filter` na TV de 32" (pesa na GPU de TV HD).
+- **Fotos melhoradas para a TV:** `scripts/tv3-imagens.py` gera cópias em `public/img/tv/` com brilho (gama 0,86), cor (+25%), contraste (+5%) e nitidez (máscara de nitidez depois de reduzir a foto ao tamanho da TV, até 1400 px de largura). As fotos originais, usadas pelo site, não mudam. Depois de trocar uma foto de slide, rode `python3 scripts/tv3-imagens.py` e `python3 scripts/tv3-pool.py` (o teste `copy` avisa se faltar).
+- As fotos da fotógrafa (Supabase) não podem ser refeitas aqui: recebem só um filtro leve de brilho e cor no navegador.
+- O rodapé tem o site à esquerda e o Instagram à direita (`rodapeSite` e `rodapeInstagram` no `CONFIG`).
+
 ## Autoexame
 
 Regex sobre `tv3-slides.json`: `promessa|confian[çc]a|oferta|garantid|cura\b|especial|normal|problem|!|—|convênio|IASEP|PROASA`

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Testes da /tv3 com Playwright. Uso: node scripts/tv3-test.mjs [qr|motor|layout|copy|audio|orient|todos]
+// Testes da /tv3 com Playwright. Uso: node scripts/tv3-test.mjs [qr|motor|layout|copy|audio|orient|qrlayout|qrhd|todos]
 //
 // Variáveis de ambiente:
 //   PW_MODULE        caminho do playwright (padrão /opt/node-tools/node_modules/playwright/index.mjs)
@@ -226,6 +226,8 @@ async function testeCopy() {
   const run = (args) => { try { execFileSync('python3', args, { cwd: ROOT, stdio: 'pipe' }); return ''; } catch (e) { return String(e.stderr || e.stdout || e.message).trim().split('\n').slice(0, 3).join(' | '); } };
   const r = run(['scripts/tv3-pool.py', '--check']);
   ok(!r, 'conteudo/tv3-slides.json é válido e está embutido no tv3.html', r);
+  const im = run(['scripts/tv3-imagens.py', '--check']);
+  ok(!im, 'fotos da TV (public/img/tv/) em dia com scripts/tv3-imagens.py', im);
   const q = run(['scripts/tv3-qr.py', '--check']);
   if (/No module named 'segno'/.test(q)) console.log('pulado  scripts/tv3-qr.py --check (instale segno: pip install segno)');
   else ok(!q, 'QR do tv3.html em dia com scripts/tv3-qr.py', q);
@@ -326,6 +328,66 @@ async function testeAudio() {
 }
 
 
+
+
+// ---------------------------------------------------------------- QR NO PAINEL HD (pixels reais, sem ampliar)
+async function testeQRHD() {
+  console.log('\n# QR NO PAINEL HD');
+  for (const vp of [{ width: 1366, height: 768 }, { width: 1280, height: 720 }]) {
+    const page = await abrir('', vp, { dsf: 1 });
+    const alvo = await page.evaluate(() => Object.fromEntries(Object.entries(window.TV3.QR).map(([k, v]) => [k, v.url])));
+    const slides = await page.evaluate(() => window.TV3.POOL.filter((s) => s.qr).map((s) => ({ id: s.id, qr: s.qr })));
+    let lidos = 0; const errados = [];
+    for (const sl of slides) {
+      await page.evaluate((id) => window.TV3.show(id), sl.id);
+      const box = page.locator('.tv-slide.active svg[data-qr]').first();
+      const lido = decodificar(await box.screenshot());
+      if (lido === alvo[sl.qr]) lidos++; else errados.push(`${sl.id}: ${lido}`);
+    }
+    ok(errados.length === 0 && lidos > 0, `todos os QR decodificam em ${vp.width}x${vp.height} (${lidos} lidos)`, errados.join(' | '));
+    await page.context().close();
+  }
+}
+
+// ---------------------------------------------------------------- QR SEM SOBREPOSIÇÃO
+// O selo do QR (anel de 11 px + anel tracejado de 18 px) não pode encostar em texto, no mascote nem sair do painel.
+async function testeQRLayout() {
+  console.log('\n# QR SEM SOBREPOSIÇÃO');
+  const cenarios = [['', { width: 1920, height: 1080 }, 'deitada, 32"'], ['', { width: 1366, height: 768 }, 'deitada, painel HD 1366x768'], ['', { width: 1280, height: 720 }, 'deitada, painel HD 1280x720'], ['orientacao=vertical', { width: 1080, height: 1920 }, 'em pé, 32"'], ['tela=grande', { width: 1920, height: 1080 }, 'deitada, TV grande']];
+  for (const [q, vp, nome] of cenarios) {
+    const page = await abrir(q, vp);
+    const ids = await page.evaluate(() => window.TV3.POOL.filter((s) => s.qr && window.TV3.QR[s.qr]).map((s) => s.id));
+    const ruins = [];
+    for (const id of ids) {
+      await page.evaluate((i) => window.TV3.show(i), id);
+      const r = await page.evaluate(() => {
+        const el = document.querySelector('.tv-slide.active');
+        const R = (e) => { const b = e.getBoundingClientRect(); return { l: b.left, t: b.top, r: b.right, b: b.bottom }; };
+        const grow = (o, g) => ({ l: o.l - g, t: o.t - g, r: o.r + g, b: o.b + g });
+        const bate = (a, b) => a.l < b.r - 1 && a.r > b.l + 1 && a.t < b.b - 1 && a.b > b.t + 1;
+        const achados = [];
+        const card = el.querySelector('.tv-action-card');
+        const textos = [...el.querySelectorAll('.tv-qr-callout,.tv-qr-instructions,.tv-qr-subhint,.tv-action-title,.tv-action-desc,.tv-pill-badge,.tv-highlight-box')];
+        const mascotes = [...el.querySelectorAll('.tv-qr-mascote')].filter((m) => m.offsetParent !== null);
+        [...el.querySelectorAll('.tv-qr-box,.tv-qr-big')].forEach((qr) => {
+          const area = grow(R(qr), 30);
+          textos.forEach((x) => { if (bate(area, R(x))) achados.push('QR x ' + x.className.split(' ')[0]); });
+          mascotes.forEach((m) => { if (bate(area, R(m))) achados.push('QR x mascote'); });
+          if (card) { const c = R(card); if (area.l < c.l || area.r > c.r || area.t < c.t || area.b > c.b) achados.push('QR fora do painel'); }
+        });
+        mascotes.forEach((m) => {
+          textos.forEach((x) => { if (bate(R(m), R(x))) achados.push('mascote x ' + x.className.split(' ')[0]); });
+          if (card) { const c = R(card), a = R(m); if (a.l < c.l || a.r > c.r || a.t < c.t || a.b > c.b) achados.push('mascote fora do painel'); }
+        });
+        return [...new Set(achados)];
+      });
+      if (r.length) ruins.push(`${id}: ${r.join(', ')}`);
+    }
+    ok(ruins.length === 0, `QR sem sobreposição com texto, mascote ou borda, tela ${nome} (${ids.length} slides)`, ruins.slice(0, 4).join(' | '));
+    await page.context().close();
+  }
+}
+
 // ---------------------------------------------------------------- ORIENTAÇÃO (horizontal ou vertical)
 async function testeOrientacao() {
   console.log('\n# ORIENTAÇÃO');
@@ -357,7 +419,7 @@ async function testeOrientacao() {
   await page.context().close();
 }
 
-const testes = { qr: testeQR, motor: testeMotor, layout: testeLayout, copy: testeCopy, audio: testeAudio, orient: testeOrientacao };
+const testes = { qr: testeQR, motor: testeMotor, layout: testeLayout, qrlayout: testeQRLayout, qrhd: testeQRHD, copy: testeCopy, audio: testeAudio, orient: testeOrientacao };
 try {
   for (const [nome, fn] of Object.entries(testes)) if (only === 'todos' || only === nome) await fn();
 } finally {
