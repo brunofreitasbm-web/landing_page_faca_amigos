@@ -372,6 +372,14 @@
 }
   </script>
 <link rel="stylesheet" href="assets/fa-logo.css?v=20261021">
+  <style>
+    .pkg-card { padding: 14px 14px 22px; }
+    .pkg-img { display: block; border-radius: 18px; overflow: hidden; margin-bottom: 16px; aspect-ratio: 1; box-shadow: var(--shadow-sm); }
+    .pkg-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-fast); }
+    .pkg-card:hover .pkg-img img { transform: scale(1.03); }
+    .pkg-card .pricing-card-header, .pkg-card .pricing-card-desc { padding: 0 8px; }
+    @media (min-width: 900px) { #planos .pricing-grid { grid-template-columns: repeat(3, 1fr); max-width: 1020px; margin-left: auto; margin-right: auto; } }
+  </style>
 </head>
 
 <body>
@@ -425,7 +433,8 @@
           As terapias podem ser combinadas entre as especialidades indicadas no Plano Terapêutico Singular (PTS). Valores: consultar via WhatsApp.
         </p>
         <div class="pricing-grid">
-          <div class="pricing-card">
+          <div class="pricing-card pkg-card">
+            <picture class="pkg-img"><source srcset="img/pacotes/primeiro-passo-600.webp" type="image/webp"><img src="img/pacotes/primeiro-passo-600.jpg" width="600" height="600" alt="Pacote Primeiro Passo: 4 sessões por mês, em até 3x sem juros" loading="lazy" decoding="async"></picture>
             <div class="pricing-card-header">
               <h3>Primeiro Passo</h3>
               <p class="pricing-card-sessions">4 sessões por mês</p>
@@ -433,7 +442,8 @@
             <p class="pricing-card-desc">Acompanhamento terapêutico e evolução.</p>
             <a class="btn-ghost sm" style="margin-top:14px" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20consultar%20o%20valor%20do%20pacote%20Primeiro%20Passo%20(4%20sess%C3%B5es%20por%20m%C3%AAs)%20do%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="plano_primeiro_passo">Consultar valores no WhatsApp</a>
           </div>
-          <div class="pricing-card">
+          <div class="pricing-card pkg-card">
+            <picture class="pkg-img"><source srcset="img/pacotes/laco-600.webp" type="image/webp"><img src="img/pacotes/laco-600.jpg" width="600" height="600" alt="Pacote Laço: 8 sessões por mês, em até 3x sem juros" loading="lazy" decoding="async"></picture>
             <div class="pricing-card-header">
               <h3>Laço</h3>
               <p class="pricing-card-sessions">8 sessões por mês</p>
@@ -441,7 +451,8 @@
             <p class="pricing-card-desc">Uma ou duas especialidades e comunicação com a família.</p>
             <a class="btn-ghost sm" style="margin-top:14px" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20consultar%20o%20valor%20do%20pacote%20La%C3%A7o%20(8%20sess%C3%B5es%20por%20m%C3%AAs)%20do%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="plano_laco">Consultar valores no WhatsApp</a>
           </div>
-          <div class="pricing-card">
+          <div class="pricing-card pkg-card">
+            <picture class="pkg-img"><source srcset="img/pacotes/vinculo-600.webp" type="image/webp"><img src="img/pacotes/vinculo-600.jpg" width="600" height="600" alt="Pacote Vínculo: 12 sessões por mês, em até 3x sem juros" loading="lazy" decoding="async"></picture>
             <div class="pricing-card-header">
               <h3>Vínculo</h3>
               <p class="pricing-card-sessions">12 sessões por mês</p>
@@ -449,7 +460,8 @@
             <p class="pricing-card-desc">Plano individualizado e múltiplas especialidades.</p>
             <a class="btn-ghost sm" style="margin-top:14px" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20consultar%20o%20valor%20do%20pacote%20V%C3%ADnculo%20(12%20sess%C3%B5es%20por%20m%C3%AAs)%20do%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="plano_vinculo">Consultar valores no WhatsApp</a>
           </div>
-          <div class="pricing-card">
+          <div class="pricing-card pkg-card">
+            <picture class="pkg-img"><source srcset="img/pacotes/turma-600.webp" type="image/webp"><img src="img/pacotes/turma-600.jpg" width="600" height="600" alt="Pacote Turma: 16 sessões por mês, em até 3x sem juros" loading="lazy" decoding="async"></picture>
             <div class="pricing-card-header">
               <h3>Turma</h3>
               <p class="pricing-card-sessions">16 sessões por mês</p>
@@ -457,7 +469,8 @@
             <p class="pricing-card-desc">Acompanhamento frequente e integração da equipe.</p>
             <a class="btn-ghost sm" style="margin-top:14px" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20consultar%20o%20valor%20do%20pacote%20Turma%20(16%20sess%C3%B5es%20por%20m%C3%AAs)%20do%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="plano_turma">Consultar valores no WhatsApp</a>
           </div>
-          <div class="pricing-card">
+          <div class="pricing-card pkg-card">
+            <picture class="pkg-img"><source srcset="img/pacotes/abraco-600.webp" type="image/webp"><img src="img/pacotes/abraco-600.jpg" width="600" height="600" alt="Pacote Abraço: 20 sessões por mês, em até 3x sem juros" loading="lazy" decoding="async"></picture>
             <div class="pricing-card-header">
               <h3>Abraço</h3>
               <p class="pricing-card-sessions">20 sessões por mês</p>
@@ -465,7 +478,8 @@
             <p class="pricing-card-desc">Cuidado intensivo com foco na autonomia.</p>
             <a class="btn-ghost sm" style="margin-top:14px" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20consultar%20o%20valor%20do%20pacote%20Abra%C3%A7o%20(20%20sess%C3%B5es%20por%20m%C3%AAs)%20do%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="plano_abraco">Consultar valores no WhatsApp</a>
           </div>
-          <div class="pricing-card">
+          <div class="pricing-card pkg-card">
+            <picture class="pkg-img"><source srcset="img/pacotes/voo-livre-600.webp" type="image/webp"><img src="img/pacotes/voo-livre-600.jpg" width="600" height="600" alt="Pacote Voo Livre: 24 sessões por mês, em até 3x sem juros" loading="lazy" decoding="async"></picture>
             <div class="pricing-card-header">
               <h3>Voo Livre</h3>
               <p class="pricing-card-sessions">24 sessões por mês</p>
@@ -524,15 +538,9 @@
     </section>
   </main>
 
-  <footer data-fa-footer="clinica" data-fa-ops="">
-    <span class="fa-logo-card fa-logo-card--footer"><img class="fa-logo-img" src="/img/logo-facaamigos.png" width="1024" height="147" alt="FaçaAmigos" loading="lazy" decoding="async"></span>
-    <p><b>Parque Shopping Belém:</b> Rod. Augusto Montenegro, 4300 · Térreo (Playground &amp; Circuito) · <a href="https://wa.me/5591992347673" target="_blank" rel="noopener">WhatsApp: (91) 99234-7673</a></p>
-    <p><b>Shopping Bosque Grão-Pará:</b> Av. Centenário, 1052 · Val-de-Cans · 1º piso, em frente à Renner (Playground) · <a href="https://wa.me/5591991101215" target="_blank" rel="noopener">WhatsApp: (91) 99110-1215</a></p>
-    <p><b>Centro de Terapia Comportamental:</b> Rua Boaventura da Silva, 1573 · Umarizal (Clínica · atendendo desde novembro de 2026) · <a href="https://wa.me/5591991782027" target="_blank" rel="noopener">WhatsApp: (91) 99178-2027</a> · <a href="https://institutofacaamigos.com.br/clinica" target="_blank" rel="noopener">Site da Clínica</a></p>
-    <p><a href="mailto:institutofacaamigos@gmail.com">institutofacaamigos@gmail.com</a> · <a href="https://www.instagram.com/facaamigos.belem/" target="_blank" rel="noopener">@facaamigos.belem</a> · <a href="/politica-privacidade">Política de Privacidade</a> · <a href="/termos">Termos de Uso e de Compra</a></p>
-    <p class="legal">FaçaAmigos Playground Inclusivo · CNPJ 66.318.630/0001-17 (Playground e Circuito)<br>Instituto Faça Amigos Ltda · CNPJ 22.161.197/0001-83 (Clínica, Mapeamento Comportamental e e-books) · Belém/PA</p>
-  </footer>
+  <footer data-fa-footer="planos" data-fa-ops=""></footer>
   <script src="/assets/fa-cta.js" defer data-label="Consultar valores" data-href="whatsapp" data-event="whatsapp"></script>
+  <script src="/assets/fa-footer.js?v=20261101" defer></script>
   <script>
     (function () {
       var push = function (o) { (window.dataLayer = window.dataLayer || []).push(o); };

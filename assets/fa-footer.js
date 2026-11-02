@@ -43,14 +43,14 @@
     clinica: {
       nome: 'Centro de Terapia Comportamental',
       papel: 'Clínica',
-      status: 'Em breve',
+      status: 'Atendendo',
       endereco: 'Rua Boaventura da Silva, 1573 · Umarizal',
       horario: '',
       waRotulo: 'Clínica',
       wa: '5591991782027',
       waTexto: 'Olá! Gostaria de informações sobre o FaçaAmigos - Centro de Terapia Comportamental.',
       mapa: 'https://maps.google.com/?q=Rua+Boaventura+da+Silva,+1573,+Bel%C3%A9m+PA',
-      paginas: []
+      paginas: [['Clínica', '/clinica'], ['Pacotes particulares', '/planos']]
     }
   };
   var ORDEM = ['parque', 'graopara', 'clinica'];
@@ -144,7 +144,8 @@
     '  <h4 class="fa-footer-title">Navegação</h4>',
     '  <ul class="fa-footer-list">',
     '    <li>' + link(hub('/'), 'Início') + '</li>',
-    '    <li>' + link(hub('/clinica'), 'Clínica: serviços e lista de espera') + '</li>',
+    '    <li>' + link(hub('/clinica'), 'Clínica: especialidades e avaliação') + '</li>',
+    '    <li>' + link(hub('/planos'), 'Pacotes particulares') + '</li>',
     '    <li>' + link(hub('/playground'), 'Playground Inclusivo') + '</li>',
     '    <li>' + link(hub('/circuito'), 'Circuito de Carrinhos') + '</li>',
     '    <li>' + link(hub('/teste'), 'Mapeamento Gratuito', ' data-fa-link="rodape_' + kind + '"') + '</li>',
