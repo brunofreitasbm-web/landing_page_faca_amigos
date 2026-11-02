@@ -8,11 +8,11 @@
     "unit": "arcoA",
     "pos": 0,
     "isabella": true,
-    "image": "img/clinica-recursos-terapeuticos.webp",
+    "image": "img/tv/clinica-recursos-terapeuticos.webp",
     "images": [
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "🌙 Quando a casa fica quieta",
     "kickerClass": "pink",
@@ -28,11 +28,11 @@
     "unit": "arcoA",
     "pos": 1,
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "📱 Portal da Família",
     "kickerClass": "pink",
@@ -67,7 +67,7 @@
     "qr": "portal",
     "weight": 2,
     "isabella": false,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "kicker": "📱 Portal da Família",
     "kickerClass": "pink",
     "headline": "Aponte a câmera e <em>entre no portal</em>.",
@@ -89,7 +89,7 @@
     "qr": "portal",
     "mock": true,
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "kicker": "👀 Você vai reconhecer",
     "kickerClass": "pink",
     "headline": "É <em>esta tela</em> que abre no seu celular.",
@@ -110,11 +110,11 @@
     "layout": "padrao",
     "qr": "portal",
     "isabella": false,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "🗓️ Agenda no celular",
     "kickerClass": "pink",
@@ -136,11 +136,11 @@
     "layout": "padrao",
     "qr": "portal",
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "📝 Falta e remarcação",
     "kickerClass": "pink",
@@ -162,11 +162,11 @@
     "layout": "padrao",
     "qr": "portal",
     "isabella": false,
-    "image": "img/clinica-recursos-terapeuticos.webp",
+    "image": "img/tv/clinica-recursos-terapeuticos.webp",
     "images": [
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "📄 Documentos pelo celular",
     "kickerClass": "pink",
@@ -188,11 +188,11 @@
     "layout": "padrao",
     "qr": "portal",
     "isabella": false,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "⬇️ Documentos liberados",
     "kickerClass": "pink",
@@ -214,11 +214,11 @@
     "layout": "padrao",
     "qr": "portal",
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "🎯 Metas do plano",
     "kickerClass": "pink",
@@ -240,11 +240,11 @@
     "layout": "padrao",
     "qr": "portal",
     "isabella": false,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-fachada.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "💬 Fale com a Coordenação",
     "kickerClass": "pink",
@@ -266,11 +266,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "🤝 Dois canais",
     "kickerClass": "pink",
@@ -303,11 +303,11 @@
     "qr": "portal",
     "tag": "fechamento",
     "isabella": false,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-fachada.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "📱 Antes de ir embora",
     "kickerClass": "pink",
@@ -330,11 +330,11 @@
     "qr": null,
     "tag": "abertura",
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "💛 Sala de espera",
     "kickerClass": "teal",
@@ -348,11 +348,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "🧩 Dentro da sessão",
     "kickerClass": "teal",
@@ -366,11 +366,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": true,
-    "image": "img/clinica-recursos-terapeuticos.webp",
+    "image": "img/tv/clinica-recursos-terapeuticos.webp",
     "images": [
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "🧠 Como a clínica trabalha",
     "kickerClass": "teal",
@@ -384,10 +384,10 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "🌱 Quem idealizou a clínica",
     "kickerClass": "teal",
@@ -401,11 +401,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": true,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "🏠 Para levar para casa",
     "kickerClass": "teal",
@@ -419,11 +419,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "🏫 Escola e família",
     "kickerClass": "teal",
@@ -437,11 +437,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": true,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "🫶 Para quem espera",
     "kickerClass": "teal",
@@ -456,7 +456,7 @@
     "qr": null,
     "requires": "wifiSsid",
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "kicker": "📶 Wi-Fi para visitantes",
     "kickerClass": "teal",
     "headline": "Conecte à rede <em>{{wifiSsid}}</em>.",
@@ -469,7 +469,7 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "kicker": "🕗 Horário da clínica",
     "kickerClass": "teal",
     "headline": "Atendimento de <em>segunda a sábado</em>.",
@@ -487,11 +487,11 @@
       5
     ],
     "isabella": true,
-    "image": "img/clinica-recursos-terapeuticos.webp",
+    "image": "img/tv/clinica-recursos-terapeuticos.webp",
     "images": [
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "🖼️ Dica para hoje",
     "kickerClass": "yellow",
@@ -518,11 +518,11 @@
       5
     ],
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "🔔 Dica para hoje",
     "kickerClass": "yellow",
@@ -549,11 +549,11 @@
       4
     ],
     "isabella": true,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-fachada.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "🌿 Dica para hoje",
     "kickerClass": "yellow",
@@ -580,11 +580,11 @@
       5
     ],
     "isabella": true,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "🫧 Dica para hoje",
     "kickerClass": "yellow",
@@ -611,11 +611,11 @@
       4
     ],
     "isabella": true,
-    "image": "img/tv3/playground-engrenagens-chao-1-v.webp",
+    "image": "img/tv/playground-engrenagens-chao-1-v.webp",
     "images": [
-      "img/tv3/playground-engrenagens-chao-1-v.webp",
-      "img/tv3/playground-engrenagens-chao-2-v.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv/playground-engrenagens-chao-1-v.webp",
+      "img/tv/playground-engrenagens-chao-2-v.webp",
+      "img/tv/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "🎨 Dica para hoje",
     "kickerClass": "yellow",
@@ -642,11 +642,11 @@
       5
     ],
     "isabella": true,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "🌟 Dica para hoje",
     "kickerClass": "yellow",
@@ -665,11 +665,11 @@
       5
     ],
     "isabella": true,
-    "image": "img/tv3/playground-engrenagens-chao-2-v.webp",
+    "image": "img/tv/playground-engrenagens-chao-2-v.webp",
     "images": [
-      "img/tv3/playground-engrenagens-chao-2-v.webp",
-      "img/tv3/playground-engrenagens-chao-1-v.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv/playground-engrenagens-chao-2-v.webp",
+      "img/tv/playground-engrenagens-chao-1-v.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "🗣️ Dica para hoje",
     "kickerClass": "yellow",
@@ -689,11 +689,11 @@
       4
     ],
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "⏳ Dica para hoje",
     "kickerClass": "yellow",
@@ -707,13 +707,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/tv3/playground-sala-sol.webp",
+    "image": "img/tv/playground-sala-sol.webp",
     "images": [
-      "img/tv3/playground-sala-sol.webp",
-      "img/tv3/playground-pufes-v.webp",
-      "img/tv3/playground-arvore-desenhos-v.webp",
-      "img/tv3/playground-sala-atividades.webp",
-      "img/tv3/playground-manta-texturas.webp"
+      "img/tv/playground-sala-sol.webp",
+      "img/tv/playground-pufes-v.webp",
+      "img/tv/playground-arvore-desenhos-v.webp",
+      "img/tv/playground-sala-atividades.webp",
+      "img/tv/playground-manta-texturas.webp"
     ],
     "kicker": "🌤️ Fim de semana no Playground",
     "kickerClass": "yellow",
@@ -732,12 +732,12 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/playground-fachada-recepcao.webp",
+    "image": "img/tv/playground-fachada-recepcao.webp",
     "images": [
-      "img/playground-fachada-recepcao.webp",
-      "img/tv3/playground-salao-bolinhas.webp",
-      "img/tv3/playground-sala-sol.webp",
-      "img/playground-piscina-casinha.webp"
+      "img/tv/playground-fachada-recepcao.webp",
+      "img/tv/playground-salao-bolinhas.webp",
+      "img/tv/playground-sala-sol.webp",
+      "img/tv/playground-piscina-casinha.webp"
     ],
     "kicker": "📍 Playground no Parque Shopping",
     "kickerClass": "yellow",
@@ -752,7 +752,7 @@
     "qr": null,
     "requires": "fotoGraoPara",
     "isabella": false,
-    "image": "img/playground-grao-para.webp",
+    "image": "img/tv/playground-grao-para.webp",
     "kicker": "📍 Playground no Grão-Pará",
     "kickerClass": "yellow",
     "headline": "No Grão-Pará, <em>1º piso</em>, em frente à Renner.",
@@ -765,11 +765,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/tv3/playground-salao-bolinhas.webp",
+    "image": "img/tv/playground-salao-bolinhas.webp",
     "images": [
-      "img/tv3/playground-salao-bolinhas.webp",
-      "img/tv3/playground-sala-atividades.webp",
-      "img/tv3/playground-sala-sol.webp"
+      "img/tv/playground-salao-bolinhas.webp",
+      "img/tv/playground-sala-atividades.webp",
+      "img/tv/playground-sala-sol.webp"
     ],
     "kicker": "📊 Números do Playground",
     "kickerClass": "yellow",
@@ -788,13 +788,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/tv3/playground-camiseta-crianca-v.webp",
+    "image": "img/tv/playground-camiseta-crianca-v.webp",
     "images": [
-      "img/tv3/playground-camiseta-crianca-v.webp",
-      "img/tv3/playground-desenho-camiseta-v.webp",
+      "img/tv/playground-camiseta-crianca-v.webp",
+      "img/tv/playground-desenho-camiseta-v.webp",
       "img/tv3/mascotes-turma-banner.webp",
-      "img/tv3/playground-parede-texturas-v.webp",
-      "img/tv3/playground-escalada-crianca-v.webp"
+      "img/tv/playground-parede-texturas-v.webp",
+      "img/tv/playground-escalada-crianca-v.webp"
     ],
     "kicker": "💛 Família FaçaAmigos",
     "kickerClass": "yellow",
@@ -812,13 +812,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/tv3/playground-salao-bolinhas.webp",
+    "image": "img/tv/playground-salao-bolinhas.webp",
     "images": [
-      "img/tv3/playground-salao-bolinhas.webp",
-      "img/tv3/playground-brinquedos-mesa-v.webp",
-      "img/tv3/playground-sala-luz-verde-v.webp",
-      "img/tv3/playground-sala-sol.webp",
-      "img/tv3/playground-arvore-desenhos-v.webp"
+      "img/tv/playground-salao-bolinhas.webp",
+      "img/tv/playground-brinquedos-mesa-v.webp",
+      "img/tv/playground-sala-luz-verde-v.webp",
+      "img/tv/playground-sala-sol.webp",
+      "img/tv/playground-arvore-desenhos-v.webp"
     ],
     "kicker": "🗓️ Para planejar o sábado",
     "kickerClass": "yellow",
@@ -836,13 +836,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/tv3/circuito-crianca-buggy-v.webp",
+    "image": "img/tv/circuito-crianca-buggy-v.webp",
     "images": [
-      "img/tv3/circuito-crianca-buggy-v.webp",
-      "img/tv3/circuito-frota-placa-48.webp",
-      "img/tv3/circuito-crianca-lambo-v.webp",
-      "img/tv3/circuito-capivara-crianca-v.webp",
-      "img/tv3/circuito-bombeiro-quiosque.webp"
+      "img/tv/circuito-crianca-buggy-v.webp",
+      "img/tv/circuito-frota-placa-48.webp",
+      "img/tv/circuito-crianca-lambo-v.webp",
+      "img/tv/circuito-capivara-crianca-v.webp",
+      "img/tv/circuito-bombeiro-quiosque.webp"
     ],
     "kicker": "🚗 Circuito no Parque Shopping",
     "kickerClass": "yellow",
@@ -855,9 +855,9 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "circuito",
-    "image": "img/circuito-bombeiro.webp",
+    "image": "img/tv/circuito-bombeiro.webp",
     "images": [
-      "img/circuito-bombeiro.webp"
+      "img/tv/circuito-bombeiro.webp"
     ],
     "kicker": "🚗 Conheça o Circuito",
     "kickerClass": "yellow",
@@ -880,13 +880,13 @@
     "dur": 15,
     "layout": "padrao",
     "qr": null,
-    "image": "img/tv3/circuito-macaco-lambo-v.webp",
+    "image": "img/tv/circuito-macaco-lambo-v.webp",
     "images": [
-      "img/tv3/circuito-macaco-lambo-v.webp",
-      "img/tv3/circuito-crianca-range-rover-v.webp",
-      "img/tv3/circuito-crianca-moto-v.webp",
-      "img/tv3/circuito-unicornio-roxo-v.webp",
-      "img/tv3/circuito-cachorro-pelucia-v.webp"
+      "img/tv/circuito-macaco-lambo-v.webp",
+      "img/tv/circuito-crianca-range-rover-v.webp",
+      "img/tv/circuito-crianca-moto-v.webp",
+      "img/tv/circuito-unicornio-roxo-v.webp",
+      "img/tv/circuito-cachorro-pelucia-v.webp"
     ],
     "kicker": "🤝 Mesma equipe",
     "kickerClass": "pink",
@@ -905,7 +905,7 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "graopara",
-    "image": "img/playground-grao-para.webp",
+    "image": "img/tv/playground-grao-para.webp",
     "requires": "fotoGraoPara",
     "kicker": "📍 Playground no Grão-Pará",
     "kickerClass": "yellow",
@@ -928,7 +928,7 @@
     "layout": "padrao",
     "qr": null,
     "requires": "fotoGraoPara",
-    "image": "img/playground-grao-para.webp",
+    "image": "img/tv/playground-grao-para.webp",
     "kicker": "💛 Mesma equipe, mesmo cuidado",
     "kickerClass": "pink",
     "headline": "No Grão-Pará, <em>a mesma equipe</em> do Parque Shopping.",
@@ -946,10 +946,10 @@
     "layout": "padrao",
     "qr": "teste",
     "isabella": false,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "💌 Mapeamento grátis",
     "kickerClass": "teal",
@@ -971,10 +971,10 @@
     "layout": "padrao",
     "qr": "teste",
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "🧭 Mapeamento grátis",
     "kickerClass": "teal",
@@ -996,11 +996,11 @@
     "layout": "padrao",
     "qr": "avaliar",
     "isabella": false,
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv/clinica-fachada.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "⭐ Sua opinião conta",
     "kickerClass": "yellow",
@@ -1022,11 +1022,11 @@
     "layout": "tutorial",
     "qr": "avaliar",
     "isabella": false,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-fachada.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-fachada.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "⭐ Avalie no Google",
     "kickerClass": "yellow",
@@ -1060,11 +1060,11 @@
     "layout": "padrao",
     "qr": "avaliar",
     "isabella": false,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "💛 De família para família",
     "kickerClass": "pink",
@@ -1087,10 +1087,10 @@
     "qr": "portal",
     "requires": "portalAtivo",
     "isabella": false,
-    "image": "img/playground-mediadora-tapete.webp",
+    "image": "img/tv/playground-mediadora-tapete.webp",
     "images": [
-      "img/playground-mediadora-tapete.webp",
-      "img/galeria-oficinas.webp"
+      "img/tv/playground-mediadora-tapete.webp",
+      "img/tv/galeria-oficinas.webp"
     ],
     "kicker": "💛 Família FaçaAmigos",
     "kickerClass": "yellow",
@@ -1113,10 +1113,10 @@
     "qr": "portal",
     "requires": "portalAtivo",
     "isabella": false,
-    "image": "img/galeria-oficinas.webp",
+    "image": "img/tv/galeria-oficinas.webp",
     "images": [
-      "img/galeria-oficinas.webp",
-      "img/playground-mediadora-tapete.webp"
+      "img/tv/galeria-oficinas.webp",
+      "img/tv/playground-mediadora-tapete.webp"
     ],
     "kicker": "🎟️ Desconto da Família",
     "kickerClass": "yellow",
@@ -1151,10 +1151,10 @@
     "qr": null,
     "requires": "portalAtivo",
     "isabella": false,
-    "image": "img/playground-mediadora-tapete.webp",
+    "image": "img/tv/playground-mediadora-tapete.webp",
     "images": [
-      "img/playground-mediadora-tapete.webp",
-      "img/galeria-oficinas.webp"
+      "img/tv/playground-mediadora-tapete.webp",
+      "img/tv/galeria-oficinas.webp"
     ],
     "kicker": "💛 Benefício da Família",
     "kickerClass": "yellow",
@@ -1172,12 +1172,12 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "clinica",
-    "image": "img/clinica-recursos-terapeuticos.webp",
+    "image": "img/tv/clinica-recursos-terapeuticos.webp",
     "images": [
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "🧩 Nossas especialidades",
     "kickerClass": "teal",
@@ -1203,11 +1203,11 @@
       1,
       5
     ],
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "🧠 Comportamento e emoções",
     "kickerClass": "teal",
@@ -1224,11 +1224,11 @@
     "dia": [
       2
     ],
-    "image": "img/clinica-recursos-terapeuticos.webp",
+    "image": "img/tv/clinica-recursos-terapeuticos.webp",
     "images": [
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/clinica-recursos-terapeuticos.webp",
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "🗣️ Fala e comunicação",
     "kickerClass": "teal",
@@ -1245,11 +1245,11 @@
     "dia": [
       4
     ],
-    "image": "img/tv3/playground-escalada-crianca-v.webp",
+    "image": "img/tv/playground-escalada-crianca-v.webp",
     "images": [
-      "img/tv3/playground-escalada-crianca-v.webp",
-      "img/tv3/playground-parede-texturas-v.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/playground-escalada-crianca-v.webp",
+      "img/tv/playground-parede-texturas-v.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "kicker": "🤸 Corpo e sensorial",
     "kickerClass": "teal",
@@ -1266,11 +1266,11 @@
     "dia": [
       3
     ],
-    "image": "img/tv3/playground-brinquedos-mesa-v.webp",
+    "image": "img/tv/playground-brinquedos-mesa-v.webp",
     "images": [
-      "img/tv3/playground-brinquedos-mesa-v.webp",
-      "img/tv3/playground-manta-texturas.webp",
-      "img/clinica-fachada.webp"
+      "img/tv/playground-brinquedos-mesa-v.webp",
+      "img/tv/playground-manta-texturas.webp",
+      "img/tv/clinica-fachada.webp"
     ],
     "kicker": "📘 Escola, mesa e família",
     "kickerClass": "teal",
@@ -1388,10 +1388,10 @@
       4
     ],
     "isabella": true,
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv/clinica-painel-sensorial.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/ambiente-sensorial.webp"
+      "img/tv/clinica-painel-sensorial.webp",
+      "img/tv/ambiente-sensorial.webp"
     ],
     "quote": "Respire fundo. Chegar até aqui já é uma forma de cuidar."
   },
@@ -1407,10 +1407,10 @@
       5
     ],
     "isabella": true,
-    "image": "img/inclusao-cantinho-leitura.webp",
+    "image": "img/tv/inclusao-cantinho-leitura.webp",
     "images": [
-      "img/inclusao-cantinho-leitura.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv/inclusao-cantinho-leitura.webp",
+      "img/tv/clinica-atividade-pedagogica.webp"
     ],
     "quote": "Cada criança tem o seu tempo. Cada família também."
   },
@@ -1426,10 +1426,10 @@
       4
     ],
     "isabella": true,
-    "image": "img/ambiente-sensorial.webp",
+    "image": "img/tv/ambiente-sensorial.webp",
     "images": [
-      "img/ambiente-sensorial.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv/ambiente-sensorial.webp",
+      "img/tv/clinica-painel-sensorial.webp"
     ],
     "quote": "Solte os ombros. Aqui você encontra acolhimento."
   },
@@ -1445,10 +1445,10 @@
       5
     ],
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/inclusao-cantinho-leitura.webp"
+      "img/tv/clinica-atividade-pedagogica.webp",
+      "img/tv/inclusao-cantinho-leitura.webp"
     ],
     "quote": "Pequenas vitórias merecem festa, mesmo as que ninguém viu."
   }
