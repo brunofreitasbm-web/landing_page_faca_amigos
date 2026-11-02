@@ -716,7 +716,12 @@
     "kicker": "🌤️ Fim de semana no Playground",
     "kickerClass": "yellow",
     "headline": "Primeira visita? Vá no <em>Horário Inclusivo</em>.",
-    "subtext": "Das 10h às 16h (aos domingos, a partir das 12h): som mais baixo, menos lotação e equipe reforçada. Sábado de manhã também vale."
+    "subtext": "Das 10h às 16h (aos domingos, a partir das 12h): som mais baixo, menos lotação e equipe reforçada. Sábado de manhã também vale.",
+    "dia": [
+      1,
+      3,
+      5
+    ]
   },
   {
     "id": "d_parque",
@@ -765,7 +770,12 @@
     "kicker": "📊 Números do Playground",
     "kickerClass": "yellow",
     "headline": "+1.100 famílias passaram pelo <em>Playground</em>.",
-    "subtext": "Dados do sistema de entrada e saída do Playground. A equipe tem nota 4,9 de 5 em 118 avaliações por WhatsApp, de julho a outubro de 2026."
+    "subtext": "Dados do sistema de entrada e saída do Playground. A equipe tem nota 4,9 de 5 em 118 avaliações por WhatsApp, de julho a outubro de 2026.",
+    "dia": [
+      1,
+      3,
+      5
+    ]
   },
   {
     "id": "d_beneficio",
@@ -782,7 +792,11 @@
     "kicker": "💛 Família FaçaAmigos",
     "kickerClass": "yellow",
     "headline": "Você faz parte da <em>Família FaçaAmigos</em>.",
-    "subtext": "Seu vínculo com a clínica vale também fora dela. {{beneficio}}"
+    "subtext": "Seu vínculo com a clínica vale também fora dela. {{beneficio}}",
+    "dia": [
+      2,
+      4
+    ]
   },
   {
     "id": "d_quando_ir",
@@ -799,7 +813,11 @@
     "kicker": "🗓️ Para planejar o sábado",
     "kickerClass": "yellow",
     "headline": "Prefira a <em>manhã</em> ou o começo da tarde.",
-    "subtext": "No sistema (jul a out/2026), sábado é o dia mais cheio e das 17h às 20h o horário mais cheio. Quem entra por 30 minutos fica, em média, 50 minutos."
+    "subtext": "No sistema (jul a out/2026), sábado é o dia mais cheio e das 17h às 20h o horário mais cheio. Quem entra por 30 minutos fica, em média, 50 minutos.",
+    "dia": [
+      2,
+      4
+    ]
   },
   {
     "id": "d_circuito",
@@ -818,6 +836,96 @@
     "kickerClass": "yellow",
     "headline": "Circuito: R$ 48 por <em>20 ou 30 minutos</em>.",
     "subtext": "20 minutos nas pelúcias e no jeep, ou 30 minutos nos carros e na moto. No quiosque do Circuito, no Parque Shopping."
+  },
+  {
+    "id": "j_convite",
+    "fam": "J",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "circuito",
+    "image": "img/circuito-frota-quiosque.webp",
+    "images": [
+      "img/circuito-frota-quiosque.webp",
+      "img/circuito-lamborghini-sorriso.webp",
+      "img/circuito-jeep-menino.webp",
+      "img/circuito-capivara-menina.webp"
+    ],
+    "kicker": "🚗 Conheça o Circuito",
+    "kickerClass": "yellow",
+    "headline": "Venha conhecer o <em>Circuito</em> FaçaAmigos.",
+    "subtext": "Carrinhos elétricos no Parque Shopping Belém, sem agendamento. Seu filho dirige e você acompanha de pertinho.",
+    "badge": "Circuito",
+    "actionTitle": "Venha conhecer o Circuito",
+    "actionDesc": "Passeio de R$ 48, direto no quiosque.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código e veja como o Circuito funciona.",
+    "qrHint": "Sem agendamento",
+    "highlightIcon": "🚗",
+    "highlightText": "Pelúcias e jeep por 20 minutos. Carros e moto por 30.",
+    "isabella": false
+  },
+  {
+    "id": "j_equipe",
+    "fam": "J",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "image": "img/circuito-capivara-menina.webp",
+    "images": [
+      "img/circuito-capivara-menina.webp",
+      "img/circuito-lamborghini-sorriso.webp",
+      "img/circuito-jeep-menino.webp"
+    ],
+    "kicker": "🤝 Mesma equipe",
+    "kickerClass": "pink",
+    "headline": "No Circuito, a <em>mesma equipe</em> FaçaAmigos.",
+    "subtext": "Quem cuida de você no Playground também acompanha cada passeio do Circuito, com o mesmo cuidado, de perto.",
+    "isabella": false,
+    "dia": [
+      1,
+      3,
+      5
+    ]
+  },
+  {
+    "id": "k_vem",
+    "fam": "K",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "graopara",
+    "image": "img/playground-grao-para.webp",
+    "requires": "fotoGraoPara",
+    "kicker": "📍 Playground no Grão-Pará",
+    "kickerClass": "yellow",
+    "headline": "Brinque também no <em>Grão-Pará</em>.",
+    "subtext": "Shopping Bosque Grão-Pará, Av. Centenário, 1052, 1º piso, em frente à Renner. Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h.",
+    "badge": "Grão-Pará",
+    "actionTitle": "Playground no Grão-Pará",
+    "actionDesc": "Endereço, horário e como chegar.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código e veja a unidade no mapa.",
+    "qrHint": "É só chegar, sem agendar",
+    "highlightIcon": "📍",
+    "highlightText": "Em frente à Renner, no 1º piso do shopping.",
+    "isabella": false
+  },
+  {
+    "id": "k_equipe",
+    "fam": "K",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "requires": "fotoGraoPara",
+    "image": "img/playground-grao-para.webp",
+    "kicker": "💛 Mesma equipe, mesmo cuidado",
+    "kickerClass": "pink",
+    "headline": "No Grão-Pará, <em>a mesma equipe</em> do Parque Shopping.",
+    "subtext": "Mesmos preços, mesma equipe qualificada e os mesmos atrativos inclusivos. Dúvidas? WhatsApp do Grão-Pará: (91) 99110-1215.",
+    "isabella": false,
+    "dia": [
+      2,
+      4
+    ]
   },
   {
     "id": "e_indicar",
@@ -1039,7 +1147,12 @@
     "kicker": "💛 Benefício da Família",
     "kickerClass": "yellow",
     "headline": "Atendido aqui? Veja o <em>desconto</em> no Mural.",
-    "subtext": "O Mural do Portal da Família mostra o desconto de quem faz terapia na Clínica. Dúvidas? A recepção ajuda."
+    "subtext": "O Mural do Portal da Família mostra o desconto de quem faz terapia na Clínica. Dúvidas? A recepção ajuda.",
+    "dia": [
+      1,
+      3,
+      5
+    ]
   },
   {
     "id": "h_14",
@@ -1195,7 +1308,11 @@
     "kickerClass": "pink",
     "headline": "O mesmo pacote reúne <em>várias terapias</em>.",
     "subtext": "As sessões do mês podem ser divididas entre as especialidades que o plano do seu filho indica. A avaliação inicial conta como 1 sessão.",
-    "isabella": false
+    "isabella": false,
+    "dia": [
+      2,
+      4
+    ]
   },
   {
     "id": "p_parcelas",

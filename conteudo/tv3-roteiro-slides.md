@@ -782,6 +782,24 @@ Sem valores na tela: o site diz que valores e condições são passados pela equ
 
 `e_indicar` e `e_oque_e` passam a ter "grátis" no kicker, no selo, no título da ação e no destaque. `p_pacotes` também lembra que o Mapeamento é grátis.
 
+## J. Circuito (convite)
+
+O Circuito só existe no Parque Shopping (quiosque no térreo). "Mesma equipe" vem da página /circuito. QR `circuito`.
+
+- `j_convite` · QR: circuito · "Venha conhecer o Circuito FaçaAmigos." Foto do quiosque com a frota.
+- `j_equipe` · dias 1, 3 e 5 · sem QR · "No Circuito, a mesma equipe FaçaAmigos."
+
+## K. Playground no Grão-Pará
+
+Endereço, horário, "mesmos preços, mesma equipe e mesmos atrativos" e o WhatsApp (91) 99110-1215 vêm de /playground e do `marca.json`. Só entram com `fotoGraoPara` preenchido. QR `graopara` leva a /playground/grao-para.
+
+- `k_vem` · QR: graopara · "Brinque também no Grão-Pará."
+- `k_equipe` · dias 2 e 4 · sem QR · "No Grão-Pará, a mesma equipe do Parque Shopping."
+
+## Rodízio por dia (para a volta ficar em até 12 min)
+
+`d_fds` e `d_prova` dias 1, 3 e 5; `d_quando_ir` e `d_beneficio` dias 2 e 4; `f_pergunte` dias 1, 3 e 5; `p_combinam` dias 2 e 4.
+
 ## Autoexame
 
 Regex sobre `tv3-slides.json`: `promessa|confian[çc]a|oferta|garantid|cura\b|especial|normal|problem|!|—|convênio|IASEP|PROASA`

@@ -24,6 +24,7 @@ HOME = 'https://institutofacaamigos.com.br'
 # chave usada em tv3.html -> URL exata codificada no QR
 QR_URLS = {
     'portal': f'{HOME}/familia',
+    'graopara': f'{HOME}/playground/grao-para?utm_source=tv3&utm_medium=indoor',
     'planos': f'{HOME}/planos?utm_source=tv3&utm_medium=indoor',
     'avaliar': 'https://g.page/r/CUpdqF5yECeVECE/review',
     'teste': f'{HOME}/teste?utm_source=tv3&utm_campaign=indicacao',
