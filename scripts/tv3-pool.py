@@ -19,7 +19,7 @@ HTML = ROOT / 'public' / 'tv3.html'
 BEGIN, END = '// POOL:BEGIN', '// POOL:END'
 
 FAMILIAS = set('ABCDEFGHIJKR')
-LAYOUTS = {'padrao', 'tutorial', 'respiro'}
+LAYOUTS = {'padrao', 'tutorial', 'respiro', 'pacotes', 'cartao'}
 REQUIRES = {'wifiSsid', 'fotoGraoPara', 'portalAtivo'}
 LIMITES = {
     'headline': 58, 'subtext': 165, 'kicker': 34, 'actionTitle': 34, 'actionDesc': 105,
@@ -36,7 +36,7 @@ def plano(txt):
 def textos(slide):
     """Todas as strings visíveis do slide, com o campo de origem."""
     for k, v in slide.items():
-        if k in ('id', 'fam', 'layout', 'qr', 'image', 'images', 'requires', 'tag', 'unit', 'kickerClass', 'imageFit'):
+        if k in ('id', 'fam', 'layout', 'qr', 'image', 'images', 'requires', 'tag', 'unit', 'kickerClass', 'imageFit', 'cards', 'mascot', 'accent', 'accentSoft'):
             continue
         if isinstance(v, str):
             yield k, v
@@ -71,6 +71,10 @@ def validar(slides, chaves_qr):
         if s.get('imageFit') not in (None, 'retrato'): e('imageFit inválido')
         if s.get('dia') and not all(isinstance(d, int) and 1 <= d <= 5 for d in s['dia']): e('dia inválido')
         lay = s.get('layout', 'padrao')
+        if lay == 'pacotes' and len(s.get('cards', [])) != 3: e('pacotes precisa de 3 cards')
+        if lay == 'cartao' and not s.get('mascot'): e('cartao sem mascot')
+        for arq in list(s.get('cards', [])) + ([s['mascot']] if s.get('mascot') else []):
+            if not (ROOT / 'public' / arq).exists(): e(f'imagem inexistente: {arq}')
         if lay == 'respiro':
             if not s.get('quote'): e('respiro sem quote')
         else:

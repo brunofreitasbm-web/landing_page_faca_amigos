@@ -772,15 +772,16 @@ A Clínica tem 14 especialidades (mais a avaliação inicial), conforme `src/dat
 
 ## I. Pacotes particulares
 
-Sem valores na tela: o site diz que valores e condições são passados pela equipe, pelo WhatsApp. QR `planos` leva a /planos.
+Seguem o estilo dos cartões ilustrados de `public/img/pacotes/` (fundo creme, nome do pacote em cor própria, selo de sessões por mês, selo amarelo "3x sem juros" e mascote). Sem valores na tela: o site diz que valores e condições são passados pela equipe, pelo WhatsApp. Layouts novos: `pacotes` (três cartões por tela) e `cartao` (fundo creme com mascote recortado de `img/pacotes/mascote-*.webp`). QR `planos` leva a /planos.
 
-- `p_pacotes` · QR: planos · "Seis pacotes mensais, de 4 a 24 sessões." Destaque: Mapeamento Comportamental grátis.
-- `p_combinam` · sem QR · "O mesmo pacote reúne várias terapias." A avaliação inicial conta como 1 sessão.
-- `p_parcelas` · QR: planos · "Pagamento em até 3x sem juros no cartão."
+- `p_pacotes_a` · todos os dias · "Pacotes mensais de 4 a 12 sessões." Cartões Primeiro Passo, Laço e Vínculo.
+- `p_pacotes_b` · todos os dias · "Pacotes mensais de 16 a 24 sessões." Cartões Turma, Abraço e Voo Livre.
+- `p_combinam` · dias 2 e 4 · "O mesmo pacote reúne várias terapias." Mascote macaco. A avaliação inicial conta como 1 sessão.
+- `p_parcelas` · dias 1, 3 e 5 · QR: planos · "Pagamento em até 3x sem juros no cartão." Mascote tucano.
 
 ## Mapeamento Comportamental: grátis em destaque
 
-`e_indicar` e `e_oque_e` passam a ter "grátis" no kicker, no selo, no título da ação e no destaque. `p_pacotes` também lembra que o Mapeamento é grátis.
+`e_indicar` e `e_oque_e` passam a ter "grátis" no kicker, no selo, no título da ação e no destaque. `p_pacotes_a` também lembra que o Mapeamento é grátis.
 
 ## J. Circuito (convite)
 
@@ -798,7 +799,7 @@ Endereço, horário, "mesmos preços, mesma equipe e mesmos atrativos" e o Whats
 
 ## Rodízio por dia (para a volta ficar em até 12 min)
 
-`d_fds` e `d_prova` dias 1, 3 e 5; `d_quando_ir` e `d_beneficio` dias 2 e 4; `f_pergunte` dias 1, 3 e 5; `p_combinam` dias 2 e 4.
+`d_fds` e `d_prova` dias 1, 3 e 5; `d_quando_ir` e `d_beneficio` dias 2 e 4; `f_pergunte` dias 1, 3 e 5; `p_combinam` dias 2 e 4; `p_parcelas` dias 1, 3 e 5.
 
 ## Autoexame
 
