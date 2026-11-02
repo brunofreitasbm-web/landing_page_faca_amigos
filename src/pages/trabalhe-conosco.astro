@@ -1,5 +1,16 @@
 ---
 import PaginaDados from '../components/PaginaDados.astro';
 import '../styles/paginas.css';
+import { vagasAbertas, caminhoDaVaga, rotuloTipo } from '../lib/vagas';
+import { unidades } from '../data/marca';
+const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c] as string);
+const vagas = await vagasAbertas();
+// Sem vaga aberta, a seção nem existe: a página continua sendo o formulário geral (banco de talentos).
+const lista = vagas.length
+  ? `<section class="sec" aria-labelledby="vagas-abertas"><div class="wrap"><h2 id="vagas-abertas" style="margin-bottom:6px">Vagas abertas agora</h2>` +
+    `<p style="margin-bottom:18px">Estas vagas têm prazo. Não achou a sua? O formulário abaixo continua aberto para o banco de talentos.</p><div class="vagas-grid">` +
+    vagas.map((v) => `<a class="vaga-card" href="${caminhoDaVaga(v)}"><strong>${esc(v.data.titulo)}</strong><span>${esc(unidades[v.data.unidade].nome)} · ${v.data.tipo.map((t) => rotuloTipo[t]).join(' / ')}</span><span class="vaga-ate">Até ${v.data.validaAte.toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</span></a>`).join('') +
+    `</div></div></section>`
+  : '';
 ---
-<PaginaDados slug="trabalhe-conosco" classe="pagina-vagas" />
+<PaginaDados slug="trabalhe-conosco" classe="pagina-vagas" substituir={{ '<!--VAGAS-->': lista }} />

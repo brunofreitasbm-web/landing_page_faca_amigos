@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/paginas.css';
+import { vagasAbertas, caminhoDaVaga, rotuloTipo, jobPosting } from '../../lib/vagas';
+import { unidades, abs, trilhaNo } from '../../data/marca';
+
+export async function getStaticPaths() {
+  return (await vagasAbertas()).map((v) => ({ params: { slug: v.id }, props: { v } }));
+}
+const { v } = Astro.props;
+const d = v.data;
+const u = unidades[d.unidade];
+const path = caminhoDaVaga(v);
+const fim = d.validaAte.toISOString().slice(0, 10);
+const paragrafos = d.descricao.split(/\n{2,}/);
+// Meta description de até ~155 caracteres: vaga e unidade primeiro, depois o começo da descrição.
+const inicio = `Vaga de ${d.titulo} no ${u.nome}, Belém/PA. `;
+const resumo = (inicio + d.descricao.replace(/\s+/g, ' ')).slice(0, 154).replace(/\s+\S*$/, '') + '…';
+---
+<Base
+  title={`${d.titulo} | Vaga no FaçaAmigos Belém`}
+  description={resumo}
+  path={path}
+  secao="clinica"
+  semWa
+  jsonLd={[
+    { '@type': 'WebPage', '@id': `${abs(path)}#webpage`, url: abs(path), name: d.titulo, inLanguage: 'pt-BR', isPartOf: { '@id': `${abs('/')}#website` } },
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Trabalhe conosco', path: '/trabalhe-conosco' }, { nome: d.titulo, path }]),
+    jobPosting(v),
+  ]}
+>
+  <div class="pagina-vagas">
+    <section class="band-petrol section"><div class="wrap">
+      <p class="eyebrow">Vaga aberta</p>
+      <h1 style="color:#fff">{d.titulo}</h1>
+    </div></section>
+    <section class="section"><div class="wrap vaga-corpo">
+      <dl class="vaga-fatos">
+        <div><dt>Unidade</dt><dd>{u.nome}</dd></div>
+        <div><dt>Tipo</dt><dd>{d.tipo.map((t) => rotuloTipo[t]).join(' / ')}</dd></div>
+        <div><dt>Inscrições até</dt><dd id="vaga-ate" data-fim={fim}>{d.validaAte.toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</dd></div>
+        {d.salario && <div><dt>Remuneração</dt><dd>R$ {d.salario.min.toLocaleString('pt-BR')}{d.salario.max ? ` a R$ ${d.salario.max.toLocaleString('pt-BR')}` : ''} {d.salario.por === 'HOUR' ? 'por hora' : 'por mês'}</dd></div>}
+      </dl>
+      {paragrafos.map((p) => <p>{p}</p>)}
+      {d.atividades.length > 0 && <><h2>O que você vai fazer</h2><ul>{d.atividades.map((a) => <li>{a}</li>)}</ul></>}
+      {d.requisitos.length > 0 && <><h2>O que buscamos</h2><ul>{d.requisitos.map((r) => <li>{r}</li>)}</ul></>}
+      <p id="vaga-encerrada" hidden><strong>Esta vaga já foi encerrada.</strong> <a href="/trabalhe-conosco">Veja as vagas abertas</a>.</p>
+      <p><a id="vaga-cta" class="btn btn-pri" href="/trabalhe-conosco#job-form">Quero me candidatar</a></p>
+      <p style="font-size:.9rem">A candidatura é pelo formulário da página <a href="/trabalhe-conosco#job-form">Trabalhe conosco</a>: escolha a área e a unidade desta vaga e envie o currículo em PDF.</p>
+    </div></section>
+  </div>
+  <script is:inline>
+    // A página é estática: se o prazo passou antes do próximo deploy, avisa em vez de oferecer a candidatura.
+    (function () {
+      var el = document.getElementById('vaga-ate'); if (!el) return;
+      var agora = new Date(Date.now() - 3 * 3600 * 1000).toISOString().slice(0, 10);
+      if (agora > el.getAttribute('data-fim')) {
+        document.getElementById('vaga-encerrada').hidden = false;
+        var cta = document.getElementById('vaga-cta'); if (cta) cta.parentNode.hidden = true;
+      }
+    })();
+  </script>
+</Base>

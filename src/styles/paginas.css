@@ -188,3 +188,17 @@
 .pagina-eventos .step .ib { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 12px; background: var(--petrol); color: #fff; font: 700 1.3rem var(--font-display); }
 .pagina-eventos .step h3 { font-size: 1.15rem; margin-bottom: 6px; }
 .pagina-eventos .step p { font-size: .95rem; color: var(--gray); }
+
+/* Vagas abertas (src/content/vagas): lista em /trabalhe-conosco e página de cada vaga */
+.vagas-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.vaga-card { display: grid; gap: 4px; padding: 18px 20px; background: #fff; border: 2px solid var(--teal); border-radius: 18px; text-decoration: none; color: var(--petrol); }
+.vaga-card strong { font-family: var(--font-display); font-size: 1.15rem; }
+.vaga-card span { font-size: .92rem; font-weight: 600; }
+.vaga-card .vaga-ate { color: var(--pink-dark); font-weight: 800; }
+.vaga-card:hover { background: var(--ice); }
+.vaga-fatos { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 20px 0 28px; }
+.vaga-fatos div { background: var(--ice); border-radius: 14px; padding: 12px 16px; }
+.vaga-fatos dt { font-size: .75rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
+.vaga-fatos dd { margin: 2px 0 0; font-weight: 700; color: var(--petrol); }
+.vaga-corpo p { margin-bottom: 14px; max-width: 68ch; }
+.vaga-corpo ul { margin: 0 0 18px; padding-left: 1.2rem; max-width: 68ch; }
