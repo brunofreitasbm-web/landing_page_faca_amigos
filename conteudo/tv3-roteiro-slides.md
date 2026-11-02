@@ -584,10 +584,10 @@ Família D · 15 s · sem QR, layout padrao
 - **Imagem:** `img/hero-piscina-bolinhas.webp` (alternativas: `img/playground-piscina-casinha.webp`)
 - **Texto na tela:**
   - Kicker: 📊 Números do Playground
-  - Headline: +1.100 famílias e <em>7.500 visitas</em> no Playground.
+  - Headline: +1.100 famílias passaram pelo <em>Playground</em>.
   - Subtexto: Dados do sistema de entrada e saída do Playground. A equipe tem nota 4,9 de 5 em 118 avaliações por WhatsApp, de julho a outubro de 2026.
 - **Fatos usados:**
-  - Mais de 1.100 famílias e 7.500 visitas registradas no sistema de entrada e saída: LP/playground.html:2216
+  - Mais de 1.100 famílias registradas no sistema de entrada e saída: LP/playground.html:2216. As 7.500 visitas saíram do slide por pedido da clínica (número superestimado).
   - Média da equipe 4,9 de 5, avaliações por WhatsApp, jul a out/2026: briefing do pedido; conferido no conector de NPS (média_equipe_1a5 = 4,9)
   - ATENÇÃO: o conector hoje retorna 119 respostas (jul a 25/out); o briefing manda escrever 118. Atualizar o número se a TV for publicada depois
 
@@ -759,6 +759,28 @@ QR `avaliar` leva a https://g.page/r/CUpdqF5yECeVECE/review (link informado pela
 - `g_cinco` · 15 s · QR: avaliar · "Gostou do atendimento? Deixe 5 estrelas."
 - `g_passos` · 20 s · QR: avaliar, layout tutorial · "Avaliar a clínica leva menos de 1 minuto."
 - `g_outras` · 15 s · QR: avaliar · "Sua avaliação ajuda outra família a chegar até nós."
+
+## H. Especialidades da Clínica
+
+A Clínica tem 14 especialidades (mais a avaliação inicial), conforme `src/data/especialidades.json` e a página /clinica. Os slides de detalhe giram por dia da semana para a volta não passar de 12 min.
+
+- `h_14` · 15 s · QR: clinica · "14 especialidades, uma equipe e um plano só." (todos os dias)
+- `h_comportamento` · dias 1 e 5 · ABA, Psicologia e Habilidades Sociais
+- `h_fala` · dia 2 · Fonoaudiologia e Musicoterapia
+- `h_aprender` · dia 3 · Psicopedagogia, Nutrição e Orientação Parental
+- `h_motor` · dia 4 · Terapia Ocupacional, Integração Sensorial, Fisioterapia, Psicomotricidade e Educação Física Adaptada
+
+## I. Pacotes particulares
+
+Sem valores na tela: o site diz que valores e condições são passados pela equipe, pelo WhatsApp. QR `planos` leva a /planos.
+
+- `p_pacotes` · QR: planos · "Seis pacotes mensais, de 4 a 24 sessões." Destaque: Mapeamento Comportamental grátis.
+- `p_combinam` · sem QR · "O mesmo pacote reúne várias terapias." A avaliação inicial conta como 1 sessão.
+- `p_parcelas` · QR: planos · "Pagamento em até 3x sem juros no cartão."
+
+## Mapeamento Comportamental: grátis em destaque
+
+`e_indicar` e `e_oque_e` passam a ter "grátis" no kicker, no selo, no título da ação e no destaque. `p_pacotes` também lembra que o Mapeamento é grátis.
 
 ## Autoexame
 

@@ -18,7 +18,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 HTML = ROOT / 'public' / 'tv3.html'
 BEGIN, END = '// POOL:BEGIN', '// POOL:END'
 
-FAMILIAS = set('ABCDEFGR')
+FAMILIAS = set('ABCDEFGHIR')
 LAYOUTS = {'padrao', 'tutorial', 'respiro'}
 REQUIRES = {'wifiSsid', 'fotoGraoPara', 'portalAtivo'}
 LIMITES = {

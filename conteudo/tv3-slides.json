@@ -764,7 +764,7 @@
     ],
     "kicker": "📊 Números do Playground",
     "kickerClass": "yellow",
-    "headline": "+1.100 famílias e <em>7.500 visitas</em> no Playground.",
+    "headline": "+1.100 famílias passaram pelo <em>Playground</em>.",
     "subtext": "Dados do sistema de entrada e saída do Playground. A equipe tem nota 4,9 de 5 em 118 avaliações por WhatsApp, de julho a outubro de 2026."
   },
   {
@@ -831,18 +831,18 @@
       "img/clinica-atividade-pedagogica.webp",
       "img/clinica-painel-sensorial.webp"
     ],
-    "kicker": "💌 Para quem você lembrou",
+    "kicker": "💌 Mapeamento grátis",
     "kickerClass": "teal",
     "headline": "Uma mãe que ainda não sabe <em>por onde começar</em>?",
-    "subtext": "Pode ser mãe, pai ou avó. Envie o Mapeamento Comportamental: 25 perguntas, cerca de 5 minutos, gratuito.",
-    "badge": "Mapeamento",
-    "actionTitle": "Indique o Mapeamento",
-    "actionDesc": "Gratuito, cerca de 5 minutos, para crianças de 4 a 17 anos.",
+    "subtext": "Pode ser mãe, pai ou avó. Envie o Mapeamento Comportamental, que é grátis: 25 perguntas, cerca de 5 minutos.",
+    "badge": "Grátis",
+    "actionTitle": "Indique o Mapeamento grátis",
+    "actionDesc": "Sem custo, cerca de 5 minutos, para crianças de 4 a 17 anos.",
     "qrTitle": "Aponte a câmera aqui",
     "qrDesc": "Leia o código, abra a página e envie o link para quem você lembrou.",
     "qrHint": "Mande o link por WhatsApp",
     "highlightIcon": "📩",
-    "highlightText": "O resultado aparece na tela e também chega por e-mail."
+    "highlightText": "Grátis para toda família. O resultado chega por e-mail."
   },
   {
     "id": "e_oque_e",
@@ -856,18 +856,18 @@
       "img/clinica-atividade-pedagogica.webp",
       "img/clinica-painel-sensorial.webp"
     ],
-    "kicker": "🧭 Mapeamento Comportamental",
+    "kicker": "🧭 Mapeamento grátis",
     "kickerClass": "teal",
-    "headline": "25 perguntas em cerca de <em>5 minutos</em>.",
+    "headline": "25 perguntas, 5 minutos e <em>grátis</em>.",
     "subtext": "Para crianças de 4 a 17 anos. Passa por cinco áreas: Emoções e segurança, Rotina e limites, Foco e energia, Amizades e convivência, Empatia e gentileza.",
-    "badge": "Mapeamento",
-    "actionTitle": "Um retrato inicial, gratuito",
+    "badge": "Grátis",
+    "actionTitle": "Um retrato inicial, grátis",
     "actionDesc": "Criado por Isabella Gonçalves Freitas, psicóloga infantil (CRP 10/4727).",
     "qrTitle": "Aponte a câmera aqui",
     "qrDesc": "Leia o código e responda no seu celular, no seu ritmo.",
     "qrHint": "Resultado na tela e por e-mail",
     "highlightIcon": "🧡",
-    "highlightText": "Não substitui avaliação profissional."
+    "highlightText": "Grátis e sem compromisso. Não substitui avaliação profissional."
   },
   {
     "id": "g_cinco",
@@ -1040,6 +1040,188 @@
     "kickerClass": "yellow",
     "headline": "Atendido aqui? Veja o <em>desconto</em> no Mural.",
     "subtext": "O Mural do Portal da Família mostra o desconto de quem faz terapia na Clínica. Dúvidas? A recepção ajuda."
+  },
+  {
+    "id": "h_14",
+    "fam": "H",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "clinica",
+    "image": "img/clinica-recursos-terapeuticos.webp",
+    "images": [
+      "img/clinica-recursos-terapeuticos.webp",
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-painel-sensorial.webp",
+      "img/clinica-fachada.webp"
+    ],
+    "kicker": "🧩 Nossas especialidades",
+    "kickerClass": "teal",
+    "headline": "14 especialidades, uma equipe e <em>um plano só</em>.",
+    "subtext": "Da fala ao sensorial, do comportamento à nutrição: cada criança recebe o conjunto de terapias que o plano dela indica.",
+    "badge": "Especialidades",
+    "actionTitle": "Conheça as 14 especialidades",
+    "actionDesc": "Veja o foco de cada uma e para quem ela serve.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código e veja todas as especialidades.",
+    "qrHint": "Dá para conversar com a equipe",
+    "highlightIcon": "🧩",
+    "highlightText": "As terapias se combinam no Plano Terapêutico Singular.",
+    "isabella": false
+  },
+  {
+    "id": "h_comportamento",
+    "fam": "H",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "dia": [
+      1,
+      5
+    ],
+    "image": "img/clinica-atividade-pedagogica.webp",
+    "images": [
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-recursos-terapeuticos.webp",
+      "img/clinica-painel-sensorial.webp"
+    ],
+    "kicker": "🧠 Comportamento e emoções",
+    "kickerClass": "teal",
+    "headline": "ABA, Psicologia e <em>Habilidades Sociais</em>.",
+    "subtext": "Comunicação, autonomia, regulação emocional, regras sociais e amizade, trabalhadas no ritmo de cada criança.",
+    "isabella": false
+  },
+  {
+    "id": "h_fala",
+    "fam": "H",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "dia": [
+      2
+    ],
+    "image": "img/clinica-recursos-terapeuticos.webp",
+    "images": [
+      "img/clinica-recursos-terapeuticos.webp",
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-fachada.webp"
+    ],
+    "kicker": "🗣️ Fala e comunicação",
+    "kickerClass": "teal",
+    "headline": "Fonoaudiologia e <em>Musicoterapia</em>.",
+    "subtext": "Fala, linguagem, comunicação alternativa, deglutição e expressão pela música, para a criança se fazer entender.",
+    "isabella": false
+  },
+  {
+    "id": "h_motor",
+    "fam": "H",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "dia": [
+      4
+    ],
+    "image": "img/clinica-painel-sensorial.webp",
+    "images": [
+      "img/clinica-painel-sensorial.webp",
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-recursos-terapeuticos.webp"
+    ],
+    "kicker": "🤸 Corpo e sensorial",
+    "kickerClass": "teal",
+    "headline": "Cinco especialidades para o <em>corpo em movimento</em>.",
+    "subtext": "Terapia Ocupacional, Integração Sensorial, Fisioterapia, Psicomotricidade e Educação Física Adaptada.",
+    "isabella": false
+  },
+  {
+    "id": "h_aprender",
+    "fam": "H",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "dia": [
+      3
+    ],
+    "image": "img/clinica-fachada.webp",
+    "images": [
+      "img/clinica-fachada.webp",
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-painel-sensorial.webp"
+    ],
+    "kicker": "📘 Escola, mesa e família",
+    "kickerClass": "teal",
+    "headline": "Psicopedagogia, Nutrição e <em>Orientação Parental</em>.",
+    "subtext": "Aprendizagem, seletividade alimentar e apoio à família em casa. A Avaliação Neuropsicológica completa a equipe.",
+    "isabella": false
+  },
+  {
+    "id": "p_pacotes",
+    "fam": "I",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "planos",
+    "image": "img/clinica-atividade-pedagogica.webp",
+    "images": [
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-fachada.webp",
+      "img/clinica-recursos-terapeuticos.webp"
+    ],
+    "kicker": "💬 Atendimento particular",
+    "kickerClass": "pink",
+    "headline": "Seis pacotes mensais, de <em>4 a 24 sessões</em>.",
+    "subtext": "Do Primeiro Passo ao Voo Livre, você escolhe a frequência e a equipe monta o pacote que cabe na rotina da família.",
+    "badge": "Pacotes particulares",
+    "actionTitle": "Veja os seis pacotes",
+    "actionDesc": "Valores com a equipe, pelo WhatsApp.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código e veja os pacotes no celular.",
+    "qrHint": "Valores pelo WhatsApp",
+    "highlightIcon": "🌱",
+    "highlightText": "Antes de escolher, faça o Mapeamento Comportamental grátis.",
+    "isabella": false
+  },
+  {
+    "id": "p_combinam",
+    "fam": "I",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "image": "img/clinica-recursos-terapeuticos.webp",
+    "images": [
+      "img/clinica-recursos-terapeuticos.webp",
+      "img/clinica-painel-sensorial.webp",
+      "img/clinica-atividade-pedagogica.webp"
+    ],
+    "kicker": "🧩 Pacote sob medida",
+    "kickerClass": "pink",
+    "headline": "O mesmo pacote reúne <em>várias terapias</em>.",
+    "subtext": "As sessões do mês podem ser divididas entre as especialidades que o plano do seu filho indica. A avaliação inicial conta como 1 sessão.",
+    "isabella": false
+  },
+  {
+    "id": "p_parcelas",
+    "fam": "I",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "planos",
+    "image": "img/clinica-fachada.webp",
+    "images": [
+      "img/clinica-fachada.webp",
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-painel-sensorial.webp"
+    ],
+    "kicker": "💳 Pagamento particular",
+    "kickerClass": "pink",
+    "headline": "Pagamento em até <em>3x sem juros</em> no cartão.",
+    "subtext": "Sessões de 40 minutos, em pacotes mensais ou avulsas. A equipe explica valores e condições pelo WhatsApp.",
+    "badge": "Particular",
+    "actionTitle": "Pacotes e condições",
+    "actionDesc": "Veja como os pacotes funcionam.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código e consulte os pacotes.",
+    "qrHint": "Dúvidas? A recepção ajuda",
+    "highlightIcon": "💳",
+    "highlightText": "Valores e condições sempre com a nossa equipe.",
+    "isabella": false
   },
   {
     "id": "r_1",
