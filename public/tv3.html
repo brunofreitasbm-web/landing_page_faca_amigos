@@ -233,7 +233,10 @@
 
     .tv-slide {
       position: absolute;
-      inset: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       display: grid;
       grid-template-columns: 1.25fr 0.75fr;
       padding: 36px 44px;
@@ -276,7 +279,10 @@
 
     .tv-slide-image {
       position: absolute;
-      inset: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -290,7 +296,10 @@
 
     .tv-image-overlay {
       position: absolute;
-      inset: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       background: linear-gradient(180deg, 
                   rgba(6, 82, 100, 0.1) 0%, 
                   rgba(3, 45, 55, 0.4) 40%, 
@@ -654,6 +663,7 @@
       border-radius: 6px;
     }
 
+    .tv-slide-counter[hidden] { display: none; }
     .tv-slide-counter {
       font-family: var(--font-display);
       font-size: 17px;
@@ -869,7 +879,7 @@
         </div>
       </div>
 
-      <div class="tv-slide-counter" id="slideCounter"></div>
+      <div class="tv-slide-counter" id="slideCounter" hidden></div>
     </footer>
 
     <!-- CONTROLES DE HUD (APARECEM COM O MOUSE OU ATALHOS) -->
@@ -944,7 +954,7 @@
         {"id":"b_boasvindas","fam":"B","dur":15,"layout":"padrao","qr":null,"tag":"abertura","isabella":false,"image":"img/clinica-fachada.webp","images":["img/clinica-fachada.webp","img/clinica-painel-sensorial.webp","img/clinica-atividade-pedagogica.webp"],"kicker":"💛 Sala de espera","kickerClass":"teal","headline":"{{saudacao}}. Hoje é <em>{{diaSemana}}</em>.","subtext":"Enquanto a sessão acontece, esta sala é sua: sente, respire e use o tempo como quiser. Quem cuida também precisa de pausa."},
         {"id":"b_sessao40","fam":"B","dur":15,"layout":"padrao","qr":null,"isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-recursos-terapeuticos.webp","img/clinica-painel-sensorial.webp"],"kicker":"🧩 Dentro da sessão","kickerClass":"teal","headline":"Na sessão, a terapia se parece com <em>brincar</em>.","subtext":"Cada brincadeira tem um propósito, como esperar a vez ou ampliar a comunicação, sempre no ritmo da criança. O que deu certo é reconhecido."},
         {"id":"b_metodo","fam":"B","dur":15,"layout":"padrao","qr":null,"isabella":true,"image":"img/clinica-recursos-terapeuticos.webp","images":["img/clinica-recursos-terapeuticos.webp","img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"🧠 Como a clínica trabalha","kickerClass":"teal","headline":"Uma equipe, <em>um plano só</em>.","subtext":"Terapia comportamental apoiada em ABA, Fonoaudiologia, Terapia Ocupacional, Psicopedagogia e orientação a pais e escola."},
-        {"id":"b_quemcuida","fam":"B","dur":15,"layout":"padrao","qr":null,"isabella":false,"imageFit":"retrato","image":"img/isabella-2.webp","images":["img/isabella-2.webp","img/isabella-3.webp"],"kicker":"🌱 Quem idealizou a clínica","kickerClass":"teal","headline":"Isabella Gonçalves Freitas, <em>psicóloga infantil</em>","subtext":"CRP 10/4727. Idealizadora do FaçaAmigos, conduz a clínica e escreve os textos de Aprender, no nosso site."},
+        {"id":"b_quemcuida","fam":"B","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/clinica-fachada.webp","images":["img/clinica-fachada.webp","img/clinica-atividade-pedagogica.webp"],"kicker":"🌱 Quem idealizou a clínica","kickerClass":"teal","headline":"Isabella Gonçalves Freitas, <em>psicóloga infantil</em>","subtext":"CRP 10/4727. Idealizadora do FaçaAmigos, conduz a clínica e escreve os textos de Aprender, no nosso site."},
         {"id":"b_orientacao_casa","fam":"B","dur":15,"layout":"padrao","qr":null,"isabella":true,"image":"img/clinica-painel-sensorial.webp","images":["img/clinica-painel-sensorial.webp","img/clinica-atividade-pedagogica.webp","img/clinica-fachada.webp"],"kicker":"🏠 Para levar para casa","kickerClass":"teal","headline":"A orientação da sessão fica <em>no portal</em>.","subtext":"A equipe marca o tema de cada orientação: Rotina, Comunicação, Alimentação, Sono ou Escola. Você vê no portal, com a data."},
         {"id":"b_escola","fam":"B","dur":15,"layout":"padrao","qr":null,"isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-recursos-terapeuticos.webp","img/clinica-fachada.webp"],"kicker":"🏫 Escola e família","kickerClass":"teal","headline":"A escola também pode <em>entrar na conversa</em>.","subtext":"Quando fizer sentido para a família, a clínica apoia o diálogo com a coordenação pedagógica. Ninguém vai sozinho à reunião."},
         {"id":"b_espera","fam":"B","dur":15,"layout":"padrao","qr":null,"isabella":true,"image":"img/clinica-painel-sensorial.webp","images":["img/clinica-painel-sensorial.webp","img/clinica-fachada.webp","img/clinica-atividade-pedagogica.webp"],"kicker":"🫶 Para quem espera","kickerClass":"teal","headline":"Esperar também cansa. <em>Pode descansar.</em>","subtext":"Respirar, olhar o celular ou ficar em silêncio, tudo vale. O seu descanso também importa."},
@@ -965,8 +975,8 @@
         {"id":"d_beneficio","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/playground-mediadora-tapete.webp","images":["img/playground-mediadora-tapete.webp","img/galeria-oficinas.webp"],"kicker":"💛 Família FaçaAmigos","kickerClass":"yellow","headline":"Você faz parte da <em>Família FaçaAmigos</em>.","subtext":"Seu vínculo com a clínica vale também fora dela. {{beneficio}}"},
         {"id":"d_quando_ir","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/playground-piscina-casinha.webp","images":["img/playground-piscina-casinha.webp","img/hero-piscina-bolinhas.webp"],"kicker":"🗓️ Para planejar o sábado","kickerClass":"yellow","headline":"Prefira a <em>manhã</em> ou o começo da tarde.","subtext":"No sistema (jul a out/2026), sábado é o dia mais cheio e das 17h às 20h o horário mais cheio. Quem entra por 30 minutos fica, em média, 50 minutos."},
         {"id":"d_circuito","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/circuito-quiosque.webp","images":["img/circuito-quiosque.webp","img/circuito-frota-alinhada.webp","img/circuito-jeep-menino.webp"],"kicker":"🚗 Circuito no Parque Shopping","kickerClass":"yellow","headline":"Circuito: R$ 48 por <em>20 ou 30 minutos</em>.","subtext":"20 minutos nas pelúcias e no jeep, ou 30 minutos nos carros e na moto. No quiosque do Circuito, no Parque Shopping."},
-        {"id":"e_indicar","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":false,"image":"img/isabella-3.webp","images":["img/isabella-3.webp","img/clinica-atividade-pedagogica.webp"],"kicker":"💌 Para quem você lembrou","kickerClass":"teal","headline":"Uma mãe que ainda não sabe <em>por onde começar</em>?","subtext":"Pode ser mãe, pai ou avó. Envie o Mapeamento Comportamental: 25 perguntas, cerca de 5 minutos, gratuito.","badge":"Mapeamento","actionTitle":"Indique o Mapeamento","actionDesc":"Gratuito, cerca de 5 minutos, para crianças de 4 a 17 anos.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código, abra a página e envie o link para quem você lembrou.","qrHint":"Mande o link por WhatsApp","highlightIcon":"📩","highlightText":"O resultado aparece na tela e também chega por e-mail."},
-        {"id":"e_oque_e","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":true,"image":"img/isabella-3.webp","images":["img/isabella-3.webp","img/clinica-atividade-pedagogica.webp"],"kicker":"🧭 Mapeamento Comportamental","kickerClass":"teal","headline":"25 perguntas em cerca de <em>5 minutos</em>.","subtext":"Para crianças de 4 a 17 anos. Passa por cinco áreas: Emoções e segurança, Rotina e limites, Foco e energia, Amizades e convivência, Empatia e gentileza.","badge":"Mapeamento","actionTitle":"Um retrato inicial, gratuito","actionDesc":"Criado por Isabella Gonçalves Freitas, psicóloga infantil (CRP 10/4727).","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e responda no seu celular, no seu ritmo.","qrHint":"Resultado na tela e por e-mail","highlightIcon":"🧡","highlightText":"Não substitui avaliação profissional."},
+        {"id":"e_indicar","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":false,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"💌 Para quem você lembrou","kickerClass":"teal","headline":"Uma mãe que ainda não sabe <em>por onde começar</em>?","subtext":"Pode ser mãe, pai ou avó. Envie o Mapeamento Comportamental: 25 perguntas, cerca de 5 minutos, gratuito.","badge":"Mapeamento","actionTitle":"Indique o Mapeamento","actionDesc":"Gratuito, cerca de 5 minutos, para crianças de 4 a 17 anos.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código, abra a página e envie o link para quem você lembrou.","qrHint":"Mande o link por WhatsApp","highlightIcon":"📩","highlightText":"O resultado aparece na tela e também chega por e-mail."},
+        {"id":"e_oque_e","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"🧭 Mapeamento Comportamental","kickerClass":"teal","headline":"25 perguntas em cerca de <em>5 minutos</em>.","subtext":"Para crianças de 4 a 17 anos. Passa por cinco áreas: Emoções e segurança, Rotina e limites, Foco e energia, Amizades e convivência, Empatia e gentileza.","badge":"Mapeamento","actionTitle":"Um retrato inicial, gratuito","actionDesc":"Criado por Isabella Gonçalves Freitas, psicóloga infantil (CRP 10/4727).","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e responda no seu celular, no seu ritmo.","qrHint":"Resultado na tela e por e-mail","highlightIcon":"🧡","highlightText":"Não substitui avaliação profissional."},
         {"id":"r_1","fam":"R","dur":10,"layout":"respiro","qr":null,"dia":[1,2,4],"isabella":true,"image":"img/clinica-painel-sensorial.webp","images":["img/clinica-painel-sensorial.webp","img/ambiente-sensorial.webp"],"quote":"Respire fundo. Chegar até aqui já é uma forma de cuidar."},
         {"id":"r_2","fam":"R","dur":10,"layout":"respiro","qr":null,"dia":[2,3,5],"isabella":true,"image":"img/inclusao-cantinho-leitura.webp","images":["img/inclusao-cantinho-leitura.webp","img/clinica-atividade-pedagogica.webp"],"quote":"Cada criança tem o seu tempo. Cada família também."},
         {"id":"r_3","fam":"R","dur":10,"layout":"respiro","qr":null,"dia":[1,3,4],"isabella":true,"image":"img/ambiente-sensorial.webp","images":["img/ambiente-sensorial.webp","img/clinica-painel-sensorial.webp"],"quote":"Solte os ombros. Aqui você encontra acolhimento."},

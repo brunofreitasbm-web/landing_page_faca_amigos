@@ -384,11 +384,10 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "imageFit": "retrato",
-    "image": "img/isabella-2.webp",
+    "image": "img/clinica-fachada.webp",
     "images": [
-      "img/isabella-2.webp",
-      "img/isabella-3.webp"
+      "img/clinica-fachada.webp",
+      "img/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "🌱 Quem idealizou a clínica",
     "kickerClass": "teal",
@@ -827,10 +826,10 @@
     "layout": "padrao",
     "qr": "teste",
     "isabella": false,
-    "image": "img/isabella-3.webp",
+    "image": "img/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/isabella-3.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-painel-sensorial.webp"
     ],
     "kicker": "💌 Para quem você lembrou",
     "kickerClass": "teal",
@@ -852,10 +851,10 @@
     "layout": "padrao",
     "qr": "teste",
     "isabella": true,
-    "image": "img/isabella-3.webp",
+    "image": "img/clinica-atividade-pedagogica.webp",
     "images": [
-      "img/isabella-3.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-painel-sensorial.webp"
     ],
     "kicker": "🧭 Mapeamento Comportamental",
     "kickerClass": "teal",
