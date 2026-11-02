@@ -30,7 +30,9 @@ const servidor = http.createServer((req, res) => {
 await new Promise((r) => servidor.listen(0, r));
 const base = `http://localhost:${servidor.address().port}`;
 
-const navegador = await chromium.launch();
+// CHROMIUM_PATH: use quando o Playwright instalado não achar o navegador sozinho
+// (ex.: dentro do repositório do site, que traz outra versão do Playwright).
+const navegador = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 const pagina = await navegador.newPage();
 for (const peca of pecas) {
   await pagina.goto(`${base}/fatech/impressos/${peca}`, { waitUntil: 'networkidle' });
