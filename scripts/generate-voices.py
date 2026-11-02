@@ -10,7 +10,7 @@ VOLUME = "+0%"
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 ROTEIRO_FILE = ROOT_DIR / "conteudo" / "tv-salao-roteiro-de-vozes.md"
-OUTPUT_DIR = ROOT_DIR / "audio" / "voz"
+OUTPUT_DIR = ROOT_DIR / "public" / "audio" / "voz"
 
 async def generate_voice(filename: str, text: str, semaphore: asyncio.Semaphore):
     async with semaphore:

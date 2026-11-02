@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import FAQ from '../../components/FAQ.astro';
+import { unidades, abs, horarioLinhas, faqNo, trilhaNo, SITE } from '../../data/marca';
+
+// Só afirma o que o site e a operação já afirmam (pulseira, mediadores treinados, espaço sensorial, Horário Inclusivo, Olhar FaçaAmigos).
+const path = '/playground/como-cuidamos';
+const faq = [
+  { q: 'O Playground é só para crianças com diagnóstico?', a: 'Não. O espaço é para todas as crianças de 0 a 12 anos, com ou sem laudo. Crianças típicas e atípicas brincam juntas, no mesmo espaço, sem ala separada.' },
+  { q: 'O que é o Horário Inclusivo?', a: 'É o período das 10h às 16h, com som mais baixo, menos lotação e equipe reforçada. Aos domingos, começa às 12h. É aberto a qualquer família e indicado para a primeira visita.' },
+  { q: 'O que é o Olhar FaçaAmigos?', a: 'Nos planos a partir de 1 hora, o responsável recebe por WhatsApp um resumo das anotações da equipe sobre a brincadeira da criança.' },
+];
+---
+<Base
+  title="Como cuidamos das crianças no Playground | FaçaAmigos"
+  description="Pulseira de identificação, mediadores treinados em acolhimento neurodivergente, espaço sensorial e Horário Inclusivo. Veja como cuidamos de cada criança."
+  path={path}
+  ogImage="img/og/og-playground.jpg"
+  ogImageAlt="Mediadora acolhendo uma criança no tapete do Playground FaçaAmigos"
+  secao="playground"
+  jsonLd={[
+    { '@type': 'WebPage', '@id': `${abs(path)}#pagina`, url: abs(path), name: 'Como cuidamos das crianças no Playground', isPartOf: { '@id': `${SITE.url}/#website` }, about: { '@id': `${SITE.url}/#organization` }, inLanguage: 'pt-BR' },
+    faqNo(path, faq),
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Playground', path: '/playground' }, { nome: 'Como cuidamos', path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <a href="/playground">Playground</a> › <b>Como cuidamos</b></p>
+      <p class="eyebrow">Playground inclusivo</p>
+      <h1>Como cuidamos das crianças no Playground</h1>
+      <p class="lead">O FaçaAmigos é um playground para todas as crianças, com ou sem diagnóstico. Aqui está, sem rodeio, o que a equipe faz e o que o espaço oferece, para você chegar sabendo o que esperar.</p>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>O que acontece desde a entrada</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Cadastro e pulseira</h3><p>Na entrada, o responsável faz o cadastro e a criança recebe uma pulseira de identificação vinculada a ele.</p></div>
+        <div class="card"><h3>Mediadores treinados</h3><p>A equipe é treinada em acolhimento neurodivergente e em estratégias de suporte ao neurodesenvolvimento.</p></div>
+        <div class="card"><h3>A partir de 3 anos</h3><p>Crianças a partir de 3 anos podem permanecer sob supervisão dos mediadores, com a pulseira vinculada ao responsável cadastrado.</p></div>
+        <div class="card"><h3>Espaço para respirar</h3><p>Cantinho de descompressão sensorial e abafadores de ruído disponíveis para quem precisa de uma pausa.</p></div>
+        <div class="card"><h3>Horário Inclusivo</h3><p>Das 10h às 16h (aos domingos, a partir das 12h), com som mais baixo, menos lotação e equipe reforçada. Aberto a qualquer família.</p></div>
+        <div class="card"><h3>Olhar FaçaAmigos</h3><p>Nos planos a partir de 1 hora, você recebe por WhatsApp um resumo das anotações da equipe sobre a brincadeira da criança.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="stack-lg">
+        <h2>Como falamos com as famílias</h2>
+        <p>Falamos em criança típica, criança atípica e necessidade de suporte. Não usamos "criança especial" nem "criança problema", e não prometemos cura.</p>
+        <p>Na recepção, em vez de perguntar se o seu filho tem algum problema, a pergunta é: <strong>"Tem algo que ajude a gente a cuidar melhor dele hoje?"</strong></p>
+        <p>Conteúdo para ler antes da primeira visita: <a href="/aprender/primeira-vez-no-playground">primeira vez no playground com uma criança sensível</a> e <a href="/aprender/e-para-todas-as-criancas">por que o Playground é para todas as crianças</a>.</p>
+      </div>
+      <div class="card">
+        <h3>Horário das unidades</h3>
+        <p><strong>{unidades.parque.curto}:</strong> {horarioLinhas('parque').map((l) => l.texto).join(' · ')}</p>
+        <p><strong>{unidades.graopara.curto}:</strong> {horarioLinhas('graopara').map((l) => l.texto).join(' · ')}</p>
+        <div class="actions"><a class="btn" href={unidades.parque.rota}>Parque Shopping</a><a class="btn" href={unidades.graopara.rota}>Grão-Pará</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>Perguntas frequentes</h2>
+      <FAQ itens={faq} />
+    </div>
+  </section>
+</Base>

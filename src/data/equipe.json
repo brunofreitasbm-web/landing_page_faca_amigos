@@ -1,0 +1,17 @@
+{
+  "_comentario": "Perfis da equipe da Clínica. 'publicar' só vira true com a aprovação do próprio profissional (nome, foto, registro no conselho e formação). A página /clinica/equipe só aparece no Google e no menu quando houver 2 ou mais perfis publicados. Não colocar depoimento de paciente nem promessa de resultado (CFP, COFFITO, CFFa).",
+  "minimoParaIndexar": 2,
+  "perfis": [
+    {
+      "id": "isabella-freitas",
+      "nome": "Isabella Gonçalves Freitas",
+      "cargo": "Psicóloga infantil",
+      "registro": "CRP 10/4727",
+      "unidade": "clinica",
+      "foto": "img/isabella-2.webp",
+      "resumo": "Idealizadora do FaçaAmigos, criadora do Mapeamento Comportamental e autora dos e-books. Conduz o atendimento do Centro de Terapia Comportamental.",
+      "pagina": "/equipe/isabella-freitas",
+      "publicar": true
+    }
+  ]
+}

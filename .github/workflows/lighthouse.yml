@@ -4,7 +4,7 @@ name: Lighthouse (velocidade, SEO e acessibilidade)
 # Começa só avisando (warn); depois de algumas semanas de histórico, trocar para "error" no lighthouserc.json.
 on:
   pull_request:
-    paths: ['**.html', 'assets/**', 'img/**', 'lighthouserc.json']
+    paths: ['public/**', 'src/**', 'astro.config.mjs', 'lighthouserc.json']
   workflow_dispatch:
 
 jobs:
@@ -12,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar dependências
+        run: npm ci --no-audit --no-fund
+      - name: Construir o site (Astro)
+        run: npm run build
       - name: Rodar Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12
         with:

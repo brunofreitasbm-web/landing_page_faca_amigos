@@ -464,8 +464,8 @@ function buildEbookCopy(
   };
 }
 
-// Copy do "Código do Desenvolvimento Infantil" (só aparece com tier3Count === 0). Curta, sem preço e sem prometer
-// resultado: é uma leitura de entrada, de orientação, não de diagnóstico.
+// Copy do "Código do Desenvolvimento Infantil" (só aparece com tier3Count === 0). Curta, com o preço de entrada (CODIGO_PRICE) e sem
+// prometer resultado: é uma leitura de entrada, de orientação, não de diagnóstico.
 function buildCodigoCopy(
   childFirstName: string,
   results: AreaResult[],

@@ -1,0 +1,38 @@
+---
+import { unidades, ORDEM, CNPJ, SITE, localTexto, enderecoTexto, horarioTexto, waUrl, fmtFone } from '../data/marca';
+import type { UnidadeId } from '../data/marca';
+// Rodapé estático gerado dos fatos da marca. O assets/fa-footer.js (ainda usado pelas páginas legadas) troca este
+// bloco pelo rodapé dele ao carregar; os dois mostram os mesmos dados. Quando todas as páginas forem Astro, o script sai.
+const { kind = 'hub' } = Astro.props;
+const lista = ORDEM.filter((id) => id !== 'circuito') as UnidadeId[];
+---
+<footer data-fa-footer={kind} class="rodape">
+  <div class="wrap">
+    <div class="rodape-unidades">
+      {lista.map((id) => {
+        const u = unidades[id];
+        const zap = waUrl(id);
+        return (
+          <div class="rodape-un">
+            <h3>{u.nome}</h3>
+            <p>{enderecoTexto(id)}{u.shopping && <><br />{localTexto(id)}</>}</p>
+            <p>{horarioTexto(id)}</p>
+            {zap && <p><a href={zap} target="_blank" rel="noopener">WhatsApp {fmtFone(u.whatsapp as string)}</a></p>}
+          </div>
+        );
+      })}
+    </div>
+    <p class="legal">FaçaAmigos Playground Inclusivo · CNPJ {CNPJ.playground} (Playground e Circuito)</p>
+    <p class="legal">Instituto Faça Amigos Ltda · CNPJ {CNPJ.instituto} (Clínica, Mapeamento Comportamental e e-books) · Belém/PA</p>
+    <p class="legal"><a href={'mailto:' + SITE.email}>{SITE.email}</a> · <a href={SITE.instagram} target="_blank" rel="noopener">{SITE.instagramUser}</a> · <a href="/politica-privacidade">Política de Privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
+</footer>
+<style>
+  .rodape { background: var(--petrol); color: #E6F4F6; padding: 48px 0 96px; }
+  .rodape a { color: #fff; font-weight: 700; }
+  .rodape-unidades { display: grid; gap: 16px; margin-bottom: 24px; }
+  @media (min-width: 760px) { .rodape-unidades { grid-template-columns: repeat(3, 1fr); } }
+  .rodape-un { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16); border-radius: 14px; padding: 16px 18px; display: grid; gap: 6px; font-size: .92rem; }
+  .rodape-un h3 { color: #fff; font-size: 1.02rem; }
+  .legal { font-size: .85rem; opacity: .9; margin-top: 6px; }
+</style>

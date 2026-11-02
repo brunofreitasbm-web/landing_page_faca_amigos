@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import Foto from './Foto.astro';
+import FAQ from './FAQ.astro';
+import { unidades, abs, localTexto, enderecoTexto, horarioLinhas, horarioTexto, waUrl, fmtFone, localBusiness, faqNo, trilhaNo } from '../data/marca';
+import type { UnidadeId } from '../data/marca';
+
+// Página de uma unidade do Playground. Só o que é DAQUELE shopping: onde fica, horário, como chegar, contato.
+// O que é comum às duas (preços, Olhar FaçaAmigos) fica em /playground.
+const { id } = Astro.props as { id: Extract<UnidadeId, 'parque' | 'graopara'> };
+const u = unidades[id];
+const outraId = id === 'parque' ? 'graopara' : 'parque';
+const outra = unidades[outraId];
+const zap = waUrl(id) as string;
+const path = u.rota;
+const onde = [u.andar, u.referencia].filter(Boolean).join(', ');
+
+const faq = [
+  { q: 'Precisa agendar?', a: `Não. O atendimento é por ordem de chegada, ${horarioTexto(id).replace(' · ', ' e ').replace('Segunda a sábado', 'de segunda a sábado').replace('Domingo', 'aos domingos')}.` },
+  { q: `Onde fica o Playground no ${u.shopping}?`, a: `No ${onde} do ${u.shopping}, na ${u.endereco}${u.bairro ? ', ' + u.bairro : ''}, em Belém.` },
+  { q: 'O Playground é só para crianças com diagnóstico?', a: 'Não. O espaço é para todas as crianças de 0 a 12 anos, com ou sem laudo. Os mediadores são treinados em acolhimento neurodivergente e há cantinho de descompressão e abafadores de ruído.' },
+  { q: 'Os preços são os mesmos nas duas unidades?', a: `Os planos e valores do Playground estão na página do Playground. Na dúvida, chame a unidade no WhatsApp ${fmtFone(u.whatsapp as string)}.` },
+];
+const titulo = `Playground no ${u.shopping} | FaçaAmigos`;
+const descricao = `Playground inclusivo no ${u.shopping}, ${onde}. ${horarioTexto(id)}. Sem agendamento.`;
+---
+<Base
+  title={titulo}
+  description={descricao}
+  path={path}
+  ogImage="img/og/og-playground.jpg"
+  ogImageAlt={u.fotoAlt}
+  secao="playground"
+  wa={id}
+  cta={{ label: 'Chamar no WhatsApp', href: 'whatsapp', event: 'whatsapp_unidade' }}
+  jsonLd={[
+    localBusiness(id, { '@type': ['LocalBusiness', 'AmusementPark'] }),
+    faqNo(path, faq),
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Playground', path: '/playground' }, { nome: u.curto, path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <a href="/playground">Playground</a> › <b>{u.curto}</b></p>
+      <div class="split">
+        <div class="stack-lg">
+          <p class="eyebrow">Playground inclusivo · {u.curto}</p>
+          <h1>Playground FaçaAmigos no {u.shopping}</h1>
+          <p class="lead">Espaço para todas as crianças de 0 a 12 anos, com ou sem laudo, no {onde} do {u.shopping}. Sem agendamento: é só chegar.</p>
+          <ul class="facts">
+            <li><span>Onde</span><strong>{localTexto(id)}</strong></li>
+            <li><span>Endereço</span><strong>{enderecoTexto(id)}</strong></li>
+            <li><span>Horário</span><strong>{horarioLinhas(id).map((l) => <>{l.texto}<br /></>)}</strong></li>
+            <li><span>WhatsApp</span><strong>{fmtFone(u.whatsapp as string)}</strong></li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-pri" href={u.mapa} target="_blank" rel="noopener">Como chegar</a>
+            <a class="btn btn-wa" href={zap} target="_blank" rel="noopener">Chamar no WhatsApp</a>
+          </div>
+        </div>
+        <div class="photo"><Foto src={u.foto} alt={u.fotoAlt} eager sizes="(min-width: 860px) 45vw, 100vw" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>O que você encontra aqui</h2>
+      <div class="grid cols-4">
+        <div class="card"><h3>Piscina de bolinhas gigante</h3><p>O centro do salão, aberta para brincar solto.</p></div>
+        <div class="card"><h3>Mediadores treinados</h3><p>Equipe treinada em acolhimento neurodivergente, de olho em cada criança.</p></div>
+        <div class="card"><h3>Calma quando precisa</h3><p>Cantinho de descompressão sensorial e abafadores de ruído disponíveis.</p></div>
+        <div class="card"><h3>Olhar FaçaAmigos</h3><p>Nos planos a partir de 1 hora, um resumo das anotações da equipe sobre a brincadeira da criança.</p></div>
+      </div>
+      <p><a href="/playground/como-cuidamos">Como cuidamos das crianças</a> · <a href="/playground#precos">Ver planos e preços</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack-lg">
+      <h2>Como chegar</h2>
+      <div class="stack">
+        <p>O Playground fica no <strong>{onde}</strong> do {u.shopping}. Endereço: {u.endereco}{u.bairro ? ` · ${u.bairro}` : ''}, Belém.</p>
+        {u.comoChegar.length > 0 && <ul>{u.comoChegar.map((c) => <li>{c}</li>)}</ul>}
+        <div class="actions"><a class="btn" href={u.mapa} target="_blank" rel="noopener">Abrir no mapa</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>Perguntas frequentes</h2>
+      <FAQ itens={faq} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap card">
+      <h2>Também estamos no {outra.shopping}</h2>
+      <p>{localTexto(outraId)}. {horarioTexto(outraId)}.</p>
+      <div class="actions"><a class="btn" href={outra.rota}>Ver a unidade {outra.curto}</a></div>
+    </div>
+  </section>
+</Base>

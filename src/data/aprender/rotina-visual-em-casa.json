@@ -1,0 +1,60 @@
+{
+  "slug": "rotina-visual-em-casa",
+  "titulo": "Rotina visual em casa: um passo a passo de 20 minutos",
+  "titleTag": "Rotina visual em casa em 20 minutos | FaçaAmigos",
+  "descricao": "Um passo a passo de 20 minutos para montar uma rotina visual em casa, e ajudar seu filho a antecipar o dia sem crise de transição.",
+  "ogImage": "https://institutofacaamigos.com.br/img/inclusao-cantinho-leitura.jpg",
+  "ogImageAlt": "Cantinho de leitura inclusivo do FaçaAmigos",
+  "ogImageW": "819",
+  "ogImageH": "1024",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "28 de setembro de 2026",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "about": [
+    "rotina visual",
+    "antecipação",
+    "transição"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/inclusao-cantinho-leitura.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer mais passo a passos como esse?",
+    "href": "/guia",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Conhecer o guia completo"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=rotina_visual_em_casa",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/brincar-com-proposito-10-minutos",
+      "tag": "5 min · Brincar",
+      "titulo": "5 brincadeiras de 10 minutos que ensinam sem parecer aula"
+    },
+    {
+      "href": "/aprender/birra-ou-crise",
+      "tag": "6 min · Comportamento",
+      "titulo": "Birra ou crise? Como diferenciar e o que fazer na hora"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Conhecer o guia completo",
+    "href": "/guia",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/inclusao-cantinho-leitura.jpg",
+    "alt": "Cantinho de leitura com estante de brinquedos e cadeiras infantis",
+    "w": "819",
+    "h": "1024",
+    "estilo": null,
+    "tag": "6 min · Rotina",
+    "titulo": "Rotina visual em casa: um passo a passo de 20 minutos",
+    "resumo": "Monte a primeira rotina visual da sua casa ainda hoje."
+  },
+  "ordemIndice": 4
+}

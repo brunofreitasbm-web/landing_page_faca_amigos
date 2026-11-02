@@ -1,0 +1,7 @@
+---
+// Imagem de public/ com width/height reais (sem layout shift). src relativo a public/, ex.: "img/clinica-fachada.webp".
+import { dims } from '../lib/img';
+const { src, alt, eager = false, sizes, class: cls } = Astro.props;
+const { width, height } = await dims(src);
+---
+<img src={'/' + src.replace(/^\//, '')} alt={alt} width={width} height={height} loading={eager ? 'eager' : 'lazy'} decoding="async" sizes={sizes} class={cls} />

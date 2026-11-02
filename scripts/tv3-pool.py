@@ -15,7 +15,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-HTML = ROOT / 'tv3.html'
+HTML = ROOT / 'public' / 'tv3.html'
 BEGIN, END = '// POOL:BEGIN', '// POOL:END'
 
 FAMILIAS = set('ABCDER')
@@ -81,7 +81,7 @@ def validar(slides, chaves_qr):
         if not img and lay != 'respiro' or (lay == 'respiro' and not img): e('sem image')
         for arq in ([img] if img else []) + s.get('images', []):
             if s.get('requires') == 'fotoGraoPara': continue
-            if not (ROOT / arq).exists(): e(f'imagem inexistente: {arq}')
+            if not (ROOT / 'public' / arq).exists(): e(f'imagem inexistente: {arq}')
         for campo, txt in textos(s):
             base = campo.split('.')[0]
             lim = LIMITES.get(base)

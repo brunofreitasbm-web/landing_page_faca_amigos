@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import Foto from '../../components/Foto.astro';
+import artigos from '../../data/artigos.json';
+import { unidades, abs, localTexto, horarioTexto, waUrl, trilhaNo, ISABELLA, SITE } from '../../data/marca';
+
+const path = ISABELLA.rota;
+const zap = waUrl('clinica') as string;
+---
+<Base
+  title="Isabella Gonçalves Freitas, psicóloga infantil | FaçaAmigos"
+  description="Isabella Gonçalves Freitas (CRP 10/4727), psicóloga infantil, idealizadora do FaçaAmigos e autora dos artigos e e-books para pais."
+  path={path}
+  ogType="profile"
+  ogImage="img/og/og-hub.jpg"
+  ogImageAlt="Isabella Gonçalves Freitas, psicóloga infantil e idealizadora do FaçaAmigos"
+  secao="quem"
+  wa="clinica"
+  jsonLd={[
+    {
+      '@type': 'Person',
+      '@id': `${SITE.url}/#isabella`,
+      name: ISABELLA.nome,
+      jobTitle: ISABELLA.papel,
+      identifier: ISABELLA.registro,
+      url: abs(path),
+      image: `${SITE.url}/${ISABELLA.foto}`,
+      description: 'Psicóloga infantil, idealizadora do FaçaAmigos, criadora do Mapeamento Comportamental e autora dos e-books O Brincar com Propósito e O Código do Desenvolvimento Infantil.',
+      knowsAbout: ['Análise do Comportamento', 'Desenvolvimento infantil', 'Terapia comportamental'],
+      worksFor: { '@id': `${SITE.url}/#organization` },
+    },
+    { '@type': 'ProfilePage', '@id': `${abs(path)}#pagina`, url: abs(path), mainEntity: { '@id': `${SITE.url}/#isabella` }, inLanguage: 'pt-BR' },
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Quem somos', path: '/quem-somos' }, { nome: ISABELLA.nome, path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <a href="/quem-somos">Quem somos</a> › <b>{ISABELLA.nome}</b></p>
+      <div class="split">
+        <div class="stack-lg">
+          <p class="eyebrow">{ISABELLA.papel} · {ISABELLA.registro}</p>
+          <h1>{ISABELLA.nome}</h1>
+          <p class="lead">Idealizadora do FaçaAmigos, criadora do Mapeamento Comportamental e autora dos e-books <em>O Brincar com Propósito</em> e <em>O Código do Desenvolvimento Infantil</em>. Conduz o atendimento do Centro de Terapia Comportamental, em Belém.</p>
+          <div class="actions">
+            <a class="btn btn-wa" href={zap} target="_blank" rel="noopener">Conversar no WhatsApp</a>
+            <a class="btn" href="/teste">Fazer o mapeamento gratuito</a>
+          </div>
+        </div>
+        <div class="photo"><Foto src={ISABELLA.foto} alt={`${ISABELLA.nome}, psicóloga infantil`} eager sizes="(min-width: 860px) 45vw, 100vw" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>O que ela escreve para as famílias</h2>
+      <ul class="stack">
+        {artigos.map((a) => <li><a href={`/aprender/${a.slug}`}>{a.titulo}</a></li>)}
+      </ul>
+      <div class="grid cols-2">
+        <div class="card"><h3>O Brincar com Propósito</h3><p>Guia prático e afetivo de Análise do Comportamento para mães, pais e cuidadores.</p><a href="/guia">Ver o guia</a></div>
+        <div class="card"><h3>O Código do Desenvolvimento Infantil</h3><p>Um guia curto, de coração, para famílias entenderem a Análise do Comportamento.</p><a href="/codigo">Ver o e-book</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap card">
+      <h2>Onde atende</h2>
+      <p>{unidades.clinica.nome} · {unidades.clinica.endereco}, {unidades.clinica.bairro}, Belém.</p>
+      <p>{horarioTexto('clinica')}</p>
+      <p class="crumbs">Os conteúdos do site são educativos e não substituem a avaliação e o acompanhamento de um profissional de saúde.</p>
+      <div class="actions"><a class="btn" href="/clinica">Conhecer a Clínica</a><a class="btn" href="/clinica/equipe">Equipe da Clínica</a></div>
+    </div>
+  </section>
+</Base>

@@ -34,7 +34,7 @@ const PACKAGE_LABEL = {
 const packageLabel = (p) => (PACKAGE_LABEL[p.name] ? PACKAGE_LABEL[p.name](p) : p.name);
 
 async function loadGeoFacts() {
-  const localPath = join(root, 'geo-facts.json');
+  const localPath = join(root, 'public', 'geo-facts.json');
   if (shouldFetch) {
     console.log(`Baixando fatos de ${fetchUrl} ...`);
     const resp = await fetch(fetchUrl);
@@ -127,8 +127,8 @@ async function main() {
   const vars = buildVars(facts);
 
   const outputs = [
-    ['llms.txt', 'scripts/geo-templates/llms.txt.tpl'],
-    ['llms-full.txt', 'scripts/geo-templates/llms-full.txt.tpl'],
+    ['public/llms.txt', 'scripts/geo-templates/llms.txt.tpl'],
+    ['public/llms-full.txt', 'scripts/geo-templates/llms-full.txt.tpl'],
   ];
 
   let divergente = 0;

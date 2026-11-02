@@ -548,7 +548,7 @@ Família D · 15 s · sem QR, layout padrao
 - **Texto na tela:**
   - Kicker: 🌤️ Fim de semana no Playground
   - Headline: Primeira visita? Vá no <em>Horário Inclusivo</em>.
-  - Subtexto: Das 10h às 16h, todos os dias: som mais baixo, menos lotação e equipe reforçada. Sábado de manhã também vale.
+  - Subtexto: Das 10h às 16h (aos domingos, a partir das 12h): som mais baixo, menos lotação e equipe reforçada. Sábado de manhã também vale.
 - **Fatos usados:**
   - Horário Inclusivo, todos os dias, 10h às 16h: LP/llms-full.txt:76, 96; LP/playground.html:2095-2097
   - Som mais baixo, menos lotação e equipe reforçada; horário indicado para a primeira visita: LP/llms-full.txt:96

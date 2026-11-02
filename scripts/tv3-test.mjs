@@ -28,7 +28,7 @@ function ok(cond, nome, detalhe = '') {
   console.log(`${cond ? 'ok    ' : 'FALHA '} ${nome}${!cond && detalhe ? '  -> ' + detalhe : ''}`);
 }
 
-const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' });
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: path.join(ROOT, 'public'), stdio: 'ignore' });
 await new Promise((r) => setTimeout(r, 900));
 const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
 

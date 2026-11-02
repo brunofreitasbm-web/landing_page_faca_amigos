@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import Foto from '../../components/Foto.astro';
+import equipe from '../../data/equipe.json';
+import especialidades from '../../data/especialidades.json';
+import { unidades, abs, horarioTexto, waUrl, trilhaNo, SITE } from '../../data/marca';
+
+// Perfis só aparecem com a aprovação do próprio profissional (equipe.json: publicar). Enquanto houver menos perfis
+// do que o mínimo, a página existe mas fica fora do Google, do sitemap e do menu (para não indexar uma página rasa).
+const path = '/clinica/equipe';
+const perfis = equipe.perfis.filter((p) => p.publicar);
+const indexar = perfis.length >= equipe.minimoParaIndexar;
+const zap = waUrl('clinica') as string;
+---
+<Base
+  title="Equipe da Clínica | Centro de Terapia Comportamental"
+  description="Conheça quem atende na Clínica FaçaAmigos, no Umarizal: profissionais com registro no conselho, equipe multidisciplinar e convênios IASEP e PROASA."
+  path={path}
+  noindex={!indexar}
+  ogImage="img/og/og-hub.jpg"
+  ogImageAlt="Equipe do Centro de Terapia Comportamental FaçaAmigos"
+  secao="clinica"
+  wa="clinica"
+  jsonLd={[
+    { '@type': 'WebPage', '@id': `${abs(path)}#pagina`, url: abs(path), name: 'Equipe da Clínica', about: { '@id': `${SITE.url}/#clinica` }, inLanguage: 'pt-BR' },
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Clínica', path: '/clinica' }, { nome: 'Equipe', path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <a href="/clinica">Clínica</a> › <b>Equipe</b></p>
+      <p class="eyebrow">Centro de Terapia Comportamental · Umarizal</p>
+      <h1>Quem atende na Clínica</h1>
+      <p class="lead">Equipe multidisciplinar, com um plano terapêutico singular para cada criança. Cada profissional é apresentado com nome, registro no conselho e formação, e só entra aqui com a aprovação dele.</p>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>Profissionais</h2>
+      <div class="grid cols-3">
+        {perfis.map(async (p) => (
+          <div class="card">
+            <div class="photo"><Foto src={p.foto} alt={`${p.nome}, ${p.cargo}`} sizes="(min-width: 720px) 30vw, 100vw" /></div>
+            <h3>{p.nome}</h3>
+            <p><strong>{p.cargo}</strong> · {p.registro}</p>
+            <p>{p.resumo}</p>
+            <a href={p.pagina}>Ver o perfil</a>
+          </div>
+        ))}
+      </div>
+      <p>Novos perfis entram conforme cada profissional aprova a própria apresentação.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack-lg">
+      <h2>Especialidades</h2>
+      <ul class="chips">{especialidades.map((e) => <li>{e}</li>)}</ul>
+      <p>Conheça cada uma em detalhe na <a href="/clinica">página da Clínica</a> e os termos técnicos no <a href="/glossario">glossário</a>.</p>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap split">
+      <div class="stack-lg">
+        <h2>Convênios e atendimento particular</h2>
+        <p>A Clínica atende pelos convênios IASEP e PROASA e também de forma particular, com pacotes mensais. {horarioTexto('clinica')}.</p>
+        <div class="actions">
+          <a class="btn btn-wa" href={zap} target="_blank" rel="noopener">Conversar no WhatsApp</a>
+          <a class="btn" href="/planos">Pacotes particulares</a>
+        </div>
+      </div>
+      <div class="card"><h3>Primeiro contato</h3><p>Você chama no WhatsApp, a gente conversa sobre a rotina da sua família e monta um plano que cabe nela. Sem promessa de resultado.</p></div>
+    </div>
+  </section>
+</Base>

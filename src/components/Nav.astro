@@ -1,0 +1,55 @@
+---
+import { waUrl } from '../data/marca';
+import type { UnidadeId } from '../data/marca';
+import Foto from './Foto.astro';
+// Cabeçalho único. "atual" marca o item da seção em que a página está; "wa" é a unidade do botão de WhatsApp.
+const { atual = '', wa = 'parque', texto, semWa = false } = Astro.props as { atual?: string; wa?: UnidadeId; texto?: string; semWa?: boolean };
+const links = [
+  { id: 'playground', href: '/playground', texto: 'Playground' },
+  { id: 'circuito', href: '/circuito', texto: 'Circuito' },
+  { id: 'clinica', href: '/clinica', texto: 'Clínica' },
+  { id: 'pais', href: '/aprender', texto: 'Para pais' },
+  { id: 'quem', href: '/quem-somos', texto: 'Quem somos' },
+];
+const zap = semWa ? null : waUrl(wa, texto);
+---
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="nav-logo" href="/" aria-label="FaçaAmigos: página inicial"><Foto src="img/logo-facaamigos.png" alt="FaçaAmigos" eager /></a>
+    <nav class="nav-links" aria-label="Principal">
+      {links.map((l) => <a href={l.href} aria-current={atual === l.id ? 'page' : undefined}>{l.texto}</a>)}
+    </nav>
+    <div class="nav-right">
+      {zap && <a class="btn btn-wa nav-wa" href={zap} target="_blank" rel="noopener">WhatsApp</a>}
+      <div class="nav-menu">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Abrir menu" />
+        <label for="nav-toggle" class="nav-btn" aria-hidden="true">☰</label>
+        <nav aria-label="Menu">
+          {links.map((l) => <a href={l.href} aria-current={atual === l.id ? 'page' : undefined}>{l.texto}</a>)}
+          <a href="/trabalhe-conosco">Trabalhe conosco</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<style>
+  .nav { position: sticky; top: 0; z-index: 700; background: rgba(255, 255, 255, .96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav-in { display: flex; align-items: center; gap: 20px; min-height: 68px; }
+  .nav-logo { display: block; flex: none; }
+  .nav-logo :global(img) { height: 30px; width: auto; max-width: 100%; }
+  @media (min-width: 560px) { .nav-logo :global(img) { height: 38px; } }
+  .nav-links { display: none; gap: 24px; margin-left: 8px; }
+  .nav-links a, .nav-menu nav a { text-decoration: none; font-weight: 800; color: var(--petrol); padding: 6px 0; border-bottom: 3px solid transparent; }
+  .nav-links a:hover { border-color: var(--yellow); color: var(--petrol); }
+  .nav-links a[aria-current='page'], .nav-menu nav a[aria-current='page'] { border-color: var(--pink); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .nav-wa { display: none; min-height: 42px; padding: 8px 18px; font-size: .92rem; }
+  @media (min-width: 560px) { .nav-wa { display: inline-flex; } }
+  .nav-menu { position: relative; }
+  .nav-toggle { position: absolute; inset: 0 0 auto auto; width: 44px; height: 44px; opacity: 0; margin: 0; cursor: pointer; z-index: 2; }
+  .nav-btn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; background: var(--ice); color: var(--petrol); font-size: 1.3rem; }
+  .nav-toggle:focus-visible + .nav-btn { outline: 3px solid var(--teal); outline-offset: 3px; }
+  .nav-menu nav { display: none; position: absolute; right: 0; top: 52px; min-width: 220px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 12px 18px; gap: 4px; box-shadow: 0 16px 40px rgba(4, 63, 78, .16); }
+  .nav-toggle:checked ~ nav { display: grid; }
+  @media (min-width: 900px) { .nav-links { display: flex; } .nav-menu { display: none; } }
+</style>

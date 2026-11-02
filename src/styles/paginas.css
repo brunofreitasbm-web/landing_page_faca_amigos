@@ -1,0 +1,190 @@
+/* Páginas de conteúdo migradas (glossário, termos, política, índice de Aprender, 404).
+   O HTML vem dos fragmentos em src/data/paginas/; aqui só o visual, no kit unificado. */
+.bg-petrol { background: var(--petrol); color: #E6F4F6; }
+.bg-petrol h1, .bg-petrol h2, .bg-petrol h3 { color: #fff; }
+.bg-petrol .eyebrow { color: var(--yellow); }
+.bg-ice { background: var(--ice); }
+.center { text-align: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.hero { position: relative; overflow: hidden; padding-block: clamp(48px, 8vw, 96px); }
+.hero .wrap { position: relative; display: grid; gap: 16px; }
+.hero h1 { max-width: 22ch; }
+.sub, .lead-claro { font-size: clamp(1.05rem, 2.2vw, 1.25rem); color: #D3E9EE; max-width: 60ch; }
+.circ { position: absolute; border-radius: 50%; pointer-events: none; }
+.hero .eyebrow { color: var(--yellow); }
+.btn-buy, .btn-ghost { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; border-radius: 999px; font: 800 1rem var(--font-body); text-decoration: none; border: 2px solid var(--pink); }
+.btn-buy { background: var(--pink); color: #fff; }
+.btn-buy:hover { background: var(--pink-dark); border-color: var(--pink-dark); color: #fff; }
+.btn-ghost { background: #fff; border-color: var(--petrol); color: var(--petrol); }
+.btn-ghost:hover { background: var(--ice); color: var(--petrol); }
+
+/* Glossário */
+.pagina-glossario .finder { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 68px; z-index: 50; padding-block: 14px; }
+.pagina-glossario .search-box input { width: 100%; min-height: 52px; border: 2px solid var(--line); border-radius: 999px; padding: 0 22px; font: 600 1rem var(--font-body); color: var(--ink); background: #fff; }
+.pagina-glossario .search-box input:focus { border-color: var(--teal); outline: none; }
+.pagina-glossario .letters { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.pagina-glossario .letters a { min-width: 40px; height: 40px; padding-inline: 6px; display: grid; place-items: center; border-radius: 10px; background: var(--ice); font-weight: 800; text-decoration: none; }
+.pagina-glossario .letters a:hover { background: var(--yellow-soft); }
+.pagina-glossario .letters a.off { opacity: .35; pointer-events: none; }
+.pagina-glossario .terms-block { padding-block: 40px 24px; }
+.pagina-glossario #no-results { display: none; padding: 20px 24px; background: var(--yellow-soft); border-radius: var(--radius); margin-bottom: 24px; }
+.pagina-glossario .letter-group { margin-bottom: 36px; scroll-margin-top: 150px; }
+.pagina-glossario .letter-head { font-size: 2.4rem; color: var(--pink); border-bottom: 2px solid var(--line); padding-bottom: 6px; margin-bottom: 4px; }
+.pagina-glossario .terms { margin: 0; }
+.pagina-glossario .term { padding: 18px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 150px; }
+.pagina-glossario .term.is-hidden { display: none; }
+.pagina-glossario dt { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; color: var(--petrol); }
+.pagina-glossario dd { margin: 8px 0 0; max-width: 70ch; }
+.pagina-glossario .anchor { color: var(--teal-dark); font-size: .9rem; text-decoration: none; margin-left: 6px; opacity: .7; }
+.pagina-glossario .back-top { display: inline-block; margin-top: 12px; font-weight: 800; }
+.pagina-glossario .closing-cta { padding-block: 56px; }
+.pagina-glossario .closing-cta .card { text-align: center; justify-items: center; max-width: 680px; margin: 0 auto; padding: 32px 24px; }
+
+/* Termos e Política */
+.pagina-legal { width: 100%; max-width: 760px; margin: 0 auto; padding: 36px var(--gutter) 72px; font-size: 1.05rem; line-height: 1.75; }
+.pagina-legal h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); margin-bottom: 8px; }
+.pagina-legal h2 { font-size: 1.4rem; margin: 2em 0 .5em; scroll-margin-top: 92px; }
+.pagina-legal p { margin: 0 0 1em; }
+.pagina-legal ul, .pagina-legal ol { margin: 0 0 1.2em; padding-left: 1.3em; display: grid; gap: .4em; }
+.pagina-legal .updated { color: var(--gray); font-size: .95rem; margin-bottom: 1.6em; }
+.pagina-legal .toc-title { font-size: .85rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); margin: 0 0 6px; }
+.pagina-legal .toc { list-style: none; padding: 14px 20px; margin: 0 0 1.6em; background: var(--ice); border: 1px solid var(--line); border-radius: 16px; display: block; }
+.pagina-legal .toc li { margin: 0; }
+.pagina-legal .toc a { display: block; padding: 8px 0; min-height: 40px; font-weight: 700; text-decoration: none; }
+.pagina-legal .toc a:hover { text-decoration: underline; }
+.pagina-legal .card { margin: 1.4em 0; padding: 16px 20px; }
+.pagina-legal .card.warn { background: var(--yellow-soft); border-color: #E9D679; }
+.pagina-legal .exit { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 2.4em; padding-top: 1.4em; border-top: 1px solid var(--line); }
+.pagina-legal .back, .pagina-legal .exit a { font-weight: 800; }
+.pagina-legal #voltar { display: inline-block; margin-top: 1.6em; }
+
+/* Índice de Aprender */
+.pagina-aprender .pais { padding-block: 48px; }
+.pagina-aprender .pais-grid { display: grid; gap: 20px; }
+@media (min-width: 900px) { .pagina-aprender .pais-grid { grid-template-columns: 1.1fr 1fr 1fr; align-items: stretch; } }
+.pagina-aprender .pais-map { display: grid; gap: 12px; align-content: center; justify-items: start; }
+.pagina-aprender .ebook-card { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center; text-decoration: none; color: inherit; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+.pagina-aprender .ebook-card:hover { border-color: var(--teal); }
+.pagina-aprender .ebook-card img { width: 96px; height: auto; border-radius: 8px; }
+.pagina-aprender .ebook-card h3 { font-size: 1.1rem; margin-bottom: 4px; }
+.pagina-aprender .ebook-card p { color: var(--gray); font-size: .95rem; }
+.pagina-aprender .price { display: inline-block; margin-top: 6px; font-weight: 800; color: var(--pink); }
+.pagina-aprender section { padding-block: 48px; }
+.pagina-aprender .guides-grid { display: grid; gap: 18px; margin-top: 20px; }
+@media (min-width: 620px) { .pagina-aprender .guides-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .pagina-aprender .guides-grid { grid-template-columns: repeat(3, 1fr); } }
+.pagina-aprender .guide-card { display: grid; text-decoration: none; color: inherit; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.pagina-aprender .guide-card:hover { border-color: var(--teal); }
+.pagina-aprender .guide-card .ph { aspect-ratio: 16 / 10; background: var(--ice); }
+.pagina-aprender .guide-card .ph img { width: 100%; height: 100%; object-fit: cover; }
+.pagina-aprender .guide-card .body { padding: 18px 20px 22px; display: grid; gap: 8px; }
+.pagina-aprender .guide-card h3 { font-size: 1.15rem; }
+.pagina-aprender .guide-card p { color: var(--gray); font-size: .95rem; }
+.pagina-aprender .tag { font-size: .85rem; font-weight: 800; color: var(--pink); }
+.pagina-aprender .strip { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; }
+.pagina-aprender .strip > div { max-width: 640px; display: grid; gap: 10px; }
+.pagina-aprender .center .wrap { display: grid; gap: 14px; justify-items: center; }
+.pagina-aprender .title { max-width: 24ch; }
+
+/* 404 */
+.pagina-404 { max-width: 760px; margin: 0 auto; padding: 48px var(--gutter) 72px; text-align: center; display: grid; gap: 18px; justify-items: center; }
+.pagina-404 .brand { display: inline-flex; align-items: center; gap: 10px; font: 700 1.3rem var(--font-display); color: var(--petrol); text-decoration: none; }
+.pagina-404 .num { font: 700 clamp(5rem, 22vw, 9rem)/1 var(--font-display); margin: 0; color: var(--teal); letter-spacing: -.02em; }
+.pagina-404 .num i { font-style: normal; color: var(--pink); }
+.pagina-404 .num em { font-style: normal; color: var(--yellow); }
+.pagina-404 .lead { color: var(--gray); }
+.pagina-404 .tried { display: none; font-size: .9rem; color: var(--gray); }
+.pagina-404 .tried code { background: var(--ice); padding: 2px 8px; border-radius: 6px; }
+.pagina-404 nav { width: 100%; display: grid; gap: 14px; text-align: left; }
+.pagina-404 h2 { font-size: 1.2rem; margin-top: 12px; }
+.pagina-404 .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 620px) { .pagina-404 .grid { grid-template-columns: repeat(2, 1fr); } }
+.pagina-404 .card { display: flex; align-items: center; gap: 14px; text-decoration: none; padding: 16px 18px; }
+.pagina-404 .card:hover { border-color: var(--teal); }
+.pagina-404 .card > span:last-child { font-weight: 800; color: var(--petrol); }
+.pagina-404 .card small { display: block; font-weight: 600; color: var(--gray); font-size: .85rem; }
+.pagina-404 .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; background: var(--teal); }
+.pagina-404 .c-rosa .dot { background: var(--pink); }
+.pagina-404 .c-amar .dot { background: var(--yellow); }
+.pagina-404 .principal .dot { background: var(--petrol); }
+.pagina-404 .foot { color: var(--gray); font-size: .9rem; margin-top: 12px; }
+
+/* Trabalhe conosco. O JS de sucesso usa --dark e --ink-soft (com valor de reserva), então definimos aqui. */
+.pagina-vagas { --dark: var(--petrol); --ink-soft: var(--gray); }
+.pagina-vagas .hero { background: linear-gradient(135deg, var(--petrol-deep) 0%, var(--petrol) 100%); color: #fff; text-align: center; }
+.pagina-vagas .hero .wrap { justify-items: center; }
+.pagina-vagas .hero h1 { color: #fff; max-width: 20ch; }
+.pagina-vagas .hero .lead { color: #D3E9EE; max-width: 42rem; }
+.pagina-vagas .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
+.pagina-vagas .chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .24); color: #fff; font-weight: 700; font-size: .95rem; }
+.pagina-vagas .chip svg { width: 18px; height: 18px; flex: none; }
+.pagina-vagas .form-sec { padding: 0 0 72px; }
+.pagina-vagas .form-card { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 28px 20px; max-width: 560px; margin: -36px auto 0; position: relative; z-index: 2; box-shadow: 0 18px 48px rgba(4, 63, 78, .14); }
+@media (min-width: 640px) { .pagina-vagas .form-card { padding: 36px; margin-top: -56px; } }
+.pagina-vagas .form-card h2 { font-size: clamp(1.4rem, 5vw, 1.8rem); margin-bottom: 6px; }
+.pagina-vagas .form-card > p { color: var(--gray); font-weight: 600; margin-bottom: 20px; }
+.pagina-vagas .form-card .next { display: flex; gap: 10px; align-items: flex-start; background: var(--yellow-soft); border-radius: 14px; padding: 12px 14px; margin: -6px 0 20px; font-size: .95rem; color: var(--ink); }
+.pagina-vagas .form-card .next::before { content: "\2709"; flex: none; }
+.pagina-vagas .form-group { margin-bottom: 16px; display: grid; gap: 6px; }
+.pagina-vagas .form-label { font-weight: 800; color: var(--petrol); }
+.pagina-vagas .form-label .opt { font-weight: 600; color: var(--gray); }
+.pagina-vagas .form-control { width: 100%; min-height: 50px; padding: 12px 16px; border: 2px solid var(--line); border-radius: 14px; font: 600 1rem var(--font-body); color: var(--ink); background: #fff; }
+.pagina-vagas .form-control:focus { outline: 3px solid var(--teal); outline-offset: 2px; border-color: var(--teal-dark); }
+.pagina-vagas .form-control optgroup { font-weight: 800; color: var(--teal-dark); font-style: normal; }
+.pagina-vagas .form-control option { font-weight: 600; color: var(--ink); }
+.pagina-vagas input[type=file].form-control { padding: 8px 12px; font-size: .95rem; color: var(--gray); }
+.pagina-vagas input[type=file].form-control::file-selector-button { margin-right: 12px; min-height: 36px; padding: 6px 16px; border: 0; border-radius: 999px; background: var(--petrol); color: #fff; font: 800 .9rem var(--font-body); cursor: pointer; }
+.pagina-vagas .form-hint { display: block; font-size: .875rem; font-weight: 600; color: var(--gray); }
+.pagina-vagas .consent { font-size: .9rem; font-weight: 600; color: var(--gray); margin-bottom: 14px; }
+.pagina-vagas .form-error { display: none; background: #FDECEC; color: #A40F0F; padding: 10px 14px; border-radius: 10px; font-weight: 700; margin-bottom: 14px; }
+.pagina-vagas .btn-pink { background: var(--pink); border-color: var(--pink); color: #fff; }
+.pagina-vagas .btn-pink:hover { background: var(--pink-dark); border-color: var(--pink-dark); color: #fff; }
+.pagina-vagas .btn-pink:disabled { opacity: .7; cursor: wait; }
+.pagina-vagas .steps { max-width: 560px; margin: 28px auto 0; padding: 0; display: grid; gap: 10px; }
+.pagina-vagas .steps li { list-style: none; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; font-weight: 700; display: flex; gap: 12px; align-items: flex-start; }
+.pagina-vagas .steps b.n { flex: 0 0 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--yellow); color: var(--ink); font-family: var(--font-display); }
+.pagina-vagas .steps li:nth-child(2) b.n { background: var(--teal); }
+.pagina-vagas .steps li:nth-child(3) b.n { background: var(--pink); color: #fff; }
+
+/* Eventos. Os cartões são desenhados pelo JavaScript da página com estas classes. */
+.pagina-eventos .hero .wrap > div { display: grid; gap: 16px; justify-items: center; text-align: center; }
+.pagina-eventos .hero h1 { max-width: 24ch; }
+.pagina-eventos .seal { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 6px; }
+.pagina-eventos .seal span { display: inline-flex; background: rgba(255, 255, 255, .13); border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: .92rem; }
+.pagina-eventos .seal span:first-child { background: var(--yellow); color: var(--petrol); font-weight: 900; font-size: 1rem; padding: 9px 18px; }
+.pagina-eventos section { padding-block: 56px; }
+.pagina-eventos .center { display: grid; gap: 10px; justify-items: center; text-align: center; }
+.pagina-eventos .title { max-width: 24ch; }
+.pagina-eventos .trilhas { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+.pagina-eventos .trilhas button { border: 2px solid var(--petrol); background: #fff; color: var(--petrol); font: 800 .95rem var(--font-body); padding: 10px 20px; min-height: 44px; border-radius: 999px; cursor: pointer; }
+.pagina-eventos .trilhas button[aria-pressed="true"] { background: var(--petrol); color: #fff; }
+.pagina-eventos .state { text-align: center; padding: 30px 16px; font-weight: 700; }
+.pagina-eventos .state .btn-buy { margin-top: 14px; }
+.pagina-eventos .state .alt { margin-top: 12px; font-size: .95rem; }
+.pagina-eventos .state .alt a { font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.pagina-eventos .empty { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 34px 22px; text-align: center; max-width: 620px; margin: 0 auto; display: grid; gap: 12px; justify-items: center; }
+.pagina-eventos .empty h3 { font-size: 1.3rem; }
+.pagina-eventos .cards { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 620px) { .pagina-eventos .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 980px) { .pagina-eventos .cards { grid-template-columns: repeat(3, 1fr); } }
+.pagina-eventos .cards .card { padding: 0; gap: 0; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; border-radius: 24px; }
+.pagina-eventos .cards .card:hover { border-color: var(--teal); }
+.pagina-eventos .card .capa { aspect-ratio: 16 / 9; background: var(--teal-soft); object-fit: cover; width: 100%; }
+.pagina-eventos .card .capa.placeholder { display: grid; place-items: center; font-size: 2.2rem; }
+.pagina-eventos .card .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.pagina-eventos .card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.pagina-eventos .tag { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 11px; font-size: .82rem; font-weight: 800; background: var(--teal-soft); color: var(--petrol); }
+.pagina-eventos .tag.pink { background: #FCE8ED; color: #B0143F; }
+.pagina-eventos .tag.yellow { background: var(--yellow-soft); color: #7A5A00; }
+.pagina-eventos .tag.gray { background: #EEF2F3; color: #4F646B; }
+.pagina-eventos .card h3 { font-size: 1.2rem; }
+.pagina-eventos .card .when { font-weight: 800; font-size: .92rem; }
+.pagina-eventos .card .desc { font-size: .95rem; }
+.pagina-eventos .card .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 8px; font-weight: 800; }
+.pagina-eventos .card .foot .go { color: var(--pink); }
+.pagina-eventos .steps { display: grid; gap: 16px; margin-top: 24px; }
+@media (min-width: 760px) { .pagina-eventos .steps { grid-template-columns: repeat(3, 1fr); } }
+.pagina-eventos .step { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 22px; }
+.pagina-eventos .step .ib { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 12px; background: var(--petrol); color: #fff; font: 700 1.3rem var(--font-display); }
+.pagina-eventos .step h3 { font-size: 1.15rem; margin-bottom: 6px; }
+.pagina-eventos .step p { font-size: .95rem; color: var(--gray); }

@@ -5,7 +5,7 @@ name: Avisar buscadores (IndexNow)
 on:
   push:
     branches: [main]
-    paths: ['**.html', 'sitemap.xml']
+    paths: ['public/**.html', 'public/sitemap.xml', 'src/pages/**']
   workflow_dispatch:
     inputs:
       todas:

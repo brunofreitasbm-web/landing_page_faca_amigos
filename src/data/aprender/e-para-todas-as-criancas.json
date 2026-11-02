@@ -1,0 +1,60 @@
+{
+  "slug": "e-para-todas-as-criancas",
+  "titulo": "O playground inclusivo é só pra criança autista? Não. E isso é bom pro seu filho também",
+  "titleTag": "Playground inclusivo é só pra criança autista? | FaçaAmigos",
+  "descricao": "O playground inclusivo não é só pra criança autista ou atípica: é pra todas. Veja o que inclusivo quer dizer e o que muda na prática pra sua família.",
+  "ogImage": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+  "ogImageAlt": "Piscina de bolinhas do Playground Inclusivo FaçaAmigos",
+  "ogImageW": "784",
+  "ogImageH": "803",
+  "eyebrow": "Guia · 4 min de leitura",
+  "dataTexto": "29 de setembro de 2026",
+  "datePublished": "2026-09-29",
+  "dateModified": "2026-09-29",
+  "about": [
+    "playground inclusivo",
+    "inclusão",
+    "crianças típicas e atípicas"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "É só chegar, sem agendamento",
+    "href": "https://institutofacaamigos.com.br/playground",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Conhecer o Playground"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=e_para_todas_as_criancas",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/primeira-vez-no-playground",
+      "tag": "5 min · Passeio",
+      "titulo": "Primeira vez no playground com uma criança sensível: como preparar"
+    },
+    {
+      "href": "/aprender/laudo-e-ciptea",
+      "tag": "6 min · Direitos",
+      "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Conhecer o Playground",
+    "href": "https://institutofacaamigos.com.br/playground",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/hero-piscina-bolinhas.jpg",
+    "alt": "Playground Inclusivo FaçaAmigos",
+    "w": "784",
+    "h": "803",
+    "estilo": null,
+    "tag": "4 min · Convivência",
+    "titulo": "O playground inclusivo é só pra criança autista?",
+    "resumo": "Não, é pra todas. O que inclusivo quer dizer e o que muda pra você."
+  },
+  "ordemIndice": 0
+}

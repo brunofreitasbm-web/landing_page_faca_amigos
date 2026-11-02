@@ -18,6 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Instalar dependências
+        run: npm ci --no-audit --no-fund
+      - name: Construir o site (Astro)
+        run: npm run build
       - name: Verificar páginas, links e JSON-LD
         run: node scripts/check.mjs
       - name: Verificar llms.txt contra o snapshot do quiosque

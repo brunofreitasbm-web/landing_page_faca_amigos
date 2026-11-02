@@ -1,0 +1,60 @@
+{
+  "slug": "primeira-vez-no-playground",
+  "titulo": "Primeira vez no playground com uma criança sensível: como preparar",
+  "titleTag": "Primeira vez no playground: como preparar | FaçaAmigos",
+  "descricao": "Preparar a primeira visita de uma criança sensível ao playground: o que levar, qual horário escolher e o que fazer se a crise chegar lá.",
+  "ogImage": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+  "ogImageAlt": "Piscina de bolinhas do Playground Inclusivo FaçaAmigos",
+  "ogImageW": "784",
+  "ogImageH": "803",
+  "eyebrow": "Guia · 5 min de leitura",
+  "dataTexto": "28 de setembro de 2026",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "about": [
+    "horário inclusivo",
+    "playground inclusivo",
+    "canto de descompressão"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Pronta pra planejar a primeira visita?",
+    "href": "https://institutofacaamigos.com.br/playground",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Conhecer o Horário Inclusivo"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=primeira_vez_no_playground",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/birra-ou-crise",
+      "tag": "6 min · Comportamento",
+      "titulo": "Birra ou crise? Como diferenciar e o que fazer na hora"
+    },
+    {
+      "href": "/aprender/laudo-e-ciptea",
+      "tag": "6 min · Direitos",
+      "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Conhecer o Horário Inclusivo",
+    "href": "https://institutofacaamigos.com.br/playground",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/equipe-recepcao.jpg",
+    "alt": "Recepcionista do FaçaAmigos sorrindo no balcão",
+    "w": "800",
+    "h": "1000",
+    "estilo": "object-position:50% 22%",
+    "tag": "5 min · Passeio",
+    "titulo": "Primeira vez no playground com uma criança sensível",
+    "resumo": "Como preparar a saída de casa e o que fazer se a crise chegar lá."
+  },
+  "ordemIndice": 3
+}
