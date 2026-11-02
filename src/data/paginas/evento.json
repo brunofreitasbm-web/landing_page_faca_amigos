@@ -1,0 +1,16 @@
+{
+  "slug": "evento",
+  "path": "/eventos",
+  "titleTag": "Encontro do Instituto FaçaAmigos",
+  "descricao": "Página de inscrição de um encontro, palestra ou treinamento do Instituto FaçaAmigos. Vagas reais, lista de espera automática e voucher com QR no e-mail.",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "ogTitle": "Encontro do Instituto FaçaAmigos",
+  "ogDescricao": "Palestras, encontros e treinamentos para famílias e profissionais, em Belém. Vagas limitadas de verdade e lista de espera.",
+  "ogSiteName": "Instituto FaçaAmigos",
+  "ogType": "website",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "fa_cta": null,
+  "jsonLd": [],
+  "scripts": 1
+}

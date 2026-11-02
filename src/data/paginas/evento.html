@@ -1,0 +1,94 @@
+<div id="loading" class="state">Carregando o encontro…</div>
+    <div id="notfound" class="state" hidden>
+      <h2 style="font-size:1.6rem;margin-bottom:10px;">Este encontro não está mais disponível</h2>
+      <p style="margin-bottom:18px;">Ele pode ter sido encerrado ou o link veio incompleto.</p>
+      <a class="btn-buy" href="/eventos">Ver próximas datas</a>
+    </div>
+
+    <div id="evento" hidden>
+      <header class="hero bg-petrol">
+        <div class="wrap">
+          <div class="tags" id="ev-tags"></div>
+          <h1 id="ev-titulo">Encontro</h1>
+          <div class="meta">
+            <span><b>📅</b><span id="ev-quando"></span></span>
+            <span><b>📍</b><span id="ev-onde"></span></span>
+            <span id="ev-quem-wrap" hidden><b>🎤</b><span id="ev-quem"></span></span>
+          </div>
+          <a class="btn-buy hero-cta" id="ev-hero-cta" href="#box-inscricao" hidden>Garantir minha vaga</a>
+          <div class="capa-wrap" id="ev-capa-wrap" hidden><img id="ev-capa" alt="" width="1200" height="675" loading="eager" decoding="async"></div>
+        </div>
+      </header>
+
+      <section class="bg-ice">
+        <div class="wrap grid">
+          <div>
+            <div class="promessa" id="ev-promessa-wrap" hidden>
+              <span class="eyebrow">O que você leva ao sair</span>
+              <p id="ev-promessa"></p>
+            </div>
+            <ul class="beneficios" id="ev-beneficios"></ul>
+            <div class="quem" id="ev-quem-grid" hidden>
+              <div class="box sim" id="ev-para-quem-wrap" hidden><h3>Para quem é</h3><p id="ev-para-quem"></p></div>
+              <div class="box nao" id="ev-nao-e-para-wrap" hidden><h3>Para quem não é</h3><p id="ev-nao-e-para"></p></div>
+            </div>
+            <div class="card descricao" id="ev-descricao-wrap" hidden style="margin-top:18px;">
+              <h2 class="title">Sobre o encontro</h2>
+              <div id="ev-descricao"></div>
+              <div class="palestrante" id="ev-palestrante" hidden>
+                <img id="ev-palestrante-foto" alt="" width="72" height="72" loading="lazy" decoding="async" hidden>
+                <div><div class="nome" id="ev-palestrante-nome"></div><div class="bio" id="ev-palestrante-bio"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="sticky">
+            <div class="card" id="box-inscricao">
+              <h2 class="title" id="box-titulo">Garanta sua vaga</h2>
+              <div class="escassez" id="ev-escassez"><span class="dot"></span><span id="ev-escassez-txt"></span></div>
+              <div class="countdown" id="ev-countdown"></div>
+              <div class="vagas" id="ev-tipos" role="radiogroup" aria-label="Tipo de ingresso"></div>
+
+              <form id="form" novalidate hidden>
+                <div class="form-group"><label class="form-label" for="f-nome">Seu nome</label><input class="form-control" id="f-nome" autocomplete="name" required placeholder="Nome completo"></div>
+                <div class="form-group"><label class="form-label" for="f-email">E-mail (o voucher chega aqui)</label><input class="form-control" id="f-email" type="email" autocomplete="email" required placeholder="voce@email.com"></div>
+                <div class="form-group"><label class="form-label" for="f-whatsapp">WhatsApp</label><input class="form-control" id="f-whatsapp" type="tel" inputmode="numeric" autocomplete="tel" required placeholder="(91) 9 9999-9999"></div>
+                <div class="form-group"><label class="form-label" for="f-perfil">Como você se descreve?</label>
+                  <select class="form-control" id="f-perfil"><option value="">Prefiro não dizer</option><option value="mae_pai_responsavel">Mãe, pai ou responsável</option><option value="educador">Educador(a)</option><option value="terapeuta">Terapeuta ou profissional de saúde</option><option value="outro">Outro</option></select></div>
+                <div class="form-group visually-hidden" aria-hidden="true"><label for="website-hp">Não preencha este campo</label><input type="text" id="website-hp" name="website" tabindex="-1" autocomplete="off"></div>
+                <label class="consent-row" for="f-consent"><input type="checkbox" id="f-consent" required><span>Concordo com o uso dos meus dados para esta inscrição e os avisos do encontro, conforme a <a href="/politica-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
+                <label class="consent-row" for="f-optin-email"><input type="checkbox" id="f-optin-email"><span>Quero receber por e-mail os próximos encontros e conteúdos do Instituto.</span></label>
+                <label class="consent-row" for="f-optin-wa"><input type="checkbox" id="f-optin-wa"><span>Podem me avisar dos próximos encontros também pelo WhatsApp.</span></label>
+                <div id="f-error" class="form-error" role="alert"></div>
+                <button type="submit" class="btn-buy" id="f-submit">Garantir minha vaga</button>
+                <p class="note">Sem custo para se inscrever. Se as vagas acabarem, você entra na fila e é avisada na ordem.</p>
+              </form>
+
+              <div id="pago" hidden>
+                <a class="btn-buy" id="pago-btn" href="#" target="_blank" rel="noopener">Garantir ingresso</a>
+                <p class="note">Pagamento seguro pela Hotmart. Seu voucher com QR chega por e-mail assim que o pagamento for aprovado.</p>
+              </div>
+
+              <div id="encerrado" hidden>
+                <p style="font-weight:700;margin-bottom:12px;">As inscrições deste encontro estão encerradas.</p>
+                <a class="btn-ghost" href="/eventos" style="width:100%;">Ver próximos encontros</a>
+              </div>
+            </div>
+
+            <div class="card sucesso" id="sucesso" hidden>
+              <div class="ic">✓</div>
+              <h2 id="s-titulo">Sua vaga está confirmada!</h2>
+              <p id="s-texto"></p>
+              <div class="codigo" id="s-codigo" hidden></div>
+              <div class="posicao" id="s-posicao" hidden></div>
+              <div class="acoes">
+                <a class="btn-buy" id="s-ingresso" href="#" hidden>Ver meu ingresso (QR)</a>
+                <a class="btn-buy btn-wa" id="s-comunidade" href="#" target="_blank" rel="noopener" hidden>Entrar na Comunidade FaçaAmigos</a>
+                <a class="btn-ghost" href="/eventos">Ver outros encontros</a>
+              </div>
+              <p class="note" id="s-nota"></p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
