@@ -1,4 +1,4 @@
-.lp { --dark: #1A3F35; --ink-soft: #4C6B62; --cream: #FFF9F1; --white: #FFFFFF; --wa: #25D366; --r-card: 24px; --shadow-sm: 0 4px 10px rgba(26, 63, 53, .08); --shadow-lg: 0 18px 40px rgba(26, 63, 53, .14); --shadow-pink: 0 10px 26px rgba(240, 25, 107, .32); --t-fast: .2s cubic-bezier(.34, 1.4, .64, 1); overflow-x: clip; font-size: 1.0625rem; line-height: 1.6; color: var(--dark); }
+.lp { background: var(--cream); --dark: #1A3F35; --ink-soft: #4C6B62; --cream: #FFF9F1; --white: #FFFFFF; --wa: #25D366; --r-card: 24px; --shadow-sm: 0 4px 10px rgba(26, 63, 53, .08); --shadow-lg: 0 18px 40px rgba(26, 63, 53, .14); --shadow-pink: 0 10px 26px rgba(240, 25, 107, .32); --t-fast: .2s cubic-bezier(.34, 1.4, .64, 1); overflow-x: clip; font-size: 1.0625rem; line-height: 1.6; color: var(--dark); }
 .lp h1, .lp h2, .lp h3 { color: inherit; font-weight: 600; line-height: 1.15; letter-spacing: -.005em; text-wrap: initial; }
 .lp a { color: inherit; }
 .lp .wrap { max-width: 1140px; padding: 0 22px; position: relative; z-index: 1; }
