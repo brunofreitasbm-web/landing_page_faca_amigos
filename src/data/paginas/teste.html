@@ -1,0 +1,240 @@
+<script src="/assets/fa-back.js"></script>
+<div class="sec">
+    <div class="quiz-wrap fx on">
+
+      <!-- PASSO 0 — LANDING -->
+      <section id="step-landing" class="quiz-card teste-landing">
+        <span class="eyebrow">Instituto FaçaAmigos</span>
+        <div class="teste-photo"><picture><source srcset="img/isabella-2.webp" type="image/webp"><img src="img/isabella-2.jpg" width="700" height="935"
+            alt="Idealizadora do FaçaAmigos, criadora do Mapeamento Comportamental" loading="eager" decoding="async"></picture></div>
+        <h1 id="landing-heading" tabindex="-1">Pare de se perguntar se é normal.</h1>
+        <p class="sub" id="intro-promise">Um olhar acolhedor e baseado em ciência sobre o dia a dia do seu filho.
+          Em poucos minutos, um retrato inicial claro, sem rótulo e sem julgamento — na tela e no seu e-mail, pra
+          você decidir o próximo passo com o coração mais leve.</p>
+        <div class="teste-meta">
+          <span class="chip" id="intro-duration"><svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                clip-rule="evenodd" />
+            </svg> <span id="intro-duration-text">~5 minutos</span></span>
+          <span class="chip" id="intro-questions"><svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 10-2 0c0 .55.15.99.435 1.336.276.336.664.573 1.008.760.395.214.567.404.567.904a1 1 0 102 0c0-1.08-.616-1.686-1.12-1.958-.257-.14-.407-.246-.49-.35A.545.545 0 0111 6zm1 7a1 1 0 11-2 0 1 1 0 012 0z"
+                clip-rule="evenodd" />
+            </svg> <span id="intro-questions-text">25 perguntas rápidas</span></span>
+          <span class="chip"><svg fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg> 100% gratuito</span>
+        </div>
+        <div id="landing-error" class="form-error" aria-live="polite"></div>
+        <button type="button" id="btn-start" class="btn btn-pink btn-block" disabled>Carregando mapeamento...</button>
+        <p class="note-small" id="intro-credit" style="margin-top:12px;margin-bottom:2px;">Criado por <b>Isabella Gonçalves Freitas</b>, psicóloga infantil (CRP 10/4727), fundadora do FaçaAmigos.</p>
+        <p class="note-small" id="intro-disclaimer" style="margin-top:2px;">Não substitui avaliação profissional.</p>
+      </section>
+
+      <!-- PASSO 1 — CONTATO E DADOS DA CRIANÇA -->
+      <section id="step-contact" class="quiz-card" hidden>
+        <h2 id="contact-heading" tabindex="-1">Vamos começar</h2>
+        <p class="sub" style="margin-bottom:24px;">Só precisamos do primeiro nome e da idade para adaptar as
+          perguntas. Seus dados de contato só entram no final, para enviar o retrato.</p>
+        <form id="child-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="child-name">Primeiro nome da criança</label>
+            <input type="text" id="child-name" class="form-control" placeholder="Ex: Pedro" autocomplete="given-name"
+              required>
+          </div>
+
+          <fieldset>
+            <legend>Faixa etária</legend>
+            <div class="opt-grid" id="age-options" role="radiogroup" aria-label="Faixa etária">
+              <input class="visually-hidden" type="radio" name="age-range" id="age-under-4" value="under-4">
+              <label class="opt-chip" for="age-under-4">Menos de 4 anos</label>
+              <input class="visually-hidden" type="radio" name="age-range" id="age-4-5" value="4-5">
+              <label class="opt-chip" for="age-4-5">4–5 anos</label>
+              <input class="visually-hidden" type="radio" name="age-range" id="age-6-8" value="6-8">
+              <label class="opt-chip" for="age-6-8">6–8 anos</label>
+              <input class="visually-hidden" type="radio" name="age-range" id="age-9-12" value="9-12">
+              <label class="opt-chip" for="age-9-12">9–12 anos</label>
+              <input class="visually-hidden" type="radio" name="age-range" id="age-13-17" value="13-17">
+              <label class="opt-chip" for="age-13-17">13–17 anos</label>
+            </div>
+          </fieldset>
+
+          <div id="under4-notice" class="under4-notice" hidden>
+            <p>Este questionário foi pensado para crianças de 4 a 17 anos. Para crianças menores, o ideal é conversar
+              direto com a nossa equipe — vamos adorar te ouvir.</p>
+            <div class="result-actions">
+              <a id="under4-wa" class="btn btn-wa btn-block" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z" />
+                </svg>
+                Conversar no WhatsApp
+              </a>
+              <a class="btn btn-ghost btn-block" href="https://institutofacaamigos.com.br/#clinica">Conhecer a
+                Clínica</a>
+            </div>
+          </div>
+
+          <div id="contact-form-error" class="form-error" aria-live="polite"></div>
+          <button type="submit" id="contact-form-submit" class="btn btn-pink btn-block">Começar as perguntas</button>
+        </form>
+      </section>
+
+      <!-- PASSO 2 — CONTATO (depois das 25 perguntas, antes do resultado) -->
+      <section id="step-lead" class="quiz-card" hidden>
+        <h2 id="lead-heading" tabindex="-1">O retrato de <span data-child-name>seu filho</span> está pronto</h2>
+        <p class="sub" style="margin-bottom:24px;">Para onde enviamos? Você vê o retrato na tela e recebe uma cópia
+          no e-mail. Usamos seus dados para isso e, se você quiser, para conversar com a nossa equipe.</p>
+        <form id="lead-form" novalidate>
+          <fieldset>
+            <legend>Quem está respondendo</legend>
+            <div class="opt-grid" id="relation-options" role="radiogroup" aria-label="Quem está respondendo">
+              <input class="visually-hidden" type="radio" name="relation" id="rel-mae" value="mae">
+              <label class="opt-chip" for="rel-mae">Mãe</label>
+              <input class="visually-hidden" type="radio" name="relation" id="rel-pai" value="pai">
+              <label class="opt-chip" for="rel-pai">Pai</label>
+              <input class="visually-hidden" type="radio" name="relation" id="rel-resp" value="responsavel">
+              <label class="opt-chip" for="rel-resp">Responsável legal</label>
+              <input class="visually-hidden" type="radio" name="relation" id="rel-outro" value="outro">
+              <label class="opt-chip" for="rel-outro">Outro</label>
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            <label class="form-label" for="guardian-name">Seu nome</label>
+            <input type="text" id="guardian-name" class="form-control" placeholder="Nome completo"
+              autocomplete="name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="guardian-phone">WhatsApp</label>
+            <input type="tel" id="guardian-phone" class="form-control" placeholder="(91) 9 9999-9999"
+              inputmode="numeric" autocomplete="tel" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="guardian-email">E-mail</label>
+            <input type="email" id="guardian-email" class="form-control" placeholder="voce@email.com"
+              autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="preferred-unit">Unidade de interesse (opcional)</label>
+            <select id="preferred-unit" class="form-control">
+              <option value="">Sem preferência</option>
+              <option value="PARQUE_SHOPPING">Parque Shopping Belém</option>
+              <option value="BOSQUE_GRAO_PARA">Shopping Bosque Grão-Pará</option>
+              <option value="CLINICA_FATIMA">Centro de Terapia Comportamental</option>
+            </select>
+          </div>
+          <div class="form-group visually-hidden" aria-hidden="true">
+            <label for="website-hp">Não preencha este campo</label>
+            <input type="text" id="website-hp" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <label class="consent-row" for="consent-check">
+            <input type="checkbox" id="consent-check" required>
+            <span>Concordo com o uso dos meus dados para receber o resultado do mapeamento, conforme a <a
+                href="/politica-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
+          </label>
+          <label class="consent-row" for="marketing-opt-in">
+            <input type="checkbox" id="marketing-opt-in">
+            <span>Quero receber, por e-mail, conteúdos gratuitos, novidades e ofertas dos materiais da idealizadora (como o guia O Brincar com Propósito) sobre desenvolvimento infantil, autismo e neurodivergência.</span>
+          </label>
+          <div id="lead-form-error" class="form-error" aria-live="polite"></div>
+          <button type="submit" id="lead-form-submit" class="btn btn-pink btn-block">Ver o retrato</button>
+          <div class="step-nav"><button type="button" id="btn-lead-back" class="btn btn-ghost btn-sm">Voltar</button></div>
+        </form>
+      </section>
+
+      <!-- PASSO 2 — PERGUNTAS -->
+      <section id="step-question" class="quiz-card" hidden>
+        <div class="progress-wrap">
+          <div class="progress-label" id="progress-label" aria-live="polite">Pergunta 1 de 25</div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+              aria-valuenow="0"></div>
+          </div>
+        </div>
+        <p class="q-eyebrow" id="question-eyebrow"></p>
+        <h2 class="question-text" id="question-heading" tabindex="-1"></h2>
+        <fieldset>
+          <legend class="visually-hidden">Resposta</legend>
+          <div class="scale-list" id="scale-options" role="radiogroup" aria-label="Escala de resposta"></div>
+        </fieldset>
+        <div id="question-loading" class="center" style="padding: 20px 0;" hidden>
+          <p class="note-small" id="question-loading-text">Montando o retrato...</p>
+        </div>
+        <div id="question-error" class="form-error" aria-live="polite"></div>
+        <div class="step-nav">
+          <button type="button" id="btn-back" class="btn btn-ghost btn-sm">Voltar</button>
+          <span></span>
+        </div>
+      </section>
+
+      <!-- PASSO 3 — RESULTADO -->
+      <section id="step-result" class="quiz-card" hidden>
+        <span class="result-eyebrow" id="result-eyebrow">O retrato de seu filho(a)</span>
+        <h2 class="result-title" id="result-title" tabindex="-1">Seu retrato de observação</h2>
+        <p class="result-intro" id="result-intro"></p>
+        <p class="note-small center" id="result-email-note" hidden style="margin: 0 0 18px;">Enviamos este retrato
+          também para o seu e-mail.</p>
+        <div class="result-disclaimer">Este material é educativo e não constitui diagnóstico psicológico. Ele não
+          substitui uma avaliação profissional completa.</div>
+
+        <div class="chart-card">
+          <div class="chart" id="result-chart"></div>
+          <div class="legend" id="result-legend"></div>
+        </div>
+
+        <div id="result-areas"></div>
+
+        <div id="result-human" class="human-block" hidden>
+          <p>Podemos conversar antes de qualquer coisa? Se você sentir que algum desses pontos está pesando bastante
+            na rotina da família, queremos ouvir você. A nossa Clínica ainda não abriu, mas você pode entrar na lista
+            de espera e avisamos assim que abrirmos as agendas.</p>
+        </div>
+
+        <aside id="result-ebook" class="ebook-banner" aria-labelledby="ebook-headline" hidden>
+          <span class="ebook-eyebrow" id="ebook-eyebrow"></span>
+          <h3 class="ebook-headline" id="ebook-headline"></h3>
+          <p class="ebook-sub" id="ebook-sub"></p>
+          <div class="ebook-body">
+            <div class="ebook-cover">
+              <img id="ebook-cover-img" src="img/guia/capa.webp" width="760" height="1077" loading="lazy" decoding="async"
+                alt="Capa do e-book O Brincar com Propósito">
+            </div>
+            <ul class="ebook-bullets" id="ebook-bullets"></ul>
+          </div>
+          <div class="ebook-price" id="ebook-price" hidden>
+            <span class="ebook-price-from" id="ebook-price-from" hidden></span>
+            <span class="ebook-price-to-label" id="ebook-price-to-label" hidden>por</span>
+            <span class="ebook-price-to" id="ebook-price-to" hidden></span>
+            <span class="ebook-installments" id="ebook-installments" hidden></span>
+          </div>
+          <a id="ebook-cta" class="ebook-cta" href="#" target="_blank" rel="noopener">Quero o guia</a>
+          <a id="ebook-sample" class="ebook-sample" href="#" target="_blank" rel="noopener" hidden>Ler o capítulo 1 de graça</a>
+          <p class="ebook-trust" id="ebook-trust"></p>
+        </aside>
+
+        <div class="result-actions" id="result-actions">
+          <a id="result-wa"class="btn btn-wa btn-block" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z" />
+            </svg>
+            <span id="result-wa-label">Conversar no WhatsApp</span>
+          </a>
+          <a id="result-clinica" class="btn btn-ghost btn-block"
+            href="https://institutofacaamigos.com.br/#clinica">Conhecer a Clínica</a>
+        </div>
+
+        <p class="result-bottom-disclaimer">Este material é um retrato educativo e informativo, não um diagnóstico.
+          Para uma leitura completa e individualizada, uma avaliação psicológica presencial é sempre o caminho mais
+          seguro.</p>
+
+        <div class="center">
+          <button type="button" id="btn-restart" class="result-restart">Fazer novo questionário</button>
+        </div>
+      </section>
+
+    </div>
+  </div>

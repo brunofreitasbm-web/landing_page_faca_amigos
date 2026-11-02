@@ -1,0 +1,399 @@
+{
+  "slug": "playground",
+  "path": "/playground",
+  "titleTag": "Playground em Belém | FaçaAmigos no Parque Shopping",
+  "descricao": "Playground inclusivo no Parque Shopping Belém, para todas as crianças, com ou sem laudo. A partir de R$ 60, sem agendamento, seg a sáb das 10h às 22h e dom das 12h às 21h.",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "ogTitle": "Playground em Belém | FaçaAmigos no Parque Shopping",
+  "ogDescricao": "Playground inclusivo no Parque Shopping Belém, para todas as crianças, com ou sem laudo. A partir de R$ 60, sem agendamento, seg a sáb das 10h às 22h e dom das 12h às 21h.",
+  "ogSiteName": "FaçaAmigos",
+  "ogType": "business.business",
+  "ogImage": "img/og/og-playground.jpg",
+  "ogImageAlt": "Playground inclusivo FaçaAmigos em Belém: piscina de bolinhas e casa na árvore",
+  "fa_cta": {
+    "label": "Ver preços",
+    "href": "#precos",
+    "event": "ver_precos"
+  },
+  "jsonLd": [
+    {
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/playground#webpage",
+      "url": "https://institutofacaamigos.com.br/playground",
+      "name": "Playground em Belém | FaçaAmigos no Parque Shopping",
+      "description": "Playground inclusivo no Parque Shopping Belém, para todas as crianças, com ou sem laudo. A partir de R$ 60, sem agendamento, seg a sáb das 10h às 22h e dom das 12h às 21h.",
+      "inLanguage": "pt-BR",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#website"
+      },
+      "about": {
+        "@id": "https://institutofacaamigos.com.br/playground#parqueshopping"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+        "width": 784,
+        "height": 803
+      }
+    },
+    {
+      "@type": [
+        "LocalBusiness",
+        "EntertainmentBusiness"
+      ],
+      "@id": "https://institutofacaamigos.com.br/playground#bosquegraopara",
+      "name": "FaçaAmigos — Playground (Shopping Bosque Grão-Pará)",
+      "parentOrganization": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "image": "https://institutofacaamigos.com.br/img/playground-grao-para.webp",
+      "url": "https://institutofacaamigos.com.br/playground",
+      "telephone": "+5591991101215",
+      "priceRange": "$$",
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=Shopping+Bosque+Gr%C3%A3o-Par%C3%A1%2C+Av.+Centen%C3%A1rio%2C+1052%2C+Bel%C3%A9m+PA",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. Centenário, 1052 — Shopping Bosque Grão-Pará, 1º piso, em frente à Renner",
+        "addressLocality": "Belém",
+        "addressRegion": "PA",
+        "addressCountry": "BR"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "10:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "10:00",
+          "closes": "21:00"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/facaamigos.belem/"
+      ]
+    },
+    {
+      "@type": [
+        "LocalBusiness",
+        "EntertainmentBusiness"
+      ],
+      "@id": "https://institutofacaamigos.com.br/playground#parqueshopping",
+      "name": "FaçaAmigos — Playground (Parque Shopping Belém)",
+      "parentOrganization": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "image": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+      "url": "https://institutofacaamigos.com.br/playground",
+      "telephone": "+5591992347673",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém, 1º piso",
+        "addressLocality": "Belém",
+        "addressRegion": "PA",
+        "postalCode": "66635-110",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -1.3653,
+        "longitude": -48.4552
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "10:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:00"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/facaamigos.belem/"
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "30 minutos — público geral",
+          "price": "60.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "60.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 30,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "30 minutos — meia-entrada inclusiva",
+          "eligibleCustomerType": "https://schema.org/DisabledPerson",
+          "price": "50.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "50.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 30,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "1 hora — público geral",
+          "description": "Inclui o Olhar FaçaAmigos, o resumo da brincadeira enviado ao responsável por WhatsApp.",
+          "price": "108.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "108.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 60,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "1 hora — meia-entrada inclusiva",
+          "description": "Inclui o Olhar FaçaAmigos, o resumo da brincadeira enviado ao responsável por WhatsApp.",
+          "eligibleCustomerType": "https://schema.org/DisabledPerson",
+          "price": "90.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "90.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 60,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "2 horas — público geral",
+          "price": "192.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "192.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 120,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "2 horas — meia-entrada inclusiva",
+          "eligibleCustomerType": "https://schema.org/DisabledPerson",
+          "price": "160.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "160.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 120,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Day Use (10h no mesmo dia) — público geral",
+          "price": "270.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "270.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 600,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Day Use (10h no mesmo dia) — meia-entrada inclusiva",
+          "eligibleCustomerType": "https://schema.org/DisabledPerson",
+          "price": "225.00",
+          "priceCurrency": "BRL",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "225.00",
+            "priceCurrency": "BRL",
+            "unitCode": "MIN",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": 600,
+              "unitCode": "MIN"
+            }
+          },
+          "url": "https://institutofacaamigos.com.br/playground#precos",
+          "availability": "https://schema.org/InStock"
+        }
+      ],
+      "description": "Playground inclusivo no Parque Shopping Belém, com piscina de bolinhas, mediadores de inclusão, abafadores de ruído e canto de descompressão sensorial. Atendimento sem agendamento, todos os dias.",
+      "logo": "https://institutofacaamigos.com.br/img/logo-simbolo.png",
+      "hasMap": "https://maps.google.com/?q=Parque+Shopping+Bel%C3%A9m",
+      "isAccessibleForFree": false,
+      "publicAccess": true,
+      "paymentAccepted": "Pix, cartão de crédito e débito, dinheiro",
+      "currenciesAccepted": "BRL",
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Acessibilidade PCD / Autismo",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Abafadores de Ruído",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Canto de Descompressão Sensorial",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Meia-Entrada Inclusiva (R$ 50 os 30 minutos, com laudo ou CIPTEA)",
+          "value": true
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://institutofacaamigos.com.br/playground#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O FaçaAmigos é só para crianças autistas ou neurodivergentes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. O Playground FaçaAmigos é para todas as crianças de 0 a 12 anos, com ou sem laudo. Crianças típicas e atípicas brincam juntas no mesmo espaço. A estrutura inclusiva (mediadores treinados, Horário Inclusivo, canto de descompressão) deixa o ambiente mais seguro e tranquilo para qualquer criança. Não precisa avisar nada antes: é só chegar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Preciso agendar para brincar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não! É só chegar entre 10h e 22h, qualquer dia da semana, fazer o cadastro rápido na recepção e brincar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso deixar meu filho e circular pelo shopping?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Crianças a partir de 3 anos podem ficar sem os pais — a equipe acompanha as brincadeiras o tempo todo e a pulseira garante que a saída só acontece com o responsável cadastrado. Menores de 3 anos precisam de um adulto no local."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Meu filho é atípico. Como funciona o acolhimento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Avise a equipe na entrada. Temos mediadores de inclusão, abafadores de ruído e canto de descompressão. A meia-entrada inclusiva (R$ 50 os 30 minutos, contra R$ 60 do público geral) vale mediante laudo ou CIPTEA (Carteira de Identificação da Pessoa com Transtorno do Espectro Autista) — e o Horário Inclusivo (10h–16h) é o melhor horário para a primeira visita."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual a faixa etária?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De 0 a 12 anos, com áreas e brinquedos pensados para cada fase do desenvolvimento."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Onde fica o FaçaAmigos Playground?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No Parque Shopping Belém, na Rod. Augusto Montenegro, 4300, no 1º piso. Funciona de segunda a sábado, das 10h às 22h, e aos domingos, das 12h às 21h. Também estamos no Shopping Bosque Grão-Pará, na Av. Centenário, 1052, no 1º piso, em frente à Renner, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto custa brincar no FaçaAmigos Playground?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A partir de R$ 60 por 30 minutos no público geral e R$ 50 na meia-entrada inclusiva. Também há 1 hora, 2 horas, Day Use e Passaporte mensal, todos na tabela de preços desta página. Pagamento na recepção por Pix, cartão ou dinheiro."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O que é o Olhar FaçaAmigos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "É o resumo do que a equipe FaçaAmigos reparou na brincadeira da criança: coordenação, interação com outras crianças, atenção, comunicação e como ela lida com espera e frustração. É cortesia nos planos a partir de 1 hora e chega ao responsável por WhatsApp até uns 40 minutos depois da saída. São anotações da equipe durante a brincadeira, não uma avaliação clínica nem um diagnóstico."
+          }
+        }
+      ]
+    }
+  ],
+  "scripts": 4
+}

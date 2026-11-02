@@ -1,0 +1,399 @@
+{
+  "slug": "index",
+  "path": "/",
+  "titleTag": "FaçaAmigos Belém: Terapia Comportamental e Playground",
+  "descricao": "Clínica infantil no Umarizal, Belém, atendendo desde novembro de 2026: convênios IASEP e PROASA e particular. Também Playground e Circuito.",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "ogTitle": "FaçaAmigos Belém: Terapia Comportamental e Playground",
+  "ogDescricao": "Clínica infantil no Umarizal, Belém, atendendo desde novembro de 2026: convênios IASEP e PROASA e particular. Também Playground e Circuito.",
+  "ogSiteName": "FaçaAmigos",
+  "ogType": "website",
+  "ogImage": "img/og/og-hub.jpg",
+  "ogImageAlt": "FaçaAmigos em Belém: fachada da clínica, piscina de bolinhas do playground e carrinhos elétricos do circuito",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "mapeamento"
+  },
+  "jsonLd": [
+    {
+      "@type": "WebSite",
+      "@id": "https://institutofacaamigos.com.br/#website",
+      "url": "https://institutofacaamigos.com.br/",
+      "name": "FaçaAmigos",
+      "alternateName": "Instituto FaçaAmigos",
+      "inLanguage": "pt-BR",
+      "publisher": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/#webpage",
+      "url": "https://institutofacaamigos.com.br/",
+      "name": "FaçaAmigos Belém: Terapia Comportamental e Playground",
+      "description": "Clínica infantil no Umarizal, Belém, atendendo desde novembro de 2026: convênios IASEP e PROASA e particular. Também Playground e Circuito.",
+      "inLanguage": "pt-BR",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#website"
+      },
+      "about": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+        "width": 784,
+        "height": 803
+      },
+      "mainEntity": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "#geo-facts",
+          "#faq"
+        ]
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://institutofacaamigos.com.br/#organization",
+      "name": "Instituto FaçaAmigos",
+      "legalName": "Instituto Faça Amigos Ltda",
+      "taxID": "22.161.197/0001-83",
+      "url": "https://institutofacaamigos.com.br/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://institutofacaamigos.com.br/img/logo-simbolo.png",
+        "width": 460,
+        "height": 416
+      },
+      "image": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+      "sameAs": [
+        "https://www.instagram.com/facaamigos.belem/"
+      ],
+      "description": "Ecossistema infantil inclusivo integrando clínica de terapia comportamental (ABA), playground adaptado e circuito de carrinhos elétricos em Belém/PA.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém",
+        "addressLocality": "Belém",
+        "addressRegion": "PA",
+        "postalCode": "66635-110",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -1.3653,
+        "longitude": -48.4552
+      },
+      "founder": {
+        "@id": "https://institutofacaamigos.com.br/#isabella"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "telephone": "+5591992347673",
+          "availableLanguage": "pt-BR",
+          "areaServed": "BR",
+          "description": "WhatsApp do Playground (Parque Shopping) e do Circuito"
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "telephone": "+5591991101215",
+          "availableLanguage": "pt-BR",
+          "areaServed": "BR",
+          "description": "WhatsApp do Playground (Shopping Bosque Grão-Pará)"
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "telephone": "+5591991782027",
+          "availableLanguage": "pt-BR",
+          "areaServed": "BR",
+          "description": "WhatsApp da Clínica e do Mapeamento Comportamental"
+        }
+      ],
+      "areaServed": "Belém, Ananindeua e Região Metropolitana",
+      "knowsAbout": [
+        "Autismo (TEA)",
+        "TDAH",
+        "Desenvolvimento Infantil",
+        "Terapia ABA",
+        "Playground Inclusivo",
+        "Acessibilidade Infantil"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://institutofacaamigos.com.br/#isabella",
+      "name": "Isabella Gonçalves Freitas",
+      "jobTitle": "Psicóloga infantil",
+      "identifier": "CRP 10/4727",
+      "image": "https://institutofacaamigos.com.br/img/isabella-3.jpg",
+      "worksFor": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "description": "Psicóloga infantil, idealizadora do FaçaAmigos e autora dos e-books O Brincar com Propósito e O Código do Desenvolvimento Infantil.",
+      "knowsAbout": [
+        "Análise do Comportamento Aplicada",
+        "Desenvolvimento Infantil",
+        "Autismo (TEA)"
+      ]
+    },
+    {
+      "@type": "MedicalBusiness",
+      "@id": "https://institutofacaamigos.com.br/#clinica",
+      "name": "FaçaAmigos — Centro de Terapia Comportamental",
+      "description": "Clínica especializada em Terapia ABA, Psicologia, Fonoaudiologia, Terapia Ocupacional com Integração Sensorial, Fisioterapia, Psicomotricidade, Musicoterapia, Nutrição e Avaliação Neuropsicológica no Umarizal, Belém/PA. Convênios IASEP e PROASA.",
+      "url": "https://institutofacaamigos.com.br/clinica",
+      "telephone": "+5591991782027",
+      "image": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg",
+      "parentOrganization": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "medicalSpecialty": [
+        "Pediatric",
+        "Behavioral",
+        "OccupationalTherapy",
+        "SpeechTherapy",
+        "Physiotherapy",
+        "Psychology"
+      ],
+      "knowsAbout": [
+        "Terapia ABA (Análise do Comportamento Aplicada)",
+        "Psicologia",
+        "Fonoaudiologia",
+        "Terapia Ocupacional",
+        "Terapia Ocupacional com Integração Sensorial",
+        "Fisioterapia",
+        "Psicopedagogia",
+        "Psicomotricidade",
+        "Musicoterapia",
+        "Nutrição",
+        "Educação Física Adaptada",
+        "Treino de Habilidades Sociais",
+        "Orientação Parental",
+        "Avaliação Neuropsicológica"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Boaventura da Silva, 1573 — Umarizal",
+        "addressLocality": "Belém",
+        "addressRegion": "PA",
+        "postalCode": "66060-147",
+        "addressCountry": "BR"
+      }
+    },
+    {
+      "@type": [
+        "LocalBusiness",
+        "EntertainmentBusiness"
+      ],
+      "@id": "https://institutofacaamigos.com.br/playground#parqueshopping",
+      "name": "FaçaAmigos — Playground Inclusivo (Parque Shopping Belém)",
+      "url": "https://institutofacaamigos.com.br/playground",
+      "telephone": "+5591992347673",
+      "image": "https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg",
+      "priceRange": "$$",
+      "hasMap": "https://maps.google.com/?q=Parque+Shopping+Bel%C3%A9m",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém, 1º piso",
+        "addressLocality": "Belém",
+        "addressRegion": "PA",
+        "postalCode": "66635-110",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -1.3653,
+        "longitude": -48.4552
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "10:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:00"
+        }
+      ],
+      "parentOrganization": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "sameAs": [
+        "https://www.instagram.com/facaamigos.belem/"
+      ],
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Acessibilidade PCD / Autismo",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Abafadores de Ruído",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Canto de Descompressão Sensorial",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Meia-Entrada Inclusiva (R$ 50 os 30 minutos, com laudo ou CIPTEA)",
+          "value": true
+        }
+      ]
+    },
+    {
+      "@type": [
+        "LocalBusiness",
+        "EntertainmentBusiness"
+      ],
+      "@id": "https://institutofacaamigos.com.br/circuito#circuito",
+      "name": "FaçaAmigos Circuito",
+      "url": "https://institutofacaamigos.com.br/circuito",
+      "telephone": "+5591992347673",
+      "image": "https://institutofacaamigos.com.br/img/circuito-carrinhos.jpg",
+      "priceRange": "$$",
+      "hasMap": "https://maps.google.com/?q=Parque+Shopping+Bel%C3%A9m",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém, Térreo, em frente à C&A",
+        "addressLocality": "Belém",
+        "addressRegion": "PA",
+        "postalCode": "66635-110",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -1.3653,
+        "longitude": -48.4552
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "10:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:00"
+        }
+      ],
+      "parentOrganization": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "sameAs": [
+        "https://www.instagram.com/facaamigos.belem/"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://institutofacaamigos.com.br/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O que é o Ecossistema FaçaAmigos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O FaçaAmigos é um ecossistema infantil inclusivo de Belém/PA que une Clínica de Terapia Comportamental (ABA, TO, Fonoaudiologia e Psicopedagogia), Playground Adaptado e Circuito de Carrinhos Elétricos no Parque Shopping Belém."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O playground FaçaAmigos é adaptado para autismo (TEA) e crianças atípicas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim! O espaço é 100% inclusivo, contando com mediadores treinados em acolhimento neurodivergente, cantinho de descompressão e abafadores de ruído disponíveis gratuitamente. Apresentando CIPTEA ou laudo, a criança paga a meia-entrada inclusiva (R$ 50 os 30 minutos, contra R$ 60 do público geral) e 1 acompanhante entra grátis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como funciona o Programa de Fidelidade?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Preciso agendar antes de levar meu filho?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não precisa agendar para o Playground ou Circuito! O atendimento é feito por ordem de chegada no Parque Shopping Belém, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Onde ficam as unidades do FaçaAmigos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Playground (1º piso) e o Circuito (térreo, em frente à C&A) funcionam no Parque Shopping Belém, na Rod. Augusto Montenegro, 4300. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, 1º piso, em frente à Renner), de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h. A Clínica de Terapia Comportamental funciona na Rua Boaventura da Silva, 1573, no Umarizal, com atendimento por hora marcada desde novembro de 2026."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual o horário de funcionamento do Playground e do Circuito?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De segunda a sábado, das 10h às 22h, e aos domingos, das 12h às 21h, sem necessidade de agendamento."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto custa o Playground e o Circuito?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Playground começa em R$ 60 por 30 minutos, e com laudo ou CIPTEA a meia-entrada inclusiva sai por R$ 50 os 30 minutos. O passeio no Circuito custa R$ 48. A tabela completa está na página do Playground."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual o melhor horário para crianças com sensibilidade sensorial?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Horário Inclusivo, das 10h às 16h (aos domingos, a partir das 12h), tem ambiente com estímulos reduzidos: som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quem criou o FaçaAmigos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O FaçaAmigos foi idealizado pela psicóloga infantil Isabella Gonçalves Freitas (CRP 10/4727), que também escreveu os e-books O Brincar com Propósito e O Código do Desenvolvimento Infantil e criou o Mapeamento Comportamental gratuito."
+          }
+        }
+      ]
+    }
+  ],
+  "scripts": 6
+}
