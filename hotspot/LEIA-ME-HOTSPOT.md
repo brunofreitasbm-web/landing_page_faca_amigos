@@ -379,6 +379,20 @@ curl -H "Authorization: Bearer $WIFI_ADMIN_API_KEY" \
   "https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/wifi-coupon-admin?code=ESPERA-AB12"
 ```
 
+## Operação assistida (quem não mexe em MikroTik)
+
+Ordem, sempre: **diagnóstico → backup → correção → teste**. Os scripts estão em `hotspot/rsc/`.
+
+1. `00-diagnostico.rsc`: só lê. Mostra rede, hotspot, usuário `visitante`, walled garden, DNS, firewall e o log do hotspot.
+2. `10-backup.rsc`: salva `.backup` e `.rsc` em Files. Para voltar atrás: `/system backup load name=<arquivo>`.
+3. `20-corrigir.rsc`: cria/ajusta só o usuário `visitante` e o walled garden do Supabase e do site. Não mexe em bridge, DHCP, firewall, NAT, portas nem senha de admin.
+4. Copiar `hotspot/*.html`, `md5.js`, `errors.txt` e `logo.png` para `flash/hotspot/` (Files do WinBox, arrastar e soltar).
+5. Teste com celular: conectar em **FaçaAmigos- Clientes**, cadastrar, conferir a tela de liberado, a linha em `fa_wifi_leads` e o log (`/log print where topics~"hotspot"`).
+
+**Por que o login travava:** o hash CHAP era calculado com UTF-8 e com o desafio lido de um campo HTML. Corrigido em `login.html` e `md5.js` (PR #101). Se mesmo assim falhar, o log do hotspot mostra o motivo (usuário inexistente, senha errada, `login-by`).
+
+**Mudanças de rede** (bridge, endereços, firewall) só com o **Safe Mode** do WinBox ligado e backup feito, em horário sem movimento na clínica.
+
 ## Outras pendências
 
 - **Horário Inclusivo:** confirmado como 10h–16h, todos os dias — `playground.html`,

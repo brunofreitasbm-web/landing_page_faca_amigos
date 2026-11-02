@@ -149,6 +149,28 @@
   }
   .offer-item p { font-size: 13px; font-weight: 700; color: var(--dark); line-height: 1.35; }
   .offer-item p b { color: var(--pink-dark); }
+
+  /* Tela única, sem rolagem: compacta o que o layout original tinha de espaço. */
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wrap { padding: 10px 16px 10px; }
+  .logo-row { margin-bottom: 8px; }
+  .logo-row img { width: 34px; height: 34px; }
+  .logo-row span { font-size: 17px; }
+  .card { padding: 14px 14px 12px; border-radius: 20px; }
+  h1 { font-size: 21px; margin-bottom: 4px; }
+  .sub { font-size: 13px; margin-bottom: 10px; line-height: 1.35; }
+  .offer-strip { gap: 6px; margin-bottom: 10px; }
+  .offer-item { padding: 6px 10px; gap: 8px; align-items: center; border-radius: 12px; }
+  .offer-item .ic { width: 22px; height: 22px; font-size: 11px; }
+  .offer-item p { font-size: 12.5px; line-height: 1.25; }
+  input[type="text"], input[type="tel"], input[type="email"] { padding: 10px 13px; margin-top: 8px; border-radius: 12px; }
+  .field-error { margin-top: 3px; font-size: 12px; }
+  .consent { margin-top: 10px; gap: 8px; }
+  .consent label { font-size: 12px; line-height: 1.3; }
+  .consent input[type="checkbox"] { width: 18px; height: 18px; margin-top: 1px; }
+  .btn { margin-top: 12px; padding: 13px; font-size: 16px; }
+  .foot-note { margin-top: 8px; font-size: 11.5px; }
+  .server-error { padding: 8px 12px; margin-bottom: 8px; font-size: 12.5px; }
 </style>
 </head>
 <body>
@@ -160,21 +182,12 @@
   </div>
 
   <div class="card">
-    <span class="kicker">Cupom exclusivo + Wi-Fi grátis</span>
-    <h1>Garanta sua vantagem antes de entrar</h1>
-    <p class="sub">Cadastre-se em 20 segundos e libere o Wi-Fi com um cupom real para o Playground, no Parque Shopping Belém e no Shopping Bosque Grão-Pará, e para o Circuito.</p>
-
-    <div class="proof"><span class="stars">★★★★★</span> +1.100 famílias · 7.500 visitas</div>
+    <h1>Wi-Fi grátis em 20 segundos</h1>
+    <p class="sub">Cadastre-se e libere a internet. Ganhe desconto no Playground e no Circuito.</p>
 
     <div class="offer-strip">
-      <div class="offer-item">
-        <div class="ic">♥</div>
-        <p>Meia inclusiva <b>fixa em R$ 50</b> no Playground, todo dia</p>
-      </div>
-      <div class="offer-item">
-        <div class="ic">+5</div>
-        <p><b>+5 min adicionais grátis</b> em qualquer plano do Circuito, de segunda a sexta</p>
-      </div>
+      <div class="offer-item"><div class="ic">♥</div><p><b>Meia inclusiva R$ 50</b> no Playground</p></div>
+      <div class="offer-item"><div class="ic">25</div><p>Circuito: <b>compre 20 e ande 25</b> · 30 e ande 35</p></div>
     </div>
 
     <div class="server-error" id="serverError">$(error)</div>
@@ -182,16 +195,16 @@
     <!-- Formulário visível: coleta o lead. O envio dispara o registro do lead e, em
          seguida, submete o formulário real do hotspot (oculto) para liberar a internet. -->
     <form id="leadForm" autocomplete="on" novalidate>
-      <label for="guardianName">Seu nome</label>
-      <input type="text" id="guardianName" name="guardianName" placeholder="Como você se chama?" required>
+      <label for="guardianName" class="sr">Seu nome</label>
+      <input type="text" id="guardianName" name="guardianName" placeholder="Seu nome" autocomplete="name" required>
       <div class="field-error" id="err-name">Digite seu nome, por favor.</div>
 
-      <label for="guardianPhone">WhatsApp</label>
-      <input type="tel" id="guardianPhone" name="guardianPhone" placeholder="(91) 9XXXX-XXXX" inputmode="tel" required>
+      <label for="guardianPhone" class="sr">WhatsApp</label>
+      <input type="tel" id="guardianPhone" name="guardianPhone" placeholder="WhatsApp com DDD" inputmode="tel" autocomplete="tel" required>
       <div class="field-error" id="err-phone">Informe um WhatsApp válido com DDD.</div>
 
-      <label for="guardianEmail">E-mail</label>
-      <input type="email" id="guardianEmail" name="guardianEmail" placeholder="seuemail@exemplo.com" required>
+      <label for="guardianEmail" class="sr">E-mail</label>
+      <input type="email" id="guardianEmail" name="guardianEmail" placeholder="Seu e-mail" autocomplete="email" required>
       <div class="field-error" id="err-email">Digite um e-mail válido.</div>
 
       <!-- honeypot anti-robô -->
@@ -199,22 +212,22 @@
 
       <div class="consent">
         <input type="checkbox" id="consent" name="consent" required>
-        <label for="consent">Li e concordo com a <a href="https://institutofacaamigos.com.br/politica-privacidade" target="_blank" rel="noopener">Política de Privacidade</a> e autorizo o uso dos meus dados para liberar o Wi-Fi.</label>
+        <label for="consent">Aceito a <a href="https://institutofacaamigos.com.br/politica-privacidade" target="_blank" rel="noopener">Política de Privacidade</a> e o uso dos meus dados.</label>
       </div>
       <div class="field-error" id="err-consent">Precisamos do seu aceite para liberar o acesso.</div>
 
       <div class="consent opt">
         <input type="checkbox" id="optIn" name="optIn" checked>
-        <label for="optIn">Quero receber novidades e cupons do Playground e do Circuito por WhatsApp e e-mail.</label>
+        <label for="optIn">Quero receber novidades e cupons.</label>
       </div>
 
       <button type="submit" class="btn" id="submitBtn">
-        <span id="btnLabel">Liberar Wi-Fi e receber meu cupom</span>
+        <span id="btnLabel">Liberar Wi-Fi</span>
         <div class="spinner" id="btnSpinner"></div>
       </button>
     </form>
 
-    <p class="foot-note">Cupom válido por 15 dias · 1 cupom por cliente a cada 30 dias · Sessão de 1 hora · Rede exclusiva para visitantes</p>
+    <p class="foot-note">Rede exclusiva para visitantes · sessão de 1 hora</p>
   </div>
 </div>
 
@@ -222,8 +235,6 @@
 <form name="login" id="hotspotForm" action="$(link-login-only)" method="post" style="display:none">
   <input type="hidden" name="dst" value="$(link-orig-esc)">
   <input type="hidden" name="popup" value="true">
-  <input type="hidden" name="chap-id" value="$(chap-id)">
-  <input type="hidden" name="chap-challenge" value="$(chap-challenge)">
   <input type="text" name="username" id="hsUsername">
   <input type="password" name="password" id="hsPassword">
 </form>
@@ -236,6 +247,14 @@
   var HOTSPOT_PASSWORD = "visitante";
   var LEAD_WEBHOOK_URL = "https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/wifi-lead-webhook";
   var LEAD_TIMEOUT_MS = 3500;
+  // Se a página não sair daqui em 10 s depois do envio, o roteador não respondeu: libera o botão e avisa.
+  var HOTSPOT_WAIT_MS = 10000;
+  // CHAP: o RouterOS troca estes marcadores por texto com escapes octais (ex.: \123). Eles PRECISAM ficar
+  // dentro de uma string JavaScript, que decodifica os escapes em bytes. Em atributo HTML (value="...")
+  // chegariam como texto literal e o hash sairia errado. Com login por PAP o roteador manda vazio.
+  var CHAP_ID = '$(chap-id)';
+  var CHAP_CHALLENGE = '$(chap-challenge)';
+  var hotspotSent = false;
 
   function getUtm(name) {
     var params = new URLSearchParams(window.location.search);
@@ -284,16 +303,31 @@
     document.getElementById("btnSpinner").classList.toggle("show", loading);
   }
 
+  function showServerMessage(msg) {
+    var box = document.getElementById("serverError");
+    box.textContent = msg;
+    box.classList.add("show");
+  }
+
   function submitHotspot() {
+    if (hotspotSent) return; // fetch.finally e o timer de segurança podem chamar os dois
+    hotspotSent = true;
     var form = document.forms["login"];
     document.getElementById("hsUsername").value = HOTSPOT_USERNAME;
-    document.getElementById("hsPassword").value = HOTSPOT_PASSWORD;
-    // CHAP: se o roteador forneceu chap-id/chap-challenge, criptografa a senha (padrão RouterOS).
-    var chapId = form["chap-id"] ? form["chap-id"].value : "";
-    var chapChallenge = form["chap-challenge"] ? form["chap-challenge"].value : "";
-    if (chapId !== "" && typeof hexMD5 === "function") {
-      document.getElementById("hsPassword").value = hexMD5(chapId + HOTSPOT_PASSWORD + chapChallenge);
+    var pass = HOTSPOT_PASSWORD;
+    // Marcador não substituído (página aberta fora do roteador) ou vazio = login sem CHAP (PAP).
+    var temChap = CHAP_ID !== "" && CHAP_ID.indexOf("$(") === -1 && typeof hexMD5Raw === "function";
+    if (temChap) {
+      pass = hexMD5Raw(CHAP_ID + HOTSPOT_PASSWORD + CHAP_CHALLENGE);
     }
+    document.getElementById("hsPassword").value = pass;
+    pushDL("wifi_hotspot_submit", { chap: temChap });
+    // Se o roteador não responder, o botão não pode girar para sempre.
+    setTimeout(function () {
+      setLoading(false);
+      hotspotSent = false;
+      showServerMessage("Não conseguimos liberar o Wi-Fi agora. Toque no botão para tentar de novo ou chame a recepção.");
+    }, HOTSPOT_WAIT_MS);
     form.submit();
   }
 
@@ -342,9 +376,7 @@
 
     // Rede de segurança: nunca deixar a família esperando mais que o timeout configurado.
     setTimeout(function () {
-      if (document.getElementById("hotspotForm").querySelector("[name=password]").value === "") {
-        submitHotspot();
-      }
+      submitHotspot(); // sem efeito se o fetch.finally já enviou
     }, LEAD_TIMEOUT_MS + 500);
   });
 
