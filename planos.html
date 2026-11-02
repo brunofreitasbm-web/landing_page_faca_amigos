@@ -108,14 +108,16 @@
     .nav-units a { font-weight: 800; font-size: .95rem; padding: 9px 16px; border-radius: 9999px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: background var(--t-fast); }
     .nav-units a:hover { background: var(--white); box-shadow: var(--shadow-sm); }
     .nav-units a[aria-current] { background: var(--petrol); color: #fff; }
+    .nv-short { display: none; }
     .nav-actions { display: flex; gap: 10px; align-items: center; }
     .nav-actions .btn-wa { padding: 10px 22px; font-size: .95rem; min-height: 44px; }
     .nav-actions svg { width: 20px; height: 20px; flex-shrink: 0; }
     @media (max-width: 760px) {
       .navbar { padding: 6px 0 2px; }
       .navbar .wrap { padding: 0 10px; row-gap: 0; }
-      .nav-units { order: 3; flex: 1 0 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-      .nav-units a { white-space: nowrap; font-size: .84rem; padding: 0 2px; }
+      .nav-units { order: 3; flex: 1 0 100%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+      .nv-long { display: none; } .nv-short { display: inline; }
+      .nav-units a { white-space: nowrap; font-size: .78rem; padding: 0 2px; }
       .nav-actions .btn-wa { padding: 0; width: 44px; font-size: 0; gap: 0; }
       .navbar .wrap { flex-wrap: wrap; }
       .eyebrow { font-size: .8rem; letter-spacing: .06em; padding: 7px 14px; text-align: left; }
@@ -187,6 +189,11 @@
     /* Convênios e Planos de Sessões Particulares */
     .plans { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; justify-content: center; }
     .plans span { background: var(--white); box-shadow: var(--shadow-sm); border-radius: 999px; padding: 10px 22px; font-weight: 800; color: var(--petrol); }
+    .pkg-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 860px; margin: 26px auto 0; }
+    .pkg-strip a { display: block; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); aspect-ratio: 1; transition: transform var(--t-fast), box-shadow var(--t-fast); }
+    .pkg-strip a:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .pkg-strip img { width: 100%; height: 100%; object-fit: cover; }
+    @media (min-width: 760px) { .pkg-strip { grid-template-columns: repeat(6, 1fr); } }
     .pricing-grid { display: grid; gap: 16px; margin-top: 36px; text-align: left; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
     .pricing-card { background: var(--white); border-radius: var(--r-card); padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; border: 2px solid transparent; transition: transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast); }
     .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--teal); }
@@ -391,7 +398,8 @@
       <a class="logo" href="/" aria-label="FaçaAmigos Centro de Terapia Comportamental — página inicial"><img class="fa-logo-img" src="img/logo-clinica.png" width="1040" height="179" alt="FaçaAmigos Centro de Terapia Comportamental" loading="eager" decoding="async"></a>
       <div class="nav-units">
         <a href="https://institutofacaamigos.com.br/playground">Playground</a>
-        <a href="/clinica" aria-current="page">Clínica</a>
+        <a href="/clinica">Clínica</a>
+        <a href="/planos" aria-current="page"><span class="nv-long">Pacotes particulares</span><span class="nv-short">Pacotes</span></a>
         <a href="/aprender">Para pais</a>
         <a href="/eventos">Eventos</a>
       </div>
