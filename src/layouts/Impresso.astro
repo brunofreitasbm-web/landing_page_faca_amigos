@@ -1,0 +1,35 @@
+---
+// Base das artes para gráfica. Medidas em milímetros, já com 3 mm de sangria em cada lado.
+import '../styles/tokens.css';
+import marca from '../data/marca.json';
+interface Props { titulo: string; larguraMm: number; alturaMm: number; paginas?: number }
+const { titulo, larguraMm, alturaMm } = Astro.props;
+const provisorio = !marca.urlDefinitiva || !marca.contato.whatsappDefinitivo;
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>{titulo}</title>
+  <style set:html={`@page { size: ${larguraMm}mm ${alturaMm}mm; margin: 0; } :root { --w: ${larguraMm}mm; --h: ${alturaMm}mm; }`}></style>
+</head>
+<body class:list={[{ provisorio }]}>
+  <slot />
+</body>
+</html>
+<style is:global>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #888; }
+  body { font-family: var(--fonte); color: var(--tinta); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .folha { width: var(--w); height: var(--h); position: relative; overflow: hidden; break-after: page; margin: 0 auto; }
+  .folha:last-child { break-after: auto; }
+  @media screen { body { padding: 10mm 0; } .folha { margin-bottom: 10mm; box-shadow: 0 2mm 8mm rgba(0,0,0,.3); } }
+  /* Aviso enquanto endereço/WhatsApp não forem definitivos: impede mandar para a gráfica por engano. */
+  body.provisorio .folha::after {
+    content: 'PROVISÓRIO · endereço do QR / WhatsApp a confirmar';
+    position: absolute; left: 0; right: 0; top: 50%; transform: rotate(-30deg);
+    text-align: center; font: 600 calc(var(--w) / 22) / 1 var(--fonte); color: rgba(220, 30, 30, .55);
+    pointer-events: none; z-index: 10;
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+// Display de mesa A5 em pé. Arquivo: 154 × 216 mm (3 mm de sangria).
+import Impresso from '../../layouts/Impresso.astro';
+import Logo from '../../components/Logo.astro';
+import marca from '../../data/marca.json';
+import { icone } from '../../lib/icone.js';
+import { qrSvg, urlCadastro } from '../../lib/qr.js';
+const qr = await qrSvg(urlCadastro('mesa'));
+const dores = ['Sessão atendida sem guia?', 'Glosa voltando todo mês?', 'Ponto de estagiário no papel?'];
+---
+<Impresso titulo="Display de mesa FA Tech" larguraMm={154} alturaMm={216}>
+  <section class="folha mesa">
+    <div class="topo">
+      <Logo tamanho="11mm" tema="escuro" />
+      <ul>
+        {dores.map((d) => <li>{d}</li>)}
+      </ul>
+    </div>
+    <div class="base">
+      <div class="qr" set:html={qr} />
+      <p class="acao"><span set:html={icone('scan-line', { tamanho: 20, traco: 1.6 })} /> Aponte a câmera</p>
+      <p class="apoio">Descubra quanto sua clínica pode recuperar e teste os sistemas no seu celular.</p>
+      <p class="priv">{marca.privacidade}</p>
+    </div>
+  </section>
+</Impresso>
+<style>
+  .mesa { background: var(--branco); display: flex; flex-direction: column; }
+  .topo { background: var(--petroleo-900); color: #fff; padding: 15mm 15mm 11mm; }
+  .topo ul { list-style: none; margin-top: 9mm; display: grid; gap: 2.6mm; }
+  .topo li { font-size: 6.6mm; font-weight: 300; line-height: 1.2; }
+  .topo li::before { content: ''; display: inline-block; width: 2mm; height: 2mm; border-radius: 50%; background: var(--agua); margin: 0 3mm .8mm 0; vertical-align: middle; }
+  .base { flex: 1; padding: 9mm 15mm 13mm; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .qr { width: 64mm; height: 64mm; }
+  .qr :global(svg) { width: 100%; height: 100%; display: block; }
+  .acao { margin-top: 6mm; font-size: 8mm; font-weight: 600; color: var(--petroleo-900); display: flex; align-items: center; gap: 2.5mm; }
+  .acao :global(svg) { width: 7mm; height: 7mm; color: var(--petroleo-600); }
+  .apoio { margin-top: 2.5mm; font-size: 4.2mm; line-height: 1.35; color: var(--cinza); max-width: 108mm; }
+  .priv { margin-top: auto; font-size: 3.2mm; color: var(--cinza); border-top: .3mm solid var(--linha); padding-top: 3mm; width: 100%; }
+</style>
