@@ -211,7 +211,8 @@
       color: var(--ink-soft);
     }
     .lp .price-chip span {
-      font-family: 'Fredoka One', 'Fredoka One Fallback', sans-serif;
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: 1.25rem;
       color: var(--teal-dark);
     }
@@ -263,7 +264,8 @@
       left: -14px;
       background: var(--yellow);
       color: var(--dark);
-      font-family: 'Fredoka One', 'Fredoka One Fallback', sans-serif;
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: 0.98rem;
       padding: 12px 22px;
       border-radius: 9999px;
@@ -432,7 +434,8 @@
       margin-bottom: 8px;
     }
     .lp .price-card .value {
-      font-family: 'Fredoka One', 'Fredoka One Fallback', sans-serif;
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: 2.6rem;
       color: var(--teal-dark);
       line-height: 1;
@@ -482,7 +485,8 @@
     }
     .lp summary::after {
       content: '+';
-      font-family: 'Fredoka One', 'Fredoka One Fallback', sans-serif;
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: 1.4rem;
       color: var(--pink);
     }

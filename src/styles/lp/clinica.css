@@ -50,7 +50,7 @@
     /* Como funciona o 1º contato */
     .lp .steps { display: grid; gap: 16px; margin-top: 36px; }
     .lp .step { background: var(--white); border-radius: var(--r-card); padding: 26px; box-shadow: var(--shadow-sm); }
-    .lp .step .ib { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 14px; background: var(--petrol); color: #fff; font-family: var(--font-display); font-size: 1.5rem; }
+    .lp .step .ib { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 14px; background: var(--petrol); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; }
     .lp .step .n { font-weight: 900; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--pink-dark); margin-bottom: 6px; }
     .lp .step h3 { font-size: 1.3rem; margin-bottom: 8px; }
     .lp .step p:last-child { color: var(--ink-soft); font-weight: 600; }
@@ -85,7 +85,7 @@
     .lp .signs { display: grid; gap: 12px; margin-top: 30px; max-width: 720px; margin-left: auto; margin-right: auto; }
     .lp .sign { display: flex; gap: 14px; align-items: flex-start; background: var(--white); border-radius: 18px; padding: 16px 18px; box-shadow: var(--shadow-sm); font-weight: 700; }
     .lp .sign .ck { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--petrol); display: grid; place-items: center; margin-top: 1px; color: #fff; font-size: .85rem; }
-    .lp .reassure { margin-top: 28px; text-align: center; font-family: var(--font-display); font-size: clamp(1.2rem, 3.6vw, 1.6rem); color: var(--petrol); }
+    .lp .reassure { margin-top: 28px; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.2rem, 3.6vw, 1.6rem); color: var(--petrol); }
     .lp .reassure-sub { margin: 16px auto 0; max-width: 640px; text-align: center; font-weight: 600; color: var(--ink-soft); }
     /* Quem cuida */
     .lp .about { display: grid; gap: 30px; align-items: center; }
@@ -113,7 +113,7 @@
     .lp .pricing-badge { position: absolute; top: -12px; right: 18px; background: var(--yellow); color: var(--petrol-deep); font-size: .75rem; font-weight: 900; letter-spacing: .06em; padding: 4px 12px; border-radius: 999px; box-shadow: var(--shadow-sm); }
     .lp .pricing-card-header h3 { font-size: 1.25rem; color: var(--petrol); margin-bottom: 4px; }
     .lp .pricing-card-sessions { font-size: .92rem; font-weight: 800; color: var(--ink-soft); margin-bottom: 12px; }
-    .lp .pricing-card-price { font-size: 2rem; font-family: var(--font-display); color: var(--dark); line-height: 1; margin-bottom: 6px; }
+    .lp .pricing-card-price { font-size: 2rem; font-family: var(--font-display); font-weight: 600; color: var(--dark); line-height: 1; margin-bottom: 6px; }
     .lp .pricing-card-unit { font-size: .88rem; font-weight: 700; color: var(--teal-dark); margin-bottom: 14px; }
     .lp .pricing-card-desc { font-size: .9rem; font-weight: 600; color: var(--ink-soft); line-height: 1.45; }
     .lp .pricing-card-footer { font-size: .85rem; color: var(--ink-soft); font-weight: 700; border-top: 1px solid rgba(26,63,53,.08); padding-top: 12px; margin-top: 16px; }
@@ -152,8 +152,8 @@
     .lp .mural-card p { color: rgba(255, 255, 255, 0.92); font-weight: 600; font-size: .98rem; line-height: 1.5; }
     .lp .mural-steps { display: grid; gap: 16px; margin-top: 36px; text-align: left; }
     .lp .mural-step { display: flex; gap: 16px; align-items: flex-start; background: var(--white); color: var(--dark); border-radius: 20px; padding: 20px 22px; box-shadow: var(--shadow-sm); }
-    .lp .mural-step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--pink); color: #fff; font-family: var(--font-display); font-size: 1.3rem; display: grid; place-items: center; flex-shrink: 0; }
-    .lp .mural-step-body h4 { font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 4px; color: var(--petrol); }
+    .lp .mural-step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--pink); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; display: grid; place-items: center; flex-shrink: 0; }
+    .lp .mural-step-body h4 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; margin-bottom: 4px; color: var(--petrol); }
     .lp .mural-step-body p { font-size: .94rem; font-weight: 600; color: var(--ink-soft); line-height: 1.45; }
     @media (min-width: 720px) {
       .lp .steps { grid-template-columns: repeat(3, 1fr); }
