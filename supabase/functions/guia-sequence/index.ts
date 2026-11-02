@@ -41,7 +41,7 @@ const ALLOWED_ORIGINS = [SITE, "https://www.institutofacaamigos.com.br", "http:/
 // .ebook_offer qual e-book o lead viu na tela de resultado; aqui a sequência manda o mesmo produto, em vez de
 // falar do guia para quem viu o Código. Os 3 templates do Brevo devem usar as variáveis PRODUTO_* abaixo no
 // lugar do texto fixo do guia — enquanto não usarem, o e-mail sai igual ao de hoje e nada quebra.
-// O Código não tem preço na comunicação (decisão do projeto: o valor só aparece no checkout).
+// O Código é pagamento único na Hotmart (sem parcelamento).
 const OFFERS = {
   guia: {
     title: "O Brincar com Propósito",
@@ -54,8 +54,8 @@ const OFFERS = {
     title: "O Código do Desenvolvimento Infantil",
     path: "/codigo",
     cta: "Conhecer o e-book",
-    price: "",
-    installments: "",
+    price: "R$ 9,90",
+    installments: "pagamento único",
   },
 } as const;
 
