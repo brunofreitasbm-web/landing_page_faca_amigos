@@ -25,7 +25,7 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 - **Nova página:** `src/pages/x.astro` usando `Base`; incluir a URL em `public/sitemap.xml` (o `lastmod` é mantido por `npm run sitemap`).
 
 ### Pendências conhecidas
-- As páginas legadas em `public/*.html` (home, playground, teste, evento, ingresso, descadastrar e família) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
+- As páginas legadas em `public/*.html` (home, teste, evento, ingresso, descadastrar e família) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
 - `/trabalhe-conosco`: vagas com schema `JobPosting` (hoje a página é só o formulário de candidatura); `/parcerias` (depende de haver oferta de dia útil).
 - `evento` (acoplada ao `middleware.js`, que reescreve o HTML dela por texto exato), `ingresso`, `teste` (questionário), `guia` e `codigo` (checkout da Hotmart) e as páginas grandes de venda ficaram de fora de propósito: têm lógica ou CSS próprio que exige migração com mais cuidado.
 - `sitemap.xml` ainda é mantido à mão (`public/`).
