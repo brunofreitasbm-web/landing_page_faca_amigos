@@ -1,0 +1,49 @@
+{
+  "slug": "brincar-com-proposito-10-minutos",
+  "titulo": "5 brincadeiras de 10 minutos que ensinam sem parecer aula",
+  "titleTag": "5 brincadeiras de 10 minutos com propósito | FaçaAmigos",
+  "descricao": "Cinco brincadeiras de 10 minutos, com o que cada uma ensina, para fazer com seu filho hoje sem que pareça aula.",
+  "ogImage": "https://institutofacaamigos.com.br/img/isabella-2.jpg",
+  "ogImageAlt": "Isabella Gonçalves Freitas, idealizadora do FaçaAmigos",
+  "ogImageW": "700",
+  "ogImageH": "935",
+  "eyebrow": "Guia · 5 min de leitura",
+  "dataTexto": "28 de setembro de 2026",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "about": [
+    "brincar simbólico",
+    "atenção compartilhada",
+    "brincar com propósito"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/isabella-2.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer mais brincadeiras como essas?",
+    "href": "/guia",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Conhecer o guia completo"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=brincar_com_proposito_10_minutos",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/rotina-visual-em-casa",
+      "tag": "6 min · Rotina",
+      "titulo": "Rotina visual em casa: um passo a passo de 20 minutos"
+    },
+    {
+      "href": "/aprender/sinais-para-observar",
+      "tag": "5 min · Desenvolvimento",
+      "titulo": "Será que é normal?: sinais que valem um olhar mais de perto"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Conhecer o guia completo",
+    "href": "/guia",
+    "event": "aprender_cta"
+  }
+}

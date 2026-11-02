@@ -1,0 +1,50 @@
+{
+  "slug": "birra-ou-crise",
+  "titulo": "Birra ou crise? Como diferenciar e o que fazer na hora",
+  "titleTag": "Birra ou crise? Diferenças e o que fazer | FaçaAmigos",
+  "descricao": "Birra e crise (meltdown) parecem iguais de fora, mas pedem respostas diferentes. Veja como diferenciar na hora e o que fazer, escrito por uma psicóloga infantil.",
+  "ogImage": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "28 de setembro de 2026",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "about": [
+    "birra",
+    "crise",
+    "meltdown",
+    "autorregulação"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer um retrato mais completo do seu filho?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=birra_ou_crise",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/sinais-para-observar",
+      "tag": "5 min · Desenvolvimento",
+      "titulo": "Será que é normal?: sinais que valem um olhar mais de perto"
+    },
+    {
+      "href": "/aprender/primeira-vez-no-playground",
+      "tag": "5 min · Passeio",
+      "titulo": "Primeira vez no playground com uma criança sensível: como preparar"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  }
+}

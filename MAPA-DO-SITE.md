@@ -10,7 +10,7 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 | Pasta | O que tem |
 |---|---|
 | `public/` | Tudo que já era servido, copiado **como está**: as páginas HTML ainda não migradas, `assets/`, `img/`, `audio/`, `sitemap*.xml`, `llms*.txt`, `geo-facts.json`... |
-| `src/pages/` | Páginas Astro (as novas: `quem-somos`, `playground/*`, `equipe/*`, `clinica/equipe`). |
+| `src/pages/` | Páginas Astro: `quem-somos`, `playground/*`, `equipe/*`, `clinica/equipe` e `aprender/[slug]` (os 9 artigos). |
 | `src/data/` | **Fonte única dos fatos**: `marca.json` (contatos, endereço, andar, CNPJ, horário da Clínica), `equipe.json`, `artigos.json`, `especialidades.json`. `marca.ts` deriva o horário de `public/geo-facts.json` (vem do caixa). |
 | `src/components/`, `src/layouts/`, `src/styles/` | `Base` (head, GTM, JSON-LD), `Nav`, `Footer`, `Foto`, `FAQ`, `UnidadePagina`; tokens do kit da Clínica em `global.css`. |
 | `scripts/` | `check.mjs` verifica o **site construído** (`dist/`): rode `npm run build && npm run check`. |
@@ -20,13 +20,15 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 - **Horário e preço do Playground/Circuito:** vêm do caixa. Corrigir no cadastro da unidade e rodar `npm run geo`. O domingo (12h às 21h) fica em `supabase/functions/geo-facts/index.ts` (`sundayOpen`/`sundayClose`).
 - **Horário da Clínica:** `src/data/marca.json` → `horarioClinica`.
 - **Publicar um profissional:** `src/data/equipe.json`, `publicar: true` (só com aprovação dele). Com 2 ou mais perfis, `/clinica/equipe` passa a ser indexável e entra no sitemap.
+- **Texto de um artigo de Aprender:** `src/data/aprender/<slug>.html` (o texto) e `<slug>.json` (título, metadados, botões, "leia também"). Um artigo novo = um par de arquivos novo; a rota `aprender/[slug]` gera a página. A URL entra em `public/sitemap.xml`.
 - **Nova página:** `src/pages/x.astro` usando `Base`; incluir a URL em `public/sitemap.xml` (o `lastmod` é mantido por `npm run sitemap`).
 
 ### Pendências conhecidas
-- As páginas legadas em `public/*.html` (home, playground, circuito, clínica, planos, aprender, guia, código, teste, eventos, glossário, trabalhe conosco, legais) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
+- As páginas legadas em `public/*.html` (home, playground, circuito, clínica, planos, índice de aprender, guia, código, teste, eventos, glossário, trabalhe conosco, legais) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
 - `/trabalhe-conosco`: vagas com schema `JobPosting` e banco de talentos; `/parcerias` (depende de haver oferta de dia útil).
 - `sitemap.xml` ainda é mantido à mão (`public/`).
 - Hoje são servidos publicamente `NEWVITTA/`, `contexto.md`, `EXPERIMENTOS-TV2.md` e `chatbot-clinica/`. Decidir se saem de `public/`.
+- Textos dos artigos de Aprender que talvez estejam velhos: "Conhecer a Clínica FaçaAmigos, em breve no Umarizal" (todos os 9) e "entrar na lista de espera da Clínica" (2). A página da Clínica diz "já está atendendo". Confirmar qual é a verdade.
 - Preço do Parque no caixa (50% para o público geral) diverge do site e de `geo-facts.json` do repositório (40%).
 
 ## 1. Domínios e quem serve o quê

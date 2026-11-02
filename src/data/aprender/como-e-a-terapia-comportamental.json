@@ -1,0 +1,49 @@
+{
+  "slug": "como-e-a-terapia-comportamental",
+  "titulo": "O que acontece numa sessão de terapia comportamental (sem jargão)",
+  "titleTag": "Como é uma sessão de terapia comportamental | FaçaAmigos",
+  "descricao": "O que realmente acontece numa sessão de terapia comportamental, sem jargão: da avaliação inicial ao papel da família fora do consultório.",
+  "ogImage": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "ogImageW": "900",
+  "ogImageH": "1080",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "28 de setembro de 2026",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "about": [
+    "terapia comportamental",
+    "aba",
+    "avaliação comportamental"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer conversar sobre o seu caso?",
+    "href": "https://wa.me/5591991782027?text=Ol%C3%A1%21%20Li%20o%20guia%20sobre%20como%20%C3%A9%20a%20terapia%20comportamental%20e%20quero%20entrar%20na%20lista%20de%20espera%20da%20Cl%C3%ADnica%20Fa%C3%A7aAmigos.",
+    "cta": "proximo_passo",
+    "externo": true,
+    "botao": "Entrar na lista de espera"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=como_e_a_terapia_comportamental",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/sinais-para-observar",
+      "tag": "5 min · Desenvolvimento",
+      "titulo": "Será que é normal?: sinais que valem um olhar mais de perto"
+    },
+    {
+      "href": "/aprender/laudo-e-ciptea",
+      "tag": "6 min · Direitos",
+      "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Entrar na lista de espera",
+    "href": "whatsapp",
+    "event": "aprender_cta"
+  }
+}

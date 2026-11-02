@@ -1,0 +1,49 @@
+{
+  "slug": "laudo-e-ciptea",
+  "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém",
+  "titleTag": "Laudo e CIPTEA: o que são e onde valem | FaçaAmigos",
+  "descricao": "A diferença entre laudo e CIPTEA, o que cada um garante e onde valem em Belém, explicado sem juridiquês.",
+  "ogImage": "https://institutofacaamigos.com.br/img/galeria-oficinas.jpg",
+  "ogImageAlt": "Oficina de acolhimento do FaçaAmigos",
+  "ogImageW": "768",
+  "ogImageH": "1024",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "28 de setembro de 2026",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "about": [
+    "laudo",
+    "ciptea",
+    "meia-entrada inclusiva"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/galeria-oficinas.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Já pensou em usar o benefício no Playground?",
+    "href": "https://institutofacaamigos.com.br/playground",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Ver a meia-entrada inclusiva"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=laudo_e_ciptea",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/primeira-vez-no-playground",
+      "tag": "5 min · Passeio",
+      "titulo": "Primeira vez no playground com uma criança sensível: como preparar"
+    },
+    {
+      "href": "/aprender/como-e-a-terapia-comportamental",
+      "tag": "6 min · Terapia",
+      "titulo": "O que acontece numa sessão de terapia comportamental (sem jargão)"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Ver a meia-entrada inclusiva",
+    "href": "https://institutofacaamigos.com.br/playground",
+    "event": "aprender_cta"
+  }
+}

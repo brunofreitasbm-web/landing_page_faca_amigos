@@ -1,0 +1,46 @@
+/* Artigos de /aprender. O corpo de cada artigo é HTML em src/data/aprender/<slug>.html; estes estilos o vestem. */
+.artigo-wrap { width: 100%; max-width: 700px; margin: 0 auto; padding-inline: var(--gutter); padding-block: 8px 72px; }
+.artigo .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.artigo .eyebrow::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--pink); }
+.artigo h1 { font-size: clamp(1.75rem, 5.4vw, 2.6rem); margin-bottom: 20px; }
+.byline { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+.byline img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 25%; flex: none; }
+.byline .who { font-size: .95rem; line-height: 1.4; }
+.byline .who a { font-weight: 800; color: var(--petrol); text-decoration: none; display: block; }
+.byline .who a:hover { text-decoration: underline; }
+.byline .who span { color: var(--gray); font-weight: 600; }
+
+.prosa { font-size: 1.125rem; line-height: 1.75; }
+.prosa p { margin: 0 0 1.15em; }
+.prosa h2 { font-size: clamp(1.3rem, 3.6vw, 1.65rem); margin: 2.1em 0 .6em; scroll-margin-top: 92px; }
+.prosa ul, .prosa ol { margin: 0 0 1.3em; padding-left: 1.3em; display: grid; gap: .5em; }
+.prosa li::marker { color: var(--pink); font-weight: 800; }
+.prosa a { font-weight: 700; }
+.prosa b, .prosa strong { color: var(--petrol); }
+.prosa .box-practice { background: var(--yellow-soft); border-radius: var(--radius); padding: 20px 22px; margin: 30px 0; }
+.prosa .box-practice p:last-child { margin-bottom: 0; }
+.prosa .box-practice .lbl { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--petrol); margin-bottom: 8px; display: block; }
+.prosa .toc { background: var(--ice); border: 1px solid var(--line); border-radius: 16px; padding: 14px 20px 8px; margin: 0 0 30px; }
+.prosa .toc .lbl { display: block; font-size: .85rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); margin-bottom: 2px; }
+.prosa .toc ol { list-style: none; margin: 0; padding: 0; display: block; }
+.prosa .toc li::marker { content: none; }
+.prosa .toc a { display: block; padding: 10px 0; min-height: 44px; text-decoration: none; font-weight: 700; line-height: 1.3; }
+.prosa .toc a:hover { text-decoration: underline; color: var(--pink-dark); }
+
+.proximo { background: #fff; border: 2px solid var(--petrol); border-radius: 24px; padding: 28px 24px; margin: 48px 0 20px; text-align: center; display: grid; gap: 12px; justify-items: center; }
+.proximo .lbl { font-size: .85rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
+.proximo h3 { font-size: 1.3rem; }
+.sozinha { background: var(--teal-soft); border-radius: 24px; padding: 24px; margin: 0 0 20px; text-align: center; display: grid; gap: 12px; justify-items: center; }
+.sozinha p { font-weight: 700; }
+.sozinha .mais { font-size: .95rem; }
+.sozinha .mais a { font-weight: 700; }
+.btn svg { width: 20px; height: 20px; fill: currentColor; flex: none; }
+.leia-tambem { margin: 36px 0 10px; display: grid; gap: 14px; }
+.leia-tambem h3 { font-size: 1.15rem; }
+.lt-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .lt-grid { grid-template-columns: repeat(2, 1fr); } }
+.lt-card { display: block; background: var(--ice); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; text-decoration: none; min-height: 44px; }
+.lt-card:hover { border-color: var(--teal); }
+.lt-card .lt-tag { display: block; font-size: .85rem; font-weight: 800; color: var(--pink); margin-bottom: 4px; }
+.lt-card b { display: block; color: var(--petrol); font-weight: 800; font-size: 1.05rem; line-height: 1.3; }
+.aviso { font-size: .9rem; color: var(--gray); margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--line); }

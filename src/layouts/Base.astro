@@ -9,6 +9,7 @@ import { dims } from '../lib/img';
 
 interface Props {
   title: string;
+  ogTitle?: string; // título ao compartilhar (padrão: o da aba)
   description: string;
   path: string; // caminho canônico, ex.: "/quem-somos"
   ogImage?: string; // relativo a public/
@@ -18,9 +19,10 @@ interface Props {
   jsonLd?: Record<string, unknown>[]; // nós schema.org; vão juntos num @graph
   secao?: string; // item ativo do menu
   wa?: UnidadeId; // unidade cujo WhatsApp aparece no botão
+  waTexto?: string; // mensagem inicial do WhatsApp (padrão: a da unidade)
   cta?: { label: string; href: string; event: string }; // barra de ação no celular (assets/fa-cta.js)
 }
-const { title, description, path, ogImage = 'img/og/og-hub.jpg', ogImageAlt = 'FaçaAmigos', ogType = 'website', noindex = false, jsonLd = [], secao = '', wa = 'parque', cta } = Astro.props;
+const { title, ogTitle, description, path, ogImage = 'img/og/og-hub.jpg', ogImageAlt = 'FaçaAmigos', ogType = 'website', noindex = false, jsonLd = [], secao = '', wa = 'parque', waTexto, cta } = Astro.props;
 const canonical = abs(path);
 const robots = noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 const imagem = abs('/' + ogImage);
@@ -45,7 +47,7 @@ const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org',
   <meta name="theme-color" content="#065264" />
   <meta property="og:type" content={ogType} />
   <meta property="og:site_name" content="FaçaAmigos" />
-  <meta property="og:title" content={title} />
+  <meta property="og:title" content={ogTitle ?? title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
   <meta property="og:image" content={imagem} />
@@ -54,7 +56,7 @@ const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org',
   <meta property="og:image:alt" content={ogImageAlt} />
   <meta property="og:locale" content="pt_BR" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
+  <meta name="twitter:title" content={ogTitle ?? title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={imagem} />
   <meta name="twitter:image:alt" content={ogImageAlt} />
@@ -68,10 +70,10 @@ const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org',
 <body>
   <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${SITE.gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  <Nav atual={secao} wa={wa} />
+  <Nav atual={secao} wa={wa} texto={waTexto} />
   <main id="conteudo"><slot /></main>
   <Footer kind="hub" />
-  <WhatsAppFloat href={waUrl(wa)} />
+  <WhatsAppFloat href={waUrl(wa, waTexto)} />
   <script is:inline src="/assets/fa-footer.js?v=20261101" defer></script>
   {cta && <script is:inline src="/assets/fa-cta.js" defer data-label={cta.label} data-href={cta.href} data-event={cta.event}></script>}
 </body>
