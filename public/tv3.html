@@ -866,6 +866,21 @@
     #tvStage.portrait-mode .tv-slide.solo .tv-headline,
     #tvStage.portrait-mode .tv-slide.solo .tv-subtext { max-width: 100%; }
 
+
+    /* QR COM ARTE: selo com anel colorido (a cor muda por destino), anel tracejado que pulsa e mascote. Tudo fica fora da área de leitura do QR. */
+    .tv-qr-box.arte, .tv-qr-big.arte { position: relative; border-radius: 30px; box-shadow: 0 0 0 6px #fff, 0 0 0 11px var(--qr-acento, #E01560), 0 16px 34px rgba(3, 45, 55, 0.25); }
+    .tv-qr-box.arte svg, .tv-qr-big.arte svg { border-radius: 24px; }
+    .tv-qr-box.arte::after, .tv-qr-big.arte::after { content: ''; position: absolute; top: -24px; right: -24px; bottom: -24px; left: -24px; border: 4px dashed var(--qr-acento, #E01560); border-radius: 46px; opacity: 0.3; pointer-events: none; animation: qrPulso 2.6s ease-in-out infinite; }
+    @keyframes qrPulso { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.75; transform: scale(1.03); } }
+    .tv-qr-mascote { display: none; width: auto; height: auto; max-height: 170px; max-width: 290px; filter: drop-shadow(0 8px 12px rgba(3, 45, 55, 0.22)); pointer-events: none; }
+    #tvStage.t32 .tv-qr-wrapper.arte { align-items: stretch; }
+    #tvStage.t32 .tv-qr-text .tv-qr-mascote { display: block; margin-top: auto; align-self: flex-end; }
+    #tvStage.t32 .tv-qr-wrapper { padding: 26px 30px; }
+    #tvStage.t32 .tv-qr-wrapper.arte { gap: 46px; }
+    .tv-qr-big.arte { margin-bottom: 30px; }
+    .tv-qr-big.arte .tv-qr-mascote { display: block; position: absolute; right: -176px; bottom: 4px; max-height: 210px; max-width: 190px; }
+    @media (prefers-reduced-motion: reduce) { .tv-qr-box.arte::after, .tv-qr-big.arte::after { animation: none; opacity: 0.4; } }
+
     /* Respiro: foto cheia e uma frase */
     .tv-slide.respiro .tv-image-overlay {
       background: linear-gradient(180deg, rgba(3, 45, 55, 0.05) 0%, rgba(3, 45, 55, 0.35) 55%, rgba(3, 45, 55, 0.9) 100%);
@@ -1002,6 +1017,7 @@
         experiment: 'base-2026-12',   // rótulo do experimento (formato <o-que-mudou>-AAAA-MM)
         roundMin: 10,                 // alvo de duração de uma volta, em minutos
         tela: '32',                   // tamanho da TV: '32' (textos e QR maiores) ou 'grande' (55" ou mais)
+        qrEstilo: 'arte',             // 'arte' (QR arredondado, olhos coloridos, selo e mascote) ou 'classico' (QR quadrado simples)
         orientacao: 'horizontal',     // como a TV fica na parede: 'horizontal' (deitada) ou 'vertical' (em pé). Também vale ?orientacao=vertical na URL
         giro: 90,                     // só para TV em pé que o sistema da TV NÃO girou: 90 ou 270, conforme o lado para onde a TV foi virada
         ritmo: 1.25,                  // multiplica o tempo de todos os slides (1 = tempos do roteiro; maior = mais devagar)
@@ -1139,26 +1155,55 @@
       // QR CODE LOCAL: matrizes pré-geradas (scripts/tv3-qr.py), sem serviço externo.
       // Desenha com margem branca de 4 módulos (exigida para a câmera achar o código).
       // ======================================================================
+      // Arte por destino: cor do anel e mascote (os recortes ficam em img/tv3/mascote-*.webp)
+      const QR_ARTE = {
+        'portal': ['#E01560', 'macaco'], 'teste': ['#137A6A', 'tartaruga'], 'aprender:rotina': ['#137A6A', 'tartaruga'],
+        'aprender:crise': ['#137A6A', 'tartaruga'], 'aprender:brincar': ['#137A6A', 'tartaruga'], 'playground': ['#F59E0B', 'cachorro'],
+        'graopara': ['#F59E0B', 'cachorro'], 'circuito': ['#1F66C9', 'tucano'], 'clinica': ['#0B6D84', 'cachorro'],
+        'planos': ['#B07A0A', 'cachorro'], 'avaliar': ['#E01560', 'macaco']
+      };
+      const qrArte = () => CONFIG.qrEstilo !== 'classico';
+      const qrAcento = (key) => (QR_ARTE[key] || ['#E01560'])[0];
+      function qrMascote(key) {
+        const a = QR_ARTE[key];
+        return qrArte() && a ? '<img class="tv-qr-mascote" src="img/tv3/mascote-' + a[1] + '.webp" alt="" decoding="async">' : '';
+      }
+      // QR com módulos arredondados e os três "olhos" coloridos. Mantém o contraste (escuro sobre branco), a margem de 4 módulos
+      // e a correção M do QR clássico. No teste de leitura (jsQR, com desfoque) o clássico lê a partir de 56 px de largura e este, dependendo do endereço, de 56 a 85 px. Na TV de 32" o QR tem ~126 mm, uns 260 px na câmera a 1,5 m.
       function qrSvg(key, px) {
         const q = QR[key];
         if (!q) return '';
         const m = q.m, n = m.length, pad = 4, size = n + pad * 2;
-        let d = '';
-        for (let y = 0; y < n; y++) {
-          let x = 0;
-          while (x < n) {
-            if (m[y][x] === '1') {
-              let run = 1;
-              while (x + run < n && m[y][x + run] === '1') run++;
-              d += 'M' + (x + pad) + ' ' + (y + pad) + 'h' + run + 'v1h-' + run + 'z';
-              x += run;
-            } else {
-              x++;
+        if (!qrArte()) {
+          let d = '';
+          for (let y = 0; y < n; y++) {
+            let x = 0;
+            while (x < n) {
+              if (m[y][x] === '1') {
+                let run = 1;
+                while (x + run < n && m[y][x + run] === '1') run++;
+                d += 'M' + (x + pad) + ' ' + (y + pad) + 'h' + run + 'v1h-' + run + 'z';
+                x += run;
+              } else {
+                x++;
+              }
             }
           }
+          return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" width="' + px + '" height="' + px + '" shape-rendering="crispEdges" role="img" aria-label="QR Code" data-qr="' + key + '">' +
+            '<rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#032D37"/></svg>';
         }
-        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" width="' + px + '" height="' + px + '" shape-rendering="crispEdges" role="img" aria-label="QR Code" data-qr="' + key + '">' +
-          '<rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#032D37"/></svg>';
+        const rr = (x, y, w, h, r) => 'M' + (x + r) + ' ' + y + 'h' + (w - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' ' + r + 'v' + (h - 2 * r) +
+          'a' + r + ' ' + r + ' 0 0 1 -' + r + ' ' + r + 'h-' + (w - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 -' + r + ' -' + r + 'v-' + (h - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' -' + r + 'z';
+        const olho = (x, y) => (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
+        let d = '';
+        for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (m[y][x] === '1' && !olho(x, y)) d += rr(x + pad, y + pad, 1, 1, 0.3);
+        let olhos = '';
+        [[0, 0, '#E01560'], [n - 7, 0, '#137A6A'], [0, n - 7, '#1F66C9']].forEach((e) => {
+          const X = e[0] + pad, Y = e[1] + pad;
+          olhos += '<path fill-rule="evenodd" fill="' + e[2] + '" d="' + rr(X, Y, 7, 7, 1.8) + ' ' + rr(X + 1, Y + 1, 5, 5, 0.8) + '"/><path fill="' + e[2] + '" d="' + rr(X + 2, Y + 2, 3, 3, 1) + '"/>';
+        });
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" width="' + px + '" height="' + px + '" shape-rendering="geometricPrecision" role="img" aria-label="QR Code" data-qr="' + key + '">' +
+          '<rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#032D37"/>' + olhos + '</svg>';
       }
 
       // ======================================================================
@@ -1410,7 +1455,7 @@
           (s.subtext ? '<p class="tv-subtext">' + s.subtext + '</p>' : '') + (s.chip ? '<span class="tv-cartao-chip">' + s.chip + '</span>' : '') + extra + '</div></div>';
 
         if (hasQr && layout === 'tutorial') {
-          html += '<aside class="tv-action-card tutorial"><div class="tv-qr-big">' + qrSvg(s.qr, 348) + '</div>' +
+          html += '<aside class="tv-action-card tutorial"><div class="tv-qr-big' + (qrArte() ? ' arte' : '') + '" style="--qr-acento:' + qrAcento(s.qr) + '">' + qrSvg(s.qr, 348) + qrMascote(s.qr) + '</div>' +
             (s.qrTitle ? '<div class="tv-qr-callout">' + s.qrTitle + '</div>' : '') +
             (s.qrDesc ? '<div class="tv-qr-instructions">' + s.qrDesc + '</div>' : '') +
             (s.qrHint ? '<div class="tv-qr-subhint">👉 ' + s.qrHint + '</div>' : '') + '</aside>';
@@ -1421,10 +1466,10 @@
               (s.actionDesc ? '<p class="tv-action-desc">' + s.actionDesc + '</p>' : '') + '</div>'
             : '';
           html += '<aside class="tv-action-card">' + head +
-            '<div class="tv-qr-wrapper"><div class="tv-qr-box">' + qrSvg(s.qr, 178) + '</div><div class="tv-qr-text">' +
+            '<div class="tv-qr-wrapper' + (qrArte() ? ' arte' : '') + '"><div class="tv-qr-box' + (qrArte() ? ' arte' : '') + '" style="--qr-acento:' + qrAcento(s.qr) + '">' + qrSvg(s.qr, 178) + '</div><div class="tv-qr-text">' +
             (s.qrTitle ? '<div class="tv-qr-callout">' + s.qrTitle + '</div>' : '') +
             (s.qrDesc ? '<div class="tv-qr-instructions">' + s.qrDesc + '</div>' : '') +
-            (s.qrHint ? '<div class="tv-qr-subhint">👉 ' + s.qrHint + '</div>' : '') + '</div></div>' +
+            (s.qrHint ? '<div class="tv-qr-subhint">👉 ' + s.qrHint + '</div>' : '') + qrMascote(s.qr) + '</div></div>' +
             (s.highlightText ? '<div class="tv-highlight-box"><div class="tv-highlight-icon">' + (s.highlightIcon || '') + '</div><div class="tv-highlight-text">' + s.highlightText + '</div></div>' : '') +
             '</aside>';
         }

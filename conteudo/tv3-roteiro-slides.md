@@ -823,6 +823,15 @@ Tudo fica no `CONFIG` do `tv3.html`:
 
 Para pôr a TV em pé, a edição é uma linha: `orientacao: 'vertical'`. Os layouts em pé já foram conferidos (QR, tutorial, pacotes, mascote, foto vertical).
 
+## QR com arte
+
+`CONFIG.qrEstilo`: `'arte'` (padrão) ou `'classico'` (QR quadrado simples, para voltar atrás com uma linha).
+
+- Módulos arredondados e os três "olhos" do canto em rosa, verde e azul. Contraste, margem e correção de erro iguais ao QR clássico.
+- Selo com anel colorido que muda por destino (Portal rosa, Mapeamento verde, Circuito azul, Playground e Grão-Pará laranja, Planos mostarda) e um anel tracejado que pulsa. Tudo fica fora da área de leitura.
+- Mascote por destino: macaco no Portal e na Avaliação, tartaruga no Mapeamento e nas dicas, tucano no Circuito, cachorro no Playground, Grão-Pará, Clínica e Planos (`img/tv3/mascote-*.webp`).
+- Leitura medida com o decodificador de teste (jsQR, com desfoque): o clássico lê a partir de 56 px de largura na imagem; o QR com arte, de 56 a 85 px conforme o endereço. Os testes `qr` decodificam todos os QR de todos os slides em pé e deitado.
+
 ## Autoexame
 
 Regex sobre `tv3-slides.json`: `promessa|confian[çc]a|oferta|garantid|cura\b|especial|normal|problem|!|—|convênio|IASEP|PROASA`
