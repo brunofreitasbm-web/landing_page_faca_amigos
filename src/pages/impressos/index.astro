@@ -1,9 +1,10 @@
 ---
 import '../../styles/tokens.css';
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pecas = [
-  { href: '/impressos/rollup', nome: 'Roll-up', medida: '85 × 200 cm' },
-  { href: '/impressos/mesa', nome: 'Display de mesa', medida: 'A5 em pé' },
-  { href: '/impressos/cartao', nome: 'Cartão de visita', medida: '9 × 5 cm, frente e verso' },
+  { href: `${b}/impressos/rollup`, nome: 'Roll-up', medida: '85 × 200 cm' },
+  { href: `${b}/impressos/mesa`, nome: 'Display de mesa', medida: 'A5 em pé' },
+  { href: `${b}/impressos/cartao`, nome: 'Cartão de visita', medida: '9 × 5 cm, frente e verso' },
 ];
 ---
 <html lang="pt-BR"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Impressos FA Tech</title><meta name="robots" content="noindex" /></head>

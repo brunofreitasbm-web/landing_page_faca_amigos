@@ -3,8 +3,8 @@
   "descritor": "Gestão para clínicas",
   "origem": "Sistemas criados dentro de uma clínica real, para clínicas reais.",
   "privacidade": "Os dados da sua clínica ficam só com a sua clínica.",
-  "siteUrl": "https://fatech.com.br",
-  "urlDefinitiva": false,
+  "siteUrl": "https://institutofacaamigos.com.br/fatech",
+  "urlDefinitiva": true,
   "contato": {
     "nome": "Bruno Freitas",
     "cargo": "Fundador",
