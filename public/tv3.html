@@ -870,15 +870,17 @@
     /* QR COM ARTE: selo com anel colorido (a cor muda por destino), anel tracejado que pulsa e mascote. Tudo fica fora da área de leitura do QR. */
     .tv-qr-box.arte, .tv-qr-big.arte { position: relative; border-radius: 30px; box-shadow: 0 0 0 6px #fff, 0 0 0 11px var(--qr-acento, #E01560), 0 16px 34px rgba(3, 45, 55, 0.25); }
     .tv-qr-box.arte svg, .tv-qr-big.arte svg { border-radius: 24px; }
-    .tv-qr-box.arte::after, .tv-qr-big.arte::after { content: ''; position: absolute; top: -24px; right: -24px; bottom: -24px; left: -24px; border: 4px dashed var(--qr-acento, #E01560); border-radius: 46px; opacity: 0.3; pointer-events: none; animation: qrPulso 2.6s ease-in-out infinite; }
-    @keyframes qrPulso { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.75; transform: scale(1.03); } }
+    /* o anel tracejado só muda de opacidade (não cresce), então nunca invade o texto: fica a 18 px do QR */
+    .tv-qr-box.arte::after, .tv-qr-big.arte::after { content: ''; position: absolute; top: -18px; right: -18px; bottom: -18px; left: -18px; border: 4px dashed var(--qr-acento, #E01560); border-radius: 40px; opacity: 0.3; pointer-events: none; animation: qrPulso 2.6s ease-in-out infinite; }
+    @keyframes qrPulso { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.75; } }
+    .tv-qr-wrapper.arte { gap: 40px; padding: 28px 24px; }
     .tv-qr-mascote { display: none; width: auto; height: auto; max-height: 170px; max-width: 290px; filter: drop-shadow(0 8px 12px rgba(3, 45, 55, 0.22)); pointer-events: none; }
     #tvStage.t32 .tv-qr-wrapper.arte { align-items: stretch; }
     #tvStage.t32 .tv-qr-text .tv-qr-mascote { display: block; margin-top: auto; align-self: flex-end; }
     #tvStage.t32 .tv-qr-wrapper { padding: 26px 30px; }
-    #tvStage.t32 .tv-qr-wrapper.arte { gap: 46px; }
+    #tvStage.t32 .tv-qr-wrapper.arte { gap: 52px; padding: 26px 12px; background: transparent; border: 0; box-shadow: none; }
     .tv-qr-big.arte { margin-bottom: 30px; }
-    .tv-qr-big.arte .tv-qr-mascote { display: block; position: absolute; right: -176px; bottom: 4px; max-height: 210px; max-width: 190px; }
+    .tv-qr-big.arte .tv-qr-mascote { display: block; position: absolute; right: -196px; bottom: 0; max-height: 180px; max-width: 150px; }
     @media (prefers-reduced-motion: reduce) { .tv-qr-box.arte::after, .tv-qr-big.arte::after { animation: none; opacity: 0.4; } }
 
     /* Respiro: foto cheia e uma frase */
