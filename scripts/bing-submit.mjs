@@ -26,7 +26,7 @@ if (!apikey) {
   process.exit(1);
 }
 
-const xml = ['sitemap.xml', 'sitemap-playground.xml'].map((f) => readFileSync(join(root, f), 'utf8')).join('\n');
+const xml = ['sitemap.xml', 'sitemap-playground.xml'].map((f) => readFileSync(join(root, 'public', f), 'utf8')).join('\n');
 const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
 
 const sites = await (await fetch(`${API}/GetUserSites?apikey=${apikey}`)).json();

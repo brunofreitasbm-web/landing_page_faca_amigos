@@ -1,9 +1,11 @@
 {
   "name": "facaamigos-site",
   "private": true,
-  "description": "Site institucional (hub + playground) do FaçaAmigos. Estático — este package.json existe só para declarar a dependência do Routing Middleware (middleware.js) que a Vercel precisa para buildar.",
+  "description": "Site do FaçaAmigos (hub, playground, circuito, clínica e conteúdo). Astro estático: páginas em src/, arquivos servidos como estão em public/, saída em dist/. O middleware.js (Routing Middleware da Vercel) fica na raiz.",
   "scripts": {
-    "dev": "npx serve . -l 3000",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
     "check": "node scripts/check.mjs",
     "sitemap": "node scripts/sitemap-lastmod.mjs",
     "geo": "node scripts/geo-build.mjs --fetch",
@@ -14,6 +16,10 @@
     "@vercel/functions": "^3.9.7"
   },
   "devDependencies": {
-    "@playwright/test": "^1.64.1"
+    "@playwright/test": "^1.64.1",
+    "astro": "^7.4.4"
+  },
+  "engines": {
+    "node": ">=22.23.4"
   }
 }

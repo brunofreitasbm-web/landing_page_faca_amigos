@@ -35,7 +35,7 @@ QR_URLS = {
 }
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-HTML = ROOT / 'tv3.html'
+HTML = ROOT / 'public' / 'tv3.html'
 BEGIN = '// QR:BEGIN'
 END = '// QR:END'
 

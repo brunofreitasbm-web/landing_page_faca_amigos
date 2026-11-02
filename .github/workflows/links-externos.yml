@@ -16,6 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar dependências
+        run: npm ci --no-audit --no-fund
+      - name: Construir o site (Astro)
+        run: npm run build
       - name: Verificar links externos
         id: lychee
         uses: lycheeverse/lychee-action@v2
@@ -25,8 +32,7 @@ jobs:
             --max-retries 2 --timeout 20 --accept 200..=299,403,429
             --exclude '^https?://(wa\.me|api\.whatsapp\.com|(www\.)?instagram\.com|(www\.)?facebook\.com|(www\.)?linkedin\.com)'
             --exclude '^https?://(www\.)?googletagmanager\.com' --exclude 'localhost'
-            --exclude-path _arquivo --exclude-path docs --exclude-path supabase --exclude-path node_modules
-            './**/*.html'
+            './dist/**/*.html'
           fail: false
       - name: Abrir issue se houver link quebrado
         if: steps.lychee.outputs.exit_code != 0

@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 
 SR = 44100
-OUT = Path(__file__).resolve().parent.parent / "audio" / "vinheta-dinamica.mp3"
+OUT = Path(__file__).resolve().parent.parent / "public" / "audio" / "vinheta-dinamica.mp3"
 BPM = 126
 NOTE = {"C5": 523.25, "E5": 659.25, "G5": 783.99, "C6": 1046.5, "E6": 1318.51, "G6": 1567.98}
 # (posição em colcheias, duração em colcheias, nota)

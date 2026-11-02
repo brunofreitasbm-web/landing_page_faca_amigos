@@ -4,9 +4,16 @@
 // Código de saída 1 somente se houver ERRO. AVISO não reprova.
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname } from 'node:path';
+import { dirname, join, extname, resolve } from 'node:path';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+// repo = raiz do projeto (.vercelignore, supabase/, scripts/). root = o site CONSTRUÍDO (dist/), que é o que vai ao ar.
+// Rode `npm run build` antes. SITE_DIR=public (ou outra pasta) aponta para outro diretório de site.
+const repo = join(dirname(fileURLToPath(import.meta.url)), '..');
+const root = process.env.SITE_DIR ? resolve(process.env.SITE_DIR) : join(repo, 'dist');
+if (!existsSync(join(root, 'index.html'))) {
+  console.error(`Site construído não encontrado em ${root}. Rode "npm run build" antes de "npm run check".`);
+  process.exit(1);
+}
 const SITE_HOSTS = new Set([
   'institutofacaamigos.com.br',
   'www.institutofacaamigos.com.br',
@@ -135,8 +142,8 @@ function existeNoSite(rel) {
 }
 
 function linhasIgnore(arq) {
-  if (!existsSync(join(root, arq))) return null;
-  return read(arq).split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
+  if (!existsSync(join(repo, arq))) return null;
+  return readFileSync(join(repo, arq), 'utf8').split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
 }
 function normaliza(l) {
   return l.replace(/^\/+/, '').replace(/\/+$/, '').replace(/\/\*+$/, '');
@@ -156,12 +163,12 @@ const globais = { erros: [], avisos: [] };
   if (!cobre(gi, 'ebook')) globais.erros.push('ebook/ não está no .gitignore (os PDFs pagos poderiam ir para o repositório).');
   if (!cobre(vi, 'hotspot')) globais.erros.push('hotspot/ não está no .vercelignore (o portal Wi-Fi seria publicado no site).');
   for (const [pasta, motivo] of [['supabase', 'código das funções e migrations'], ['scripts', 'scripts internos']]) {
-    if (existsSync(join(root, pasta)) && !cobre(vi, pasta)) {
+    if (existsSync(join(repo, pasta)) && !cobre(vi, pasta)) {
       globais.avisos.push(`${pasta}/ não está no .vercelignore (${motivo} ficaria público em /${pasta}/...).`);
     }
   }
   for (const f of ['PUBLICAR.md', 'LEIA-ME.txt']) {
-    if (existsSync(join(root, f)) && !cobre(vi, f)) {
+    if (existsSync(join(repo, f)) && !cobre(vi, f)) {
       globais.avisos.push(`${f} não está no .vercelignore (fica público em /${f}).`);
     }
   }

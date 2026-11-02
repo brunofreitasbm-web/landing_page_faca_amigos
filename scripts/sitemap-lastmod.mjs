@@ -24,19 +24,30 @@ function hoje() {
 
 // cleanUrls: "/" -> index.html, "/guia" -> guia.html.
 // Exceção (middleware.js): a raiz do subdomínio playground. serve playground.html.
+// O arquivo-fonte pode estar em public/ (HTML copiado como está) ou em src/pages/ (página Astro, ainda a migrar).
 function arquivoDaUrl(loc) {
   const u = new URL(loc);
   const path = u.pathname.replace(/\/+$/, '');
-  if (path === '' && u.hostname.startsWith('playground.')) return 'playground.html';
-  if (path === '') return 'index.html';
-  const rel = path.slice(1);
-  // Arquivos com extensão própria (.txt, .json, .xml...) não ganham .html — são servidos como estão.
-  return /\.[a-z0-9]+$/i.test(rel) ? rel : rel + '.html';
+  let rel;
+  if (path === '' && u.hostname.startsWith('playground.')) rel = 'playground.html';
+  else if (path === '') rel = 'index.html';
+  else {
+    rel = path.slice(1);
+    // Arquivos com extensão própria (.txt, .json, .xml...) não ganham .html — são servidos como estão.
+    if (!/\.[a-z0-9]+$/i.test(rel)) rel += '.html';
+  }
+  const candidatos = [join('public', rel)];
+  if (rel.endsWith('.html')) {
+    const base = rel.slice(0, -5);
+    candidatos.push(join('src', 'pages', base + '.astro'), join('src', 'pages', base, 'index.astro'));
+  }
+  return candidatos.find((c) => existsSync(join(root, c))) ?? candidatos[0];
 }
 
 function dataDoArquivo(arq) {
   if (git(['status', '--porcelain', '--', arq])) return hoje(); // alterado, novo ou não commitado
-  return git(['log', '-1', '--format=%cs', '--', arq]) || hoje();
+  // --follow: o arquivo foi movido para public/; sem isso a data de todas as páginas viraria a do commit da mudança de pasta.
+  return git(['log', '--follow', '-1', '--format=%cs', '--', arq]) || hoje();
 }
 
 let defasados = 0;
@@ -44,7 +55,7 @@ let semArquivo = 0;
 const novos = new Map();
 
 for (const nome of SITEMAPS) {
-  const sitemapPath = join(root, nome);
+  const sitemapPath = join(root, 'public', nome);
   const antes = readFileSync(sitemapPath, 'utf8');
   const xml = antes.replace(/<url>[\s\S]*?<\/url>/g, (bloco) => {
     const loc = /<loc>([^<]+)<\/loc>/.exec(bloco)?.[1]?.trim();

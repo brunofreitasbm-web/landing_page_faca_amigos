@@ -17,17 +17,23 @@ const dry = args.includes('--dry');
 const todas = args.includes('--all');
 const [base, head = 'HEAD'] = args.filter((a) => !a.startsWith('--'));
 
-const arqChave = readdirSync(root).find((f) => /^[0-9a-f]{32}\.txt$/.test(f));
+const arqChave = readdirSync(join(root, 'public')).find((f) => /^[0-9a-f]{32}\.txt$/.test(f));
 if (!arqChave) {
   console.error('Arquivo de chave IndexNow (<32 hex>.txt) não encontrado na raiz.');
   process.exit(1);
 }
-const key = readFileSync(join(root, arqChave), 'utf8').trim();
+const key = readFileSync(join(root, 'public', arqChave), 'utf8').trim();
 
-const sitemap = [...readFileSync(join(root, 'sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+const sitemap = [...readFileSync(join(root, 'public', 'sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
 const origem = new URL(sitemap[0]).origin;
 
 // index.html -> /, playground.html -> /playground, aprender/x.html -> /aprender/x (cleanUrls da Vercel)
+// Fonte -> caminho do site: public/x.html -> x.html, src/pages/x.astro -> x.html (páginas dinâmicas [x] ficam de fora).
+const caminhoDoSite = (f) => {
+  if (f.startsWith('public/') && f.endsWith('.html')) return f.slice('public/'.length);
+  if (f.startsWith('src/pages/') && f.endsWith('.astro') && !f.includes('[')) return f.slice('src/pages/'.length, -'.astro'.length) + '.html';
+  return null;
+};
 const urlDe = (arq) => origem + '/' + arq.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
 
 let urls;
@@ -39,7 +45,7 @@ if (todas) {
     process.exit(0);
   }
   const mudados = execFileSync('git', ['diff', '--name-only', '--diff-filter=AM', base, head], { cwd: root, encoding: 'utf8' })
-    .split('\n').filter((f) => f.endsWith('.html'));
+    .split('\n').map(caminhoDoSite).filter(Boolean);
   urls = [...new Set(mudados.map(urlDe))].filter((u) => sitemap.includes(u));
 }
 

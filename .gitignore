@@ -19,4 +19,8 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
-img/raw_downloads/
+public/img/raw_downloads/
+
+# Astro: saída do build e cache
+dist/
+.astro/
