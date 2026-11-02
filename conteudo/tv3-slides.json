@@ -792,7 +792,7 @@
     "images": [
       "img/tv/playground-camiseta-crianca-v.webp",
       "img/tv/playground-desenho-camiseta-v.webp",
-      "img/tv3/mascotes-turma-banner.webp",
+      "img/tv/mascotes-turma-banner.webp",
       "img/tv/playground-parede-texturas-v.webp",
       "img/tv/playground-escalada-crianca-v.webp"
     ],
@@ -1284,14 +1284,14 @@
     "dur": 15,
     "layout": "pacotes",
     "qr": null,
-    "image": "img/pacotes/primeiro-passo-600.webp",
+    "image": "img/tv/primeiro-passo-600.webp",
     "images": [
-      "img/pacotes/primeiro-passo-600.webp"
+      "img/tv/primeiro-passo-600.webp"
     ],
     "cards": [
-      "img/pacotes/primeiro-passo-600.webp",
-      "img/pacotes/laco-600.webp",
-      "img/pacotes/vinculo-600.webp"
+      "img/tv/primeiro-passo-600.webp",
+      "img/tv/laco-600.webp",
+      "img/tv/vinculo-600.webp"
     ],
     "kicker": "💬 Atendimento particular",
     "kickerClass": "pink",
@@ -1305,14 +1305,14 @@
     "dur": 15,
     "layout": "pacotes",
     "qr": null,
-    "image": "img/pacotes/turma-600.webp",
+    "image": "img/tv/turma-600.webp",
     "images": [
-      "img/pacotes/turma-600.webp"
+      "img/tv/turma-600.webp"
     ],
     "cards": [
-      "img/pacotes/turma-600.webp",
-      "img/pacotes/abraco-600.webp",
-      "img/pacotes/voo-livre-600.webp"
+      "img/tv/turma-600.webp",
+      "img/tv/abraco-600.webp",
+      "img/tv/voo-livre-600.webp"
     ],
     "kicker": "💬 Atendimento particular",
     "kickerClass": "pink",
@@ -1326,11 +1326,11 @@
     "dur": 15,
     "layout": "cartao",
     "qr": null,
-    "image": "img/pacotes/laco-600.webp",
+    "image": "img/tv/laco-600.webp",
     "images": [
-      "img/pacotes/laco-600.webp"
+      "img/tv/laco-600.webp"
     ],
-    "mascot": "img/pacotes/mascote-laco.webp",
+    "mascot": "img/tv/mascote-laco.webp",
     "accent": "#B07A0A",
     "accentSoft": "#FFF0B8",
     "kicker": "🧩 Pacote sob medida",
@@ -1349,11 +1349,11 @@
     "dur": 15,
     "layout": "cartao",
     "qr": "planos",
-    "image": "img/pacotes/turma-600.webp",
+    "image": "img/tv/turma-600.webp",
     "images": [
-      "img/pacotes/turma-600.webp"
+      "img/tv/turma-600.webp"
     ],
-    "mascot": "img/pacotes/mascote-turma.webp",
+    "mascot": "img/tv/mascote-turma.webp",
     "accent": "#1F66C9",
     "accentSoft": "#D9E8FF",
     "kicker": "💳 Pagamento particular",
