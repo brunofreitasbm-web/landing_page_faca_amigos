@@ -196,6 +196,9 @@
   .chip .arrow { margin-left: auto; color: #B3A99C; }
   .chip .arrow svg { width: 19px; height: 19px; }
 
+  .review { text-align: center; margin-top: 22px; background: linear-gradient(135deg, rgba(255,226,52,0.28), rgba(240,25,107,0.07)); border-radius: 20px; padding: 16px 14px; }
+  .review .stars { font-size: 18px; letter-spacing: 3px; margin-bottom: 4px; }
+  .review b { display: block; font-size: 14px; font-weight: 900; margin-bottom: 9px; }
   .browser-link { text-align: center; margin-top: 16px; }
   .browser-link a { font-size: 12.5px; font-weight: 800; color: var(--ink-soft); text-decoration: underline; }
 
@@ -345,7 +348,7 @@
         <div class="veil"></div>
         <div class="txt">
           <div>
-            <span class="tag">Clínica · já atendendo</span>
+            <span class="tag">Clínica</span>
             <h3>Clínica FaçaAmigos</h3>
             <p>Rua Boaventura da Silva, 1573 · Umarizal</p>
             <p class="meta">Terapias para crianças típicas e atípicas</p>
@@ -403,6 +406,12 @@
       </a>
     </div>
 
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <b>Gostou da Clínica FaçaAmigos?</b>
+      <a class="btn btn-outline" id="ctaAvaliarClinica" href="https://g.page/r/CUpdqF5yECeVECE/review" target="_blank" rel="noopener">Avaliar no Google</a>
+    </div>
+
     <p class="browser-link"><a id="linkWifiPage" href="#" target="_blank" rel="noopener">Abrir no navegador</a></p>
   </section>
 </div>
@@ -433,7 +442,7 @@
   $("ctaGuia").href = SITE + "/guia?" + UTM;
   $("ctaCodigo").href = SITE + "/codigo?" + UTM;
   $("linkWifiPage").href = SITE + "/wifi?" + UTM;
-  ["ctaTeste", "ctaPlaygroundParque", "ctaPlaygroundGrao", "ctaCircuito", "ctaClinica", "rotaParque", "rotaGrao", "ctaGuia", "ctaCodigo", "linkWifiPage"].forEach(function (id) {
+  ["ctaTeste", "ctaPlaygroundParque", "ctaPlaygroundGrao", "ctaCircuito", "ctaClinica", "ctaAvaliarClinica", "rotaParque", "rotaGrao", "ctaGuia", "ctaCodigo", "linkWifiPage"].forEach(function (id) {
     $(id).addEventListener("click", function () { pushDL("wifi_cta_click", { cta: id }); });
   });
 
