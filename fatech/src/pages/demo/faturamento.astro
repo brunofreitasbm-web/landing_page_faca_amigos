@@ -445,7 +445,7 @@ const glosaInfo: Record<string, { rot: string; cls: string }> = {
 
   .lote { min-width: 720px; }
   .lote td { white-space: nowrap; }
-  #modal-txt p + p { margin-top: 10px; }
+  :global(#modal-txt p + p) { margin-top: 12px; }
   .resumo.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   @media (max-width: 520px) { .res { padding: 10px; font-size: 12px; } .res b { font-size: 22px; } }
   .lote tr { transition: background .25s; }
