@@ -1,0 +1,478 @@
+---
+// Demonstração FA Faturamento (em parceria): lote do mês conferido antes do envio,
+// pré-auditoria com bloqueio, recurso de glosa e painel do gestor.
+// Todos os dados vêm de src/data/demo/faturamento.json e são inventados (planos fictícios).
+import Demo from '../../layouts/Demo.astro';
+import Historia from '../../components/Historia.astro';
+import d from '../../data/demo/faturamento.json';
+
+const real = (v: number) => 'R$ ' + v.toLocaleString('pt-BR');
+const total = d.guias.reduce((s, g) => s + g.valor, 0);
+const marcadas = d.guias.filter((g) => g.erro);
+const maxGlosa = Math.max(...d.painel.meses.map((m) => m.glosa), d.painel.meta);
+const maxMotivo = Math.max(...d.painel.motivos.map((m) => m.antes));
+const glosaInfo: Record<string, { rot: string; cls: string }> = {
+  aberta: { rot: 'Aberta', cls: 'p-erro' },
+  analise: { rot: 'Recurso em análise', cls: 'p-info' },
+  recuperada: { rot: 'Recuperada', cls: 'p-ok' },
+};
+---
+<Demo titulo="FA Faturamento · demonstração" produto="FA Faturamento">
+  <main class="wrap stack">
+    <Historia
+      espelho="Quanto da sua receita de convênio <strong>volta como glosa?</strong>"
+      antes="O faturamento era feito à mão no fim do mês, guia por guia. O erro só aparecia quando o plano recusava o pagamento, semanas depois."
+      virada="Passamos a conferir cada guia antes de enviar ao plano, e não depois que a glosa chega."
+      depois="A guia sai certa da clínica. Glosa virou exceção, e quando acontece o recurso fica pronto em minutos."
+    />
+
+    <div class="row titulo-prod">
+      <h1>FA Faturamento</h1>
+      <span class="pill p-info">{d.parceria}</span>
+    </div>
+
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true" data-aba="lote" id="aba-lote">Lote do mês</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="auditoria" id="aba-auditoria">Pré-auditoria <span class="cont" id="cont-pa" hidden></span></button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="glosas" id="aba-glosas">Glosas recebidas</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="painel" id="aba-painel">Painel</button>
+    </div>
+
+    <!-- LOTE -->
+    <section data-painel="lote" class="stack">
+      <div class="row between">
+        <div>
+          <h2>Lote de {d.mes} · {d.clinica}</h2>
+          <p class="muted small">{d.guias.length} guias · {real(total)} para cobrar dos planos</p>
+        </div>
+        <div class="row">
+          <button class="btn btn-pri" id="btn-conferir">Conferir lote</button>
+          <button class="btn btn-sec" id="btn-enviar">Enviar ao plano</button>
+        </div>
+      </div>
+
+      <div class="card conferencia" id="lote-resumo">
+        <div class="row between">
+          <span class="small muted" id="conf-txt">Lote ainda não conferido. Toque em <b>Conferir lote</b>.</span>
+          <div class="row small legenda">
+            <span class="pill p-ok">Pronta</span><span class="pill p-alerta">Com pendência</span><span class="pill p-erro">Risco de glosa</span>
+          </div>
+        </div>
+        <div class="barra" style="margin-top:10px"><span id="conf-barra" style="width:0%"></span></div>
+        <div class="grid g3 resumo" id="conf-resumo" hidden>
+          <div class="res res-ok"><b class="num" id="n-ok">0</b><span>prontas para enviar</span></div>
+          <div class="res res-alerta"><b class="num" id="n-alerta">0</b><span>com pendência</span></div>
+          <div class="res res-erro"><b class="num" id="n-erro">0</b><span>com risco de glosa · <span id="v-erro"></span></span></div>
+        </div>
+      </div>
+
+      <div class="card rolar">
+        <table class="tabela lote">
+          <thead><tr><th>Guia</th><th>Criança</th><th>Plano</th><th>Terapia</th><th>Sessões</th><th>Valor</th><th>Situação</th></tr></thead>
+          <tbody>
+            {d.guias.map((g) => (
+              <tr id={`lote-${g.id}`} data-guia={g.id} class={g.erro ? 'marcavel' : ''}>
+                <td class="num small">{g.numero}</td>
+                <td><b>{g.crianca}</b></td>
+                <td>{g.plano}</td>
+                <td>{g.terapia}</td>
+                <td class="num">{g.sessoes}</td>
+                <td class="num">{real(g.valor)}</td>
+                <td><span class="pill p-neutro st">Não conferida</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PRÉ-AUDITORIA -->
+    <section data-painel="auditoria" class="stack" hidden>
+      <div>
+        <h2>Pré-auditoria</h2>
+        <p class="muted small">O que o plano iria recusar, explicado antes do envio. Toque em cada guia para ver o erro e corrigir.</p>
+      </div>
+      <div class="card stack" id="pa-vazio">
+        <p>O lote ainda não foi conferido.</p>
+        <button class="btn btn-pri" id="btn-conferir-2" style="justify-self:start">Conferir lote agora</button>
+      </div>
+      <div class="grid g2" id="pa-lista" hidden>
+        {marcadas.map((g) => (
+          <button class={`pa-item ${g.status}`} id={`pa-${g.id}`} data-guia={g.id}>
+            <span class="row between" style="width:100%">
+              <b>{g.crianca}</b>
+              <span class={`pill st ${g.status === 'risco' ? 'p-erro' : 'p-alerta'}`}>{g.status === 'risco' ? 'Risco de glosa' : 'Com pendência'}</span>
+            </span>
+            <span class="pa-tit">{g.erro?.titulo}</span>
+            <span class="small muted">{g.plano} · {g.terapia} · {real(g.valor)}</span>
+          </button>
+        ))}
+      </div>
+      <div class="card row between" id="pa-rodape" hidden>
+        <span id="pa-status" class="small"></span>
+        <button class="btn btn-sec" id="btn-enviar-2">Enviar ao plano</button>
+      </div>
+    </section>
+
+    <!-- GLOSAS -->
+    <section data-painel="glosas" class="stack" hidden>
+      <div class="grid g3">
+        <div class="card kpi">
+          <div class="rot">Glosas em aberto</div>
+          <div class="val" id="kpi-aberto">{real(1320)}</div>
+          <div class="cmp sobe">▼ R$ 4.410 vs. setembro</div>
+        </div>
+        <div class="card kpi">
+          <div class="rot">Recuperado este mês</div>
+          <div class="val">{real(660)}</div>
+          <div class="cmp sobe">▲ R$ 660 vs. outubro (R$ 0)</div>
+        </div>
+        <div class="card kpi">
+          <div class="rot">Tempo para montar um recurso</div>
+          <div class="val">2 min</div>
+          <div class="cmp sobe">eram 2 dias em outubro</div>
+        </div>
+      </div>
+      <div class="stack">
+        {d.glosas.map((gl) => (
+          <div class="card stack glosa" id={`glosa-${gl.id}`}>
+            <div class="row between">
+              <div>
+                <b>{gl.crianca}</b> <span class="muted small">· {gl.plano} · {gl.mes}</span>
+                <p class="small">{gl.motivo}</p>
+              </div>
+              <div class="row">
+                <b class="num">{real(gl.valor)}</b>
+                <span class={`pill ${glosaInfo[gl.situacao].cls}`} id={gl.situacao === 'aberta' ? 'glosa-pill' : undefined}>{glosaInfo[gl.situacao].rot}</span>
+              </div>
+            </div>
+            <p class="small muted">{gl.prazo}</p>
+            {gl.recurso && (
+              <div class="stack">
+                <button class="btn btn-pri" id="btn-recurso" style="justify-self:start">Gerar recurso</button>
+                <div class="campo" id="recurso-box" hidden>
+                  <label for="recurso">Texto do recurso (pode editar)</label>
+                  <textarea id="recurso" rows="10"></textarea>
+                </div>
+                <div class="row" id="recurso-ok" hidden>
+                  <span class="pill p-ok">Recurso pronto para envio</span>
+                  <span class="small muted">Anexos já separados: autorização, frequência assinada e 12 evoluções.</span>
+                  <button class="btn btn-ok" id="btn-enviar-recurso">Enviar recurso ao plano</button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- PAINEL -->
+    <section data-painel="painel" class="stack" hidden>
+      <div><h2>Painel do faturamento · {d.mes}</h2><p class="muted small">Todo indicador vem com comparação: mês anterior ou meta.</p></div>
+      <div class="grid g4" id="painel-kpis">
+        {d.painel.kpis.map((k) => (
+          <div class="card kpi">
+            <div class="rot">{k.rotulo}</div>
+            <div class="val">{k.valor}</div>
+            <div class={`cmp ${k.tom}`}>{k.cmp}</div>
+          </div>
+        ))}
+      </div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="card-hd"><h3>Glosa por mês (% do faturado)</h3><span class="small muted">linha = meta ({d.painel.meta}%)</span></div>
+          <div class="barras" role="img" aria-label="Percentual de glosa por mês comparado à meta">
+            {d.painel.meses.map((m) => (
+              <div class="bcol">
+                <span class="bval num small">{m.glosa.toLocaleString('pt-BR')}%</span>
+                <div class="btrilho">
+                  <div class="bmeta" style={`bottom:${(d.painel.meta / maxGlosa) * 100}%`}></div>
+                  <div class={`bbar ${m.glosa <= d.painel.meta ? 'dentro' : ''}`} style={`height:${(m.glosa / maxGlosa) * 100}%`}></div>
+                </div>
+                <span class="small muted">{m.rotulo}</span>
+              </div>
+            ))}
+          </div>
+          <p class="small muted" style="margin-top:8px">Novembro é o primeiro mês com a conferência antes do envio.</p>
+        </div>
+        <div class="card stack">
+          <div class="card-hd" style="margin-bottom:0"><h3>Glosas por motivo</h3><span class="small muted">outubro × novembro</span></div>
+          {d.painel.motivos.map((m) => (
+            <div class="motivo">
+              <div class="row between small"><span>{m.texto}</span><span class="num"><span class="muted">{m.antes}</span> → <b>{m.agora}</b></span></div>
+              <div class="barra antes"><span style={`width:${(m.antes / maxMotivo) * 100}%`}></span></div>
+              <div class="barra agora"><span style={`width:${Math.max((m.agora / maxMotivo) * 100, m.agora ? 3 : 0)}%`}></span></div>
+            </div>
+          ))}
+          <div class="row small muted"><span class="leg leg-antes"></span>outubro <span class="leg leg-agora"></span>novembro</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-fundo" id="modal" hidden>
+    <div class="modal stack" role="dialog" aria-modal="true" aria-labelledby="modal-tit">
+      <h2 id="modal-tit"></h2>
+      <div id="modal-txt" class="stack"></div>
+      <div class="row" id="modal-acoes"></div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ guias: d.guias, glosas: d.glosas }}>
+    window.FA_DADOS = { guias: guias, glosas: glosas };
+    window.FA_TOUR = [
+      { alvo: '#btn-conferir', texto: 'Este é o lote do mês, pronto para ir ao plano. Antes de enviar, toque em Conferir lote.', clique: true },
+      { alvo: '#lote-resumo', texto: 'Em segundos cada guia foi conferida. As vermelhas seriam recusadas pelo plano: dinheiro que não ia entrar.' },
+      { alvo: '#btn-enviar', texto: 'Agora tente enviar o lote mesmo assim. Toque em Enviar ao plano.', clique: true },
+      { alvo: '#modal .modal', texto: 'O envio fica travado enquanto houver guia vermelha. Toque em Ver o que corrigir.', clique: true },
+      { alvo: '#pa-g3', texto: 'Cada erro explicado em linguagem simples. Toque na guia do Davi.', clique: true },
+      { alvo: '#modal .modal', texto: 'Carteirinha vencida: o plano recusaria as 8 sessões. Toque em Corrigir e ela fica verde.', clique: true },
+      { alvo: '#aba-glosas', texto: 'E a glosa que já chegou de meses anteriores? Toque em Glosas recebidas.', clique: true },
+      { alvo: '#btn-recurso', texto: 'O recurso sai escrito, com os anexos separados. Toque em Gerar recurso.', clique: true },
+      { alvo: '#aba-painel', texto: 'Por fim, o painel do dono: glosa, valor recuperado e prazo, sempre comparados ao mês passado e à meta. Toque aqui.', clique: true }
+    ];
+  </script>
+  <script>
+    const { guias, glosas } = (window as any).FA_DADOS;
+    const fa = (window as any).fa;
+    const real = (v: number) => 'R$ ' + v.toLocaleString('pt-BR');
+    const estado: Record<string, string> = {};
+    guias.forEach((g: any) => (estado[g.id] = g.status));
+    let conferido = false;
+    let conferindo = false;
+
+    // Abas
+    const abas = document.querySelectorAll<HTMLButtonElement>('.aba');
+    function irPara(nome: string) {
+      abas.forEach((x) => x.setAttribute('aria-selected', String(x.dataset.aba === nome)));
+      document.querySelectorAll<HTMLElement>('[data-painel]').forEach((p) => (p.hidden = p.dataset.painel !== nome));
+    }
+    abas.forEach((b) => b.addEventListener('click', () => irPara(b.dataset.aba!)));
+
+    // Modal
+    const modal = document.getElementById('modal')!;
+    type Bloco = { rot?: string; txt: string };
+    function abrir(tit: string, blocos: Bloco[], acoes: { rot: string; cls: string; fn?: () => void }[]) {
+      document.getElementById('modal-tit')!.textContent = tit;
+      const corpo = document.getElementById('modal-txt')!;
+      corpo.innerHTML = '';
+      blocos.forEach((bl) => {
+        const p = document.createElement('p');
+        if (bl.rot) { const b = document.createElement('b'); b.className = 'mrot'; b.textContent = bl.rot; p.appendChild(b); }
+        p.appendChild(document.createTextNode(bl.txt));
+        corpo.appendChild(p);
+      });
+      const box = document.getElementById('modal-acoes')!;
+      box.innerHTML = '';
+      acoes.forEach((a) => {
+        const b = document.createElement('button');
+        b.className = `btn ${a.cls}`; b.textContent = a.rot;
+        b.onclick = () => { modal.hidden = true; a.fn?.(); };
+        box.appendChild(b);
+      });
+      modal.hidden = false;
+    }
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.hidden = true; });
+
+    const info: Record<string, { rot: string; cls: string }> = {
+      pronta: { rot: 'Pronta', cls: 'p-ok' },
+      pendencia: { rot: 'Com pendência', cls: 'p-alerta' },
+      risco: { rot: 'Risco de glosa', cls: 'p-erro' },
+    };
+    function pintar(id: string) {
+      const s = info[estado[id]];
+      document.querySelectorAll<HTMLElement>(`#lote-${id} .st, #pa-${id} .st`).forEach((p) => { p.className = `pill st ${s.cls}`; p.textContent = s.rot; });
+      document.getElementById(`lote-${id}`)!.dataset.st = estado[id];
+      const pa = document.getElementById(`pa-${id}`);
+      if (pa) pa.className = `pa-item ${estado[id]}`;
+    }
+    function resumo() {
+      const vals = Object.values(estado);
+      const n = (s: string) => vals.filter((v) => v === s).length;
+      const vErro = guias.filter((g: any) => estado[g.id] === 'risco').reduce((s: number, g: any) => s + g.valor, 0);
+      document.getElementById('n-ok')!.textContent = String(n('pronta'));
+      document.getElementById('n-alerta')!.textContent = String(n('pendencia'));
+      document.getElementById('n-erro')!.textContent = String(n('risco'));
+      document.getElementById('v-erro')!.textContent = real(vErro);
+      const abertas = n('risco') + n('pendencia');
+      const cont = document.getElementById('cont-pa')!;
+      cont.hidden = !abertas; cont.textContent = String(abertas);
+      const st = document.getElementById('pa-status')!;
+      st.textContent = n('risco')
+        ? `${n('risco')} guia(s) em vermelho. O envio fica travado até corrigir.`
+        : abertas ? `Nenhuma guia em vermelho. ${abertas} pendência(s) amarela(s).` : 'Tudo verde. Lote pronto para enviar.';
+      document.getElementById('conf-txt')!.innerHTML = n('risco')
+        ? `Conferência concluída. <b>${n('risco')} guias seriam recusadas pelo plano.</b>`
+        : 'Conferência concluída. <b>Nenhuma guia com risco de glosa.</b>';
+    }
+
+    // Conferir lote (animação guia por guia)
+    function conferir() {
+      if (conferindo) return;
+      conferindo = true;
+      const btn = document.getElementById('btn-conferir') as HTMLButtonElement;
+      btn.disabled = true; btn.textContent = 'Conferindo...';
+      const barra = document.getElementById('conf-barra')!;
+      document.getElementById('conf-txt')!.textContent = 'Conferindo carteirinha, código, senha, assinatura e quantidade de sessões...';
+      guias.forEach((g: any, i: number) => {
+        const tr = document.getElementById(`lote-${g.id}`)!;
+        setTimeout(() => {
+          tr.classList.add('conferindo');
+          const p = tr.querySelector('.st')!; p.className = 'pill st p-neutro'; p.textContent = 'Conferindo...';
+        }, i * 110);
+        setTimeout(() => {
+          tr.classList.remove('conferindo'); tr.classList.add('feita');
+          pintar(g.id);
+          barra.style.width = `${((i + 1) / guias.length) * 100}%`;
+          if (i === guias.length - 1) {
+            conferindo = false; conferido = true;
+            btn.disabled = false; btn.textContent = 'Conferir de novo';
+            document.getElementById('conf-resumo')!.hidden = false;
+            document.getElementById('pa-vazio')!.hidden = true;
+            document.getElementById('pa-lista')!.hidden = false;
+            document.getElementById('pa-rodape')!.hidden = false;
+            resumo();
+            const r = Object.values(estado).filter((v) => v === 'risco').length;
+            fa.aviso(r ? `${r} guias com risco de glosa encontradas antes do envio.` : 'Lote conferido. Tudo certo.', r ? 'erro' : 'ok');
+          }
+        }, i * 110 + 380);
+      });
+    }
+    document.getElementById('btn-conferir')!.addEventListener('click', conferir);
+    document.getElementById('btn-conferir-2')!.addEventListener('click', () => { irPara('lote'); conferir(); });
+
+    // Enviar (bloqueado com vermelho)
+    function enviar() {
+      if (!conferido) {
+        return abrir('Confira o lote antes de enviar', [{ txt: 'O lote ainda não passou pela conferência. É ela que pega o erro antes do plano.' }], [
+          { rot: 'Conferir agora', cls: 'btn-pri', fn: () => { irPara('lote'); conferir(); } },
+          { rot: 'Fechar', cls: 'btn-sec' },
+        ]);
+      }
+      const vermelhas = guias.filter((g: any) => estado[g.id] === 'risco');
+      const amarelas = guias.filter((g: any) => estado[g.id] === 'pendencia');
+      if (vermelhas.length) {
+        const valor = vermelhas.reduce((s: number, g: any) => s + g.valor, 0);
+        return abrir('Envio bloqueado', [
+          { txt: `${vermelhas.length} guia(s) seriam recusadas pelo plano: ${vermelhas.map((g: any) => g.crianca).join(', ')}.` },
+          { rot: 'Valor em risco', txt: real(valor) },
+          { txt: 'O sistema não deixa o lote sair com erro. Corrija primeiro e envie tudo certo de uma vez.' },
+        ], [
+          { rot: 'Ver o que corrigir', cls: 'btn-pri', fn: () => irPara('auditoria') },
+          { rot: 'Fechar', cls: 'btn-sec' },
+        ]);
+      }
+      const concluir = () => {
+        fa.aviso(`Lote enviado: ${guias.length} guias, ${real(guias.reduce((s: number, g: any) => s + g.valor, 0))}, nenhuma com risco de glosa.`, 'ok');
+        ['btn-enviar', 'btn-enviar-2'].forEach((id) => { const b = document.getElementById(id) as HTMLButtonElement; b.textContent = 'Lote enviado ✓'; b.disabled = true; });
+      };
+      if (amarelas.length) {
+        return abrir('Ainda há pendências amarelas', [{ txt: `${amarelas.map((g: any) => g.crianca).join(', ')}: dá para enviar, mas o plano pode atrasar o pagamento dessas guias. Recomendamos resolver antes.` }], [
+          { rot: 'Resolver antes', cls: 'btn-pri', fn: () => irPara('auditoria') },
+          { rot: 'Enviar assim mesmo', cls: 'btn-sec', fn: concluir },
+        ]);
+      }
+      concluir();
+    }
+    document.getElementById('btn-enviar')!.addEventListener('click', enviar);
+    document.getElementById('btn-enviar-2')!.addEventListener('click', enviar);
+
+    // Detalhe do erro + Corrigir
+    function detalhe(id: string) {
+      const g = guias.find((x: any) => x.id === id);
+      if (!g?.erro || !conferido) return;
+      if (estado[id] === 'pronta') {
+        return abrir(`${g.crianca} · guia ${g.numero}`, [{ txt: `Corrigido: ${g.erro.titulo.toLowerCase()}. A guia está pronta para enviar.` }], [{ rot: 'Fechar', cls: 'btn-sec' }]);
+      }
+      abrir(g.erro.titulo, [
+        { rot: 'Guia', txt: `${g.numero} · ${g.crianca} · ${g.plano} · ${g.terapia}` },
+        { rot: 'O que está errado', txt: g.erro.explica },
+        { rot: 'O que o plano faria', txt: g.erro.consequencia },
+        { rot: 'Como o sistema resolve', txt: g.erro.correcao },
+      ], [
+        { rot: g.erro.acao, cls: 'btn-ok', fn: () => {
+          estado[id] = 'pronta'; pintar(id); resumo();
+          const r = Object.values(estado).filter((v) => v === 'risco').length;
+          fa.aviso(r ? `Guia do ${g.crianca} corrigida. Faltam ${r} em vermelho.` : `Guia do ${g.crianca} corrigida. Nenhuma guia em vermelho.`, 'ok');
+        } },
+        { rot: 'Fechar', cls: 'btn-sec' },
+      ]);
+    }
+    document.querySelectorAll<HTMLElement>('.pa-item, tr.marcavel').forEach((el) => el.addEventListener('click', () => detalhe(el.dataset.guia!)));
+
+    // Recurso de glosa
+    const gl = glosas.find((x: any) => x.recurso);
+    document.getElementById('btn-recurso')!.addEventListener('click', (e) => {
+      const btn = e.currentTarget as HTMLButtonElement;
+      btn.disabled = true; btn.textContent = 'Escrevendo o recurso...';
+      const box = document.getElementById('recurso-box')!; box.hidden = false;
+      const ta = document.getElementById('recurso') as HTMLTextAreaElement;
+      ta.value = '';
+      const texto: string = gl.recurso;
+      let i = 0;
+      const t = setInterval(() => {
+        i = Math.min(texto.length, i + 14);
+        ta.value = texto.slice(0, i);
+        ta.scrollTop = ta.scrollHeight;
+        if (i >= texto.length) {
+          clearInterval(t);
+          btn.hidden = true;
+          document.getElementById('recurso-ok')!.hidden = false;
+          const pill = document.getElementById('glosa-pill')!; pill.className = 'pill p-alerta'; pill.textContent = 'Recurso pronto';
+          fa.aviso('Recurso pronto para envio.', 'ok');
+        }
+      }, 25);
+    });
+    document.getElementById('btn-enviar-recurso')!.addEventListener('click', (e) => {
+      const b = e.currentTarget as HTMLButtonElement; b.disabled = true; b.textContent = 'Recurso enviado ✓';
+      const pill = document.getElementById('glosa-pill')!; pill.className = 'pill p-info'; pill.textContent = 'Recurso em análise';
+      fa.aviso('Recurso enviado ao Plano Saúde B. O prazo de resposta fica no painel.', 'ok');
+    });
+  </script>
+</Demo>
+<style>
+  .titulo-prod h1 { font-size: 26px; }
+  .titulo-prod .pill { white-space: normal; }
+  .cont { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; margin-left: 4px; border-radius: 99px; background: var(--erro); color: #fff; font-size: 12px; }
+  .cont[hidden] { display: none; }
+  .legenda { gap: 6px; }
+  .resumo { margin-top: 14px; }
+  .res { border-radius: var(--raio); padding: 12px 14px; display: grid; gap: 2px; font-size: 14px; }
+  .res b { font-size: 28px; line-height: 1.1; }
+  .res-ok { background: var(--ok-suave); color: var(--ok); }
+  .res-alerta { background: var(--alerta-suave); color: var(--alerta); }
+  .res-erro { background: var(--erro-suave); color: var(--erro); }
+
+  .lote { min-width: 720px; }
+  .lote tr { transition: background .25s; }
+  .lote tr.conferindo { background: var(--info-suave); }
+  .lote tr[data-st="risco"] { background: var(--erro-suave); }
+  .lote tr[data-st="pendencia"] { background: var(--alerta-suave); }
+  .lote tr.marcavel[data-st] { cursor: pointer; }
+  .lote tr.feita .st { animation: surge .3s ease-out; }
+  @keyframes surge { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  .pa-item { appearance: none; text-align: left; display: grid; gap: 6px; padding: 14px 16px; min-height: 96px; border-radius: var(--raio); border: 1px solid var(--linha); border-left: 5px solid var(--linha); background: #fff; font: inherit; color: inherit; cursor: pointer; box-shadow: var(--sombra); }
+  .pa-item.risco { border-left-color: var(--erro); }
+  .pa-item.pendencia { border-left-color: var(--alerta); }
+  .pa-item.pronta { border-left-color: var(--ok); background: var(--ok-suave); }
+  .pa-item.pronta .pa-tit { text-decoration: line-through; color: var(--cinza); }
+  .pa-tit { font-weight: 600; font-size: 16px; }
+  :global(.mrot) { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--cinza); margin-bottom: 2px; }
+
+  .glosa textarea { font: 400 14px/1.5 var(--fonte); }
+
+  .barras { display: flex; gap: 14px; align-items: flex-end; height: 200px; padding-top: 10px; }
+  .bcol { flex: 1; display: grid; justify-items: center; gap: 6px; height: 100%; grid-template-rows: auto 1fr auto; }
+  .btrilho { position: relative; width: 100%; max-width: 56px; height: 100%; }
+  .bbar { position: absolute; bottom: 0; left: 0; right: 0; background: #E9A99F; border-radius: 6px 6px 0 0; }
+  .bbar.dentro { background: var(--ok); }
+  .bmeta { position: absolute; left: -6px; right: -6px; border-top: 2px dashed var(--petroleo-900); z-index: 1; }
+  .motivo { display: grid; gap: 4px; }
+  .motivo .barra { height: 7px; }
+  .barra.antes > span { background: #E9A99F; }
+  .barra.agora > span { background: var(--ok); }
+  .leg { display: inline-block; width: 12px; height: 8px; border-radius: 4px; margin-left: 6px; }
+  .leg-antes { background: #E9A99F; }
+  .leg-agora { background: var(--ok); }
+</style>

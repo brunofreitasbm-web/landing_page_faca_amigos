@@ -1,0 +1,201 @@
+---
+// Calculadora da dor: quanto a clínica deixa de receber por mês com faltas, glosa e tempo da recepção no WhatsApp.
+// Conta feita no navegador, ao vivo. É uma estimativa para conversa, não é resultado certo.
+//   faltas  = sessões × %faltas × valor
+//   glosa   = sessões × (1 − %faltas) × %glosa × valor
+//   tempo   = horas por semana × 4,3 × custo hora
+//   recupera = 50% do total
+import Demo from '../../layouts/Demo.astro';
+import { u } from '../../lib/url.js';
+
+const campos = [
+  { id: 'sessoes', rot: 'Sessões por mês', ajuda: 'Todas as terapias somadas.', min: 50, max: 3000, passo: 10, valor: 600, pre: '', suf: 'sessões' },
+  { id: 'valor', rot: 'Valor médio da sessão', ajuda: 'O que a clínica recebe por sessão, em média.', min: 30, max: 400, passo: 5, valor: 90, pre: 'R$', suf: '' },
+  { id: 'faltas', rot: 'Faltas sem reposição', ajuda: 'Sessões marcadas que não aconteceram e não foram repostas.', min: 0, max: 40, passo: 1, valor: 12, pre: '', suf: '%' },
+  { id: 'glosa', rot: 'Glosa do plano de saúde', ajuda: 'Parte das sessões feitas que o plano não paga.', min: 0, max: 30, passo: 1, valor: 8, pre: '', suf: '%' },
+  { id: 'horas', rot: 'Recepção no WhatsApp', ajuda: 'Horas por semana respondendo mensagens uma a uma.', min: 0, max: 60, passo: 1, valor: 10, pre: '', suf: 'h/sem' },
+  { id: 'custo', rot: 'Custo da hora da recepção', ajuda: 'Salário com encargos dividido pelas horas do mês.', min: 8, max: 80, passo: 1, valor: 18, pre: 'R$', suf: '/h' },
+];
+const cadastro = u('/cadastro');
+---
+<Demo titulo="Calculadora da dor · FA Tech" produto="Calculadora da dor">
+  <main class="wrap stack">
+    <section class="intro">
+      <h1>Quanto sua clínica <strong>deixa de receber</strong> todo mês?</h1>
+      <p class="muted">Mude os números para os da sua clínica. A conta é feita na hora, aqui na tela. Nada é salvo.</p>
+    </section>
+
+    <div class="calc">
+      <section class="card stack entradas" id="calc-entradas" aria-label="Números da sua clínica">
+        <h2>Os números da sua clínica</h2>
+        {campos.map((c) => (
+          <div class="ent" id={`campo-${c.id}`}>
+            <div class="ent-hd">
+              <label for={`r-${c.id}`}>{c.rot}</label>
+              <span class="ent-num">
+                {c.pre && <span class="muted">{c.pre}</span>}
+                <input type="number" id={`n-${c.id}`} data-campo={c.id} min={c.min} max={c.max} step={c.passo} value={c.valor} inputmode="numeric" aria-label={`${c.rot} (número)`} />
+                {c.suf && <span class="muted">{c.suf}</span>}
+              </span>
+            </div>
+            <input type="range" id={`r-${c.id}`} data-campo={c.id} min={c.min} max={c.max} step={c.passo} value={c.valor} />
+            <p class="small muted">{c.ajuda}</p>
+          </div>
+        ))}
+      </section>
+
+      <section class="resultado stack" id="calc-resultado" aria-live="polite">
+        <div class="res-total" id="res-total">
+          <span class="res-rot">Sua clínica deixa de receber por mês</span>
+          <b class="num" id="o-mes">R$ 0</b>
+          <span class="res-ano">por ano: <b class="num" id="o-ano">R$ 0</b></span>
+        </div>
+
+        <div class="card stack">
+          <h2>De onde vem esse valor</h2>
+          <div class="pilha" aria-hidden="true"><span id="b-faltas" class="c1"></span><span id="b-glosa" class="c2"></span><span id="b-tempo" class="c3"></span></div>
+          <div class="linha"><i class="c1"></i><span>Faltas sem reposição<small class="muted" id="f-faltas"></small></span><b class="num" id="o-faltas"></b></div>
+          <div class="linha"><i class="c2"></i><span>Glosa do plano<small class="muted" id="f-glosa"></small></span><b class="num" id="o-glosa"></b></div>
+          <div class="linha"><i class="c3"></i><span>Tempo da recepção no WhatsApp<small class="muted" id="f-tempo"></small></span><b class="num" id="o-tempo"></b></div>
+        </div>
+
+        <div class="card res-rec stack" id="res-recupera">
+          <p>Com metade disso resolvido, sua clínica recupera</p>
+          <b class="num"><span id="o-rec">R$ 0</span> <small>por mês</small></b>
+          <p class="small muted">Estimativa para conversa, não é resultado certo. Usamos só 50% do valor de propósito, para ficar no pé no chão.</p>
+        </div>
+
+        <a class="btn btn-pri cta" id="cta" href={`${cadastro}?origem=calculadora`} data-base={cadastro}>Quero ver isso na minha clínica</a>
+        <p class="small center"><a href={u('/demo')}>Ver os sistemas</a></p>
+      </section>
+    </div>
+  </main>
+
+  <div class="barra-fixa" id="barra-fixa" aria-hidden="true">
+    <span>Por mês</span><b class="num" id="o-fixa">R$ 0</b>
+  </div>
+
+  <script is:inline>
+    window.FA_TOUR = [
+      { alvo: '#campo-faltas', texto: 'Comece pelos números da clínica. Arraste ou digite: faltas, glosa, valor da sessão.' },
+      { alvo: '#res-total', texto: 'Este é o valor que a clínica deixa de receber por mês. A conta muda na hora.' },
+      { alvo: '#res-recupera', texto: 'Mesmo resolvendo só metade, é isto que volta para o caixa todo mês. É uma estimativa para conversa.' },
+      { alvo: '#cta', texto: 'Quer ver isso com os números reais? Toque aqui e deixe seu contato.' }
+    ];
+  </script>
+  <script>
+    const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+    const brl0 = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+    const num = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });
+    const v: Record<string, number> = {};
+    const $ = (id: string) => document.getElementById(id)!;
+
+    function limitar(el: HTMLInputElement, x: number) {
+      const min = Number(el.min), max = Number(el.max);
+      return Math.min(max, Math.max(min, isFinite(x) ? x : min));
+    }
+
+    function calcular() {
+      const { sessoes, valor, faltas, glosa, horas, custo } = v;
+      const pf = faltas / 100, pg = glosa / 100;
+      const perdaFaltas = sessoes * pf * valor;
+      const perdaGlosa = sessoes * (1 - pf) * pg * valor;
+      const perdaTempo = horas * 4.3 * custo;
+      const total = perdaFaltas + perdaGlosa + perdaTempo;
+      const rec = total * 0.5;
+
+      $('o-mes').textContent = brl.format(total);
+      $('o-ano').textContent = brl.format(total * 12);
+      $('o-fixa').textContent = brl0.format(total);
+      $('o-faltas').textContent = brl.format(perdaFaltas);
+      $('o-glosa').textContent = brl.format(perdaGlosa);
+      $('o-tempo').textContent = brl.format(perdaTempo);
+      $('o-rec').textContent = brl.format(rec);
+      $('f-faltas').textContent = `${num.format(sessoes * pf)} sessões × ${brl.format(valor)}`;
+      $('f-glosa').textContent = `${num.format(sessoes * (1 - pf) * pg)} sessões × ${brl.format(valor)}`;
+      $('f-tempo').textContent = `${num.format(horas * 4.3)} h por mês × ${brl.format(custo)}`;
+      const p = (x: number) => (total > 0 ? `${(x / total) * 100}%` : '0');
+      $('b-faltas').style.width = p(perdaFaltas);
+      $('b-glosa').style.width = p(perdaGlosa);
+      $('b-tempo').style.width = p(perdaTempo);
+
+      const cta = $('cta') as HTMLAnchorElement;
+      cta.href = `${cta.dataset.base}?origem=calculadora&perda=${Math.round(total)}`;
+    }
+
+    const entradas = document.querySelectorAll<HTMLInputElement>('[data-campo]');
+    entradas.forEach((el) => { v[el.dataset.campo!] = Number(el.value); });
+    entradas.forEach((el) => {
+      const par = () => [...entradas].find((o) => o !== el && o.dataset.campo === el.dataset.campo)!;
+      el.addEventListener('input', () => {
+        if (el.type === 'number' && el.value === '') return; // deixa apagar para digitar
+        const x = el.type === 'range' ? Number(el.value) : Math.min(Number(el.max), Math.max(0, Number(el.value) || 0));
+        v[el.dataset.campo!] = x;
+        par().value = String(limitar(par(), x));
+        calcular();
+      });
+      if (el.type === 'number') el.addEventListener('change', () => {
+        const x = limitar(el, Number(el.value));
+        el.value = String(x); par().value = String(x);
+        v[el.dataset.campo!] = x; calcular();
+      });
+    });
+    calcular();
+
+    // Barra fixa no celular: aparece enquanto o resultado está fora da tela.
+    const barra = $('barra-fixa');
+    new IntersectionObserver(([e]) => barra.classList.toggle('on', !e.isIntersecting && innerWidth < 900))
+      .observe($('res-total'));
+    barra.addEventListener('click', () => $('res-total').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+  </script>
+</Demo>
+<style>
+  .intro h1 { font-size: 30px; max-width: 760px; }
+  .intro h1 strong { font-weight: 600; color: var(--petroleo-600); }
+  .intro p { margin-top: 8px; font-size: 17px; }
+
+  .calc { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  @media (max-width: 899px) { .calc { grid-template-columns: minmax(0, 1fr); } }
+  .resultado { position: sticky; top: 76px; }
+  @media (max-width: 899px) { .resultado { position: static; } }
+
+  .ent { padding: 12px 0; border-top: 1px solid var(--linha); }
+  .ent-hd { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .ent-hd label { font-weight: 600; font-size: 16px; }
+  .ent-num { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; }
+  .ent-num input { width: 96px; min-height: 48px; padding: 8px 10px; font: 600 20px var(--fonte); text-align: right; border: 1px solid var(--linha); border-radius: var(--raio); color: var(--tinta); background: #fff; font-variant-numeric: tabular-nums; }
+  .ent-num input:focus { outline: 3px solid var(--agua); outline-offset: 1px; }
+  .ent p { margin-top: 2px; }
+
+  input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; margin: 6px 0 0; cursor: pointer; touch-action: pan-y; }
+  input[type="range"]::-webkit-slider-runnable-track { height: 8px; border-radius: 99px; background: #DCE6E9; }
+  input[type="range"]::-moz-range-track { height: 8px; border-radius: 99px; background: #DCE6E9; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; margin-top: -12px; border-radius: 50%; background: var(--petroleo-900); border: 4px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.3); }
+  input[type="range"]::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--petroleo-900); border: 4px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.3); }
+  input[type="range"]:focus-visible { outline: 3px solid var(--agua); outline-offset: 2px; border-radius: 8px; }
+
+  .res-total { background: var(--petroleo-900); color: #fff; border-radius: 12px; padding: 22px; display: grid; gap: 4px; }
+  .res-rot { font-size: 16px; color: rgba(255,255,255,.8); }
+  .res-total > b { font-size: clamp(36px, 7vw, 52px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; color: #fff; }
+  .res-ano { font-size: 18px; color: rgba(255,255,255,.85); }
+  .res-ano b { color: var(--agua); font-weight: 600; }
+
+  .pilha { display: flex; height: 14px; border-radius: 99px; overflow: hidden; background: #E6EBEE; }
+  .pilha span { transition: width .25s; }
+  .c1 { background: var(--erro); } .c2 { background: var(--alerta); } .c3 { background: var(--petroleo-600); }
+  .linha { display: grid; grid-template-columns: 12px 1fr auto; gap: 10px; align-items: center; font-size: 15px; }
+  .linha i { width: 12px; height: 12px; border-radius: 3px; }
+  .linha small { display: block; font-size: 12px; }
+  .linha b { font-size: 17px; }
+
+  .res-rec { border-color: var(--ok); background: var(--ok-suave); }
+  .res-rec > p:first-child { font-size: 16px; font-weight: 600; color: var(--petroleo-900); }
+  .res-rec > b { font-size: 34px; font-weight: 600; color: var(--ok); letter-spacing: -.02em; line-height: 1.1; }
+  .res-rec small { font-size: 16px; font-weight: 400; color: var(--tinta); }
+  .cta { color: #fff; width: 100%; min-height: 60px; font-size: 18px; }
+  .center { text-align: center; }
+
+  .barra-fixa { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 30; display: flex; justify-content: space-between; align-items: center; background: var(--petroleo-900); color: #fff; border-radius: 12px; padding: 12px 16px; box-shadow: 0 8px 24px rgba(0,0,0,.25); transform: translateY(140%); transition: transform .3s; cursor: pointer; }
+  .barra-fixa.on { transform: none; }
+  .barra-fixa b { font-size: 22px; }
+</style>
