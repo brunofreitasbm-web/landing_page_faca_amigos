@@ -112,8 +112,8 @@ flowchart LR
 | `/aprender/*` (9) | aprender/*.html | Artigos: birra-ou-crise, sinais-para-observar, primeira-vez-no-playground, rotina-visual-em-casa, como-e-a-terapia-comportamental, laudo-e-ciptea, conversar-com-a-escola, brincar-com-proposito-10-minutos, e-para-todas-as-criancas | sim | cada um leva ao /teste, à Clínica e ao WhatsApp |
 | `/glossario` | glossario.html | Termos explicados | sim | |
 | `/teste` | teste.html | Mapeamento comportamental (funil principal) | sim | perguntas em `teste-perguntas.json` |
-| `/guia` | guia.html | E-book "O Brincar com Propósito" (capítulo grátis + Hotmart) | sim | |
-| `/codigo` | codigo.html | E-book "O Código do Desenvolvimento Infantil" (Hotmart) | sim | |
+| `/guia` | src/pages/guia.astro (texto em src/data/paginas/guia.*, CSS em src/styles/lp/guia.css) | E-book "O Brincar com Propósito" (capítulo grátis + Hotmart) | sim | |
+| `/codigo` | src/pages/codigo.astro (texto em src/data/paginas/codigo.*, CSS em src/styles/lp/codigo.css) | E-book "O Código do Desenvolvimento Infantil" (Hotmart) | sim | |
 | `/eventos` | eventos.html | Lista de encontros, palestras e treinamentos | sim | dados vêm da função `eventos-public` |
 | `/eventos/:slug` | evento.html | Detalhe e inscrição | não | `vercel.json` reescreve para `/evento`; canonical aponta para `/eventos` |
 | `/ingresso` | ingresso.html | Voucher com QR do inscrito | não | noindex, Disallow no robots |
