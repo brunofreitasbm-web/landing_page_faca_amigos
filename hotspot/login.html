@@ -149,6 +149,28 @@
   }
   .offer-item p { font-size: 13px; font-weight: 700; color: var(--dark); line-height: 1.35; }
   .offer-item p b { color: var(--pink-dark); }
+
+  /* Tela única, sem rolagem: compacta o que o layout original tinha de espaço. */
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wrap { padding: 10px 16px 10px; }
+  .logo-row { margin-bottom: 8px; }
+  .logo-row img { width: 34px; height: 34px; }
+  .logo-row span { font-size: 17px; }
+  .card { padding: 14px 14px 12px; border-radius: 20px; }
+  h1 { font-size: 21px; margin-bottom: 4px; }
+  .sub { font-size: 13px; margin-bottom: 10px; line-height: 1.35; }
+  .offer-strip { gap: 6px; margin-bottom: 10px; }
+  .offer-item { padding: 6px 10px; gap: 8px; align-items: center; border-radius: 12px; }
+  .offer-item .ic { width: 22px; height: 22px; font-size: 11px; }
+  .offer-item p { font-size: 12.5px; line-height: 1.25; }
+  input[type="text"], input[type="tel"], input[type="email"] { padding: 10px 13px; margin-top: 8px; border-radius: 12px; }
+  .field-error { margin-top: 3px; font-size: 12px; }
+  .consent { margin-top: 10px; gap: 8px; }
+  .consent label { font-size: 12px; line-height: 1.3; }
+  .consent input[type="checkbox"] { width: 18px; height: 18px; margin-top: 1px; }
+  .btn { margin-top: 12px; padding: 13px; font-size: 16px; }
+  .foot-note { margin-top: 8px; font-size: 11.5px; }
+  .server-error { padding: 8px 12px; margin-bottom: 8px; font-size: 12.5px; }
 </style>
 </head>
 <body>
@@ -160,21 +182,12 @@
   </div>
 
   <div class="card">
-    <span class="kicker">Cupom exclusivo + Wi-Fi grátis</span>
-    <h1>Garanta sua vantagem antes de entrar</h1>
-    <p class="sub">Cadastre-se em 20 segundos e libere o Wi-Fi e conheça o Playground (Parque Shopping Belém e Shopping Bosque Grão-Pará), o Circuito e a Clínica FaçaAmigos, no Umarizal.</p>
-
-    <div class="proof"><span class="stars">★★★★★</span> +1.100 famílias · 7.500 visitas</div>
+    <h1>Wi-Fi grátis em 20 segundos</h1>
+    <p class="sub">Cadastre-se e libere a internet. Ganhe desconto no Playground e no Circuito.</p>
 
     <div class="offer-strip">
-      <div class="offer-item">
-        <div class="ic">♥</div>
-        <p>Meia inclusiva <b>fixa em R$ 50</b> no Playground, todo dia</p>
-      </div>
-      <div class="offer-item">
-        <div class="ic">25</div>
-        <p><b>Compre 20 min e ande 25. Compre 30 e ande 35</b> no Circuito, de segunda a sexta</p>
-      </div>
+      <div class="offer-item"><div class="ic">♥</div><p><b>Meia inclusiva R$ 50</b> no Playground</p></div>
+      <div class="offer-item"><div class="ic">25</div><p>Circuito: <b>compre 20 e ande 25</b> · 30 e ande 35</p></div>
     </div>
 
     <div class="server-error" id="serverError">$(error)</div>
@@ -182,16 +195,16 @@
     <!-- Formulário visível: coleta o lead. O envio dispara o registro do lead e, em
          seguida, submete o formulário real do hotspot (oculto) para liberar a internet. -->
     <form id="leadForm" autocomplete="on" novalidate>
-      <label for="guardianName">Seu nome</label>
-      <input type="text" id="guardianName" name="guardianName" placeholder="Como você se chama?" required>
+      <label for="guardianName" class="sr">Seu nome</label>
+      <input type="text" id="guardianName" name="guardianName" placeholder="Seu nome" autocomplete="name" required>
       <div class="field-error" id="err-name">Digite seu nome, por favor.</div>
 
-      <label for="guardianPhone">WhatsApp</label>
-      <input type="tel" id="guardianPhone" name="guardianPhone" placeholder="(91) 9XXXX-XXXX" inputmode="tel" required>
+      <label for="guardianPhone" class="sr">WhatsApp</label>
+      <input type="tel" id="guardianPhone" name="guardianPhone" placeholder="WhatsApp com DDD" inputmode="tel" autocomplete="tel" required>
       <div class="field-error" id="err-phone">Informe um WhatsApp válido com DDD.</div>
 
-      <label for="guardianEmail">E-mail</label>
-      <input type="email" id="guardianEmail" name="guardianEmail" placeholder="seuemail@exemplo.com" required>
+      <label for="guardianEmail" class="sr">E-mail</label>
+      <input type="email" id="guardianEmail" name="guardianEmail" placeholder="Seu e-mail" autocomplete="email" required>
       <div class="field-error" id="err-email">Digite um e-mail válido.</div>
 
       <!-- honeypot anti-robô -->
@@ -199,22 +212,22 @@
 
       <div class="consent">
         <input type="checkbox" id="consent" name="consent" required>
-        <label for="consent">Li e concordo com a <a href="https://institutofacaamigos.com.br/politica-privacidade" target="_blank" rel="noopener">Política de Privacidade</a> e autorizo o uso dos meus dados para liberar o Wi-Fi.</label>
+        <label for="consent">Aceito a <a href="https://institutofacaamigos.com.br/politica-privacidade" target="_blank" rel="noopener">Política de Privacidade</a> e o uso dos meus dados.</label>
       </div>
       <div class="field-error" id="err-consent">Precisamos do seu aceite para liberar o acesso.</div>
 
       <div class="consent opt">
         <input type="checkbox" id="optIn" name="optIn" checked>
-        <label for="optIn">Quero receber novidades e cupons do Playground e do Circuito por WhatsApp e e-mail.</label>
+        <label for="optIn">Quero receber novidades e cupons.</label>
       </div>
 
       <button type="submit" class="btn" id="submitBtn">
-        <span id="btnLabel">Liberar Wi-Fi e receber meu cupom</span>
+        <span id="btnLabel">Liberar Wi-Fi</span>
         <div class="spinner" id="btnSpinner"></div>
       </button>
     </form>
 
-    <p class="foot-note">Cupom válido por 15 dias · 1 cupom por cliente a cada 30 dias · Sessão de 1 hora · Rede exclusiva para visitantes</p>
+    <p class="foot-note">Rede exclusiva para visitantes · sessão de 1 hora</p>
   </div>
 </div>
 
