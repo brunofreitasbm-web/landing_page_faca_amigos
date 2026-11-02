@@ -611,11 +611,11 @@
       4
     ],
     "isabella": true,
-    "image": "img/clinica-atividade-pedagogica.webp",
+    "image": "img/tv3/playground-engrenagens-chao-1-v.webp",
     "images": [
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv3/playground-engrenagens-chao-1-v.webp",
+      "img/tv3/playground-engrenagens-chao-2-v.webp",
+      "img/clinica-atividade-pedagogica.webp"
     ],
     "kicker": "🎨 Dica para hoje",
     "kickerClass": "yellow",
@@ -665,11 +665,11 @@
       5
     ],
     "isabella": true,
-    "image": "img/clinica-recursos-terapeuticos.webp",
+    "image": "img/tv3/playground-engrenagens-chao-2-v.webp",
     "images": [
-      "img/clinica-recursos-terapeuticos.webp",
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp"
+      "img/tv3/playground-engrenagens-chao-2-v.webp",
+      "img/tv3/playground-engrenagens-chao-1-v.webp",
+      "img/clinica-recursos-terapeuticos.webp"
     ],
     "kicker": "🗣️ Dica para hoje",
     "kickerClass": "yellow",
@@ -707,11 +707,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/playground-mediadora-tapete.webp",
+    "image": "img/tv3/playground-sala-sol.webp",
     "images": [
-      "img/playground-mediadora-tapete.webp",
-      "img/hero-piscina-bolinhas.webp",
-      "img/playground-piscina-casinha.webp"
+      "img/tv3/playground-sala-sol.webp",
+      "img/tv3/playground-pufes-v.webp",
+      "img/tv3/playground-arvore-desenhos-v.webp",
+      "img/tv3/playground-sala-atividades.webp",
+      "img/tv3/playground-manta-texturas.webp"
     ],
     "kicker": "🌤️ Fim de semana no Playground",
     "kickerClass": "yellow",
@@ -762,10 +764,11 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/hero-piscina-bolinhas.webp",
+    "image": "img/tv3/playground-salao-bolinhas.webp",
     "images": [
-      "img/hero-piscina-bolinhas.webp",
-      "img/playground-piscina-casinha.webp"
+      "img/tv3/playground-salao-bolinhas.webp",
+      "img/tv3/playground-sala-atividades.webp",
+      "img/tv3/playground-sala-sol.webp"
     ],
     "kicker": "📊 Números do Playground",
     "kickerClass": "yellow",
@@ -784,10 +787,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/playground-mediadora-tapete.webp",
+    "image": "img/tv3/playground-camiseta-crianca-v.webp",
     "images": [
-      "img/playground-mediadora-tapete.webp",
-      "img/galeria-oficinas.webp"
+      "img/tv3/playground-camiseta-crianca-v.webp",
+      "img/tv3/playground-desenho-camiseta-v.webp",
+      "img/tv3/mascotes-turma-banner.webp",
+      "img/tv3/playground-parede-texturas-v.webp",
+      "img/tv3/playground-escalada-crianca-v.webp"
     ],
     "kicker": "💛 Família FaçaAmigos",
     "kickerClass": "yellow",
@@ -805,10 +811,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/playground-piscina-casinha.webp",
+    "image": "img/tv3/playground-salao-bolinhas.webp",
     "images": [
-      "img/playground-piscina-casinha.webp",
-      "img/hero-piscina-bolinhas.webp"
+      "img/tv3/playground-salao-bolinhas.webp",
+      "img/tv3/playground-brinquedos-mesa-v.webp",
+      "img/tv3/playground-sala-luz-verde-v.webp",
+      "img/tv3/playground-sala-sol.webp",
+      "img/tv3/playground-arvore-desenhos-v.webp"
     ],
     "kicker": "🗓️ Para planejar o sábado",
     "kickerClass": "yellow",
@@ -826,11 +835,13 @@
     "layout": "padrao",
     "qr": null,
     "isabella": false,
-    "image": "img/circuito-quiosque.webp",
+    "image": "img/tv3/circuito-crianca-buggy-v.webp",
     "images": [
-      "img/circuito-quiosque.webp",
-      "img/circuito-frota-alinhada.webp",
-      "img/circuito-jeep-menino.webp"
+      "img/tv3/circuito-crianca-buggy-v.webp",
+      "img/tv3/circuito-frota-placa-48.webp",
+      "img/tv3/circuito-crianca-lambo-v.webp",
+      "img/tv3/circuito-capivara-crianca-v.webp",
+      "img/tv3/circuito-bombeiro-quiosque.webp"
     ],
     "kicker": "🚗 Circuito no Parque Shopping",
     "kickerClass": "yellow",
@@ -868,11 +879,13 @@
     "dur": 15,
     "layout": "padrao",
     "qr": null,
-    "image": "img/circuito-capivara-menina.webp",
+    "image": "img/tv3/circuito-macaco-lambo-v.webp",
     "images": [
-      "img/circuito-capivara-menina.webp",
-      "img/circuito-lamborghini-sorriso.webp",
-      "img/circuito-jeep-menino.webp"
+      "img/tv3/circuito-macaco-lambo-v.webp",
+      "img/tv3/circuito-crianca-range-rover-v.webp",
+      "img/tv3/circuito-crianca-moto-v.webp",
+      "img/tv3/circuito-unicornio-roxo-v.webp",
+      "img/tv3/circuito-cachorro-pelucia-v.webp"
     ],
     "kicker": "🤝 Mesma equipe",
     "kickerClass": "pink",
@@ -1231,11 +1244,11 @@
     "dia": [
       4
     ],
-    "image": "img/clinica-painel-sensorial.webp",
+    "image": "img/tv3/playground-escalada-crianca-v.webp",
     "images": [
-      "img/clinica-painel-sensorial.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-recursos-terapeuticos.webp"
+      "img/tv3/playground-escalada-crianca-v.webp",
+      "img/tv3/playground-parede-texturas-v.webp",
+      "img/clinica-painel-sensorial.webp"
     ],
     "kicker": "🤸 Corpo e sensorial",
     "kickerClass": "teal",
@@ -1252,11 +1265,11 @@
     "dia": [
       3
     ],
-    "image": "img/clinica-fachada.webp",
+    "image": "img/tv3/playground-brinquedos-mesa-v.webp",
     "images": [
-      "img/clinica-fachada.webp",
-      "img/clinica-atividade-pedagogica.webp",
-      "img/clinica-painel-sensorial.webp"
+      "img/tv3/playground-brinquedos-mesa-v.webp",
+      "img/tv3/playground-manta-texturas.webp",
+      "img/clinica-fachada.webp"
     ],
     "kicker": "📘 Escola, mesa e família",
     "kickerClass": "teal",

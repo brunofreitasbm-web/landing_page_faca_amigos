@@ -803,6 +803,15 @@ Endereço, horário, "mesmos preços, mesma equipe e mesmos atrativos" e o Whats
 
 `d_fds` e `d_prova` dias 1, 3 e 5; `d_quando_ir` e `d_beneficio` dias 2 e 4; `f_pergunte` dias 1, 3 e 5; `p_combinam` dias 2 e 4; `p_parcelas` dias 1, 3 e 5.
 
+## Fotos novas (pasta "Faça Amigos" do Drive)
+
+25 fotos em `public/img/tv3/` (WebP de até 1600 px, 3,3 MB no total), tiradas da pasta do Drive para reduzir a repetição de imagens. Cada slide abaixo lista 3 a 5 fotos e a TV troca por dia da semana (dia 1 mostra a 1ª, dia 2 a 2ª, e assim por diante). Fotos verticais têm `-v` no nome e entram na lateral do slide (layout retrato), sem esticar. As pessoas das fotos de crianças têm o rosto alterado por IA, segundo a clínica.
+
+- `d_circuito`, `j_equipe`: Circuito (carros, pelúcias, criança ao volante).
+- `d_fds`, `d_quando_ir`, `d_prova`, `d_beneficio`: ambientes e crianças do Playground, e o banner dos mascotes.
+- `c_brincar_chao`, `c_construir`, `h_motor`, `h_aprender`: fotos novas, com a foto antiga da clínica na última posição.
+- Ficaram de fora: fotos de obra, folhas de adesivo dos mascotes, fotos da equipe (aguardam confirmação) e três panorâmicas de 1200 px (borradas em Full HD).
+
 ## Autoexame
 
 Regex sobre `tv3-slides.json`: `promessa|confian[çc]a|oferta|garantid|cura\b|especial|normal|problem|!|—|convênio|IASEP|PROASA`
