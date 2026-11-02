@@ -49,6 +49,9 @@ function arquivoDaUrl(loc) {
   if (dinamica && existsSync(join(root, 'src/data/aprender', dinamica[1] + '.json'))) {
     return [join('src/data/aprender', dinamica[1] + '.json'), join('src/data/aprender', dinamica[1] + '.html')];
   }
+  // Vagas (src/pages/trabalhe-conosco/[slug].astro): a fonte da data é o arquivo da própria vaga.
+  const vaga = /^trabalhe-conosco\/([^/]+)\.html$/.exec(rel);
+  if (vaga && existsSync(join(root, 'src/content/vagas', vaga[1] + '.json'))) return [join('src/content/vagas', vaga[1] + '.json')];
   // Páginas de conteúdo (src/pages/x.astro + src/data/paginas/x.*): vale a alteração mais recente entre a página e os dados.
   const slugPg = rel.endsWith('.html') ? rel.slice(0, -5) : null;
   if (slugPg && existsSync(join(root, 'src/data/paginas', slugPg + '.json')) && existsSync(join(root, 'src/pages', slugPg + '.astro'))) {
