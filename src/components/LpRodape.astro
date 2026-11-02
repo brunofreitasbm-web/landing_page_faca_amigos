@@ -1,0 +1,24 @@
+---
+// Rodapé enxuto das landings de campanha: identificação (CNPJ), endereço da unidade, contato e links legais.
+import { unidades, CNPJ, SITE, enderecoTexto, localTexto, waUrl, fmtFone } from '../data/marca';
+import type { UnidadeId } from '../data/marca';
+const { wa = 'parque' } = Astro.props as { wa?: UnidadeId };
+const u = unidades[wa];
+const zap = waUrl(wa);
+---
+<footer class="lp-rodape"><div class="wrap">
+  <p><strong>{u.nome}</strong> · {enderecoTexto(wa)}{u.shopping && <> · {localTexto(wa)}</>}{zap && u.whatsapp && <> · <a href={zap} target="_blank" rel="noopener">WhatsApp {fmtFone(u.whatsapp)}</a></>}</p>
+  <p>FaçaAmigos Playground Inclusivo · CNPJ {CNPJ.playground} · Instituto Faça Amigos Ltda · CNPJ {CNPJ.instituto} · Belém/PA</p>
+  <p><a href={'mailto:' + SITE.email}>{SITE.email}</a> · <a href="/politica-privacidade">Política de Privacidade</a> · <a href="/termos">Termos</a> · <a href="#" data-fa-cookies>Preferências de cookies</a></p>
+</div></footer>
+<script is:inline>
+  (function () {
+    var a = document.querySelector('.lp-rodape [data-fa-cookies]');
+    if (a) a.addEventListener('click', function (e) { e.preventDefault(); if (window.faConsentOpen) window.faConsentOpen(); });
+  })();
+</script>
+<style>
+  .lp-rodape { background: var(--petrol); color: #E6F4F6; padding: 32px 0 96px; font-size: .88rem; }
+  .lp-rodape .wrap { display: grid; gap: 8px; }
+  .lp-rodape a { color: #fff; font-weight: 700; }
+</style>

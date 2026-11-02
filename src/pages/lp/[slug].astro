@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Foto from '../../components/Foto.astro';
+import { unidades, waUrl, faqNo } from '../../data/marca';
+
+export async function getStaticPaths() {
+  const hoje = new Date(Date.now() - 3 * 3600 * 1000).toISOString().slice(0, 10);
+  const todas = await getCollection('campanhas');
+  return todas.filter((c) => !c.data.encerraEm || c.data.encerraEm.toISOString().slice(0, 10) >= hoje).map((c) => ({ params: { slug: c.id }, props: { c } }));
+}
+const { c } = Astro.props;
+const d = c.data;
+const u = unidades[d.unidade];
+const path = `/lp/${c.id}`;
+const ehZap = d.cta.tipo === 'whatsapp';
+const destino = ehZap ? (waUrl(d.unidade, d.cta.mensagem ?? `Oi! Vim pela campanha "${d.titulo}" e quero saber mais.`) as string) : (d.cta.href as string);
+const track = `lp_${c.id}`;
+---
+<Base
+  title={`${d.titulo} | FaçaAmigos`}
+  description={d.descricao}
+  path={path}
+  noindex
+  minimo
+  semWa
+  wa={d.unidade}
+  jsonLd={d.faq.length ? [faqNo(path, d.faq.map((f) => ({ q: f.q, a: f.a })))] : []}
+  cta={{ label: d.cta.rotulo, href: ehZap ? 'whatsapp' : destino, event: track }}
+>
+  <section class="band-petrol lp-hero">
+    <div class="wrap lp-hero-grid">
+      <div class="stack">
+        <h1>{d.titulo}</h1>
+        <p class="lead">{d.subtitulo}</p>
+        <p><a class="btn btn-pri" href={destino} data-fa-link={track} {...(ehZap ? { target: '_blank', rel: 'noopener' } : {})}>{d.cta.rotulo}</a></p>
+        <p class="lp-onde">{u.nome} · {u.shopping || u.bairro}</p>
+      </div>
+      {d.imagem && <div class="lp-img"><Foto src={d.imagem.src} alt={d.imagem.alt} eager /></div>}
+    </div>
+  </section>
+  <section class="section"><div class="wrap">
+    <ul class="lp-beneficios">
+      {d.beneficios.map((b) => <li><h2>{b.titulo}</h2><p>{b.texto}</p></li>)}
+    </ul>
+  </div></section>
+  {d.faq.length > 0 && (
+    <section class="section band-ice"><div class="wrap lp-faq">
+      <h2>Dúvidas comuns</h2>
+      {d.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+    </div></section>
+  )}
+  <section class="section"><div class="wrap lp-fim">
+    <p><a class="btn btn-pri" href={destino} data-fa-link={track} {...(ehZap ? { target: '_blank', rel: 'noopener' } : {})}>{d.cta.rotulo}</a></p>
+  </div></section>
+</Base>
+<style>
+  .lp-hero { padding-block: clamp(32px, 6vw, 72px); }
+  .lp-hero-grid { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 820px) { .lp-hero-grid { grid-template-columns: 1.1fr .9fr; } }
+  .lp-hero h1 { color: #fff; }
+  .lp-hero .lead { color: #E6F4F6; }
+  .lp-onde { font-size: .9rem; opacity: .9; }
+  .lp-img img { border-radius: 24px; width: 100%; height: auto; }
+  .lp-beneficios { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .lp-beneficios li { background: var(--ice); border-radius: 18px; padding: 20px; }
+  .lp-beneficios h2 { font-size: 1.15rem; margin-bottom: 6px; }
+  .lp-faq h2 { margin-bottom: 14px; }
+  .lp-faq details { background: #fff; border-radius: 14px; padding: 12px 16px; margin-bottom: 10px; }
+  .lp-faq summary { font-weight: 800; cursor: pointer; color: var(--petrol); }
+  .lp-faq details p { margin-top: 8px; }
+  .lp-fim { text-align: center; }
+</style>

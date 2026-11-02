@@ -24,4 +24,27 @@ const vagas = defineCollection({
     .refine((v) => v.validaAte > v.publicadaEm, { message: 'validaAte precisa ser depois de publicadaEm', path: ['validaAte'] }),
 });
 
-export const collections = { vagas };
+// Landings de campanha (/lp/<arquivo>): páginas curtas para anúncio, sem menu e com noindex. Um .json por campanha real
+// em src/content/campanhas/ (modelo e regras em _LEIA-ME.md). Texto público segue as regras da marca: o schema recusa os
+// termos proibidos abaixo (não existe serviço de festa/aniversário; copy não usa "promessa", "confiança" nem "oferta").
+const PROIBIDAS = /\b(festa|festas|anivers[aá]rio|anivers[aá]rios|promessa|promessas|confian[cç]a|oferta|ofertas)\b/i;
+const texto = z.string().min(2).refine((t) => !PROIBIDAS.test(t), { message: 'termo proibido pela marca (festa, aniversário, promessa, confiança, oferta)' });
+const campanhas = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/content/campanhas' }),
+  schema: z
+    .object({
+      titulo: texto, // h1
+      subtitulo: texto,
+      descricao: texto.pipe(z.string().max(160, 'meta description com até 160 caracteres')),
+      unidade: z.enum(['parque', 'graopara', 'clinica']), // de quem é o WhatsApp e o endereço do rodapé
+      imagem: z.object({ src: z.string(), alt: z.string().min(5) }).optional(), // caminho relativo a public/, ex.: img/clinica-fachada.webp
+      beneficios: z.array(z.object({ titulo: texto, texto })).min(3).max(6),
+      faq: z.array(z.object({ q: texto, a: texto })).default([]),
+      cta: z
+        .object({ rotulo: texto, tipo: z.enum(['whatsapp', 'link']).default('whatsapp'), mensagem: texto.optional(), href: z.string().optional() })
+        .refine((c) => c.tipo !== 'link' || !!c.href, { message: 'cta do tipo "link" precisa de href', path: ['href'] }),
+      encerraEm: z.coerce.date().optional(), // fim da campanha; depois disso a página deixa de ser gerada no próximo deploy
+    }),
+});
+
+export const collections = { vagas, campanhas };
