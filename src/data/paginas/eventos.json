@@ -1,0 +1,50 @@
+{
+  "slug": "eventos",
+  "path": "/eventos",
+  "titleTag": "Encontros, palestras e treinamentos | Instituto FaçaAmigos",
+  "descricao": "Palestras, encontros e treinamentos do Instituto FaçaAmigos em Belém, para famílias e profissionais. Vagas limitadas de verdade e lista de espera.",
+  "ogDescricao": "Palestras, encontros e treinamentos para famílias e profissionais, em Belém. Vagas limitadas de verdade e lista de espera.",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "ogType": "website",
+  "ogTitle": "Encontros, palestras e treinamentos | Instituto FaçaAmigos",
+  "ogSiteName": "Instituto FaçaAmigos",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "jsonLd": [
+    {
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/eventos#webpage",
+      "name": "Encontros, palestras e treinamentos do Instituto FaçaAmigos",
+      "url": "https://institutofacaamigos.com.br/eventos",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "inLanguage": "pt-BR"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://institutofacaamigos.com.br/#organization",
+      "name": "Instituto FaçaAmigos",
+      "url": "https://institutofacaamigos.com.br/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://institutofacaamigos.com.br/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Eventos",
+          "item": "https://institutofacaamigos.com.br/eventos"
+        }
+      ]
+    }
+  ],
+  "fa_cta": null,
+  "scripts": 1
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "trabalhe-conosco",
+  "path": "/trabalhe-conosco",
+  "titleTag": "Faça parte do nosso time: vagas na Clínica, Playground e Circuito | FaçaAmigos",
+  "descricao": "Trabalhe no FaçaAmigos em Belém: vagas em Psicologia ABA, TO, Fono, Fisioterapia, Recepção, Mediadores e Operacional. CLT, PJ e Estágio. Envie seu currículo.",
+  "ogDescricao": "Vagas em Saúde, Educação e Operação na Clínica, no Playground e no Circuito FaçaAmigos, em Belém. CLT, PJ e Estágio.",
+  "ogImage": "img/og/og-hub.jpg",
+  "ogImageAlt": "FaçaAmigos em Belém: fachada da clínica, piscina de bolinhas do playground e carrinhos elétricos do circuito",
+  "ogType": "website",
+  "ogTitle": "Faça parte do nosso time | FaçaAmigos Belém",
+  "ogSiteName": "FaçaAmigos",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "jsonLd": [
+    {
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/trabalhe-conosco#webpage",
+      "url": "https://institutofacaamigos.com.br/trabalhe-conosco",
+      "name": "Faça parte do nosso time: vagas na Clínica, Playground e Circuito | FaçaAmigos",
+      "description": "Venha fazer parte do time FaçaAmigos em Belém: vagas em Psicologia ABA, TO, Fono e Fisioterapia, Recepção, Mediadores e Operacional. CLT, PJ e Estágio.",
+      "inLanguage": "pt-BR",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#website"
+      },
+      "about": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://institutofacaamigos.com.br/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Faça parte do nosso time",
+          "item": "https://institutofacaamigos.com.br/trabalhe-conosco"
+        }
+      ]
+    }
+  ],
+  "fa_cta": null,
+  "scripts": 1
+}

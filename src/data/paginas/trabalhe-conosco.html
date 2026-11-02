@@ -1,0 +1,126 @@
+<header class="hero" id="carreiras">
+      <span class="circ" style="width:200px;height:200px;right:-60px;top:-60px;background:var(--teal);opacity:.15"></span>
+      <span class="circ" style="width:180px;height:180px;left:-60px;bottom:-60px;background:var(--yellow);opacity:.1"></span>
+      <div class="wrap">
+        <span class="eyebrow">🚀 Oportunidades &amp; Carreiras</span>
+        <h1>Venha fazer parte do nosso time!</h1>
+        <p class="lead">Com a inauguração da nossa Clínica e a expansão dos nossos espaços, estamos em busca de profissionais da Saúde, Educação e Operação apaixonados por transformar vidas com afeto e ciência.</p>
+        <div class="chips">
+          <span class="chip"><svg fill="currentColor" viewBox="0 0 20 20" style="color: var(--yellow);" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> Psicologia ABA, TO, Fono &amp; Fisioterapia</span>
+          <span class="chip"><svg fill="currentColor" viewBox="0 0 20 20" style="color: var(--yellow);" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> Recepção, Mediadores &amp; Operacional</span>
+          <span class="chip"><svg fill="currentColor" viewBox="0 0 20 20" style="color: var(--yellow);" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> Vagas CLT, PJ e Estágio</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="form-sec" aria-labelledby="jobFormTitle">
+      <div class="wrap">
+        <div class="form-card" id="candidatura">
+          <h2 id="jobFormTitle">Envie sua candidatura</h2>
+          <p>Preencha seus dados e envie seu currículo em PDF. Nosso time de RH vai analisar sua candidatura.</p>
+          <p class="next">Logo depois do envio, você recebe no e-mail o teste de perfil comportamental. Responda em até 7 dias.</p>
+          <form id="job-form">
+            <div class="form-group">
+              <label for="job-nome" class="form-label">Nome completo</label>
+              <input type="text" id="job-nome" class="form-control" placeholder="Nome completo" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label for="job-email" class="form-label">E-mail</label>
+              <input type="email" id="job-email" class="form-control" placeholder="E-mail" autocomplete="email" required>
+            </div>
+            <div class="form-group">
+              <label for="job-telefone" class="form-label">WhatsApp</label>
+              <input type="tel" id="job-telefone" class="form-control" placeholder="WhatsApp" autocomplete="tel" inputmode="tel" required>
+            </div>
+            <div class="form-group">
+              <label for="job-curso" class="form-label">Curso / Formação <span class="opt">(opcional)</span></label>
+              <input type="text" id="job-curso" class="form-control" list="job-curso-sugestoes"
+                placeholder="Ex: Psicologia, Terapia Ocupacional...">
+              <datalist id="job-curso-sugestoes">
+                <option value="Psicologia">
+                <option value="Terapia Ocupacional">
+                <option value="Fisioterapia">
+                <option value="Nutrição">
+                <option value="Fonoaudiologia">
+                <option value="Psicopedagogia">
+                <option value="Pedagogia">
+                <option value="Musicoterapia">
+                <option value="Neuropsicologia">
+                <option value="Educação Física">
+                <option value="Enfermagem">
+                <option value="Técnico(a) de Enfermagem">
+                <option value="Administração">
+                <option value="Recursos Humanos">
+                <option value="Marketing / Comunicação">
+                <option value="Serviço Social">
+                <option value="Medicina / Psiquiatria">
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label for="job-area" class="form-label">Área pretendida / Função</label>
+              <select id="job-area" class="form-control" required>
+                <option value="" disabled selected>Selecione a área</option>
+                <optgroup label="Saúde & Terapias (Clínica)">
+                  <option value="PSICOLOGIA">Psicologia / Aplicador(a) ABA</option>
+                  <option value="TERAPIA_OCUPACIONAL">Terapia Ocupacional</option>
+                  <option value="FONOAUDIOLOGIA">Fonoaudiologia</option>
+                  <option value="FISIOTERAPIA">Fisioterapia</option>
+                  <option value="NUTRICAO">Nutrição</option>
+                  <option value="PSICOPEDAGOGIA">Psicopedagogia / Pedagogia</option>
+                  <option value="MUSICOTERAPIA">Musicoterapia</option>
+                  <option value="ENFERMAGEM">Enfermagem / Técnico(a)</option>
+                  <option value="SUPERVISAO_CLINICA">Coordenação / Supervisão Clínica</option>
+                </optgroup>
+                <optgroup label="Operacional (Playground / Circuito / Recepção)">
+                  <option value="RECEPCAO">Recepção / Atendimento ao Cliente</option>
+                  <option value="MONITOR">Mediador(a) de Brincadeiras / Recreação</option>
+                  <option value="VENDEDOR">Vendedor(a) / Comercial</option>
+                  <option value="CAIXA">Operador(a) de Caixa</option>
+                  <option value="SERVICOS_GERAIS">Serviços Gerais / Limpeza</option>
+                  <option value="LIDERANCA">Liderança / Supervisão Operacional</option>
+                </optgroup>
+                <optgroup label="Corporativo & Administrativo">
+                  <option value="RH">Recursos Humanos</option>
+                  <option value="ADMINISTRATIVO">Administração / Financeiro</option>
+                  <option value="MARKETING">Marketing / Design</option>
+                </optgroup>
+                <option value="OUTRA">Outra Área / Função</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="job-unidade" class="form-label">Unidade de preferência</label>
+              <select id="job-unidade" class="form-control" required>
+                <option value="" disabled selected>Selecione a unidade</option>
+                <option value="PARQUE_SHOPPING">Parque Shopping Belém (Playground/Circuito)</option>
+                <option value="BOSQUE_GRAO_PARA">Shopping Bosque Grão-Pará (Playground)</option>
+                <option value="CLINICA_FATIMA">Centro de Terapia Comportamental (Clínica Umarizal - Inauguração)</option>
+                <option value="AMBAS">Qualquer unidade / Sem preferência</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="job-tipo" class="form-label">Tipo de oportunidade</label>
+              <select id="job-tipo" class="form-control" required>
+                <option value="" disabled selected>Selecione o tipo</option>
+                <option value="REMUNERADO">CLT</option>
+                <option value="PJ">Prestador de Serviço (PJ)</option>
+                <option value="ESTAGIO">Estágio</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="job-curriculo" class="form-label">Currículo (PDF, até 5MB)</label>
+              <input type="file" id="job-curriculo" class="form-control" accept="application/pdf" required aria-describedby="job-cv-hint">
+              <span class="form-hint" id="job-cv-hint">Apenas arquivo PDF, até 5MB.</span>
+            </div>
+            <p class="consent">Ao enviar, você concorda com o uso dos seus dados para o processo seletivo, conforme a <a href="/politica-privacidade" target="_blank">Política de Privacidade</a>.</p>
+            <div id="job-form-error" class="form-error" role="alert"></div>
+            <button type="submit" id="job-form-submit" class="btn btn-pink" style="width: 100%;">Enviar candidatura</button>
+          </form>
+        </div>
+
+        <ol class="steps" aria-label="Como funciona o processo seletivo">
+          <li><b class="n">1</b><span>Você envia seus dados e o currículo em PDF por este formulário.</span></li>
+          <li><b class="n">2</b><span>Em alguns minutos chega no seu e-mail o link do nosso teste de perfil comportamental. Responda em até 7 dias.</span></li>
+          <li><b class="n">3</b><span>Nosso time de RH analisa sua candidatura e entra em contato se o seu perfil combinar com uma vaga.</span></li>
+        </ol>
+      </div>
+    </section>
