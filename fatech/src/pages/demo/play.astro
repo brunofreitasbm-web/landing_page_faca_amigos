@@ -230,7 +230,9 @@ const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curren
 
     // Modal
     const modal = $('modal');
+    let acaoPerigo: (() => void) | undefined;
     function abrir(tit: string, corpo: string, acoes: { rot: string; cls: string; fn?: () => void }[], perigo = false) {
+      acaoPerigo = perigo ? acoes[0]?.fn : undefined;
       $('modal-tit').textContent = tit;
       $('modal-tit').style.color = perigo ? 'var(--erro)' : '';
       $('modal-corpo').innerHTML = corpo;
@@ -248,7 +250,7 @@ const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curren
     modal.querySelector('.modal')!.addEventListener('click', (e) => {
       if (!modal.querySelector('.modal')!.classList.contains('perigo')) return;
       if ((e.target as HTMLElement).closest('button')) return;
-      (modal.querySelector('#modal-acoes button') as HTMLButtonElement | null)?.click();
+      modal.hidden = true; acaoPerigo?.();
     });
 
     // Internet (simulada)
