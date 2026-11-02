@@ -1,0 +1,52 @@
+{
+  "_leia": "Textos da TV do estande (página /fatech/tv). Pode editar os textos à vontade. Em 'sequencia', cada item é um cartão, na ordem em que aparece. tipo 'abertura' = logo; tipo 'produto' = usa o produto de produtos.json pelo 'id' (pergunta e alívio vêm de lá; para trocar só na TV, preencha 'pergunta' ou 'alivio' aqui); tipo 'chamada' = frase grande. Para destacar uma parte da frase, coloque entre <strong> e </strong>. Tempos em segundos. Não coloque números de resultado de clínica aqui.",
+  "tempos": {
+    "abertura": 10,
+    "produto": 12,
+    "chamada": 8,
+    "encerramento": 10
+  },
+  "qrRotulo": "Aponte a câmera",
+  "qrSubrotulo": "teste os sistemas",
+  "sequencia": [
+    {
+      "tipo": "abertura",
+      "titulo": "Sistemas criados dentro de uma clínica real, <strong>para clínicas reais.</strong>",
+      "subtitulo": "Sete sistemas para a gestão da clínica de terapia. Um problema real por trás de cada um."
+    },
+    { "tipo": "produto", "id": "clinica" },
+    {
+      "tipo": "chamada",
+      "texto": "Imagine fechar o mês <strong>sem correr atrás de guia.</strong>"
+    },
+    { "tipo": "produto", "id": "faturamento" },
+    {
+      "tipo": "chamada",
+      "texto": "Quanto sua clínica deixa de receber por mês? <strong>Descubra em 1 minuto.</strong>",
+      "apoio": "Aponte a câmera para o código no canto da tela."
+    },
+    { "tipo": "produto", "id": "atende" },
+    { "tipo": "produto", "id": "pessoas" },
+    {
+      "tipo": "chamada",
+      "texto": "Você ainda controla estagiário <strong>em planilha?</strong>"
+    },
+    { "tipo": "produto", "id": "play" },
+    { "tipo": "produto", "id": "tv" },
+    {
+      "tipo": "chamada",
+      "texto": "Imagine a recepção <strong>sem responder a mesma pergunta</strong> o dia inteiro."
+    },
+    { "tipo": "produto", "id": "wifi" },
+    {
+      "tipo": "chamada",
+      "texto": "Os dados da sua clínica <strong>ficam só com a sua clínica.</strong>",
+      "apoio": "Acesso por perfil. Registro de quem viu o quê. Dados separados por clínica."
+    },
+    {
+      "tipo": "encerramento",
+      "titulo": "Teste os sistemas <strong>no seu celular.</strong>",
+      "subtitulo": "Converse com o Bruno aqui no estande. Ele também trabalha dentro de uma clínica."
+    }
+  ]
+}

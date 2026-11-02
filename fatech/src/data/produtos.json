@@ -5,7 +5,8 @@
     "icone": "calendar-check",
     "dor": "Sessão sem guia, falta sem reposição, evolução atrasada.",
     "dorCurta": "Sessão sem guia e evolução atrasada.",
-    "alivio": "Agenda, guias e evoluções no mesmo lugar. A sessão sem guia é barrada antes de acontecer."
+    "alivio": "Agenda, guias e evoluções no mesmo lugar. A sessão sem guia é barrada antes de acontecer.",
+    "pergunta": "Quantas sessões sua clínica atendeu este mês <strong>sem guia válida?</strong>"
   },
   {
     "id": "faturamento",
@@ -14,7 +15,8 @@
     "dor": "Glosa que volta todo mês.",
     "dorCurta": "Glosa que volta todo mês.",
     "alivio": "A guia é conferida antes de ir ao plano. Glosa vira exceção.",
-    "parceria": true
+    "parceria": true,
+    "pergunta": "Quanto da sua receita de convênio <strong>volta como glosa?</strong>"
   },
   {
     "id": "atende",
@@ -22,7 +24,8 @@
     "icone": "message-circle",
     "dor": "Família esperando resposta no WhatsApp.",
     "dorCurta": "Família esperando resposta no WhatsApp.",
-    "alivio": "Robô responde as dúvidas comuns na hora e passa o resto para a recepção."
+    "alivio": "Robô responde as dúvidas comuns na hora e passa o resto para a recepção.",
+    "pergunta": "Quantas famílias ficaram <strong>sem resposta no WhatsApp</strong> ontem à noite?"
   },
   {
     "id": "pessoas",
@@ -30,7 +33,8 @@
     "icone": "fingerprint",
     "dor": "Ponto de estagiário e equipe no papel.",
     "dorCurta": "Ponto de estagiário e equipe no papel.",
-    "alivio": "Ponto pelo celular com localização e rosto. A lei do estágio conferida sozinha."
+    "alivio": "Ponto pelo celular com localização e rosto. A lei do estágio conferida sozinha.",
+    "pergunta": "Você tem certeza de que o estagiário <strong>estava na clínica</strong> na hora do ponto?"
   },
   {
     "id": "play",
@@ -38,7 +42,8 @@
     "icone": "ticket",
     "dor": "Entrada, saída e caixa do espaço de brincar sem controle.",
     "dorCurta": "Caixa do espaço de brincar sem controle.",
-    "alivio": "Entrada com cuidados sensoriais, saída conferida e caixa que fecha sozinho."
+    "alivio": "Entrada com cuidados sensoriais, saída conferida e caixa que fecha sozinho.",
+    "pergunta": "O caixa do seu espaço de brincar <strong>fecha certo</strong> todo dia?"
   },
   {
     "id": "tv",
@@ -46,7 +51,8 @@
     "icone": "monitor-play",
     "dor": "Sala de espera sem comunicação com as famílias.",
     "dorCurta": "Sala de espera sem comunicação.",
-    "alivio": "TV que informa e orienta as famílias, controlada pelo celular."
+    "alivio": "TV que informa e orienta as famílias, controlada pelo celular.",
+    "pergunta": "O que as famílias fazem enquanto <strong>esperam na recepção?</strong>"
   },
   {
     "id": "wifi",
@@ -54,6 +60,7 @@
     "icone": "wifi",
     "dor": "Visitante que vai embora sem deixar contato.",
     "dorCurta": "Visitante que sai sem deixar contato.",
-    "alivio": "O Wi-Fi da recepção pede contato com consentimento e devolve um benefício."
+    "alivio": "O Wi-Fi da recepção pede contato com consentimento e devolve um benefício.",
+    "pergunta": "Quantas famílias usaram seu Wi-Fi e <strong>foram embora sem deixar contato?</strong>"
   }
 ]

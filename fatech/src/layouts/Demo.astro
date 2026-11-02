@@ -1,0 +1,129 @@
+---
+// Moldura de todas as demonstrações: cabeçalho, selo "dados de demonstração" e o tour guiado.
+// Cada página define o tour assim (opcional):
+//   <script is:inline>window.FA_TOUR = [{ alvo: '#botao', texto: 'Toque aqui', clique: true }]</script>
+//   clique: true  → avança quando a pessoa toca no alvo (em vez do botão "Próximo").
+// Ajudante global para as páginas: fa.aviso('texto', 'ok' | 'erro').
+import '../styles/tokens.css';
+import '../styles/app.css';
+import Logo from '../components/Logo.astro';
+import { u } from '../lib/url.js';
+interface Props { titulo: string; produto?: string; voltar?: boolean }
+const { titulo, produto, voltar = true } = Astro.props;
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0F2E36" />
+  <title>{titulo}</title>
+</head>
+<body class="app">
+  <header class="topo">
+    <div class="topo-in">
+      <a class="topo-logo" href={u('/demo')} aria-label="FA Tech: todos os sistemas"><Logo tamanho="22px" tema="escuro" descritor={false} /></a>
+      {produto && <span class="topo-prod">{produto}</span>}
+      <span class="topo-selo" title="Nomes, números e pessoas desta tela são inventados">Dados de demonstração</span>
+      <span class="topo-esp"></span>
+      <button class="topo-btn" id="fa-tour-btn" type="button" hidden>Mostrar o caminho</button>
+      {voltar && <a class="topo-btn" href={u('/demo')}>Todos os sistemas</a>}
+    </div>
+  </header>
+  <slot />
+  <div class="aviso" id="fa-aviso" role="status" aria-live="polite"></div>
+  <div class="tour-balao" id="fa-tour" hidden role="dialog" aria-live="polite">
+    <p id="fa-tour-txt"></p>
+    <div class="tour-acoes">
+      <span id="fa-tour-pos" class="tour-pos"></span>
+      <button type="button" class="tour-sair" id="fa-tour-sair">Sair</button>
+      <button type="button" class="tour-prox" id="fa-tour-prox">Próximo</button>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      var avisoEl = document.getElementById('fa-aviso'), t;
+      window.fa = {
+        aviso: function (msg, tipo) {
+          avisoEl.textContent = msg; avisoEl.className = 'aviso on ' + (tipo || '');
+          clearTimeout(t); t = setTimeout(function () { avisoEl.className = 'aviso'; }, 3200);
+        }
+      };
+    })();
+  </script>
+  <script>
+    type Passo = { alvo: string; texto: string; clique?: boolean };
+    const balao = document.getElementById('fa-tour')!;
+    const txt = document.getElementById('fa-tour-txt')!;
+    const pos = document.getElementById('fa-tour-pos')!;
+    const prox = document.getElementById('fa-tour-prox') as HTMLButtonElement;
+    const btn = document.getElementById('fa-tour-btn') as HTMLButtonElement;
+    let passos: Passo[] = [];
+    let i = -1;
+    let atual: Element | null = null;
+    const limpar = () => { atual?.classList.remove('tour-alvo'); atual = null; };
+    const fechar = () => { limpar(); balao.hidden = true; i = -1; };
+    function posicionar(el: Element) {
+      const r = el.getBoundingClientRect();
+      const b = balao.getBoundingClientRect();
+      const abaixo = r.bottom + 12 + b.height < innerHeight;
+      const top = abaixo ? r.bottom + 12 : Math.max(12, r.top - b.height - 12);
+      const left = Math.min(Math.max(12, r.left), innerWidth - b.width - 12);
+      balao.style.top = `${top}px`; balao.style.left = `${left}px`;
+    }
+    function mostrar(n: number) {
+      limpar();
+      if (n >= passos.length) { fechar(); (window as any).fa.aviso('Fim do caminho. Explore à vontade.', 'ok'); return; }
+      i = n;
+      const p = passos[n];
+      const el = document.querySelector(p.alvo);
+      if (!el) { mostrar(n + 1); return; }
+      atual = el; el.classList.add('tour-alvo');
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      txt.textContent = p.texto;
+      pos.textContent = `${n + 1} de ${passos.length}`;
+      prox.hidden = !!p.clique;
+      balao.hidden = false;
+      setTimeout(() => posicionar(el), 350);
+    }
+    document.addEventListener('click', (e) => {
+      if (i < 0 || !atual) return;
+      const p = passos[i];
+      if (p.clique && atual.contains(e.target as Node)) setTimeout(() => mostrar(i + 1), 250);
+    }, true);
+    prox.addEventListener('click', () => mostrar(i + 1));
+    document.getElementById('fa-tour-sair')!.addEventListener('click', fechar);
+    addEventListener('resize', () => { if (atual) posicionar(atual); });
+    addEventListener('load', () => {
+      passos = (window as any).FA_TOUR || [];
+      if (!passos.length) return;
+      btn.hidden = false;
+      btn.addEventListener('click', () => mostrar(0));
+      if (new URLSearchParams(location.search).has('tour')) mostrar(0);
+    });
+  </script>
+</body>
+</html>
+<style>
+  .topo { background: var(--petroleo-900); color: #fff; position: sticky; top: 0; z-index: 40; }
+  .topo-in { max-width: 1180px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .topo-logo { text-decoration: none; display: inline-flex; }
+  .topo-prod { font-weight: 600; font-size: 15px; padding-left: 12px; border-left: 1px solid rgba(255,255,255,.2); }
+  .topo-selo { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--agua); border: 1px solid rgba(63,183,191,.5); border-radius: 999px; padding: 3px 10px; }
+  .topo-esp { flex: 1; }
+  .topo-btn { appearance: none; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); color: #fff; border-radius: var(--raio); min-height: 40px; padding: 8px 14px; font: 600 14px var(--fonte); text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; }
+  .topo-btn[hidden] { display: none; }
+  @media (max-width: 640px) { .topo-selo { display: none; } }
+
+  :global(.tour-alvo) { position: relative; z-index: 45; box-shadow: 0 0 0 4px var(--agua), 0 0 0 9999px rgba(15, 46, 54, .55) !important; border-radius: var(--raio); }
+  .tour-balao { position: fixed; z-index: 55; width: min(340px, calc(100% - 24px)); background: #fff; color: var(--tinta); border-radius: 12px; padding: 16px; box-shadow: 0 16px 40px rgba(0,0,0,.28); }
+  .tour-balao[hidden] { display: none; }
+  .tour-balao p { margin: 0 0 12px; font-size: 16px; line-height: 1.45; }
+  .tour-acoes { display: flex; align-items: center; gap: 8px; }
+  .tour-pos { flex: 1; font-size: 12px; color: var(--cinza); }
+  .tour-sair, .tour-prox { appearance: none; border-radius: var(--raio); min-height: 40px; padding: 8px 14px; font: 600 14px var(--fonte); cursor: pointer; }
+  .tour-sair { background: none; border: 1px solid var(--linha); color: var(--cinza); }
+  .tour-prox { background: var(--petroleo-900); border: 0; color: #fff; }
+  .tour-prox[hidden] { display: none; }
+</style>

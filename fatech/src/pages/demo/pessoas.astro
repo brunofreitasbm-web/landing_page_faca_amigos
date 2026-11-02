@@ -1,0 +1,502 @@
+---
+// Demonstração FA Pessoas: ponto com local e rosto, frequência dentro da lei do estágio,
+// dossiê do estagiário e banco de talentos. Dados inventados em src/data/demo/pessoas.json.
+import Demo from '../../layouts/Demo.astro';
+import Historia from '../../components/Historia.astro';
+import { icone } from '../../lib/icone.js';
+import d from '../../data/demo/pessoas.json';
+
+const docInfo: Record<string, { rot: string; cls: string }> = {
+  ok: { rot: 'Em dia', cls: 'p-ok' },
+  alerta: { rot: 'Vence logo', cls: 'p-alerta' },
+  erro: { rot: 'Atrasado', cls: 'p-erro' },
+};
+const sitInfo: Record<string, { rot: string; cls: string }> = {
+  ok: { rot: 'Tudo certo', cls: 'p-ok' },
+  alerta: { rot: 'Perto do limite', cls: 'p-alerta' },
+  erro: { rot: 'Falta registro', cls: 'p-erro' },
+};
+const hfmt = (h: number) => (Number.isInteger(h) ? `${h} h` : `${Math.floor(h)} h ${Math.round((h % 1) * 60)}`);
+const discMap: Record<string, { rot: string; cor: string }> = d.disc;
+const totalSemana = (hs: (number | string | null)[]) => hs.reduce<number>((s, h) => s + (typeof h === 'number' ? h : 0), 0);
+const diaTxt = (h: number | string | null) => (typeof h === 'number' ? hfmt(h) : '');
+const docsOk = d.dossie.documentos.filter((x) => x.status === 'ok').length;
+const discMaior = (p: Record<string, number>) => Object.entries(p).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([k]) => k);
+const ico = {
+  pin: icone('map-pin', { tamanho: 44, traco: 1.6 }),
+  check: icone('check', { tamanho: 22, traco: 2.4 }),
+  x: icone('x', { tamanho: 22, traco: 2.4 }),
+  rosto: icone('scan-face', { tamanho: 22, traco: 1.8 }),
+};
+---
+<Demo titulo="FA Pessoas · demonstração" produto="FA Pessoas">
+  <main class="wrap stack">
+    <Historia
+      espelho="Você tem certeza de que o estagiário <strong>estava na clínica</strong> na hora do ponto?"
+      antes="Folha de ponto em papel, horas que não batiam no fim do mês e documento de estágio vencido sem ninguém perceber."
+      virada="Passamos a usar o ponto pelo celular, que confere o lugar e o rosto de quem está batendo."
+      depois="Frequência que bate com a realidade, aviso antes de estourar o limite da lei e documentos em dia."
+    />
+
+    <div class="kpis-p" id="pessoas-kpis">
+      {d.kpis.map((k) => (
+        <div class="card kpi">
+          <div class="rot">{k.rotulo}</div>
+          <div class="val">{k.valor}</div>
+          <div class={`cmp ${k.tom}`}>{k.cmp}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true" data-aba="ponto" id="aba-ponto">Ponto no quiosque</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="frequencia" id="aba-frequencia">Frequência</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="dossie" id="aba-dossie">Dossiê</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="talentos" id="aba-talentos">Banco de talentos</button>
+    </div>
+
+    <!-- PONTO -->
+    <section data-painel="ponto">
+      <div class="grid g2" style="align-items:start">
+        <div class="stack">
+          <h2>O ponto que confere o lugar e o rosto</h2>
+          <p class="muted">O estagiário bate o ponto no tablet da recepção ou no próprio celular. O sistema só aceita se ele estiver dentro da clínica e se o rosto for o do cadastro. Colega batendo ponto pelo outro deixa de existir.</p>
+          <div class="card stack">
+            <h3>Teste o que acontece de fora</h3>
+            <p class="small muted">Alguém tenta bater o ponto do sofá de casa.</p>
+            <button class="btn btn-sec" id="btn-casa" type="button">Simular ponto de casa</button>
+          </div>
+          <div class="card">
+            <div class="card-hd"><h3>Pontos de hoje</h3><span class="small muted">{d.clinica}</span></div>
+            <ul class="hist" id="hist">
+              {d.historico.map((h) => (
+                <li>
+                  <span class={`pill ${h.ok ? 'p-ok' : 'p-erro'}`}>{h.ok ? h.tipo : 'Recusado'}</span>
+                  <span><b>{h.nome}</b> · <span class="num">{h.hora}</span><br /><span class="small muted">{h.obs}</span></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="celular" id="quiosque">
+          <div class="tela k-tela">
+            <div class="k-topo">
+              <span class="small">{d.clinica}</span>
+              <b class="num">{d.ponto.hora}</b>
+              <span class="small">quinta-feira, 12 de novembro</span>
+            </div>
+            <div class="k-corpo">
+              <!-- início -->
+              <div class="k-estado" data-k="inicio">
+                <div class="k-avatar" aria-hidden="true"><span></span></div>
+                <p class="k-ola">Bom dia!<br /><span class="muted small">Toque abaixo quando chegar.</span></p>
+                <button class="btn btn-pri k-bater" id="btn-ponto" type="button">Bater ponto</button>
+              </div>
+              <!-- verificação -->
+              <div class="k-estado" data-k="verif" hidden>
+                <div class="k-visual">
+                  <div class="k-local" id="k-local">
+                    <span class="k-anel"></span>
+                    <span class="k-pin" set:html={ico.pin} />
+                  </div>
+                  <div class="k-camera" id="k-camera" hidden>
+                    <span class="k-canto a"></span><span class="k-canto b"></span><span class="k-canto c"></span><span class="k-canto d"></span>
+                    <div class="k-silhueta" aria-hidden="true"><span class="cab"></span><span class="omb"></span></div>
+                    <span class="k-linha"></span>
+                  </div>
+                </div>
+                <ol class="k-passos">
+                  <li id="kp-local"><span class="k-ic"></span><span class="k-tx">Conferindo onde você está...</span></li>
+                  <li id="kp-rosto"><span class="k-ic"></span><span class="k-tx">Conferir o rosto</span></li>
+                  <li id="kp-reg"><span class="k-ic"></span><span class="k-tx">Registrar o horário</span></li>
+                </ol>
+                <div class="k-final" id="k-final" hidden></div>
+                <button class="btn btn-sec k-voltar" id="k-voltar" type="button" hidden>Voltar ao início</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FREQUÊNCIA -->
+    <section data-painel="frequencia" class="stack" hidden>
+      <div class="row between">
+        <div><h2>Frequência dos estagiários</h2><p class="muted small">{d.semana} · lei do estágio: até {d.limiteDia} h por dia e {d.limiteSemana} h por semana</p></div>
+        <div class="row small">{Object.values(sitInfo).map((s) => <span class={`pill ${s.cls}`}>{s.rot}</span>)}</div>
+      </div>
+      <div class="card stack" id="freq-alertas">
+        <h3>Avisos antes de virar problema</h3>
+        {d.alertas.map((a) => (
+          <div class="alerta-item"><span class={`pill p-${a.tipo}`}>{a.tipo === 'erro' ? 'Resolver hoje' : 'Atenção'}</span><span>{a.texto}</span></div>
+        ))}
+      </div>
+      <div class="card rolar">
+        <table class="tabela freq">
+          <thead><tr><th>Estagiário</th>{d.dias.map((x) => <th>{x}</th>)}<th>Semana</th><th>Situação</th></tr></thead>
+          <tbody>
+            {d.frequencia.map((f) => {
+              const tot = totalSemana(f.horas);
+              const pct = Math.min(100, (tot / d.limiteSemana) * 100);
+              const s = sitInfo[f.situacao];
+              return (
+                <tr>
+                  <td><b>{f.nome}</b><br /><span class="small muted">{f.curso}</span></td>
+                  {f.horas.map((h) => (
+                    <td class="num dia">
+                      {h === null ? <span class="muted">—</span>
+                        : h === 'falta' ? <span class="pill p-erro">sem saída</span>
+                        : <span class={typeof h === 'number' && h > d.limiteDia ? 'passou' : ''}>{diaTxt(h)}</span>}
+                    </td>
+                  ))}
+                  <td style="min-width:150px">
+                    <span class="num small">{hfmt(tot)} de {d.limiteSemana} h</span>
+                    <div class="barra" style="margin-top:6px"><span style={`width:${pct}%;${pct >= 80 ? 'background:var(--alerta)' : ''}`}></span></div>
+                  </td>
+                  <td><span class={`pill ${s.cls}`}>{s.rot}</span><br /><span class="small muted">{f.nota}</span></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DOSSIÊ -->
+    <section data-painel="dossie" class="stack" hidden>
+      <div class="card dos-topo">
+        <div class="k-avatar peq" aria-hidden="true"><span></span></div>
+        <div>
+          <h2>{d.dossie.nome}</h2>
+          <p class="muted small">{d.dossie.curso} · {d.dossie.instituicao}</p>
+        </div>
+        <span class="pill p-ok">Estágio ativo</span>
+      </div>
+      <div class="grid g2" style="align-items:start">
+        <div class="card stack">
+          <h3>Contrato de estágio (TCE)</h3>
+          <dl class="dl">
+            <dt>Vigência</dt><dd class="num">{d.dossie.inicio} a {d.dossie.fim}</dd>
+            <dt>Jornada</dt><dd>{d.dossie.jornada}</dd>
+            <dt>Bolsa</dt><dd class="num">{d.dossie.bolsa} por mês</dd>
+            <dt>Auxílio transporte</dt><dd class="num">{d.dossie.auxilio} por mês</dd>
+            <dt>Supervisora</dt><dd>{d.dossie.supervisora}</dd>
+            <dt>Unidade</dt><dd>{d.dossie.unidade}</dd>
+          </dl>
+          <div>
+            <div class="row between small"><span>Tempo de contrato cumprido</span><span class="num">8 de 12 meses</span></div>
+            <div class="barra" style="margin-top:6px"><span style="width:67%"></span></div>
+          </div>
+        </div>
+        <div class="card stack" id="dossie-docs">
+          <div class="card-hd" style="margin:0">
+            <h3>Documentos</h3>
+            <span class="small muted num">{docsOk} de {d.dossie.documentos.length} em dia</span>
+          </div>
+          <ul class="docs">
+            {d.dossie.documentos.map((x, i) => (
+              <li>
+                <span class={`doc-ic ${x.status}`} set:html={x.status === 'ok' ? ico.check : x.status === 'erro' ? ico.x : '!'} />
+                <span class="doc-tx"><b>{x.nome}</b><span class="small muted">{x.info}</span></span>
+                {x.status === 'ok'
+                  ? <span class={`pill ${docInfo[x.status].cls}`}>{docInfo[x.status].rot}</span>
+                  : <button class="btn btn-sec doc-cobrar" data-doc={i} type="button">Cobrar</button>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div class="card stack">
+        <h3>Avaliações da supervisora</h3>
+        <div class="grid g2">
+          {d.dossie.avaliacoes.map((a, i) => (
+            <div class="aval">
+              <div class="row between"><b>{a.periodo}</b><span class="nota num">{a.nota.toFixed(1).replace('.', ',')}</span></div>
+              {i > 0 && <span class="small sobe">▲ {(a.nota - d.dossie.avaliacoes[i - 1].nota).toFixed(1).replace('.', ',')} vs. bimestre anterior</span>}
+              <p class="small">{a.texto}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- TALENTOS -->
+    <section data-painel="talentos" class="stack" hidden>
+      <div>
+        <h2>Banco de talentos</h2>
+        <p class="muted small">Quem já mandou currículo fica guardado com o perfil de comportamento. Quando abre uma vaga, você vê quem combina mais com ela.</p>
+      </div>
+      <div class="row" id="filtros">
+        <button class="chip" aria-pressed="true" data-f="todos" type="button">Todas as vagas</button>
+        {d.funcoes.map((f) => <button class="chip" aria-pressed="false" data-f={f} type="button">{f}</button>)}
+      </div>
+      <div class="grid g3" id="talentos">
+        {d.talentos.map((t) => (
+          <button class="card tal" data-tal={t.id} data-funcao={t.funcao} id={`tal-${t.id}`} type="button">
+            <span class="row between" style="width:100%">
+              <b>{t.nome}</b>
+              <span class={`pill ${t.fit >= 80 ? 'p-ok' : t.fit >= 70 ? 'p-info' : 'p-neutro'}`}>{t.fit}% de encaixe</span>
+            </span>
+            <span class="small muted">{t.funcao} · {t.bairro}</span>
+            <span class="barra" style="width:100%"><span style={`width:${t.fit}%`}></span></span>
+            <span class="row" style="gap:6px">
+              {discMaior(t.perfil).map((k) => (
+                <span class="disc" style={`--c:${discMap[k].cor}`}><b>{k}</b> {discMap[k].rot}</span>
+              ))}
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-fundo" id="modal" hidden>
+    <div class="modal stack" role="dialog" aria-modal="true" aria-labelledby="modal-tit">
+      <h2 id="modal-tit"></h2>
+      <div id="modal-corpo" class="stack"></div>
+      <div class="row" id="modal-acoes"></div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ ponto: d.ponto, clinica: d.clinica, talentos: d.talentos, disc: d.disc, docs: d.dossie.documentos, ico: ico }}>
+    window.FA_DADOS = { ponto: ponto, clinica: clinica, talentos: talentos, disc: disc, docs: docs, ico: ico };
+    window.FA_TOUR = [
+      { alvo: '#btn-ponto', texto: 'A estagiária acabou de chegar na clínica. Toque em Bater ponto.', clique: true },
+      { alvo: '#quiosque', texto: 'Primeiro o sistema confere se ela está mesmo na clínica. Depois confere o rosto. Só então registra o horário.' },
+      { alvo: '#btn-casa', texto: 'Agora alguém tenta bater o ponto de casa. Toque aqui.', clique: true },
+      { alvo: '#quiosque', texto: 'Recusado: a pessoa está a 4,2 km da clínica. O ponto não entra e o gestor fica sabendo.' },
+      { alvo: '#aba-frequencia', texto: 'Veja as horas da semana de cada estagiário. Toque em Frequência.', clique: true },
+      { alvo: '#freq-alertas', texto: 'O sistema avisa antes de estourar o limite da lei do estágio (6 h por dia, 30 h por semana) e quando falta um registro.' },
+      { alvo: '#aba-dossie', texto: 'Agora o dossiê de uma estagiária. Toque aqui.', clique: true },
+      { alvo: '#dossie-docs', texto: 'Cada documento com validade. O que vai vencer aparece em amarelo, antes de virar problema numa fiscalização.' },
+      { alvo: '#aba-talentos', texto: 'E quando abrir uma vaga, o banco de talentos já mostra quem combina com ela. Toque aqui e depois em um candidato.', clique: true }
+    ];
+  </script>
+  <script>
+    const { ponto, clinica, talentos, disc, docs, ico } = (window as any).FA_DADOS;
+    const fa = (window as any).fa;
+    const $ = (id: string) => document.getElementById(id)!;
+
+    // Abas
+    const abas = document.querySelectorAll<HTMLButtonElement>('.aba');
+    abas.forEach((b) => b.addEventListener('click', () => {
+      abas.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      document.querySelectorAll<HTMLElement>('[data-painel]').forEach((p) => (p.hidden = p.dataset.painel !== b.dataset.aba));
+    }));
+
+    // Modal
+    const modal = $('modal');
+    function abrir(tit: string, corpo: string, acoes: { rot: string; cls: string; fn?: () => void }[]) {
+      $('modal-tit').textContent = tit;
+      $('modal-corpo').innerHTML = corpo;
+      const box = $('modal-acoes'); box.innerHTML = '';
+      acoes.forEach((a) => {
+        const b = document.createElement('button');
+        b.className = `btn ${a.cls}`; b.textContent = a.rot; b.type = 'button';
+        b.onclick = () => { modal.hidden = true; a.fn?.(); };
+        box.appendChild(b);
+      });
+      modal.hidden = false;
+    }
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.hidden = true; });
+
+    // Quiosque de ponto
+    let timers: number[] = [];
+    const limparTimers = () => { timers.forEach(clearTimeout); timers = []; };
+    const depois = (ms: number, fn: () => void) => timers.push(window.setTimeout(fn, ms));
+    const estados = document.querySelectorAll<HTMLElement>('.k-estado');
+    const mostrarEstado = (k: string) => estados.forEach((e) => (e.hidden = e.dataset.k !== k));
+    function passo(id: string, st: '' | 'vai' | 'ok' | 'erro', texto?: string) {
+      const li = $(id); li.className = st;
+      li.querySelector('.k-ic')!.innerHTML = st === 'ok' ? ico.check : st === 'erro' ? ico.x : '';
+      if (texto) li.querySelector('.k-tx')!.textContent = texto;
+    }
+    function resetVerif() {
+      limparTimers();
+      passo('kp-local', 'vai', 'Conferindo onde você está...');
+      passo('kp-rosto', '', 'Conferir o rosto');
+      passo('kp-reg', '', 'Registrar o horário');
+      $('k-local').className = 'k-local'; $('k-local').hidden = false;
+      $('k-camera').className = 'k-camera'; $('k-camera').hidden = true;
+      $('k-final').hidden = true; $('k-voltar').hidden = true;
+      mostrarEstado('verif');
+    }
+    function addHist(nome: string, ok: boolean, obs: string, hora: string) {
+      const li = document.createElement('li');
+      li.className = 'novo';
+      li.innerHTML = `<span class="pill ${ok ? 'p-ok' : 'p-erro'}">${ok ? 'Entrada' : 'Recusado'}</span><span><b>${nome}</b> · <span class="num">${hora}</span><br><span class="small muted">${obs}</span></span>`;
+      $('hist').appendChild(li);
+    }
+    function final(ok: boolean, html: string) {
+      const f = $('k-final'); f.className = `k-final ${ok ? 'ok' : 'erro'}`; f.innerHTML = html; f.hidden = false;
+      $('k-voltar').hidden = false;
+    }
+    $('btn-ponto').addEventListener('click', () => {
+      resetVerif();
+      depois(1300, () => {
+        $('k-local').classList.add('ok');
+        passo('kp-local', 'ok', `Localização confirmada: você está na ${clinica} (${ponto.distancia})`);
+      });
+      depois(2500, () => {
+        $('k-local').hidden = true; $('k-camera').hidden = false;
+        passo('kp-rosto', 'vai', 'Olhe para a câmera...');
+      });
+      depois(4700, () => {
+        $('k-camera').classList.add('ok');
+        passo('kp-rosto', 'ok', `Rosto confirmado: ${ponto.pessoa}`);
+        passo('kp-reg', 'vai', 'Registrando...');
+      });
+      depois(5700, () => {
+        passo('kp-reg', 'ok', `Entrada registrada às ${ponto.hora}`);
+        final(true, `<b>Bom trabalho, ${ponto.pessoa}!</b><span>Saída até 13:58 para não passar das 6 h da lei.</span>`);
+        addHist(ponto.pessoa + ' S.', true, `Na clínica (${ponto.distancia}) · rosto confirmado`, ponto.hora);
+        fa.aviso(`Ponto de ${ponto.pessoa} registrado às ${ponto.hora}.`, 'ok');
+      });
+    });
+    $('btn-casa').addEventListener('click', () => {
+      resetVerif();
+      $('quiosque').scrollIntoView({ block: 'center', behavior: 'smooth' });
+      depois(1300, () => {
+        $('k-local').classList.add('erro');
+        passo('kp-local', 'erro', `Fora da clínica: ${ponto.distanciaCasa}`);
+        passo('kp-rosto', '', 'Não conferido');
+        passo('kp-reg', 'erro', 'Ponto não registrado');
+        final(false, `<b>Ponto recusado</b><span>Você está a ${ponto.distanciaCasa} da clínica. O ponto só vale lá dentro. O gestor foi avisado.</span>`);
+        addHist('Larissa M.', false, `Recusado: fora da clínica (${ponto.distanciaCasa})`, '08:03');
+        fa.aviso(`Ponto bloqueado: fora da clínica (${ponto.distanciaCasa}).`, 'erro');
+      });
+    });
+    $('k-voltar').addEventListener('click', () => { limparTimers(); mostrarEstado('inicio'); });
+    addEventListener('pagehide', limparTimers);
+
+    // Dossiê: cobrar documento
+    document.querySelectorAll<HTMLButtonElement>('.doc-cobrar').forEach((b) => b.addEventListener('click', () => {
+      const doc = docs[Number(b.dataset.doc)];
+      b.textContent = 'Cobrado ✓'; b.disabled = true;
+      fa.aviso(`Mensagem enviada: "${doc.nome}" pendente.`, 'ok');
+    }));
+
+    // Banco de talentos: filtro e perfil
+    const chips = document.querySelectorAll<HTMLButtonElement>('#filtros .chip');
+    chips.forEach((c) => c.addEventListener('click', () => {
+      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      document.querySelectorAll<HTMLElement>('.tal').forEach((t) => (t.hidden = c.dataset.f !== 'todos' && t.dataset.funcao !== c.dataset.f));
+    }));
+    document.querySelectorAll<HTMLButtonElement>('.tal').forEach((b) => b.addEventListener('click', () => {
+      const t = talentos.find((x: any) => x.id === b.dataset.tal);
+      const barras = Object.keys(disc).map((k) => `
+        <div class="disc-l"><span class="disc" style="--c:${disc[k].cor}"><b>${k}</b> ${disc[k].rot}</span>
+        <span class="barra"><span style="width:${t.perfil[k]}%;background:${disc[k].cor}"></span></span><span class="num small">${t.perfil[k]}%</span></div>`).join('');
+      abrir(t.nome, `
+        <p class="small muted">${t.formacao} · mora no ${t.bairro} · ${t.disponibilidade}</p>
+        <div class="row between"><b>Encaixe com a vaga de ${t.funcao}</b><span class="pill ${t.fit >= 80 ? 'p-ok' : 'p-info'}">${t.fit}%</span></div>
+        <div class="stack">${barras}</div>
+        <div><b class="small">Pontos fortes</b><ul class="lista">${t.fortes.map((x: string) => `<li>${x}</li>`).join('')}</ul></div>
+        <div><b class="small">Para ficar de olho</b><ul class="lista">${t.atencao.map((x: string) => `<li>${x}</li>`).join('')}</ul></div>`,
+        [{ rot: 'Chamar para entrevista', cls: 'btn-pri', fn: () => fa.aviso(`Convite de entrevista enviado para ${t.nome} pelo WhatsApp.`, 'ok') }, { rot: 'Fechar', cls: 'btn-sec' }]);
+    }));
+  </script>
+</Demo>
+<style>
+  .kpis-p { display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) { .kpis-p { grid-template-columns: repeat(2, 1fr); } }
+  .kpis-p .val { font-size: 26px; }
+  @media (max-width: 480px) { .kpis-p .card { padding: 12px; } .kpis-p .val { font-size: 22px; } .kpis-p .rot { font-size: 11px; } }
+
+  .hist { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .hist :global(li) { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.4; }
+  .hist :global(li.novo) { animation: entra .4s ease-out; }
+  @keyframes entra { from { opacity: 0; transform: translateY(6px); } }
+
+  /* Quiosque */
+  .k-tela { display: flex; flex-direction: column; background: var(--gelo); }
+  .k-topo { background: var(--petroleo-900); color: #fff; padding: 12px 16px; display: grid; justify-items: center; text-align: center; }
+  .k-topo b { font-size: 34px; font-weight: 300; line-height: 1.1; }
+  .k-topo .small { color: rgba(255,255,255,.75); }
+  .k-corpo { flex: 1; padding: 14px; display: flex; }
+  .k-estado { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .k-estado[hidden] { display: none; }
+  .k-ola { text-align: center; font-size: 20px; font-weight: 600; line-height: 1.3; }
+  .k-bater { width: 100%; min-height: 64px; font-size: 18px; margin-top: auto; }
+  .k-avatar { width: 112px; height: 112px; border-radius: 50%; background: #CFE7E9; position: relative; overflow: hidden; margin-top: 12px; flex: none; }
+  .k-avatar span, .k-avatar::before { position: absolute; left: 50%; transform: translateX(-50%); background: var(--petroleo-600); content: ''; }
+  .k-avatar::before { width: 44%; height: 44%; top: 16%; border-radius: 50%; }
+  .k-avatar span { width: 80%; height: 50%; bottom: -16%; border-radius: 50% 50% 0 0; }
+  .k-avatar.peq { width: 56px; height: 56px; margin: 0; }
+
+  .k-visual { height: 160px; width: 100%; display: grid; place-items: center; }
+  .k-local { position: relative; width: 110px; height: 110px; display: grid; place-items: center; color: var(--petroleo-600); }
+  .k-anel { position: absolute; inset: 0; border-radius: 50%; border: 3px solid var(--agua); animation: radar 1.2s ease-out infinite; }
+  .k-pin { position: relative; display: grid; }
+  .k-local.ok { color: var(--ok); } .k-local.ok .k-anel { animation: none; border-color: var(--ok); background: var(--ok-suave); }
+  .k-local.erro { color: var(--erro); } .k-local.erro .k-anel { animation: none; border-color: var(--erro); background: var(--erro-suave); }
+  @keyframes radar { from { transform: scale(.4); opacity: 1; } to { transform: scale(1.1); opacity: 0; } }
+
+  .k-camera { position: relative; width: 140px; height: 160px; border-radius: 14px; background: #1B2226; overflow: hidden; }
+  .k-camera[hidden], .k-local[hidden] { display: none; }
+  .k-silhueta { position: absolute; inset: 0; }
+  .k-silhueta .cab { position: absolute; left: 50%; top: 20%; width: 62px; height: 74px; transform: translateX(-50%); border-radius: 50%; background: #5E7378; }
+  .k-silhueta .omb { position: absolute; left: 50%; bottom: -28px; width: 128px; height: 70px; transform: translateX(-50%); border-radius: 50% 50% 0 0; background: #5E7378; }
+  .k-canto { position: absolute; width: 26px; height: 26px; border: 3px solid var(--agua); z-index: 1; transition: border-color .3s; }
+  .k-canto.a { top: 12px; left: 12px; border-right: 0; border-bottom: 0; }
+  .k-canto.b { top: 12px; right: 12px; border-left: 0; border-bottom: 0; }
+  .k-canto.c { bottom: 12px; left: 12px; border-right: 0; border-top: 0; }
+  .k-canto.d { bottom: 12px; right: 12px; border-left: 0; border-top: 0; }
+  .k-linha { position: absolute; left: 10px; right: 10px; height: 3px; background: var(--agua); box-shadow: 0 0 12px 2px var(--agua); animation: varre 1.4s ease-in-out infinite alternate; z-index: 1; }
+  @keyframes varre { from { top: 14%; } to { top: 84%; } }
+  .k-camera.ok .k-canto { border-color: #4ADE80; }
+  .k-camera.ok .k-linha { display: none; }
+  .k-camera.ok .cab, .k-camera.ok .omb { background: #6E9F86; }
+
+  .k-passos { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; gap: 8px; }
+  .k-passos li { display: flex; gap: 10px; align-items: center; font-size: 14px; line-height: 1.3; color: #9AA7AD; }
+  .k-ic { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #C9D2D6; flex: none; display: grid; place-items: center; color: #fff; }
+  .k-ic :global(svg) { width: 16px; height: 16px; }
+  .k-passos li.vai { color: var(--tinta); }
+  .k-passos li.vai .k-ic { border-color: var(--agua); border-top-color: transparent; animation: gira .8s linear infinite; }
+  .k-passos li.ok { color: var(--tinta); font-weight: 600; } .k-passos li.ok .k-ic { background: var(--ok); border-color: var(--ok); }
+  .k-passos li.erro { color: var(--erro); font-weight: 600; } .k-passos li.erro .k-ic { background: var(--erro); border-color: var(--erro); }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  .k-final { width: 100%; border-radius: var(--raio); padding: 10px 12px; display: grid; gap: 4px; font-size: 14px; line-height: 1.4; animation: entra .3s ease-out; }
+  .k-final[hidden] { display: none; }
+  .k-final.ok { background: var(--ok-suave); color: #14573A; }
+  .k-final.erro { background: var(--erro-suave); color: #8E2A20; }
+  .k-final :global(b) { font-size: 16px; }
+  .k-voltar { width: 100%; margin-top: auto; }
+  .k-voltar[hidden] { display: none; }
+
+  /* Frequência */
+  .freq { min-width: 760px; }
+  .freq .dia { white-space: nowrap; }
+  .passou { color: var(--erro); font-weight: 700; }
+  .alerta-item { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.4; }
+
+  /* Dossiê */
+  .dos-topo { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .dos-topo > div:nth-child(2) { flex: 1; min-width: 180px; }
+  .dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; margin: 0; font-size: 14px; }
+  .dl dt { color: var(--cinza); } .dl dd { margin: 0; font-weight: 600; }
+  .docs { list-style: none; margin: 0; padding: 0; }
+  .docs li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--linha); }
+  .docs li:last-child { border-bottom: 0; }
+  .doc-ic { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; flex: none; }
+  .doc-ic :global(svg) { width: 16px; height: 16px; }
+  .doc-ic.ok { background: var(--ok); } .doc-ic.alerta { background: var(--alerta); } .doc-ic.erro { background: var(--erro); }
+  .doc-tx { flex: 1; display: grid; font-size: 14px; line-height: 1.35; min-width: 0; }
+  .doc-cobrar { min-height: 40px; padding: 8px 14px; }
+  .aval { border: 1px solid var(--linha); border-radius: var(--raio); padding: 12px; display: grid; gap: 6px; }
+  .nota { font-size: 22px; font-weight: 600; color: var(--petroleo-900); }
+
+  /* Talentos */
+  .tal { text-align: left; font: inherit; color: inherit; cursor: pointer; display: grid; gap: 10px; justify-items: start; }
+  .tal[hidden] { display: none; }
+  .disc { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; border-radius: 999px; padding: 4px 10px 4px 4px; background: color-mix(in srgb, var(--c) 12%, #fff); color: var(--tinta); white-space: nowrap; }
+  .disc b { width: 20px; height: 20px; border-radius: 50%; background: var(--c); color: #fff; display: grid; place-items: center; font-size: 11px; }
+  :global(.disc-l) { display: grid; grid-template-columns: 170px 1fr 40px; gap: 10px; align-items: center; }
+  @media (max-width: 480px) { :global(.disc-l) { grid-template-columns: 1fr 40px; } :global(.disc-l .disc) { grid-column: 1 / -1; justify-self: start; } }
+  :global(.lista) { margin: 4px 0 0; padding-left: 18px; font-size: 14px; line-height: 1.45; }
+  #modal-corpo :global(.disc) { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; border-radius: 999px; padding: 4px 10px 4px 4px; background: color-mix(in srgb, var(--c) 12%, #fff); white-space: nowrap; }
+  #modal-corpo :global(.disc b) { width: 20px; height: 20px; border-radius: 50%; background: var(--c); color: #fff; display: grid; place-items: center; font-size: 11px; }
+  .modal { max-height: calc(100vh - 32px); overflow-y: auto; }
+</style>

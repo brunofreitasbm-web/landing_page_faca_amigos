@@ -1,0 +1,112 @@
+/* Kit visual das demonstrações (telas de "sistema"). Pensado para toque no iPad:
+   alvos de no mínimo 44px, texto base 16px, nada de hover como única pista.
+   Importar depois de tokens.css. */
+
+:root {
+  --ok: #1F8A5B;      --ok-suave: #E3F4EC;
+  --alerta: #B7791F;  --alerta-suave: #FBF1DF;
+  --erro: #C0392B;    --erro-suave: #FBE7E4;
+  --info: var(--petroleo-600); --info-suave: #E2F2F3;
+  --sombra: 0 1px 2px rgba(15, 46, 54, .06), 0 4px 16px rgba(15, 46, 54, .06);
+}
+
+* { box-sizing: border-box; }
+body.app { margin: 0; background: var(--gelo); color: var(--tinta); font: 400 16px/1.5 var(--fonte); -webkit-font-smoothing: antialiased; }
+.app a { color: var(--petroleo-600); }
+.app h1, .app h2, .app h3 { margin: 0; letter-spacing: -.01em; }
+.app h1 { font-weight: 300; font-size: 28px; line-height: 1.2; }
+.app h2 { font-weight: 600; font-size: 18px; }
+.app h3 { font-weight: 600; font-size: 15px; }
+.app p { margin: 0; }
+.muted { color: var(--cinza); }
+.small { font-size: 13px; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Estrutura */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 20px 16px 96px; }
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.g4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.between { justify-content: space-between; }
+.stack > * + * { margin-top: 12px; }
+
+/* Cartões */
+.card { background: var(--branco); border: 1px solid var(--linha); border-radius: var(--raio); padding: 16px; box-shadow: var(--sombra); }
+.card-hd { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+
+/* KPI: sempre com comparativo (regra do projeto) */
+.kpi .rot { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--cinza); }
+.kpi .val { font-size: 30px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.kpi .cmp { font-size: 13px; margin-top: 2px; }
+.sobe { color: var(--ok); } .desce { color: var(--erro); } .neutro { color: var(--cinza); }
+
+/* Botões */
+.btn { appearance: none; border: 1px solid transparent; border-radius: var(--raio); min-height: 44px; padding: 10px 18px; font: 600 15px/1.2 var(--fonte); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+.btn-pri { background: var(--petroleo-900); color: #fff; }
+.btn-sec { background: var(--branco); color: var(--petroleo-900); border-color: var(--linha); }
+.btn-ok { background: var(--ok); color: #fff; }
+.btn-perigo { background: var(--erro); color: #fff; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:focus-visible, .chip:focus-visible { outline: 3px solid var(--agua); outline-offset: 2px; }
+
+/* Pílulas de status */
+.pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.p-ok { background: var(--ok-suave); color: var(--ok); }
+.p-alerta { background: var(--alerta-suave); color: var(--alerta); }
+.p-erro { background: var(--erro-suave); color: var(--erro); }
+.p-info { background: var(--info-suave); color: var(--info); }
+.p-neutro { background: #EDF0F2; color: var(--cinza); }
+
+/* Chips (filtros e respostas rápidas) */
+.chip { border: 1px solid var(--linha); background: var(--branco); border-radius: 999px; min-height: 40px; padding: 8px 14px; font: 400 14px var(--fonte); cursor: pointer; color: var(--tinta); }
+.chip[aria-pressed="true"] { background: var(--petroleo-900); color: #fff; border-color: var(--petroleo-900); }
+
+/* Tabelas */
+.tabela { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tabela th { text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--cinza); padding: 8px 10px; border-bottom: 1px solid var(--linha); }
+.tabela td { padding: 12px 10px; border-bottom: 1px solid var(--linha); vertical-align: middle; }
+.tabela tr:last-child td { border-bottom: 0; }
+.rolar { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Abas */
+.abas { display: flex; gap: 4px; border-bottom: 1px solid var(--linha); margin-bottom: 16px; overflow-x: auto; }
+.aba { appearance: none; border: 0; background: none; padding: 12px 14px; min-height: 44px; font: 600 14px var(--fonte); color: var(--cinza); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+.aba[aria-selected="true"] { color: var(--petroleo-900); border-bottom-color: var(--agua); }
+[data-painel][hidden] { display: none !important; }
+
+/* Aviso (toast) */
+.aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--petroleo-900); color: #fff; padding: 12px 18px; border-radius: var(--raio); box-shadow: 0 8px 24px rgba(0,0,0,.2); opacity: 0; transition: .25s; z-index: 60; max-width: calc(100% - 32px); font-size: 15px; }
+.aviso.on { opacity: 1; transform: translateX(-50%); }
+.aviso.erro { background: var(--erro); }
+.aviso.ok { background: var(--ok); }
+
+/* Modal simples */
+.modal-fundo { position: fixed; inset: 0; background: rgba(15, 46, 54, .45); display: grid; place-items: center; padding: 16px; z-index: 50; }
+.modal-fundo[hidden] { display: none; }
+.modal { background: var(--branco); border-radius: 12px; max-width: 480px; width: 100%; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+
+/* Barra de progresso */
+.barra { height: 8px; background: #E6EBEE; border-radius: 99px; overflow: hidden; }
+.barra > span { display: block; height: 100%; background: var(--petroleo-600); border-radius: 99px; }
+
+/* História (abre cada demonstração) */
+.historia { background: var(--petroleo-900); color: #fff; border-radius: 12px; padding: 22px; display: grid; gap: 14px; }
+.historia .espelho { font-weight: 300; font-size: 24px; line-height: 1.25; }
+.historia .espelho strong { font-weight: 600; color: var(--agua); }
+.historia .passos { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.historia .passo { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--raio); padding: 12px 14px; font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.88); }
+.historia .passo b { display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--agua); margin-bottom: 4px; }
+
+/* Moldura de celular (para demos mobile) */
+.celular { width: 300px; max-width: 100%; border: 10px solid #1B2226; border-radius: 34px; background: #fff; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.18); margin: 0 auto; }
+.celular .tela { height: 560px; overflow-y: auto; }
+
+/* Formulários */
+.campo { display: grid; gap: 6px; }
+.campo label { font-size: 13px; font-weight: 600; color: var(--cinza); }
+.campo input, .campo select, .campo textarea { font: 400 16px var(--fonte); min-height: 44px; padding: 10px 12px; border: 1px solid var(--linha); border-radius: var(--raio); background: #fff; color: var(--tinta); width: 100%; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

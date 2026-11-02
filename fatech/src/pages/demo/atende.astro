@@ -1,0 +1,391 @@
+---
+// Demonstração FA Atende: central de WhatsApp com robô que responde o básico na hora,
+// fila humana para a recepção, ficha do contato preenchida sozinha e painel com comparativos.
+// Todos os dados vêm de src/data/demo/atende.json e são inventados.
+import Demo from '../../layouts/Demo.astro';
+import Historia from '../../components/Historia.astro';
+import d from '../../data/demo/atende.json';
+
+const maxHora = Math.max(...d.horarios.map((h) => h.familias));
+---
+<Demo titulo="FA Atende · demonstração" produto="FA Atende">
+  <main class="wrap stack">
+    <Historia
+      espelho="Quantas famílias ficaram <strong>sem resposta no WhatsApp</strong> ontem à noite?"
+      antes="As mensagens acumulavam à noite e no fim de semana. Quando a recepção respondia, a família já tinha procurado outra clínica."
+      virada="Colocamos um robô que responde o básico na hora e passa o resto para a recepção, com o resumo pronto."
+      depois="Nenhuma família fica esperando. A recepção só trata o que precisa de gente."
+    />
+
+    <div class="banner-noite" id="banner-noite">
+      <span class="lua" aria-hidden="true"></span>
+      <b>{d.banner}</b>
+    </div>
+
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true" data-aba="conversas" id="aba-conversas">Conversas</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="painel" id="aba-painel">Painel</button>
+    </div>
+
+    <!-- CONVERSAS -->
+    <section data-painel="conversas">
+      <div class="atende">
+        <aside class="card lista" aria-label="Conversas">
+          <div id="lista"></div>
+        </aside>
+
+        <div class="chat card" id="chat">
+          <div class="chat-topo" id="chat-topo">
+            <span class="avatar" id="chat-av">?</span>
+            <span class="chat-quem"><b id="chat-nome">Escolha uma conversa</b><span class="small" id="chat-sub">WhatsApp da {d.clinica}</span></span>
+            <span class="pill p-neutro" id="chat-estado" hidden></span>
+          </div>
+          <div class="chat-msgs" id="chat-msgs" aria-live="polite">
+            <p class="chat-vazio">Toque numa conversa da lista para ver o que o robô respondeu.</p>
+          </div>
+          <div class="chat-base">
+            <div class="chips" id="chips" hidden></div>
+            <div class="recepcao" id="recepcao" hidden>
+              <div class="row between">
+                <span class="pill p-alerta pulsa" id="rec-pill">Fila humana</span>
+                <span class="small muted" id="rec-quando"></span>
+              </div>
+              <p class="small" style="margin-top:8px"><b>Resumo para a recepção:</b> <span id="rec-resumo"></span></p>
+              <button class="btn btn-pri" id="btn-assumir" style="margin-top:10px">Assumir conversa (simular 07:02)</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card ficha" id="ficha" aria-label="Ficha do contato">
+          <div style="margin-bottom:6px"><h3>Ficha do contato</h3><p class="small muted">preenchida pelo robô durante a conversa</p></div>
+          <dl id="ficha-campos"></dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PAINEL -->
+    <section data-painel="painel" class="stack" hidden>
+      <div><h2>Painel do atendimento · novembro</h2><p class="muted small">Todo indicador vem com comparação: mês anterior ou meta.</p></div>
+      <div class="grid g4" id="painel-kpis">
+        {d.kpis.map((k) => (
+          <div class="card kpi">
+            <div class="rot">{k.rotulo}</div>
+            <div class="val">{k.valor}</div>
+            <div class={`cmp ${k.tom}`}>{k.cmp}</div>
+          </div>
+        ))}
+      </div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="card-hd"><h3>Famílias que chamaram, por horário</h3><span class="small muted">esta semana</span></div>
+          <div class="barras" role="img" aria-label="Famílias que chamaram no WhatsApp por faixa de horário">
+            {d.horarios.map((h) => (
+              <div class="bcol">
+                <span class="bval num small">{h.familias}</span>
+                <div class="btrilho"><div class={`bbar ${h.fora ? 'fora' : ''}`} style={`height:${(h.familias / maxHora) * 100}%`}></div></div>
+                <span class="small muted brot">{h.rotulo}</span>
+              </div>
+            ))}
+          </div>
+          <div class="row small muted" style="margin-top:8px"><span class="leg"></span>horário da recepção <span class="leg leg-fora"></span>fora do horário: só o robô respondeu</div>
+        </div>
+        <div class="card stack">
+          <div class="card-hd" style="margin-bottom:0"><h3>Resolvidas pelo robô, por assunto</h3><span class="small muted">meta geral 60%</span></div>
+          {d.assuntos.map((a) => (
+            <div class="assunto">
+              <div class="row between small"><span>{a.texto}</span><b class="num">{a.pct}%</b></div>
+              <div class="barra"><span style={`width:${a.pct}%;${a.pct < 60 ? 'background:var(--alerta)' : ''}`}></span></div>
+            </div>
+          ))}
+          <p class="small muted">Guia, laudo e reembolso vão quase sempre para a recepção. É de propósito: precisa de gente.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ conversas: d.conversas, fluxo: d.fluxo, inicio: d.inicio, agora: d.agora, atendente: d.atendente }}>
+    window.FA_DADOS = { conversas: conversas, fluxo: fluxo, inicio: inicio, agora: agora, atendente: atendente };
+    window.FA_TOUR = [
+      { alvo: '#banner-noite', texto: 'São 23:14. A recepção foi embora, mas o WhatsApp continua respondendo.' },
+      { alvo: '#conv-c1', texto: 'A Juliana chamou agora há pouco. Toque na conversa dela.', clique: true },
+      { alvo: '#chip-planos', texto: 'Faça de conta que você é a mãe. Toque na pergunta.', clique: true },
+      { alvo: '#chat-msgs', texto: 'Resposta na hora, às onze da noite. Antes, ela esperaria até o dia seguinte.' },
+      { alvo: '#chip-agendar', texto: 'Agora peça para agendar a avaliação.', clique: true },
+      { alvo: '#ficha', texto: 'Enquanto a família conversa, a ficha se preenche sozinha. A recepção chega e já sabe quem é, a idade e o plano.' },
+      { alvo: '#chip-pessoa', texto: 'E quando o assunto precisa de gente? Toque em Falar com uma pessoa.', clique: true },
+      { alvo: '#recepcao', texto: 'A conversa vai para a fila humana com o resumo pronto. Ninguém precisa perguntar tudo de novo.' },
+      { alvo: '#aba-painel', texto: 'Por fim, o painel: tempo de resposta e famílias atendidas fora do horário, comparados ao mês passado. Toque aqui.', clique: true }
+    ];
+  </script>
+  <script>
+    const { conversas, fluxo, inicio, agora, atendente } = (window as any).FA_DADOS;
+    const fa = (window as any).fa;
+    type Msg = { de: 'fam' | 'bot' | 'rec'; txt: string; hora: string };
+    type Conv = { id: string; nome: string; sub: string; hora: string; naoLidas: number; estado: string; msgs: Msg[]; ficha: Record<string, string>; chips?: string[]; filaDesde?: string };
+    const convs: Conv[] = conversas;
+    let atual: Conv | null = null;
+    let minuto = Number(agora.split(':')[1]);
+    const horaAgora = () => `23:${String(Math.min(minuto, 59)).padStart(2, '0')}`;
+    const novosCampos = new Set<string>();
+
+    // Abas
+    const abas = document.querySelectorAll<HTMLButtonElement>('.aba');
+    abas.forEach((b) => b.addEventListener('click', () => {
+      abas.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      document.querySelectorAll<HTMLElement>('[data-painel]').forEach((p) => (p.hidden = p.dataset.painel !== b.dataset.aba));
+    }));
+
+    const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, txt?: string) => {
+      const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e;
+    };
+    const iniciais = (n: string) => n.slice(0, 1).toUpperCase();
+    const estadoInfo: Record<string, { rot: string; cls: string }> = {
+      robo: { rot: 'Robô atendendo', cls: 'p-info' },
+      humana: { rot: 'Pediu atendente', cls: 'p-alerta pulsa' },
+      recepcao: { rot: `Com a recepção · ${atendente}`, cls: 'p-ok' },
+      resolvida: { rot: 'Resolvida pelo robô', cls: 'p-neutro' },
+    };
+
+    // Lista de conversas
+    function renderLista() {
+      const box = document.getElementById('lista')!;
+      box.innerHTML = '';
+      const grupos: [string, Conv[]][] = [
+        ['Fila humana', convs.filter((c) => c.estado === 'humana' || c.estado === 'recepcao')],
+        ['Respondidas pelo robô', convs.filter((c) => c.estado === 'robo' || c.estado === 'resolvida')],
+      ];
+      grupos.forEach(([tit, lista]) => {
+        if (!lista.length) return;
+        const h = el('div', 'lista-tit', `${tit} (${lista.length})`);
+        box.appendChild(h);
+        lista.forEach((c) => {
+          const b = el('button', `conv${atual?.id === c.id ? ' sel' : ''}`);
+          b.id = `conv-${c.id}`;
+          b.setAttribute('aria-pressed', String(atual?.id === c.id));
+          const av = el('span', 'avatar', iniciais(c.nome));
+          const meio = el('span', 'conv-meio');
+          const l1 = el('span', 'conv-l1');
+          l1.append(el('b', '', c.nome), el('span', 'small muted', ` · ${c.sub}`));
+          const ult = c.msgs[c.msgs.length - 1];
+          const l2 = el('span', 'conv-l2 small muted', ult.txt);
+          meio.append(l1, l2);
+          const s = estadoInfo[c.estado];
+          if (c.estado !== 'resolvida') meio.appendChild(el('span', `pill ${s.cls}`, s.rot));
+          const dir = el('span', 'conv-dir');
+          dir.appendChild(el('span', 'small muted num', ult.hora));
+          if (c.naoLidas) dir.appendChild(el('span', 'badge', String(c.naoLidas)));
+          b.append(av, meio, dir);
+          b.addEventListener('click', () => abrirConversa(c));
+          box.appendChild(b);
+        });
+      });
+    }
+
+    // Janela do chat
+    function bolha(m: Msg) {
+      const w = el('div', `msg m-${m.de}`);
+      if (m.de !== 'fam') w.appendChild(el('span', 'msg-de', m.de === 'bot' ? 'Robô' : `Recepção · ${atendente}`));
+      w.appendChild(el('span', 'msg-txt', m.txt));
+      w.appendChild(el('span', 'msg-hora num', m.hora));
+      return w;
+    }
+    function renderChat() {
+      if (!atual) return;
+      const box = document.getElementById('chat-msgs')!;
+      box.innerHTML = '';
+      box.appendChild(el('div', 'dia', 'Hoje'));
+      atual.msgs.forEach((m) => box.appendChild(bolha(m)));
+      box.scrollTop = box.scrollHeight;
+    }
+    function digitando() {
+      const box = document.getElementById('chat-msgs')!;
+      const t = el('div', 'msg m-bot digitando');
+      t.append(el('span', 'msg-de', 'Robô'), el('span', 'pontos', ''));
+      t.querySelector('.pontos')!.append(el('i'), el('i'), el('i'));
+      box.appendChild(t); box.scrollTop = box.scrollHeight;
+      return t;
+    }
+    function renderTopo() {
+      if (!atual) return;
+      document.getElementById('chat-av')!.textContent = iniciais(atual.nome);
+      document.getElementById('chat-nome')!.textContent = atual.nome;
+      document.getElementById('chat-sub')!.textContent = atual.sub;
+      const s = estadoInfo[atual.estado];
+      const p = document.getElementById('chat-estado')!;
+      p.hidden = false; p.className = `pill ${s.cls}`; p.textContent = s.rot;
+    }
+    function renderBase(bloquear = false) {
+      const chips = document.getElementById('chips')!;
+      const rec = document.getElementById('recepcao')!;
+      if (!atual) return;
+      if (atual.estado === 'humana' || atual.estado === 'recepcao') {
+        chips.hidden = true; rec.hidden = false;
+        const f = atual.ficha;
+        document.getElementById('rec-resumo')!.textContent =
+          [f.responsavel && `${f.responsavel} (${atual.sub})`, f.idade, f.plano, f.interesse].filter(Boolean).join(' · ') || 'contato novo';
+        const assumida = atual.estado === 'recepcao';
+        const pill = document.getElementById('rec-pill')!;
+        pill.className = `pill ${assumida ? 'p-ok' : 'p-alerta pulsa'}`;
+        pill.textContent = assumida ? `Com a recepção · ${atendente}` : 'Fila humana · aguardando a recepção';
+        document.getElementById('rec-quando')!.textContent = assumida ? 'assumida às 07:02' : `na fila desde ${atual.filaDesde || atual.hora} · recepção abre às 7h`;
+        (document.getElementById('btn-assumir') as HTMLButtonElement).hidden = assumida;
+        return;
+      }
+      rec.hidden = true;
+      const lista: string[] = atual.chips || inicio;
+      if (!lista.length) { chips.hidden = true; return; }
+      chips.hidden = false; chips.innerHTML = '';
+      chips.appendChild(el('span', 'chips-tit small muted', 'Toque como se fosse a família:'));
+      lista.forEach((k) => {
+        const b = el('button', 'chip', fluxo[k].rot) as HTMLButtonElement;
+        b.id = `chip-${k}`; b.disabled = bloquear;
+        if (k === 'pessoa') b.classList.add('chip-pessoa');
+        b.addEventListener('click', () => responder(k));
+        chips.appendChild(b);
+      });
+    }
+
+    // Ficha do contato
+    const rotulos: [string, string][] = [
+      ['responsavel', 'Responsável'], ['crianca', 'Criança'], ['idade', 'Idade da criança'], ['plano', 'Plano'],
+      ['interesse', 'Interesse'], ['origem', 'Origem do contato'], ['situacao', 'Situação'],
+    ];
+    function renderFicha() {
+      const dl = document.getElementById('ficha-campos')!;
+      dl.innerHTML = '';
+      if (!atual) { dl.appendChild(el('p', 'small muted', 'Escolha uma conversa.')); return; }
+      rotulos.forEach(([k, rot]) => {
+        const v = atual!.ficha[k];
+        const linha = el('div', `campo-f${novosCampos.has(k) ? ' novo' : ''}`);
+        linha.append(el('dt', '', rot), el('dd', v ? '' : 'vazio', v || 'aguardando...'));
+        dl.appendChild(linha);
+      });
+      const pct = Math.round((rotulos.filter(([k]) => atual!.ficha[k]).length / rotulos.length) * 100);
+      const p = el('div', 'ficha-pct');
+      p.append(el('span', 'small muted', `Ficha ${pct}% preenchida`));
+      const bar = el('div', 'barra'); const s = el('span'); s.style.width = `${pct}%`; bar.appendChild(s); p.appendChild(bar);
+      dl.appendChild(p);
+      novosCampos.clear();
+    }
+
+    function abrirConversa(c: Conv) {
+      atual = c; c.naoLidas = 0;
+      renderLista(); renderTopo(); renderChat(); renderBase(); renderFicha();
+      if (innerWidth < 700 && !document.querySelector('.tour-alvo')) document.getElementById('chat')!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function responder(k: string) {
+      if (!atual) return;
+      const c = atual;
+      const f = fluxo[k];
+      minuto++;
+      c.msgs.push({ de: 'fam', txt: f.fam, hora: horaAgora() });
+      // Os próximos botões aparecem já (desativados) para o tour achar o alvo; liberam quando o robô responde.
+      const prox: string[] = [...f.proximos];
+      if (prox.length && !prox.includes('pessoa')) prox.push('pessoa');
+      c.chips = prox;
+      if (k === 'pessoa') { c.estado = 'humana'; c.filaDesde = horaAgora(); }
+      renderChat();
+      renderBase(k !== 'pessoa');
+      const t = digitando();
+      setTimeout(() => {
+        t.remove();
+        c.msgs.push({ de: 'bot', txt: f.bot, hora: horaAgora() });
+        Object.entries(f.ficha as Record<string, string>).forEach(([campo, v]) => { c.ficha[campo] = v; novosCampos.add(campo); });
+        if (k !== 'pessoa' && c.estado === 'resolvida') c.estado = 'robo';
+        renderLista(); renderTopo(); renderChat(); renderBase(); renderFicha();
+        if (k === 'pessoa') fa.aviso(`${c.nome} foi para a fila humana, com o resumo da conversa.`, 'ok');
+        else if (k.startsWith('horario')) fa.aviso('Avaliação pré-agendada pelo robô. A recepção só confirma de manhã.', 'ok');
+      }, 650);
+    }
+
+    document.getElementById('btn-assumir')!.addEventListener('click', () => {
+      if (!atual) return;
+      const c = atual;
+      c.estado = 'recepcao';
+      c.ficha.situacao = `Com a recepção · ${atendente}`; novosCampos.add('situacao');
+      const primeiro = c.ficha.responsavel || c.nome;
+      c.msgs.push({ de: 'rec', txt: `Bom dia, ${primeiro}! Aqui é a ${atendente}, da recepção da Clínica Arco-Íris. Já li sua conversa com o robô, não precisa repetir nada. ${c.ficha.interesse === 'Guia negada pelo plano' ? 'Vou ver agora o motivo da negativa da guia com o plano.' : 'Em que posso te ajudar?'}`, hora: '07:02' });
+      renderLista(); renderTopo(); renderChat(); renderBase(); renderFicha();
+      fa.aviso(`${atendente} assumiu a conversa já sabendo do que se trata.`, 'ok');
+    });
+
+    renderLista(); renderFicha();
+  </script>
+</Demo>
+<style>
+  .banner-noite { display: flex; align-items: center; gap: 12px; background: #16323B; color: #fff; border-radius: var(--raio); padding: 12px 16px; border: 1px solid rgba(63,183,191,.35); }
+  .banner-noite b { font-weight: 600; }
+  .lua { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset -6px -2px 0 0 var(--agua); transform: rotate(-20deg); flex: none; }
+
+  .atende { display: grid; gap: 16px; grid-template-columns: 270px minmax(0, 1fr) 250px; align-items: start; }
+  @media (max-width: 999px) { .atende { grid-template-columns: 260px minmax(0, 1fr); } .ficha { grid-column: 1 / -1; } }
+  @media (max-width: 699px) { .atende { grid-template-columns: minmax(0, 1fr); } }
+
+  .lista { padding: 8px; }
+  .lista-tit { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--cinza); padding: 8px 8px 4px; font-weight: 600; }
+  :global(.conv) { appearance: none; width: 100%; display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 10px; align-items: start; text-align: left; padding: 10px 8px; min-height: 64px; border: 0; border-radius: var(--raio); background: none; font: inherit; color: inherit; cursor: pointer; }
+  :global(.conv.sel) { background: var(--info-suave); }
+  :global(.conv-meio) { display: grid; gap: 3px; min-width: 0; }
+  :global(.conv-meio .pill) { justify-self: start; }
+  :global(.conv-l1) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  :global(.conv-l2) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  :global(.conv-dir) { display: grid; justify-items: end; gap: 4px; }
+  :global(.badge) { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 99px; background: var(--ok); color: #fff; font-size: 12px; font-weight: 600; display: grid; place-items: center; }
+  :global(.avatar) { width: 40px; height: 40px; border-radius: 50%; background: var(--petroleo-600); color: #fff; display: grid; place-items: center; font-weight: 600; flex: none; }
+  :global(.pulsa) { animation: pulsa 1.4s ease-in-out infinite; }
+  @keyframes pulsa { 0%, 100% { box-shadow: 0 0 0 0 rgba(183,121,31,.45); } 50% { box-shadow: 0 0 0 6px rgba(183,121,31,0); } }
+
+  .chat { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+  .chat-topo { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--petroleo-900); color: #fff; flex-wrap: wrap; }
+  .chat-topo .avatar { background: var(--agua); color: var(--petroleo-900); }
+  .chat-quem { display: grid; flex: 1; min-width: 0; }
+  .chat-quem .small { color: rgba(255,255,255,.7); }
+  .chat-msgs { height: 400px; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; background: #E9F1F2; background-image: radial-gradient(rgba(31,127,134,.07) 1px, transparent 1px); background-size: 14px 14px; }
+  @media (max-width: 699px) { .chat-msgs { height: 360px; } }
+  .chat-vazio { margin: auto; text-align: center; color: var(--cinza); max-width: 260px; }
+  :global(.dia) { align-self: center; font-size: 12px; background: #fff; color: var(--cinza); padding: 2px 10px; border-radius: 99px; }
+  :global(.msg) { max-width: 82%; padding: 8px 10px 6px; border-radius: 10px; font-size: 15px; line-height: 1.4; display: grid; gap: 2px; box-shadow: 0 1px 1px rgba(0,0,0,.06); animation: entra .2s ease-out; }
+  :global(.m-fam) { align-self: flex-start; background: #fff; border-top-left-radius: 2px; }
+  :global(.m-bot) { align-self: flex-end; background: #D3EEF0; border-top-right-radius: 2px; }
+  :global(.m-rec) { align-self: flex-end; background: var(--ok-suave); border-top-right-radius: 2px; }
+  :global(.msg-de) { font-size: 11px; font-weight: 600; color: var(--petroleo-600); }
+  :global(.m-rec .msg-de) { color: var(--ok); }
+  :global(.msg-hora) { font-size: 11px; color: var(--cinza); justify-self: end; }
+  :global(.pontos) { display: inline-flex; gap: 4px; padding: 4px 0; }
+  :global(.pontos i) { width: 7px; height: 7px; border-radius: 50%; background: var(--petroleo-600); animation: pisca 1s infinite; }
+  :global(.pontos i:nth-child(2)) { animation-delay: .15s; }
+  :global(.pontos i:nth-child(3)) { animation-delay: .3s; }
+  @keyframes pisca { 50% { opacity: .25; } }
+  @keyframes entra { from { opacity: 0; transform: translateY(6px); } }
+
+  .chat-base { border-top: 1px solid var(--linha); background: #fff; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; }
+  .chips[hidden] { display: none; }
+  :global(.chips-tit) { width: 100%; }
+  :global(.chips .chip) { min-height: 44px; border-color: var(--petroleo-600); color: var(--petroleo-900); }
+  :global(.chips .chip:disabled) { opacity: .45; }
+  :global(.chips .chip-pessoa) { border-style: dashed; color: var(--alerta); border-color: var(--alerta); }
+  .recepcao { padding: 12px 14px 14px; background: var(--alerta-suave); }
+  .recepcao[hidden] { display: none; }
+  #btn-assumir[hidden] { display: none; }
+
+  .ficha dl { margin: 0; }
+  :global(.campo-f) { display: grid; gap: 1px; padding: 8px 0; border-bottom: 1px solid var(--linha); }
+  :global(.campo-f dt) { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--cinza); }
+  :global(.campo-f dd) { margin: 0; font-weight: 600; font-size: 15px; }
+  :global(.campo-f dd.vazio) { font-weight: 400; color: #A3AEB4; font-style: italic; }
+  :global(.campo-f.novo) { animation: realce 1.6s ease-out; }
+  @keyframes realce { 0% { background: var(--ok-suave); } 100% { background: transparent; } }
+  :global(.ficha-pct) { display: grid; gap: 6px; padding-top: 10px; }
+
+  .barras { display: flex; gap: 12px; align-items: flex-end; height: 200px; padding-top: 10px; }
+  .bcol { flex: 1; display: grid; justify-items: center; gap: 6px; height: 100%; grid-template-rows: auto 1fr auto; min-width: 0; }
+  .btrilho { position: relative; width: 100%; max-width: 56px; height: 100%; }
+  .bbar { position: absolute; bottom: 0; left: 0; right: 0; background: #9FCFD3; border-radius: 6px 6px 0 0; }
+  .bbar.fora { background: var(--petroleo-900); }
+  .brot { text-align: center; line-height: 1.2; }
+  .leg { display: inline-block; width: 12px; height: 8px; border-radius: 4px; background: #9FCFD3; }
+  .leg-fora { background: var(--petroleo-900); margin-left: 6px; }
+  .assunto { display: grid; gap: 4px; }
+</style>

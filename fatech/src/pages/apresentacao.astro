@@ -1,0 +1,310 @@
+---
+// Apresentação FA Tech (16:9) para o notebook do estande e reuniões depois do evento.
+// Navegação: setas do teclado, clique (lado esquerdo volta), deslizar o dedo. "F" = tela cheia.
+// Imprimir → Salvar como PDF: sai um slide por página, na horizontal.
+// Trechos entre [colchetes] são para o Bruno confirmar antes de usar com cliente.
+import '../styles/tokens.css';
+import Logo from '../components/Logo.astro';
+import marca from '../data/marca.json';
+import produtos from '../data/produtos.json';
+import { icone } from '../lib/icone.js';
+import { qrSvg, urlCadastro } from '../lib/qr.js';
+
+const qr = await qrSvg(urlCadastro('apresentacao'));
+const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
+
+// Texto de cada produto na apresentação (complementa dor/alívio de produtos.json).
+const extra = {
+  clinica: {
+    era: 'A recepção descobria no fim do mês que a sessão foi feita sem guia válida. A falta ficava sem reposição e a evolução ficava para depois.',
+    ficou: 'Agenda, guias e evoluções no mesmo lugar. A sessão sem guia é barrada antes de acontecer, a falta já pede reposição e a evolução pendente aparece no mesmo dia.',
+    faz: ['Agenda por terapeuta, sala e paciente, com reposição de faltas', 'Controle de guias: avisa antes de vencer e barra a sessão sem guia', 'Evolução registrada logo após a sessão, com pendências à vista da coordenação'],
+  },
+  faturamento: {
+    era: 'A guia ia para o plano com erro de código, de assinatura ou de prazo. A glosa voltava semanas depois e alguém precisava refazer tudo.',
+    ficou: 'Cada guia é conferida antes de ir ao plano. O que tem problema aparece com o motivo, para corrigir antes do envio. Glosa vira exceção.',
+    faz: ['Conferência das guias antes do envio ao convênio', 'Lista de pendências com o motivo de cada uma', 'Acompanhamento do que foi enviado, pago e glosado'],
+    nota: 'Em parceria com especialista em faturamento de Belém [nome a confirmar].',
+  },
+  atende: {
+    era: 'A mensagem que chegava à noite só era vista no dia seguinte. A recepção respondia as mesmas perguntas o dia inteiro.',
+    ficou: 'O robô responde na hora as dúvidas comuns (endereço, horários, documentos, convênios) e passa para a recepção o que precisa de uma pessoa.',
+    faz: ['Respostas automáticas no WhatsApp para as dúvidas mais comuns', 'Passagem para a recepção com o histórico da conversa', 'Pré-cadastro da família antes da primeira avaliação'],
+  },
+  pessoas: {
+    era: 'Ponto em folha de papel ou planilha. Ninguém sabia ao certo se o estagiário estava na clínica, e as horas do estágio eram conferidas à mão.',
+    ficou: 'Ponto pelo celular com localização e rosto. As regras da lei do estágio, como jornada e limites, são conferidas sozinhas.',
+    faz: ['Registro de ponto pelo celular, com localização e reconhecimento do rosto', 'Conferência automática da jornada do estagiário', 'Espelho de ponto pronto para o fechamento do mês'],
+  },
+  play: {
+    era: 'Entrada anotada em caderno, tempo de brincadeira contado no relógio e caixa que não batia no fim do dia.',
+    ficou: 'Entrada registrada com os cuidados sensoriais de cada criança, tempo acompanhado na tela, saída conferida com o responsável e caixa que fecha sozinho.',
+    faz: ['Entrada com os cuidados sensoriais de cada criança à vista da equipe', 'Tempo de cada criança na tela, com aviso antes de acabar', 'Saída conferida com o responsável e fechamento de caixa'],
+  },
+  tv: {
+    era: 'Famílias esperando sem informação, televisão ligada em canal aberto e avisos colados na parede.',
+    ficou: 'A TV da recepção mostra avisos, orientações e conteúdos da clínica. A recepção troca tudo pelo celular, em segundos.',
+    faz: ['Avisos e orientações para as famílias na sala de espera', 'Conteúdo trocado pelo celular, sem pendrive', 'Programação por horário e por dia da semana'],
+  },
+  wifi: {
+    era: 'Visitantes e famílias usavam o Wi-Fi e iam embora. A clínica não sabia quem tinha passado por ali.',
+    ficou: 'Ao conectar, a pessoa deixa nome e telefone com consentimento claro e recebe um benefício na hora, como um material ou um convite.',
+    faz: ['Página de acesso ao Wi-Fi com a marca da clínica', 'Contato registrado com consentimento, dentro da LGPD', 'Benefício entregue na hora: material, convite ou evento'],
+  },
+};
+const produtosSlides = produtos.map((p) => ({ ...p, ...extra[p.id] }));
+const marcaPh = (t) => t.replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
+const total = 4 + produtosSlides.length + 1; // capa, perdas, história, 7 produtos, LGPD, próximo passo
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>FA Tech · Apresentação</title>
+</head>
+<body>
+  <main id="palco" class="palco">
+    <!-- 1 capa -->
+    <section class="slide escuro capa">
+      <Logo tamanho="96px" tema="escuro" />
+      <h1>Gestão para clínicas, <strong>criada dentro de uma clínica.</strong></h1>
+      <p class="sub">{marca.origem}</p>
+      <p class="pe">{marca.evento}</p>
+    </section>
+
+    <!-- 2 perdas -->
+    <section class="slide claro">
+      <p class="olho">O problema</p>
+      <h2>As 4 perdas silenciosas <strong>da clínica TEA</strong></h2>
+      <div class="perdas">
+        <div class="perda"><span set:html={ic('calendar-x', 40, 1.4)} /><b>Falta sem reposição</b><p>A criança falta, o horário fica vazio e a sessão não volta para a agenda.</p></div>
+        <div class="perda"><span set:html={ic('file-x', 40, 1.4)} /><b>Sessão sem guia, glosa</b><p>A sessão acontece, mas a guia venceu ou tinha erro. O plano não paga.</p></div>
+        <div class="perda"><span set:html={ic('file-clock', 40, 1.4)} /><b>Evolução atrasada</b><p>O registro fica para depois, a coordenação não acompanha e o plano pode cobrar.</p></div>
+        <div class="perda"><span set:html={ic('user-x', 40, 1.4)} /><b>Família que desiste sem avisar</b><p>A mensagem fica sem resposta, a família se cansa e não volta.</p></div>
+      </div>
+      <p class="fecho">Nenhuma delas faz barulho. Todas aparecem no fim do mês.</p>
+    </section>
+
+    <!-- 3 história (rever com o Bruno) -->
+    <section class="slide escuro historia">
+      <p class="olho">Quem somos</p>
+      <h2>Nascemos <strong>dentro de uma clínica</strong></h2>
+      <div class="historia__texto">
+        <p set:html={marcaPh('Eu sou o Bruno. Cuido da gestão de uma clínica de terapia para crianças autistas aqui em Belém [confirmar com Bruno: citar o nome da clínica?], com [confirmar com Bruno: nº de profissionais] profissionais e [confirmar com Bruno: nº de famílias atendidas] famílias.')} />
+        <p set:html={marcaPh('Eu vivi cada uma dessas perdas. Guia vencida descoberta tarde, glosa voltando, estagiário com ponto em papel, família esperando resposta no WhatsApp. Testei sistemas prontos e nenhum entendia a rotina de uma clínica TEA [confirmar com Bruno: quais/quantos sistemas testou].')} />
+        <p set:html={marcaPh('Então começamos a construir as ferramentas dentro da própria clínica, desde [confirmar com Bruno: ano em que começou], ajustando com a equipe no dia a dia. O que funcionou para nós virou a FA Tech.')} />
+      </div>
+      <Logo tamanho="44px" tema="escuro" descritor={false} />
+    </section>
+
+    <!-- 4 a 10 produtos -->
+    {produtosSlides.map((p, i) => (
+      <section class={`slide produto ${i % 2 === 0 ? 'claro' : 'escuro'}`}>
+        <p class="tag"><span set:html={ic(p.icone, 30, 1.6)} />{p.nome}{p.parceria && <em> · em parceria</em>}</p>
+        <h2 class="pergunta" set:html={p.pergunta} />
+        <div class="antes-depois">
+          <div class="caixa caixa--era"><p class="rot">Como era</p><p>{p.era}</p></div>
+          <span class="flecha" set:html={ic('arrow-right', 36, 1.4)} />
+          <div class="caixa caixa--ficou"><p class="rot">Como ficou</p><p>{p.ficou}</p></div>
+          <div class="faz">
+            <p class="rot">O que faz</p>
+            <ul>{p.faz.map((f) => <li><span set:html={ic('check', 20, 2.2)} />{f}</li>)}</ul>
+          </div>
+        </div>
+        {p.nota && <p class="nota" set:html={marcaPh(p.nota)} />}
+      </section>
+    ))}
+
+    <!-- 11 LGPD -->
+    <section class="slide escuro">
+      <p class="olho">Privacidade e LGPD</p>
+      <h2>Seus dados <strong>ficam com você</strong></h2>
+      <div class="lgpd">
+        <div><span set:html={ic('key-round', 36, 1.4)} /><b>Acesso por perfil</b><p>Recepção, terapeuta, coordenação e financeiro veem só o que precisam.</p></div>
+        <div><span set:html={ic('history', 36, 1.4)} /><b>Registro de quem viu o quê</b><p>Cada acesso a dado de paciente fica anotado, com data e pessoa.</p></div>
+        <div><span set:html={ic('building-2', 36, 1.4)} /><b>Dados isolados por clínica</b><p>Cada clínica tem o seu espaço separado. Uma não enxerga a outra.</p></div>
+        <div><span set:html={ic('lock', 36, 1.4)} /><b>Sem dados de outras clínicas</b><p>Nada da sua clínica é usado para outra, nem misturado em relatório de terceiros.</p></div>
+      </div>
+      <p class="fecho">{marca.privacidade}</p>
+    </section>
+
+    <!-- 12 próximo passo -->
+    <section class="slide claro passo">
+      <div class="passo__texto">
+        <p class="olho">Próximo passo</p>
+        <h2>Diagnóstico gratuito de <strong>30 minutos</strong> da gestão da sua clínica</h2>
+        <ul>
+          <li><span set:html={ic('check', 20, 2.2)} />Olhamos juntos agenda, guias, faturamento e atendimento.</li>
+          <li><span set:html={ic('check', 20, 2.2)} />Você sai com a lista das perdas silenciosas da sua clínica.</li>
+          <li><span set:html={ic('check', 20, 2.2)} />Imagine fechar o mês sem correr atrás de guia. Começa por aqui.</li>
+        </ul>
+        <div class="contato">
+          <b>{marca.contato.nome}</b> · {marca.contato.cargo}<br />
+          <span set:html={ic('phone', 18, 1.8)} /> WhatsApp {marca.contato.whatsapp}
+          <span class="sep" /> <span set:html={ic('mail', 18, 1.8)} /> {marca.contato.email}
+        </div>
+      </div>
+      <div class="passo__qr">
+        <div class="qrbox" set:html={qr} />
+        <b>Aponte a câmera</b>
+        <span>para marcar o diagnóstico e testar os sistemas</span>
+      </div>
+    </section>
+  </main>
+
+  <nav class="controles" aria-label="Navegação dos slides">
+    <button id="ant" type="button" aria-label="Slide anterior" set:html={ic('chevron-left', 22, 2)} />
+    <span id="contador" class="contador">1 / {total}</span>
+    <button id="prox" type="button" aria-label="Próximo slide" set:html={ic('chevron-right', 22, 2)} />
+    <button id="cheia" type="button" aria-label="Tela cheia (tecla F)" title="Tela cheia (F)" set:html={ic('maximize', 20, 2)} />
+  </nav>
+
+  <script>
+    const palco = document.getElementById('palco');
+    const slides = [...palco.querySelectorAll('.slide')];
+    const contador = document.getElementById('contador');
+    let atual = Math.min(Math.max((parseInt(location.hash.slice(1), 10) || 1) - 1, 0), slides.length - 1);
+
+    function escalar() {
+      const s = Math.min(innerWidth / 1280, innerHeight / 720);
+      palco.style.setProperty('--escala', String(s));
+    }
+    addEventListener('resize', escalar);
+    escalar();
+
+    function ir(i) {
+      atual = Math.min(Math.max(i, 0), slides.length - 1);
+      slides.forEach((s, k) => s.classList.toggle('ativo', k === atual));
+      contador.textContent = `${atual + 1} / ${slides.length}`;
+      history.replaceState(null, '', `#${atual + 1}`);
+    }
+
+    function telaCheia() {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen?.().catch(() => {});
+    }
+
+    addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); ir(atual + 1); }
+      else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); ir(atual - 1); }
+      else if (e.key === 'Home') ir(0);
+      else if (e.key === 'End') ir(slides.length - 1);
+      else if (e.key === 'f' || e.key === 'F') telaCheia();
+    });
+    document.getElementById('ant').addEventListener('click', () => ir(atual - 1));
+    document.getElementById('prox').addEventListener('click', () => ir(atual + 1));
+    document.getElementById('cheia').addEventListener('click', telaCheia);
+
+    // clique no slide: terço esquerdo volta, resto avança
+    palco.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      ir(e.clientX < innerWidth / 3 ? atual - 1 : atual + 1);
+    });
+
+    // deslizar o dedo
+    let x0 = null, y0 = 0;
+    palco.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    palco.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { e.preventDefault(); ir(dx < 0 ? atual + 1 : atual - 1); }
+    });
+
+    ir(atual);
+  </script>
+</body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0A1F25; }
+  body { font-family: var(--fonte); -webkit-font-smoothing: antialiased; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: 1280px 720px; margin: 0; }
+  @media print {
+    html, body { width: auto; height: auto; overflow: visible; background: none; }
+  }
+</style>
+
+<style>
+  .palco { position: absolute; top: 50%; left: 50%; width: 1280px; height: 720px; transform: translate(-50%, -50%) scale(var(--escala, 1)); transform-origin: center; overflow: hidden; cursor: pointer; user-select: none; }
+  .slide { position: absolute; inset: 0; padding: 72px 96px; display: flex; flex-direction: column; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility 0s .45s; overflow: hidden; }
+  .slide.ativo { opacity: 1; visibility: visible; transition: opacity .45s ease; }
+  .claro { background: var(--gelo); color: var(--tinta); --destaque: var(--petroleo-600); --suave: var(--cinza); --borda: var(--linha); --cartao: #fff; }
+  .escuro { background: var(--petroleo-900); color: #fff; --destaque: var(--agua); --suave: rgba(255,255,255,.72); --borda: rgba(255,255,255,.16); --cartao: rgba(255,255,255,.06); }
+  .claro h1, .claro h2 { color: var(--petroleo-900); }
+  .slide :global(strong) { font-weight: 600; color: var(--destaque); }
+
+  h1 { font-weight: 300; font-size: 64px; line-height: 1.08; letter-spacing: -.025em; }
+  h2 { font-weight: 300; font-size: 48px; line-height: 1.12; letter-spacing: -.02em; }
+  .olho { font-size: 15px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--destaque); margin-bottom: 18px; }
+  .fecho { margin-top: auto; font-size: 22px; font-weight: 300; color: var(--suave); }
+  .slide :global(.ph) { background: rgba(63,183,191,.16); outline: 1.5px dashed var(--destaque); border-radius: 4px; padding: 0 4px; font-weight: 400; }
+
+  .capa { justify-content: center; }
+  .capa h1 { margin-top: 64px; max-width: 980px; }
+  .capa .sub { margin-top: 28px; font-size: 26px; font-weight: 300; color: var(--suave); }
+  .capa .pe { position: absolute; left: 96px; bottom: 56px; font-size: 16px; color: var(--suave); letter-spacing: .04em; }
+
+  .perdas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 44px; }
+  .perda { background: var(--cartao); border: 1px solid var(--borda); border-radius: 14px; padding: 28px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .perda > span { color: var(--destaque); }
+  .perda b { font-size: 21px; font-weight: 600; line-height: 1.2; color: var(--petroleo-900); }
+  .perda p { font-size: 17px; line-height: 1.45; color: var(--suave); }
+
+  .historia__texto { margin-top: 34px; display: grid; gap: 18px; max-width: 1000px; }
+  .historia__texto p { font-size: 21px; line-height: 1.55; font-weight: 300; }
+  .historia > :global(.logo) { margin-top: auto; }
+
+  .tag { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 600; color: var(--destaque); letter-spacing: .02em; }
+  .tag em { font-style: normal; font-weight: 300; color: var(--suave); }
+  .pergunta { margin-top: 22px; max-width: 1060px; font-size: 54px; }
+  .antes-depois { margin-top: auto; display: grid; grid-template-columns: 1fr 36px 1fr 1fr; gap: 18px; align-items: stretch; }
+  .caixa { border-radius: 14px; padding: 22px 22px; font-size: 17px; line-height: 1.5; }
+  .caixa--era { border: 1.5px dashed var(--borda); color: var(--suave); }
+  .caixa--ficou { background: var(--cartao); border: 1.5px solid var(--destaque); }
+  .rot { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--destaque); margin-bottom: 10px; }
+  .caixa--era .rot { color: var(--suave); }
+  .flecha { align-self: center; color: var(--destaque); }
+  .faz { padding: 22px 4px 0 14px; border-left: 1px solid var(--borda); }
+  .faz ul, .passo ul { list-style: none; display: grid; gap: 12px; }
+  .faz li { display: flex; gap: 10px; font-size: 16px; line-height: 1.4; }
+  .faz li :global(svg), .passo li :global(svg) { flex: none; color: var(--destaque); margin-top: 2px; }
+  .nota { margin-top: 18px; font-size: 16px; color: var(--suave); }
+
+  .lgpd { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 40px; margin-top: 40px; }
+  .lgpd > div { display: grid; grid-template-columns: 52px 1fr; column-gap: 14px; row-gap: 4px; padding: 20px 0; border-top: 1px solid var(--borda); }
+  .lgpd > div > span { grid-row: span 2; color: var(--destaque); }
+  .lgpd b { font-size: 22px; font-weight: 600; }
+  .lgpd p { font-size: 17px; line-height: 1.45; color: var(--suave); }
+
+  .passo { flex-direction: row; gap: 64px; align-items: center; }
+  .passo__texto { flex: 1; display: flex; flex-direction: column; }
+  .passo h2 { font-size: 46px; }
+  .passo ul { margin-top: 32px; }
+  .passo li { display: flex; gap: 12px; font-size: 19px; line-height: 1.4; }
+  .contato { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--borda); font-size: 18px; line-height: 1.8; color: var(--tinta); }
+  .contato :global(svg) { vertical-align: -3px; color: var(--petroleo-600); }
+  .contato .sep { display: inline-block; width: 18px; }
+  .passo__qr { width: 330px; flex: none; background: var(--petroleo-900); color: #fff; border-radius: 20px; padding: 30px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+  .qrbox { width: 250px; height: 250px; background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  .qrbox :global(svg) { width: 100%; height: 100%; display: block; }
+  .passo__qr b { font-size: 24px; font-weight: 600; }
+  .passo__qr span { font-size: 16px; font-weight: 300; opacity: .8; line-height: 1.4; }
+
+  .controles { position: fixed; right: 16px; bottom: 14px; display: flex; align-items: center; gap: 6px; background: rgba(15,46,54,.82); color: #fff; border-radius: 999px; padding: 6px 8px; font: 400 14px var(--fonte); z-index: 10; }
+  .controles button { width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #fff; cursor: pointer; display: grid; place-items: center; }
+  .controles button:hover, .controles button:focus-visible { background: rgba(255,255,255,.14); outline: none; }
+  .contador { min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) { .slide, .slide.ativo { transition: none; } }
+
+  @media print {
+    .palco { position: static; transform: none; width: 1280px; height: auto; overflow: visible; }
+    .slide { position: relative; width: 1280px; height: 720px; opacity: 1; visibility: visible; transition: none; break-after: page; page-break-after: always; }
+    .slide:last-child { break-after: auto; page-break-after: auto; }
+    .controles { display: none; }
+  }
+</style>

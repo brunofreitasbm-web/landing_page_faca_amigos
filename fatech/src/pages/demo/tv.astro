@@ -1,0 +1,365 @@
+---
+// Demonstração FA TV: TVs da clínica controladas pelo celular.
+// No site oficial (institutofacaamigos.com.br) cada moldura carrega a TV de verdade (/tv, /tv2, /tv3).
+// Fora dele (localhost, vercel.app) ou se a TV real não carregar, aparece a simulação embutida,
+// que é também o que o "Controle pelo celular" comanda. Dados inventados em src/data/demo/tv.json.
+import Demo from '../../layouts/Demo.astro';
+import Historia from '../../components/Historia.astro';
+import d from '../../data/demo/tv.json';
+
+const telas = [
+  { id: 'tv3', vertical: false, ...d.tv3 },
+  { id: 'tv1', vertical: false, ...d.tv1 },
+  { id: 'tv2', vertical: true, ...d.tv2 },
+];
+const tempo: Record<string, number> = { tv1: 7, tv2: 6, tv3: 8 };
+---
+<Demo titulo="FA TV · demonstração" produto="FA TV">
+  <main class="wrap stack">
+    <Historia
+      espelho="O que as famílias fazem enquanto <strong>esperam na recepção?</strong>"
+      antes="TV ligada em canal aberto, recado colado na parede e família sem saber das novidades da clínica."
+      virada="Transformamos a TV da recepção em um canal da própria clínica, controlado pelo celular."
+      depois="Dicas para casa, avisos e o portal da família na tela, mudados em segundos por quem está no balcão."
+    />
+
+    <div class="row between">
+      <div><h2>As TVs da {d.clinica}</h2><p class="muted small">Três telas, três ambientes. A da sala de espera é comandada pelo celular ao lado.</p></div>
+    </div>
+
+    <section class="palco" id="tv-palco">
+      {telas.map((t) => (
+        <article class={`tv ${t.vertical ? 'vert' : ''}`} id={t.id} data-tv={t.id} data-tempo={tempo[t.id]} style={`grid-area:${t.id}`}>
+          <div class="tv-moldura">
+            <div class="tv-tela">
+              <iframe
+                title={`${t.nome} (tela real)`}
+                data-src={t.src}
+                data-w={t.vertical ? 1080 : 1920}
+                data-h={t.vertical ? 1920 : 1080}
+                loading="lazy"
+                tabindex="-1"
+                aria-hidden="true"
+                sandbox="allow-scripts allow-same-origin"
+              ></iframe>
+              <div class={`fb fb-${t.id}`}>
+                {t.id !== 'tv2' && (
+                  <div class="fb-topo"><span>{d.clinica}</span><span class="relogio num">--:--</span></div>
+                )}
+                {t.slides.map((s: any, i: number) => (
+                  <div class={`sl sl-${s.tipo} ${s.cor ? 'cor-' + s.cor : ''} ${i === 0 ? 'on' : ''}`} data-titulo={s.titulo}>
+                    {s.tipo === 'foto' && (
+                      <div class="foto" aria-hidden="true"><i></i><i></i><i></i></div>
+                    )}
+                    <div class="sl-txt">
+                      <span class="sl-chip">{s.chip}</span>
+                      <p class="sl-tit">{s.titulo}</p>
+                      {s.texto && <p class="sl-sub">{s.texto}</p>}
+                      {s.nomes && (
+                        <div class="nomes">{s.nomes.map((n: string) => <span>{n}</span>)}</div>
+                      )}
+                    </div>
+                    {s.tipo === 'qr' && (
+                      <div class="qr-cartao">
+                        <div class="qr-falso" aria-label="Código QR de exemplo"><b></b><b></b><b></b></div>
+                        <span>QR de exemplo</span>
+                      </div>
+                    )}
+                    {s.tipo === 'dica' && <div class="dica-sim" aria-hidden="true">casa</div>}
+                  </div>
+                ))}
+                {t.id === 'tv3' && (
+                  <>
+                    <div class="urgente" id="tv3-urgente" aria-live="polite"><b>Aviso</b><span id="tv3-urgente-txt"></span></div>
+                    <div class="vol-ind" id="tv3-vol"><span>Volume</span><i></i><i></i><i></i><i></i><i></i><em class="num" id="tv3-vol-n">3</em></div>
+                  </>
+                )}
+                <div class="pontos" aria-hidden="true">{t.slides.map((_: any, i: number) => <i class={i === 0 ? 'on' : ''}></i>)}</div>
+              </div>
+            </div>
+          </div>
+          <div class="tv-info">
+            <div class="row between" style="gap:8px">
+              <h3>{t.nome}</h3>
+              <span class="pill p-neutro tv-estado">Simulação</span>
+            </div>
+            <p class="small muted">{t.descricao}</p>
+          </div>
+        </article>
+      ))}
+
+      <aside class="controle" style="grid-area:cel">
+        <div class="celular">
+          <div class="tela ctl">
+            <div class="ctl-topo">
+              <span class="small">FA TV · Controle</span>
+              <b>Sala de espera</b>
+              <span class="ctl-online"><i></i>TV 3 ligada</span>
+            </div>
+            <div class="ctl-corpo">
+              <div class="ctl-agora">
+                <span class="small muted">Agora na tela</span>
+                <b id="ctl-agora">{d.tv3.slides[0].titulo}</b>
+              </div>
+              <button class="btn btn-pri ctl-btn" id="btn-pular" type="button">Pular slide</button>
+              <div class="campo">
+                <label for="aviso-txt">Aviso urgente</label>
+                <textarea id="aviso-txt" rows="3" maxlength="120">{d.avisoPadrao}</textarea>
+              </div>
+              <button class="btn btn-perigo ctl-btn" id="btn-aviso" type="button">Mostrar aviso urgente</button>
+              <div class="ctl-linha">
+                <span>Volume</span>
+                <div class="vol-ctl">
+                  <button class="btn btn-sec" id="vol-menos" type="button" aria-label="Diminuir volume">−</button>
+                  <b class="num" id="vol-n">3</b>
+                  <button class="btn btn-sec" id="vol-mais" type="button" aria-label="Aumentar volume">+</button>
+                </div>
+              </div>
+              <button class="btn btn-sec ctl-btn" id="btn-noite" type="button" aria-pressed="false">Modo noite</button>
+              <p class="small muted">O modo noite baixa o brilho de todas as TVs.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <div><h2>Resultado em novembro</h2><p class="muted small">Cada número comparado com outubro ou com a meta.</p></div>
+    <div class="grid g4" id="tv-kpis">
+      {d.kpis.map((k) => (
+        <div class="card kpi">
+          <div class="rot">{k.rotulo}</div>
+          <div class="val">{k.valor}</div>
+          <div class={`cmp ${k.tom}`}>{k.cmp}</div>
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <script is:inline>
+    window.FA_TOUR = [
+      { alvo: '#tv3', texto: 'Esta é a TV da sala de espera: dicas para casa, avisos e o QR do portal da família.' },
+      { alvo: '#btn-pular', texto: 'Pelo celular, a recepção troca o que aparece. Toque em Pular slide.', clique: true },
+      { alvo: '#btn-aviso', texto: 'Precisa avisar um atraso? Toque em Mostrar aviso urgente.', clique: true },
+      { alvo: '#tv3', texto: 'Pronto: o aviso já está na TV. Sem papel colado na parede.' },
+      { alvo: '#btn-noite', texto: 'No fim do dia, o modo noite baixa o brilho. Toque aqui.', clique: true },
+      { alvo: '#tv-kpis', texto: 'E o dono acompanha o resultado: acessos ao portal pelo QR da TV, comparados com o mês anterior.' }
+    ];
+  </script>
+  <script>
+    const fa = (window as any).fa;
+    const host = location.hostname;
+    const producao = /(^|\.)institutofacaamigos\.com\.br$/.test(host);
+    let tv3Controlado = false;
+
+    type Tela = { el: HTMLElement; slides: HTMLElement[]; pontos: HTMLElement[]; i: number; resta: number; tempo: number };
+    const telas: Record<string, Tela> = {};
+
+    document.querySelectorAll<HTMLElement>('[data-tv]').forEach((el) => {
+      const tempo = Number(el.dataset.tempo) || 7;
+      telas[el.dataset.tv!] = {
+        el, tempo, resta: tempo, i: 0,
+        slides: [...el.querySelectorAll<HTMLElement>('.sl')],
+        pontos: [...el.querySelectorAll<HTMLElement>('.pontos i')],
+      };
+
+      // Escala o iframe (1920×1080 ou 1080×1920) para caber na moldura.
+      const tela = el.querySelector<HTMLElement>('.tv-tela')!;
+      const ifr = el.querySelector<HTMLIFrameElement>('iframe')!;
+      const w = Number(ifr.dataset.w), h = Number(ifr.dataset.h);
+      ifr.style.width = `${w}px`; ifr.style.height = `${h}px`;
+      const escalar = () => { ifr.style.transform = `scale(${tela.clientWidth / w})`; };
+      escalar();
+      new ResizeObserver(escalar).observe(tela);
+
+      // TV real só no domínio oficial (mesma origem). Fora dele fica a simulação.
+      if (!producao) return;
+      ifr.addEventListener('load', () => {
+        if (!ifr.getAttribute('src') || (el.id === 'tv3' && tv3Controlado)) return;
+        let ok = true;
+        try {
+          const doc = ifr.contentDocument;
+          ok = !!doc && !!doc.body && doc.body.childElementCount > 0 && !/404|não encontrad/i.test(doc.title);
+        } catch { ok = true; }
+        if (ok) aoVivo(el, true);
+      });
+      ifr.src = ifr.dataset.src!;
+    });
+
+    function aoVivo(el: HTMLElement, on: boolean) {
+      el.classList.toggle('ao-vivo', on);
+      const p = el.querySelector('.tv-estado')!;
+      p.textContent = on ? 'Ao vivo' : 'Simulação';
+      p.className = `pill ${on ? 'p-ok' : 'p-neutro'} tv-estado`;
+    }
+
+    function ir(t: Tela, n: number) {
+      t.slides[t.i].classList.remove('on'); t.pontos[t.i]?.classList.remove('on');
+      t.i = (n + t.slides.length) % t.slides.length;
+      t.slides[t.i].classList.add('on'); t.pontos[t.i]?.classList.add('on');
+      t.resta = t.tempo;
+      if (t.el.id === 'tv3') document.getElementById('ctl-agora')!.textContent = t.slides[t.i].dataset.titulo || '';
+    }
+
+    const relogios = document.querySelectorAll<HTMLElement>('.relogio');
+    const hora = () => new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const tick = () => {
+      if (document.hidden) return;
+      const h = hora(); relogios.forEach((r) => (r.textContent = h));
+      Object.values(telas).forEach((t) => { if (--t.resta <= 0) ir(t, t.i + 1); });
+    };
+    tick();
+    const relogio = setInterval(tick, 1000);
+    addEventListener('pagehide', () => clearInterval(relogio));
+
+    // Controle pelo celular: comanda a simulação da TV 3.
+    const tv3 = telas.tv3;
+    const assumir = () => { tv3Controlado = true; if (tv3.el.classList.contains('ao-vivo')) aoVivo(tv3.el, false); };
+
+    document.getElementById('btn-pular')!.addEventListener('click', () => {
+      assumir(); ir(tv3, tv3.i + 1);
+      fa.aviso('Slide trocado na TV 3.', 'ok');
+    });
+
+    const urgente = document.getElementById('tv3-urgente')!;
+    const btnAviso = document.getElementById('btn-aviso') as HTMLButtonElement;
+    const avisoTxt = document.getElementById('aviso-txt') as HTMLTextAreaElement;
+    btnAviso.addEventListener('click', () => {
+      assumir();
+      if (urgente.classList.contains('on')) {
+        urgente.classList.remove('on');
+        btnAviso.textContent = 'Mostrar aviso urgente'; btnAviso.className = 'btn btn-perigo ctl-btn';
+        fa.aviso('Aviso retirado da TV.', 'ok');
+        return;
+      }
+      const msg = avisoTxt.value.trim();
+      if (!msg) { fa.aviso('Escreva o aviso antes de enviar.', 'erro'); avisoTxt.focus(); return; }
+      document.getElementById('tv3-urgente-txt')!.textContent = msg;
+      urgente.classList.add('on');
+      btnAviso.textContent = 'Tirar aviso da TV'; btnAviso.className = 'btn btn-sec ctl-btn';
+      fa.aviso('Aviso no ar na TV da sala de espera.', 'ok');
+    });
+
+    let volume = 3, volT: ReturnType<typeof setTimeout> | undefined;
+    const volInd = document.getElementById('tv3-vol')!;
+    const mudarVol = (delta: number) => {
+      assumir();
+      volume = Math.max(0, Math.min(5, volume + delta));
+      document.getElementById('vol-n')!.textContent = String(volume);
+      document.getElementById('tv3-vol-n')!.textContent = String(volume);
+      volInd.querySelectorAll('i').forEach((b, k) => b.classList.toggle('on', k < volume));
+      volInd.classList.add('on');
+      clearTimeout(volT); volT = setTimeout(() => volInd.classList.remove('on'), 1800);
+    };
+    volInd.querySelectorAll('i').forEach((b, k) => b.classList.toggle('on', k < volume));
+    document.getElementById('vol-menos')!.addEventListener('click', () => mudarVol(-1));
+    document.getElementById('vol-mais')!.addEventListener('click', () => mudarVol(1));
+
+    const btnNoite = document.getElementById('btn-noite')!;
+    btnNoite.addEventListener('click', () => {
+      assumir();
+      const on = btnNoite.getAttribute('aria-pressed') !== 'true';
+      btnNoite.setAttribute('aria-pressed', String(on));
+      btnNoite.textContent = on ? 'Modo noite ligado' : 'Modo noite';
+      document.querySelectorAll('.tv').forEach((t) => t.classList.toggle('noite', on));
+      fa.aviso(on ? 'Modo noite: brilho reduzido nas TVs.' : 'Brilho normal de volta.', 'ok');
+    });
+  </script>
+</Demo>
+<style>
+  .palco { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr) minmax(0, .34fr) 300px; grid-template-areas: "tv3 tv3 cel" "tv1 tv2 cel"; align-items: start; }
+  @media (max-width: 899px) {
+    .palco { grid-template-columns: minmax(0, 1fr); grid-template-areas: "tv3" "cel" "tv1" "tv2"; }
+    .tv.vert { max-width: 240px; width: 100%; justify-self: center; }
+  }
+
+  .tv { display: grid; gap: 8px; min-width: 0; }
+  .tv-moldura { background: #111A1E; border-radius: 12px; padding: 8px; box-shadow: 0 14px 34px rgba(15, 46, 54, .22); }
+  .tv-tela { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 4px; background: var(--petroleo-900); container-type: inline-size; transition: filter .4s; }
+  .tv.vert .tv-tela { aspect-ratio: 9 / 16; }
+  .tv.noite .tv-tela { filter: brightness(.55) saturate(.8); }
+  .tv-tela iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; pointer-events: none; opacity: 0; }
+  .tv.ao-vivo iframe { opacity: 1; }
+  .tv.ao-vivo .fb { display: none; }
+  .tv-info h3 { font-size: 15px; }
+
+  /* Simulação (fallback). Tudo medido em cqw para escalar com a moldura. */
+  .fb { position: absolute; inset: 0; color: #fff; background: linear-gradient(135deg, #0F2E36 0%, #164650 100%); overflow: hidden; }
+  .fb-topo { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; padding: 2.2cqw 3.2cqw; font-size: 1.8cqw; font-weight: 600; color: rgba(255,255,255,.75); z-index: 2; }
+  .sl { position: absolute; inset: 0; display: flex; align-items: center; gap: 4cqw; padding: 7cqw 6cqw 6cqw; opacity: 0; transition: opacity .6s; }
+  .sl.on { opacity: 1; }
+  .sl-txt { flex: 1; min-width: 0; }
+  .sl-chip { display: inline-block; font-size: 1.7cqw; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--petroleo-900); background: var(--agua); border-radius: 99px; padding: .5cqw 1.6cqw; }
+  .sl-tit { font-size: 5.2cqw; font-weight: 600; line-height: 1.1; margin-top: 1.6cqw; letter-spacing: -.02em; }
+  .sl-sub { font-size: 2.4cqw; line-height: 1.4; margin-top: 1.4cqw; color: rgba(255,255,255,.85); max-width: 60cqw; }
+  .sl-aviso { background: linear-gradient(135deg, #3A2A0E, #5A4214); }
+  .sl-aviso .sl-chip { background: #F2C46B; }
+  .dica-sim { width: 22cqw; height: 22cqw; flex: none; border-radius: 50%; border: .5cqw solid var(--agua); display: grid; place-items: center; font-size: 3cqw; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--agua); background: rgba(63,183,191,.1); }
+  .nomes { display: flex; flex-wrap: wrap; gap: 1.2cqw; margin-top: 2cqw; }
+  .nomes span { font-size: 2.6cqw; font-weight: 600; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 99px; padding: .8cqw 2.2cqw; }
+
+  .qr-cartao { flex: none; background: #fff; color: var(--tinta); border-radius: 2cqw; padding: 1.8cqw; display: grid; justify-items: center; gap: 1cqw; font-size: 1.5cqw; font-weight: 600; }
+  .qr-falso { position: relative; width: 22cqw; height: 22cqw; background:
+      repeating-conic-gradient(#1C2328 0 25%, #fff 0 50%) 0 0 / 2.75cqw 2.75cqw; border: 1.4cqw solid #fff; outline: .3cqw solid #fff; }
+  .qr-falso b { position: absolute; width: 6.4cqw; height: 6.4cqw; background: #fff; box-shadow: inset 0 0 0 1cqw #1C2328, inset 0 0 0 2cqw #fff, inset 0 0 0 4cqw #1C2328; }
+  .qr-falso b:nth-child(1) { top: 0; left: 0; }
+  .qr-falso b:nth-child(2) { top: 0; right: 0; }
+  .qr-falso b:nth-child(3) { bottom: 0; left: 0; }
+
+  /* TV 1: modos do dia */
+  .fb-tv1 { background: linear-gradient(135deg, #12343C, #1F7F86); }
+  .fb-tv1 .sl-tit { font-size: 6.4cqw; }
+  .fb-tv1 .sl-sub { font-size: 2.8cqw; }
+
+  /* TV 2: vertical, fotos (formas no lugar das fotos) */
+  .fb-tv2 .sl { flex-direction: column; justify-content: flex-end; align-items: stretch; padding: 8cqw; gap: 6cqw; }
+  .fb-tv2 .sl-chip { font-size: 4.2cqw; padding: 1.2cqw 3.6cqw; }
+  .fb-tv2 .sl-tit { font-size: 9cqw; margin-top: 3cqw; }
+  .fb-tv2 .sl-sub { font-size: 5cqw; margin-top: 2cqw; max-width: none; }
+  .foto { position: absolute; inset: 0; overflow: hidden; }
+  .foto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(10,25,30,.85) 80%); }
+  .foto i { position: absolute; border-radius: 50%; }
+  .cor-a { background: linear-gradient(160deg, #3FB7BF, #1F7F86); }
+  .cor-b { background: linear-gradient(160deg, #7FA7B8, #2F5866); }
+  .cor-c { background: linear-gradient(160deg, #9CC9A8, #3E7F5A); }
+  .foto i:nth-child(1) { width: 70cqw; height: 70cqw; top: 12cqw; left: -12cqw; background: rgba(255,255,255,.18); }
+  .foto i:nth-child(2) { width: 40cqw; height: 40cqw; top: 40cqw; right: -6cqw; background: rgba(255,255,255,.28); }
+  .foto i:nth-child(3) { width: 24cqw; height: 24cqw; top: 90cqw; left: 30cqw; background: rgba(15,46,54,.25); }
+  .fb-tv2 .sl-txt { position: relative; z-index: 1; flex: none; }
+
+  .pontos { position: absolute; bottom: 2.2cqw; left: 0; right: 0; display: flex; justify-content: center; gap: 1cqw; z-index: 2; }
+  .pontos i { width: 1cqw; height: 1cqw; border-radius: 50%; background: rgba(255,255,255,.3); }
+  .pontos i.on { background: var(--agua); }
+  .fb-tv2 .pontos { bottom: 4cqw; gap: 2cqw; }
+  .fb-tv2 .pontos i { width: 2cqw; height: 2cqw; }
+
+  /* Aviso urgente e volume (TV 3) */
+  .urgente { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: flex; align-items: center; gap: 2cqw; background: var(--erro); color: #fff; padding: 2.4cqw 4cqw; font-size: 2.8cqw; font-weight: 600; line-height: 1.25; transform: translateY(110%); transition: transform .45s; }
+  .urgente.on { transform: none; }
+  .urgente b { flex: none; font-size: 1.8cqw; letter-spacing: .1em; text-transform: uppercase; background: #fff; color: var(--erro); border-radius: 99px; padding: .5cqw 1.6cqw; }
+  .vol-ind { position: absolute; top: 6cqw; right: 3cqw; z-index: 3; display: flex; align-items: flex-end; gap: .6cqw; background: rgba(0,0,0,.6); border-radius: 1.4cqw; padding: 1.4cqw 2cqw; font-size: 1.8cqw; font-weight: 600; opacity: 0; transition: opacity .3s; }
+  .vol-ind.on { opacity: 1; }
+  .vol-ind span { margin-right: 1cqw; }
+  .vol-ind i { width: 1cqw; background: rgba(255,255,255,.25); border-radius: .3cqw; }
+  .vol-ind i:nth-of-type(1) { height: 1.2cqw; } .vol-ind i:nth-of-type(2) { height: 1.8cqw; } .vol-ind i:nth-of-type(3) { height: 2.4cqw; }
+  .vol-ind i:nth-of-type(4) { height: 3cqw; } .vol-ind i:nth-of-type(5) { height: 3.6cqw; }
+  .vol-ind i.on { background: var(--agua); }
+  .vol-ind em { font-style: normal; margin-left: 1cqw; }
+
+  /* Celular de controle */
+  .controle { min-width: 0; }
+  .celular .ctl { background: var(--gelo); height: auto; }
+  .ctl-topo { background: var(--petroleo-900); color: #fff; padding: 16px; display: grid; gap: 2px; }
+  .ctl-topo b { font-size: 20px; font-weight: 600; }
+  .ctl-online { font-size: 12px; color: var(--agua); display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; }
+  .ctl-online i { width: 8px; height: 8px; border-radius: 50%; background: var(--agua); }
+  .ctl-corpo { padding: 14px; display: grid; gap: 12px; }
+  .ctl-agora { background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 10px 12px; display: grid; }
+  .ctl-agora b { font-size: 15px; }
+  .ctl-btn { width: 100%; min-height: 52px; font-size: 16px; }
+  .ctl textarea { min-height: 0; font-size: 15px; resize: none; }
+  .ctl-linha { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+  .vol-ctl { display: flex; align-items: center; gap: 10px; }
+  .vol-ctl .btn { width: 52px; min-height: 48px; padding: 0; font-size: 22px; }
+  .vol-ctl b { width: 20px; text-align: center; font-size: 18px; }
+  #btn-noite[aria-pressed="true"] { background: #1B2226; color: #fff; border-color: #1B2226; }
+</style>
