@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "redirects": [{ "source": "/", "destination": "/fatech", "permanent": false }],
+  "rewrites": [
+    { "source": "/fatech", "destination": "/" },
+    { "source": "/fatech/:path*", "destination": "/:path*" }
+  ],
+  "headers": [{ "source": "/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }, { "key": "X-Content-Type-Options", "value": "nosniff" }] }]
+}
