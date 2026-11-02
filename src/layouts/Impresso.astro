@@ -4,7 +4,9 @@ import '../styles/tokens.css';
 import marca from '../data/marca.json';
 interface Props { titulo: string; larguraMm: number; alturaMm: number; paginas?: number }
 const { titulo, larguraMm, alturaMm } = Astro.props;
-const provisorio = !marca.urlDefinitiva || !marca.contato.whatsappDefinitivo;
+const pendentes = [!marca.urlDefinitiva && 'endereço do QR', !marca.contato.whatsappDefinitivo && 'WhatsApp'].filter(Boolean);
+const provisorio = pendentes.length > 0;
+const aviso = `PROVISÓRIO · ${pendentes.join(' e ')} a confirmar`;
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -12,7 +14,7 @@ const provisorio = !marca.urlDefinitiva || !marca.contato.whatsappDefinitivo;
   <meta charset="utf-8" />
   <meta name="robots" content="noindex" />
   <title>{titulo}</title>
-  <style set:html={`@page { size: ${larguraMm}mm ${alturaMm}mm; margin: 0; } :root { --w: ${larguraMm}mm; --h: ${alturaMm}mm; }`}></style>
+  <style set:html={`@page { size: ${larguraMm}mm ${alturaMm}mm; margin: 0; } :root { --w: ${larguraMm}mm; --h: ${alturaMm}mm; --aviso: ${JSON.stringify(aviso)}; }`}></style>
 </head>
 <body class:list={[{ provisorio }]}>
   <slot />
@@ -27,7 +29,7 @@ const provisorio = !marca.urlDefinitiva || !marca.contato.whatsappDefinitivo;
   @media screen { body { padding: 10mm 0; } .folha { margin-bottom: 10mm; box-shadow: 0 2mm 8mm rgba(0,0,0,.3); } }
   /* Aviso enquanto endereço/WhatsApp não forem definitivos: impede mandar para a gráfica por engano. */
   body.provisorio .folha::after {
-    content: 'PROVISÓRIO · endereço do QR / WhatsApp a confirmar';
+    content: var(--aviso);
     position: absolute; left: 0; right: 0; top: 50%; transform: rotate(-30deg);
     text-align: center; font: 600 calc(var(--w) / 22) / 1 var(--fonte); color: rgba(220, 30, 30, .55);
     pointer-events: none; z-index: 10;
