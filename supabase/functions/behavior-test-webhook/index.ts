@@ -273,7 +273,7 @@ const LEAD_WHATSAPP = (Deno.env.get("LEAD_WHATSAPP") ?? "5591991782027").replace
 //
 // 2º e-book "O Código do Desenvolvimento Infantil" (/codigo): quando NENHUMA área está em atenção especial
 // (tier3Count === 0) e existe o secret EBOOK2_URL (https, ex.: https://institutofacaamigos.com.br/codigo), a oferta
-// passa a ser ele: e-book curto de entrada, SEM preço/parcelas (o valor só aparece no checkout) e sem amostra grátis.
+// passa a ser ele: e-book curto de entrada, com preço (CODIGO_PRICE), pagamento único e sem amostra grátis.
 // Com área em atenção especial, ou sem EBOOK2_URL, a oferta continua sendo o guia.
 //   EBOOK2_URL         https://institutofacaamigos.com.br/codigo  (opcional; sem ele só o guia é oferecido)
 // ---------------------------------------------------------------------
@@ -281,14 +281,16 @@ const LEAD_WHATSAPP = (Deno.env.get("LEAD_WHATSAPP") ?? "5591991782027").replace
 const EBOOK_TITLE = "O Brincar com Propósito";
 // Preço único, sem "de/por". Só preencha EBOOK_PRICE_FROM se existir uma promoção de verdade.
 const EBOOK_PRICE_FROM_DEFAULT = "";
-const EBOOK_PRICE_TO_DEFAULT = "R$ 149";
-const EBOOK_INSTALLMENTS_DEFAULT = "ou 10x de R$ 17,91 no cartão";
+const EBOOK_PRICE_TO_DEFAULT = "R$ 29,90";
+const EBOOK_INSTALLMENTS_DEFAULT = "ou 9x de R$ 3,33 no cartão";
 // Capítulo 1 (com a introdução) gratuito — arquivo em /downloads do site.
 const EBOOK_SAMPLE_URL = "https://institutofacaamigos.com.br/downloads/o-brincar-com-proposito-capitulo-1.pdf";
 const EBOOK_COVER_EMAIL_URL = "https://institutofacaamigos.com.br/img/guia/capa-email.jpg";
 
-// "O Código do Desenvolvimento Infantil": sem preço na oferta (decisão do projeto) e sem amostra grátis.
+// "O Código do Desenvolvimento Infantil": pagamento único na Hotmart, sem parcelamento e sem amostra grátis.
 const CODIGO_TITLE = "O Código do Desenvolvimento Infantil";
+const CODIGO_PRICE = "R$ 9,90";
+const CODIGO_INSTALLMENTS = "pagamento único";
 // Capa no e-mail. Só existe WebP em img/codigo/; clientes como o Outlook desktop não renderizam WebP (mostram o
 // texto alternativo). Se for criado img/codigo/capa-email.jpg, trocar a URL aqui.
 const CODIGO_COVER_EMAIL_URL = "https://institutofacaamigos.com.br/img/codigo/capa.webp";
@@ -322,8 +324,8 @@ function loadEbookOffer(tier3Count: number): EbookOffer | null {
       url: codigoUrl,
       title: CODIGO_TITLE,
       price_from: "",
-      price_to: "",
-      installments: "",
+      price_to: CODIGO_PRICE,
+      installments: CODIGO_INSTALLMENTS,
       sample_url: "",
       trust: EBOOK_TRUST,
       cta_label: "Conhecer o e-book",

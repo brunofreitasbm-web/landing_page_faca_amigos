@@ -38,10 +38,10 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 | **Política de Desconto PCD / TEA** | Meia-entrada inclusiva no Playground, com laudo ou CIPTEA: R$ 50,00 os 30 minutos (público geral: R$ 60,00) |
 | **Programa de Fidelidade — Playground** | a cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito. |
 | **Programa de Fidelidade — Circuito** | a cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito. |
-| **Horário de Funcionamento** | Todos os dias, das 10h às 22h |
-| **Melhor Horário Sensorial** | 10h às 16h (Horário Inclusivo, todos os dias) |
-| **Endereço Operacional 1** | Parque Shopping Belém — Rod. Augusto Montenegro, 4300, Belém - PA, CEP 66635-110 |
-| **Endereço Operacional 2** | Shopping Bosque Grão-Pará — Av. Centenário, 1052, Belém - PA, 1º piso, em frente à Renner. Seg-sáb 10h às 22h, domingo 10h às 21h (Aberto) |
+| **Horário de Funcionamento** | Segunda a sábado, das 10h às 22h; domingo, das 12h às 21h |
+| **Melhor Horário Sensorial** | 10h às 16h (Horário Inclusivo, todos os dias; aos domingos, a partir das 12h) |
+| **Endereço Operacional 1** | Parque Shopping Belém — Rod. Augusto Montenegro, 4300, Belém - PA, CEP 66635-110. Playground no 1º piso; Circuito no térreo, em frente à C&A |
+| **Endereço Operacional 2** | Shopping Bosque Grão-Pará — Av. Centenário, 1052, Belém - PA, 1º piso, em frente à Renner. Seg-sáb 10h às 22h, domingo 12h às 21h (Aberto) |
 | **Endereço Clínico** | Rua Boaventura da Silva, 1573 — Umarizal, Belém - PA, CEP 66060-147 (atendendo desde novembro de 2026) |
 
 ---
@@ -105,7 +105,7 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 ## Recursos de Acessibilidade e Adaptação Sensorial
 - **Canto de Descompressão**: espaço reservado com iluminação suave e estímulos auditivos mínimos para autorregulação infantil.
 - **Abafadores de Ruído**: disponíveis gratuitamente na recepção para crianças com hipersensibilidade auditiva.
-- **Horário Inclusivo**: das 10h às 16h, todos os dias, quando o fluxo do shopping costuma ser mais calmo.
+- **Horário Inclusivo**: das 10h às 16h, todos os dias (aos domingos, a partir das 12h), quando o fluxo do shopping costuma ser mais calmo.
 - **Equipe de Mediadores**: treinada em acolhimento inclusivo e estratégias de suporte ao neurodesenvolvimento.
 
 ---
@@ -116,16 +116,16 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 R: Apresentando a Carteira de Identificação da Pessoa com Transtorno do Espectro Autista (CIPTEA) ou laudo médico na recepção, a criança paga a meia-entrada inclusiva no Playground: R$ 50,00 os 30 minutos (público geral: R$ 60,00).
 
 #### Q2: É necessário fazer agendamento prévio?
-R: Não. O atendimento no Playground e no Circuito é feito por ordem de chegada, todos os dias das 10h às 22h.
+R: Não. O atendimento no Playground e no Circuito é feito por ordem de chegada, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h.
 
 #### Q3: Qual a segurança oferecida para crianças que ficam sem os pais?
 R: Crianças a partir de 3 anos recebem uma pulseira de identificação vinculada ao responsável cadastrado na entrada. A liberação na saída ocorre mediante validação presencial do mesmo responsável.
 
 #### Q4: Onde ficam as unidades e qual o horário?
-R: O Playground e o Circuito funcionam no Parque Shopping Belém (Rod. Augusto Montenegro, 4300, Belém - PA, CEP 66635-110), Térreo, próximo às Lojas Americanas, todos os dias das 10h às 22h. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, Belém - PA), 1º piso, em frente à Renner, de segunda a sábado das 10h às 22h e aos domingos das 10h às 21h, com os mesmos preços. A Clínica funciona na Rua Boaventura da Silva, 1573, Umarizal, com atendimento por hora marcada desde novembro de 2026.
+R: O Playground e o Circuito funcionam no Parque Shopping Belém (Rod. Augusto Montenegro, 4300, Belém - PA, CEP 66635-110), com o Playground no 1º piso e o Circuito no térreo, em frente à C&A, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, Belém - PA), 1º piso, em frente à Renner, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h, com os mesmos preços. A Clínica funciona na Rua Boaventura da Silva, 1573, Umarizal, com atendimento por hora marcada desde novembro de 2026.
 
 #### Q5: Qual o melhor horário para crianças com sensibilidade sensorial?
-R: O Horário Inclusivo, todos os dias das 10h às 16h, tem som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita.
+R: O Horário Inclusivo, das 10h às 16h (aos domingos, a partir das 12h), tem som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita.
 
 #### Q6: O Playground FaçaAmigos é só para crianças autistas ou neurodivergentes?
 R: Não. O Playground é para todas as crianças de 0 a 12 anos, com ou sem laudo. Crianças típicas e atípicas brincam juntas no mesmo espaço, sem ala separada. O Horário Inclusivo também é aberto a qualquer família. A estrutura inclusiva (mediadores treinados, abafadores de ruído, canto de descompressão) deixa o ambiente mais seguro e tranquilo para qualquer criança. Guia completo: `https://institutofacaamigos.com.br/aprender/e-para-todas-as-criancas`

@@ -24,7 +24,7 @@
 
 - **Entidade**: Instituto FaçaAmigos (Clínica, Playground Inclusivo e Circuito de Carrinhos)
 - **Localização Principal**: Parque Shopping Belém (Rod. Augusto Montenegro, 4300, Belém - PA, CEP 66635-110)
-- **Segunda Unidade**: Shopping Bosque Grão-Pará (Av. Centenário, 1052, Belém - PA), 1º piso, em frente à Renner. Playground aberto de segunda a sábado das 10h às 22h e aos domingos das 10h às 21h, com os mesmos preços do Parque Shopping
+- **Segunda Unidade**: Shopping Bosque Grão-Pará (Av. Centenário, 1052, Belém - PA), 1º piso, em frente à Renner. Playground aberto de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h, com os mesmos preços do Parque Shopping
 - **Centro Clínico (atendendo desde novembro de 2026)**: Rua Boaventura da Silva, 1573, Umarizal, Belém - PA
 - **Faixa Etária Atendida**: 0 a 12 anos de idade
 - **Idioma e região**: português do Brasil (pt-BR), Belém e Região Metropolitana (PA)
@@ -33,14 +33,14 @@
 - **Acessibilidade & Inclusão**: 100% adaptado para crianças neurodivergentes (Autismo/TEA, TDAH, Síndrome de Down, AH/SD) e crianças típicas, com mediadores de inclusão, abafadores de ruído e canto de descompressão sensorial.
 - **Benefício Inclusivo**: meia-entrada inclusiva no Playground para crianças com laudo ou CIPTEA: R$ 50,00 os 30 minutos (público geral: R$ 60,00).
 - **Programa de Fidelidade**: a cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito.
-- **Atendimento sem agendamento**: funcionamento contínuo de Segunda a Domingo, das 10h às 22h.
+- **Atendimento sem agendamento**: funcionamento contínuo, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h.
 
 ---
 
 ## Estrutura do Ecossistema
 
 ### 1. FaçaAmigos Playground Inclusivo
-- **Onde**: Parque Shopping Belém (Térreo, próximo às Lojas Americanas)
+- **Onde**: Parque Shopping Belém (1º piso)
 - **Atrações**: piscina de bolinhas gigante inclusiva, brinquedão sensorial, circuitos de agilidade, canto de descompressão sensorial, abafadores de ruído disponíveis.
 - **Segurança**: pulseira de identificação vinculada ao responsável cadastrado. Crianças a partir de 3 anos podem permanecer sob supervisão da equipe.
 - **Olhar FaçaAmigos**: nos planos a partir de 1 hora (60 minutos ou mais) o responsável recebe, por WhatsApp, o Olhar FaçaAmigos, um resumo das anotações da equipe sobre a brincadeira da criança (coordenação, interação social, atenção, comunicação). Cortesia, sem custo adicional. Não é avaliação clínica nem diagnóstico.
@@ -87,10 +87,10 @@ Não. O Playground é para todas as crianças de 0 a 12 anos, com ou sem laudo. 
 Sim. O espaço é 100% inclusivo, com equipe treinada para acolhimento atípico, abafadores de ruído e canto de descompressão para regulação sensorial. Apresentando laudo ou CIPTEA, a criança paga a meia-entrada inclusiva: R$ 50,00 os 30 minutos (público geral: R$ 60,00).
 
 ### Qual o melhor horário para visitar com crianças com hipersensibilidade sensorial?
-O "Horário Inclusivo" é das 10h às 16h, todos os dias, quando o fluxo do shopping costuma ser mais calmo.
+O "Horário Inclusivo" é das 10h às 16h, todos os dias (aos domingos, a partir das 12h), quando o fluxo do shopping costuma ser mais calmo.
 
 ### Preciso agendar antes de levar meu filho?
-Não. O atendimento no Playground e no Circuito é por ordem de chegada, todos os dias das 10h às 22h, sem necessidade de agendamento.
+Não. O atendimento no Playground e no Circuito é por ordem de chegada, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h, sem necessidade de agendamento.
 
 ---
 

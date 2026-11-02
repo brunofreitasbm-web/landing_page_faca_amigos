@@ -734,8 +734,8 @@
     ],
     "kicker": "📍 Playground no Parque Shopping",
     "kickerClass": "yellow",
-    "headline": "Playground no Parque Shopping, <em>no térreo</em>.",
-    "subtext": "Próximo às Lojas Americanas. Todos os dias, das 10h às 22h. É só chegar: não precisa agendar."
+    "headline": "Playground no Parque Shopping, <em>no 1º piso</em>.",
+    "subtext": "Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h. É só chegar: não precisa agendar."
   },
   {
     "id": "d_graopara",
@@ -749,7 +749,7 @@
     "kicker": "📍 Playground no Grão-Pará",
     "kickerClass": "yellow",
     "headline": "No Grão-Pará, <em>1º piso</em>, em frente à Renner.",
-    "subtext": "Shopping Bosque Grão-Pará. Segunda a sábado, das 10h às 22h. Domingo, das 10h às 21h. Mesmos preços do Parque Shopping."
+    "subtext": "Shopping Bosque Grão-Pará. Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h. Mesmos preços do Parque Shopping."
   },
   {
     "id": "d_prova",

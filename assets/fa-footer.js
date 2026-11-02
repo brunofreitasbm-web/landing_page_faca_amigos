@@ -21,7 +21,7 @@
     parque: {
       nome: 'Parque Shopping Belém',
       papel: 'Playground & Circuito',
-      endereco: 'Rod. Augusto Montenegro, 4300 · Térreo',
+      endereco: 'Rod. Augusto Montenegro, 4300 · Playground no 1º piso · Circuito no térreo, em frente à C&amp;A',
       horario: '',
       waRotulo: 'Parque',
       wa: '5591992347673',

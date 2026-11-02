@@ -25,7 +25,7 @@
         "close": "22:00",
         "days": "segunda a sábado",
         "sunday": {
-          "open": "10:00",
+          "open": "12:00",
           "close": "21:00"
         }
       },
@@ -109,7 +109,7 @@
       "status": "aberto",
       "address": {
         "street": "Rod. Augusto Montenegro, 4300",
-        "complement": "Parque Shopping Belém, Térreo, próximo às Lojas Americanas",
+        "complement": "Parque Shopping Belém, 1º piso",
         "city": "Belém",
         "state": "PA",
         "postal_code": "66635-110"
@@ -122,7 +122,11 @@
       "hours": {
         "open": "10:00",
         "close": "22:00",
-        "days": "todos os dias"
+        "days": "segunda a sábado",
+        "sunday": {
+          "open": "12:00",
+          "close": "21:00"
+        }
       },
       "discounts": {
         "geral_pct": 40,
@@ -217,7 +221,7 @@
       "status": "aberto",
       "address": {
         "street": "Rod. Augusto Montenegro, 4300",
-        "complement": "Parque Shopping Belém, Térreo, próximo às Lojas Americanas",
+        "complement": "Parque Shopping Belém, Térreo, em frente à C&A",
         "city": "Belém",
         "state": "PA",
         "postal_code": "66635-110"
@@ -230,7 +234,11 @@
       "hours": {
         "open": "10:00",
         "close": "22:00",
-        "days": "todos os dias"
+        "days": "segunda a sábado",
+        "sunday": {
+          "open": "12:00",
+          "close": "21:00"
+        }
       },
       "discounts": {
         "geral_pct": null,

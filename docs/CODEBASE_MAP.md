@@ -97,8 +97,8 @@ WhatsApp: Clínica `5591991782027`, Playground/Circuito `5591992347673`. Não mi
 - **termos / politica-privacidade**: datas fixas (20/09/2026); texto de cookies precisa acompanhar `fa-track.js`.
 
 ### Produtos (Hotmart)
-- **guia.html**: "O Brincar com Propósito", R$149 (10x R$17,91), checkout direto `pay.hotmart.com/M107692257Y` (não usar `go.hotmart.com`), eventos `guia_*`, Pixel Meta opcional (`metaPixelId` vazio).
-- **codigo.html**: "O Código do Desenvolvimento Infantil", checkout `V107698297N?checkoutMode=2` com widget Hotmart; MutationObserver recupera o botão se o widget apagar o link. Sem preço visível na página.
+- **guia.html**: "O Brincar com Propósito", R$ 29,90 (9x R$ 3,33), checkout direto `pay.hotmart.com/M107692257Y?off=ko8af9ku` (não usar `go.hotmart.com`), eventos `guia_*`, Pixel Meta opcional (`metaPixelId` vazio).
+- **codigo.html**: "O Código do Desenvolvimento Infantil", R$ 9,90, checkout `V107698297N?off=fndry1ka&checkoutMode=2` com widget Hotmart; MutationObserver recupera o botão se o widget apagar o link. Preço visível no hero e na oferta.
 
 ### Funil do teste
 - **teste.html** (SPA, 4 passos) carrega `/teste-perguntas.json` (v `2026-09-18`, 25 perguntas, escala 0-2) e chama `behavior-test-webhook` (`start`/`complete`). **Sincronia manual obrigatória**: `version` do JSON = `TEST_VERSION` do webhook; IDs q01..q25 no webhook e em `QUESTION_LABELS_BY_VERSION` do admin; `AGE_RANGES`; áreas/textos/`CONFIG_DEFAULTS`. Divergência de versão → 409.
