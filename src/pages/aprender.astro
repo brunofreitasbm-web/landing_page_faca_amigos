@@ -1,0 +1,20 @@
+---
+import PaginaDados from '../components/PaginaDados.astro';
+import '../styles/paginas.css';
+
+// Os cartões saem dos próprios artigos (src/data/aprender/<slug>.json, campo "card"): artigo novo = cartão novo.
+const artigos = Object.values(import.meta.glob('../data/aprender/*.json', { eager: true, import: 'default' })) as any[];
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const cartoes = artigos
+  .filter((a) => a.card)
+  .sort((x, y) => x.ordemIndice - y.ordemIndice)
+  .map((a) => {
+    const c = a.card;
+    return `<a class="guide-card" href="/aprender/${a.slug}">
+          <div class="ph"><img src="/${c.img}" alt="${esc(c.alt)}" width="${c.w}" height="${c.h}" loading="lazy"${c.estilo ? ` style="${esc(c.estilo)}"` : ''}></div>
+          <div class="body"><span class="tag">${esc(c.tag)}</span><h3>${esc(c.titulo)}</h3><p>${esc(c.resumo)}</p></div>
+        </a>`;
+  })
+  .join('\n        ');
+---
+<PaginaDados slug="aprender" secao="pais" classe="pagina-aprender" substituir={{ '<!--CARDS-->': `<div class="guides-grid">\n        ${cartoes}\n      </div>` }} />

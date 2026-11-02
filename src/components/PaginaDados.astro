@@ -1,0 +1,36 @@
+---
+// Página de conteúdo cujo texto vive em src/data/paginas/<slug>.html (fragmento) + <slug>.json (metadados, JSON-LD) +
+// <slug>.<n>.js (scripts da página, copiados como estavam). Evita reescrever texto longo dentro de componente.
+import Base from '../layouts/Base.astro';
+const dados = import.meta.glob('../data/paginas/*.json', { eager: true, import: 'default' }) as Record<string, any>;
+const frags = import.meta.glob('../data/paginas/*.html', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+const js = import.meta.glob('../data/paginas/*.js', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+
+const { slug, secao = '', classe = '', semWa = false, substituir = {}, ogPadrao = 'img/og/og-hub.jpg' } = Astro.props as {
+  slug: string; secao?: string; classe?: string; semWa?: boolean; substituir?: Record<string, string>; ogPadrao?: string;
+};
+const d = dados[`../data/paginas/${slug}.json`];
+let corpo = frags[`../data/paginas/${slug}.html`];
+for (const [marca, html] of Object.entries(substituir)) corpo = corpo.replace(marca, html);
+const scripts = Array.from({ length: d.scripts }, (_, i) => js[`../data/paginas/${slug}.${i}.js`]);
+const noindex = /noindex/.test(d.robots ?? '');
+---
+<Base
+  title={d.titleTag}
+  ogTitle={d.ogTitle}
+  ogDescription={d.ogDescricao}
+  siteName={d.ogSiteName ?? undefined}
+  description={d.descricao}
+  path={d.path}
+  noindex={noindex}
+  ogType={d.ogType}
+  ogImage={d.ogImage || ogPadrao}
+  ogImageAlt={d.ogImageAlt || 'FaçaAmigos'}
+  secao={secao}
+  semWa={semWa}
+  cta={d.fa_cta ?? undefined}
+  jsonLd={d.jsonLd}
+>
+  <div class={classe} set:html={corpo} />
+  {scripts.map((s) => <script is:inline set:html={s} />)}
+</Base>

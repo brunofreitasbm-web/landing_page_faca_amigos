@@ -45,5 +45,16 @@
     "label": "Conhecer o guia completo",
     "href": "/guia",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/circuito-bombeiro.jpg",
+    "alt": "Criança ao volante do carrinho elétrico de bombeiro",
+    "w": "800",
+    "h": "1000",
+    "estilo": "object-position:50% 30%",
+    "tag": "5 min · Brincar",
+    "titulo": "5 brincadeiras de 10 minutos que ensinam sem parecer aula",
+    "resumo": "Ideias rápidas pra hoje, com o que cada uma trabalha."
+  },
+  "ordemIndice": 8
 }

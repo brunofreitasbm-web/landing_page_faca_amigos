@@ -45,5 +45,16 @@
     "label": "Conhecer o Playground",
     "href": "https://institutofacaamigos.com.br/playground",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/hero-piscina-bolinhas.jpg",
+    "alt": "Playground Inclusivo FaçaAmigos",
+    "w": "784",
+    "h": "803",
+    "estilo": null,
+    "tag": "4 min · Convivência",
+    "titulo": "O playground inclusivo é só pra criança autista?",
+    "resumo": "Não, é pra todas. O que inclusivo quer dizer e o que muda pra você."
+  },
+  "ordemIndice": 0
 }

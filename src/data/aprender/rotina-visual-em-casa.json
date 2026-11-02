@@ -45,5 +45,16 @@
     "label": "Conhecer o guia completo",
     "href": "/guia",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/inclusao-cantinho-leitura.jpg",
+    "alt": "Cantinho de leitura com estante de brinquedos e cadeiras infantis",
+    "w": "819",
+    "h": "1024",
+    "estilo": null,
+    "tag": "6 min · Rotina",
+    "titulo": "Rotina visual em casa: um passo a passo de 20 minutos",
+    "resumo": "Monte a primeira rotina visual da sua casa ainda hoje."
+  },
+  "ordemIndice": 4
 }

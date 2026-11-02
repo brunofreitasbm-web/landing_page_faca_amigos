@@ -3,7 +3,7 @@ import { waUrl } from '../data/marca';
 import type { UnidadeId } from '../data/marca';
 import Foto from './Foto.astro';
 // Cabeçalho único. "atual" marca o item da seção em que a página está; "wa" é a unidade do botão de WhatsApp.
-const { atual = '', wa = 'parque', texto } = Astro.props as { atual?: string; wa?: UnidadeId; texto?: string };
+const { atual = '', wa = 'parque', texto, semWa = false } = Astro.props as { atual?: string; wa?: UnidadeId; texto?: string; semWa?: boolean };
 const links = [
   { id: 'playground', href: '/playground', texto: 'Playground' },
   { id: 'circuito', href: '/circuito', texto: 'Circuito' },
@@ -11,7 +11,7 @@ const links = [
   { id: 'pais', href: '/aprender', texto: 'Para pais' },
   { id: 'quem', href: '/quem-somos', texto: 'Quem somos' },
 ];
-const zap = waUrl(wa, texto);
+const zap = semWa ? null : waUrl(wa, texto);
 ---
 <header class="nav">
   <div class="wrap nav-in">

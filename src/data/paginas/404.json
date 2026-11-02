@@ -1,0 +1,16 @@
+{
+  "slug": "404",
+  "path": "/404",
+  "titleTag": "Página não encontrada | FaçaAmigos",
+  "descricao": "A página que você procura não existe ou foi movida. Volte para o site do Instituto FaçaAmigos.",
+  "ogImage": "",
+  "ogImageAlt": "",
+  "ogType": "website",
+  "ogTitle": "Página não encontrada | FaçaAmigos",
+  "robots": "noindex, follow",
+  "jsonLd": [],
+  "fa_cta": null,
+  "scripts": 1,
+  "ogDescricao": "A página que você procura não existe ou foi movida. Volte para o site do Instituto FaçaAmigos.",
+  "ogSiteName": null
+}

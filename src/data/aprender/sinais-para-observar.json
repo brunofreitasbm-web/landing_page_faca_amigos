@@ -45,5 +45,16 @@
     "label": "Fazer o mapeamento grátis",
     "href": "/teste",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/guia/og-guia.jpg",
+    "alt": "Arte do guia O Brincar com Propósito",
+    "w": "1200",
+    "h": "630",
+    "estilo": null,
+    "tag": "5 min · Desenvolvimento",
+    "titulo": "Será que é normal?: sinais que valem um olhar mais de perto",
+    "resumo": "Cinco áreas do dia a dia pra observar, sem alarme e sem rótulo."
+  },
+  "ordemIndice": 2
 }

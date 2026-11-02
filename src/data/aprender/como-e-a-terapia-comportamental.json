@@ -45,5 +45,16 @@
     "label": "Entrar na lista de espera",
     "href": "whatsapp",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/clinica-fachada.jpg",
+    "alt": "Fachada do Centro de Terapia Comportamental FaçaAmigos",
+    "w": "900",
+    "h": "1080",
+    "estilo": null,
+    "tag": "6 min · Terapia",
+    "titulo": "O que acontece numa sessão de terapia comportamental",
+    "resumo": "Sem jargão: da avaliação inicial ao papel da família em casa."
+  },
+  "ordemIndice": 5
 }

@@ -31,6 +31,8 @@ const origem = new URL(sitemap[0]).origin;
 // Fonte -> caminho do site: public/x.html -> x.html, src/pages/x.astro -> x.html (páginas dinâmicas [x] ficam de fora).
 const caminhoDoSite = (f) => {
   if (f.startsWith('public/') && f.endsWith('.html')) return f.slice('public/'.length);
+  const pg = /^src\/data\/paginas\/([^/.]+)\.(?:json|html|\d+\.js)$/.exec(f); // glossário, termos, política, índice, 404
+  if (pg) return `${pg[1]}.html`;
   const dado = /^src\/data\/aprender\/([^/]+)\.(?:json|html)$/.exec(f); // artigos de /aprender
   if (dado) return `aprender/${dado[1]}.html`;
   if (f.startsWith('src/pages/') && f.endsWith('.astro') && !f.includes('[')) return f.slice('src/pages/'.length, -'.astro'.length) + '.html';

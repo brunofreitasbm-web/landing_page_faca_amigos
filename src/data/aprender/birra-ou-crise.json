@@ -46,5 +46,16 @@
     "label": "Fazer o mapeamento grátis",
     "href": "/teste",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/ambiente-sensorial.jpg",
+    "alt": "Sala sensorial com piscina de bolinhas e luz azul",
+    "w": "800",
+    "h": "1067",
+    "estilo": "object-position:50% 62%",
+    "tag": "6 min · Comportamento",
+    "titulo": "Birra ou crise? Como diferenciar e o que fazer na hora",
+    "resumo": "A diferença entre as duas e três sinais pra reconhecer na hora."
+  },
+  "ordemIndice": 1
 }

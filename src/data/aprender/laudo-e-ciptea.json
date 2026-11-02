@@ -45,5 +45,16 @@
     "label": "Ver a meia-entrada inclusiva",
     "href": "https://institutofacaamigos.com.br/playground",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/galeria-oficinas.jpg",
+    "alt": "Mesa de atividades com lápis de cor",
+    "w": "768",
+    "h": "1024",
+    "estilo": null,
+    "tag": "6 min · Direitos",
+    "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém",
+    "resumo": "A diferença entre os dois documentos, sem juridiquês."
+  },
+  "ordemIndice": 6
 }

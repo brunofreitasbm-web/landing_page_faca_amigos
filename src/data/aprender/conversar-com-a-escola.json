@@ -45,5 +45,16 @@
     "label": "Entrar na lista de espera",
     "href": "whatsapp",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/idealizadora.jpg",
+    "alt": "Isabella Gonçalves Freitas, psicóloga infantil e idealizadora do FaçaAmigos",
+    "w": "700",
+    "h": "936",
+    "estilo": null,
+    "tag": "6 min · Escola",
+    "titulo": "Como conversar com a escola sem sair com culpa",
+    "resumo": "O que levar pra reunião, e frases prontas pra usar."
+  },
+  "ordemIndice": 7
 }

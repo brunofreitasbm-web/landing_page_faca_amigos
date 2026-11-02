@@ -1,0 +1,96 @@
+{
+  "slug": "aprender",
+  "path": "/aprender",
+  "titleTag": "Aprender — Guias sobre desenvolvimento infantil | FaçaAmigos",
+  "descricao": "Guias curtos escritos por uma psicóloga infantil sobre birra e crise, rotina visual, laudo e CIPTEA, primeira visita ao playground e mais. Sem jargão, sem julgamento.",
+  "ogImage": "img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogType": "website",
+  "ogTitle": "Aprender — Guias sobre desenvolvimento infantil e inclusão",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "jsonLd": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://institutofacaamigos.com.br/aprender#colecao",
+      "name": "Aprender — Guias sobre desenvolvimento infantil e inclusão",
+      "description": "Guias curtos escritos por uma psicóloga infantil sobre birra e crise, rotina visual, laudo e CIPTEA, primeira visita ao playground e mais.",
+      "url": "https://institutofacaamigos.com.br/aprender",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "inLanguage": "pt-BR",
+      "hasPart": [
+        {
+          "@type": "Article",
+          "headline": "O playground inclusivo é só pra criança autista? Não. E isso é bom pro seu filho também",
+          "url": "https://institutofacaamigos.com.br/aprender/e-para-todas-as-criancas"
+        },
+        {
+          "@type": "Article",
+          "headline": "Birra ou crise? Como diferenciar e o que fazer na hora",
+          "url": "https://institutofacaamigos.com.br/aprender/birra-ou-crise"
+        },
+        {
+          "@type": "Article",
+          "headline": "Será que é normal?: sinais que valem um olhar mais de perto",
+          "url": "https://institutofacaamigos.com.br/aprender/sinais-para-observar"
+        },
+        {
+          "@type": "Article",
+          "headline": "Primeira vez no playground com uma criança sensível: como preparar",
+          "url": "https://institutofacaamigos.com.br/aprender/primeira-vez-no-playground"
+        },
+        {
+          "@type": "Article",
+          "headline": "Rotina visual em casa: um passo a passo de 20 minutos",
+          "url": "https://institutofacaamigos.com.br/aprender/rotina-visual-em-casa"
+        },
+        {
+          "@type": "Article",
+          "headline": "O que acontece numa sessão de terapia comportamental (sem jargão)",
+          "url": "https://institutofacaamigos.com.br/aprender/como-e-a-terapia-comportamental"
+        },
+        {
+          "@type": "Article",
+          "headline": "Laudo e CIPTEA: o que são e onde valem em Belém",
+          "url": "https://institutofacaamigos.com.br/aprender/laudo-e-ciptea"
+        },
+        {
+          "@type": "Article",
+          "headline": "Como conversar com a escola sem sair da reunião com culpa",
+          "url": "https://institutofacaamigos.com.br/aprender/conversar-com-a-escola"
+        },
+        {
+          "@type": "Article",
+          "headline": "5 brincadeiras de 10 minutos que ensinam sem parecer aula",
+          "url": "https://institutofacaamigos.com.br/aprender/brincar-com-proposito-10-minutos"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://institutofacaamigos.com.br/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Aprender",
+          "item": "https://institutofacaamigos.com.br/aprender"
+        }
+      ]
+    }
+  ],
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "mapeamento"
+  },
+  "scripts": 1,
+  "ogDescricao": "Guias curtos escritos por uma psicóloga infantil, sem jargão e sem julgamento.",
+  "ogSiteName": "FaçaAmigos — Centro de Terapia Comportamental"
+}

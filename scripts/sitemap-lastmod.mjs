@@ -5,7 +5,7 @@
 //
 // Data de cada URL = data do último commit que mexeu no arquivo da página (git log -1 --format=%cs).
 // Se o arquivo tem mudanças ainda não commitadas (ou é novo), usa a data de hoje.
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -40,6 +40,13 @@ function arquivoDaUrl(loc) {
   const dinamica = /^aprender\/([^/]+)\.html$/.exec(rel);
   if (dinamica && existsSync(join(root, 'src/data/aprender', dinamica[1] + '.json'))) {
     return [join('src/data/aprender', dinamica[1] + '.json'), join('src/data/aprender', dinamica[1] + '.html')];
+  }
+  // Páginas de conteúdo (src/pages/x.astro + src/data/paginas/x.*): vale a alteração mais recente entre a página e os dados.
+  const slugPg = rel.endsWith('.html') ? rel.slice(0, -5) : null;
+  if (slugPg && existsSync(join(root, 'src/data/paginas', slugPg + '.json')) && existsSync(join(root, 'src/pages', slugPg + '.astro'))) {
+    const fontes = [join('src/pages', slugPg + '.astro'), join('src/data/paginas', slugPg + '.json'), join('src/data/paginas', slugPg + '.html')];
+    if (slugPg === 'aprender') fontes.push(...readdirSync(join(root, 'src/data/aprender')).filter((f) => f.endsWith('.json')).map((f) => join('src/data/aprender', f)));
+    return fontes;
   }
   const candidatos = [join('public', rel)];
   if (rel.endsWith('.html')) {

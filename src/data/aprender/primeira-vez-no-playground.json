@@ -45,5 +45,16 @@
     "label": "Conhecer o Horário Inclusivo",
     "href": "https://institutofacaamigos.com.br/playground",
     "event": "aprender_cta"
-  }
+  },
+  "card": {
+    "img": "img/equipe-recepcao.jpg",
+    "alt": "Recepcionista do FaçaAmigos sorrindo no balcão",
+    "w": "800",
+    "h": "1000",
+    "estilo": "object-position:50% 22%",
+    "tag": "5 min · Passeio",
+    "titulo": "Primeira vez no playground com uma criança sensível",
+    "resumo": "Como preparar a saída de casa e o que fazer se a crise chegar lá."
+  },
+  "ordemIndice": 3
 }

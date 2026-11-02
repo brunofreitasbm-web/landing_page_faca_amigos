@@ -1,0 +1,357 @@
+{
+  "slug": "glossario",
+  "path": "/glossario",
+  "titleTag": "Glossário — Termos do desenvolvimento infantil | FaçaAmigos",
+  "descricao": "TEA, ABA, CIPTEA, integração sensorial e outros termos do desenvolvimento infantil, explicados em linguagem simples para mães, pais e cuidadores.",
+  "ogImage": "img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogType": "website",
+  "ogTitle": "Glossário — As palavras do laudo, da escola e da terapia, explicadas",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "jsonLd": [
+    {
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/glossario#webpage",
+      "name": "Glossário — As palavras do laudo, da escola e da terapia, explicadas",
+      "url": "https://institutofacaamigos.com.br/glossario",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#organization"
+      },
+      "inLanguage": "pt-BR"
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://institutofacaamigos.com.br/glossario#glossario",
+      "name": "Glossário FaçaAmigos",
+      "description": "Termos de desenvolvimento infantil, inclusão e terapia comportamental explicados em linguagem simples para mães, pais e cuidadores.",
+      "url": "https://institutofacaamigos.com.br/glossario",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "ABA (Análise do Comportamento Aplicada)",
+          "url": "https://institutofacaamigos.com.br/glossario#aba",
+          "description": "Área da psicologia que estuda por que os comportamentos acontecem e ensina novas habilidades por meio de repetição afetuosa e reforço positivo. Não é adestramento: é ciência aplicada com carinho."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Acompanhante terapêutico (AT)",
+          "url": "https://institutofacaamigos.com.br/glossario#at",
+          "description": "Profissional que acompanha a criança em ambientes do dia a dia, como escola ou passeios, aplicando o que foi combinado na terapia."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Antecedente, comportamento e consequência (ABC)",
+          "url": "https://institutofacaamigos.com.br/glossario#abc",
+          "description": "Forma de observar o que acontece antes de um comportamento, o comportamento em si e o que vem depois, para entender por que ele se repete."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Atenção compartilhada",
+          "url": "https://institutofacaamigos.com.br/glossario#atencao-compartilhada",
+          "description": "Quando a criança olha para um objeto ou evento e depois olha para você, dividindo o interesse. É a base da comunicação e do brincar junto."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Atípica / típica (criança)",
+          "url": "https://institutofacaamigos.com.br/glossario#atipica-tipica",
+          "description": "Forma de descrever se o desenvolvimento de uma criança segue (típica) ou não (atípica) o esperado para a idade, sem valor de melhor ou pior."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Autorregulação",
+          "url": "https://institutofacaamigos.com.br/glossario#autorregulacao",
+          "description": "Capacidade de se acalmar sozinha ou com ajuda depois de um susto, uma frustração ou um estímulo forte. É uma habilidade que se desenvolve com o tempo."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Avaliação comportamental",
+          "url": "https://institutofacaamigos.com.br/glossario#avaliacao-comportamental",
+          "description": "Primeira conversa e observação para entender como a criança se comunica, brinca e reage no dia a dia, e montar um plano de acompanhamento."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Avaliação neuropsicológica",
+          "url": "https://institutofacaamigos.com.br/glossario#avaliacao-neuropsicologica",
+          "description": "Conjunto de testes que mapeia memória, atenção, raciocínio e outras funções cognitivas, útil para entender dificuldades escolares ou de aprendizagem."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Birra × crise (meltdown)",
+          "url": "https://institutofacaamigos.com.br/glossario#birra-crise",
+          "description": "A birra costuma ter um objetivo e passa quando a criança percebe que não vai funcionar. A crise (meltdown) é uma sobrecarga do sistema nervoso: a criança não escolhe, ela transborda."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Brincar simbólico",
+          "url": "https://institutofacaamigos.com.br/glossario#brincar-simbolico",
+          "description": "Quando a criança usa um objeto para representar outro (a colher vira microfone) ou finge situações (dar comida para o bichinho). É um marco importante do desenvolvimento."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Canto de descompressão",
+          "url": "https://institutofacaamigos.com.br/glossario#canto-de-descompressao",
+          "description": "Espaço calmo, com luz baixa e menos estímulo, para a criança se regular quando o ambiente fica demais. Existe no Playground FaçaAmigos."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "CIPTEA",
+          "url": "https://institutofacaamigos.com.br/glossario#ciptea",
+          "description": "Carteira de Identificação da Pessoa com Transtorno do Espectro Autista, documento estadual que garante prioridade e benefícios, como a meia-entrada."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Comunicação alternativa (CAA)",
+          "url": "https://institutofacaamigos.com.br/glossario#caa",
+          "description": "Formas de se comunicar além da fala, como figuras, gestos ou aplicativos, usadas junto com a fonoaudiologia quando a fala ainda está se desenvolvendo."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Convênio (IASEP e PROASA)",
+          "url": "https://institutofacaamigos.com.br/glossario#convenio",
+          "description": "Planos de saúde que a Clínica FaçaAmigos vai atender assim que abrir, além do atendimento particular."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Ecolalia",
+          "url": "https://institutofacaamigos.com.br/glossario#ecolalia",
+          "description": "Repetir palavras ou frases ouvidas antes, de forma imediata ou depois de um tempo. É uma forma de comunicação comum em crianças autistas, não um erro a corrigir."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Equipe multidisciplinar",
+          "url": "https://institutofacaamigos.com.br/glossario#equipe-multidisciplinar",
+          "description": "Grupo de profissionais de áreas diferentes (psicologia, fonoaudiologia, terapia ocupacional...) cuidando da mesma criança de forma combinada."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Estereotipia (stimming)",
+          "url": "https://institutofacaamigos.com.br/glossario#estereotipia",
+          "description": "Movimentos repetitivos, como balançar as mãos ou o corpo, que ajudam a criança a se regular ou expressar emoção. Só vira preocupação se machucar ou atrapalhar o dia."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Fonoaudiologia",
+          "url": "https://institutofacaamigos.com.br/glossario#fonoaudiologia",
+          "description": "Especialidade que cuida da fala, da linguagem, da voz e também da alimentação (mastigar, engolir) da criança."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Função do comportamento",
+          "url": "https://institutofacaamigos.com.br/glossario#funcao-do-comportamento",
+          "description": "O motivo real por trás de um comportamento: buscar atenção, fugir de algo desconfortável, conseguir algo ou se regular sensorialmente. Entender a função muda o que fazer a respeito."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Generalização",
+          "url": "https://institutofacaamigos.com.br/glossario#generalizacao",
+          "description": "Quando a criança consegue usar uma habilidade aprendida em um lugar (como a terapia) também em casa, na escola ou com outras pessoas."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Hipersensibilidade e hipossensibilidade sensorial",
+          "url": "https://institutofacaamigos.com.br/glossario#hiper-hipossensibilidade",
+          "description": "Reagir demais (hiper) ou de menos (hipo) a sons, luzes, texturas ou toque. Explica por que um barulho comum pode incomodar muito, ou por que a criança busca sensações fortes."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Horário Inclusivo",
+          "url": "https://institutofacaamigos.com.br/glossario#horario-inclusivo",
+          "description": "Período do dia no Playground FaçaAmigos com menos gente, som mais baixo e equipe reforçada, pensado para quem tem hipersensibilidade sensorial."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Inclusão (playground inclusivo)",
+          "url": "https://institutofacaamigos.com.br/glossario#inclusao",
+          "description": "Preparar o espaço para que nenhuma criança fique de fora. Num playground inclusivo, crianças típicas e atípicas brincam juntas: não é um lugar só para crianças autistas, é um lugar para todas."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Inclusão escolar",
+          "url": "https://institutofacaamigos.com.br/glossario#inclusao-escolar",
+          "description": "Direito da criança atípica de estudar na escola comum, com os apoios necessários (como um PEI ou um mediador), em vez de ser encaminhada para um espaço separado."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Integração sensorial",
+          "url": "https://institutofacaamigos.com.br/glossario#integracao-sensorial",
+          "description": "Como o cérebro organiza o que os sentidos captam. A terapia ocupacional com foco em integração sensorial ajuda a criança a processar melhor som, toque, movimento e equilíbrio."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Intervenção precoce",
+          "url": "https://institutofacaamigos.com.br/glossario#intervencao-precoce",
+          "description": "Começar o acompanhamento assim que um sinal aparece, sem esperar 'passar da idade'. Quanto antes a família tem apoio, mais fácil o dia a dia fica."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Laudo",
+          "url": "https://institutofacaamigos.com.br/glossario#laudo",
+          "description": "Documento escrito por um profissional (médico ou psicólogo) descrevendo uma condição da criança. Abre porta para benefícios como CIPTEA e meia-entrada, mas não é obrigatório para buscar ajuda."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Mapeamento Comportamental",
+          "url": "https://institutofacaamigos.com.br/glossario#mapeamento-comportamental",
+          "description": "Questionário gratuito do FaçaAmigos que dá um primeiro retrato do dia a dia do seu filho, em 5 minutos. Não é diagnóstico."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Marcos do desenvolvimento",
+          "url": "https://institutofacaamigos.com.br/glossario#marcos-do-desenvolvimento",
+          "description": "Habilidades esperadas em cada fase, como apontar, falar as primeiras palavras ou brincar com outra criança. Servem de referência, nunca de prazo rígido."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Meia-entrada inclusiva",
+          "url": "https://institutofacaamigos.com.br/glossario#meia-entrada-inclusiva",
+          "description": "Preço reduzido no Playground FaçaAmigos para crianças com laudo ou CIPTEA: R$ 50 os 30 minutos, contra R$ 60 do público geral."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Neurodivergente / neurotípico",
+          "url": "https://institutofacaamigos.com.br/glossario#neurodivergente-neurotipico",
+          "description": "Neurodivergente é quem tem um funcionamento cerebral diferente do padrão mais comum (como no autismo ou no TDAH). Neurotípico é quem segue esse padrão. Nenhum dos dois é melhor."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Orientação parental",
+          "url": "https://institutofacaamigos.com.br/glossario#orientacao-parental",
+          "description": "Sessões em que a psicóloga conversa com você, sem a criança, para entender a rotina da família e ajustar estratégias que funcionem em casa."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "PEI (plano educacional individualizado)",
+          "url": "https://institutofacaamigos.com.br/glossario#pei",
+          "description": "Documento feito com a escola que adapta atividades e avaliações às necessidades da criança, garantindo o direito à inclusão escolar."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Psicopedagogia",
+          "url": "https://institutofacaamigos.com.br/glossario#psicopedagogia",
+          "description": "Especialidade que investiga dificuldades de aprendizagem (leitura, escrita, matemática) e cria estratégias para a criança aprender do jeito dela."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Reforço positivo",
+          "url": "https://institutofacaamigos.com.br/glossario#reforco-positivo",
+          "description": "Reconhecer e valorizar um comportamento logo depois que ele acontece, para que a criança queira repeti-lo. Um elogio específico, um abraço ou um tempo especial contam como reforço."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Rotina visual",
+          "url": "https://institutofacaamigos.com.br/glossario#rotina-visual",
+          "description": "Sequência de imagens ou ícones que mostra o que vai acontecer no dia, ajudando a criança a antecipar e se sentir mais segura com as transições."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Seletividade alimentar",
+          "url": "https://institutofacaamigos.com.br/glossario#seletividade-alimentar",
+          "description": "Recusar boa parte dos alimentos por textura, cor ou cheiro, de um jeito que vai além do 'enjoado'. Pode ter origem sensorial e se beneficia de acompanhamento."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Shutdown",
+          "url": "https://institutofacaamigos.com.br/glossario#shutdown",
+          "description": "Quando a criança se desliga diante de estímulo demais: fica quieta, se retrai ou 'trava', em vez de explodir. É outra forma de sobrecarga, tão real quanto a crise."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TDAH",
+          "url": "https://institutofacaamigos.com.br/glossario#tdah",
+          "description": "Transtorno do Déficit de Atenção com Hiperatividade: dificuldade para manter o foco, organizar-se ou ficar parado, que não é falta de educação nem preguiça."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TEA (autismo)",
+          "url": "https://institutofacaamigos.com.br/glossario#tea",
+          "description": "Transtorno do Espectro Autista: uma forma diferente de se comunicar, se relacionar e processar o mundo. 'Espectro' porque cada criança autista é única, com forças e desafios próprios."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Terapia Ocupacional",
+          "url": "https://institutofacaamigos.com.br/glossario#terapia-ocupacional",
+          "description": "Especialidade que trabalha coordenação motora, autonomia nas tarefas do dia (vestir, comer, escovar os dentes) e regulação sensorial."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Educação Física Adaptada",
+          "url": "https://institutofacaamigos.com.br/glossario#educacao-fisica-adaptada",
+          "description": "Atividade física pensada para as necessidades de cada criança: condicionamento, habilidades motoras, esporte adaptado e socialização."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Fisioterapia",
+          "url": "https://institutofacaamigos.com.br/glossario#fisioterapia",
+          "description": "Especialidade que cuida do desenvolvimento motor: tônus muscular, marcha e postura."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Musicoterapia",
+          "url": "https://institutofacaamigos.com.br/glossario#musicoterapia",
+          "description": "Uso da música por um profissional para trabalhar comunicação, interação social, atenção e expressão emocional."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Nutrição",
+          "url": "https://institutofacaamigos.com.br/glossario#nutricao",
+          "description": "Acompanhamento nutricional infantil: seletividade alimentar, introdução de novos alimentos e orientação à família."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Psicologia",
+          "url": "https://institutofacaamigos.com.br/glossario#psicologia",
+          "description": "Acompanhamento psicológico com foco em regulação emocional, autoestima e suporte em diferentes fases da vida."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Psicomotricidade",
+          "url": "https://institutofacaamigos.com.br/glossario#psicomotricidade",
+          "description": "Trabalho com esquema corporal, equilíbrio, lateralidade e coordenação motora global."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Terapia ABA",
+          "url": "https://institutofacaamigos.com.br/glossario#terapia-aba",
+          "description": "Nome comercial da intervenção comportamental baseada em ABA: comunicação funcional, autonomia, redução de comportamentos desafiadores e ampliação de repertório."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Terapia Ocupacional com Integração Sensorial",
+          "url": "https://institutofacaamigos.com.br/glossario#to-integracao-sensorial",
+          "description": "Terapia ocupacional com foco em processamento e modulação sensorial, planejamento motor e regulação."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Treino de Habilidades Sociais",
+          "url": "https://institutofacaamigos.com.br/glossario#treino-habilidades-sociais",
+          "description": "Treino de interação com pares, conversação, regras sociais e amizade, em grupo ou individual."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://institutofacaamigos.com.br/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Glossário",
+          "item": "https://institutofacaamigos.com.br/glossario"
+        }
+      ]
+    }
+  ],
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "mapeamento"
+  },
+  "scripts": 1,
+  "ogDescricao": "TEA, ABA, CIPTEA, integração sensorial e outros termos do desenvolvimento infantil, explicados em linguagem simples para mães, pais e cuidadores.",
+  "ogSiteName": "FaçaAmigos — Centro de Terapia Comportamental"
+}
