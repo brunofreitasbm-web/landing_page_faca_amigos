@@ -808,6 +808,7 @@ Endereço, horário, "mesmos preços, mesma equipe e mesmos atrativos" e o Whats
 25 fotos em `public/img/tv3/` (WebP de até 1600 px, 3,3 MB no total), tiradas da pasta do Drive para reduzir a repetição de imagens. Cada slide abaixo lista 3 a 5 fotos e a TV troca por dia da semana (dia 1 mostra a 1ª, dia 2 a 2ª, e assim por diante). Fotos verticais têm `-v` no nome e entram na lateral do slide (layout retrato), sem esticar. As pessoas das fotos de crianças têm o rosto alterado por IA, segundo a clínica.
 
 - `d_circuito`, `j_equipe`: Circuito (carros, pelúcias, criança ao volante).
+- `d_parque`: fachada e, segundo a clínica, as fotos do salão com piscina de bolinhas e da sala com tapete de sol, que são do Parque Shopping.
 - `d_fds`, `d_quando_ir`, `d_prova`, `d_beneficio`: ambientes e crianças do Playground, e o banner dos mascotes.
 - `c_brincar_chao`, `c_construir`, `h_motor`, `h_aprender`: fotos novas, com a foto antiga da clínica na última posição.
 - Ficaram de fora: fotos de obra, folhas de adesivo dos mascotes, fotos da equipe (aguardam confirmação) e três panorâmicas de 1200 px (borradas em Full HD).
