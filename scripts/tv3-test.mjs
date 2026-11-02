@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Testes da /tv3 com Playwright. Uso: node scripts/tv3-test.mjs [qr|motor|layout|copy|audio|todos]
+// Testes da /tv3 com Playwright. Uso: node scripts/tv3-test.mjs [qr|motor|layout|copy|audio|orient|todos]
 //
 // Variáveis de ambiente:
 //   PW_MODULE        caminho do playwright (padrão /opt/node-tools/node_modules/playwright/index.mjs)
@@ -325,7 +325,39 @@ async function testeAudio() {
   await page.context().close();
 }
 
-const testes = { qr: testeQR, motor: testeMotor, layout: testeLayout, copy: testeCopy, audio: testeAudio };
+
+// ---------------------------------------------------------------- ORIENTAÇÃO (horizontal ou vertical)
+async function testeOrientacao() {
+  console.log('\n# ORIENTAÇÃO');
+  // [consulta, tela, esperado: palco em pé?, rotação, área ocupada na tela]
+  const casos = [
+    ['orientacao=horizontal', { width: 1920, height: 1080 }, false, 0],
+    ['orientacao=vertical', { width: 1920, height: 1080 }, true, 90],   // tela deitada: gira o palco
+    ['orientacao=vertical', { width: 1080, height: 1920 }, true, 0],    // o sistema da TV já girou: não gira de novo
+    ['orientacao=horizontal', { width: 1080, height: 1920 }, false, 90],
+  ];
+  for (const [q, vp, emPe, rot] of casos) {
+    const page = await abrir(q, vp);
+    const r = await page.evaluate(() => {
+      const s = document.getElementById('tvStage');
+      const b = s.getBoundingClientRect();
+      return { emPe: s.classList.contains('portrait-mode'), w: Math.round(b.width), h: Math.round(b.height), t: s.style.transform };
+    });
+    const girou = /rotate\((\d+)deg\)/.exec(r.t);
+    const grau = girou ? +girou[1] : 0;
+    const preenche = Math.abs(r.w - vp.width) <= 2 || Math.abs(r.h - vp.height) <= 2; // encosta nas bordas, sem sobra de 44%
+    ok(r.emPe === emPe && grau === rot && preenche && r.w <= vp.width + 2 && r.h <= vp.height + 2,
+      `${q} em tela ${vp.width}x${vp.height}: palco ${emPe ? 'em pé' : 'deitado'}, giro ${rot} graus, ocupa ${r.w}x${r.h}`, JSON.stringify(r));
+    await page.context().close();
+  }
+  // ?rot=90 continua valendo (compatibilidade) e agora também preenche a tela
+  const page = await abrir('rot=90', { width: 1920, height: 1080 });
+  const b = await page.evaluate(() => { const r = document.getElementById('tvStage').getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; });
+  ok(b[0] >= 1918 && b[1] >= 1078, `?rot=90 numa tela deitada ocupa a tela inteira (${b.join('x')})`);
+  await page.context().close();
+}
+
+const testes = { qr: testeQR, motor: testeMotor, layout: testeLayout, copy: testeCopy, audio: testeAudio, orient: testeOrientacao };
 try {
   for (const [nome, fn] of Object.entries(testes)) if (only === 'todos' || only === nome) await fn();
 } finally {

@@ -769,6 +769,118 @@
     .tv-slide.retrato .tv-headline { font-size: 58px; max-width: 100%; }
     .tv-slide.retrato .tv-subtext { max-width: 100%; }
 
+    /* PACOTES PARTICULARES: cartões ilustrados (img/pacotes) e cartão creme com mascote */
+    .tv-slide.pacotes .tv-visual-card,
+    .tv-slide.cartao .tv-visual-card { background: #FFFAF0; justify-content: flex-start; }
+    .tv-slide.pacotes .tv-visual-text,
+    .tv-slide.cartao .tv-visual-text { color: var(--petrol-deep); }
+    .tv-slide.pacotes .tv-headline,
+    .tv-slide.cartao .tv-headline { color: var(--petrol-deep); text-shadow: none; }
+    .tv-slide.pacotes .tv-headline em,
+    .tv-slide.cartao .tv-headline em { color: var(--accent, var(--pink)); background: linear-gradient(180deg, transparent 62%, rgba(255, 226, 52, 0.8) 62%); }
+    .tv-slide.pacotes .tv-subtext,
+    .tv-slide.cartao .tv-subtext { color: var(--ink-soft); text-shadow: none; max-width: 100%; }
+    .tv-slide.pacotes .tv-kicker,
+    .tv-slide.cartao .tv-kicker { box-shadow: none; }
+    .tv-slide.pacotes .tv-visual-text { padding: 26px 44px 0; }
+    .tv-slide.pacotes .tv-headline { font-size: 52px; margin-bottom: 0; }
+    .tv-slide.pacotes .tv-kicker { margin-bottom: 10px; font-size: 16px; }
+    .tv-pacotes-row { flex: 1; min-height: 0; display: flex; justify-content: center; align-items: center; gap: 24px; padding: 12px 44px 0; }
+    .tv-pacotes-row img { flex: 0 1 calc((100% - 48px) / 3); max-height: 100%; width: auto; min-width: 0; aspect-ratio: 1; object-fit: contain; border-radius: 30px; box-shadow: 0 14px 34px rgba(3, 45, 55, 0.16); }
+    .tv-pacotes-nota { padding: 10px 44px 24px; font-size: 24px; font-weight: 700; color: var(--ink-soft); text-align: center; }
+    .tv-slide.cartao .tv-visual-card { justify-content: center; }
+    .tv-slide.cartao .tv-visual-text { max-width: 56%; }
+    .tv-slide.cartao .tv-headline { font-size: 60px; }
+    .tv-slide.cartao.solo .tv-visual-text { max-width: 48%; }
+    .tv-slide.cartao.solo .tv-cartao-mascote { height: 56%; right: 9%; }
+    .tv-cartao-circulo { position: absolute; right: -9%; bottom: -26%; width: 62%; aspect-ratio: 1; border-radius: 50%; background: var(--accent-soft, #FFF0B8); z-index: 1; }
+    .tv-cartao-mascote { position: absolute; right: 7%; bottom: 6%; height: 50%; width: auto; z-index: 2; filter: drop-shadow(0 10px 18px rgba(3, 45, 55, 0.18)); }
+    .tv-cartao-chip { display: inline-flex; margin-top: 18px; padding: 10px 24px; border-radius: 999px; background: var(--yellow); color: var(--petrol-deep); font-family: var(--font-display); font-size: 30px; box-shadow: 0 6px 16px rgba(245, 158, 11, 0.28); }
+
+
+    /* ==========================================================================
+       TV DE 32 POLEGADAS. O palco tem sempre 1920 px de largura, então 1 px mede 0,37 mm numa TV de 32"
+       (0,64 mm numa de 55"). Aqui texto e QR ficam maiores. --k encolhe só o texto, slide a slide, quando ele não cabe
+       (ajustarTexto no script); o QR só encolhe depois do texto, e nunca abaixo de 260 px.
+       ========================================================================== */
+    #tvStage.t32 { grid-template-rows: 104px 1fr 76px; }
+    #tvStage.t32.portrait-mode { grid-template-rows: 116px 1fr 84px; }
+    #tvStage.t32 .tv-slide { --k: 1; --qr: 340px; }
+    #tvStage.t32 .tv-brand-main { font-size: 32px; }
+    #tvStage.t32 .tv-brand-badge { font-size: 15px; }
+    #tvStage.t32 .tv-brand-sub { font-size: 17px; }
+    #tvStage.t32 .tv-logo-symbol { width: 62px; height: 62px; }
+    #tvStage.t32 .tv-live-tag { font-size: 18px; }
+    #tvStage.t32 .tv-header-info { font-size: 18px; }
+    #tvStage.t32 .tv-clock-time { font-size: 44px; }
+    #tvStage.t32 .tv-clock-date { font-size: 18px; }
+    #tvStage.t32 .tv-amenity-item { font-size: 24px; gap: 12px; }
+    #tvStage.t32 .tv-amenity-icon { font-size: 24px; width: 42px; height: 42px; }
+    #tvStage.t32 .tv-kicker { font-size: calc(22px * var(--k)); padding: 10px 24px; margin-bottom: 18px; }
+    #tvStage.t32 .tv-headline { font-size: calc(70px * var(--k)); line-height: 1.12; }
+    #tvStage.t32 .tv-subtext { font-size: calc(34px * var(--k)); line-height: 1.36; max-width: 96%; }
+    #tvStage.t32 .tv-slide.solo .tv-headline { font-size: calc(78px * var(--k)); max-width: 90%; }
+    #tvStage.t32 .tv-slide.solo .tv-subtext { font-size: calc(38px * var(--k)); max-width: 80%; }
+    #tvStage.t32 .tv-slide.solo .tv-kicker { font-size: calc(24px * var(--k)); }
+    #tvStage.t32 .tv-slide.retrato .tv-headline { font-size: calc(64px * var(--k)); }
+    #tvStage.t32 .tv-slide.pacotes .tv-headline { font-size: calc(66px * var(--k)); }
+    #tvStage.t32 .tv-slide.pacotes .tv-kicker { font-size: calc(22px * var(--k)); }
+    #tvStage.t32 .tv-pacotes-nota { font-size: calc(32px * var(--k)); }
+    #tvStage.t32 .tv-slide.cartao .tv-headline { font-size: calc(72px * var(--k)); }
+    #tvStage.t32 .tv-cartao-chip { font-size: calc(38px * var(--k)); }
+    #tvStage.t32 .tv-quote { font-size: calc(74px * var(--k)); }
+    /* painel do QR: QR grande à esquerda, instruções à direita; painel e foto dividem a largura */
+    #tvStage.t32:not(.portrait-mode) .tv-slide:not(.solo):not(.tutorial) { grid-template-columns: 1fr 1fr; }
+    #tvStage.t32 .tv-pill-badge { font-size: 18px; }
+    #tvStage.t32 .tv-action-title { font-size: calc(38px * var(--k)); }
+    #tvStage.t32 .tv-action-desc { font-size: calc(25px * var(--k)); }
+    #tvStage.t32 .tv-qr-wrapper { flex-direction: row; text-align: left; align-items: center; gap: 24px; padding: 18px 22px; margin: 10px 0; }
+    #tvStage.t32 .tv-qr-box { width: var(--qr); height: var(--qr); padding: 4px; }
+    #tvStage.t32 .tv-qr-text { align-items: flex-start; flex: 1; min-width: 0; gap: 8px; }
+    #tvStage.t32 .tv-qr-callout { font-size: calc(34px * var(--k)); }
+    #tvStage.t32 .tv-qr-instructions { font-size: calc(26px * var(--k)); }
+    #tvStage.t32 .tv-qr-subhint { font-size: calc(22px * var(--k)); }
+    #tvStage.t32 .tv-highlight-text { font-size: calc(25px * var(--k)); }
+    #tvStage.t32 .tv-highlight-icon { font-size: 38px; }
+    #tvStage.t32 .tv-step-body strong { font-size: calc(30px * var(--k)); }
+    #tvStage.t32 .tv-step-body span { font-size: calc(23px * var(--k)); }
+    #tvStage.t32 .tv-step-num { width: 58px; height: 58px; font-size: 32px; }
+    #tvStage.t32 .tv-qr-big svg { width: 430px; height: 430px; }
+    #tvStage.t32 .tv-action-card.tutorial .tv-qr-callout { font-size: calc(40px * var(--k)); }
+    #tvStage.t32 .tv-action-card.tutorial .tv-qr-instructions { font-size: calc(26px * var(--k)); }
+    #tvStage.t32 .tv-action-card.tutorial .tv-qr-subhint { font-size: calc(22px * var(--k)); }
+    #tvStage.t32 .tv-vs-header { font-size: calc(28px * var(--k)); }
+    #tvStage.t32 .tv-vs-list { font-size: calc(24px * var(--k)); }
+
+    /* TV EM PÉ (palco 1080x1920): foto vertical ocupa o cartão, cartões de pacote empilham, mascote sobe */
+    #tvStage.portrait-mode .tv-slide.retrato .tv-slide-image { left: 0; right: 0; width: 100%; object-position: center; -webkit-mask-image: none; mask-image: none; }
+    #tvStage.portrait-mode .tv-slide.retrato .tv-image-overlay { background: linear-gradient(180deg, rgba(6, 82, 100, 0.1) 0%, rgba(3, 45, 55, 0.4) 45%, rgba(3, 45, 55, 0.95) 100%); }
+    #tvStage.portrait-mode .tv-slide.retrato .tv-visual-text { max-width: 100%; }
+    #tvStage.portrait-mode .tv-slide.retrato .tv-headline { max-width: 100%; }
+    #tvStage.portrait-mode .tv-pacotes-row { flex-direction: column; gap: 18px; padding: 14px 30px 0; }
+    #tvStage.portrait-mode .tv-pacotes-row img { flex: 0 1 calc((100% - 36px) / 3); height: calc((100% - 36px) / 3); width: auto; max-width: 100%; max-height: none; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-visual-card { justify-content: flex-start; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-visual-text { max-width: 100%; padding-top: 70px; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-cartao-mascote { height: 34%; right: 6%; bottom: 3%; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-cartao-circulo { width: 90%; right: -20%; bottom: -14%; }
+    #tvStage.portrait-mode .tv-slide.solo .tv-headline,
+    #tvStage.portrait-mode .tv-slide.solo .tv-subtext { max-width: 100%; }
+
+
+    /* QR COM ARTE: selo com anel colorido (a cor muda por destino), anel tracejado que pulsa e mascote. Tudo fica fora da área de leitura do QR. */
+    .tv-qr-box.arte, .tv-qr-big.arte { position: relative; border-radius: 30px; box-shadow: 0 0 0 6px #fff, 0 0 0 11px var(--qr-acento, #E01560), 0 16px 34px rgba(3, 45, 55, 0.25); }
+    .tv-qr-box.arte svg, .tv-qr-big.arte svg { border-radius: 24px; }
+    .tv-qr-box.arte::after, .tv-qr-big.arte::after { content: ''; position: absolute; top: -24px; right: -24px; bottom: -24px; left: -24px; border: 4px dashed var(--qr-acento, #E01560); border-radius: 46px; opacity: 0.3; pointer-events: none; animation: qrPulso 2.6s ease-in-out infinite; }
+    @keyframes qrPulso { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.75; transform: scale(1.03); } }
+    .tv-qr-mascote { display: none; width: auto; height: auto; max-height: 170px; max-width: 290px; filter: drop-shadow(0 8px 12px rgba(3, 45, 55, 0.22)); pointer-events: none; }
+    #tvStage.t32 .tv-qr-wrapper.arte { align-items: stretch; }
+    #tvStage.t32 .tv-qr-text .tv-qr-mascote { display: block; margin-top: auto; align-self: flex-end; }
+    #tvStage.t32 .tv-qr-wrapper { padding: 26px 30px; }
+    #tvStage.t32 .tv-qr-wrapper.arte { gap: 46px; }
+    .tv-qr-big.arte { margin-bottom: 30px; }
+    .tv-qr-big.arte .tv-qr-mascote { display: block; position: absolute; right: -176px; bottom: 4px; max-height: 210px; max-width: 190px; }
+    @media (prefers-reduced-motion: reduce) { .tv-qr-box.arte::after, .tv-qr-big.arte::after { animation: none; opacity: 0.4; } }
+
     /* Respiro: foto cheia e uma frase */
     .tv-slide.respiro .tv-image-overlay {
       background: linear-gradient(180deg, rgba(3, 45, 55, 0.05) 0%, rgba(3, 45, 55, 0.35) 55%, rgba(3, 45, 55, 0.9) 100%);
@@ -904,6 +1016,11 @@
       const CONFIG = {
         experiment: 'base-2026-12',   // rótulo do experimento (formato <o-que-mudou>-AAAA-MM)
         roundMin: 10,                 // alvo de duração de uma volta, em minutos
+        tela: '32',                   // tamanho da TV: '32' (textos e QR maiores) ou 'grande' (55" ou mais)
+        qrEstilo: 'arte',             // 'arte' (QR arredondado, olhos coloridos, selo e mascote) ou 'classico' (QR quadrado simples)
+        orientacao: 'horizontal',     // como a TV fica na parede: 'horizontal' (deitada) ou 'vertical' (em pé). Também vale ?orientacao=vertical na URL
+        giro: 90,                     // só para TV em pé que o sistema da TV NÃO girou: 90 ou 270, conforme o lado para onde a TV foi virada
+        ritmo: 1.25,                  // multiplica o tempo de todos os slides (1 = tempos do roteiro; maior = mais devagar)
         maxCopias: 2,                 // quantas vezes um slide com weight pode aparecer por volta
         cadenciaPortalSeg: 360,       // no máximo 6 min sem QR do Portal na tela
         portalAtivo: true,            // false esconde a família A (use enquanto o Portal não estiver liberado)
@@ -919,6 +1036,9 @@
       // QR:BEGIN (gerado por scripts/tv3-qr.py, não editar à mão)
       const QR = {
         "portal": { url: "https://institutofacaamigos.com.br/familia", v: 3, m: ["11111110101011100010001111111","10000010111111100001001000001","10111010101011100001001011101","10111010000001001100101011101","10111010111111101011001011101","10000010010010100110101000001","11111110101010101010101111111","00000000010011011001100000000","10011111101010101101010010111","11001000011111111011000110110","00011110000100110000011110100","10101000011100111101011011001","01100111011000010001101000001","01100101111000111110011111111","10100010100111111101101100101","00101001101000111000101010101","00100011010001010000100001000","10010101111001010101110010110","11010111111101111011101101001","11110100101101011000010101100","11100011101000101111111111110","00000000101110111110100011000","11111110111010111001101011000","10000010110010100111100010000","10111010111111101001111111010","10111010101010111010010000001","10111010011010110110100110111","10000010000101110000011111101","11111110101100100001110100000"] },
+        "graopara": { url: "https://institutofacaamigos.com.br/playground/grao-para?utm_source=tv3&utm_medium=indoor", v: 6, m: ["11111110010010000111000101010001001111111","10000010011010110010111111110100101000001","10111010000010101010100101000111101011101","10111010011111000111010101101100101011101","10111010001011100110101111111110001011101","10000010111100000001010001011001001000001","11111110101010101010101010101010101111111","00000000011111101111110110000111100000000","10010110101000100001010111100001010100000","01101101101110111000100011101100111001101","01111111100011000001011010101011010011100","00000100010010001011011111110000010100100","11111011001101100101010011010101111001010","00110000001000110110011110011100010101110","00111011000011000100100010100100001010111","01111100110111001101010011010110001010011","10011011000111000101111100001101100101000","11100100100100110000000111000110001101111","10010110111100101010010010100100010011101","01000001010001000110101010110001010100000","01011011110001001111000110001100011101101","00001000100011100110110011101000011000111","10010011101101010101010011001101111000110","11100001000110000011111111010000100110110","01110111110000101100110111011100111100000","01101100110000011101111011100011001001010","01000011110001000110110101101100110010011","01110001110111000101011011111100101000000","10011111000110111101111100000100010000010","01010100010101100101001001011000011101101","10010110100101101011100001011110000101011","00100100111100000111110100000101110011001","10000010101101101001000111011001111110101","00000000100101100010111000101100100010101","11111110001011100101000000001010101010010","10000010101011101100011100100010100010101","10111010001111100001101010000010111111010","10111010110001011101110010000111111010101","10111010000010001100001100100011100011011","10000010011100010110011111010110110100010","11111110110111011011111010001100101111010"] },
+        "planos": { url: "https://institutofacaamigos.com.br/planos?utm_source=tv3&utm_medium=indoor", v: 5, m: ["1111111010101100001100111101101111111","1000001000100010011011100100101000001","1011101000110111110111011001001011101","1011101010111011000110000111001011101","1011101010010011101001010111101011101","1000001010100011001110100100101000001","1111111010101010101010101010101111111","0000000010001111111101010001000000000","1000101110101011001111111000111111001","1010010010111100110111010011100011110","0101111101000010101000011111111110100","1111010111111010011001011010000000110","1001011100000011110111101000111101011","1011100000101111010001110011100011000","1111111101010001001001111011100111100","0100100100000110100111011011000110110","0001101100101100100011110100001101111","1101100001010100001110010101010011110","0010001001100101010000111111001010000","0001010101010001110101010000111000110","0010011010111110110111011000111101100","1001110011101111101011010011110110010","0100011000110111010010011111001111100","0001100001100010011011110011100110100","1100011001111001001001101001111001111","1010100111011000110001010111010010000","0010101001100000111010010001110100000","0010100000110010010111111010001100111","1100011010111101010011101000111110100","0000000011110101111000010010100010010","1111111010011101101011011010101010000","1000001000110010000111110010100011101","1011101011010111100011101000111111110","1011101001000100001000010110011101101","1011101000111111010010111100101000000","1000001000110011111111011010000010110","1111111011110110010011101001001101111"] },
+        "avaliar": { url: "https://g.page/r/CUpdqF5yECeVECE/review", v: 3, m: ["11111110010011110010001111111","10000010111101010011101000001","10111010010100010010101011101","10111010011010111001101011101","10111010101100110001001011101","10000010011011111111001000001","11111110101010101010101111111","00000000011101111111100000000","10101010001111001100100010010","00000100000011101010111001001","01010110011101001010111110111","11010101111001100111001100010","11010111011000100000011001011","10001000111101001100111001001","10101010111000100000011011011","11111101101011001111100101010","00010110000110111000001101011","01100101010100000101111001101","10001010010111000110010000011","01011000011000011110001011010","10001010111010001100111110000","00000000101011011101100010111","11111110011000100000101011011","10000010011011100110100011001","10111010100110101000111110011","10111010001111111110100110111","10111010111001100101010011001","10000010011111111101110010010","11111110101110101000100110011"] },
         "teste": { url: "https://institutofacaamigos.com.br/teste?utm_source=tv3&utm_campaign=indicacao", v: 5, m: ["1111111010010100001000010111101111111","1000001001010000111101100100001000001","1011101000001101110101001001001011101","1011101010101011000010010111001011101","1011101011011001001001010011101011101","1000001011110101101111100100101000001","1111111010101010101010101010101111111","0000000010000101111101110011000000000","1000101111000000010111011100111111001","1111010011100010111001110001110111110","1001011111010000101010011111011100000","1110100011100110011001010011000100110","0110001010101011110111111000111101111","0100100011101001110001110011100011011","1100001101100011001001011111101111100","0101000101000110011111011011000110100","0101111011001111101011111000111101110","0110010111111010001000010111110010010","0111101111111011011010111111101110000","0010110111010011110101010000011000110","1110011110101010110111001000111100100","0000100111001001001011010111110110000","0100101000100011010011111101000111100","0111000101011101010011010011110110110","0111111111111110001011101001011101111","1001000011010110101001010111010011100","0001101111000110111010010001010010000","0000100110110010011001110010101000111","1111101010100011010011101000111111110","0000000011101011110001010110100010010","1111111010010001101010011000101010000","1000001001010011000111110010100011100","1011101011100100100011100000111111111","1011101001011110001000010110011101001","1011101001001001000000111100101000100","1000001000011101111011011010000010110","1111111011000100110111111000000101111"] },
         "aprender:rotina": { url: "https://institutofacaamigos.com.br/aprender/rotina-visual-em-casa?utm_source=tv3", v: 5, m: ["1111111010000010000010110111101111111","1000001000100010111101100100101000001","1011101000011100010011011001001011101","1011101010101110100010010110001011101","1011101010000001111000010111101011101","1000001011001011000110100100101000001","1111111010101010101010101010101111111","0000000010010000011101110011000000000","1000101111100110010111110000011111001","0010010101110000110001010011010010010","0011011111100110101010011111111101000","1110010010001000011101001011000110110","1011001111000101010111111001111100111","0000010111101011101001110011100011010","1101001100100101111001011011100111100","1101100111001001010111011011011110101","0110101111100010110010110010011101110","1010110101010100000000111111100111110","0100111110111011010000111111001100000","0011010010001011111101010001111000110","0101001011010000010111001000111101100","0111010110110011100011010011110110000","0001101110001001101010011011011111110","1110000010111010010011010011100110111","0100001100010111011001101001011101101","1011100111010100100001110111110011000","0011101111110000110010011001010011100","0000000100011100010011100011001110110","1110101011110111010111101000111110101","0000000011011001100000010110100010010","1111111011110001000010111100101010000","1000001000100001011111010010100011100","1011101010111110001001100000111111111","1011101000000110001000010110011100111","1011101001010011100010111100101000100","1000001000111001110111010010010010110","1111111010001110010011101001010100111"] },
         "aprender:crise": { url: "https://institutofacaamigos.com.br/aprender/birra-ou-crise?utm_source=tv3", v: 5, m: ["1111111000010110010111100100101111111","1000001010010110011011101010101000001","1011101011010010101001111001101011101","1011101010010001011001001100001011101","1011101000000111111111010100101011101","1000001001110100010001000110101000001","1111111010101010101010101010101111111","0000000010010110011100101010100000000","1000001011110000100000110111011001110","0110110010011010111001110101010110110","1101101101100101110100100111100111111","0101000101010110000110100011011111001","1010101101110001100010011001001101001","1110010110110001101110110001100101000","0011001001100101001001100011011111011","0011110110000110000100000000011101110","0100111010101001001100010111101010110","0001010100111010100000110011100100110","0011001111010100111110110001000010101","1000000000110111100000110000000111001","1111111001101000010000011110111010100","1010100010110001010111110011010010100","1011111011101011010011100011110111001","1101100011101001111010101000011111000","1111011111111110010010011000101100011","1101110010001000001001110001100000000","1001001101101101101010100001001101111","1000100100101010101110111001110011111","1011001101111111010000101111111110100","0000000011111101100110010100100010010","1111111001011001011101010100101010001","1000001000000100100110001011100010011","1011101001110011001110100011111110111","1011101000100100000110010000111000101","1011101000001010011000000100010001111","1000001001011001101110110011101011001","1111111010010000100110001000100101001"] },
@@ -964,19 +1084,38 @@
         {"id":"c_transicao","fam":"C","dur":15,"layout":"padrao","qr":"aprender:rotina","dia":[2,4,5],"isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp","img/clinica-fachada.webp"],"kicker":"🔔 Dica para hoje","kickerClass":"yellow","headline":"Avise o que vem <em>depois do banho</em>.","subtext":"Para muitas crianças, trocar de atividade é o momento mais difícil do dia. Saber o próximo passo antes poupa a energia que ele gastaria tentando adivinhar.","badge":"Aprender","actionTitle":"Rotina visual em casa","actionDesc":"Como deixar o próximo passo previsível, com um passo a passo de 20 minutos.","qrTitle":"Leia o passo a passo","qrDesc":"Aponte a câmera e abra o texto no seu celular.","qrHint":"Texto escrito pela Isabella","highlightIcon":"🗓️","highlightText":"Antecipar o próximo passo deixa a transição mais previsível."},
         {"id":"c_calma","fam":"C","dur":15,"layout":"padrao","qr":"aprender:crise","dia":[1,2,4],"isabella":true,"image":"img/clinica-painel-sensorial.webp","images":["img/clinica-painel-sensorial.webp","img/clinica-fachada.webp","img/clinica-recursos-terapeuticos.webp"],"kicker":"🌿 Dica para hoje","kickerClass":"yellow","headline":"Na crise, baixe <em>luz, som e gente</em>.","subtext":"Se for crise, reduza o estímulo ao redor e fique por perto, sem exigir explicação. A conversa vem depois.","badge":"Aprender","actionTitle":"Birra ou crise: como diferenciar","actionDesc":"Três sinais para observar na hora e o que fazer em cada caso.","qrTitle":"Leia o texto completo","qrDesc":"Aponte a câmera e abra o texto no seu celular.","qrHint":"Texto escrito pela Isabella","highlightIcon":"🌿","highlightText":"Cada sinal é uma pista. Nenhum fecha uma resposta sozinho."},
         {"id":"c_apos_crise","fam":"C","dur":15,"layout":"padrao","qr":"aprender:crise","dia":[2,3,5],"isabella":true,"image":"img/clinica-fachada.webp","images":["img/clinica-fachada.webp","img/clinica-atividade-pedagogica.webp","img/clinica-recursos-terapeuticos.webp"],"kicker":"🫧 Dica para hoje","kickerClass":"yellow","headline":"Primeiro o corpo acalma. <em>Depois, as palavras.</em>","subtext":"Depois de uma crise, espere o corpo acalmar antes de conversar. É nesse momento que o cérebro volta a conseguir ouvir.","badge":"Aprender","actionTitle":"Birra ou crise: o que fazer","actionDesc":"O que fazer na hora, e o que muda quando é birra.","qrTitle":"Leia o texto completo","qrDesc":"Aponte a câmera e abra o texto no seu celular.","qrHint":"Texto escrito pela Isabella","highlightIcon":"💬","highlightText":"Na birra, nomeie o que você entende e mantenha o combinado, com calma."},
-        {"id":"c_brincar_chao","fam":"C","dur":15,"layout":"padrao","qr":"aprender:brincar","dia":[1,3,4],"isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-recursos-terapeuticos.webp","img/clinica-painel-sensorial.webp"],"kicker":"🎨 Dica para hoje","kickerClass":"yellow","headline":"10 minutos de brincar <em>trabalham habilidades</em>.","subtext":"Caça ao tesouro de cores: peça para achar 3 objetos de uma cor pela casa. Trabalha atenção e seguir instruções, no ritmo de brincadeira.","badge":"Aprender","actionTitle":"5 brincadeiras de 10 minutos","actionDesc":"Cada ideia diz qual habilidade ela trabalha, de atenção a esperar a vez.","qrTitle":"Leia as 5 brincadeiras","qrDesc":"Aponte a câmera e abra o texto no seu celular.","qrHint":"Texto escrito pela Isabella","highlightIcon":"🌈","highlightText":"Dia agitado? O telefone sem fio de sentimentos é mais calmo."},
+        {"id":"c_brincar_chao","fam":"C","dur":15,"layout":"padrao","qr":"aprender:brincar","dia":[1,3,4],"isabella":true,"image":"img/tv3/playground-engrenagens-chao-1-v.webp","images":["img/tv3/playground-engrenagens-chao-1-v.webp","img/tv3/playground-engrenagens-chao-2-v.webp","img/clinica-atividade-pedagogica.webp"],"kicker":"🎨 Dica para hoje","kickerClass":"yellow","headline":"10 minutos de brincar <em>trabalham habilidades</em>.","subtext":"Caça ao tesouro de cores: peça para achar 3 objetos de uma cor pela casa. Trabalha atenção e seguir instruções, no ritmo de brincadeira.","badge":"Aprender","actionTitle":"5 brincadeiras de 10 minutos","actionDesc":"Cada ideia diz qual habilidade ela trabalha, de atenção a esperar a vez.","qrTitle":"Leia as 5 brincadeiras","qrDesc":"Aponte a câmera e abra o texto no seu celular.","qrHint":"Texto escrito pela Isabella","highlightIcon":"🌈","highlightText":"Dia agitado? O telefone sem fio de sentimentos é mais calmo."},
         {"id":"c_elogio","fam":"C","dur":15,"layout":"padrao","qr":null,"dia":[1,2,5],"isabella":true,"image":"img/clinica-painel-sensorial.webp","images":["img/clinica-painel-sensorial.webp","img/clinica-atividade-pedagogica.webp","img/clinica-fachada.webp"],"kicker":"🌟 Dica para hoje","kickerClass":"yellow","headline":"Hoje, diga o que <em>deu certo</em>.","subtext":"Reconhecer o que deu certo é a base do reforço positivo. Escolha um acerto do dia e conte para a criança, com atenção e afeto."},
-        {"id":"c_construir","fam":"C","dur":15,"layout":"padrao","qr":null,"dia":[3,4,5],"isabella":true,"image":"img/clinica-recursos-terapeuticos.webp","images":["img/clinica-recursos-terapeuticos.webp","img/clinica-fachada.webp","img/clinica-atividade-pedagogica.webp"],"kicker":"🗣️ Dica para hoje","kickerClass":"yellow","headline":"Empilhar e derrubar, <em>revezando</em>.","subtext":"Empilhe blocos com a criança e derrubem juntos, revezando quem constrói. Trabalha a atenção compartilhada: ela olha o objeto e depois olha para você."},
+        {"id":"c_construir","fam":"C","dur":15,"layout":"padrao","qr":null,"dia":[3,4,5],"isabella":true,"image":"img/tv3/playground-engrenagens-chao-2-v.webp","images":["img/tv3/playground-engrenagens-chao-2-v.webp","img/tv3/playground-engrenagens-chao-1-v.webp","img/clinica-recursos-terapeuticos.webp"],"kicker":"🗣️ Dica para hoje","kickerClass":"yellow","headline":"Empilhar e derrubar, <em>revezando</em>.","subtext":"Empilhe blocos com a criança e derrubem juntos, revezando quem constrói. Trabalha a atenção compartilhada: ela olha o objeto e depois olha para você."},
         {"id":"c_esperar","fam":"C","dur":15,"layout":"padrao","qr":null,"dia":[1,2,3,4],"isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp","img/clinica-recursos-terapeuticos.webp"],"kicker":"⏳ Dica para hoje","kickerClass":"yellow","headline":"Esperar a vez <em>também se treina</em> brincando.","subtext":"No Siga o líder, um dá o comando (pular, girar, ficar parado) e o outro segue. Depois troca. A criança treina esperar a vez."},
-        {"id":"d_fds","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/playground-mediadora-tapete.webp","images":["img/playground-mediadora-tapete.webp","img/hero-piscina-bolinhas.webp","img/playground-piscina-casinha.webp"],"kicker":"🌤️ Fim de semana no Playground","kickerClass":"yellow","headline":"Primeira visita? Vá no <em>Horário Inclusivo</em>.","subtext":"Das 10h às 16h (aos domingos, a partir das 12h): som mais baixo, menos lotação e equipe reforçada. Sábado de manhã também vale."},
-        {"id":"d_parque","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/playground-fachada-recepcao.webp","images":["img/playground-fachada-recepcao.webp","img/playground-piscina-casinha.webp","img/galeria-oficinas.webp"],"kicker":"📍 Playground no Parque Shopping","kickerClass":"yellow","headline":"Playground no Parque Shopping, <em>no 1º piso</em>.","subtext":"Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h. É só chegar: não precisa agendar."},
+        {"id":"d_fds","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/tv3/playground-sala-sol.webp","images":["img/tv3/playground-sala-sol.webp","img/tv3/playground-pufes-v.webp","img/tv3/playground-arvore-desenhos-v.webp","img/tv3/playground-sala-atividades.webp","img/tv3/playground-manta-texturas.webp"],"kicker":"🌤️ Fim de semana no Playground","kickerClass":"yellow","headline":"Primeira visita? Vá no <em>Horário Inclusivo</em>.","subtext":"Das 10h às 16h (aos domingos, a partir das 12h): som mais baixo, menos lotação e equipe reforçada. Sábado de manhã também vale.","dia":[1,3,5]},
+        {"id":"d_parque","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/playground-fachada-recepcao.webp","images":["img/playground-fachada-recepcao.webp","img/tv3/playground-salao-bolinhas.webp","img/tv3/playground-sala-sol.webp","img/playground-piscina-casinha.webp"],"kicker":"📍 Playground no Parque Shopping","kickerClass":"yellow","headline":"Playground no Parque Shopping, <em>no 1º piso</em>.","subtext":"Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h. É só chegar: não precisa agendar."},
         {"id":"d_graopara","fam":"D","dur":15,"layout":"padrao","qr":null,"requires":"fotoGraoPara","isabella":false,"image":"img/playground-grao-para.webp","kicker":"📍 Playground no Grão-Pará","kickerClass":"yellow","headline":"No Grão-Pará, <em>1º piso</em>, em frente à Renner.","subtext":"Shopping Bosque Grão-Pará. Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h. Mesmos preços do Parque Shopping."},
-        {"id":"d_prova","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/hero-piscina-bolinhas.webp","images":["img/hero-piscina-bolinhas.webp","img/playground-piscina-casinha.webp"],"kicker":"📊 Números do Playground","kickerClass":"yellow","headline":"+1.100 famílias e <em>7.500 visitas</em> no Playground.","subtext":"Dados do sistema de entrada e saída do Playground. A equipe tem nota 4,9 de 5 em 118 avaliações por WhatsApp, de julho a outubro de 2026."},
-        {"id":"d_beneficio","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/playground-mediadora-tapete.webp","images":["img/playground-mediadora-tapete.webp","img/galeria-oficinas.webp"],"kicker":"💛 Família FaçaAmigos","kickerClass":"yellow","headline":"Você faz parte da <em>Família FaçaAmigos</em>.","subtext":"Seu vínculo com a clínica vale também fora dela. {{beneficio}}"},
-        {"id":"d_quando_ir","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/playground-piscina-casinha.webp","images":["img/playground-piscina-casinha.webp","img/hero-piscina-bolinhas.webp"],"kicker":"🗓️ Para planejar o sábado","kickerClass":"yellow","headline":"Prefira a <em>manhã</em> ou o começo da tarde.","subtext":"No sistema (jul a out/2026), sábado é o dia mais cheio e das 17h às 20h o horário mais cheio. Quem entra por 30 minutos fica, em média, 50 minutos."},
-        {"id":"d_circuito","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/circuito-quiosque.webp","images":["img/circuito-quiosque.webp","img/circuito-frota-alinhada.webp","img/circuito-jeep-menino.webp"],"kicker":"🚗 Circuito no Parque Shopping","kickerClass":"yellow","headline":"Circuito: R$ 48 por <em>20 ou 30 minutos</em>.","subtext":"20 minutos nas pelúcias e no jeep, ou 30 minutos nos carros e na moto. No quiosque do Circuito, no Parque Shopping."},
-        {"id":"e_indicar","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":false,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"💌 Para quem você lembrou","kickerClass":"teal","headline":"Uma mãe que ainda não sabe <em>por onde começar</em>?","subtext":"Pode ser mãe, pai ou avó. Envie o Mapeamento Comportamental: 25 perguntas, cerca de 5 minutos, gratuito.","badge":"Mapeamento","actionTitle":"Indique o Mapeamento","actionDesc":"Gratuito, cerca de 5 minutos, para crianças de 4 a 17 anos.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código, abra a página e envie o link para quem você lembrou.","qrHint":"Mande o link por WhatsApp","highlightIcon":"📩","highlightText":"O resultado aparece na tela e também chega por e-mail."},
-        {"id":"e_oque_e","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"🧭 Mapeamento Comportamental","kickerClass":"teal","headline":"25 perguntas em cerca de <em>5 minutos</em>.","subtext":"Para crianças de 4 a 17 anos. Passa por cinco áreas: Emoções e segurança, Rotina e limites, Foco e energia, Amizades e convivência, Empatia e gentileza.","badge":"Mapeamento","actionTitle":"Um retrato inicial, gratuito","actionDesc":"Criado por Isabella Gonçalves Freitas, psicóloga infantil (CRP 10/4727).","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e responda no seu celular, no seu ritmo.","qrHint":"Resultado na tela e por e-mail","highlightIcon":"🧡","highlightText":"Não substitui avaliação profissional."},
+        {"id":"d_prova","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/tv3/playground-salao-bolinhas.webp","images":["img/tv3/playground-salao-bolinhas.webp","img/tv3/playground-sala-atividades.webp","img/tv3/playground-sala-sol.webp"],"kicker":"📊 Números do Playground","kickerClass":"yellow","headline":"+1.100 famílias passaram pelo <em>Playground</em>.","subtext":"Dados do sistema de entrada e saída do Playground. A equipe tem nota 4,9 de 5 em 118 avaliações por WhatsApp, de julho a outubro de 2026.","dia":[1,3,5]},
+        {"id":"d_beneficio","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/tv3/playground-camiseta-crianca-v.webp","images":["img/tv3/playground-camiseta-crianca-v.webp","img/tv3/playground-desenho-camiseta-v.webp","img/tv3/mascotes-turma-banner.webp","img/tv3/playground-parede-texturas-v.webp","img/tv3/playground-escalada-crianca-v.webp"],"kicker":"💛 Família FaçaAmigos","kickerClass":"yellow","headline":"Você faz parte da <em>Família FaçaAmigos</em>.","subtext":"Seu vínculo com a clínica vale também fora dela. {{beneficio}}","dia":[2,4]},
+        {"id":"d_quando_ir","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/tv3/playground-salao-bolinhas.webp","images":["img/tv3/playground-salao-bolinhas.webp","img/tv3/playground-brinquedos-mesa-v.webp","img/tv3/playground-sala-luz-verde-v.webp","img/tv3/playground-sala-sol.webp","img/tv3/playground-arvore-desenhos-v.webp"],"kicker":"🗓️ Para planejar o sábado","kickerClass":"yellow","headline":"Prefira a <em>manhã</em> ou o começo da tarde.","subtext":"No sistema (jul a out/2026), sábado é o dia mais cheio e das 17h às 20h o horário mais cheio. Quem entra por 30 minutos fica, em média, 50 minutos.","dia":[2,4]},
+        {"id":"d_circuito","fam":"D","dur":15,"layout":"padrao","qr":null,"isabella":false,"image":"img/tv3/circuito-crianca-buggy-v.webp","images":["img/tv3/circuito-crianca-buggy-v.webp","img/tv3/circuito-frota-placa-48.webp","img/tv3/circuito-crianca-lambo-v.webp","img/tv3/circuito-capivara-crianca-v.webp","img/tv3/circuito-bombeiro-quiosque.webp"],"kicker":"🚗 Circuito no Parque Shopping","kickerClass":"yellow","headline":"Circuito: R$ 48 por <em>20 ou 30 minutos</em>.","subtext":"20 minutos nas pelúcias e no jeep, ou 30 minutos nos carros e na moto. No quiosque do Circuito, no Parque Shopping."},
+        {"id":"j_convite","fam":"J","dur":15,"layout":"padrao","qr":"circuito","image":"img/circuito-bombeiro.webp","images":["img/circuito-bombeiro.webp"],"kicker":"🚗 Conheça o Circuito","kickerClass":"yellow","headline":"Venha conhecer o <em>Circuito</em> FaçaAmigos.","subtext":"Carrinhos elétricos no Parque Shopping Belém, sem agendamento. Seu filho dirige e você acompanha de pertinho.","badge":"Circuito","actionTitle":"Venha conhecer o Circuito","actionDesc":"Passeio de R$ 48, direto no quiosque.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e veja como o Circuito funciona.","qrHint":"Sem agendamento","highlightIcon":"🚗","highlightText":"Pelúcias e jeep por 20 minutos. Carros e moto por 30.","isabella":false,"imageFit":"retrato"},
+        {"id":"j_equipe","fam":"J","dur":15,"layout":"padrao","qr":null,"image":"img/tv3/circuito-macaco-lambo-v.webp","images":["img/tv3/circuito-macaco-lambo-v.webp","img/tv3/circuito-crianca-range-rover-v.webp","img/tv3/circuito-crianca-moto-v.webp","img/tv3/circuito-unicornio-roxo-v.webp","img/tv3/circuito-cachorro-pelucia-v.webp"],"kicker":"🤝 Mesma equipe","kickerClass":"pink","headline":"No Circuito, a <em>mesma equipe</em> FaçaAmigos.","subtext":"Quem cuida de você no Playground também acompanha cada passeio do Circuito, com o mesmo cuidado, de perto.","isabella":false,"dia":[1,3,5]},
+        {"id":"k_vem","fam":"K","dur":15,"layout":"padrao","qr":"graopara","image":"img/playground-grao-para.webp","requires":"fotoGraoPara","kicker":"📍 Playground no Grão-Pará","kickerClass":"yellow","headline":"Brinque também no <em>Grão-Pará</em>.","subtext":"Shopping Bosque Grão-Pará, Av. Centenário, 1052, 1º piso, em frente à Renner. Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h.","badge":"Grão-Pará","actionTitle":"Playground no Grão-Pará","actionDesc":"Endereço, horário e como chegar.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e veja a unidade no mapa.","qrHint":"É só chegar, sem agendar","highlightIcon":"📍","highlightText":"Em frente à Renner, no 1º piso do shopping.","isabella":false},
+        {"id":"k_equipe","fam":"K","dur":15,"layout":"padrao","qr":null,"requires":"fotoGraoPara","image":"img/playground-grao-para.webp","kicker":"💛 Mesma equipe, mesmo cuidado","kickerClass":"pink","headline":"No Grão-Pará, <em>a mesma equipe</em> do Parque Shopping.","subtext":"Mesmos preços, mesma equipe qualificada e os mesmos atrativos inclusivos. Dúvidas? WhatsApp do Grão-Pará: (91) 99110-1215.","isabella":false,"dia":[2,4]},
+        {"id":"e_indicar","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":false,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"💌 Mapeamento grátis","kickerClass":"teal","headline":"Uma mãe que ainda não sabe <em>por onde começar</em>?","subtext":"Pode ser mãe, pai ou avó. Envie o Mapeamento Comportamental, que é grátis: 25 perguntas, cerca de 5 minutos.","badge":"Grátis","actionTitle":"Indique o Mapeamento grátis","actionDesc":"Sem custo, cerca de 5 minutos, para crianças de 4 a 17 anos.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código, abra a página e envie o link para quem você lembrou.","qrHint":"Mande o link por WhatsApp","highlightIcon":"📩","highlightText":"Grátis para toda família. O resultado chega por e-mail."},
+        {"id":"e_oque_e","fam":"E","dur":15,"layout":"padrao","qr":"teste","isabella":true,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"🧭 Mapeamento grátis","kickerClass":"teal","headline":"25 perguntas, 5 minutos e <em>grátis</em>.","subtext":"Para crianças de 4 a 17 anos. Passa por cinco áreas: Emoções e segurança, Rotina e limites, Foco e energia, Amizades e convivência, Empatia e gentileza.","badge":"Grátis","actionTitle":"Um retrato inicial, grátis","actionDesc":"Criado por Isabella Gonçalves Freitas, psicóloga infantil (CRP 10/4727).","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e responda no seu celular, no seu ritmo.","qrHint":"Resultado na tela e por e-mail","highlightIcon":"🧡","highlightText":"Grátis e sem compromisso. Não substitui avaliação profissional."},
+        {"id":"g_cinco","fam":"G","dur":15,"layout":"padrao","qr":"avaliar","isabella":false,"image":"img/clinica-fachada.webp","images":["img/clinica-fachada.webp","img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp"],"kicker":"⭐ Sua opinião conta","kickerClass":"yellow","headline":"Gostou do atendimento? Deixe <em>5 estrelas</em>.","subtext":"Sua avaliação no Google ajuda outras famílias a nos encontrar e mostra à equipe o que está dando certo.","badge":"Google","actionTitle":"Avalie com 5 estrelas","actionDesc":"Leva menos de um minuto, direto no seu celular.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código, toque em 5 estrelas e publique.","qrHint":"Obrigado por apoiar a clínica","highlightIcon":"⭐","highlightText":"Uma frase sobre a sua experiência já ajuda muito."},
+        {"id":"g_passos","fam":"G","dur":20,"layout":"tutorial","qr":"avaliar","isabella":false,"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-fachada.webp","img/clinica-painel-sensorial.webp"],"kicker":"⭐ Avalie no Google","kickerClass":"yellow","headline":"Avaliar a clínica leva <em>menos de 1 minuto</em>.","subtext":"São três passos, e você não precisa sair da sala de espera.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código com a câmera e toque no link.","qrHint":"Escolha 5 estrelas e publique","steps":[{"num":"1","title":"Aponte a câmera","desc":"Leia o QR e abra a página de avaliação do Google."},{"num":"2","title":"Toque em 5 estrelas","desc":"Marque a nota que representa a sua experiência."},{"num":"3","title":"Escreva e publique","desc":"Uma frase curta já basta. Depois, toque em Publicar."}]},
+        {"id":"g_outras","fam":"G","dur":15,"layout":"padrao","qr":"avaliar","isabella":false,"image":"img/clinica-painel-sensorial.webp","images":["img/clinica-painel-sensorial.webp","img/clinica-atividade-pedagogica.webp","img/clinica-fachada.webp"],"kicker":"💛 De família para família","kickerClass":"pink","headline":"Sua avaliação ajuda outra família a <em>chegar até nós</em>.","subtext":"Muitas famílias escolhem a clínica pelo que outras famílias contam no Google. Conte a sua experiência.","badge":"Google","actionTitle":"Conte como foi aqui","actionDesc":"Avalie com 5 estrelas e, se quiser, escreva uma frase.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e avalie em poucos toques.","qrHint":"Leva menos de um minuto","highlightIcon":"🤝","highlightText":"Seu relato pode ajudar quem está começando."},
+        {"id":"f_desconto","fam":"F","dur":15,"layout":"padrao","qr":"portal","requires":"portalAtivo","isabella":false,"image":"img/playground-mediadora-tapete.webp","images":["img/playground-mediadora-tapete.webp","img/galeria-oficinas.webp"],"kicker":"💛 Família FaçaAmigos","kickerClass":"yellow","headline":"Quem é atendido na Clínica tem <em>desconto</em>.","subtext":"O benefício vale no Playground e no Circuito. Para ver como usar, abra o Mural do Portal da Família.","badge":"Portal da Família","actionTitle":"Veja o desconto no Mural","actionDesc":"Entre no portal e abra a seção Mural.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e toque em Entrar no portal.","qrHint":"Depois, abra a aba Mural","highlightIcon":"🎟️","highlightText":"O desconto é para quem é atendido na Clínica."},
+        {"id":"f_passos","fam":"F","dur":20,"layout":"tutorial","qr":"portal","requires":"portalAtivo","isabella":false,"image":"img/galeria-oficinas.webp","images":["img/galeria-oficinas.webp","img/playground-mediadora-tapete.webp"],"kicker":"🎟️ Desconto da Família","kickerClass":"yellow","headline":"Seu desconto está no <em>Mural do Portal</em>.","subtext":"Quem é atendido na Clínica encontra o benefício no celular, em três passos.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código com a câmera e toque em Entrar.","qrHint":"Depois, abra a aba Mural","steps":[{"num":"1","title":"Entre no Portal","desc":"Leia o QR, toque em Entrar e depois na aba Família."},{"num":"2","title":"Abra o Mural","desc":"O Mural fica entre as abas do Portal da Família."},{"num":"3","title":"Veja o desconto","desc":"Lá está o desconto de quem é atendido na Clínica."}]},
+        {"id":"f_pergunte","fam":"F","dur":15,"layout":"padrao","qr":null,"requires":"portalAtivo","isabella":false,"image":"img/playground-mediadora-tapete.webp","images":["img/playground-mediadora-tapete.webp","img/galeria-oficinas.webp"],"kicker":"💛 Benefício da Família","kickerClass":"yellow","headline":"Atendido aqui? Veja o <em>desconto</em> no Mural.","subtext":"O Mural do Portal da Família mostra o desconto de quem faz terapia na Clínica. Dúvidas? A recepção ajuda.","dia":[1,3,5]},
+        {"id":"h_14","fam":"H","dur":15,"layout":"padrao","qr":"clinica","image":"img/clinica-recursos-terapeuticos.webp","images":["img/clinica-recursos-terapeuticos.webp","img/clinica-atividade-pedagogica.webp","img/clinica-painel-sensorial.webp","img/clinica-fachada.webp"],"kicker":"🧩 Nossas especialidades","kickerClass":"teal","headline":"14 especialidades, uma equipe e <em>um plano só</em>.","subtext":"Da fala ao sensorial, do comportamento à nutrição: cada criança recebe o conjunto de terapias que o plano dela indica.","badge":"Especialidades","actionTitle":"Conheça as 14 especialidades","actionDesc":"Veja o foco de cada uma e para quem ela serve.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e veja todas as especialidades.","qrHint":"Dá para conversar com a equipe","highlightIcon":"🧩","highlightText":"As terapias se combinam no Plano Terapêutico Singular.","isabella":false},
+        {"id":"h_comportamento","fam":"H","dur":15,"layout":"padrao","qr":null,"dia":[1,5],"image":"img/clinica-atividade-pedagogica.webp","images":["img/clinica-atividade-pedagogica.webp","img/clinica-recursos-terapeuticos.webp","img/clinica-painel-sensorial.webp"],"kicker":"🧠 Comportamento e emoções","kickerClass":"teal","headline":"ABA, Psicologia e <em>Habilidades Sociais</em>.","subtext":"Comunicação, autonomia, regulação emocional, regras sociais e amizade, trabalhadas no ritmo de cada criança.","isabella":false},
+        {"id":"h_fala","fam":"H","dur":15,"layout":"padrao","qr":null,"dia":[2],"image":"img/clinica-recursos-terapeuticos.webp","images":["img/clinica-recursos-terapeuticos.webp","img/clinica-atividade-pedagogica.webp","img/clinica-fachada.webp"],"kicker":"🗣️ Fala e comunicação","kickerClass":"teal","headline":"Fonoaudiologia e <em>Musicoterapia</em>.","subtext":"Fala, linguagem, comunicação alternativa, deglutição e expressão pela música, para a criança se fazer entender.","isabella":false},
+        {"id":"h_motor","fam":"H","dur":15,"layout":"padrao","qr":null,"dia":[4],"image":"img/tv3/playground-escalada-crianca-v.webp","images":["img/tv3/playground-escalada-crianca-v.webp","img/tv3/playground-parede-texturas-v.webp","img/clinica-painel-sensorial.webp"],"kicker":"🤸 Corpo e sensorial","kickerClass":"teal","headline":"Cinco especialidades para o <em>corpo em movimento</em>.","subtext":"Terapia Ocupacional, Integração Sensorial, Fisioterapia, Psicomotricidade e Educação Física Adaptada.","isabella":false},
+        {"id":"h_aprender","fam":"H","dur":15,"layout":"padrao","qr":null,"dia":[3],"image":"img/tv3/playground-brinquedos-mesa-v.webp","images":["img/tv3/playground-brinquedos-mesa-v.webp","img/tv3/playground-manta-texturas.webp","img/clinica-fachada.webp"],"kicker":"📘 Escola, mesa e família","kickerClass":"teal","headline":"Psicopedagogia, Nutrição e <em>Orientação Parental</em>.","subtext":"Aprendizagem, seletividade alimentar e apoio à família em casa. A Avaliação Neuropsicológica completa a equipe.","isabella":false},
+        {"id":"p_pacotes_a","fam":"I","dur":15,"layout":"pacotes","qr":null,"image":"img/pacotes/primeiro-passo-600.webp","images":["img/pacotes/primeiro-passo-600.webp"],"cards":["img/pacotes/primeiro-passo-600.webp","img/pacotes/laco-600.webp","img/pacotes/vinculo-600.webp"],"kicker":"💬 Atendimento particular","kickerClass":"pink","headline":"Pacotes mensais de <em>4 a 12 sessões</em>.","subtext":"Primeiro Passo, Laço e Vínculo. Valores pelo WhatsApp. Antes, faça o Mapeamento Comportamental grátis.","isabella":false},
+        {"id":"p_pacotes_b","fam":"I","dur":15,"layout":"pacotes","qr":null,"image":"img/pacotes/turma-600.webp","images":["img/pacotes/turma-600.webp"],"cards":["img/pacotes/turma-600.webp","img/pacotes/abraco-600.webp","img/pacotes/voo-livre-600.webp"],"kicker":"💬 Atendimento particular","kickerClass":"pink","headline":"Pacotes mensais de <em>16 a 24 sessões</em>.","subtext":"Turma, Abraço e Voo Livre. A equipe monta com você o pacote da sua rotina.","isabella":false},
+        {"id":"p_combinam","fam":"I","dur":15,"layout":"cartao","qr":null,"image":"img/pacotes/laco-600.webp","images":["img/pacotes/laco-600.webp"],"mascot":"img/pacotes/mascote-laco.webp","accent":"#B07A0A","accentSoft":"#FFF0B8","kicker":"🧩 Pacote sob medida","kickerClass":"pink","headline":"O mesmo pacote reúne <em>várias terapias</em>.","subtext":"As sessões do mês podem ser divididas entre as especialidades que o plano do seu filho indica. A avaliação inicial conta como 1 sessão.","isabella":false,"dia":[2,4]},
+        {"id":"p_parcelas","fam":"I","dur":15,"layout":"cartao","qr":"planos","image":"img/pacotes/turma-600.webp","images":["img/pacotes/turma-600.webp"],"mascot":"img/pacotes/mascote-turma.webp","accent":"#1F66C9","accentSoft":"#D9E8FF","kicker":"💳 Pagamento particular","kickerClass":"pink","headline":"Pagamento em até <em>3x sem juros</em> no cartão.","subtext":"Sessões de 40 minutos, em pacotes mensais ou avulsas. A equipe explica valores e condições pelo WhatsApp.","chip":"3x sem juros","badge":"Particular","actionTitle":"Pacotes e condições","actionDesc":"Veja como os pacotes funcionam.","qrTitle":"Aponte a câmera aqui","qrDesc":"Leia o código e consulte os pacotes.","qrHint":"Dúvidas? A recepção ajuda","highlightIcon":"💳","highlightText":"Valores e condições sempre com a nossa equipe.","isabella":false,"dia":[1,3,5]},
         {"id":"r_1","fam":"R","dur":10,"layout":"respiro","qr":null,"dia":[1,2,4],"isabella":true,"image":"img/clinica-painel-sensorial.webp","images":["img/clinica-painel-sensorial.webp","img/ambiente-sensorial.webp"],"quote":"Respire fundo. Chegar até aqui já é uma forma de cuidar."},
         {"id":"r_2","fam":"R","dur":10,"layout":"respiro","qr":null,"dia":[2,3,5],"isabella":true,"image":"img/inclusao-cantinho-leitura.webp","images":["img/inclusao-cantinho-leitura.webp","img/clinica-atividade-pedagogica.webp"],"quote":"Cada criança tem o seu tempo. Cada família também."},
         {"id":"r_3","fam":"R","dur":10,"layout":"respiro","qr":null,"dia":[1,3,4],"isabella":true,"image":"img/ambiente-sensorial.webp","images":["img/ambiente-sensorial.webp","img/clinica-painel-sensorial.webp"],"quote":"Solte os ombros. Aqui você encontra acolhimento."},
@@ -1016,26 +1155,55 @@
       // QR CODE LOCAL: matrizes pré-geradas (scripts/tv3-qr.py), sem serviço externo.
       // Desenha com margem branca de 4 módulos (exigida para a câmera achar o código).
       // ======================================================================
+      // Arte por destino: cor do anel e mascote (os recortes ficam em img/tv3/mascote-*.webp)
+      const QR_ARTE = {
+        'portal': ['#E01560', 'macaco'], 'teste': ['#137A6A', 'tartaruga'], 'aprender:rotina': ['#137A6A', 'tartaruga'],
+        'aprender:crise': ['#137A6A', 'tartaruga'], 'aprender:brincar': ['#137A6A', 'tartaruga'], 'playground': ['#F59E0B', 'cachorro'],
+        'graopara': ['#F59E0B', 'cachorro'], 'circuito': ['#1F66C9', 'tucano'], 'clinica': ['#0B6D84', 'cachorro'],
+        'planos': ['#B07A0A', 'cachorro'], 'avaliar': ['#E01560', 'macaco']
+      };
+      const qrArte = () => CONFIG.qrEstilo !== 'classico';
+      const qrAcento = (key) => (QR_ARTE[key] || ['#E01560'])[0];
+      function qrMascote(key) {
+        const a = QR_ARTE[key];
+        return qrArte() && a ? '<img class="tv-qr-mascote" src="img/tv3/mascote-' + a[1] + '.webp" alt="" decoding="async">' : '';
+      }
+      // QR com módulos arredondados e os três "olhos" coloridos. Mantém o contraste (escuro sobre branco), a margem de 4 módulos
+      // e a correção M do QR clássico. No teste de leitura (jsQR, com desfoque) o clássico lê a partir de 56 px de largura e este, dependendo do endereço, de 56 a 85 px. Na TV de 32" o QR tem ~126 mm, uns 260 px na câmera a 1,5 m.
       function qrSvg(key, px) {
         const q = QR[key];
         if (!q) return '';
         const m = q.m, n = m.length, pad = 4, size = n + pad * 2;
-        let d = '';
-        for (let y = 0; y < n; y++) {
-          let x = 0;
-          while (x < n) {
-            if (m[y][x] === '1') {
-              let run = 1;
-              while (x + run < n && m[y][x + run] === '1') run++;
-              d += 'M' + (x + pad) + ' ' + (y + pad) + 'h' + run + 'v1h-' + run + 'z';
-              x += run;
-            } else {
-              x++;
+        if (!qrArte()) {
+          let d = '';
+          for (let y = 0; y < n; y++) {
+            let x = 0;
+            while (x < n) {
+              if (m[y][x] === '1') {
+                let run = 1;
+                while (x + run < n && m[y][x + run] === '1') run++;
+                d += 'M' + (x + pad) + ' ' + (y + pad) + 'h' + run + 'v1h-' + run + 'z';
+                x += run;
+              } else {
+                x++;
+              }
             }
           }
+          return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" width="' + px + '" height="' + px + '" shape-rendering="crispEdges" role="img" aria-label="QR Code" data-qr="' + key + '">' +
+            '<rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#032D37"/></svg>';
         }
-        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" width="' + px + '" height="' + px + '" shape-rendering="crispEdges" role="img" aria-label="QR Code" data-qr="' + key + '">' +
-          '<rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#032D37"/></svg>';
+        const rr = (x, y, w, h, r) => 'M' + (x + r) + ' ' + y + 'h' + (w - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' ' + r + 'v' + (h - 2 * r) +
+          'a' + r + ' ' + r + ' 0 0 1 -' + r + ' ' + r + 'h-' + (w - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 -' + r + ' -' + r + 'v-' + (h - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' -' + r + 'z';
+        const olho = (x, y) => (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
+        let d = '';
+        for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (m[y][x] === '1' && !olho(x, y)) d += rr(x + pad, y + pad, 1, 1, 0.3);
+        let olhos = '';
+        [[0, 0, '#E01560'], [n - 7, 0, '#137A6A'], [0, n - 7, '#1F66C9']].forEach((e) => {
+          const X = e[0] + pad, Y = e[1] + pad;
+          olhos += '<path fill-rule="evenodd" fill="' + e[2] + '" d="' + rr(X, Y, 7, 7, 1.8) + ' ' + rr(X + 1, Y + 1, 5, 5, 0.8) + '"/><path fill="' + e[2] + '" d="' + rr(X + 2, Y + 2, 3, 3, 1) + '"/>';
+        });
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" width="' + px + '" height="' + px + '" shape-rendering="geometricPrecision" role="img" aria-label="QR Code" data-qr="' + key + '">' +
+          '<rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#032D37"/>' + olhos + '</svg>';
       }
 
       // ======================================================================
@@ -1186,6 +1354,7 @@
       let progressTimer = null;
       let isPaused = false;
       let currentRotation = 0;
+      let rotOverride = null; // ?rot=… na URL ou a tecla R; sem isso a rotação sai de CONFIG.orientacao e da forma da tela
       let progressStartTime = 0;
       let hudTimeout = null;
 
@@ -1220,7 +1389,7 @@
       function slideImage(s) {
         if (s.requires === 'fotoGraoPara') return CONFIG.fotoGraoPara;
         const fixa = s.images && s.images.length ? s.images[(OV.dia - 1) % s.images.length] : s.image;
-        if (fotosNovas && s.imageFit !== 'retrato') {
+        if (fotosNovas && s.imageFit !== 'retrato' && !/-v\.webp$/.test(fixa)) {
           if (state.n !== rodadaFotos) { rodadaFotos = state.n; fotosNovas.novaVolta(); }
           const solo = (s.layout || 'padrao') === 'padrao' && !(s.qr && QR[s.qr]);
           const f = fotosNovas.pegar(FAFotos.temaDaImagem(fixa), solo ? null : (x) => x.w >= x.h);
@@ -1248,9 +1417,11 @@
         const layout = s.layout || 'padrao';
         const hasQr = !!(s.qr && QR[s.qr]);
         const el = document.createElement('article');
-        const cls = layout === 'respiro' ? 'respiro solo' : layout === 'tutorial' ? 'tutorial' : (hasQr ? '' : 'solo');
+        const cls = layout === 'respiro' ? 'respiro solo' : layout === 'tutorial' ? 'tutorial' : layout === 'pacotes' ? 'solo pacotes' : (layout === 'cartao' ? (hasQr ? '' : 'solo') + ' cartao' : (hasQr ? '' : 'solo'));
         const img = slideImage(s) || '';
-        el.className = 'tv-slide' + (cls ? ' ' + cls : '') + (s.imageFit === 'retrato' || img.retrato ? ' retrato' : '');
+        // Foto vertical (arquivo terminado em -v.webp, ou foto nova de altura maior que largura) vai para a lateral, sem esticar
+        const vertical = s.imageFit === 'retrato' || img.retrato || /-v\.webp$/.test(img.src || img);
+        el.className = 'tv-slide' + (cls ? ' ' + cls : '') + (vertical ? ' retrato' : '');
         el.setAttribute('data-id', s.id);
         el.setAttribute('data-fam', s.fam);
         const imgTag = '<img class="tv-slide-image" src="' + esc(img.src || img) + '" alt="" decoding="async"' +
@@ -1262,18 +1433,29 @@
           return el;
         }
 
+        if (layout === 'pacotes') {
+          el.innerHTML = '<div class="tv-visual-card"><div class="tv-visual-text">' +
+            (s.kicker ? '<span class="tv-kicker ' + (s.kickerClass || '') + '">' + s.kicker + '</span>' : '') +
+            '<h1 class="tv-headline">' + s.headline + '</h1></div>' +
+            '<div class="tv-pacotes-row">' + s.cards.map((c) => '<img src="' + esc(c) + '" alt="" decoding="async">').join('') + '</div>' +
+            (s.subtext ? '<p class="tv-pacotes-nota">' + s.subtext + '</p>' : '') + '</div>';
+          return el;
+        }
+
         let extra = '';
         if (s.mock) extra += mockHTML();
         if (s.steps && s.steps.length) extra += stepsHTML(s.steps);
         if (s.comparativo) extra += vsHTML(s.comparativo);
 
-        let html = '<div class="tv-visual-card">' + imgTag + '<div class="tv-image-overlay"></div><div class="tv-visual-text">' +
+        const cartao = layout === 'cartao';
+        if (cartao) el.style.cssText = '--accent:' + (s.accent || '#E01560') + ';--accent-soft:' + (s.accentSoft || '#FFF0B8');
+        let html = '<div class="tv-visual-card">' + (cartao ? '<span class="tv-cartao-circulo"></span><img class="tv-cartao-mascote" src="' + esc(s.mascot) + '" alt="" decoding="async">' : imgTag + '<div class="tv-image-overlay"></div>') + '<div class="tv-visual-text">' +
           (s.kicker ? '<span class="tv-kicker ' + (s.kickerClass || '') + '">' + s.kicker + '</span>' : '') +
           '<h1 class="tv-headline">' + s.headline + '</h1>' +
-          (s.subtext ? '<p class="tv-subtext">' + s.subtext + '</p>' : '') + extra + '</div></div>';
+          (s.subtext ? '<p class="tv-subtext">' + s.subtext + '</p>' : '') + (s.chip ? '<span class="tv-cartao-chip">' + s.chip + '</span>' : '') + extra + '</div></div>';
 
         if (hasQr && layout === 'tutorial') {
-          html += '<aside class="tv-action-card tutorial"><div class="tv-qr-big">' + qrSvg(s.qr, 348) + '</div>' +
+          html += '<aside class="tv-action-card tutorial"><div class="tv-qr-big' + (qrArte() ? ' arte' : '') + '" style="--qr-acento:' + qrAcento(s.qr) + '">' + qrSvg(s.qr, 348) + qrMascote(s.qr) + '</div>' +
             (s.qrTitle ? '<div class="tv-qr-callout">' + s.qrTitle + '</div>' : '') +
             (s.qrDesc ? '<div class="tv-qr-instructions">' + s.qrDesc + '</div>' : '') +
             (s.qrHint ? '<div class="tv-qr-subhint">👉 ' + s.qrHint + '</div>' : '') + '</aside>';
@@ -1284,10 +1466,10 @@
               (s.actionDesc ? '<p class="tv-action-desc">' + s.actionDesc + '</p>' : '') + '</div>'
             : '';
           html += '<aside class="tv-action-card">' + head +
-            '<div class="tv-qr-wrapper"><div class="tv-qr-box">' + qrSvg(s.qr, 178) + '</div><div class="tv-qr-text">' +
+            '<div class="tv-qr-wrapper' + (qrArte() ? ' arte' : '') + '"><div class="tv-qr-box' + (qrArte() ? ' arte' : '') + '" style="--qr-acento:' + qrAcento(s.qr) + '">' + qrSvg(s.qr, 178) + '</div><div class="tv-qr-text">' +
             (s.qrTitle ? '<div class="tv-qr-callout">' + s.qrTitle + '</div>' : '') +
             (s.qrDesc ? '<div class="tv-qr-instructions">' + s.qrDesc + '</div>' : '') +
-            (s.qrHint ? '<div class="tv-qr-subhint">👉 ' + s.qrHint + '</div>' : '') + '</div></div>' +
+            (s.qrHint ? '<div class="tv-qr-subhint">👉 ' + s.qrHint + '</div>' : '') + qrMascote(s.qr) + '</div></div>' +
             (s.highlightText ? '<div class="tv-highlight-box"><div class="tv-highlight-icon">' + (s.highlightIcon || '') + '</div><div class="tv-highlight-text">' + s.highlightText + '</div></div>' : '') +
             '</aside>';
         }
@@ -1299,11 +1481,35 @@
         slideCounter.textContent = state.round.length ? (state.idx + 1) + ' / ' + state.round.length : '';
       }
 
+      // Encolhe o texto (--k) até caber; se ainda não couber, encolhe o QR (--qr, mínimo 260 px). Só vale com t32.
+      function ajustarTexto(el) {
+        if (!stage.classList.contains('t32')) return;
+        const card = el.querySelector('.tv-visual-card');
+        const act = el.querySelector('.tv-action-card');
+        const txt = el.querySelector('.tv-visual-text');
+        // A foto do cartão tem zoom suave, então scrollHeight do cartão não serve: mede-se o texto contra o cartão
+        const estoura = () => {
+          if (card && txt) {
+            const c = card.getBoundingClientRect(), x = txt.getBoundingClientRect();
+            if (x.top < c.top - 1 || x.bottom > c.bottom + 1) return true;
+          }
+          return !!(act && act.scrollHeight > act.clientHeight + 1);
+        };
+        el.style.setProperty('--k', '1');
+        el.style.setProperty('--qr', '340px');
+        let k = 1;
+        while (estoura() && k > 0.66) { k = Math.round((k - 0.04) * 100) / 100; el.style.setProperty('--k', String(k)); }
+        let qr = 340;
+        while (estoura() && qr > 260) { qr -= 20; el.style.setProperty('--qr', qr + 'px'); }
+      }
+
       // instant=true: sem transição (usado pelos testes)
       function showSlide(item, instant) {
         const el = buildSlideEl(item);
         if (instant) el.style.transition = 'none';
         container.appendChild(el);
+        ajustarTexto(el);
+        if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(() => { if (el.parentNode) ajustarTexto(el); });
         const prev = currentEl;
         currentEl = el;
         if (instant) {
@@ -1316,7 +1522,7 @@
           if (instant) prev.remove(); else setTimeout(() => { if (prev !== currentEl && prev.parentNode) prev.remove(); }, 1300);
         }
         updateCounter();
-        armTimer(OV.slide || instant ? 1e9 : item.dur * 1000 / OV.vel);
+        armTimer(OV.slide || instant ? 1e9 : item.dur * 1000 * CONFIG.ritmo / OV.vel);
 
         if (window.dataLayer) {
           window.dataLayer.push({
@@ -1381,22 +1587,44 @@
       // ======================================================================
       // ESCALA AUTOMÁTICA E ROTAÇÃO DO STAGE (Suporta TV Horizontal ou Vertical)
       // ======================================================================
+      // Tamanho da TV: CONFIG.tela, ou ?tela=32|grande na URL
+      (function () {
+        const q = new URLSearchParams(window.location.search).get('tela');
+        const tela = q === '32' || q === 'grande' ? q : String(CONFIG.tela);
+        document.getElementById('tvStage').classList.toggle('t32', tela === '32');
+      })();
+
+      // Orientação: CONFIG.orientacao diz como a TV fica na parede. Se a tela já chega em pé (o sistema da TV girou),
+      // a imagem sai sem girar; se chega deitada, o palco em pé é girado 90 graus (CONFIG.giro) e ocupa a tela inteira.
+      function querEmPe() {
+        const q = new URLSearchParams(window.location.search).get('orientacao');
+        return (q === 'vertical' || q === 'horizontal' ? q : CONFIG.orientacao) === 'vertical';
+      }
+      function rotacaoAtual() {
+        if (rotOverride !== null) return rotOverride;
+        const telaEmPe = window.innerHeight > window.innerWidth;
+        return querEmPe() === telaEmPe ? 0 : (+CONFIG.giro === 270 ? 270 : 90);
+      }
       function fitStage() {
-        const isPortrait = (currentRotation === 90 || currentRotation === 270);
+        const rot = rotacaoAtual();
+        currentRotation = rot;
+        const girado = (rot === 90 || rot === 270);
+        const telaEmPe = window.innerHeight > window.innerWidth;
+        const isPortrait = telaEmPe !== girado; // como o espectador vê a imagem
         const stageW = isPortrait ? 1080 : 1920;
         const stageH = isPortrait ? 1920 : 1080;
 
         stage.classList.toggle('portrait-mode', isPortrait);
 
-        const winW = window.innerWidth;
-        const winH = window.innerHeight;
-
-        const scale = Math.min(winW / stageW, winH / stageH);
-        stage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg) scale(${scale})`;
+        // área ocupada na tela depois de girar
+        const boxW = girado ? stageH : stageW;
+        const boxH = girado ? stageW : stageH;
+        const scale = Math.min(window.innerWidth / boxW, window.innerHeight / boxH);
+        stage.style.transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
       }
 
       function rotateStage() {
-        currentRotation = (currentRotation + 90) % 360;
+        rotOverride = (rotacaoAtual() + 90) % 360;
         fitStage();
       }
 
@@ -1578,7 +1806,7 @@
       // ?rot=90 ou ?rot=270 (TV deitada)
       if (urlParams.has('rot')) {
         const r = parseInt(urlParams.get('rot'), 10);
-        if ([0, 90, 180, 270].includes(r)) currentRotation = r;
+        if ([0, 90, 180, 270].includes(r)) rotOverride = r;
       }
 
       // Auto-recarregamento preventivo diário às 04:00 da manhã para limpar memória da TV

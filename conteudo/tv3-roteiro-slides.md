@@ -4,6 +4,8 @@ Documento para a Isabella e para o dono do negócio. O texto de cada slide está
 
 ## Como a volta funciona e o que ficou de fora
 
+**Ritmo.** Os tempos `dur` abaixo são os do roteiro. A TV multiplica todos por `CONFIG.ritmo` (hoje 1,25: um slide de 15 s fica 18,75 s na tela e a volta de ~11,9 min dura ~14,9 min). Para mais devagar ou mais depressa, mude só esse número no `tv3.html`.
+
 1. A volta tem cerca de 10 a 11 minutos e mostra cada slide uma vez; `a_lembrete` aparece duas vezes. Em 2 a 3 horas de espera o pai vê a volta umas 12 a 18 vezes, por isso o miolo é variado e as dicas e respiros trocam a cada dia do ciclo de 5 dias.
 2. Abre sempre em `b_boasvindas` (acolhe, diz que dia é e dá permissão para descansar) e fecha sempre em `a_fecho` (compromisso: da próxima vez que o QR aparecer, eu aponto a câmera).
 3. O QR do Portal aparece no máximo a cada 6 minutos. `a_dor22h` e `a_tut` andam juntos: primeiro a cena que o pai reconhece, depois o passo a passo.
@@ -584,10 +586,10 @@ Família D · 15 s · sem QR, layout padrao
 - **Imagem:** `img/hero-piscina-bolinhas.webp` (alternativas: `img/playground-piscina-casinha.webp`)
 - **Texto na tela:**
   - Kicker: 📊 Números do Playground
-  - Headline: +1.100 famílias e <em>7.500 visitas</em> no Playground.
+  - Headline: +1.100 famílias passaram pelo <em>Playground</em>.
   - Subtexto: Dados do sistema de entrada e saída do Playground. A equipe tem nota 4,9 de 5 em 118 avaliações por WhatsApp, de julho a outubro de 2026.
 - **Fatos usados:**
-  - Mais de 1.100 famílias e 7.500 visitas registradas no sistema de entrada e saída: LP/playground.html:2216
+  - Mais de 1.100 famílias registradas no sistema de entrada e saída: LP/playground.html:2216. As 7.500 visitas saíram do slide por pedido da clínica (número superestimado).
   - Média da equipe 4,9 de 5, avaliações por WhatsApp, jul a out/2026: briefing do pedido; conferido no conector de NPS (média_equipe_1a5 = 4,9)
   - ATENÇÃO: o conector hoje retorna 119 respostas (jul a 25/out); o briefing manda escrever 118. Atualizar o número se a TV for publicada depois
 
@@ -743,6 +745,92 @@ Família R · 10 s · sem QR, layout respiro, dias 2,4,5
 11. **`d_beneficio`.** Com o texto atual de `CONFIG.beneficioFamilia` a frase expandida contém a palavra "especial" ("condição especial"). Não se refere à criança, mas aparece na tela.
 12. **`b_boasvindas`.** A duração de 40 minutos e os 120 do Treino ABA vêm do FAQ do chatbot do sistema (`CF/chatbot-base-conhecimento.md:50`), não de uma página do site.
 13. **Licenças e fotos.** `d_graopara` usa `img/FOTO-GRAO-PARA.webp`, que ainda não existe. Slide fica desligado até a foto entrar.
+
+## F. Desconto da Família (Mural do Portal)
+
+Pedido da clínica: avisar que quem é atendido na Clínica tem desconto, visto no Mural. O nome do produto continua sendo **Portal da Família** e "Mural" é a seção dentro dele; por isso os textos dizem "Mural do Portal da Família" (a expressão "Mural da Família" segue proibida). O valor do desconto não aparece de propósito. Os slides só entram com `portalAtivo` ligado.
+
+- `f_desconto` · 15 s · QR: portal · "Quem é atendido na Clínica tem desconto."
+- `f_passos` · 20 s · QR: portal, layout tutorial · "Seu desconto está no Mural do Portal."
+- `f_pergunte` · 15 s · sem QR · "Atendido aqui? Veja o desconto no Mural."
+
+## G. Avaliação no Google
+
+QR `avaliar` leva a https://g.page/r/CUpdqF5yECeVECE/review (link informado pela clínica). O texto pede a avaliação sem prometer nada em troca.
+
+- `g_cinco` · 15 s · QR: avaliar · "Gostou do atendimento? Deixe 5 estrelas."
+- `g_passos` · 20 s · QR: avaliar, layout tutorial · "Avaliar a clínica leva menos de 1 minuto."
+- `g_outras` · 15 s · QR: avaliar · "Sua avaliação ajuda outra família a chegar até nós."
+
+## H. Especialidades da Clínica
+
+A Clínica tem 14 especialidades (mais a avaliação inicial), conforme `src/data/especialidades.json` e a página /clinica. Os slides de detalhe giram por dia da semana para a volta não passar de 12 min.
+
+- `h_14` · 15 s · QR: clinica · "14 especialidades, uma equipe e um plano só." (todos os dias)
+- `h_comportamento` · dias 1 e 5 · ABA, Psicologia e Habilidades Sociais
+- `h_fala` · dia 2 · Fonoaudiologia e Musicoterapia
+- `h_aprender` · dia 3 · Psicopedagogia, Nutrição e Orientação Parental
+- `h_motor` · dia 4 · Terapia Ocupacional, Integração Sensorial, Fisioterapia, Psicomotricidade e Educação Física Adaptada
+
+## I. Pacotes particulares
+
+Seguem o estilo dos cartões ilustrados de `public/img/pacotes/` (fundo creme, nome do pacote em cor própria, selo de sessões por mês, selo amarelo "3x sem juros" e mascote). Sem valores na tela: o site diz que valores e condições são passados pela equipe, pelo WhatsApp. Layouts novos: `pacotes` (três cartões por tela) e `cartao` (fundo creme com mascote recortado de `img/pacotes/mascote-*.webp`). QR `planos` leva a /planos.
+
+- `p_pacotes_a` · todos os dias · "Pacotes mensais de 4 a 12 sessões." Cartões Primeiro Passo, Laço e Vínculo.
+- `p_pacotes_b` · todos os dias · "Pacotes mensais de 16 a 24 sessões." Cartões Turma, Abraço e Voo Livre.
+- `p_combinam` · dias 2 e 4 · "O mesmo pacote reúne várias terapias." Mascote macaco. A avaliação inicial conta como 1 sessão.
+- `p_parcelas` · dias 1, 3 e 5 · QR: planos · "Pagamento em até 3x sem juros no cartão." Mascote tucano.
+
+## Mapeamento Comportamental: grátis em destaque
+
+`e_indicar` e `e_oque_e` passam a ter "grátis" no kicker, no selo, no título da ação e no destaque. `p_pacotes_a` também lembra que o Mapeamento é grátis.
+
+## J. Circuito (convite)
+
+O Circuito só existe no Parque Shopping (quiosque no térreo). "Mesma equipe" vem da página /circuito. QR `circuito`.
+
+- `j_convite` · QR: circuito · "Venha conhecer o Circuito FaçaAmigos." Foto fixa do caminhão de bombeiro (`img/circuito-bombeiro.webp`), o carro mais alugado, em modo retrato (o sorteio de fotos novas não troca).
+- `j_equipe` · dias 1, 3 e 5 · sem QR · "No Circuito, a mesma equipe FaçaAmigos."
+
+## K. Playground no Grão-Pará
+
+Endereço, horário, "mesmos preços, mesma equipe e mesmos atrativos" e o WhatsApp (91) 99110-1215 vêm de /playground e do `marca.json`. Só entram com `fotoGraoPara` preenchido. QR `graopara` leva a /playground/grao-para.
+
+- `k_vem` · QR: graopara · "Brinque também no Grão-Pará."
+- `k_equipe` · dias 2 e 4 · sem QR · "No Grão-Pará, a mesma equipe do Parque Shopping."
+
+## Rodízio por dia (para a volta ficar em até 12 min)
+
+`d_fds` e `d_prova` dias 1, 3 e 5; `d_quando_ir` e `d_beneficio` dias 2 e 4; `f_pergunte` dias 1, 3 e 5; `p_combinam` dias 2 e 4; `p_parcelas` dias 1, 3 e 5.
+
+## Fotos novas (pasta "Faça Amigos" do Drive)
+
+25 fotos em `public/img/tv3/` (WebP de até 1600 px, 3,3 MB no total), tiradas da pasta do Drive para reduzir a repetição de imagens. Cada slide abaixo lista 3 a 5 fotos e a TV troca por dia da semana (dia 1 mostra a 1ª, dia 2 a 2ª, e assim por diante). Fotos verticais têm `-v` no nome e entram na lateral do slide (layout retrato), sem esticar. As pessoas das fotos de crianças têm o rosto alterado por IA, segundo a clínica.
+
+- `d_circuito`, `j_equipe`: Circuito (carros, pelúcias, criança ao volante).
+- `d_parque`: fachada e, segundo a clínica, as fotos do salão com piscina de bolinhas e da sala com tapete de sol, que são do Parque Shopping.
+- `d_fds`, `d_quando_ir`, `d_prova`, `d_beneficio`: ambientes e crianças do Playground, e o banner dos mascotes.
+- `c_brincar_chao`, `c_construir`, `h_motor`, `h_aprender`: fotos novas, com a foto antiga da clínica na última posição.
+- Ficaram de fora: fotos de obra, folhas de adesivo dos mascotes, fotos da equipe (aguardam confirmação) e três panorâmicas de 1200 px (borradas em Full HD).
+
+## TV de 32" e orientação (horizontal ou vertical)
+
+Tudo fica no `CONFIG` do `tv3.html`:
+
+- `tela: '32'` (padrão): textos e QR maiores para uma TV de 32 polegadas. Nela 1 px do palco mede 0,37 mm (numa TV de 55", 0,64 mm). O texto de cada slide encolhe sozinho só se não couber, até 66% do tamanho, e depois o QR encolhe até 260 px. Para uma TV grande, use `tela: 'grande'`. Para testar sem mexer no código: `?tela=32` ou `?tela=grande` na URL.
+- `orientacao: 'horizontal'` (padrão) ou `'vertical'`: como a TV fica na parede. Também vale `?orientacao=vertical` na URL. A TV decide sozinha se precisa girar a imagem: se o sistema da TV já girou a tela (chega 1080x1920), não gira; se a tela chega deitada (1920x1080), gira o palco em pé e ocupa a tela inteira.
+- `giro: 90` (padrão) ou `270`: só para TV em pé que o sistema da TV não girou. Use o lado para onde a TV foi virada.
+
+Para pôr a TV em pé, a edição é uma linha: `orientacao: 'vertical'`. Os layouts em pé já foram conferidos (QR, tutorial, pacotes, mascote, foto vertical).
+
+## QR com arte
+
+`CONFIG.qrEstilo`: `'arte'` (padrão) ou `'classico'` (QR quadrado simples, para voltar atrás com uma linha).
+
+- Módulos arredondados e os três "olhos" do canto em rosa, verde e azul. Contraste, margem e correção de erro iguais ao QR clássico.
+- Selo com anel colorido que muda por destino (Portal rosa, Mapeamento verde, Circuito azul, Playground e Grão-Pará laranja, Planos mostarda) e um anel tracejado que pulsa. Tudo fica fora da área de leitura.
+- Mascote por destino: macaco no Portal e na Avaliação, tartaruga no Mapeamento e nas dicas, tucano no Circuito, cachorro no Playground, Grão-Pará, Clínica e Planos (`img/tv3/mascote-*.webp`).
+- Leitura medida com o decodificador de teste (jsQR, com desfoque): o clássico lê a partir de 56 px de largura na imagem; o QR com arte, de 56 a 85 px conforme o endereço. Os testes `qr` decodificam todos os QR de todos os slides em pé e deitado.
 
 ## Autoexame
 
