@@ -22,6 +22,7 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 - **Publicar um profissional:** `src/data/equipe.json`, `publicar: true` (só com aprovação dele). Com 2 ou mais perfis, `/clinica/equipe` passa a ser indexável e entra no sitemap.
 - **Texto do glossário, termos, política, índice de Aprender, 404, trabalhe conosco e eventos:** `src/data/paginas/<slug>.html` (o texto), `<slug>.json` (metadados e JSON-LD) e `<slug>.N.js` (scripts da página, copiados como estavam). Os cartões do índice de Aprender saem do campo `card` de cada artigo.
 - **Texto de um artigo de Aprender:** `src/data/aprender/<slug>.html` (o texto) e `<slug>.json` (título, metadados, botões, "leia também"). Um artigo novo = um par de arquivos novo; a rota `aprender/[slug]` gera a página. A URL entra em `public/sitemap.xml`.
+- **Vagas abertas (JobPosting):** um `.json` por vaga REAL em `src/content/vagas/` (modelo e regras em `_LEIA-ME.md` na mesma pasta). Ela vira `/trabalhe-conosco/<arquivo>` com o schema JobPosting e aparece em "Vagas abertas agora" na `/trabalhe-conosco`; depois do `validaAte` sai no próximo deploy (a página avisa "encerrada" antes disso). Sem nenhuma vaga, nada muda: a página é só o formulário geral (banco de talentos, sem schema).
 - **Nova página:** `src/pages/x.astro` usando `Base`; incluir a URL em `public/sitemap.xml` (o `lastmod` é mantido por `npm run sitemap`).
 
 ### Pendências conhecidas

@@ -23,7 +23,7 @@ const EXCLUIDAS = (f) => f === 'admin.html' || f === 'gestao.html' || f === 'des
 
 const read = (p) => readFileSync(join(root, p), 'utf8');
 // HTML da raiz + subpastas de conteúdo (aprender/ e as páginas de unidade/equipe), sempre com "/" no nome (Windows e CI/Linux iguais).
-const CONTEUDO_SUBPASTAS = ['aprender', 'playground', 'equipe', 'clinica'];
+const CONTEUDO_SUBPASTAS = ['aprender', 'playground', 'equipe', 'clinica', 'trabalhe-conosco'];
 function htmlEm(dir) {
   const abs = join(root, dir || '.');
   if (dir && !existsSync(abs)) return [];
@@ -343,6 +343,13 @@ for (const arq of paginas) {
     const t = tipos(no);
     if (t.includes('Organization') || t.includes('LocalBusiness')) {
       if (!no['@id']) erros.push(`JSON-LD ${t.join('/')} "${no.name ?? '?'}" sem "@id"`);
+    }
+    if (t.includes('JobPosting')) {
+      // Vaga com campo obrigatório faltando é rejeitada pelo Google; sem validThrough ela nunca "expira" (vaga morta).
+      for (const campo of ['title', 'description', 'datePosted', 'validThrough', 'employmentType', 'hiringOrganization', 'jobLocation']) {
+        if (!no[campo] || (Array.isArray(no[campo]) && !no[campo].length)) erros.push(`JSON-LD JobPosting "${no.title ?? '?'}" sem "${campo}"`);
+      }
+      if (no.validThrough && new Date(no.validThrough) < new Date()) erros.push(`JSON-LD JobPosting "${no.title ?? '?'}" com validThrough no passado (${no.validThrough}): tire a vaga de src/content/vagas.`);
     }
     if (t.includes('Organization') && no.name) {
       if (!nomesOrganization.has(no.name)) nomesOrganization.set(no.name, new Set());
