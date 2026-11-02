@@ -1,0 +1,52 @@
+{
+  "slug": "teste",
+  "path": "/teste",
+  "titleTag": "Mapeamento Comportamental Infantil Gratuito | Instituto FaçaAmigos",
+  "descricao": "Mapeamento Comportamental gratuito para crianças de 4 a 17 anos: em cerca de 5 minutos, um retrato inicial do desenvolvimento. Não substitui avaliação profissional.",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "ogTitle": "Mapeamento Comportamental Infantil Gratuito | Instituto FaçaAmigos",
+  "ogDescricao": "Um olhar acolhedor e baseado em ciência sobre o dia a dia do seu filho. Em poucos minutos, você recebe um retrato inicial do desenvolvimento dele.",
+  "ogSiteName": "Instituto FaçaAmigos",
+  "ogType": "website",
+  "ogImage": "img/og/og-teste.jpg",
+  "ogImageAlt": "Mapeamento Comportamental gratuito do FaçaAmigos, criado pela psicóloga Isabella Gonçalves Freitas",
+  "fa_cta": null,
+  "jsonLd": [
+    {
+      "@type": "WebPage",
+      "name": "Mapeamento Comportamental gratuito para crianças de 4 a 17 anos",
+      "url": "https://institutofacaamigos.com.br/teste",
+      "inLanguage": "pt-BR",
+      "description": "Um retrato inicial e acolhedor de como seu filho se comunica, brinca e se relaciona. Gratuito, cerca de 5 minutos. Não substitui avaliação profissional.",
+      "isAccessibleForFree": true,
+      "author": {
+        "@type": "Person",
+        "name": "Isabella Gonçalves Freitas",
+        "jobTitle": "Psicóloga infantil",
+        "identifier": "CRP 10/4727",
+        "@id": "https://institutofacaamigos.com.br/#isabella"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Instituto FaçaAmigos",
+        "url": "https://institutofacaamigos.com.br/"
+      },
+      "@id": "https://institutofacaamigos.com.br/teste#webpage",
+      "isPartOf": {
+        "@id": "https://institutofacaamigos.com.br/#website"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://institutofacaamigos.com.br/img/idealizadora.jpg",
+        "width": 700,
+        "height": 936
+      },
+      "audience": {
+        "@type": "ParentAudience",
+        "childMinAge": 4,
+        "childMaxAge": 17
+      }
+    }
+  ],
+  "scripts": 1
+}
