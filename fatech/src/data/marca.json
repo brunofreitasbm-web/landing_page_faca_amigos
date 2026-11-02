@@ -1,0 +1,16 @@
+{
+  "nome": "FA Tech",
+  "descritor": "Gestão para clínicas",
+  "origem": "Sistemas criados dentro de uma clínica real, para clínicas reais.",
+  "privacidade": "Os dados da sua clínica ficam só com a sua clínica.",
+  "siteUrl": "https://institutofacaamigos.com.br/fatech",
+  "urlDefinitiva": true,
+  "contato": {
+    "nome": "Bruno Freitas",
+    "cargo": "Fundador",
+    "whatsapp": "(91) 98847-0999",
+    "whatsappDefinitivo": true,
+    "email": "brunofreitasbm@gmail.com"
+  },
+  "evento": "Academia do Autismo · Belém · 20 e 21 de novembro de 2026"
+}

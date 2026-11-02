@@ -1,0 +1,59 @@
+[
+  {
+    "id": "clinica",
+    "nome": "FA Clínica",
+    "icone": "calendar-check",
+    "dor": "Sessão sem guia, falta sem reposição, evolução atrasada.",
+    "dorCurta": "Sessão sem guia e evolução atrasada.",
+    "alivio": "Agenda, guias e evoluções no mesmo lugar. A sessão sem guia é barrada antes de acontecer."
+  },
+  {
+    "id": "faturamento",
+    "nome": "FA Faturamento",
+    "icone": "receipt-text",
+    "dor": "Glosa que volta todo mês.",
+    "dorCurta": "Glosa que volta todo mês.",
+    "alivio": "A guia é conferida antes de ir ao plano. Glosa vira exceção.",
+    "parceria": true
+  },
+  {
+    "id": "atende",
+    "nome": "FA Atende",
+    "icone": "message-circle",
+    "dor": "Família esperando resposta no WhatsApp.",
+    "dorCurta": "Família esperando resposta no WhatsApp.",
+    "alivio": "Robô responde as dúvidas comuns na hora e passa o resto para a recepção."
+  },
+  {
+    "id": "pessoas",
+    "nome": "FA Pessoas",
+    "icone": "fingerprint",
+    "dor": "Ponto de estagiário e equipe no papel.",
+    "dorCurta": "Ponto de estagiário e equipe no papel.",
+    "alivio": "Ponto pelo celular com localização e rosto. A lei do estágio conferida sozinha."
+  },
+  {
+    "id": "play",
+    "nome": "FA Play",
+    "icone": "ticket",
+    "dor": "Entrada, saída e caixa do espaço de brincar sem controle.",
+    "dorCurta": "Caixa do espaço de brincar sem controle.",
+    "alivio": "Entrada com cuidados sensoriais, saída conferida e caixa que fecha sozinho."
+  },
+  {
+    "id": "tv",
+    "nome": "FA TV",
+    "icone": "monitor-play",
+    "dor": "Sala de espera sem comunicação com as famílias.",
+    "dorCurta": "Sala de espera sem comunicação.",
+    "alivio": "TV que informa e orienta as famílias, controlada pelo celular."
+  },
+  {
+    "id": "wifi",
+    "nome": "FA Wi-Fi",
+    "icone": "wifi",
+    "dor": "Visitante que vai embora sem deixar contato.",
+    "dorCurta": "Visitante que sai sem deixar contato.",
+    "alivio": "O Wi-Fi da recepção pede contato com consentimento e devolve um benefício."
+  }
+]
