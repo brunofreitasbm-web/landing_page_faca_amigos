@@ -19,6 +19,8 @@ Na pasta do projeto, rode:
 ```
 npm install        (só na primeira vez)
 npm run impressos
+
+(se aparecer erro dizendo que o Playwright não achou o navegador, rode com o caminho do Chrome/Chromium: CHROMIUM_PATH=/caminho/do/chrome npm run impressos)
 ```
 
 Os PDFs saem na pasta `impressos-pdf/`:
