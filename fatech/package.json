@@ -1,0 +1,19 @@
+{
+  "name": "fa-tech-evento",
+  "private": true,
+  "type": "module",
+  "description": "FA Tech no evento da Academia do Autismo (Belém, 20 e 21/11/2026): mídia da TV, demos, cadastro de interessados, slides e impressos.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "node scripts/check.mjs",
+    "impressos": "node scripts/impressos.mjs"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.3.0",
+    "astro": "7.4.4",
+    "lucide-static": "1.66.0",
+    "qrcode": "1.5.4"
+  }
+}

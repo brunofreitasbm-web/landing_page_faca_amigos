@@ -1,0 +1,39 @@
+---
+// Página que os QR Codes abrem. VERSÃO PROVISÓRIA: enquanto o cadastro completo não fica pronto,
+// leva a pessoa direto ao WhatsApp do Bruno, já dizendo de qual peça ela veio. Nenhum contato se perde.
+import '../styles/tokens.css';
+import Logo from '../components/Logo.astro';
+import marca from '../data/marca.json';
+const numero = '55' + marca.contato.whatsapp.replace(/\D/g, '');
+---
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>FA Tech</title>
+</head>
+<body>
+  <main>
+    <Logo tamanho="34px" tema="escuro" />
+    <h1>Que bom que você apontou a câmera.</h1>
+    <p>Fale agora com o Bruno, que criou esses sistemas dentro da própria clínica. Ele mostra como cada um funciona na rotina de uma clínica como a sua.</p>
+    <a id="wa" class="btn" href={`https://wa.me/${numero}`} data-numero={numero}>Conversar no WhatsApp</a>
+    <p class="priv">{marca.privacidade}</p>
+  </main>
+  <script>
+    const a = document.getElementById('wa');
+    const origem = new URLSearchParams(location.search).get('origem') || 'site';
+    const texto = `Olá, Bruno! Vi a FA Tech no evento da Academia do Autismo (${origem}) e quero conhecer os sistemas.`;
+    a.href = `https://wa.me/${a.dataset.numero}?text=${encodeURIComponent(texto)}`;
+  </script>
+</body>
+</html>
+<style>
+  body { margin: 0; min-height: 100vh; background: var(--petroleo-900); color: #fff; font-family: var(--fonte); display: grid; place-items: center; padding: 32px 16px; box-sizing: border-box; }
+  main { max-width: 460px; }
+  h1 { font-weight: 300; font-size: 30px; line-height: 1.2; letter-spacing: -.01em; margin: 40px 0 12px; }
+  p { font-weight: 300; font-size: 17px; line-height: 1.5; opacity: .85; margin: 0; }
+  .btn { display: block; text-align: center; margin-top: 28px; padding: 16px; border-radius: var(--raio); background: var(--agua); color: var(--petroleo-900); font-weight: 600; font-size: 17px; text-decoration: none; }
+  .priv { font-size: 13px; opacity: .6; margin-top: 28px; }
+</style>

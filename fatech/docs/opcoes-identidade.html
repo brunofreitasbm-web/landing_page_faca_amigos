@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opções de Identidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=IBM+Plex+Sans:wght@300;400;600&family=Manrope:wght@300;400;700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --page:#EEF0F2; --ink:#1B1F23; --muted:#5E6670; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--page); color:var(--ink); font:400 15px/1.5 Inter, system-ui, sans-serif; padding:32px 16px 64px; }
+  header { max-width:1200px; margin:0 auto 28px; }
+  header h1 { font-weight:600; font-size:22px; letter-spacing:-.01em; }
+  header p { color:var(--muted); max-width:760px; margin-top:6px; }
+  .grid { max-width:1200px; margin:0 auto; display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(min(100%,540px),1fr)); }
+  .opt { background:var(--bg); color:var(--tx); border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.08); font-family:var(--font); }
+  .tag { display:flex; justify-content:space-between; align-items:center; padding:12px 20px; font:600 12px/1 Inter,sans-serif; letter-spacing:.08em; text-transform:uppercase; background:var(--dark); color:#fff; }
+  .tag span:last-child { font-weight:400; letter-spacing:.02em; text-transform:none; opacity:.8; }
+  .hero { background:var(--dark); color:#fff; padding:28px 24px 32px; }
+  .logo { display:flex; align-items:center; gap:10px; font-weight:300; font-size:26px; letter-spacing:.02em; }
+  .logo b { font-weight:600; }
+  .mark { width:30px; height:30px; border:1.5px solid var(--accent); border-radius:6px; display:grid; place-items:center; font-weight:600; font-size:13px; color:var(--accent); }
+  .logo small { display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; opacity:.6; font-weight:400; margin-top:2px; }
+  .hero h2 { font-weight:300; font-size:30px; line-height:1.15; letter-spacing:-.015em; margin-top:26px; max-width:440px; }
+  .hero h2 strong { font-weight:600; color:var(--accent); }
+  .hero p { margin-top:10px; opacity:.75; max-width:420px; font-weight:300; }
+  .btn { display:inline-block; margin-top:18px; padding:10px 18px; border-radius:6px; background:var(--accent); color:var(--onaccent); font-weight:600; font-size:14px; }
+  .body { padding:20px 24px 24px; display:grid; gap:14px; grid-template-columns:1fr 1fr; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  .kpi .l { font-size:12px; color:var(--mut); text-transform:uppercase; letter-spacing:.06em; }
+  .kpi .v { font-size:28px; font-weight:600; font-variant-numeric:tabular-nums; margin-top:4px; letter-spacing:-.02em; }
+  .kpi .c { font-size:12px; margin-top:2px; color:var(--good); }
+  .kpi .c.bad { color:var(--mut); }
+  .sw { grid-column:1/-1; display:flex; gap:8px; flex-wrap:wrap; }
+  .sw div { flex:1 1 70px; height:46px; border-radius:6px; display:flex; align-items:flex-end; padding:5px 7px; font:400 10px/1 Inter,sans-serif; color:#fff; border:1px solid rgba(0,0,0,.08); }
+  .sw div.lt { color:#333; }
+  .note { grid-column:1/-1; font-size:13px; color:var(--mut); border-top:1px solid var(--line); padding-top:12px; }
+  .note b { color:var(--tx); font-weight:600; }
+</style>
+</head>
+<body>
+<header>
+  <h1>FA Tech: 4 caminhos de identidade sóbria</h1>
+  <p>Nenhum dos quatro usa o rosa nem o amarelo do Faça Amigos. Todas as fontes são retas, com pesos finos (300) nos títulos e no texto. Compare como cada caminho fica em um título de venda, num indicador e num botão. Para escolher, responda com o número (ex.: "2") ou combine: "fonte da 3 com as cores da 1".</p>
+</header>
+<div class="grid">
+
+  <section class="opt" style="--font:Inter,sans-serif;--bg:#F4F6F7;--tx:#1C2328;--mut:#5C6870;--dark:#0F2E36;--accent:#3FB7BF;--onaccent:#0F2E36;--card:#fff;--line:#DCE2E5;--good:#1F7F86">
+    <div class="tag"><span>1 · Petróleo Clínico</span><span>Fonte: Inter</span></div>
+    <div class="hero">
+      <div class="logo"><div class="mark">FA</div><div>FA <b>Tech</b><small>Gestão para clínicas</small></div></div>
+      <h2>Quantas sessões você atendeu este mês <strong>sem guia válida?</strong></h2>
+      <p>Sistemas criados dentro de uma clínica real, para clínicas reais.</p>
+      <span class="btn">Ver na prática</span>
+    </div>
+    <div class="body">
+      <div class="kpi"><div class="l">Glosa do mês</div><div class="v">2,1%</div><div class="c">▼ 3,4 p.p. vs. mês anterior</div></div>
+      <div class="kpi"><div class="l">Sessões com guia</div><div class="v">98%</div><div class="c">Meta 95%: atingida</div></div>
+      <div class="sw"><div style="background:#0F2E36">#0F2E36</div><div style="background:#1F7F86">#1F7F86</div><div style="background:#3FB7BF">#3FB7BF</div><div class="lt" style="background:#DCE2E5">#DCE2E5</div><div class="lt" style="background:#F4F6F7">#F4F6F7</div></div>
+      <div class="note"><b>Por que:</b> mantém só um leve parentesco com o petróleo e o turquesa da marca-mãe, em tons mais fechados. Inter é a fonte mais neutra e legível de todas, comum em sistemas de saúde e bancos. <b>Risco:</b> ainda lembra de longe o Faça Amigos.</div>
+    </div>
+  </section>
+
+  <section class="opt" style="--font:'IBM Plex Sans',sans-serif;--bg:#F7F8FA;--tx:#16191D;--mut:#5F6670;--dark:#16191D;--accent:#4FA38A;--onaccent:#fff;--card:#fff;--line:#E1E4E8;--good:#2F7A64">
+    <div class="tag"><span>2 · Grafite &amp; Verde-sálvia</span><span>Fonte: IBM Plex Sans</span></div>
+    <div class="hero">
+      <div class="logo"><div class="mark">FA</div><div>FA <b>Tech</b><small>Gestão para clínicas</small></div></div>
+      <h2>Quantas sessões você atendeu este mês <strong>sem guia válida?</strong></h2>
+      <p>Sistemas criados dentro de uma clínica real, para clínicas reais.</p>
+      <span class="btn">Ver na prática</span>
+    </div>
+    <div class="body">
+      <div class="kpi"><div class="l">Glosa do mês</div><div class="v">2,1%</div><div class="c">▼ 3,4 p.p. vs. mês anterior</div></div>
+      <div class="kpi"><div class="l">Sessões com guia</div><div class="v">98%</div><div class="c">Meta 95%: atingida</div></div>
+      <div class="sw"><div style="background:#16191D">#16191D</div><div style="background:#3A4048">#3A4048</div><div style="background:#4FA38A">#4FA38A</div><div class="lt" style="background:#E1E4E8">#E1E4E8</div><div class="lt" style="background:#F7F8FA">#F7F8FA</div></div>
+      <div class="note"><b>Por que:</b> o mais técnico e institucional. O grafite passa seriedade, e o verde-sálvia lembra saúde sem cair no "hospital". IBM Plex foi desenhada para software corporativo. <b>Risco:</b> pode parecer frio demais para o público do autismo.</div>
+    </div>
+  </section>
+
+  <section class="opt" style="--font:Manrope,sans-serif;--bg:#F5F7FA;--tx:#14213D;--mut:#5A6478;--dark:#14213D;--accent:#7FA7D9;--onaccent:#14213D;--card:#fff;--line:#DDE3EC;--good:#2D5C99">
+    <div class="tag"><span>3 · Azul-marinho Saúde</span><span>Fonte: Manrope</span></div>
+    <div class="hero">
+      <div class="logo"><div class="mark">FA</div><div>FA <b>Tech</b><small>Gestão para clínicas</small></div></div>
+      <h2>Quantas sessões você atendeu este mês <strong>sem guia válida?</strong></h2>
+      <p>Sistemas criados dentro de uma clínica real, para clínicas reais.</p>
+      <span class="btn">Ver na prática</span>
+    </div>
+    <div class="body">
+      <div class="kpi"><div class="l">Glosa do mês</div><div class="v">2,1%</div><div class="c">▼ 3,4 p.p. vs. mês anterior</div></div>
+      <div class="kpi"><div class="l">Sessões com guia</div><div class="v">98%</div><div class="c">Meta 95%: atingida</div></div>
+      <div class="sw"><div style="background:#14213D">#14213D</div><div style="background:#2D5C99">#2D5C99</div><div style="background:#7FA7D9">#7FA7D9</div><div class="lt" style="background:#DDE3EC">#DDE3EC</div><div class="lt" style="background:#F5F7FA">#F5F7FA</div></div>
+      <div class="note"><b>Por que:</b> azul-marinho é a cor que mais transmite segurança em gestão e saúde. Manrope é geométrica e moderna, com curvas um pouco mais suaves. <b>Risco:</b> azul é a cor da maioria dos concorrentes, então diferencia menos.</div>
+    </div>
+  </section>
+
+  <section class="opt" style="--font:'Plus Jakarta Sans',sans-serif;--bg:#FAFAF8;--tx:#151515;--mut:#66625C;--dark:#151515;--accent:#C9B99A;--onaccent:#151515;--card:#fff;--line:#E6E3DD;--good:#6E6248">
+    <div class="tag"><span>4 · Neutro Premium</span><span>Fonte: Plus Jakarta Sans</span></div>
+    <div class="hero">
+      <div class="logo"><div class="mark">FA</div><div>FA <b>Tech</b><small>Gestão para clínicas</small></div></div>
+      <h2>Quantas sessões você atendeu este mês <strong>sem guia válida?</strong></h2>
+      <p>Sistemas criados dentro de uma clínica real, para clínicas reais.</p>
+      <span class="btn">Ver na prática</span>
+    </div>
+    <div class="body">
+      <div class="kpi"><div class="l">Glosa do mês</div><div class="v">2,1%</div><div class="c">▼ 3,4 p.p. vs. mês anterior</div></div>
+      <div class="kpi"><div class="l">Sessões com guia</div><div class="v">98%</div><div class="c">Meta 95%: atingida</div></div>
+      <div class="sw"><div style="background:#151515">#151515</div><div style="background:#4A4743">#4A4743</div><div style="background:#C9B99A">#C9B99A</div><div class="lt" style="background:#E6E3DD">#E6E3DD</div><div class="lt" style="background:#FAFAF8">#FAFAF8</div></div>
+      <div class="note"><b>Por que:</b> preto, off-white e areia, o visual de consultoria e marca premium. É o que mais se afasta do Faça Amigos e o que mais chama atenção num corredor cheio de estandes coloridos. <b>Risco:</b> pode parecer "caro" para clínicas pequenas.</div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

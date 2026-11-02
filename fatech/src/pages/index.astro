@@ -1,0 +1,13 @@
+---
+import '../styles/tokens.css';
+import Logo from '../components/Logo.astro';
+import marca from '../data/marca.json';
+---
+<html lang="pt-BR"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>FA Tech</title><meta name="robots" content="noindex" /></head>
+<body style="margin:0;min-height:100vh;background:var(--petroleo-900);color:#fff;font-family:var(--fonte);display:grid;place-items:center;padding:24px 16px">
+  <main style="max-width:560px">
+    <Logo tamanho="40px" tema="escuro" />
+    <p style="font-weight:300;font-size:20px;line-height:1.4;margin-top:32px;opacity:.85">{marca.origem}</p>
+    <p style="font-size:14px;opacity:.6;margin-top:16px">Em construção para o evento: {marca.evento}.</p>
+  </main>
+</body></html>
