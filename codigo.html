@@ -148,6 +148,8 @@
     .seal span { display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, .6); border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: .875rem; }
     .price-hint { margin-top: 14px; font-weight: 700; font-size: 1rem; }
     .price-hint s { opacity: .7; }
+    .price-hint strong { font-family: var(--font-display); font-weight: 600; font-size: 1.75rem; line-height: 1.1; vertical-align: -2px; }
+    .price-hint span { display: block; font-size: 1rem; font-weight: 700; }
     .hero-cta { margin-top: 26px; display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
     .hero-cta .btn-buy { width: 100%; }
     .mock { display: flex; justify-content: center; perspective: 1400px; padding: 10px 0 20px; }
@@ -360,7 +362,19 @@
     "name": "Instituto Faça Amigos Ltda",
     "url": "https://institutofacaamigos.com.br/"
   },
-  "isAccessibleForFree": false
+  "isAccessibleForFree": false,
+  "offers": {
+    "@type": "Offer",
+    "url": "https://institutofacaamigos.com.br/codigo",
+    "price": "9.90",
+    "priceCurrency": "BRL",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "Instituto Faça Amigos Ltda",
+      "url": "https://institutofacaamigos.com.br/"
+    }
+  }
 }
 </script>
   <script type="application/ld+json">
@@ -522,7 +536,7 @@
           <div class="hero-cta">
             <a class="btn-buy hotmart-fb" href="https://pay.hotmart.com/V107698297N?off=fndry1ka&amp;checkoutMode=2" data-cta="hero">Quero o e-book</a>
           </div>
-          <p class="price-hint">Valor e formas de pagamento no checkout seguro da Hotmart</p>
+          <p class="price-hint">Valor: <strong>R$ 9,90</strong> <span>pagamento único no checkout seguro da Hotmart</span></p>
           <div class="seal" aria-label="Resumo da oferta">
             <span><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Acesso imediato</span>
             <span><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>PDF</span>
@@ -707,7 +721,8 @@
             <li><span class="ck"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></span>Acesso imediato após a confirmação do pagamento</li>
           </ul>
           <div class="price">
-            <div class="parc">O valor e as formas de pagamento aparecem no checkout seguro da Hotmart.</div>
+            <div class="to"><strong>R$ 9,90</strong></div>
+            <div class="parc">Pagamento único no checkout seguro da Hotmart.</div>
           </div>
           <a class="btn-buy block hotmart-fb" href="https://pay.hotmart.com/V107698297N?off=fndry1ka&amp;checkoutMode=2" data-cta="oferta">Quero o e-book agora</a>
           <div class="trust">
@@ -805,7 +820,7 @@
       // ---- Pixel da Meta ----
       // O pixel (init + PageView) é carregado por assets/fa-track.js em todas as páginas, só com o aceite do banner.
       // Aqui fica o evento específico desta página; 'fa-consent-all' cobre quem aceita depois de abrir.
-      function viewContentMeta() { if (window.fbq) fbq('track', 'ViewContent', { content_name: 'O Código do Desenvolvimento Infantil', content_type: 'product' }); }
+      function viewContentMeta() { if (window.fbq) fbq('track', 'ViewContent', { content_name: 'O Código do Desenvolvimento Infantil', content_type: 'product', value: 9.9, currency: 'BRL' }); }
       if (window.fbq) viewContentMeta(); else document.addEventListener('fa-consent-all', viewContentMeta, { once: true });
 
       function push(o) { try { (window.dataLayer = window.dataLayer || []).push(o); } catch (e) { } }
@@ -831,7 +846,7 @@
         a.href = checkoutUrl;
         a.addEventListener('click', function () {
           push({ event: 'codigo_cta_click', cta_location: where });
-          if (window.fbq) fbq('track', 'InitiateCheckout');
+          if (window.fbq) fbq('track', 'InitiateCheckout', { value: 9.9, currency: 'BRL' });
         });
       });
 
@@ -874,7 +889,7 @@
         var io = new IntersectionObserver(function (es) {
           if (es.some(function (e) { return e.isIntersecting; })) {
             push({ event: 'codigo_oferta_view' });
-            if (window.fbq) fbq('track', 'AddToCart');
+            if (window.fbq) fbq('track', 'AddToCart', { value: 9.9, currency: 'BRL' });
             io.disconnect();
           }
         }, { threshold: 0.35 });

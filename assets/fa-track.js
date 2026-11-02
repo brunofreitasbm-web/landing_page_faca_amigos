@@ -62,9 +62,8 @@
   };
   var CHECKOUTS = {
     M107692257Y: { id: 'guia', name: 'O Brincar com Propósito', value: 29.9 },
-    // O preço não aparece na página /codigo (decisão do projeto), mas o begin_checkout precisa do valor: sem ele
-    // o Google Ads e o Meta não conseguem otimizar por ROAS nem calcular custo por conversão desse produto.
-    // Se o preço mudar na Hotmart, mudar aqui também.
+    // O begin_checkout precisa do valor: sem ele o Google Ads e o Meta não conseguem otimizar por ROAS nem
+    // calcular custo por conversão. Se o preço mudar na Hotmart, mudar aqui e na página do produto.
     V107698297N: { id: 'codigo', name: 'O Código do Desenvolvimento Infantil', value: 9.9 }
   };
 
