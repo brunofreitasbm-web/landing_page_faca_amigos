@@ -634,7 +634,9 @@
     .tv-footer-amenities {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 32px;
+      flex: 1;
     }
 
     .tv-amenity-item {
@@ -814,7 +816,9 @@
     #tvStage.t32 .tv-header-info { font-size: 18px; }
     #tvStage.t32 .tv-clock-time { font-size: 44px; }
     #tvStage.t32 .tv-clock-date { font-size: 18px; }
-    #tvStage.t32 .tv-amenity-item { font-size: 24px; gap: 12px; }
+    #tvStage.t32 .tv-amenity-item { font-size: 26px; gap: 12px; }
+    #tvStage.t32 .tv-rodape-insta b { color: var(--pink-dark); }
+    #tvStage.t32 .tv-rodape-site b { color: var(--petrol); background: var(--petrol-soft); }
     #tvStage.t32 .tv-amenity-icon { font-size: 24px; width: 42px; height: 42px; }
     #tvStage.t32 .tv-kicker { font-size: calc(22px * var(--k)); padding: 10px 24px; margin-bottom: 18px; }
     #tvStage.t32 .tv-headline { font-size: calc(70px * var(--k)); line-height: 1.12; }
@@ -983,13 +987,17 @@
       </div>
 
       <div class="tv-footer-amenities">
+        <div class="tv-amenity-item tv-rodape-site">
+          <span class="tv-amenity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#065264" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c3 3 3 16.5 0 19M12 2.5c-3 3-3 16.5 0 19"/></svg></span>
+          <b id="rodapeSite"></b>
+        </div>
         <div class="tv-amenity-item" id="amenityWifi" hidden>
           <span class="tv-amenity-icon">📶</span>
           <span id="amenityWifiText"></span>
         </div>
-        <div class="tv-amenity-item">
-          <span class="tv-amenity-icon">💬</span>
-          <span>Recepção e dúvidas: <b>(91) 99178-2027</b></span>
+        <div class="tv-amenity-item tv-rodape-insta">
+          <span class="tv-amenity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C81158" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1" fill="#C81158" stroke="none"/></svg></span>
+          <b id="rodapeInstagram"></b>
         </div>
       </div>
 
@@ -1032,7 +1040,8 @@
         somVolume: 0.12,              // volume da trilha (0 a 1). Baixo de propósito: é fundo, não atração
         somTocaMin: 20,               // a cada ciclo: minutos de música...
         somPausaMin: 10,              // ...e minutos de silêncio
-        whatsapp: '(91) 99178-2027'   // WhatsApp oficial da Clínica
+        rodapeSite: 'institutofacaamigos.com.br',   // site na ponta esquerda do rodapé
+        rodapeInstagram: '@facaamigos.belem'        // Instagram na ponta direita do rodapé
       };
 
       // QR:BEGIN (gerado por scripts/tv3-qr.py, não editar à mão)
@@ -1652,6 +1661,8 @@
 
       // Cabeçalho e rodapé: só mostram o que foi configurado
       function applyAmenities() {
+        document.getElementById('rodapeSite').textContent = CONFIG.rodapeSite;
+        document.getElementById('rodapeInstagram').textContent = CONFIG.rodapeInstagram;
         if (CONFIG.wifiSsid) {
           const info = document.getElementById('headerInfo');
           info.hidden = false;
