@@ -142,7 +142,7 @@
       "source": "/assets/(.*)",
       "headers": [
         {
-          "key": "Cache-Control",
+          "key": "cache-control",
           "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
