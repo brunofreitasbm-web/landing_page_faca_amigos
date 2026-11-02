@@ -281,8 +281,8 @@ const LEAD_WHATSAPP = (Deno.env.get("LEAD_WHATSAPP") ?? "5591991782027").replace
 const EBOOK_TITLE = "O Brincar com Propósito";
 // Preço único, sem "de/por". Só preencha EBOOK_PRICE_FROM se existir uma promoção de verdade.
 const EBOOK_PRICE_FROM_DEFAULT = "";
-const EBOOK_PRICE_TO_DEFAULT = "R$ 149";
-const EBOOK_INSTALLMENTS_DEFAULT = "ou 10x de R$ 17,91 no cartão";
+const EBOOK_PRICE_TO_DEFAULT = "R$ 29,90";
+const EBOOK_INSTALLMENTS_DEFAULT = "ou 9x de R$ 3,33 no cartão";
 // Capítulo 1 (com a introdução) gratuito — arquivo em /downloads do site.
 const EBOOK_SAMPLE_URL = "https://institutofacaamigos.com.br/downloads/o-brincar-com-proposito-capitulo-1.pdf";
 const EBOOK_COVER_EMAIL_URL = "https://institutofacaamigos.com.br/img/guia/capa-email.jpg";

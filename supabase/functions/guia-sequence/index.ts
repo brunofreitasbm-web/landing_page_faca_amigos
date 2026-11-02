@@ -47,8 +47,8 @@ const OFFERS = {
     title: "O Brincar com Propósito",
     path: "/guia",
     cta: "Quero o guia",
-    price: "R$ 149",
-    installments: "ou 10x de R$ 17,91 no cartão",
+    price: "R$ 29,90",
+    installments: "ou 9x de R$ 3,33 no cartão",
   },
   codigo: {
     title: "O Código do Desenvolvimento Infantil",
