@@ -813,6 +813,16 @@ Endereço, horário, "mesmos preços, mesma equipe e mesmos atrativos" e o Whats
 - `c_brincar_chao`, `c_construir`, `h_motor`, `h_aprender`: fotos novas, com a foto antiga da clínica na última posição.
 - Ficaram de fora: fotos de obra, folhas de adesivo dos mascotes, fotos da equipe (aguardam confirmação) e três panorâmicas de 1200 px (borradas em Full HD).
 
+## TV de 32" e orientação (horizontal ou vertical)
+
+Tudo fica no `CONFIG` do `tv3.html`:
+
+- `tela: '32'` (padrão): textos e QR maiores para uma TV de 32 polegadas. Nela 1 px do palco mede 0,37 mm (numa TV de 55", 0,64 mm). O texto de cada slide encolhe sozinho só se não couber, até 66% do tamanho, e depois o QR encolhe até 260 px. Para uma TV grande, use `tela: 'grande'`. Para testar sem mexer no código: `?tela=32` ou `?tela=grande` na URL.
+- `orientacao: 'horizontal'` (padrão) ou `'vertical'`: como a TV fica na parede. Também vale `?orientacao=vertical` na URL. A TV decide sozinha se precisa girar a imagem: se o sistema da TV já girou a tela (chega 1080x1920), não gira; se a tela chega deitada (1920x1080), gira o palco em pé e ocupa a tela inteira.
+- `giro: 90` (padrão) ou `270`: só para TV em pé que o sistema da TV não girou. Use o lado para onde a TV foi virada.
+
+Para pôr a TV em pé, a edição é uma linha: `orientacao: 'vertical'`. Os layouts em pé já foram conferidos (QR, tutorial, pacotes, mascote, foto vertical).
+
 ## Autoexame
 
 Regex sobre `tv3-slides.json`: `promessa|confian[çc]a|oferta|garantid|cura\b|especial|normal|problem|!|—|convênio|IASEP|PROASA`

@@ -797,6 +797,75 @@
     .tv-cartao-mascote { position: absolute; right: 7%; bottom: 6%; height: 50%; width: auto; z-index: 2; filter: drop-shadow(0 10px 18px rgba(3, 45, 55, 0.18)); }
     .tv-cartao-chip { display: inline-flex; margin-top: 18px; padding: 10px 24px; border-radius: 999px; background: var(--yellow); color: var(--petrol-deep); font-family: var(--font-display); font-size: 30px; box-shadow: 0 6px 16px rgba(245, 158, 11, 0.28); }
 
+
+    /* ==========================================================================
+       TV DE 32 POLEGADAS. O palco tem sempre 1920 px de largura, então 1 px mede 0,37 mm numa TV de 32"
+       (0,64 mm numa de 55"). Aqui texto e QR ficam maiores. --k encolhe só o texto, slide a slide, quando ele não cabe
+       (ajustarTexto no script); o QR só encolhe depois do texto, e nunca abaixo de 260 px.
+       ========================================================================== */
+    #tvStage.t32 { grid-template-rows: 104px 1fr 76px; }
+    #tvStage.t32.portrait-mode { grid-template-rows: 116px 1fr 84px; }
+    #tvStage.t32 .tv-slide { --k: 1; --qr: 340px; }
+    #tvStage.t32 .tv-brand-main { font-size: 32px; }
+    #tvStage.t32 .tv-brand-badge { font-size: 15px; }
+    #tvStage.t32 .tv-brand-sub { font-size: 17px; }
+    #tvStage.t32 .tv-logo-symbol { width: 62px; height: 62px; }
+    #tvStage.t32 .tv-live-tag { font-size: 18px; }
+    #tvStage.t32 .tv-header-info { font-size: 18px; }
+    #tvStage.t32 .tv-clock-time { font-size: 44px; }
+    #tvStage.t32 .tv-clock-date { font-size: 18px; }
+    #tvStage.t32 .tv-amenity-item { font-size: 24px; gap: 12px; }
+    #tvStage.t32 .tv-amenity-icon { font-size: 24px; width: 42px; height: 42px; }
+    #tvStage.t32 .tv-kicker { font-size: calc(22px * var(--k)); padding: 10px 24px; margin-bottom: 18px; }
+    #tvStage.t32 .tv-headline { font-size: calc(70px * var(--k)); line-height: 1.12; }
+    #tvStage.t32 .tv-subtext { font-size: calc(34px * var(--k)); line-height: 1.36; max-width: 96%; }
+    #tvStage.t32 .tv-slide.solo .tv-headline { font-size: calc(78px * var(--k)); max-width: 90%; }
+    #tvStage.t32 .tv-slide.solo .tv-subtext { font-size: calc(38px * var(--k)); max-width: 80%; }
+    #tvStage.t32 .tv-slide.solo .tv-kicker { font-size: calc(24px * var(--k)); }
+    #tvStage.t32 .tv-slide.retrato .tv-headline { font-size: calc(64px * var(--k)); }
+    #tvStage.t32 .tv-slide.pacotes .tv-headline { font-size: calc(66px * var(--k)); }
+    #tvStage.t32 .tv-slide.pacotes .tv-kicker { font-size: calc(22px * var(--k)); }
+    #tvStage.t32 .tv-pacotes-nota { font-size: calc(32px * var(--k)); }
+    #tvStage.t32 .tv-slide.cartao .tv-headline { font-size: calc(72px * var(--k)); }
+    #tvStage.t32 .tv-cartao-chip { font-size: calc(38px * var(--k)); }
+    #tvStage.t32 .tv-quote { font-size: calc(74px * var(--k)); }
+    /* painel do QR: QR grande à esquerda, instruções à direita; painel e foto dividem a largura */
+    #tvStage.t32:not(.portrait-mode) .tv-slide:not(.solo):not(.tutorial) { grid-template-columns: 1fr 1fr; }
+    #tvStage.t32 .tv-pill-badge { font-size: 18px; }
+    #tvStage.t32 .tv-action-title { font-size: calc(38px * var(--k)); }
+    #tvStage.t32 .tv-action-desc { font-size: calc(25px * var(--k)); }
+    #tvStage.t32 .tv-qr-wrapper { flex-direction: row; text-align: left; align-items: center; gap: 24px; padding: 18px 22px; margin: 10px 0; }
+    #tvStage.t32 .tv-qr-box { width: var(--qr); height: var(--qr); padding: 4px; }
+    #tvStage.t32 .tv-qr-text { align-items: flex-start; flex: 1; min-width: 0; gap: 8px; }
+    #tvStage.t32 .tv-qr-callout { font-size: calc(34px * var(--k)); }
+    #tvStage.t32 .tv-qr-instructions { font-size: calc(26px * var(--k)); }
+    #tvStage.t32 .tv-qr-subhint { font-size: calc(22px * var(--k)); }
+    #tvStage.t32 .tv-highlight-text { font-size: calc(25px * var(--k)); }
+    #tvStage.t32 .tv-highlight-icon { font-size: 38px; }
+    #tvStage.t32 .tv-step-body strong { font-size: calc(30px * var(--k)); }
+    #tvStage.t32 .tv-step-body span { font-size: calc(23px * var(--k)); }
+    #tvStage.t32 .tv-step-num { width: 58px; height: 58px; font-size: 32px; }
+    #tvStage.t32 .tv-qr-big svg { width: 430px; height: 430px; }
+    #tvStage.t32 .tv-action-card.tutorial .tv-qr-callout { font-size: calc(40px * var(--k)); }
+    #tvStage.t32 .tv-action-card.tutorial .tv-qr-instructions { font-size: calc(26px * var(--k)); }
+    #tvStage.t32 .tv-action-card.tutorial .tv-qr-subhint { font-size: calc(22px * var(--k)); }
+    #tvStage.t32 .tv-vs-header { font-size: calc(28px * var(--k)); }
+    #tvStage.t32 .tv-vs-list { font-size: calc(24px * var(--k)); }
+
+    /* TV EM PÉ (palco 1080x1920): foto vertical ocupa o cartão, cartões de pacote empilham, mascote sobe */
+    #tvStage.portrait-mode .tv-slide.retrato .tv-slide-image { left: 0; right: 0; width: 100%; object-position: center; -webkit-mask-image: none; mask-image: none; }
+    #tvStage.portrait-mode .tv-slide.retrato .tv-image-overlay { background: linear-gradient(180deg, rgba(6, 82, 100, 0.1) 0%, rgba(3, 45, 55, 0.4) 45%, rgba(3, 45, 55, 0.95) 100%); }
+    #tvStage.portrait-mode .tv-slide.retrato .tv-visual-text { max-width: 100%; }
+    #tvStage.portrait-mode .tv-slide.retrato .tv-headline { max-width: 100%; }
+    #tvStage.portrait-mode .tv-pacotes-row { flex-direction: column; gap: 18px; padding: 14px 30px 0; }
+    #tvStage.portrait-mode .tv-pacotes-row img { flex: 0 1 calc((100% - 36px) / 3); height: calc((100% - 36px) / 3); width: auto; max-width: 100%; max-height: none; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-visual-card { justify-content: flex-start; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-visual-text { max-width: 100%; padding-top: 70px; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-cartao-mascote { height: 34%; right: 6%; bottom: 3%; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-cartao-circulo { width: 90%; right: -20%; bottom: -14%; }
+    #tvStage.portrait-mode .tv-slide.solo .tv-headline,
+    #tvStage.portrait-mode .tv-slide.solo .tv-subtext { max-width: 100%; }
+
     /* Respiro: foto cheia e uma frase */
     .tv-slide.respiro .tv-image-overlay {
       background: linear-gradient(180deg, rgba(3, 45, 55, 0.05) 0%, rgba(3, 45, 55, 0.35) 55%, rgba(3, 45, 55, 0.9) 100%);
@@ -932,6 +1001,9 @@
       const CONFIG = {
         experiment: 'base-2026-12',   // rótulo do experimento (formato <o-que-mudou>-AAAA-MM)
         roundMin: 10,                 // alvo de duração de uma volta, em minutos
+        tela: '32',                   // tamanho da TV: '32' (textos e QR maiores) ou 'grande' (55" ou mais)
+        orientacao: 'horizontal',     // como a TV fica na parede: 'horizontal' (deitada) ou 'vertical' (em pé). Também vale ?orientacao=vertical na URL
+        giro: 90,                     // só para TV em pé que o sistema da TV NÃO girou: 90 ou 270, conforme o lado para onde a TV foi virada
         ritmo: 1.25,                  // multiplica o tempo de todos os slides (1 = tempos do roteiro; maior = mais devagar)
         maxCopias: 2,                 // quantas vezes um slide com weight pode aparecer por volta
         cadenciaPortalSeg: 360,       // no máximo 6 min sem QR do Portal na tela
@@ -1237,6 +1309,7 @@
       let progressTimer = null;
       let isPaused = false;
       let currentRotation = 0;
+      let rotOverride = null; // ?rot=… na URL ou a tecla R; sem isso a rotação sai de CONFIG.orientacao e da forma da tela
       let progressStartTime = 0;
       let hudTimeout = null;
 
@@ -1363,11 +1436,35 @@
         slideCounter.textContent = state.round.length ? (state.idx + 1) + ' / ' + state.round.length : '';
       }
 
+      // Encolhe o texto (--k) até caber; se ainda não couber, encolhe o QR (--qr, mínimo 260 px). Só vale com t32.
+      function ajustarTexto(el) {
+        if (!stage.classList.contains('t32')) return;
+        const card = el.querySelector('.tv-visual-card');
+        const act = el.querySelector('.tv-action-card');
+        const txt = el.querySelector('.tv-visual-text');
+        // A foto do cartão tem zoom suave, então scrollHeight do cartão não serve: mede-se o texto contra o cartão
+        const estoura = () => {
+          if (card && txt) {
+            const c = card.getBoundingClientRect(), x = txt.getBoundingClientRect();
+            if (x.top < c.top - 1 || x.bottom > c.bottom + 1) return true;
+          }
+          return !!(act && act.scrollHeight > act.clientHeight + 1);
+        };
+        el.style.setProperty('--k', '1');
+        el.style.setProperty('--qr', '340px');
+        let k = 1;
+        while (estoura() && k > 0.66) { k = Math.round((k - 0.04) * 100) / 100; el.style.setProperty('--k', String(k)); }
+        let qr = 340;
+        while (estoura() && qr > 260) { qr -= 20; el.style.setProperty('--qr', qr + 'px'); }
+      }
+
       // instant=true: sem transição (usado pelos testes)
       function showSlide(item, instant) {
         const el = buildSlideEl(item);
         if (instant) el.style.transition = 'none';
         container.appendChild(el);
+        ajustarTexto(el);
+        if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(() => { if (el.parentNode) ajustarTexto(el); });
         const prev = currentEl;
         currentEl = el;
         if (instant) {
@@ -1445,22 +1542,44 @@
       // ======================================================================
       // ESCALA AUTOMÁTICA E ROTAÇÃO DO STAGE (Suporta TV Horizontal ou Vertical)
       // ======================================================================
+      // Tamanho da TV: CONFIG.tela, ou ?tela=32|grande na URL
+      (function () {
+        const q = new URLSearchParams(window.location.search).get('tela');
+        const tela = q === '32' || q === 'grande' ? q : String(CONFIG.tela);
+        document.getElementById('tvStage').classList.toggle('t32', tela === '32');
+      })();
+
+      // Orientação: CONFIG.orientacao diz como a TV fica na parede. Se a tela já chega em pé (o sistema da TV girou),
+      // a imagem sai sem girar; se chega deitada, o palco em pé é girado 90 graus (CONFIG.giro) e ocupa a tela inteira.
+      function querEmPe() {
+        const q = new URLSearchParams(window.location.search).get('orientacao');
+        return (q === 'vertical' || q === 'horizontal' ? q : CONFIG.orientacao) === 'vertical';
+      }
+      function rotacaoAtual() {
+        if (rotOverride !== null) return rotOverride;
+        const telaEmPe = window.innerHeight > window.innerWidth;
+        return querEmPe() === telaEmPe ? 0 : (+CONFIG.giro === 270 ? 270 : 90);
+      }
       function fitStage() {
-        const isPortrait = (currentRotation === 90 || currentRotation === 270);
+        const rot = rotacaoAtual();
+        currentRotation = rot;
+        const girado = (rot === 90 || rot === 270);
+        const telaEmPe = window.innerHeight > window.innerWidth;
+        const isPortrait = telaEmPe !== girado; // como o espectador vê a imagem
         const stageW = isPortrait ? 1080 : 1920;
         const stageH = isPortrait ? 1920 : 1080;
 
         stage.classList.toggle('portrait-mode', isPortrait);
 
-        const winW = window.innerWidth;
-        const winH = window.innerHeight;
-
-        const scale = Math.min(winW / stageW, winH / stageH);
-        stage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg) scale(${scale})`;
+        // área ocupada na tela depois de girar
+        const boxW = girado ? stageH : stageW;
+        const boxH = girado ? stageW : stageH;
+        const scale = Math.min(window.innerWidth / boxW, window.innerHeight / boxH);
+        stage.style.transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
       }
 
       function rotateStage() {
-        currentRotation = (currentRotation + 90) % 360;
+        rotOverride = (rotacaoAtual() + 90) % 360;
         fitStage();
       }
 
@@ -1642,7 +1761,7 @@
       // ?rot=90 ou ?rot=270 (TV deitada)
       if (urlParams.has('rot')) {
         const r = parseInt(urlParams.get('rot'), 10);
-        if ([0, 90, 180, 270].includes(r)) currentRotation = r;
+        if ([0, 90, 180, 270].includes(r)) rotOverride = r;
       }
 
       // Auto-recarregamento preventivo diário às 04:00 da manhã para limpar memória da TV
