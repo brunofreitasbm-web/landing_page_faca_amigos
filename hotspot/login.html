@@ -222,8 +222,6 @@
 <form name="login" id="hotspotForm" action="$(link-login-only)" method="post" style="display:none">
   <input type="hidden" name="dst" value="$(link-orig-esc)">
   <input type="hidden" name="popup" value="true">
-  <input type="hidden" name="chap-id" value="$(chap-id)">
-  <input type="hidden" name="chap-challenge" value="$(chap-challenge)">
   <input type="text" name="username" id="hsUsername">
   <input type="password" name="password" id="hsPassword">
 </form>
@@ -236,6 +234,14 @@
   var HOTSPOT_PASSWORD = "visitante";
   var LEAD_WEBHOOK_URL = "https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/wifi-lead-webhook";
   var LEAD_TIMEOUT_MS = 3500;
+  // Se a página não sair daqui em 10 s depois do envio, o roteador não respondeu: libera o botão e avisa.
+  var HOTSPOT_WAIT_MS = 10000;
+  // CHAP: o RouterOS troca estes marcadores por texto com escapes octais (ex.: \123). Eles PRECISAM ficar
+  // dentro de uma string JavaScript, que decodifica os escapes em bytes. Em atributo HTML (value="...")
+  // chegariam como texto literal e o hash sairia errado. Com login por PAP o roteador manda vazio.
+  var CHAP_ID = '$(chap-id)';
+  var CHAP_CHALLENGE = '$(chap-challenge)';
+  var hotspotSent = false;
 
   function getUtm(name) {
     var params = new URLSearchParams(window.location.search);
@@ -284,16 +290,31 @@
     document.getElementById("btnSpinner").classList.toggle("show", loading);
   }
 
+  function showServerMessage(msg) {
+    var box = document.getElementById("serverError");
+    box.textContent = msg;
+    box.classList.add("show");
+  }
+
   function submitHotspot() {
+    if (hotspotSent) return; // fetch.finally e o timer de segurança podem chamar os dois
+    hotspotSent = true;
     var form = document.forms["login"];
     document.getElementById("hsUsername").value = HOTSPOT_USERNAME;
-    document.getElementById("hsPassword").value = HOTSPOT_PASSWORD;
-    // CHAP: se o roteador forneceu chap-id/chap-challenge, criptografa a senha (padrão RouterOS).
-    var chapId = form["chap-id"] ? form["chap-id"].value : "";
-    var chapChallenge = form["chap-challenge"] ? form["chap-challenge"].value : "";
-    if (chapId !== "" && typeof hexMD5 === "function") {
-      document.getElementById("hsPassword").value = hexMD5(chapId + HOTSPOT_PASSWORD + chapChallenge);
+    var pass = HOTSPOT_PASSWORD;
+    // Marcador não substituído (página aberta fora do roteador) ou vazio = login sem CHAP (PAP).
+    var temChap = CHAP_ID !== "" && CHAP_ID.indexOf("$(") === -1 && typeof hexMD5Raw === "function";
+    if (temChap) {
+      pass = hexMD5Raw(CHAP_ID + HOTSPOT_PASSWORD + CHAP_CHALLENGE);
     }
+    document.getElementById("hsPassword").value = pass;
+    pushDL("wifi_hotspot_submit", { chap: temChap });
+    // Se o roteador não responder, o botão não pode girar para sempre.
+    setTimeout(function () {
+      setLoading(false);
+      hotspotSent = false;
+      showServerMessage("Não conseguimos liberar o Wi-Fi agora. Toque no botão para tentar de novo ou chame a recepção.");
+    }, HOTSPOT_WAIT_MS);
     form.submit();
   }
 
@@ -342,9 +363,7 @@
 
     // Rede de segurança: nunca deixar a família esperando mais que o timeout configurado.
     setTimeout(function () {
-      if (document.getElementById("hotspotForm").querySelector("[name=password]").value === "") {
-        submitHotspot();
-      }
+      submitHotspot(); // sem efeito se o fetch.finally já enviou
     }, LEAD_TIMEOUT_MS + 500);
   });
 

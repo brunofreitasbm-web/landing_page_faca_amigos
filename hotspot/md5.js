@@ -145,6 +145,9 @@ function rstr2hex(input) {
 function str2rstrUTF8(input) { return unescape(encodeURIComponent(input)); }
 function rawMD5(s) { return rstrMD5(str2rstrUTF8(s)); }
 function hexMD5(s) { return rstr2hex(rawMD5(s)); }
+/* CHAP do RouterOS: cada caractere é UM byte (0-255), sem conversão para UTF-8.
+   hexMD5() converte para UTF-8, e bytes acima de 0x7F do desafio viram dois bytes: hash errado, login recusado. */
+function hexMD5Raw(s) { return rstr2hex(rstrMD5(s)); }
 function rawHMACMD5(k, d) { return rstrHMACMD5(str2rstrUTF8(k), str2rstrUTF8(d)); }
 function hexHMACMD5(k, d) { return rstr2hex(rawHMACMD5(k, d)); }
 function md5(string, key, raw) {
