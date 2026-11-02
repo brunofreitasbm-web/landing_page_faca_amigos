@@ -2,84 +2,21 @@
   "slug": "codigo",
   "path": "/codigo",
   "titleTag": "O Código do Desenvolvimento Infantil: e-book para pais | FaçaAmigos",
-  "metas": [
-    {
-      "name": "description",
-      "content": "Guia curto e acolhedor de Análise do Comportamento: 9 capítulos para entender o comportamento do seu filho, sem jargão e sem culpa. E-book em PDF, acesso imediato."
-    },
-    {
-      "name": "robots",
-      "content": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
-    },
-    {
-      "name": "theme-color",
-      "content": "#065264"
-    },
-    {
-      "property": "og:type",
-      "content": "website"
-    },
-    {
-      "property": "og:site_name",
-      "content": "FaçaAmigos — Centro de Terapia Comportamental"
-    },
-    {
-      "property": "og:title",
-      "content": "O Código do Desenvolvimento Infantil — Um guia de coração para mães, pais e famílias"
-    },
-    {
-      "property": "og:description",
-      "content": "O comportamento do seu filho tem lógica. Um guia curto e acolhedor de Análise do Comportamento, em linguagem simples. E-book em PDF."
-    },
-    {
-      "property": "og:url",
-      "content": "https://institutofacaamigos.com.br/codigo"
-    },
-    {
-      "property": "og:image",
-      "content": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg"
-    },
-    {
-      "property": "og:image:type",
-      "content": "image/jpeg"
-    },
-    {
-      "property": "og:image:width",
-      "content": "1200"
-    },
-    {
-      "property": "og:image:height",
-      "content": "630"
-    },
-    {
-      "property": "og:image:alt",
-      "content": "Capa do e-book O Código do Desenvolvimento Infantil, um guia de coração para mães, pais e famílias"
-    },
-    {
-      "property": "og:locale",
-      "content": "pt_BR"
-    },
-    {
-      "name": "twitter:card",
-      "content": "summary_large_image"
-    },
-    {
-      "name": "twitter:title",
-      "content": "O Código do Desenvolvimento Infantil — Um guia de coração para mães, pais e famílias"
-    },
-    {
-      "name": "twitter:image",
-      "content": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg"
-    },
-    {
-      "name": "twitter:image:alt",
-      "content": "Capa do e-book O Código do Desenvolvimento Infantil, um guia de coração para mães, pais e famílias"
-    }
-  ],
-  "links": "<link rel=\"icon\" type=\"image/png\" href=\"img/logo-simbolo.png\">\n<link rel=\"icon\" href=\"/favicon.ico\" sizes=\"any\">\n<link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\">\n<link rel=\"manifest\" href=\"/site.webmanifest\">\n<link rel=\"alternate\" type=\"text/plain\" href=\"/llms.txt\" title=\"FaçaAmigos AI &amp; LLM Summary\">\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link rel=\"preload\" as=\"style\" href=\"https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap\" onload=\"this.onload=null;this.rel='stylesheet'\">\n<noscript><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap\"></noscript>\n<link rel=\"preload\" as=\"image\" href=\"img/codigo/capa.webp\" type=\"image/webp\">",
+  "descricao": "Guia curto e acolhedor de Análise do Comportamento: 9 capítulos para entender o comportamento do seu filho, sem jargão e sem culpa. E-book em PDF, acesso imediato.",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "ogTitle": "O Código do Desenvolvimento Infantil — Um guia de coração para mães, pais e famílias",
+  "ogDescricao": "O comportamento do seu filho tem lógica. Um guia curto e acolhedor de Análise do Comportamento, em linguagem simples. E-book em PDF.",
+  "ogSiteName": "FaçaAmigos — Centro de Terapia Comportamental",
+  "ogType": "website",
+  "ogImage": "img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, um guia de coração para mães, pais e famílias",
+  "fa_cta": {
+    "label": "Quero o e-book",
+    "href": "#oferta",
+    "event": "codigo_oferta"
+  },
   "jsonLd": [
     {
-      "@context": "https://schema.org",
       "@type": "Book",
       "@id": "https://institutofacaamigos.com.br/codigo#livro",
       "name": "O Código do Desenvolvimento Infantil — Um guia de coração para mães, pais e famílias",
@@ -116,7 +53,6 @@
       }
     },
     {
-      "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
         {
@@ -186,7 +122,6 @@
       ]
     },
     {
-      "@context": "https://schema.org",
       "@type": "WebPage",
       "@id": "https://institutofacaamigos.com.br/codigo#webpage",
       "url": "https://institutofacaamigos.com.br/codigo",

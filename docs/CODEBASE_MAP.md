@@ -44,7 +44,7 @@ Deploy: push na `main` publica na Vercel. **Funções e migrations não vão pel
 ├── circuito.html         Circuito de carrinhos (host playground.)
 ├── servicos.html         Clínica / serviços
 ├── teste.html            funil do Mapeamento Comportamental (+ teste-perguntas.json)
-├── src/pages/{guia,codigo}.astro + layouts/Landing.astro   landings dos e-books (Hotmart)
+├── src/pages/{guia,codigo}.astro (Base + .lp)   landings dos e-books (Hotmart)
 ├── eventos.html, evento.html, ingresso.html, descadastrar.html   módulo de eventos
 ├── aprender.html + aprender/*.html (9 artigos), glossario.html   conteúdo/SEO
 ├── wifi.html             página pós-portal Wi-Fi (noindex)

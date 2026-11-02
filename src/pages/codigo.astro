@@ -1,8 +1,5 @@
 ---
-import Landing from '../layouts/Landing.astro';
-import css from '../styles/lp/codigo.css?raw';
-import d from '../data/paginas/codigo.json';
-import corpo from '../data/paginas/codigo.html?raw';
-import js0 from '../data/paginas/codigo.0.js?raw';
+import PaginaDados from '../components/PaginaDados.astro';
+import '../styles/lp/codigo.css';
 ---
-<Landing d={d} css={css} corpo={corpo} scripts={[js0]} />
+<PaginaDados slug="codigo" classe="lp" semWa />
