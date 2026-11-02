@@ -241,7 +241,7 @@
       "hasMap": "https://maps.google.com/?q=Parque+Shopping+Bel%C3%A9m",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém, Térreo, próximo às Lojas Americanas",
+        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém, 1º piso",
         "addressLocality": "Belém",
         "addressRegion": "PA",
         "postalCode": "66635-110",
@@ -252,20 +252,20 @@
         "latitude": -1.3653,
         "longitude": -48.4552
       },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
-        ],
-        "opens": "10:00",
-        "closes": "22:00"
-      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "10:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:00"
+        }
+      ],
       "parentOrganization": {
         "@id": "https://institutofacaamigos.com.br/#organization"
       },
@@ -309,7 +309,7 @@
       "hasMap": "https://maps.google.com/?q=Parque+Shopping+Bel%C3%A9m",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém, Térreo, próximo às Lojas Americanas",
+        "streetAddress": "Rod. Augusto Montenegro, 4300 — Parque Shopping Belém, Térreo, em frente à C&A",
         "addressLocality": "Belém",
         "addressRegion": "PA",
         "postalCode": "66635-110",
@@ -320,20 +320,20 @@
         "latitude": -1.3653,
         "longitude": -48.4552
       },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
-        ],
-        "opens": "10:00",
-        "closes": "22:00"
-      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "10:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:00"
+        }
+      ],
       "parentOrganization": {
         "@id": "https://institutofacaamigos.com.br/#organization"
       },
@@ -374,7 +374,7 @@
           "name": "Preciso agendar antes de levar meu filho?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Não precisa agendar para o Playground ou Circuito! O atendimento é feito por ordem de chegada no Parque Shopping Belém, de Segunda a Domingo das 10h às 22h."
+            "text": "Não precisa agendar para o Playground ou Circuito! O atendimento é feito por ordem de chegada no Parque Shopping Belém, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h."
           }
         },
         {
@@ -382,7 +382,7 @@
           "name": "Onde ficam as unidades do FaçaAmigos?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "O Playground e o Circuito funcionam no Parque Shopping Belém, na Rod. Augusto Montenegro, 4300, no Térreo, próximo às Lojas Americanas. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, 1º piso, em frente à Renner), de segunda a sábado das 10h às 22h e aos domingos das 10h às 21h. A Clínica de Terapia Comportamental funciona na Rua Boaventura da Silva, 1573, no Umarizal, com atendimento por hora marcada desde novembro de 2026."
+            "text": "O Playground (1º piso) e o Circuito (térreo, em frente à C&A) funcionam no Parque Shopping Belém, na Rod. Augusto Montenegro, 4300. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, 1º piso, em frente à Renner), de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h. A Clínica de Terapia Comportamental funciona na Rua Boaventura da Silva, 1573, no Umarizal, com atendimento por hora marcada desde novembro de 2026."
           }
         },
         {
@@ -390,7 +390,7 @@
           "name": "Qual o horário de funcionamento do Playground e do Circuito?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Todos os dias, de segunda a domingo, das 10h às 22h, sem necessidade de agendamento."
+            "text": "De segunda a sábado, das 10h às 22h, e aos domingos, das 12h às 21h, sem necessidade de agendamento."
           }
         },
         {
@@ -406,7 +406,7 @@
           "name": "Qual o melhor horário para crianças com sensibilidade sensorial?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "O Horário Inclusivo, todos os dias das 10h às 16h, tem ambiente com estímulos reduzidos: som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita."
+            "text": "O Horário Inclusivo, das 10h às 16h (aos domingos, a partir das 12h), tem ambiente com estímulos reduzidos: som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita."
           }
         },
         {
@@ -1292,7 +1292,7 @@
           <span class="u-pin" aria-hidden="true">📍</span>
           <b class="u-name">Parque Shopping Belém</b>
           <span class="u-role">Playground &amp; Circuito</span>
-          <p class="u-addr">Rod. Augusto Montenegro, 4300 · Térreo</p>
+          <p class="u-addr">Rod. Augusto Montenegro, 4300 · Playground no 1º piso · Circuito no térreo, em frente à C&amp;A</p>
           <p class="u-hours" style="margin-top: 6px;">WhatsApp: <a href="https://wa.me/5591992347673?text=Oi!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20Playground%20Parque%20Shopping." target="_blank" rel="noopener">(91) 99234-7673</a></p>
         </div>
         <div class="unit-card u-pink">
@@ -1390,21 +1390,21 @@
         <details class="geo-faq-item">
           <summary>Preciso agendar antes de levar meu filho?</summary>
           <div class="geo-faq-ans">
-            <div>Não precisa agendar para o Playground ou Circuito! O atendimento é feito por ordem de chegada no Parque Shopping Belém, de Segunda a Domingo das 10h às 22h.</div>
+            <div>Não precisa agendar para o Playground ou Circuito! O atendimento é feito por ordem de chegada no Parque Shopping Belém, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h.</div>
           </div>
         </details>
 
         <details class="geo-faq-item">
           <summary>Onde ficam as unidades do FaçaAmigos?</summary>
           <div class="geo-faq-ans">
-            <div>O Playground e o Circuito funcionam no Parque Shopping Belém, na Rod. Augusto Montenegro, 4300, no Térreo, próximo às Lojas Americanas. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, 1º piso, em frente à Renner), de segunda a sábado das 10h às 22h e aos domingos das 10h às 21h. A Clínica de Terapia Comportamental funciona na Rua Boaventura da Silva, 1573, no Umarizal, com atendimento por hora marcada desde novembro de 2026.</div>
+            <div>O Playground (1º piso) e o Circuito (térreo, em frente à C&A) funcionam no Parque Shopping Belém, na Rod. Augusto Montenegro, 4300. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, 1º piso, em frente à Renner), de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h. A Clínica de Terapia Comportamental funciona na Rua Boaventura da Silva, 1573, no Umarizal, com atendimento por hora marcada desde novembro de 2026.</div>
           </div>
         </details>
 
         <details class="geo-faq-item">
           <summary>Qual o horário de funcionamento do Playground e do Circuito?</summary>
           <div class="geo-faq-ans">
-            <div>Todos os dias, de segunda a domingo, das 10h às 22h, sem necessidade de agendamento.</div>
+            <div>De segunda a sábado, das 10h às 22h, e aos domingos, das 12h às 21h, sem necessidade de agendamento.</div>
           </div>
         </details>
 
@@ -1418,7 +1418,7 @@
         <details class="geo-faq-item">
           <summary>Qual o melhor horário para crianças com sensibilidade sensorial?</summary>
           <div class="geo-faq-ans">
-            <div>O Horário Inclusivo, todos os dias das 10h às 16h, tem ambiente com estímulos reduzidos: som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita.</div>
+            <div>O Horário Inclusivo, das 10h às 16h (aos domingos, a partir das 12h), tem ambiente com estímulos reduzidos: som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita.</div>
           </div>
         </details>
 
@@ -1436,7 +1436,7 @@
 
   <footer data-fa-footer="hub">
     <span class="fa-logo-card fa-logo-card--footer"><img class="fa-logo-img" src="/img/logo-facaamigos.png" width="1024" height="147" alt="FaçaAmigos" loading="lazy" decoding="async"></span>
-    <p><b>Parque Shopping Belém:</b> Rod. Augusto Montenegro, 4300 · Térreo (Playground &amp; Circuito) · <a href="https://wa.me/5591992347673" target="_blank" rel="noopener">WhatsApp: (91) 99234-7673</a></p>
+    <p><b>Parque Shopping Belém:</b> Rod. Augusto Montenegro, 4300 · Playground no 1º piso · Circuito no térreo, em frente à C&amp;A · <a href="https://wa.me/5591992347673" target="_blank" rel="noopener">WhatsApp: (91) 99234-7673</a></p>
     <p><b>Shopping Bosque Grão-Pará:</b> Av. Centenário, 1052 · Val-de-Cans · 1º piso, em frente à Renner (Playground) · <a href="https://wa.me/5591991101215" target="_blank" rel="noopener">WhatsApp: (91) 99110-1215</a></p>
     <p><b>Centro de Terapia Comportamental:</b> Rua Boaventura da Silva, 1573 · Umarizal (Clínica · atendendo desde novembro de 2026) · <a href="https://wa.me/5591991782027" target="_blank" rel="noopener">WhatsApp: (91) 99178-2027</a> · <a href="https://institutofacaamigos.com.br/clinica" target="_blank" rel="noopener">Site da Clínica</a></p>
     <p><a href="mailto:institutofacaamigos@gmail.com">institutofacaamigos@gmail.com</a> · <a href="https://www.instagram.com/facaamigos.belem/" target="_blank" rel="noopener">@facaamigos.belem</a> · <a href="/politica-privacidade">Política de Privacidade</a> · <a href="/termos">Termos de Uso e de Compra</a></p>

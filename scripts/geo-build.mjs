@@ -68,6 +68,9 @@ function buildVars(facts) {
   const enderecoParque = `${parque.address.street}, ${parque.address.city} - ${parque.address.state}, CEP ${parque.address.postal_code}`;
   const enderecoBosque = `${bosque.address.street}, ${bosque.address.city} - ${bosque.address.state}`;
   const horario = `${hora(parque.hours.open)} às ${hora(parque.hours.close)}`;
+  const horarioDomingo = `${hora(parque.hours.sunday.open)} às ${hora(parque.hours.sunday.close)}`;
+  const horarioBosque = `${hora(bosque.hours.open)} às ${hora(bosque.hours.close)}`;
+  const horarioBosqueDomingo = `${hora(bosque.hours.sunday.open)} às ${hora(bosque.hours.sunday.close)}`;
   // Meia-entrada em R$, nunca em %: o "50%" é sobre uma tabela-base que o cliente não vê (R$ 100 → R$ 50), e ao lado
   // do preço geral (R$ 60) faz qualquer leitor, humano ou IA, calcular "50% de 60 = 30".
   const plano30 = parque.plans.find((p) => !p.asset_kind && p.duration_min === 30);
@@ -105,6 +108,9 @@ function buildVars(facts) {
     ENDERECO_PARQUE: enderecoParque,
     ENDERECO_BOSQUE: enderecoBosque,
     HORARIO: horario,
+    HORARIO_DOMINGO: horarioDomingo,
+    HORARIO_BOSQUE: horarioBosque,
+    HORARIO_BOSQUE_DOMINGO: horarioBosqueDomingo,
     MEIA_INCLUSIVA: meiaInclusiva,
     FIDELIDADE_PLAYGROUND: fidelidadePlayground,
     FIDELIDADE_CIRCUITO: fidelidadeCircuito,

@@ -208,18 +208,18 @@ async function sendCouponEmail(params: {
           </table>`;
   const lugares = [
     lugar("Playground", "Parque Shopping Belém", [
-      "Rod. Augusto Montenegro, 4300 · Térreo, próximo às Lojas Americanas",
-      "Todos os dias, das 10h às 22h",
+      "Rod. Augusto Montenegro, 4300 · 1º piso",
+      "Segunda a sábado, das 10h às 22h · Domingo, das 12h às 21h",
       "Piscina de bolinhas gigante, casa na árvore, cantinho de leitura, mediadores especializados e espaço sensorial completo.",
     ], mapaParque),
     lugar("Playground", "Shopping Bosque Grão-Pará", [
       "Av. Centenário, 1052 · Val-de-Cans · 1º piso, em frente à Renner",
-      "Segunda a sábado, das 10h às 22h · Domingo, das 10h às 21h",
+      "Segunda a sábado, das 10h às 22h · Domingo, das 12h às 21h",
       "Mesmos preços, mesma equipe qualificada e os mesmos atrativos inclusivos do Parque Shopping. Sem agendamento: é só chegar.",
     ], mapaGraoPara),
     lugar("Circuito", "Parque Shopping Belém", [
-      "Rod. Augusto Montenegro, 4300 · Térreo",
-      "Todos os dias, das 10h às 22h",
+      "Rod. Augusto Montenegro, 4300 · Térreo, em frente à C&A",
+      "Segunda a sábado, das 10h às 22h · Domingo, das 12h às 21h",
       "Carrinhos elétricos a R$ 48 o passeio. Seu filho dirige, você acompanha de pertinho.",
     ], mapaParque),
   ].join("");

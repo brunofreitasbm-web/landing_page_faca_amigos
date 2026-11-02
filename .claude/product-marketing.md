@@ -1,6 +1,6 @@
 # Contexto de produto: FaçaAmigos Playground (para as skills de marketing)
 
-- **O que é:** playground inclusivo para crianças de 0 a 12 anos, com ou sem diagnóstico (TEA, TDAH etc.). Duas unidades em Belém/PA: Parque Shopping (10h–22h, todos os dias) e Shopping Bosque Grão-Pará (10h–22h, domingo até 21h).
+- **O que é:** playground inclusivo para crianças de 0 a 12 anos, com ou sem diagnóstico (TEA, TDAH etc.). Duas unidades em Belém/PA: Parque Shopping (10h–22h, domingo 12h–21h) e Shopping Bosque Grão-Pará (10h–22h, domingo 12h–21h).
 - **Página principal de venda:** `playground.html` (/playground). A conversão é **só pelo WhatsApp** (wa.me/5591992347673). Não há checkout nem formulário.
 - **Público:** mães e pais de Belém, de classe média, que querem passear no shopping com tranquilidade; parte tem filho neurodivergente e medo da primeira visita.
 - **Promessa atual (H1):** "Ele brinca seguro. Você finalmente descansa."

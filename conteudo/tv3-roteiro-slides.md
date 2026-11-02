@@ -560,10 +560,10 @@ Família D · 15 s · sem QR, layout padrao
 - **Imagem:** `img/playground-fachada-recepcao.webp` (alternativas: `img/playground-piscina-casinha.webp`, `img/galeria-oficinas.webp`)
 - **Texto na tela:**
   - Kicker: 📍 Playground no Parque Shopping
-  - Headline: Playground no Parque Shopping, <em>no térreo</em>.
-  - Subtexto: Próximo às Lojas Americanas. Todos os dias, das 10h às 22h. É só chegar: não precisa agendar.
+  - Headline: Playground no Parque Shopping, <em>no 1º piso</em>.
+  - Subtexto: Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h. É só chegar: não precisa agendar.
 - **Fatos usados:**
-  - Térreo, próximo às Lojas Americanas, todos os dias 10h-22h: LP/llms-full.txt:93; LP/playground.html:2543-2544
+  - 1º piso, seg a sáb 10h-22h e dom 12h-21h: LP/llms-full.txt:93; LP/playground.html:2543-2544
   - Sem agendamento, é só chegar: LP/playground.html:2582; LP/llms-full.txt:87
 
 ### `d_graopara`
@@ -573,7 +573,7 @@ Família D · 15 s · sem QR, layout padrao, só com fotoGraoPara
 - **Texto na tela:**
   - Kicker: 📍 Playground no Grão-Pará
   - Headline: No Grão-Pará, <em>1º piso</em>, em frente à Renner.
-  - Subtexto: Shopping Bosque Grão-Pará. Segunda a sábado, das 10h às 22h. Domingo, das 10h às 21h. Mesmos preços do Parque Shopping.
+  - Subtexto: Shopping Bosque Grão-Pará. Segunda a sábado, das 10h às 22h. Domingo, das 12h às 21h. Mesmos preços do Parque Shopping.
 - **Fatos usados:**
   - 1º piso, em frente à Renner; seg-sáb 10h-22h, dom 10h-21h: LP/llms-full.txt:44, 93; LP/playground.html:2557
   - Mesmos preços: LP/playground.html:2559

@@ -40,16 +40,18 @@ type Row = Record<string, any>;
 
 // Metadados fixos por unidade enquanto fa_kiosk_units não tem latitude/longitude/slug preenchidos.
 // unit_id -> { slug, city, state, postalCode, complement, lat, lng }
-const UNIT_META: Record<string, { slug: string; city: string; state: string; street: string; postalCode: string; complement: string; lat: number | null; lng: number | null; sundayClose?: string }> = {
+const UNIT_META: Record<string, { slug: string; city: string; state: string; street: string; postalCode: string; complement: string; lat: number | null; lng: number | null; sundayOpen?: string; sundayClose?: string }> = {
   "11111111-1111-1111-1111-111111111111": {
     slug: "playground-parque",
     city: "Belém",
     state: "PA",
     street: "Rod. Augusto Montenegro, 4300",
     postalCode: "66635-110",
-    complement: "Parque Shopping Belém, Térreo, próximo às Lojas Americanas",
+    complement: "Parque Shopping Belém, 1º piso",
     lat: -1.3653,
     lng: -48.4552,
+    sundayOpen: "12:00",
+    sundayClose: "21:00",
   },
   "e43ba7a8-bd5f-47ad-b81d-dae7ea19d504": {
     slug: "circuito-parque",
@@ -57,9 +59,11 @@ const UNIT_META: Record<string, { slug: string; city: string; state: string; str
     state: "PA",
     street: "Rod. Augusto Montenegro, 4300",
     postalCode: "66635-110",
-    complement: "Parque Shopping Belém, Térreo, próximo às Lojas Americanas",
+    complement: "Parque Shopping Belém, Térreo, em frente à C&A",
     lat: -1.3653,
     lng: -48.4552,
+    sundayOpen: "12:00",
+    sundayClose: "21:00",
   },
   "5fc99a57-81ee-4232-a105-1fcb4634cef4": {
     slug: "playground-bosque",
@@ -70,7 +74,9 @@ const UNIT_META: Record<string, { slug: string; city: string; state: string; str
     complement: "Shopping Bosque Grão-Pará",
     lat: -1.3912,
     lng: -48.4636,
-    // O shopping fecha mais cedo aos domingos; fa_kiosk_app_settings só guarda um closing_time por unidade.
+    // Nos shoppings, aos domingos abre às 12h e fecha às 21h (vale para todas as unidades);
+    // fa_kiosk_app_settings só guarda um closing_time por unidade, por isso o domingo fica aqui.
+    sundayOpen: "12:00",
     sundayClose: "21:00",
   },
 };
@@ -160,7 +166,7 @@ Deno.serve(async (req) => {
         geo: { lat: meta.lat, lng: meta.lng },
         timezone: "America/Belem",
         hours: meta.sundayClose
-          ? { open: OPEN_TIME, close: closingByUnit.get(u.id) ?? "22:00", days: "segunda a sábado", sunday: { open: OPEN_TIME, close: meta.sundayClose } }
+          ? { open: OPEN_TIME, close: closingByUnit.get(u.id) ?? "22:00", days: "segunda a sábado", sunday: { open: meta.sundayOpen ?? OPEN_TIME, close: meta.sundayClose } }
           : { open: OPEN_TIME, close: closingByUnit.get(u.id) ?? "22:00", days: "todos os dias" },
         discounts: { geral_pct: disc.geral, inclusivo_pct: disc.inclusivo },
         plans: unitPlans.map((p) => ({
