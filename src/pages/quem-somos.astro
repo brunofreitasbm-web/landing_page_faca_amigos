@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
+import { unidades, ORDEM, abs, localTexto, horarioTexto, trilhaNo, ISABELLA, NPS, SITE } from '../data/marca';
+import type { UnidadeId } from '../data/marca';
+
+const path = '/quem-somos';
+const pilares = [
+  { t: 'É para todas as crianças', p: 'Crianças típicas e atípicas brincam e aprendem juntas, no mesmo espaço. Inclusão não é separar: é desenhar um ambiente onde ninguém fique de fora.' },
+  { t: 'Linguagem que respeita', p: 'Falamos em criança típica, criança atípica e necessidade de suporte. Não prometemos cura e não rotulamos a criança.' },
+  { t: 'O brincar com propósito', p: 'O brincar é o caminho principal do desenvolvimento, da regulação emocional, da socialização e dos laços afetivos.' },
+  { t: 'Um espaço seguro', p: 'Cantinho de descompressão, abafadores de ruído e mediadores treinados, para acolher a família inteira sem julgamento.' },
+];
+---
+<Base
+  title="Quem somos | FaçaAmigos Belém"
+  description="Dois playgrounds inclusivos, um circuito de carrinhos e um centro de terapia comportamental em Belém, com uma ideia só: toda criança merece ser vista."
+  path={path}
+  ogImage="img/og/og-hub.jpg"
+  ogImageAlt="FaçaAmigos: playground, circuito e clínica em Belém"
+  secao="quem"
+  jsonLd={[
+    { '@type': 'AboutPage', '@id': `${abs(path)}#pagina`, url: abs(path), name: 'Quem somos', about: { '@id': `${SITE.url}/#organization` }, inLanguage: 'pt-BR' },
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Quem somos', path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <b>Quem somos</b></p>
+      <p class="eyebrow">FaçaAmigos · Belém</p>
+      <h1>Quem está por trás do FaçaAmigos</h1>
+      <p class="lead">Dois playgrounds inclusivos, um circuito de carrinhos elétricos e um centro de terapia comportamental, com uma ideia só por trás de tudo: toda criança merece ser vista, e quem cuida dela também.</p>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>O que fazemos</h2>
+      <div class="grid cols-4">
+        <div class="card"><h3>Playground</h3><p>Espaço inclusivo para crianças de 0 a 12 anos, com ou sem laudo, no Parque Shopping e no Grão-Pará.</p><a href="/playground">Conhecer o Playground</a></div>
+        <div class="card"><h3>Circuito</h3><p>Carrinhos elétricos no Parque Shopping. A criança dirige, a família acompanha de perto.</p><a href="/circuito">Conhecer o Circuito</a></div>
+        <div class="card"><h3>Clínica</h3><p>Centro de Terapia Comportamental, com equipe multidisciplinar, no Umarizal.</p><a href="/clinica">Conhecer a Clínica</a></div>
+        <div class="card"><h3>Conteúdo para pais</h3><p>Artigos, glossário, e-books e o Mapeamento Comportamental gratuito.</p><a href="/aprender">Ir para Aprender</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack-lg">
+      <h2>Como pensamos</h2>
+      <div class="grid cols-2">
+        {pilares.map((x) => <div class="card"><h3>{x.t}</h3><p>{x.p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap split">
+      <div class="photo"><Foto src={ISABELLA.foto} alt={`${ISABELLA.nome}, idealizadora do FaçaAmigos`} sizes="(min-width: 860px) 45vw, 100vw" /></div>
+      <div class="stack-lg">
+        <p class="eyebrow">Quem idealizou</p>
+        <h2>{ISABELLA.nome}</h2>
+        <p>{ISABELLA.papel} ({ISABELLA.registro}), idealizadora do FaçaAmigos, criadora do Mapeamento Comportamental e autora dos e-books <em>O Brincar com Propósito</em> e <em>O Código do Desenvolvimento Infantil</em>. Conduz o atendimento do Centro de Terapia Comportamental.</p>
+        <div class="actions"><a class="btn btn-pri" href={ISABELLA.rota}>Conhecer a Isabella</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-petrol">
+    <div class="wrap split">
+      <div class="stack-lg">
+        <p class="eyebrow">Em números</p>
+        <h2>O que as famílias respondem depois da visita</h2>
+        <p>Pesquisa de satisfação enviada por WhatsApp. {NPS.respostas} famílias responderam entre {NPS.periodo}. Os números abaixo são exatamente o que veio dessas respostas.</p>
+      </div>
+      <div class="stack-lg">
+        <div><div class="stat">{NPS.valor}</div><p>NPS (de -100 a 100)</p></div>
+        <div><div class="stat">{NPS.mediaEquipe}</div><p>nota média da equipe, de 1 a 5</p></div>
+        <div><div class="stat">{NPS.mediaEspaco}</div><p>nota média do espaço, de 1 a 5</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack-lg">
+      <h2>Onde estamos</h2>
+      <div class="grid cols-3">
+        {(['parque', 'graopara', 'clinica'] as UnidadeId[]).map((id) => (
+          <div class="card">
+            <h3>{unidades[id].nome}</h3>
+            <p>{localTexto(id)}</p>
+            <p>{horarioTexto(id)}</p>
+            <a href={unidades[id].rota}>Ver detalhes</a>
+          </div>
+        ))}
+      </div>
+      <p>O Circuito funciona no {localTexto('circuito')}. <a href="/circuito">Ver o Circuito</a>.</p>
+    </div>
+  </section>
+</Base>

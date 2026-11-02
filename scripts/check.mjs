@@ -22,8 +22,8 @@ const SITE_HOSTS = new Set([
 const EXCLUIDAS = (f) => f === 'admin.html' || f === 'gestao.html' || f === 'descadastrar.html' || /^google.*\.html$/i.test(f);
 
 const read = (p) => readFileSync(join(root, p), 'utf8');
-// HTML da raiz + subpastas de conteúdo (hoje só aprender/), sempre com "/" no nome (Windows e CI/Linux iguais).
-const CONTEUDO_SUBPASTAS = ['aprender'];
+// HTML da raiz + subpastas de conteúdo (aprender/ e as páginas de unidade/equipe), sempre com "/" no nome (Windows e CI/Linux iguais).
+const CONTEUDO_SUBPASTAS = ['aprender', 'playground', 'equipe', 'clinica'];
 function htmlEm(dir) {
   const abs = join(root, dir || '.');
   if (dir && !existsSync(abs)) return [];
@@ -423,6 +423,20 @@ if (nomesOrganization.size > 1) {
     const m = meiaPct.exec(read(arq));
     if (m) globais.erros.push(`${arq}: meia-entrada descrita em porcentagem ("${m[0].trim()}"). Use o preço em R$.`);
   }
+}
+
+// ---------- verificação global: fatos da marca (src/data/marca.json) x assets/fa-footer.js ----------
+// Enquanto páginas legadas usarem o fa-footer.js, os contatos existem nos dois lugares. Divergiu, falha.
+{
+  const marca = JSON.parse(readFileSync(join(repo, 'src/data/marca.json'), 'utf8'));
+  const footer = existsSync(join(root, 'assets/fa-footer.js')) ? read('assets/fa-footer.js') : '';
+  for (const [id, u] of Object.entries(marca.unidades)) {
+    if (u.whatsapp && !footer.includes(`wa: '${u.whatsapp}'`)) {
+      globais.erros.push(`assets/fa-footer.js não tem o WhatsApp de "${u.nome}" (${u.whatsapp}) que está em src/data/marca.json.`);
+    }
+  }
+  const cnpjs = Object.values(marca.cnpj);
+  for (const c of cnpjs) if (!footer.includes(c)) globais.erros.push(`assets/fa-footer.js não tem o CNPJ ${c} de src/data/marca.json.`);
 }
 
 // ---------- verificação global: um único container GTM ----------

@@ -1,0 +1,7 @@
+---
+// Perguntas frequentes. O texto do <details> e o do JSON-LD (faqNo em marca.ts) saem da mesma lista.
+const { itens } = Astro.props as { itens: { q: string; a: string }[] };
+---
+<div class="faq">
+  {itens.map((i) => <details><summary>{i.q}</summary><p>{i.a}</p></details>)}
+</div>

@@ -1,0 +1,142 @@
+{
+  "site": {
+    "url": "https://institutofacaamigos.com.br",
+    "nome": "FaçaAmigos",
+    "email": "institutofacaamigos@gmail.com",
+    "instagram": "https://www.instagram.com/facaamigos.belem/",
+    "instagramUser": "@facaamigos.belem",
+    "gtm": "GTM-NPDJ58XR"
+  },
+  "cnpj": {
+    "playground": "66.318.630/0001-17",
+    "instituto": "22.161.197/0001-83"
+  },
+  "unidades": {
+    "parque": {
+      "nome": "Playground Parque Shopping",
+      "curto": "Parque Shopping",
+      "papel": "Playground",
+      "tipo": "playground",
+      "geoSlug": "playground-parque",
+      "rota": "/playground/parque-shopping",
+      "shopping": "Parque Shopping Belém",
+      "andar": "1º piso",
+      "referencia": "",
+      "endereco": "Rod. Augusto Montenegro, 4300",
+      "bairro": "",
+      "cep": "66635-110",
+      "whatsapp": "5591992347673",
+      "waTexto": "Oi! Gostaria de informações sobre o Playground Parque Shopping.",
+      "mapa": "https://maps.google.com/?q=Parque+Shopping+Bel%C3%A9m",
+      "foto": "img/playground-fachada-recepcao.webp",
+      "fotoAlt": "Fachada e recepção do FaçaAmigos Playground no Parque Shopping Belém",
+      "lat": -1.3653,
+      "lng": -48.4552,
+      "comoChegar": []
+    },
+    "graopara": {
+      "nome": "Playground Grão-Pará",
+      "curto": "Grão-Pará",
+      "papel": "Playground",
+      "tipo": "playground",
+      "geoSlug": "playground-bosque",
+      "rota": "/playground/grao-para",
+      "shopping": "Shopping Bosque Grão-Pará",
+      "andar": "1º piso",
+      "referencia": "em frente à Renner",
+      "endereco": "Av. Centenário, 1052",
+      "bairro": "Val-de-Cans",
+      "cep": "66635-894",
+      "whatsapp": "5591991101215",
+      "waTexto": "Oi! Gostaria de informações sobre o Playground Grão-Pará.",
+      "mapa": "https://www.google.com/maps/dir/?api=1&destination=Shopping+Bosque+Gr%C3%A3o-Par%C3%A1%2C+Av.+Centen%C3%A1rio%2C+1052%2C+Bel%C3%A9m+PA&travelmode=driving",
+      "foto": "img/playground-grao-para.webp",
+      "fotoAlt": "Playground FaçaAmigos no Shopping Bosque Grão-Pará",
+      "lat": -1.3912,
+      "lng": -48.4636,
+      "comoChegar": []
+    },
+    "circuito": {
+      "nome": "Circuito de Carrinhos",
+      "curto": "Circuito",
+      "papel": "Circuito",
+      "tipo": "circuito",
+      "geoSlug": "circuito-parque",
+      "rota": "/circuito",
+      "shopping": "Parque Shopping Belém",
+      "andar": "Térreo",
+      "referencia": "em frente à C&A",
+      "endereco": "Rod. Augusto Montenegro, 4300",
+      "bairro": "",
+      "cep": "66635-110",
+      "whatsapp": null,
+      "waTexto": "",
+      "mapa": "https://maps.google.com/?q=Parque+Shopping+Bel%C3%A9m",
+      "foto": "img/circuito-quiosque.webp",
+      "fotoAlt": "Quiosque do FaçaAmigos Circuito no Parque Shopping Belém",
+      "lat": -1.3653,
+      "lng": -48.4552,
+      "comoChegar": []
+    },
+    "clinica": {
+      "nome": "Centro de Terapia Comportamental",
+      "curto": "Clínica",
+      "papel": "Clínica",
+      "tipo": "clinica",
+      "geoSlug": null,
+      "rota": "/clinica",
+      "shopping": "",
+      "andar": "",
+      "referencia": "",
+      "endereco": "Rua Boaventura da Silva, 1573",
+      "bairro": "Umarizal",
+      "cep": "66060-147",
+      "whatsapp": "5591991782027",
+      "waTexto": "Olá! Gostaria de informações sobre o FaçaAmigos - Centro de Terapia Comportamental.",
+      "mapa": "https://maps.google.com/?q=Rua+Boaventura+da+Silva,+1573,+Bel%C3%A9m+PA",
+      "foto": "img/clinica-fachada.webp",
+      "fotoAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos",
+      "lat": null,
+      "lng": null,
+      "comoChegar": []
+    }
+  },
+  "horarioClinica": [
+    {
+      "dias": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "texto": "Segunda a sexta, das 8h às 18h",
+      "abre": "08:00",
+      "fecha": "18:00"
+    },
+    {
+      "dias": [
+        "Saturday"
+      ],
+      "texto": "Sábado, das 8h às 12h",
+      "abre": "08:00",
+      "fecha": "12:00"
+    }
+  ],
+  "isabella": {
+    "nome": "Isabella Gonçalves Freitas",
+    "registro": "CRP 10/4727",
+    "papel": "Psicóloga infantil",
+    "foto": "img/isabella-2.webp",
+    "rota": "/equipe/isabella-freitas"
+  },
+  "nps": {
+    "valor": "94,9",
+    "respostas": 137,
+    "periodo": "agosto a outubro de 2026",
+    "canal": "WhatsApp",
+    "mediaEquipe": "4,9",
+    "mediaEspaco": "4,9",
+    "atualizadoEm": "2026-11-02"
+  }
+}
