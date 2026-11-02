@@ -48,5 +48,6 @@ Procura no material palavras que decidimos não usar e aponta onde estão.
 ## Onde está no ar
 
 - Endereço público: **https://institutofacaamigos.com.br/fatech**. É esse endereço que os QR Codes abrem, por exemplo `/fatech/cadastro?origem=rollup`.
-- Por trás, este projeto roda separado na Vercel (projeto `fa-tech-evento`). O site principal só repassa o que começa com `/fatech` (regra no `vercel.json` do repositório do site). Assim, mexer na FA Tech nunca derruba o site.
+- O código mora na pasta `fatech/` do repositório do site (`langing_page_faca_amigos`), mas é publicado por um projeto **separado** na Vercel, ligado só a essa pasta. O site principal apenas repassa o que começa com `/fatech` (regra no `vercel.json` da raiz). Assim, mexer na FA Tech nunca derruba o site.
+- Toda alteração dentro de `fatech/` que chega na `main` vai para o ar sozinha. Alterações só do site não reconstroem a FA Tech.
 - **Hoje o `/fatech/cadastro` é provisório:** mostra um botão que abre o WhatsApp do Bruno com a mensagem "Vi a FA Tech no evento (rollup/mesa/cartao)". O cadastro completo, com a lista de interessados, entra no lugar dele sem trocar o endereço, então as artes impressas continuam valendo.
