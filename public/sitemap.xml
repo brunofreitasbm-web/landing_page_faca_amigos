@@ -3,55 +3,55 @@
   <!-- Hub Principal FaçaAmigos -->
   <url>
     <loc>https://institutofacaamigos.com.br/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <!-- Playground Inclusivo -->
   <url>
     <loc>https://institutofacaamigos.com.br/playground</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Circuito de Carrinhos -->
   <url>
     <loc>https://institutofacaamigos.com.br/circuito</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Guia O Brincar com Propósito -->
   <url>
     <loc>https://institutofacaamigos.com.br/guia</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- E-book O Código do Desenvolvimento Infantil -->
   <url>
     <loc>https://institutofacaamigos.com.br/codigo</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/termos</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <!-- Mapeamento Comportamental -->
   <url>
     <loc>https://institutofacaamigos.com.br/teste</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- Clínica: landing e serviços -->
   <url>
     <loc>https://institutofacaamigos.com.br/clinica</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -64,89 +64,89 @@
   <!-- Área Aprender (guias educativos) -->
   <url>
     <loc>https://institutofacaamigos.com.br/aprender</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/e-para-todas-as-criancas</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/birra-ou-crise</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/sinais-para-observar</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/primeira-vez-no-playground</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/rotina-visual-em-casa</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/como-e-a-terapia-comportamental</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/laudo-e-ciptea</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/conversar-com-a-escola</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/brincar-com-proposito-10-minutos</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <!-- Glossário -->
   <url>
     <loc>https://institutofacaamigos.com.br/glossario</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- Política de Privacidade -->
   <url>
     <loc>https://institutofacaamigos.com.br/politica-privacidade</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <!-- Eventos: palestras, encontros e treinamentos -->
   <url>
     <loc>https://institutofacaamigos.com.br/eventos</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Faça parte do nosso time (candidatura com currículo) -->
   <url>
     <loc>https://institutofacaamigos.com.br/trabalhe-conosco</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

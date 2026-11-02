@@ -46,8 +46,9 @@ function arquivoDaUrl(loc) {
 
 function dataDoArquivo(arq) {
   if (git(['status', '--porcelain', '--', arq])) return hoje(); // alterado, novo ou não commitado
-  // --follow: o arquivo foi movido para public/; sem isso a data de todas as páginas viraria a do commit da mudança de pasta.
-  return git(['log', '--follow', '-1', '--format=%cs', '--', arq]) || hoje();
+  // --follow + --diff-filter=AM: o arquivo foi movido para public/. Um commit que só renomeia (status R) não conta
+  // como alteração; sem isso a data de todas as páginas viraria a da mudança de pasta.
+  return git(['log', '--follow', '--diff-filter=AM', '-1', '--format=%cs', '--', arq]) || hoje();
 }
 
 let defasados = 0;
