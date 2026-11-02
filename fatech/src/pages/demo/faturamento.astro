@@ -354,7 +354,7 @@ const glosaInfo: Record<string, { rot: string; cls: string }> = {
       if (vermelhas.length) {
         const valor = vermelhas.reduce((s: number, g: any) => s + g.valor, 0);
         return abrir('Envio bloqueado', [
-          { txt: `${vermelhas.length} guia(s) seriam recusadas pelo plano: ${vermelhas.map((g: any) => g.crianca).join(', ')}.` },
+          { txt: `${vermelhas.length} guia(s) seriam recusadas pelo plano (${vermelhas.map((g: any) => g.crianca).join(', ').replace(/, ([^,]*)$/, ' e $1')}).` },
           { rot: 'Valor em risco', txt: real(valor) },
           { txt: 'O sistema não deixa o lote sair com erro. Corrija primeiro e envie tudo certo de uma vez.' },
         ], [

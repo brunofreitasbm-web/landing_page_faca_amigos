@@ -159,7 +159,7 @@ const ontem = d.contatos.filter((c) => c.quando.startsWith('Ontem')).length;
     const optin = document.getElementById('wf-optin') as HTMLInputElement;
     const consentBox = document.getElementById('wf-consent-box')!;
 
-    // Máscara (91) 99999-9999
+    // Máscara (00) 90000-0009
     zap.addEventListener('input', () => {
       const n = zap.value.replace(/\D/g, '').slice(0, 11);
       let v = n;

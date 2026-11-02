@@ -47,6 +47,22 @@ npm run check
 
 Procura no material palavras que decidimos não usar e aponta onde estão.
 
+## As páginas do estande
+
+Todas em **institutofacaamigos.com.br/fatech**. Detalhes de uso no dia estão em `docs/CHECKLIST-DO-EVENTO.md` e o que falar em `docs/ROTEIRO-DE-VENDA.md`.
+
+| Endereço | O que é | Onde editar o texto |
+|---|---|---|
+| `/fatech` | Entrada: leva às demonstrações e à calculadora | `src/pages/index.astro` |
+| `/fatech/demo` | Todos os sistemas, organizados pela dor | `src/data/produtos.json` |
+| `/fatech/demo/clinica` · `faturamento` · `atende` · `pessoas` · `play` · `tv` · `wifi` | Demonstrações clicáveis, com dados inventados e o botão "Mostrar o caminho" | `src/data/demo/<nome>.json` |
+| `/fatech/demo/calculadora` | Calculadora da dor (quanto a clínica deixa de receber) | `src/pages/demo/calculadora.astro` |
+| `/fatech/tv` | Loop da TV do estande (roda sozinho, com QR fixo). `?rapido=1` acelera para testar | `src/data/tv-slides.json` |
+| `/fatech/apresentacao` | Slides (setas do teclado, F = tela cheia, Imprimir → PDF) | `src/pages/apresentacao.astro` |
+| `/fatech/cadastro` | Página que os QR Codes abrem (hoje leva ao WhatsApp) | `src/pages/cadastro.astro` |
+
+**Antes de mostrar os slides:** troque os trechos destacados com borda tracejada (slide 3 e o nome do parceiro do faturamento) por fatos reais.
+
 ## Onde está no ar
 
 - Endereço público: **https://institutofacaamigos.com.br/fatech**. É esse endereço que os QR Codes abrem, por exemplo `/fatech/cadastro?origem=rollup`.
