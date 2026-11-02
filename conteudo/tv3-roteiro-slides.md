@@ -744,6 +744,22 @@ Família R · 10 s · sem QR, layout respiro, dias 2,4,5
 12. **`b_boasvindas`.** A duração de 40 minutos e os 120 do Treino ABA vêm do FAQ do chatbot do sistema (`CF/chatbot-base-conhecimento.md:50`), não de uma página do site.
 13. **Licenças e fotos.** `d_graopara` usa `img/FOTO-GRAO-PARA.webp`, que ainda não existe. Slide fica desligado até a foto entrar.
 
+## F. Desconto da Família (Mural do Portal)
+
+Pedido da clínica: avisar que quem é atendido na Clínica tem desconto, visto no Mural. O nome do produto continua sendo **Portal da Família** e "Mural" é a seção dentro dele; por isso os textos dizem "Mural do Portal da Família" (a expressão "Mural da Família" segue proibida). O valor do desconto não aparece de propósito. Os slides só entram com `portalAtivo` ligado.
+
+- `f_desconto` · 15 s · QR: portal · "Quem é atendido na Clínica tem desconto."
+- `f_passos` · 20 s · QR: portal, layout tutorial · "Seu desconto está no Mural do Portal."
+- `f_pergunte` · 15 s · sem QR · "Atendido aqui? Veja o desconto no Mural."
+
+## G. Avaliação no Google
+
+QR `avaliar` leva a https://g.page/r/CUpdqF5yECeVECE/review (link informado pela clínica). O texto pede a avaliação sem prometer nada em troca.
+
+- `g_cinco` · 15 s · QR: avaliar · "Gostou do atendimento? Deixe 5 estrelas."
+- `g_passos` · 20 s · QR: avaliar, layout tutorial · "Avaliar a clínica leva menos de 1 minuto."
+- `g_outras` · 15 s · QR: avaliar · "Sua avaliação ajuda outra família a chegar até nós."
+
 ## Autoexame
 
 Regex sobre `tv3-slides.json`: `promessa|confian[çc]a|oferta|garantid|cura\b|especial|normal|problem|!|—|convênio|IASEP|PROASA`

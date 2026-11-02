@@ -870,6 +870,178 @@
     "highlightText": "Não substitui avaliação profissional."
   },
   {
+    "id": "g_cinco",
+    "fam": "G",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "avaliar",
+    "isabella": false,
+    "image": "img/clinica-fachada.webp",
+    "images": [
+      "img/clinica-fachada.webp",
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-painel-sensorial.webp"
+    ],
+    "kicker": "⭐ Sua opinião conta",
+    "kickerClass": "yellow",
+    "headline": "Gostou do atendimento? Deixe <em>5 estrelas</em>.",
+    "subtext": "Sua avaliação no Google ajuda outras famílias a nos encontrar e mostra à equipe o que está dando certo.",
+    "badge": "Google",
+    "actionTitle": "Avalie com 5 estrelas",
+    "actionDesc": "Leva menos de um minuto, direto no seu celular.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código, toque em 5 estrelas e publique.",
+    "qrHint": "Obrigado por apoiar a clínica",
+    "highlightIcon": "⭐",
+    "highlightText": "Uma frase sobre a sua experiência já ajuda muito."
+  },
+  {
+    "id": "g_passos",
+    "fam": "G",
+    "dur": 20,
+    "layout": "tutorial",
+    "qr": "avaliar",
+    "isabella": false,
+    "image": "img/clinica-atividade-pedagogica.webp",
+    "images": [
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-fachada.webp",
+      "img/clinica-painel-sensorial.webp"
+    ],
+    "kicker": "⭐ Avalie no Google",
+    "kickerClass": "yellow",
+    "headline": "Avaliar a clínica leva <em>menos de 1 minuto</em>.",
+    "subtext": "São três passos, e você não precisa sair da sala de espera.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código com a câmera e toque no link.",
+    "qrHint": "Escolha 5 estrelas e publique",
+    "steps": [
+      {
+        "num": "1",
+        "title": "Aponte a câmera",
+        "desc": "Leia o QR e abra a página de avaliação do Google."
+      },
+      {
+        "num": "2",
+        "title": "Toque em 5 estrelas",
+        "desc": "Marque a nota que representa a sua experiência."
+      },
+      {
+        "num": "3",
+        "title": "Escreva e publique",
+        "desc": "Uma frase curta já basta. Depois, toque em Publicar."
+      }
+    ]
+  },
+  {
+    "id": "g_outras",
+    "fam": "G",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "avaliar",
+    "isabella": false,
+    "image": "img/clinica-painel-sensorial.webp",
+    "images": [
+      "img/clinica-painel-sensorial.webp",
+      "img/clinica-atividade-pedagogica.webp",
+      "img/clinica-fachada.webp"
+    ],
+    "kicker": "💛 De família para família",
+    "kickerClass": "pink",
+    "headline": "Sua avaliação ajuda outra família a <em>chegar até nós</em>.",
+    "subtext": "Muitas famílias escolhem a clínica pelo que outras famílias contam no Google. Conte a sua experiência.",
+    "badge": "Google",
+    "actionTitle": "Conte como foi aqui",
+    "actionDesc": "Avalie com 5 estrelas e, se quiser, escreva uma frase.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código e avalie em poucos toques.",
+    "qrHint": "Leva menos de um minuto",
+    "highlightIcon": "🤝",
+    "highlightText": "Seu relato pode ajudar quem está começando."
+  },
+  {
+    "id": "f_desconto",
+    "fam": "F",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "portal",
+    "requires": "portalAtivo",
+    "isabella": false,
+    "image": "img/playground-mediadora-tapete.webp",
+    "images": [
+      "img/playground-mediadora-tapete.webp",
+      "img/galeria-oficinas.webp"
+    ],
+    "kicker": "💛 Família FaçaAmigos",
+    "kickerClass": "yellow",
+    "headline": "Quem é atendido na Clínica tem <em>desconto</em>.",
+    "subtext": "O benefício vale no Playground e no Circuito. Para ver como usar, abra o Mural do Portal da Família.",
+    "badge": "Portal da Família",
+    "actionTitle": "Veja o desconto no Mural",
+    "actionDesc": "Entre no portal e abra a seção Mural.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código e toque em Entrar no portal.",
+    "qrHint": "Depois, abra a aba Mural",
+    "highlightIcon": "🎟️",
+    "highlightText": "O desconto é para quem é atendido na Clínica."
+  },
+  {
+    "id": "f_passos",
+    "fam": "F",
+    "dur": 20,
+    "layout": "tutorial",
+    "qr": "portal",
+    "requires": "portalAtivo",
+    "isabella": false,
+    "image": "img/galeria-oficinas.webp",
+    "images": [
+      "img/galeria-oficinas.webp",
+      "img/playground-mediadora-tapete.webp"
+    ],
+    "kicker": "🎟️ Desconto da Família",
+    "kickerClass": "yellow",
+    "headline": "Seu desconto está no <em>Mural do Portal</em>.",
+    "subtext": "Quem é atendido na Clínica encontra o benefício no celular, em três passos.",
+    "qrTitle": "Aponte a câmera aqui",
+    "qrDesc": "Leia o código com a câmera e toque em Entrar.",
+    "qrHint": "Depois, abra a aba Mural",
+    "steps": [
+      {
+        "num": "1",
+        "title": "Entre no Portal",
+        "desc": "Leia o QR, toque em Entrar e depois na aba Família."
+      },
+      {
+        "num": "2",
+        "title": "Abra o Mural",
+        "desc": "O Mural fica entre as abas do Portal da Família."
+      },
+      {
+        "num": "3",
+        "title": "Veja o desconto",
+        "desc": "Lá está o desconto de quem é atendido na Clínica."
+      }
+    ]
+  },
+  {
+    "id": "f_pergunte",
+    "fam": "F",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": null,
+    "requires": "portalAtivo",
+    "isabella": false,
+    "image": "img/playground-mediadora-tapete.webp",
+    "images": [
+      "img/playground-mediadora-tapete.webp",
+      "img/galeria-oficinas.webp"
+    ],
+    "kicker": "💛 Benefício da Família",
+    "kickerClass": "yellow",
+    "headline": "Atendido aqui? Veja o <em>desconto</em> no Mural.",
+    "subtext": "O Mural do Portal da Família mostra o desconto de quem faz terapia na Clínica. Dúvidas? A recepção ajuda."
+  },
+  {
     "id": "r_1",
     "fam": "R",
     "dur": 10,
