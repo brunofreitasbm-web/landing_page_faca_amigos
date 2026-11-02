@@ -1,0 +1,43 @@
+{
+  "clinica": "Clínica Arco-Íris",
+  "kpis": [
+    { "rotulo": "Acessos ao portal pelo QR da TV", "valor": "312", "cmp": "▲ 38% vs. outubro (226)", "tom": "sobe" },
+    { "rotulo": "Avisos enviados pelo celular", "valor": "27", "cmp": "▲ 18 vs. outubro · nenhum recado de papel", "tom": "sobe" },
+    { "rotulo": "Espera com conteúdo da clínica", "valor": "96%", "cmp": "meta 90% · era 0% com canal aberto", "tom": "sobe" },
+    { "rotulo": "Dicas para casa exibidas", "valor": "1.240", "cmp": "▲ 12% vs. outubro", "tom": "sobe" }
+  ],
+  "tv1": {
+    "nome": "TV 1 · Salão",
+    "src": "/tv?som=0",
+    "descricao": "Muda sozinha conforme a hora do dia: manhã, tarde e fim de expediente.",
+    "slides": [
+      { "tipo": "modo", "chip": "Modo manhã", "titulo": "Bom dia, famílias", "texto": "Hoje o salão abre às 8h. Água e café na recepção." },
+      { "tipo": "modo", "chip": "Programação", "titulo": "Sábado tem Circuito", "texto": "Das 9h às 12h, com a equipe de Terapia Ocupacional. Irmãos podem participar." },
+      { "tipo": "modo", "chip": "Modo tarde", "titulo": "Boa tarde", "texto": "Sessões da tarde começam às 14h. Chegue 10 minutos antes para a troca de ambiente." },
+      { "tipo": "modo", "chip": "Fim do dia", "titulo": "Até amanhã", "texto": "Esqueceu algo na sala? A recepção guarda até sexta." }
+    ]
+  },
+  "tv2": {
+    "nome": "TV 2 · Circuito (vertical)",
+    "src": "/tv2?som=0",
+    "descricao": "Tela em pé, com fotos das atividades da semana (com autorização das famílias).",
+    "slides": [
+      { "tipo": "foto", "cor": "a", "chip": "Foto da semana", "titulo": "Oficina de pintura com as mãos", "texto": "Terça, turma da manhã" },
+      { "tipo": "foto", "cor": "b", "chip": "Circuito", "titulo": "Túnel, cama elástica e balanço", "texto": "Sábado, das 9h às 12h" },
+      { "tipo": "foto", "cor": "c", "chip": "Playground", "titulo": "Espaço aberto para irmãos", "texto": "Sábados, com um responsável" }
+    ]
+  },
+  "tv3": {
+    "nome": "TV 3 · Sala de espera da clínica",
+    "src": "/tv3?som=0&portal=1",
+    "descricao": "A que o celular controla nesta demonstração.",
+    "slides": [
+      { "tipo": "dica", "chip": "Dica para casa", "titulo": "Antecipe a troca de atividade", "texto": "Avise 5 minutos antes: \"Mais duas vezes no balanço e depois vamos lanchar\". Um timer visual ajuda." },
+      { "tipo": "qr", "chip": "Portal da Família", "titulo": "Aponte a câmera e entre no portal", "texto": "Agenda, metas do plano e recados da equipe no seu celular." },
+      { "tipo": "aviso", "chip": "Agenda", "titulo": "Feriado de 15/11", "texto": "Não teremos sessões no sábado, 15/11. As reposições já estão no portal." },
+      { "tipo": "aniversario", "chip": "Aniversariantes de novembro", "titulo": "Parabéns!", "nomes": ["Theo", "Helena", "Bento", "Cecília", "Gael"] },
+      { "tipo": "dica", "chip": "Dica para casa", "titulo": "Rotina em figuras", "texto": "Um quadro com 3 ou 4 figuras na porta do quarto deixa a manhã mais previsível." }
+    ]
+  },
+  "avisoPadrao": "A sessão das 10h da sala 2 vai começar com 15 minutos de atraso."
+}

@@ -1,0 +1,81 @@
+{
+  "clinica": "Clínica Arco-Íris",
+  "parceria": "em parceria com especialista em faturamento de Belém",
+  "mes": "novembro",
+  "guias": [
+    { "id": "g1", "numero": "A-20431", "crianca": "Theo A.", "plano": "Plano Saúde A", "terapia": "ABA", "sessoes": 16, "valor": 1760, "status": "pronta" },
+    { "id": "g2", "numero": "B-11872", "crianca": "Bento R.", "plano": "Plano Saúde B", "terapia": "Fonoaudiologia", "sessoes": 8, "valor": 720, "status": "pendencia",
+      "erro": {
+        "titulo": "Senha de autorização não informada",
+        "explica": "O plano liberou as sessões do Bento por telefone, mas a senha que ele deu não foi digitada na guia.",
+        "consequencia": "Sem a senha, o plano pode devolver a guia e o pagamento atrasa um mês.",
+        "correcao": "A senha 7731-B já estava anotada no atendimento da recepção. O sistema preenche sozinho.",
+        "acao": "Corrigir: preencher a senha"
+      } },
+    { "id": "g3", "numero": "B-11905", "crianca": "Davi S.", "plano": "Plano Saúde B", "terapia": "Integração Sensorial", "sessoes": 8, "valor": 960, "status": "risco",
+      "erro": {
+        "titulo": "Carteirinha vencida",
+        "explica": "A carteirinha do Davi venceu em 31/10. As 8 sessões são de novembro.",
+        "consequencia": "O plano recusa o pagamento das 8 sessões: R$ 960 de glosa.",
+        "correcao": "A família já mandou a carteirinha nova pelo WhatsApp (válida até 31/10/2027). O sistema atualiza o número na guia.",
+        "acao": "Corrigir: atualizar carteirinha"
+      } },
+    { "id": "g4", "numero": "A-20447", "crianca": "Maria L.", "plano": "Plano Saúde A", "terapia": "ABA", "sessoes": 16, "valor": 1760, "status": "pronta" },
+    { "id": "g5", "numero": "A-20452", "crianca": "Alice P.", "plano": "Plano Saúde A", "terapia": "ABA", "sessoes": 12, "valor": 1320, "status": "risco",
+      "erro": {
+        "titulo": "Código do procedimento diferente do autorizado",
+        "explica": "O plano autorizou o código 1.01.470 (terapia ABA), mas o lote saiu com 1.01.462 (avaliação).",
+        "consequencia": "Código diferente do autorizado é glosa certa: R$ 1.320 recusados.",
+        "correcao": "O sistema troca para o código que está na autorização do plano.",
+        "acao": "Corrigir: usar o código autorizado"
+      } },
+    { "id": "g6", "numero": "B-11913", "crianca": "Helena C.", "plano": "Plano Saúde B", "terapia": "Psicologia", "sessoes": 4, "valor": 480, "status": "pronta" },
+    { "id": "g7", "numero": "B-11920", "crianca": "Lucas M.", "plano": "Plano Saúde B", "terapia": "Integração Sensorial", "sessoes": 14, "valor": 1680, "status": "risco",
+      "erro": {
+        "titulo": "Sessões acima do autorizado",
+        "explica": "A guia do Lucas autorizou 12 sessões, mas o lote está cobrando 14.",
+        "consequencia": "O plano recusaria as 2 sessões a mais, e às vezes devolve a guia inteira: até R$ 1.680 parados.",
+        "correcao": "O sistema cobra as 12 autorizadas agora e separa as 2 restantes para a guia de renovação, que já foi pedida.",
+        "acao": "Corrigir: separar as 2 sessões"
+      } },
+    { "id": "g8", "numero": "A-20466", "crianca": "Miguel F.", "plano": "Plano Saúde A", "terapia": "Terapia Ocupacional", "sessoes": 8, "valor": 880, "status": "pronta" },
+    { "id": "g9", "numero": "A-20471", "crianca": "Cecília V.", "plano": "Plano Saúde A", "terapia": "Fonoaudiologia", "sessoes": 8, "valor": 720, "status": "pendencia",
+      "erro": {
+        "titulo": "Assinatura do responsável faltando",
+        "explica": "Duas sessões da Cecília (05/11 e 12/11) estão sem a assinatura do responsável.",
+        "consequencia": "Sessão sem assinatura pode ser recusada na auditoria do plano.",
+        "correcao": "O sistema manda um pedido de assinatura pelo celular para a mãe da Cecília. Ela assinou agora.",
+        "acao": "Corrigir: pedir assinatura à família"
+      } },
+    { "id": "g10", "numero": "B-11934", "crianca": "Arthur N.", "plano": "Plano Saúde B", "terapia": "ABA", "sessoes": 12, "valor": 1320, "status": "pronta" }
+  ],
+  "glosas": [
+    { "id": "gl1", "crianca": "Bruna T.", "plano": "Plano Saúde B", "mes": "Outubro", "valor": 1320, "motivo": "Sessões cobradas sem a senha de autorização", "situacao": "aberta", "prazo": "Faltam 12 dias para recorrer",
+      "recurso": "Ao Plano Saúde B, setor de recursos de glosa.\n\nReferente à guia B-10988 (Bruna T., terapia ABA, outubro), glosada pelo motivo \"senha de autorização ausente\".\n\nA autorização foi concedida pelo próprio plano em 02/10, senha 6620-B, conforme protocolo de atendimento nº 4471. Seguem em anexo: cópia da autorização, folha de frequência assinada pelo responsável e as 12 evoluções das sessões realizadas.\n\nSolicitamos a revisão da glosa e o pagamento de R$ 1.320,00.\n\nClínica Arco-Íris · Setor de faturamento" },
+    { "id": "gl2", "crianca": "Gael F.", "plano": "Plano Saúde A", "mes": "Setembro", "valor": 480, "motivo": "Data da sessão fora da validade da guia", "situacao": "analise", "prazo": "Recurso enviado em 14/10" },
+    { "id": "gl3", "crianca": "Nina R.", "plano": "Plano Saúde B", "mes": "Setembro", "valor": 660, "motivo": "Evolução não anexada", "situacao": "recuperada", "prazo": "Pago em 28/10" }
+  ],
+  "painel": {
+    "kpis": [
+      { "rotulo": "Glosa sobre o faturado", "valor": "2,1%", "cmp": "▼ 6,3 p.p. vs. outubro · meta até 3%", "tom": "sobe" },
+      { "rotulo": "Valor recuperado em recurso", "valor": "R$ 7.840", "cmp": "▲ R$ 3.120 vs. outubro", "tom": "sobe" },
+      { "rotulo": "Prazo para fechar o lote", "valor": "3 dias", "cmp": "eram 9 em outubro · meta 5 dias", "tom": "sobe" },
+      { "rotulo": "Guias enviadas sem pendência", "valor": "96%", "cmp": "▲ 14 p.p. vs. outubro · meta 95%", "tom": "sobe" }
+    ],
+    "meses": [
+      { "rotulo": "Jun", "glosa": 9.2 },
+      { "rotulo": "Jul", "glosa": 8.7 },
+      { "rotulo": "Ago", "glosa": 9.6 },
+      { "rotulo": "Set", "glosa": 7.9 },
+      { "rotulo": "Out", "glosa": 8.4 },
+      { "rotulo": "Nov", "glosa": 2.1 }
+    ],
+    "meta": 3,
+    "motivos": [
+      { "texto": "Carteirinha vencida", "antes": 34, "agora": 0 },
+      { "texto": "Código diferente do autorizado", "antes": 27, "agora": 1 },
+      { "texto": "Sessão acima do autorizado", "antes": 21, "agora": 0 },
+      { "texto": "Assinatura ou senha faltando", "antes": 18, "agora": 2 }
+    ]
+  }
+}
