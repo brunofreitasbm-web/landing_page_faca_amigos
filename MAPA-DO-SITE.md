@@ -16,19 +16,19 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 | `scripts/` | `check.mjs` verifica o **site construído** (`dist/`): rode `npm run build && npm run check`. |
 
 ### Onde editar cada coisa
-- **Telefone, endereço, andar, referência, CNPJ:** `src/data/marca.json` (e o mesmo número em `public/assets/fa-footer.js`, enquanto houver página legada: o `check` falha se divergirem).
+- **Telefone, endereço, andar, referência, CNPJ:** `src/data/marca.json` (o rodapé é `src/components/Footer.astro`, estático, lido de `marca.json`; o mesmo número ainda existe em `public/assets/fa-footer.js`, usado só por `descadastrar.html`: o `check` falha se divergirem).
 - **Horário e preço do Playground/Circuito:** vêm do caixa. Corrigir no cadastro da unidade e rodar `npm run geo`. O domingo (12h às 21h) fica em `supabase/functions/geo-facts/index.ts` (`sundayOpen`/`sundayClose`).
 - **Horário da Clínica:** `src/data/marca.json` → `horarioClinica`.
 - **Publicar um profissional:** `src/data/equipe.json`, `publicar: true` (só com aprovação dele). Com 2 ou mais perfis, `/clinica/equipe` passa a ser indexável e entra no sitemap.
 - **Texto do glossário, termos, política, índice de Aprender, 404, trabalhe conosco e eventos:** `src/data/paginas/<slug>.html` (o texto), `<slug>.json` (metadados e JSON-LD) e `<slug>.N.js` (scripts da página, copiados como estavam). Os cartões do índice de Aprender saem do campo `card` de cada artigo.
 - **Texto de um artigo de Aprender:** `src/data/aprender/<slug>.html` (o texto) e `<slug>.json` (título, metadados, botões, "leia também"). Um artigo novo = um par de arquivos novo; a rota `aprender/[slug]` gera a página. A URL entra em `public/sitemap.xml`.
-- **Nova página:** `src/pages/x.astro` usando `Base`; incluir a URL em `public/sitemap.xml` (o `lastmod` é mantido por `npm run sitemap`).
+- **Nova página:** `src/pages/x.astro` usando `Base`; depois `npm run build && npm run sitemap`: a URL entra sozinha em `public/sitemap.xml` (páginas com canonical do hub e sem noindex; changefreq 0.6/monthly por padrão, ajustável no arquivo) e o `lastmod` vem do git. Commitar o `sitemap.xml`.
 
 ### Pendências conhecidas
 - As páginas legadas em `public/*.html` (ingresso, descadastrar e família) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
 - `/trabalhe-conosco`: vagas com schema `JobPosting` (hoje a página é só o formulário de candidatura); `/parcerias` (depende de haver oferta de dia útil).
 - `evento` (acoplada ao `middleware.js`, que reescreve o HTML dela por texto exato), `ingresso`, `teste` (questionário), `guia` e `codigo` (checkout da Hotmart) e as páginas grandes de venda ficaram de fora de propósito: têm lógica ou CSS próprio que exige migração com mais cuidado.
-- `sitemap.xml` ainda é mantido à mão (`public/`).
+- `sitemap.xml` é gerado a partir das páginas construídas (`npm run build && npm run sitemap`) e fica versionado em `public/`: o `lastmod` sai do git local, e o CI faz checkout raso. `sitemap-playground.xml` segue fixo (transição).
 - Hoje são servidos publicamente `NEWVITTA/`, `contexto.md`, `EXPERIMENTOS-TV2.md` e `chatbot-clinica/`. Decidir se saem de `public/`.
 - Textos dos artigos de Aprender que talvez estejam velhos: "Conhecer a Clínica FaçaAmigos, em breve no Umarizal" (todos os 9) e "entrar na lista de espera da Clínica" (2). A página da Clínica diz "já está atendendo". Confirmar qual é a verdade.
 - Preço do Parque no caixa (50% para o público geral) diverge do site e de `geo-facts.json` do repositório (40%).
@@ -147,13 +147,13 @@ Funções: `behavior-test-webhook`, `behavior-test-admin`, `guia-sequence`, `hot
 2. **Quem está no shopping (Maps/Instagram):** `/playground` → guia/código/teste ou WhatsApp; o botão "Instituto FaçaAmigos" leva ao hub.
 3. **Quem procura terapia:** `/clinica` → lista de espera (WhatsApp).
 4. **Quem se inscreve em evento:** hub (seção de eventos) → `/eventos` → `/eventos/:slug` → voucher em `/ingresso`.
-5. **Quem quer trabalhar no FaçaAmigos:** link "Faça parte do nosso time" (rodapé de todas as páginas via `fa-footer.js`, topo do playground) → `/trabalhe-conosco` → candidatura → e-mail com o teste de perfil comportamental.
+5. **Quem quer trabalhar no FaçaAmigos:** link "Faça parte do nosso time" (rodapé de todas as páginas, `Footer.astro`; topo do playground) → `/trabalhe-conosco` → candidatura → e-mail com o teste de perfil comportamental.
 6. **Equipe:** `gestao.` → login único → Clínica e demais sistemas via `/sso`.
 
 ## 7. Pontos de atenção (28/09 a 08/10/2026)
 
 - 08/10/2026: o formulário "Faça parte do nosso time" saiu dos modais (`#jobModalOverlay`) do playground e do circuito e virou a
-  página `/trabalhe-conosco`. Os links do playground/circuito e do rodapé (`fa-footer.js`) apontam para
+  página `/trabalhe-conosco`. Os links do playground/circuito e do rodapé (`Footer.astro`) apontam para
   `https://institutofacaamigos.com.br/trabalhe-conosco`. `assets/fa-modal.js` foi removido (nenhuma página tem mais modal).
 
 - `npm run geo:check` acusa `llms.txt` e `llms-full.txt` divergentes do preço atual do quiosque. Rodar `npm run geo`,
