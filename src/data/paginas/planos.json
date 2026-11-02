@@ -1,0 +1,128 @@
+{
+  "slug": "planos",
+  "path": "/planos",
+  "titleTag": "Pacotes Particular de Terapia Infantil | FaçaAmigos",
+  "descricao": "Pacotes particulares de terapia infantil de 4 a 24 sessões por mês no Umarizal, Belém/PA, com terapias combinadas. Valores pelo WhatsApp.",
+  "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  "ogTitle": "Pacotes Particular de Terapia Infantil | FaçaAmigos",
+  "ogDescricao": "Pacotes particulares de terapia infantil de 4 a 24 sessões por mês no Umarizal, Belém/PA, com terapias combinadas. Valores pelo WhatsApp.",
+  "ogSiteName": "FaçaAmigos — Centro de Terapia Comportamental",
+  "ogType": "website",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "fa_cta": {
+    "label": "Consultar valores",
+    "href": "whatsapp",
+    "event": "whatsapp"
+  },
+  "jsonLd": [
+    {
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/planos#webpage",
+      "url": "https://institutofacaamigos.com.br/planos",
+      "name": "Pacotes Particular de Terapia Infantil | FaçaAmigos",
+      "description": "Pacotes particulares de terapia infantil de 4 a 24 sessões por mês no Umarizal, Belém/PA, com terapias combinadas. Valores pelo WhatsApp.",
+      "inLanguage": "pt-BR",
+      "about": {
+        "@type": "MedicalBusiness",
+        "name": "FaçaAmigos Centro de Terapia Comportamental",
+        "url": "https://institutofacaamigos.com.br/clinica"
+      }
+    },
+    {
+      "@type": "OfferCatalog",
+      "name": "Pacotes Particular FaçaAmigos",
+      "url": "https://institutofacaamigos.com.br/planos",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pacote Primeiro Passo (4 sessões por mês)",
+            "description": "Acompanhamento terapêutico e evolução. Valores com a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pacote Laço (8 sessões por mês)",
+            "description": "Uma ou duas especialidades e comunicação com a família. Valores com a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pacote Vínculo (12 sessões por mês)",
+            "description": "Plano individualizado e múltiplas especialidades. Valores com a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pacote Turma (16 sessões por mês)",
+            "description": "Acompanhamento frequente e integração da equipe. Valores com a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pacote Abraço (20 sessões por mês)",
+            "description": "Cuidado intensivo com foco na autonomia. Valores com a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pacote Voo Livre (24 sessões por mês)",
+            "description": "Programa personalizado para autonomia e qualidade de vida. Valores com a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Encontro (sessão avulsa)",
+            "description": "Sessão individual de acolhimento ou acompanhamento pontual. Valor com a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Avaliação Neuropsicológica",
+            "description": "Pacote com bateria de testes, laudo e devolutiva. Valor com a equipe pelo WhatsApp."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://institutofacaamigos.com.br/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Clínica",
+          "item": "https://institutofacaamigos.com.br/clinica"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Pacotes Particular",
+          "item": "https://institutofacaamigos.com.br/planos"
+        }
+      ]
+    }
+  ],
+  "scripts": 1
+}
