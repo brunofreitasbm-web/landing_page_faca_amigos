@@ -208,7 +208,7 @@ const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curren
       { alvo: '#painel-grid', texto: 'Cada criança com o tempo correndo. Verde, amarelo, laranja e vermelho: dá para ver de longe quem está acabando. Os ícones mostram os cuidados de cada uma.' },
       { alvo: '#aba-saida', texto: 'O momento mais importante: a saída. Toque aqui.', clique: true },
       { alvo: '#btn-trocado', texto: 'Teste uma troca: a pulseira de uma criança com o ticket de outra família. Toque aqui.', clique: true },
-      { alvo: '#modal-acoes', texto: 'Saída bloqueada. Nenhuma criança sai com quem não deve. Toque no botão para fechar.', clique: true },
+      { alvo: '#modal .modal', texto: 'Saída bloqueada. Nenhuma criança sai com quem não deve. Toque no aviso para fechar.', clique: true },
       { alvo: '#aba-caixa', texto: 'Fim do dia: o caixa é fechado às cegas. Toque aqui.', clique: true },
       { alvo: '#aba-dono', texto: 'E o dono acompanha tudo pelo celular. Toque aqui.', clique: true },
       { alvo: '#btn-offline', texto: 'E se a internet cair no meio do sábado? Toque aqui.', clique: true }
@@ -244,6 +244,12 @@ const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curren
       });
       modal.hidden = false;
     }
+    // No alerta de bloqueio, tocar em qualquer parte do aviso equivale a "Chamei o responsável".
+    modal.querySelector('.modal')!.addEventListener('click', (e) => {
+      if (!modal.querySelector('.modal')!.classList.contains('perigo')) return;
+      if ((e.target as HTMLElement).closest('button')) return;
+      (modal.querySelector('#modal-acoes button') as HTMLButtonElement | null)?.click();
+    });
 
     // Internet (simulada)
     let offline = false, pendentes = 0;
