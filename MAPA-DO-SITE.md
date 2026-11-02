@@ -1,6 +1,33 @@
 # Mapa do site FaçaAmigos
 
-Atualizado em 30/09/2026, a partir do código do repositório (não foi conferido no ar).
+Atualizado em 02/11/2026, a partir do código do repositório. A seção 0 é a arquitetura atual; as demais seções descrevem as rotas (conferir a seção 0 antes de confiar nas colunas de arquivo).
+
+## 0. Arquitetura atual (nov/2026)
+
+O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` → `npm run build` → `dist/` → Vercel.
+`vercel.json` fixa `framework: null`, `buildCommand` e `outputDirectory: "dist"`; o `middleware.js` (Routing Middleware) continua na raiz.
+
+| Pasta | O que tem |
+|---|---|
+| `public/` | Tudo que já era servido, copiado **como está**: as páginas HTML ainda não migradas, `assets/`, `img/`, `audio/`, `sitemap*.xml`, `llms*.txt`, `geo-facts.json`... |
+| `src/pages/` | Páginas Astro (as novas: `quem-somos`, `playground/*`, `equipe/*`, `clinica/equipe`). |
+| `src/data/` | **Fonte única dos fatos**: `marca.json` (contatos, endereço, andar, CNPJ, horário da Clínica), `equipe.json`, `artigos.json`, `especialidades.json`. `marca.ts` deriva o horário de `public/geo-facts.json` (vem do caixa). |
+| `src/components/`, `src/layouts/`, `src/styles/` | `Base` (head, GTM, JSON-LD), `Nav`, `Footer`, `Foto`, `FAQ`, `UnidadePagina`; tokens do kit da Clínica em `global.css`. |
+| `scripts/` | `check.mjs` verifica o **site construído** (`dist/`): rode `npm run build && npm run check`. |
+
+### Onde editar cada coisa
+- **Telefone, endereço, andar, referência, CNPJ:** `src/data/marca.json` (e o mesmo número em `public/assets/fa-footer.js`, enquanto houver página legada: o `check` falha se divergirem).
+- **Horário e preço do Playground/Circuito:** vêm do caixa. Corrigir no cadastro da unidade e rodar `npm run geo`. O domingo (12h às 21h) fica em `supabase/functions/geo-facts/index.ts` (`sundayOpen`/`sundayClose`).
+- **Horário da Clínica:** `src/data/marca.json` → `horarioClinica`.
+- **Publicar um profissional:** `src/data/equipe.json`, `publicar: true` (só com aprovação dele). Com 2 ou mais perfis, `/clinica/equipe` passa a ser indexável e entra no sitemap.
+- **Nova página:** `src/pages/x.astro` usando `Base`; incluir a URL em `public/sitemap.xml` (o `lastmod` é mantido por `npm run sitemap`).
+
+### Pendências conhecidas
+- As páginas legadas em `public/*.html` (home, playground, circuito, clínica, planos, aprender, guia, código, teste, eventos, glossário, trabalhe conosco, legais) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
+- `/trabalhe-conosco`: vagas com schema `JobPosting` e banco de talentos; `/parcerias` (depende de haver oferta de dia útil).
+- `sitemap.xml` ainda é mantido à mão (`public/`).
+- Hoje são servidos publicamente `NEWVITTA/`, `contexto.md`, `EXPERIMENTOS-TV2.md` e `chatbot-clinica/`. Decidir se saem de `public/`.
+- Preço do Parque no caixa (50% para o público geral) diverge do site e de `geo-facts.json` do repositório (40%).
 
 ## 1. Domínios e quem serve o quê
 
@@ -9,7 +36,7 @@ Atualizado em 30/09/2026, a partir do código do repositório (não foi conferid
 | `institutofacaamigos.com.br` | Hub: institucional, conteúdo, funil de e-books, eventos, Wi-Fi | este repositório (Vercel) | sim |
 | `playground.institutofacaamigos.com.br` | Host antigo: só redireciona (308) para `/playground` e `/circuito` do hub. Nunca remover o domínio | este repositório (mesmo deploy) | não (redireciona) |
 | `gestao.institutofacaamigos.com.br` | Hub de Gestão (login único, só Bruno e Isabella) | este repositório (mesmo deploy) | não (noindex + robots Disallow) |
-| `institutofacaamigos.com.br/clinica` | Landing pública da Clínica (serviços, lista de espera, convênios) | projeto `clinica-facaamigos` (Next.js); o hub faz rewrite de `/clinica` e `/clinica-static/*` (vercel.json) | sim |
+| `institutofacaamigos.com.br/clinica` | Landing pública da Clínica (serviços, convênios, FAQ) | **este repositório**: `public/clinica.html`, servida por cleanUrls. (Versão antiga deste mapa dizia que era o projeto `clinica-facaamigos` via rewrite; esse rewrite não existe no `vercel.json`.) | sim |
 | `clinica.institutofacaamigos.com.br` | Host antigo da landing: só redireciona (301) para `/clinica`; o resto vai (308) para `sistema.` | projeto `clinica-facaamigos` | não (redireciona). Manter o domínio apontado |
 | `sistema.institutofacaamigos.com.br` | Sistema de gestão da Clínica (login, agenda, prontuário, portal da família) | projeto `clinica-facaamigos` | nunca (noindex, robots Disallow, sem link nas páginas públicas) |
 

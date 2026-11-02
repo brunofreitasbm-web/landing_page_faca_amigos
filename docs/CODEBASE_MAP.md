@@ -1,5 +1,7 @@
 # CODEBASE MAP: langing_page_faca_amigos
 
+> **Atenção (02/11/2026):** o site passou a ser construído com Astro (HTML em `public/`, páginas novas em `src/pages/`, saída em `dist/`). Onde este mapa fala de arquivos na raiz, leia `public/`. A visão atual está no `MAPA-DO-SITE.md`, seção 0.
+
 > Gerado em 2026-10-03 por leitura paralela (5 subagentes), seguindo o fluxo do plugin Cartographer. Retrato do estado da branch `claude/upbeat-goldberg-qbt89i`.
 > Limites: `admin.html`, `teste.html`, `gestao.html` e `llms-full.txt` foram lidos por estrutura e trechos, não linha a linha. As migrations dos quiosques (`fa_kiosk_*`) não estão neste repo.
 > Complementa (não substitui) `PUBLICAR.md` (mais atual, manda no deploy), `LEIA-ME.txt` (diário cronológico, parte obsoleta) e `MAPA-DO-SITE.md`.
