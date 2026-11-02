@@ -7,10 +7,10 @@
 - [Início — visão geral do ecossistema](https://institutofacaamigos.com.br/): Playground, Circuito e Clínica, endereços, horários e perguntas frequentes.
 - [Playground Inclusivo](https://institutofacaamigos.com.br/playground): preços, Horário Inclusivo, meia-entrada inclusiva, como funciona e perguntas frequentes.
 - [Circuito de Carrinhos Elétricos](https://institutofacaamigos.com.br/circuito): passeios, preço e perguntas frequentes.
-- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, psicologia e terapia comportamental, fonoaudiologia, terapia ocupacional, psicopedagogia, avaliação neuropsicológica e orientação a pais e escola.
+- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, 14 especialidades terapêuticas (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), planos particulares de sessões e convênios IASEP e PROASA.
 - [Eventos — palestras, encontros e treinamentos](https://institutofacaamigos.com.br/eventos): agenda do Instituto para famílias e profissionais em Belém, com inscrição gratuita ou paga, vagas limitadas reais e lista de espera.
 - [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): guias curtos sobre birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
-- [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 40 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
+- [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 50 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
 - [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/teste): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
 - [E-book O Brincar com Propósito](https://institutofacaamigos.com.br/guia): guia prático de Análise do Comportamento para mães, pais e cuidadores.
 - [E-book O Código do Desenvolvimento Infantil](https://institutofacaamigos.com.br/codigo): guia curto e acolhedor sobre o comportamento infantil.
@@ -25,7 +25,7 @@
 - **Entidade**: Instituto FaçaAmigos (Clínica, Playground Inclusivo e Circuito de Carrinhos)
 - **Localização Principal**: Parque Shopping Belém ({{ENDERECO_PARQUE}})
 - **Segunda Unidade**: Shopping Bosque Grão-Pará ({{ENDERECO_BOSQUE}}), 1º piso, em frente à Renner. Playground aberto de segunda a sábado das 10h às 22h e aos domingos das 10h às 21h, com os mesmos preços do Parque Shopping
-- **Centro Clínico (Em breve)**: Rua Boaventura da Silva, 1573, Umarizal, Belém - PA
+- **Centro Clínico (atendendo desde novembro de 2026)**: Rua Boaventura da Silva, 1573, Umarizal, Belém - PA
 - **Faixa Etária Atendida**: 0 a 12 anos de idade
 - **Idioma e região**: português do Brasil (pt-BR), Belém e Região Metropolitana (PA)
 - **Autoria dos conteúdos educativos**: psicóloga infantil Isabella Gonçalves Freitas (CRP 10/4727), idealizadora do FaçaAmigos. Os e-books e o Mapeamento Comportamental são materiais educativos e não substituem avaliação profissional.
@@ -54,8 +54,20 @@
 - **Fidelidade**: {{FIDELIDADE_CIRCUITO}}
 
 ### 3. FaçaAmigos Clínica (Centro de Terapia Comportamental)
-- **Onde**: Rua Boaventura da Silva, 1573 — Umarizal, Belém/PA (em breve)
-- **Especialidades**: Terapia Comportamental baseada em Análise do Comportamento Aplicada (ABA), Terapia Ocupacional com Integração Sensorial, Fonoaudiologia, Psicopedagogia e Avaliação Neuropsicológica.
+- **Onde**: Rua Boaventura da Silva, 1573 — Umarizal, Belém/PA (atendendo desde novembro de 2026)
+- **Especialidades (nomes comerciais)**: Terapia ABA, Psicologia, Fonoaudiologia, Terapia Ocupacional, T.O. com Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Educação Física Adaptada, Treino de Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica.
+- **Duração das sessões**: 40 minutos em todas as especialidades. Treino ABA em blocos de 3 sessões consecutivas de 40 min (120 min).
+- **Pacotes Particular (valores pelo WhatsApp (91) 99178-2027; detalhes em https://institutofacaamigos.com.br/planos)**:
+  - Encontro (sessão avulsa): 1 sessão
+  - Primeiro Passo: 4 sessões/mês
+  - Laço: 8 sessões/mês
+  - Vínculo: 12 sessões/mês
+  - Turma: 16 sessões/mês
+  - Abraço: 20 sessões/mês
+  - Voo Livre: 24 sessões/mês
+  - Avaliação Neuropsicológica: valor fechado com bateria de testes e laudo formal
+  - Regras: terapias combináveis no plano; avaliação inicial inclusa (conta como 1 sessão); parcelamento em até 3x no cartão.
+- **Convênios**: IASEP e PROASA (a clínica solicita a autorização da guia). Demais planos: emissão de nota fiscal e relatórios para reembolso.
 - **Serviços detalhados**: [https://institutofacaamigos.com.br/clinica](https://institutofacaamigos.com.br/clinica)
 
 ---

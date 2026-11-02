@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=408">
+<meta name="robots" content="noindex, nofollow">
+<title>Proposta New Vita | Mais pacientes agendados</title>
+<meta name="description" content="Site que mede, social media com vídeo, tráfego pago, presença local e painel de conversão, num combo só. Veja a proposta para a New Vita Belém.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="New Vita Belém">
+<meta property="og:title" content="Mais pacientes agendados, com dados em vez de palpite">
+<meta property="og:description" content="A proposta para a New Vita Belém: um plano para ver de onde vêm os seus pacientes e fazer mais deles chegarem.">
+<meta property="og:url" content="__SITE_URL__/">
+<meta property="og:image" content="__SITE_URL__/og-newvita.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="New Vita Belém. Mais pacientes agendados, com dados em vez de palpite.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: 108mm 192mm; margin: 0; }
+  :root {
+    --red: #ed1c2e; --ink: #090909; --paper: #f7f6f3; --white: #fff; --muted: #5a5a5a;
+    --display: "Anton", Impact, "Arial Narrow", sans-serif;
+    --body: "DM Sans", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #d9d9d9; }
+  body { font-family: var(--body); color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, h4, p, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+
+  .page {
+    container-type: inline-size; position: relative; display: flex; flex-direction: column;
+    width: 108mm; height: 191.6mm; overflow: hidden; background: var(--paper); color: var(--ink);
+    page-break-after: always; break-after: page;
+  }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  .page.dark { background: var(--ink); color: var(--white); }
+  .page.red { background: var(--red); color: var(--white); }
+
+  .pg-top { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 4.4cqw 8cqw 0; height: 11.6cqw; }
+  .brand { display: flex; align-items: center; gap: 2.2cqw; }
+  .mark { display: grid; place-items: center; width: 6.6cqw; height: 6.6cqw; border-radius: 50%; border: 0.65cqw solid var(--red); background: var(--white); color: var(--red); font-family: var(--display); font-size: 4.1cqw; line-height: 1; }
+  .red .mark { border-color: var(--ink); color: var(--ink); }
+  .brand-name { font-family: var(--display); font-size: 5cqw; line-height: 1; letter-spacing: .01em; }
+  .brand-name span { color: var(--red); }
+  .dark .brand-name span { color: #ff5a68; }
+  .red .brand-name span { color: var(--ink); }
+  .pg-tag { font-size: 3cqw; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .65; }
+
+  .pg-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2.4cqw; padding: 3cqw 8cqw 0; overflow: hidden; }
+  .pg-foot { flex: none; display: flex; align-items: center; justify-content: space-between; height: 9.4cqw; padding: 0 8cqw; font-size: 3cqw; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+
+  .eyebrow { display: flex; align-items: center; gap: 2.2cqw; font-size: 3.1cqw; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--red); line-height: 1.3; }
+  .eyebrow::before { content: ""; width: 6.4cqw; height: 0.75cqw; background: currentColor; flex: none; }
+  .dark .eyebrow { color: #ff5a68; }
+  .red .eyebrow { color: var(--white); }
+
+  .h { font-family: var(--display); font-weight: 400; font-size: 10cqw; line-height: .96; letter-spacing: -.01em; text-transform: uppercase; }
+  .h.xl { font-size: 13.4cqw; }
+  .h.md { font-size: 8.8cqw; }
+  .h .a { color: var(--red); }
+  .dark .h .a { color: #ff5a68; }
+  .red .h .a { color: var(--ink); }
+  .lead { font-size: 4cqw; font-weight: 600; line-height: 1.36; }
+  .txt { font-size: 3.6cqw; font-weight: 500; line-height: 1.38; }
+  .small { font-size: 3.1cqw; font-weight: 600; line-height: 1.36; opacity: .78; }
+
+  .box { background: var(--white); border-left: 1cqw solid var(--red); padding: 2.2cqw 3cqw 2.4cqw; color: var(--ink); }
+  .dark .box { background: #ffffff12; color: var(--white); }
+  .box h4 { font-size: 3cqw; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin-bottom: .8cqw; }
+  .dark .box h4 { color: #ff5a68; }
+  .box p, .box li { font-size: 3.4cqw; font-weight: 500; line-height: 1.33; }
+  .box li { position: relative; padding-left: 3.2cqw; }
+  .box li::before { content: ""; position: absolute; left: 0; top: 1.5cqw; width: 1.5cqw; height: 1.5cqw; background: var(--red); }
+  .stack { display: flex; flex-direction: column; gap: 1.8cqw; }
+
+  .pill { display: inline-flex; align-items: center; justify-content: space-between; gap: 3cqw; align-self: flex-start; background: var(--red); color: var(--white); padding: 2cqw 3.6cqw; font-family: var(--display); font-size: 3.8cqw; letter-spacing: .04em; text-transform: uppercase; }
+  .red .pill { background: var(--ink); }
+  .dark .pill { background: var(--red); }
+  .pill.big { align-self: stretch; flex-direction: column; justify-content: center; gap: .8cqw; text-align: center; padding: 3.6cqw 4cqw; font-size: 5.2cqw; }
+  .pill.big span + span { font-size: 4cqw; opacity: .9; }
+
+  .rows { display: flex; flex-direction: column; }
+  .row { display: grid; grid-template-columns: 27cqw 1fr; gap: 3cqw; padding: 1.7cqw 0; border-top: 0.3cqw solid #0002; align-items: baseline; }
+  .row b { font-family: var(--display); font-weight: 400; font-size: 4cqw; line-height: 1.05; text-transform: uppercase; }
+  .row span { font-size: 3.4cqw; font-weight: 500; line-height: 1.32; }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2cqw; }
+  .kpi { background: var(--ink); color: var(--white); padding: 2cqw 2.4cqw; }
+  .kpi b { display: block; font-family: var(--display); font-weight: 400; font-size: 7cqw; line-height: 1; }
+  .kpi span { display: block; margin-top: .8cqw; font-size: 3cqw; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; opacity: .8; line-height: 1.22; }
+  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2cqw; }
+  .thumbs a { display: block; aspect-ratio: 1; background: #111; overflow: hidden; }
+  .thumbs img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+
+  .steps5 { display: flex; flex-direction: column; gap: 1.8cqw; }
+  .st { display: grid; grid-template-columns: 8cqw 1fr; gap: 3cqw; align-items: center; padding: 2cqw 2.6cqw; background: #ffffff12; }
+  .st i { font-style: normal; display: grid; place-items: center; width: 8cqw; height: 8cqw; background: var(--red); font-family: var(--display); font-size: 4.6cqw; }
+  .st strong { display: block; font-family: var(--display); font-weight: 400; font-size: 4.8cqw; line-height: 1; text-transform: uppercase; }
+  .st span { display: block; margin-top: .6cqw; font-size: 3.3cqw; font-weight: 500; opacity: .88; line-height: 1.28; }
+
+  .svc { display: grid; grid-template-columns: 7.4cqw 1fr; gap: 3cqw; align-items: center; padding: 1.9cqw 0; border-top: 0.3cqw solid #0002; }
+  .svc i { font-style: normal; display: grid; place-items: center; width: 7.4cqw; height: 7.4cqw; background: var(--red); color: var(--white); font-family: var(--display); font-size: 4cqw; }
+  .svc strong { display: block; font-family: var(--display); font-weight: 400; font-size: 4.6cqw; line-height: 1; text-transform: uppercase; }
+  .svc span { display: block; margin-top: .6cqw; font-size: 3.3cqw; font-weight: 500; line-height: 1.28; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2cqw; }
+  .two .box li { font-size: 3.2cqw; }
+  .week { display: grid; grid-template-columns: 17cqw 1fr; gap: 3cqw; align-items: center; padding: 1.8cqw 0; border-top: 0.3cqw solid #ffffff40; }
+  .week b { font-family: var(--display); font-weight: 400; font-size: 4.2cqw; text-transform: uppercase; color: #ff5a68; line-height: 1; }
+  .week span { font-size: 3.4cqw; font-weight: 500; line-height: 1.3; }
+
+  .price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 3cqw; padding: 1.5cqw 0; border-top: 0.3cqw solid #0002; }
+  .price-row span { font-size: 3.4cqw; font-weight: 500; line-height: 1.25; }
+  .price-row small { font-size: 2.9cqw; opacity: .7; font-weight: 600; }
+  .price-row b { flex: none; font-family: var(--display); font-weight: 400; font-size: 4.4cqw; line-height: 1; white-space: nowrap; }
+  .price-row b small { font-family: var(--body); font-size: 3cqw; font-weight: 600; opacity: .7; }
+  .total { display: flex; align-items: baseline; justify-content: space-between; background: var(--ink); color: var(--white); padding: 2.4cqw 3cqw; }
+  .total span { font-size: 3.3cqw; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .total b { font-family: var(--display); font-weight: 400; font-size: 6.4cqw; line-height: 1; }
+
+  .deal { background: #ffffff12; padding: 2.4cqw 3.2cqw; border-left: 1cqw solid var(--red); }
+  .deal.best { background: var(--red); border-left-color: var(--white); }
+  .deal .t { font-size: 3cqw; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; opacity: .88; }
+  .deal .v { display: flex; align-items: baseline; gap: 1.6cqw; margin: .4cqw 0 .8cqw; font-family: var(--display); line-height: 1; }
+  .deal .v em { font-style: normal; font-size: 4.4cqw; }
+  .deal .v b { font-weight: 400; font-size: 10.4cqw; }
+  .deal .v u { text-decoration: none; font-size: 4cqw; opacity: .85; }
+  .deal p { font-size: 3.3cqw; font-weight: 500; line-height: 1.3; }
+  .choice { display: flex; align-items: center; gap: 3cqw; font-size: 3.5cqw; font-weight: 700; padding: 1.3cqw 0; border-top: 0.3cqw solid #ffffff30; }
+  .cb { display: inline-block; flex: none; width: 4.8cqw; height: 4.8cqw; border: 0.6cqw solid var(--white); background: transparent; }
+
+  .cond { display: flex; flex-direction: column; }
+  .cond li { display: grid; grid-template-columns: 6cqw 1fr; gap: 2.4cqw; padding: 1.5cqw 0; border-top: 0.3cqw solid #ffffff55; font-size: 3.4cqw; font-weight: 500; line-height: 1.3; }
+  .cond li b { font-family: var(--display); font-weight: 400; font-size: 4.6cqw; line-height: 1; color: var(--ink); }
+
+  .tv { position: relative; width: 61cqw; margin: 1cqw auto 0; padding: 2cqw 2cqw 4.4cqw; background: linear-gradient(145deg, #2a2a2a, #0c0c0c); border-radius: 2.4cqw; box-shadow: 0 3cqw 6cqw #000c, inset 0 0 0 .35cqw #3d3d3d; }
+  .tv-led { position: absolute; left: 50%; bottom: 1.6cqw; width: 1.1cqw; height: 1.1cqw; margin-left: -.55cqw; border-radius: 50%; background: #ed1c2e; box-shadow: 0 0 1.4cqw #ed1c2e; }
+  .tv-screen { position: relative; width: 100%; aspect-ratio: 9 / 16; background: #000; overflow: hidden; }
+  .tv-screen iframe { display: none; position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
+  .tv-play { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3.2cqw; padding: 3cqw; text-align: center; color: #fff; background: radial-gradient(circle at 50% 38%, #4a0c14 0%, #090909 72%); }
+  .tv-mark { display: grid; place-items: center; width: 9cqw; height: 9cqw; border-radius: 50%; border: .9cqw solid var(--red); background: #fff; color: var(--red); font-family: var(--display); font-style: normal; font-size: 5.6cqw; line-height: 1; }
+  .tv-tri { width: 0; height: 0; margin-left: 1.4cqw; border-left: 7cqw solid #fff; border-top: 4.4cqw solid transparent; border-bottom: 4.4cqw solid transparent; }
+  .tv-play span { font-family: var(--display); font-size: 4.2cqw; letter-spacing: .04em; text-transform: uppercase; line-height: 1.1; }
+  @media screen { body { display: flex; flex-direction: column; align-items: center; gap: 10px; } .tv-screen.live iframe { display: block; } .tv-screen.live .tv-play { display: none; } }
+</style>
+<!-- Google tag (gtag.js): só roda no site publicado (http/https) e só com um ID válido; no PDF (file://) fica inerte -->
+<script>
+  (function () {
+    var GA_ID = "[FILL: Google tracking ID]";
+    if (location.protocol === "file:" || !/^(G|GT)-[A-Z0-9]+$/.test(GA_ID)) return;
+
+    var tag = document.createElement("script");
+    tag.async = true;
+    tag.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+    document.head.appendChild(tag);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag("js", new Date());
+    gtag("config", GA_ID);
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var seen = {};
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !seen[e.target.id]) {
+            seen[e.target.id] = true;
+            gtag("event", "proposal_page_view", { page_number: parseInt(e.target.id.slice(1), 10) });
+          }
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll(".page").forEach(function (p) { io.observe(p); });
+
+      document.addEventListener("click", function (e) {
+        var a = e.target.closest && e.target.closest("a[href]");
+        if (!a) return;
+        if (a.href.indexOf("wa.me") > -1) gtag("event", "whatsapp_click", { link_text: a.textContent.trim().slice(0, 40) });
+        else if (a.href.indexOf("amostra-tv-newvita") > -1) gtag("event", "amostra_ao_vivo_click");
+      });
+    });
+  })();
+</script>
+</head>
+<body>
+
+<!-- 1 CAPA -->
+<section class="page dark" id="p1">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Proposta</div></header>
+  <div class="pg-body" style="justify-content:center;gap:4.4cqw">
+    <p class="eyebrow">Proposta para a New Vita Belém</p>
+    <h1 class="h xl">Mais pacientes agendados, <span class="a">com dados</span> em vez de palpite.</h1>
+    <p class="lead">Um plano para você ver de onde vêm os seus pacientes e fazer mais deles chegarem.</p>
+    <p class="txt" style="opacity:.8">Seu trabalho devolve movimento. Este plano devolve clareza sobre cada real investido em chamar pacientes.</p>
+    <div class="small">Preparado em 28/10/2026 &nbsp;·&nbsp; Válido até 04/11/2026</div>
+    <a class="pill big" href="https://wa.me/5591988470999?text=Ol%C3%A1%2C%20vi%20a%20proposta%20da%20New%20Vita"><span>Falar no WhatsApp</span><span>(91) 98847-0999</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>1 / 19</span></footer>
+</section>
+
+<!-- 2 INSTAGRAM -->
+<section class="page" id="p2">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Leitura do perfil</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">@newvitabelem hoje</p>
+    <h2 class="h">O seu Instagram, <span class="a">visto de fora.</span></h2>
+    <p class="txt">Olhamos a vitrine pública do perfil como um paciente olharia, antes de chamar.</p>
+    <div class="kpis">
+      <div class="kpi"><b>2.177</b><span>Seguidores</span></div>
+      <div class="kpi"><b>12</b><span>Posts em 33 dias</span></div>
+      <div class="kpi"><b>2,5</b><span>Por semana</span></div>
+    </div>
+    <div class="thumbs">
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-aulao-interativo.jpg" alt="Aulão interativo"></a>
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-mobilidade.jpg" alt="Mobilidade é liberdade"></a>
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-treinar-com-dor.jpg" alt="Treinar com dor"></a>
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-dia-do-medico.jpg" alt="Dia do médico"></a>
+    </div>
+    <div class="box"><h4>O que já funciona</h4><ul><li>Identidade visual reconhecível nos cards.</li><li>Ritmo regular de publicação.</li><li>Conteúdo educativo e de eventos.</li></ul></div>
+    <div class="box" style="border-left-color:var(--ink)"><h4 style="color:var(--ink)">Onde há espaço</h4><ul><li>Bio com localização abreviada e link único.</li><li>Reels são cerca de 25% do conteúdo.</li><li>Alcance e cliques ainda sem medição.</li></ul></div>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>2 / 19</span></footer>
+</section>
+
+<!-- 3 FUNIL -->
+<section class="page dark" id="p3">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">O caminho</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Do olhar ao plano fechado</p>
+    <h2 class="h">Onde o paciente <span class="a">se perde.</span></h2>
+    <div class="steps5">
+      <div class="st"><i>1</i><div><strong>Vê</strong><span>Instagram, TV, panfleto. Medimos visitas.</span></div></div>
+      <div class="st"><i>2</i><div><strong>Pesquisa</strong><span>Google, Maps, Waze. Medimos buscas e rotas.</span></div></div>
+      <div class="st"><i>3</i><div><strong>Chama</strong><span>WhatsApp ou ligação. Medimos as conversas.</span></div></div>
+      <div class="st"><i>4</i><div><strong>Agenda</strong><span>A avaliação marcada. Medimos as consultas.</span></div></div>
+      <div class="st"><i>5</i><div><strong>Fica</strong><span>Plano fechado. Medimos o valor do paciente.</span></div></div>
+    </div>
+    <p class="txt">Você já notou que o paciente olha o Instagram, pesquisa no Google e pergunta o valor no WhatsApp antes de agendar? Esse caminho já existe na sua clínica. Falta enxergar cada etapa.</p>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>3 / 19</span></footer>
+</section>
+
+<!-- 4 MAPA -->
+<section class="page" id="p4">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Mapa</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Sete serviços, um só caminho</p>
+    <h2 class="h">O que vamos <span class="a">fazer juntos.</span></h2>
+    <div>
+      <div class="svc"><i>1</i><div><strong>Site que mede</strong><span>A recepção na internet que conta quem entra.</span></div></div>
+      <div class="svc"><i>2</i><div><strong>Social media</strong><span>Vitrine e conversa, com vídeo e áudio.</span></div></div>
+      <div class="svc"><i>3</i><div><strong>Tráfego pago</strong><span>A placa da clínica na rua certa.</span></div></div>
+      <div class="svc"><i>4</i><div><strong>Presença local</strong><span>O cartão de visitas no Google e no Waze.</span></div></div>
+      <div class="svc"><i>5</i><div><strong>Busca com IA</strong><span>Ser lembrado quando perguntam a uma IA.</span></div></div>
+      <div class="svc"><i>6</i><div><strong>TV da recepção</strong><span>A espera do paciente vira vitrine.</span></div></div>
+      <div class="svc"><i>7</i><div><strong>Painel de conversão</strong><span>O painel do carro da clínica.</span></div></div>
+    </div>
+    <p class="txt">Entra também no combo o impresso rastreável, que mostra quantos pacientes vieram do papel.</p>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>4 / 19</span></footer>
+</section>
+
+<!-- 5 SITE -->
+<section class="page" id="p5">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 1</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Site com rastreamento de leads</p>
+    <h2 class="h md">Um site que conta quem entra.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>O site é a recepção da clínica na internet, aberta 24 horas. O rastreamento é uma câmera na porta: conta quem entrou e de onde veio.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>O paciente acha planos, endereço e agenda em dois toques. Você descobre o que trouxe cada paciente.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>Site de 5 a 7 páginas, rápido no celular</li><li>Botões de WhatsApp, ligar e rota, com contagem</li><li>Contador de visitas e boletim do Google</li><li>Hospedagem e segurança todo mês</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Conversas no WhatsApp que começaram no site, por mês.</p></div>
+    </div>
+    <a class="pill" href="https://wa.me/5591988470999?text=Tenho%20uma%20d%C3%BAvida%20sobre%20o%20site"><span>Tirar dúvida deste serviço</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>5 / 19</span></footer>
+</section>
+
+<!-- 6 METRICAS GOOGLE -->
+<section class="page" id="p6">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Tradutor 1 de 2</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Boletim do Google</p>
+    <h2 class="h md">Como o Google enxerga o seu site.</h2>
+    <p class="txt">O Search Console é o boletim que o Google envia sobre o seu site. Traduzimos cada nota.</p>
+    <div class="rows">
+      <div class="row"><b>Impressões</b><span>Quantas vezes o site apareceu nos resultados. Quanta gente passou pela vitrine.</span></div>
+      <div class="row"><b>Cliques</b><span>Quantas pessoas entraram.</span></div>
+      <div class="row"><b>CTR</b><span>Taxa de cliques. De cada 100 que viram, quantas clicaram.</span></div>
+      <div class="row"><b>Posição</b><span>Em que lugar da página você aparece. A posição 1 é o topo.</span></div>
+      <div class="row"><b>Consultas</b><span>O que as pessoas digitaram para achar você.</span></div>
+      <div class="row"><b>Indexação</b><span>Se o Google guardou suas páginas no arquivo dele.</span></div>
+      <div class="row"><b>Velocidade</b><span>Core Web Vitals. Se o site abre rápido e funciona bem no celular.</span></div>
+    </div>
+    <p class="small">Também acompanhamos: páginas mais vistas, celular ou computador, mapa do site (sitemap), cadeado de segurança (HTTPS), links de outros sites e alertas de segurança.</p>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>6 / 19</span></footer>
+</section>
+
+<!-- 7 METRICAS PACIENTES -->
+<section class="page" id="p7">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Tradutor 2 de 2</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Contador do site e anúncios</p>
+    <h2 class="h md">De onde veio cada paciente.</h2>
+    <p class="txt">O GA4 é o contador de visitas do Google. Com os anúncios, mostra o caminho até o WhatsApp.</p>
+    <div class="rows">
+      <div class="row"><b>Origem</b><span>De onde a pessoa veio: Instagram, Google, Maps, panfleto ou TV.</span></div>
+      <div class="row"><b>WhatsApp</b><span>Quantas pessoas apertaram o botão ou ligaram.</span></div>
+      <div class="row"><b>Formulário</b><span>Quantas deixaram nome e telefone.</span></div>
+      <div class="row"><b>UTM</b><span>Etiqueta no link que diz de qual campanha veio o clique.</span></div>
+      <div class="row"><b>Custo por lead</b><span>Quanto custou cada pessoa que chamou.</span></div>
+      <div class="row"><b>Custo agenda</b><span>Quanto custou cada avaliação marcada.</span></div>
+      <div class="row"><b>Conversão</b><span>De cada 100 que chamam, quantas agendam e fecham plano.</span></div>
+    </div>
+    <p class="small">Dados de saúde são sensíveis. Registramos cliques e conversas, nunca o motivo da consulta.</p>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>7 / 19</span></footer>
+</section>
+
+<!-- 8 SOCIAL -->
+<section class="page" id="p8">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 2</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Social media com vídeo e áudio</p>
+    <h2 class="h md">A vitrine e a conversa da clínica.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>É cuidar do que aparece no Instagram, de quando aparece e de como você responde a quem escreve.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>O paciente conhece a New Vita, entende o que ela faz e chama.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>12 publicações, 4 reels e 8 stories por mês</li><li>1 captação de 2 horas na clínica, com roteiro</li><li>Edição de vídeo e tratamento do áudio</li><li>Legendas, capas e trilha licenciada</li><li>Respostas a comentários e relatório mensal</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Quantas pessoas novas visitaram o perfil e quantas chamaram no WhatsApp.</p></div>
+    </div>
+    <a class="pill" href="https://wa.me/5591988470999?text=Tenho%20uma%20d%C3%BAvida%20sobre%20social%20media"><span>Tirar dúvida deste serviço</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>8 / 19</span></footer>
+</section>
+
+<!-- 9 AUDIO E VIDEO -->
+<section class="page dark" id="p9">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 2</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Áudio e vídeo incluídos</p>
+    <h2 class="h md">Como o vídeo acontece no mês.</h2>
+    <div>
+      <div class="week"><b>Semana 1</b><span>Roteiro dos reels, aprovado por você.</span></div>
+      <div class="week"><b>Semana 2</b><span>Captação de 2 horas na clínica.</span></div>
+      <div class="week"><b>Semana 3</b><span>Edição e áudio tratado. Você aprova em 48 horas.</span></div>
+      <div class="week"><b>Semana 4</b><span>Reels e stories no ar, mais o relatório.</span></div>
+    </div>
+    <div class="two">
+      <div class="box"><h4>Incluído</h4><ul><li>Roteiro</li><li>Captação de 2 h</li><li>Edição de vídeo</li><li>Áudio da fala tratado</li><li>Legendas e capas</li><li>Trilha licenciada</li></ul></div>
+      <div class="box" style="border-left-color:#888"><h4 style="color:#bbb">À parte</h4><ul><li>Locução ou atores</li><li>Música original</li><li>Podcast</li><li>Drone</li><li>Vídeo institucional longo</li></ul></div>
+    </div>
+    <p class="small">Voz e imagem de profissionais e pacientes pedem autorização por escrito. Nós preparamos o termo.</p>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>9 / 19</span></footer>
+</section>
+
+<!-- 10 TRAFEGO -->
+<section class="page" id="p10">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 3</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Tráfego pago</p>
+    <h2 class="h md">A placa da clínica na rua certa.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>Anúncios no Instagram e no Google para pessoas de Belém perto de você. Você paga só por quem olha.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>Trazer conversas novas todo mês, sem depender só de indicação.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>Anúncios novos testados a cada 14 dias</li><li>Público de Belém, perto da clínica</li><li>Botão que abre o WhatsApp</li><li>Pausa do que rende pouco</li><li>Relatório do custo por conversa</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Custo por conversa iniciada. Referência de partida: R$ 8 a R$ 20, ajustada em 14 dias, sem garantia.</p></div>
+    </div>
+    <p class="small">Verba dos anúncios à parte: a partir de R$ 1.500 por mês, paga por você às plataformas.</p>
+    <a class="pill" href="https://wa.me/5591988470999?text=Tenho%20uma%20d%C3%BAvida%20sobre%20tr%C3%A1fego%20pago"><span>Tirar dúvida deste serviço</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>10 / 19</span></footer>
+</section>
+
+<!-- 11 PRESENCA LOCAL -->
+<section class="page" id="p11">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 4</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Presença local</p>
+    <h2 class="h md">O cartão de visitas no Google e no Waze.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>Quem busca reabilitação perto de si vê um cartão com endereço, fotos, telefone e estrelas. Maps e Waze são as placas para chegar.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>Ser achado por quem já procura e chegar à clínica sem se perder.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>Perfil completo no Google Meu Negócio</li><li>Endereço certo no Maps e no Waze</li><li>Publicações e fotos toda semana</li><li>Respostas às avaliações</li><li>Link e QR para o paciente avaliar</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Rotas e ligações vindas do cartão do Google, por mês.</p></div>
+    </div>
+    <a class="pill" href="https://wa.me/5591988470999?text=Tenho%20uma%20d%C3%BAvida%20sobre%20presen%C3%A7a%20local"><span>Tirar dúvida deste serviço</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>11 / 19</span></footer>
+</section>
+
+<!-- 12 BUSCA COM IA -->
+<section class="page" id="p12">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 5</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Presença nas buscas com IA</p>
+    <h2 class="h md">Ser lembrado quando perguntam a uma IA.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>Muita gente pergunta a uma inteligência artificial qual a melhor clínica de reabilitação em Belém. A resposta cita poucos nomes. Segundo o Google, o caminho é fazer bem o básico da busca.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>Colocar a New Vita na conversa onde o paciente começa a decidir.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>Endereço, horários e planos iguais em todo lugar</li><li>Perguntas frequentes com resposta direta</li><li>Dados do site no idioma que as buscas leem</li><li>Avaliações e menções em sites e vídeos locais</li><li>Robôs de busca das IAs liberados no site</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Teste mensal: 10 perguntas em 4 assistentes. Mostramos em quantas a New Vita apareceu.</p></div>
+    </div>
+    <p class="small">As respostas das IAs mudam todos os dias. Preparamos, medimos e ajustamos, sem garantir o resultado.</p>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>12 / 19</span></footer>
+</section>
+
+<!-- 13 TV -->
+<section class="page" id="p13">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 6</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Mídia indoor na Smart TV</p>
+    <h2 class="h md">A espera do paciente vira vitrine.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>A TV da recepção, em pé, mostra as suas artes e o QR do Instagram. O serviço parte do Instagram, porque a tela é alimentada pelo conteúdo do perfil.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>Usar o tempo de espera para apresentar a clínica e levar o paciente ao seu perfil.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>Tela vertical com as suas artes e o QR do Instagram</li><li>Atualização semanal, em até 96 horas após o envio do material</li><li>R$ 60 por mês, por tela, cancele quando quiser</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Quantas pessoas leram o QR, pelo link rastreado.</p></div>
+    </div>
+    <div class="box" style="border-left-color:var(--ink)"><h4 style="color:var(--ink)">Amostra ao vivo</h4><p>Na próxima página, a amostra passa dentro de uma TV, como vai passar na sua recepção.</p></div>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>13 / 19</span></footer>
+</section>
+
+<!-- 14 TV AO VIVO -->
+<section class="page dark" id="p14">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 6</div></header>
+  <div class="pg-body" style="align-items:center">
+    <p class="eyebrow" style="align-self:flex-start">Amostra ao vivo</p>
+    <h2 class="h md" style="align-self:flex-start">Como passa na sua TV.</h2>
+    <div class="tv" role="img" aria-label="TV na vertical mostrando a amostra da mídia indoor">
+      <div class="tv-screen" id="tvScreen">
+        <iframe id="tvFrame" title="Amostra da TV da recepção" tabindex="-1"></iframe>
+        <a class="tv-play" href="__SITE_URL__/amostra-tv-newvita.html"><i class="tv-mark">N</i><i class="tv-tri"></i><span>Toque para ver ao vivo</span></a>
+      </div>
+      <div class="tv-led"></div>
+    </div>
+    <p class="small" style="text-align:center">TV de 55 polegadas na vertical, girada 90° à direita. A tela troca sozinha de mensagem a cada 11 segundos.</p>
+    <a class="pill" href="__SITE_URL__/amostra-tv-newvita.html"><span>Abrir em tela cheia</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>14 / 19</span></footer>
+</section>
+<!-- 14 IMPRESSO -->
+<section class="page" id="p15">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Incluído no combo</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Impresso rastreável</p>
+    <h2 class="h md">Quantos pacientes vieram do papel.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>Panfleto, cartão ou cartaz com uma etiqueta digital: um QR e um WhatsApp que avisam &ldquo;vim pelo panfleto&rdquo;.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>Descobrir se o panfleto traz pacientes e se vale imprimir mais.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>Sua arte atual com QR e WhatsApp rastreados</li><li>Um QR diferente para cada peça</li><li>Mensagem pronta no WhatsApp</li><li>Relatório de conversas por peça</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Quantas conversas vieram de cada peça impressa.</p></div>
+    </div>
+    <p class="small">A impressão fica por conta da clínica. A adaptação da arte entra no combo.</p>
+    <a class="pill" href="https://wa.me/5591988470999?text=Tenho%20uma%20d%C3%BAvida%20sobre%20o%20impresso%20rastre%C3%A1vel"><span>Tirar dúvida deste serviço</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>15 / 19</span></footer>
+</section>
+
+<!-- 15 PAINEL -->
+<section class="page" id="p16">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Serviço 7</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Painel de conversão</p>
+    <h2 class="h md">O painel do carro da clínica.</h2>
+    <div class="stack">
+      <div class="box"><h4>Em português simples</h4><p>Como o painel do carro mostra velocidade e combustível, este mostra quantos viram, chamaram, agendaram e fecharam.</p></div>
+      <div class="box"><h4>Para que serve</h4><p>Cada número ajuda você a decidir onde colocar o próximo real. É insight de conversão para a clínica.</p></div>
+      <div class="box"><h4>O que você recebe</h4><ul><li>Painel online com site, Instagram, anúncios e impressos</li><li>Reunião mensal de 30 minutos</li><li>3 recomendações de ação por mês</li><li>Acompanhamento de lead, avaliação e plano</li></ul></div>
+      <div class="box"><h4>Como saber se funcionou</h4><p>Você decide o mês seguinte com números e vê a taxa de agendamento subir ou descer.</p></div>
+    </div>
+    <p class="small">A clínica informa quais conversas viraram pacientes, e o painel faz o resto da conta.</p>
+    <a class="pill" href="https://wa.me/5591988470999?text=Tenho%20uma%20d%C3%BAvida%20sobre%20o%20painel"><span>Tirar dúvida deste serviço</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>16 / 19</span></footer>
+</section>
+
+<!-- 16 INVESTIMENTO -->
+<section class="page" id="p17">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Investimento</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Serviço a serviço</p>
+    <h2 class="h md">Quanto custa cada parte, separada.</h2>
+    <div>
+      <div class="price-row"><span>Site com rastreamento <small>(criação, pagamento único)</small></span><b>R$ 5.400</b></div>
+      <div class="price-row"><span>Site: hospedagem, manutenção e boletim</span><b>R$ 690 <small>/mês</small></b></div>
+      <div class="price-row"><span>Social media com áudio e vídeo</span><b>R$ 2.190 <small>/mês</small></b></div>
+      <div class="price-row"><span>Tráfego pago <small>(verba à parte)</small></span><b>R$ 1.790 <small>/mês</small></b></div>
+      <div class="price-row"><span>Presença local: Google, Maps e Waze</span><b>R$ 590 <small>/mês</small></b></div>
+      <div class="price-row"><span>Presença nas buscas com IA</span><b>R$ 690 <small>/mês</small></b></div>
+      <div class="price-row"><span>Mídia indoor na Smart TV <small>(por tela)</small></span><b>R$ 60 <small>/mês</small></b></div>
+      <div class="price-row"><span>Painel de conversão e leitura mensal</span><b>R$ 790 <small>/mês</small></b></div>
+      <div class="price-row"><span>Impresso rastreável</span><b style="font-size:3.3cqw;font-family:var(--body);font-weight:700">no combo</b></div>
+    </div>
+    <div class="total"><span>Separados, por mês</span><b>R$ 6.800</b></div>
+    <p class="small">Mais R$ 5.400 do site, uma vez. Em 12 meses, tudo separado soma R$ 87.000. Cada tela extra custa R$ 60 por mês.</p>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>17 / 19</span></footer>
+</section>
+
+<!-- 18 COMBO -->
+<section class="page dark" id="p18">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Combo completo</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Tudo junto, num valor só</p>
+    <h2 class="h md">O combo completo <span class="a">New Vita.</span></h2>
+    <div class="deal best">
+      <div class="t">Plano de 12 meses</div>
+      <div class="v"><em>R$</em><b>4.300</b><u>/mês</u></div>
+      <p>Cerca de R$ 143 por dia. Total R$ 51.600 contra R$ 87.000 separados. Economia de R$ 35.400.</p>
+    </div>
+    <div class="deal">
+      <div class="t">Plano de 6 meses</div>
+      <div class="v"><em>R$</em><b>4.500</b><u>/mês</u></div>
+      <p>Total R$ 27.000 contra R$ 46.200 separados. Economia de R$ 19.200.</p>
+    </div>
+    <div class="box"><h4>O que entra</h4><ul><li>Os 7 serviços, com 1 tela de mídia indoor</li><li>O site, com a criação diluída no valor</li><li>Auditoria completa e impresso rastreável</li></ul></div>
+    <div>
+      <div class="choice"><i class="cb" data-f="plano12"></i><span>Escolho o plano de 12 meses</span></div>
+      <div class="choice"><i class="cb" data-f="plano6"></i><span>Escolho o plano de 6 meses</span></div>
+      <div class="choice"><i class="cb" data-f="conversar"></i><span>Quero conversar antes</span></div>
+    </div>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>18 / 19</span></footer>
+</section>
+
+<!-- 19 FECHAR -->
+<section class="page red" id="p19">
+  <header class="pg-top"><div class="brand"><div class="mark">N</div><div class="brand-name">NEW <span>VITA</span></div></div><div class="pg-tag">Próximo passo</div></header>
+  <div class="pg-body">
+    <p class="eyebrow">Como fechar</p>
+    <h2 class="h md">Sete combinados, e começamos.</h2>
+    <ul class="cond">
+      <li><b>1</b><span>Prazo de 12 ou 6 meses. A TV avulsa continua cancelável a qualquer momento.</span></li>
+      <li><b>2</b><span>Verba dos anúncios à parte, a partir de R$ 1.500 por mês, paga por você às plataformas.</span></li>
+      <li><b>3</b><span>Acessos liberados em até 5 dias úteis. Começamos em 7 dias.</span></li>
+      <li><b>4</b><span>Você aprova os conteúdos em até 48 horas.</span></li>
+      <li><b>5</b><span>Pagamento todo dia 5, por PIX ou cartão.</span></li>
+      <li><b>6</b><span>Proposta válida até 04/11/2026.</span></li>
+      <li><b>7</b><span>Nos primeiros 30 dias, se algo combinado não for entregue no prazo, você encerra sem multa.</span></li>
+    </ul>
+    <p class="lead">Imagine a recepção em dezembro: o telefone toca, a agenda enche e você sabe de onde veio cada paciente.</p>
+    <a class="pill big" href="https://wa.me/5591988470999?text=Quero%20fechar%20a%20proposta%20da%20New%20Vita"><span>Quero fechar</span><span>(91) 98847-0999</span></a>
+  </div>
+  <footer class="pg-foot"><span>Proposta · 28/10/2026</span><span>19 / 19</span></footer>
+</section>
+
+<script>
+  (function () {
+    var m = /^#p(\d+)$/.exec(location.hash);
+    if (m) {
+      document.querySelectorAll(".page").forEach(function (p) { if (p.id !== "p" + m[1]) p.style.display = "none"; });
+    }
+  })();
+  (function () {
+    if (!/^https?:$/.test(location.protocol)) return;
+    window.addEventListener("DOMContentLoaded", function () {
+      var frame = document.getElementById("tvFrame");
+      var screen = document.getElementById("tvScreen");
+      if (!frame || !screen) return;
+      frame.addEventListener("load", function () { screen.classList.add("live"); });
+      frame.src = "amostra-tv-newvita.html";
+    });
+  })();  window.addEventListener("load", function () {
+    var out = [];
+    document.querySelectorAll(".cb").forEach(function (el) {
+      var page = el.closest(".page");
+      var p = page.getBoundingClientRect();
+      var r = el.getBoundingClientRect();
+      out.push({ f: el.dataset.f, page: parseInt(page.id.slice(1), 10) - 1, x: r.left - p.left, y: r.top - p.top, w: r.width, h: r.height });
+    });
+    var s = document.createElement("script");
+    s.type = "application/json";
+    s.id = "rects";
+    s.textContent = JSON.stringify(out);
+    document.body.appendChild(s);
+  });
+</script>
+</body>
+</html>

@@ -5,8 +5,9 @@
   <script src="/assets/fa-track.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centro de Terapia Comportamental Infantil em Belém | FaçaAmigos</title>
-  <meta name="description" content="Terapia comportamental infantil no Umarizal, Belém/PA. Equipe multidisciplinar, psicóloga CRP 10/4727 e convênios IASEP e PROASA. Entre na lista de espera.">
+  <title>Clínica Infantil em Belém: ABA, Fono, T.O. e mais | FaçaAmigos</title>
+  <meta name="description" content="Clínica infantil no Umarizal, Belém/PA: Terapia ABA, Psicologia, Fono, T.O., Fisioterapia, Musicoterapia, Nutrição e mais. Convênios IASEP e PROASA.">
+  <meta name="keywords" content="Terapia ABA Belém, Fonoaudiologia infantil, Terapia Ocupacional, Integração Sensorial, Fisioterapia infantil, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição infantil, Treino de Habilidades Sociais, Avaliação Neuropsicológica, Clínica Infantil Umarizal">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://institutofacaamigos.com.br/clinica">
   <link rel="icon" type="image/png" href="img/logo-simbolo.png">
@@ -17,8 +18,8 @@
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="FaçaAmigos — Centro de Terapia Comportamental">
-  <meta property="og:title" content="Centro de Terapia Comportamental Infantil em Belém | FaçaAmigos">
-  <meta property="og:description" content="Terapia comportamental infantil no Umarizal, Belém/PA. Equipe multidisciplinar, psicóloga CRP 10/4727 e convênios IASEP e PROASA. Entre na lista de espera.">
+  <meta property="og:title" content="Clínica Infantil em Belém: ABA, Fono, T.O. e mais | FaçaAmigos">
+  <meta property="og:description" content="Clínica infantil no Umarizal, Belém/PA: Terapia ABA, Psicologia, Fono, T.O., Fisioterapia, Musicoterapia, Nutrição e mais. Convênios IASEP e PROASA.">
   <meta property="og:url" content="https://institutofacaamigos.com.br/clinica">
   <meta property="og:image" content="https://institutofacaamigos.com.br/img/clinica-fachada.jpg">
   <meta property="og:image:width" content="900">
@@ -26,7 +27,8 @@
   <meta property="og:image:alt" content="Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém">
   <meta property="og:locale" content="pt_BR">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Centro de Terapia Comportamental Infantil em Belém | FaçaAmigos">
+  <meta name="twitter:title" content="Especialidades & Centro de Terapia Comportamental Infantil em Belém | FaçaAmigos">
+  <meta name="twitter:description" content="Terapia ABA, Psicologia, Fonoaudiologia, TO com Integração Sensorial, Fisioterapia, Psicomotricidade, Musicoterapia, Nutrição e mais no Umarizal, Belém/PA.">
   <meta name="twitter:image" content="https://institutofacaamigos.com.br/img/clinica-fachada.jpg">
   <meta name="twitter:image:alt" content="Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém">
 
@@ -137,17 +139,26 @@
 
     /* Serviços: registro sóbrio, um único tom de ícone */
     .services { display: grid; gap: 16px; margin-top: 36px; text-align: left; }
-    .svc { background: var(--cream); border-radius: var(--r-card); padding: 24px; box-shadow: var(--shadow-sm); scroll-margin-top: 90px; transition: transform var(--t-fast), box-shadow var(--t-fast); }
-    .svc:last-child { grid-column: 1 / -1; }
+    .svc { background: var(--cream); border-radius: var(--r-card); padding: 24px; box-shadow: var(--shadow-sm); scroll-margin-top: 90px; transition: transform var(--t-fast), box-shadow var(--t-fast); display: flex; flex-direction: column; justify-content: space-between; }
+    .svc.is-hidden { display: none !important; }
     .svc:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     .svc .ib { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 12px; background: var(--teal-soft); font-size: 1.5rem; }
     .svc h3 { font-size: 1.25rem; margin-bottom: 10px; }
-    .svc dl { margin: 0; display: grid; gap: 8px; }
+    .svc dl { margin: 0; display: grid; gap: 8px; flex-grow: 1; }
     .svc dt { font-weight: 900; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--petrol); }
     .svc dd { margin: 0 0 4px; font-size: .96rem; font-weight: 600; color: var(--ink-soft); }
     .svc dd a, .lead a { color: var(--petrol); }
     .svc .gain { margin: 0 0 4px; font-size: .96rem; font-weight: 700; color: var(--dark); }
     .svc .more { margin-top: 10px; border-top: 1px solid rgba(26, 63, 53, .1); }
+    .svc-wa-btn { margin-top: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: .88rem; font-weight: 800; color: var(--petrol); text-decoration: none; padding: 8px 14px; background: #fff; border-radius: 999px; border: 1.5px solid rgba(6, 82, 100, .2); transition: background var(--t-fast), color var(--t-fast); }
+    .svc-wa-btn:hover { background: var(--wa); color: #053B1C; border-color: var(--wa); }
+    .svc-search-wrap { max-width: 720px; margin: 26px auto 0; text-align: center; }
+    .svc-search-input { width: 100%; max-width: 540px; padding: 13px 22px; border-radius: 9999px; border: 2px solid rgba(6, 82, 100, .2); font-family: inherit; font-size: 1rem; outline: none; background: #fff; box-shadow: var(--shadow-sm); transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+    .svc-search-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(46, 207, 181, .25); }
+    .svc-filter-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+    .svc-chip { background: #fff; border: 1.5px solid rgba(26, 63, 53, .15); border-radius: 9999px; padding: 7px 16px; font-size: .88rem; font-weight: 800; color: var(--petrol); cursor: pointer; transition: all var(--t-fast); font-family: inherit; }
+    .svc-chip:hover { background: var(--yellow-soft); }
+    .svc-chip.active { background: var(--petrol); color: #fff; border-color: var(--petrol); }
     .more-btn { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; background: none; border: 0; padding: 0; font-family: inherit; font-weight: 800; font-size: 1rem; color: var(--petrol); text-align: left; }
     .more-btn::after { content: '+'; font-size: 1.4rem; font-weight: 900; color: var(--pink-dark); flex: none; }
     .more-btn[aria-expanded="true"]::after { content: '−'; }
@@ -173,9 +184,25 @@
     .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
     .tags span { background: var(--white); box-shadow: var(--shadow-sm); border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: .88rem; }
 
-    /* Convênios */
+    /* Convênios e Planos de Sessões Particulares */
     .plans { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; justify-content: center; }
     .plans span { background: var(--white); box-shadow: var(--shadow-sm); border-radius: 999px; padding: 10px 22px; font-weight: 800; color: var(--petrol); }
+    .pricing-grid { display: grid; gap: 16px; margin-top: 36px; text-align: left; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .pricing-card { background: var(--white); border-radius: var(--r-card); padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; border: 2px solid transparent; transition: transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast); }
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--teal); }
+    .pricing-card.featured { border-color: var(--yellow); background: #FFFDF5; position: relative; }
+    .pricing-badge { position: absolute; top: -12px; right: 18px; background: var(--yellow); color: var(--petrol-deep); font-size: .75rem; font-weight: 900; letter-spacing: .06em; padding: 4px 12px; border-radius: 999px; box-shadow: var(--shadow-sm); }
+    .pricing-card-header h3 { font-size: 1.25rem; color: var(--petrol); margin-bottom: 4px; }
+    .pricing-card-sessions { font-size: .92rem; font-weight: 800; color: var(--ink-soft); margin-bottom: 12px; }
+    .pricing-card-price { font-size: 2rem; font-family: var(--font-display); color: var(--dark); line-height: 1; margin-bottom: 6px; }
+    .pricing-card-unit { font-size: .88rem; font-weight: 700; color: var(--teal-dark); margin-bottom: 14px; }
+    .pricing-card-desc { font-size: .9rem; font-weight: 600; color: var(--ink-soft); line-height: 1.45; }
+    .pricing-card-footer { font-size: .85rem; color: var(--ink-soft); font-weight: 700; border-top: 1px solid rgba(26,63,53,.08); padding-top: 12px; margin-top: 16px; }
+    .pricing-rules { display: grid; gap: 14px; margin-top: 32px; text-align: left; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .pricing-rule { background: var(--white); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow-sm); display: flex; gap: 14px; align-items: flex-start; }
+    .pricing-rule .ic { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-soft); display: grid; place-items: center; font-size: 1.2rem; flex-shrink: 0; }
+    .pricing-rule-title { font-size: .98rem; font-weight: 800; color: var(--dark); margin-bottom: 2px; }
+    .pricing-rule-sub { font-size: .88rem; font-weight: 600; color: var(--ink-soft); line-height: 1.4; }
 
     /* Ambiente e "enquanto isso" */
     .tiles { display: grid; gap: 16px; margin-top: 36px; }
@@ -271,15 +298,24 @@
         },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
-          "name": "Serviços da Clínica FaçaAmigos",
+          "name": "Serviços e Especialidades da Clínica FaçaAmigos",
           "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Avaliação inicial e acolhimento", "description": "Primeira conversa e observação para entender o dia a dia da criança e montar um plano com a família." } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicologia e terapia comportamental", "description": "Acompanhamento com psicóloga, apoiado em Análise do Comportamento Aplicada (ABA), para ensinar novas habilidades com afeto." } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fonoaudiologia", "description": "Acompanhamento da fala, da linguagem e da alimentação da criança." } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Terapia Ocupacional", "description": "Trabalho de coordenação motora, autonomia nas tarefas do dia e integração sensorial." } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicopedagogia", "description": "Apoio às dificuldades de aprendizagem, como leitura, escrita e matemática." } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Avaliação neuropsicológica", "description": "Testes de memória, atenção e raciocínio para orientar escola e terapia." } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Orientação a pais e escola", "description": "Sessões de orientação familiar e apoio na conversa com a escola." } }
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Avaliação inicial e acolhimento", "description": "Primeira conversa e observação para entender o dia a dia da criança e montar o Plano Terapêutico Singular (PTS)." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Terapia ABA", "description": "Comunicação funcional, autonomia e ampliação de repertório baseada em Análise do Comportamento Aplicada." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicologia", "description": "Regulação emocional, autoestima e suporte em cada fase do desenvolvimento infantil." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fonoaudiologia", "description": "Linguagem, fala, comunicação alternativa e deglutição." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Terapia Ocupacional", "description": "Vida diária, coordenação motora fina, brincar e independência funcional." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "T.O. com Integração Sensorial", "description": "Modulação sensorial, planejamento motor e regulação em ambiente estruturado." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fisioterapia", "description": "Desenvolvimento motor, tônus muscular, marcha e alinhamento postural." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicopedagogia", "description": "Aprendizagem, alfabetização e adaptação escolar no ritmo da criança." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicomotricidade", "description": "Esquema corporal, equilíbrio e coordenação global." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Musicoterapia", "description": "Comunicação, interação e expressão emocional através da música." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Nutrição", "description": "Seletividade alimentar, ampliação de cardápio e orientação à família." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Educação Física Adaptada", "description": "Habilidades motoras, esporte adaptado e socialização ativa." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Treino de Habilidades Sociais", "description": "Interação com pares, regras sociais e desenvolvimento de amizades." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Orientação Parental", "description": "Manejo comportamental no dia a dia, rotina em casa e acolhimento da família." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Avaliação Neuropsicológica", "description": "Atenção, memória, funções executivas e apoio qualificado ao diagnóstico." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Planos de Sessões Particulares", "description": "Seis planos mensais de 4 a 24 sessões de 40 min com terapias combinadas, além de sessão avulsa (Encontro) e Avaliação Neuropsicológica. Valores com a equipe pelo WhatsApp." } }
           ]
         }
       },
@@ -289,8 +325,8 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Já dá para agendar uma consulta na Clínica?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Ainda não. A Clínica FaçaAmigos está em fase final de preparação. Você pode entrar na lista de espera pelo WhatsApp e é a primeira pessoa avisada assim que abrirmos." }
+            "name": "A Clínica já está atendendo?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sim. A Clínica FaçaAmigos está atendendo desde novembro de 2026, em Umarizal, Belém. Para agendar a avaliação, chame a equipe pelo WhatsApp." }
           },
           {
             "@type": "Question",
@@ -305,17 +341,27 @@
           {
             "@type": "Question",
             "name": "A Clínica atende convênio?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Vamos atender os convênios IASEP e PROASA assim que abrirmos, além do atendimento particular. Os detalhes de cada convênio são confirmados na abertura." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Atendemos os convênios parceiros IASEP e PROASA (a clínica solicita a autorização da guia mediante envio de laudo com CID, carteirinha e documento). Para outros convênios, emitimos nota fiscal e relatórios detalhados para você dar entrada no reembolso junto à operadora." }
+          },
+          {
+            "@type": "Question",
+            "name": "Quanto tempo dura cada sessão?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Todas as sessões terapêuticas duram 40 minutos em qualquer especialidade. A única exceção é o Treino ABA, que acontece em blocos de 3 sessões consecutivas de 40 minutos (120 minutos no total)." }
+          },
+          {
+            "@type": "Question",
+            "name": "Como funcionam os planos particulares de sessões?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Trabalhamos com seis planos mensais de 4 a 24 sessões (do Primeiro Passo ao Voo Livre), além da sessão avulsa Encontro e da Avaliação Neuropsicológica. A avaliação inicial conta como 1 sessão do plano contratado e você pode combinar especialidades. Os valores e as condições de pagamento são passados pela nossa equipe no WhatsApp." }
           },
           {
             "@type": "Question",
             "name": "A partir de que idade a Clínica atende?",
-            "acceptedAnswer": { "@type": "Answer", "text": "O acompanhamento é voltado para crianças; a idade exata de cada caso é conversada na avaliação inicial, de acordo com o serviço." }
+            "acceptedAnswer": { "@type": "Answer", "text": "O acompanhamento é voltado para crianças e adolescentes; a necessidade de cada caso e o plano de desenvolvimento são estruturados na avaliação inicial." }
           },
           {
             "@type": "Question",
             "name": "A avaliação é um diagnóstico?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Não. A avaliação inicial e o acompanhamento são um apoio educativo e terapêutico. Eles não substituem, quando necessário, uma avaliação médica ou neuropsicológica formal." }
+            "acceptedAnswer": { "@type": "Answer", "text": "A avaliação inicial acolhe a rotina e monta o Plano Terapêutico Singular (PTS). Quando há necessidade de investigação diagnóstica formal (TDAH, TEA, cognição), realizamos a Avaliação Neuropsicológica completa com bateria de testes e laudo oficial." }
           }
         ]
       },
@@ -346,7 +392,7 @@
         <a href="/eventos">Eventos</a>
       </div>
       <div class="nav-actions">
-        <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Quero%20entrar%20na%20lista%20de%20espera%20da%20Cl%C3%ADnica%20Fa%C3%A7aAmigos%20-%20Centro%20de%20Terapia%20Comportamental%20(vim%20pelo%20site)." target="_blank" rel="noopener" class="btn-wa btn-buy sm" data-cta="nav_whatsapp">
+        <a href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20no%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" class="btn-wa btn-buy sm" data-cta="nav_whatsapp">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
           WhatsApp</a>
       </div>
@@ -359,20 +405,22 @@
       <span class="circ" style="width:280px;height:280px;right:-140px;top:-100px;background:var(--teal);opacity:.22"></span>
       <span class="circ" style="width:140px;height:140px;left:-70px;bottom:-40px;background:var(--yellow);opacity:.2"></span>
       <div class="wrap">
-        <span class="eyebrow">Centro de Terapia Comportamental · Em breve</span>
-        <h1>Se você sente que algo está diferente, aqui você vai ser <span class="hl">ouvida</span>.</h1>
-        <p class="sub">Equipe multidisciplinar, terapia comportamental e um plano que cabe na rotina da sua família, conduzido por Isabella Gonçalves Freitas, psicóloga infantil (CRP 10/4727), em Umarizal, Belém.</p>
+        <span class="eyebrow">Centro de Terapia Comportamental · Umarizal, Belém</span>
+        <h1>Respira. Aqui seu filho é visto, <span class="hl">e você também</span>.</h1>
+        <p class="sub">O Centro de Terapia Comportamental FaçaAmigos já está atendendo. Avaliação e terapia com equipe multidisciplinar, conduzidas por Isabella Gonçalves Freitas, psicóloga infantil (CRP 10/4727).</p>
         <div class="seal">
           <span>👩‍⚕️ Psicóloga infantil · CRP 10/4727</span>
           <span>🤝 Equipe multidisciplinar</span>
           <span>📍 Umarizal, Belém/PA</span>
+          <span>🗓️ Início de atividade: novembro de 2026</span>
+          <span>🩺 Convênios e particular</span>
         </div>
         <div class="cta-row">
           <div class="actions">
-            <a class="btn-buy" href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Quero%20entrar%20na%20lista%20de%20espera%20da%20Cl%C3%ADnica%20Fa%C3%A7aAmigos%20-%20Centro%20de%20Terapia%20Comportamental%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="hero_lista"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>Entrar na lista de espera<span class="sr-only"> pelo WhatsApp</span></a>
-            <a data-fa-link="clinica_hero" class="btn-ghost" href="/teste">Fazer o mapeamento grátis (5 min)</a>
+            <a class="btn-buy" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20no%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="hero_agendar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>Agendar avaliação<span class="sr-only"> pelo WhatsApp</span></a>
+            <a data-fa-link="clinica_hero" class="btn-ghost" href="/teste">Tenho uma dúvida: mapeamento grátis (5 min)</a>
           </div>
-          <span class="cta-note">Sem custo para entrar na lista · Você recebe o aviso em primeira mão</span>
+          <span class="cta-note">Atendemos IASEP, PROASA e particular · Resposta da equipe pelo WhatsApp</span>
         </div>
       </div>
     </header>
@@ -391,7 +439,7 @@
     <section aria-labelledby="como-h">
       <div class="wrap center">
         <span class="eyebrow">Baixo atrito, sem prazo</span>
-        <h2 class="title" id="como-h">Como vai funcionar o primeiro contato</h2>
+        <h2 class="title" id="como-h">Como funciona o primeiro contato</h2>
         <p class="lead">Sem formulário longo, sem espera confusa. Três passos, no seu tempo.</p>
       </div>
       <div class="wrap">
@@ -422,108 +470,165 @@
     <section class="bg-white" aria-labelledby="servicos-h">
       <div class="wrap center">
         <span class="eyebrow">O que a Clínica oferece</span>
-        <h2 class="title" id="servicos-h">Serviços</h2>
-        <p class="lead">Uma equipe, um plano só. Veja o que cada especialidade cuida — os termos técnicos estão explicados no <a href="/glossario">glossário</a>.</p>
+        <h2 class="title" id="servicos-h">14 Especialidades Clínicas</h2>
+        <p class="lead">Uma equipe multidisciplinar, um plano só. Conheça cada especialidade — os termos técnicos estão no <a href="/glossario">glossário</a>.</p>
+        <div class="svc-search-wrap">
+          <input type="search" id="busca-servicos" class="svc-search-input" placeholder="🔍 Buscar sessão ou queixa (ex: ABA, fala, sensorial, coordenação...)" aria-label="Buscar especialidade clínica" autocomplete="off">
+          <div class="svc-filter-chips" role="group" aria-label="Filtrar por área">
+            <button type="button" class="svc-chip active" data-filter="all">Todas (14)</button>
+            <button type="button" class="svc-chip" data-filter="comportamento">Comportamento &amp; ABA</button>
+            <button type="button" class="svc-chip" data-filter="fala">Linguagem &amp; Fala</button>
+            <button type="button" class="svc-chip" data-filter="motor">Motor &amp; Sensorial</button>
+            <button type="button" class="svc-chip" data-filter="aprendizagem">Aprendizagem &amp; Cognição</button>
+            <button type="button" class="svc-chip" data-filter="familia">Família &amp; Nutrição</button>
+          </div>
+        </div>
       </div>
       <div class="wrap">
-        <div class="services">
-          <div class="svc" id="avaliacao">
+        <p id="svc-no-results" style="display:none;text-align:center;padding:30px 0;font-weight:700;color:var(--ink-soft);">Nenhuma especialidade encontrada. <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Procuro%20uma%20especialidade%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos.">Fale com nossa equipe →</a></p>
+        <div class="services" id="lista-servicos">
+          <div class="svc" id="avaliacao" data-tags="all acolhimento plano triagem">
             <div class="ib">🌱</div>
             <h3>Avaliação inicial e acolhimento</h3>
             <dl>
-              <div><dt>Pra quem é</dt><dd>Toda família que quer entender melhor o que está acontecendo, com ou sem laudo.</dd></div>
-              <div><dt>O que muda pra você</dt><dd class="gain">Você sai com um primeiro plano, não com uma lista de exames.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Toda família que quer entender melhor o desenvolvimento e comportamento da criança, com ou sem laudo.</dd></div>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Primeira conversa e observação sem pressa para estruturar o Plano Terapêutico Singular (PTS).</dd></div>
             </dl>
-            <div class="more"><button type="button" class="more-btn" aria-expanded="false" aria-controls="more-1">Ver como funciona</button>
-              <div class="more-body" id="more-1" hidden>
-              <dl>
-                <div><dt>O que acontece</dt><dd>Uma conversa e observação, sem pressa, para enxergar a rotina completa da criança.</dd></div>
-              </dl>
-            </div></div>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Quero%20agendar%20uma%20Avalia%C3%A7%C3%A3o%20Inicial%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_avaliacao">💬 Conversar no WhatsApp</a>
           </div>
-          <div class="svc" id="psicologia">
-            <div class="ib">🧠</div>
-            <h3>Psicologia e terapia comportamental</h3>
+          <div class="svc" id="aba" data-tags="all comportamento aba autismo tea repertorio comunicacao autonomia">
+            <div class="ib">🧩</div>
+            <h3>Terapia ABA (Análise do Comportamento Aplicada)</h3>
             <dl>
-              <div><dt>Pra quem é</dt><dd>Crianças com birras frequentes, dificuldade de comunicação ou comportamentos que preocupam a família.</dd></div>
-              <div><dt>O que muda pra você</dt><dd class="gain">Menos "apagar incêndio", mais entender o porquê — e o que fazer a respeito.</dd></div>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Intervenção comportamental intensiva: comunicação funcional, autonomia, redução de comportamentos desafiadores e ampliação de repertório.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Crianças e adolescentes com autismo/TEA, atrasos de desenvolvimento ou comportamentos desafiadores frequentes.</dd></div>
             </dl>
-            <div class="more"><button type="button" class="more-btn" aria-expanded="false" aria-controls="more-2">Ver como funciona</button>
-              <div class="more-body" id="more-2" hidden>
-              <dl>
-                <div><dt>O que acontece</dt><dd>Sessões que ensinam novas habilidades com repetição afetuosa, apoiadas em <a href="/glossario#aba">Análise do Comportamento</a>.</dd></div>
-              </dl>
-            </div></div>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#aba">Entenda ABA no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20na%20Terapia%20ABA%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_aba">💬 Saber mais sobre Terapia ABA</a>
           </div>
-          <div class="svc" id="fonoaudiologia">
+          <div class="svc" id="psicologia" data-tags="all comportamento psicologia emocional autoestima regulacao">
+            <div class="ib">🧠</div>
+            <h3>Psicologia</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Acompanhamento psicológico, regulação emocional, autoestima e suporte em diferentes fases da vida.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Crianças com ansiedade, insegurança, birras intensas, dificuldades de socialização ou suporte emocional em fase de desenvolvimento.</dd></div>
+            </dl>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Psicologia%20infantil%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_psicologia">💬 Saber mais sobre Psicologia</a>
+          </div>
+          <div class="svc" id="fonoaudiologia" data-tags="all fala fonoaudiologia linguagem caa degluticao seletividade oral">
             <div class="ib">🗣️</div>
             <h3>Fonoaudiologia</h3>
             <dl>
-              <div><dt>Pra quem é</dt><dd>Crianças com fala atrasada, difícil de entender, ou seletividade alimentar.</dd></div>
-              <div><dt>O que muda pra você</dt><dd class="gain">Mais formas de se entender com o seu filho, no dia a dia.</dd></div>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Linguagem, fala, comunicação alternativa (CAA), deglutição e seletividade oral-motora.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Atrasos na fala, trocas de fonemas, gagueira, comunicação alternativa (CAA) ou dificuldades de mastigação e deglutição.</dd></div>
             </dl>
-            <div class="more"><button type="button" class="more-btn" aria-expanded="false" aria-controls="more-3">Ver como funciona</button>
-              <div class="more-body" id="more-3" hidden>
-              <dl>
-                <div><dt>O que acontece</dt><dd>Sessões de estímulo à fala, à linguagem e, quando necessário, à alimentação.</dd></div>
-              </dl>
-            </div></div>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#fonoaudiologia">Ver Fonoaudiologia no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Fonoaudiologia%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_fono">💬 Saber mais sobre Fonoaudiologia</a>
           </div>
-          <div class="svc" id="to">
+          <div class="svc" id="terapia-ocupacional" data-tags="all motor terapia ocupacional to autonomia fina brincar">
             <div class="ib">🤸</div>
             <h3>Terapia Ocupacional</h3>
             <dl>
-              <div><dt>Pra quem é</dt><dd>Crianças com dificuldade de coordenação, autonomia nas tarefas do dia, ou hipersensibilidade a som, luz ou toque.</dd></div>
-              <div><dt>O que muda pra você</dt><dd class="gain">Tarefas do dia a dia (vestir, comer, escovar os dentes) ficam menos batalha.</dd></div>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Atividades de vida diária, coordenação motora fina, brincar e independência.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Dificuldades para se vestir, comer, higiene pessoal, coordenação motora fina (lápis, tesoura) ou brincar com autonomia.</dd></div>
             </dl>
-            <div class="more"><button type="button" class="more-btn" aria-expanded="false" aria-controls="more-4">Ver como funciona</button>
-              <div class="more-body" id="more-4" hidden>
-              <dl>
-                <div><dt>O que acontece</dt><dd>Atividades que trabalham <a href="/glossario#integracao-sensorial">integração sensorial</a> e autonomia, do jeito de cada criança.</dd></div>
-              </dl>
-            </div></div>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#terapia-ocupacional">Ver T.O. no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Terapia%20Ocupacional%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_to">💬 Saber mais sobre T.O.</a>
           </div>
-          <div class="svc" id="psicopedagogia">
+          <div class="svc" id="integracao-sensorial" data-tags="all motor sensorial integracao modulacao regulacao hipersensibilidade">
+            <div class="ib">🌀</div>
+            <h3>T.O. com Integração Sensorial</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Processamento e modulação sensorial, planejamento motor e regulação.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Hipersensibilidade ou busca por estímulos táteis, sonoros, visuais ou de movimento; crises por sobrecarga sensorial.</dd></div>
+            </dl>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#integracao-sensorial">Ver Integração Sensorial no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Integra%C3%A7%C3%A3o%20Sensorial%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_is">💬 Saber mais sobre Integração Sensorial</a>
+          </div>
+          <div class="svc" id="fisioterapia" data-tags="all motor fisioterapia tonus marcha postura equilibrio">
+            <div class="ib">🏃</div>
+            <h3>Fisioterapia</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Desenvolvimento motor, tônus, marcha e postura.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Atrasos nos marcos motores, hipotonia, andar na ponta dos pés, alterações posturais ou dificuldades de equilíbrio.</dd></div>
+            </dl>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Fisioterapia%20infantil%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_fisio">💬 Saber mais sobre Fisioterapia</a>
+          </div>
+          <div class="svc" id="psicopedagogia" data-tags="all aprendizagem psicopedagogia alfabetizacao raciocinio escola">
             <div class="ib">📘</div>
             <h3>Psicopedagogia</h3>
             <dl>
-              <div><dt>Pra quem é</dt><dd>Crianças com dificuldade de aprendizagem: leitura, escrita ou matemática.</dd></div>
-              <div><dt>O que muda pra você</dt><dd class="gain">Menos "ele não presta atenção", mais um caminho que funciona pra ele.</dd></div>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Aprendizagem, alfabetização, raciocínio lógico e adaptação escolar.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Dificuldades de leitura, escrita, raciocínio matemático, memória escolar ou necessidade de adaptação curricular.</dd></div>
             </dl>
-            <div class="more"><button type="button" class="more-btn" aria-expanded="false" aria-controls="more-5">Ver como funciona</button>
-              <div class="more-body" id="more-5" hidden>
-              <dl>
-                <div><dt>O que acontece</dt><dd>Estratégias criadas para o jeito de aprender do seu filho, não o contrário.</dd></div>
-              </dl>
-            </div></div>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#psicopedagogia">Ver Psicopedagogia no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Psicopedagogia%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_psicopedagogia">💬 Saber mais sobre Psicopedagogia</a>
           </div>
-          <div class="svc" id="neuro">
-            <div class="ib">🔍</div>
-            <h3>Avaliação neuropsicológica</h3>
+          <div class="svc" id="psicomotricidade" data-tags="all motor psicomotricidade equilibrio lateralidade coordenacao corporal">
+            <div class="ib">⚽</div>
+            <h3>Psicomotricidade</h3>
             <dl>
-              <div><dt>Pra quem é</dt><dd>Famílias com dúvidas sobre memória, atenção, foco ou desenvolvimento cognitivo.</dd></div>
-              <div><dt>O que muda pra você</dt><dd class="gain">Um retrato mais completo, para decisões com mais clareza.</dd></div>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Esquema corporal, equilíbrio, lateralidade e coordenação motora global.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Descoordenação motora global, quedas frequentes, dificuldade com lateralidade ou orientação espacial.</dd></div>
             </dl>
-            <div class="more"><button type="button" class="more-btn" aria-expanded="false" aria-controls="more-6">Ver como funciona</button>
-              <div class="more-body" id="more-6" hidden>
-              <dl>
-                <div><dt>O que acontece</dt><dd>Testes que mapeiam essas funções e orientam escola e terapia.</dd></div>
-              </dl>
-            </div></div>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Psicomotricidade%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_psicomotricidade">💬 Saber mais sobre Psicomotricidade</a>
           </div>
-          <div class="svc" id="orientacao">
+          <div class="svc" id="musicoterapia" data-tags="all fala musicoterapia comunicacao interacao atencao expressao">
+            <div class="ib">🎵</div>
+            <h3>Musicoterapia</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Comunicação, interação social, atenção e expressão emocional por meio da música.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Barreiras na comunicação verbal, dificuldades de engajamento social, déficit de atenção ou sobrecarga emocional.</dd></div>
+            </dl>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Musicoterapia%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_musico">💬 Saber mais sobre Musicoterapia</a>
+          </div>
+          <div class="svc" id="nutricao" data-tags="all familia nutricao seletividade alimentar refeicao cardapio">
+            <div class="ib">🥗</div>
+            <h3>Nutrição</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Seletividade alimentar, introdução de novos alimentos e orientação nutricional à família.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Recusa severa de grupos alimentares por textura, cor ou consistência, com necessidade de introdução alimentar gradual.</dd></div>
+            </dl>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#seletividade-alimentar">Ver Seletividade Alimentar no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Nutri%C3%A7%C3%A3o%20infantil%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_nutricao">💬 Saber mais sobre Nutrição</a>
+          </div>
+          <div class="svc" id="educacao-fisica" data-tags="all motor esporte educacao fisica adaptada condicionamento habilidades">
+            <div class="ib">🏀</div>
+            <h3>Educação Física Adaptada</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Condicionamento, habilidades motoras, esporte adaptado e socialização.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Crianças que buscam atividade física saudável e inclusiva com suporte especializado ao desenvolvimento motor e social.</dd></div>
+            </dl>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Educa%C3%A7%C3%A3o%20F%C3%ADsica%20Adaptada%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_edfisica">💬 Saber mais sobre Ed. Física</a>
+          </div>
+          <div class="svc" id="habilidades-sociais" data-tags="all comportamento socializacao amigos pares regras conversacao">
+            <div class="ib">🤝</div>
+            <h3>Treino de Habilidades Sociais</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Interação com pares, conversação, regras sociais e amizade, em grupo ou individual.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Crianças e jovens com dificuldade para fazer amigos, iniciar conversas ou compreender pistas sociais.</dd></div>
+            </dl>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Treino%20de%20Habilidades%20Sociais%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_sociais">💬 Saber mais sobre Habilidades Sociais</a>
+          </div>
+          <div class="svc" id="orientacao-parental" data-tags="all familia orientacao pais manejo rotina generalizacao">
             <div class="ib">👨‍👩‍👧</div>
-            <h3>Orientação a pais e escola</h3>
+            <h3>Orientação Parental</h3>
             <dl>
-              <div><dt>Pra quem é</dt><dd>Toda família em acompanhamento, e também a escola do seu filho, quando fizer sentido.</dd></div>
-              <div><dt>O que muda pra você</dt><dd class="gain">Você não sai sozinha da reunião com a escola, nem sozinha em casa.</dd></div>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Estratégias de manejo em casa, generalização das habilidades e acolhimento da família.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Pais e cuidadores que buscam suporte estruturado para lidar com a rotina, birras e desenvolvimento em casa.</dd></div>
             </dl>
-            <div class="more"><button type="button" class="more-btn" aria-expanded="false" aria-controls="more-7">Ver como funciona</button>
-              <div class="more-body" id="more-7" hidden>
-              <dl>
-                <div><dt>O que acontece</dt><dd>Sessões só com você para ajustar a rotina em casa, e apoio na conversa com a coordenação pedagógica.</dd></div>
-              </dl>
-            </div></div>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#orientacao-parental">Ver Orientação Parental no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Orienta%C3%A7%C3%A3o%20Parental%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_parental">💬 Saber mais sobre Orientação Parental</a>
+          </div>
+          <div class="svc" id="neuropsicologia" data-tags="all aprendizagem cognicao neuropsicologia atencao memoria executivas laudo">
+            <div class="ib">🔍</div>
+            <h3>Avaliação Neuropsicológica</h3>
+            <dl>
+              <div><dt>Foco do atendimento</dt><dd class="gain">Avaliação de funções cognitivas (atenção, memória, funções executivas) e apoio ao diagnóstico.</dd></div>
+              <div><dt>Pra quem é</dt><dd>Investigação formal para TDAH, TEA, dificuldades de aprendizagem ou mapeamento de funções cognitivas para escola e terapia.</dd></div>
+            </dl>
+            <p style="font-size:.88rem;margin-top:8px;"><a href="/glossario#avaliacao-neuropsicologica">Ver Avaliação Neuropsicológica no Glossário →</a></p>
+            <a href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Tenho%20interesse%20em%20Avalia%C3%A7%C3%A3o%20Neuropsicol%C3%B3gica%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos." target="_blank" rel="noopener" class="svc-wa-btn" data-fa-link="clinica_svc_wa_neuro">💬 Saber mais sobre Avaliação Neuropsicológica</a>
           </div>
         </div>
       </div>
@@ -600,25 +705,46 @@
       </div>
     </section>
 
-    <!-- CONVÊNIOS: lista editada à mão conforme a clínica for credenciando (também no FAQ e no JSON-LD acima, e em assets/fa-footer.js) -->
+    <!-- CONVÊNIO E PARTICULAR (resumo; detalhe em /planos) -->
     <section class="center" aria-labelledby="convenios-h">
-      <div class="wrap wrap-narrow">
-        <span class="eyebrow">Como pagar</span>
-        <h2 class="title" id="convenios-h">Convênios e atendimento particular</h2>
-        <p class="lead">Vamos atender os convênios abaixo assim que a Clínica abrir, além do atendimento particular. Os detalhes de cada convênio são confirmados na abertura.</p>
-        <div class="plans">
-          <span>Convênio IASEP</span>
-          <span>Convênio PROASA</span>
-          <span>Atendimento particular</span>
+      <div class="wrap">
+        <span class="eyebrow">Como funciona o atendimento</span>
+        <h2 class="title" id="convenios-h">Convênio ou particular: você escolhe</h2>
+        <p class="lead center" style="margin: 0 auto 28px;">
+          Atendemos pelos convênios e também de forma particular, com planos mensais pensados para cada etapa da evolução. Os valores você consulta com a nossa equipe pelo WhatsApp.
+        </p>
+        <div class="pricing-grid" style="max-width: 860px; margin-left: auto; margin-right: auto;">
+          <div class="pricing-card">
+            <div class="pricing-card-header">
+              <h3>Convênio</h3>
+              <p class="pricing-card-sessions">IASEP e PROASA</p>
+            </div>
+            <p class="pricing-card-desc">A clínica solicita a autorização da guia mediante laudo com CID, carteirinha e documento. Demais planos: emitimos nota fiscal e relatório detalhado para reembolso.</p>
+            <div class="pricing-card-footer">Atendimento com hora marcada</div>
+          </div>
+          <div class="pricing-card">
+            <div class="pricing-card-header">
+              <h3>Particular</h3>
+              <p class="pricing-card-sessions">6 planos mensais, de 4 a 24 sessões</p>
+            </div>
+            <p class="pricing-card-desc">Primeiro Passo, Laço, Vínculo, Turma, Abraço e Voo Livre. Terapias combináveis no Plano Terapêutico Singular. Valores: consultar via WhatsApp.</p>
+            <div class="pricing-card-footer">Pagamento em até 3x no cartão</div>
+          </div>
+        </div>
+        <div class="cta-row">
+          <div class="actions">
+            <a class="btn-buy" href="/planos" data-cta="clinica_ver_planos">Ver os pacotes particulares</a>
+            <a class="btn-ghost" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20consultar%20os%20valores%20dos%20planos%20do%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="clinica_valores_wa">Consultar valores no WhatsApp</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ENQUANTO A CLÍNICA NÃO ABRE -->
+    <!-- ANTES DA PRIMEIRA AVALIAÇÃO -->
     <section class="bg-white" aria-labelledby="enquanto-h">
       <div class="wrap center">
-        <span class="eyebrow">Enquanto isso</span>
-        <h2 class="title" id="enquanto-h">O que você pode fazer agora</h2>
+        <span class="eyebrow">Antes da primeira avaliação</span>
+        <h2 class="title" id="enquanto-h">Para ir se acalmando até a conversa</h2>
       </div>
       <div class="wrap">
         <div class="tiles three">
@@ -653,8 +779,8 @@
       <div class="wrap">
         <div class="geo-faq-list">
           <details class="geo-faq-item">
-            <summary>Já dá para agendar uma consulta na Clínica?</summary>
-            <div class="geo-faq-ans"><div>Ainda não. A Clínica FaçaAmigos está em fase final de preparação. Você pode entrar na lista de espera pelo WhatsApp e é a primeira pessoa avisada assim que abrirmos.</div></div>
+            <summary>A Clínica já está atendendo?</summary>
+            <div class="geo-faq-ans"><div>Sim. A Clínica FaçaAmigos está atendendo desde novembro de 2026, em Umarizal, Belém. Para agendar a avaliação, chame a equipe pelo WhatsApp.</div></div>
           </details>
           <details class="geo-faq-item">
             <summary>A Clínica atende só crianças autistas?</summary>
@@ -666,23 +792,31 @@
           </details>
           <details class="geo-faq-item">
             <summary>A Clínica atende convênio?</summary>
-            <div class="geo-faq-ans"><div>Vamos atender os convênios IASEP e PROASA assim que abrirmos, além do atendimento particular. Os detalhes de cada convênio são confirmados na abertura.</div></div>
+            <div class="geo-faq-ans"><div>Atendemos os convênios parceiros IASEP e PROASA (a clínica solicita a autorização da guia mediante envio de laudo com CID, carteirinha e documento). Para outros convênios, emitimos nota fiscal e relatórios detalhados para você dar entrada no reembolso junto à operadora.</div></div>
+          </details>
+          <details class="geo-faq-item">
+            <summary>Quanto tempo dura cada sessão?</summary>
+            <div class="geo-faq-ans"><div>Todas as sessões terapêuticas duram 40 minutos em qualquer especialidade. A única exceção é o Treino ABA, que acontece em blocos de 3 sessões consecutivas de 40 minutos (120 minutos no total).</div></div>
+          </details>
+          <details class="geo-faq-item">
+            <summary>Como funcionam os planos particulares de sessões?</summary>
+            <div class="geo-faq-ans"><div>Trabalhamos com seis planos mensais de 4 a 24 sessões (do Primeiro Passo ao Voo Livre), além da sessão avulsa Encontro e da Avaliação Neuropsicológica. A avaliação inicial conta como 1 sessão do plano contratado e você pode combinar especialidades. Os valores e as condições de pagamento são passados pela nossa equipe no WhatsApp.</div></div>
           </details>
           <details class="geo-faq-item">
             <summary>A partir de que idade a Clínica atende?</summary>
-            <div class="geo-faq-ans"><div>O acompanhamento é voltado para crianças; a idade exata de cada caso é conversada na avaliação inicial, de acordo com o serviço.</div></div>
+            <div class="geo-faq-ans"><div>O acompanhamento é voltado para crianças e adolescentes; a necessidade de cada caso e o plano de desenvolvimento são estruturados na avaliação inicial.</div></div>
           </details>
           <details class="geo-faq-item">
             <summary>A avaliação é um diagnóstico?</summary>
-            <div class="geo-faq-ans"><div>Não. A avaliação inicial e o acompanhamento são um apoio educativo e terapêutico. Eles não substituem, quando necessário, uma avaliação médica ou neuropsicológica formal.</div></div>
+            <div class="geo-faq-ans"><div>A avaliação inicial acolhe a rotina e monta o Plano Terapêutico Singular (PTS). Quando há necessidade de investigação diagnóstica formal (TDAH, TEA, cognição), realizamos a Avaliação Neuropsicológica completa com bateria de testes e laudo oficial.</div></div>
           </details>
         </div>
         <div class="cta-row">
           <div class="actions">
-            <a class="btn-buy" href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Quero%20entrar%20na%20lista%20de%20espera%20da%20Cl%C3%ADnica%20Fa%C3%A7aAmigos%20-%20Centro%20de%20Terapia%20Comportamental%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="faq_lista"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>Entrar na lista de espera<span class="sr-only"> pelo WhatsApp</span></a>
+            <a class="btn-buy" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20no%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" data-cta="faq_agendar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>Agendar avaliação<span class="sr-only"> pelo WhatsApp</span></a>
             <a class="btn-ghost" href="/teste" data-cta="faq_mapeamento">Fazer o mapeamento grátis</a>
           </div>
-          <span class="cta-note">Quem entra agora recebe o aviso em primeira mão, tem uma conversa de acolhimento sem rótulo e já pode fazer o Mapeamento grátis enquanto espera.</span>
+          <span class="cta-note">Você conversa com a equipe, tem um acolhimento sem rótulo e pode fazer o Mapeamento grátis antes mesmo da primeira sessão.</span>
         </div>
       </div>
     </section>
@@ -773,18 +907,62 @@
     <span class="fa-logo-card fa-logo-card--footer"><img class="fa-logo-img" src="/img/logo-facaamigos.png" width="1024" height="147" alt="FaçaAmigos" loading="lazy" decoding="async"></span>
     <p><b>Parque Shopping Belém:</b> Rod. Augusto Montenegro, 4300 · Térreo (Playground &amp; Circuito) · <a href="https://wa.me/5591992347673" target="_blank" rel="noopener">WhatsApp: (91) 99234-7673</a></p>
     <p><b>Shopping Bosque Grão-Pará:</b> Av. Centenário, 1052 · Val-de-Cans · 1º piso, em frente à Renner (Playground) · <a href="https://wa.me/5591991101215" target="_blank" rel="noopener">WhatsApp: (91) 99110-1215</a></p>
-    <p><b>Centro de Terapia Comportamental:</b> Rua Boaventura da Silva, 1573 · Umarizal (Clínica · Em breve) · <a href="https://wa.me/5591991782027" target="_blank" rel="noopener">WhatsApp: (91) 99178-2027</a> · <a href="https://institutofacaamigos.com.br/clinica" target="_blank" rel="noopener">Site da Clínica</a></p>
+    <p><b>Centro de Terapia Comportamental:</b> Rua Boaventura da Silva, 1573 · Umarizal (Clínica · atendendo desde novembro de 2026) · <a href="https://wa.me/5591991782027" target="_blank" rel="noopener">WhatsApp: (91) 99178-2027</a> · <a href="https://institutofacaamigos.com.br/clinica" target="_blank" rel="noopener">Site da Clínica</a></p>
     <p><a href="mailto:institutofacaamigos@gmail.com">institutofacaamigos@gmail.com</a> · <a href="https://www.instagram.com/facaamigos.belem/" target="_blank" rel="noopener">@facaamigos.belem</a> · <a href="/politica-privacidade">Política de Privacidade</a> · <a href="/termos">Termos de Uso e de Compra</a></p>
     <p class="legal">FaçaAmigos Playground Inclusivo · CNPJ 66.318.630/0001-17 (Playground e Circuito)<br>Instituto Faça Amigos Ltda · CNPJ 22.161.197/0001-83 (Clínica, Mapeamento Comportamental e e-books) · Belém/PA</p>
   </footer>
 
-  <a class="wa-float sr-only" href="https://wa.me/5591991782027?text=Ol%C3%A1!%20Quero%20entrar%20na%20lista%20de%20espera%20da%20Cl%C3%ADnica%20Fa%C3%A7aAmigos%20-%20Centro%20de%20Terapia%20Comportamental%20(vim%20pelo%20site)." target="_blank" rel="noopener" aria-label="Fale conosco no WhatsApp"></a>
-  <script src="/assets/fa-cta.js" defer data-label="Entrar na lista de espera" data-href="whatsapp" data-event="whatsapp"></script>
+  <a class="wa-float sr-only" href="https://wa.me/5591991782027?text=Ol%C3%A1%21%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20no%20Centro%20de%20Terapia%20Comportamental%20Fa%C3%A7aAmigos%20(vim%20pelo%20site)." target="_blank" rel="noopener" aria-label="Fale conosco no WhatsApp"></a>
+  <script src="/assets/fa-cta.js" defer data-label="Agendar avaliação" data-href="whatsapp" data-event="whatsapp"></script>
   <script src="/assets/fa-footer.js?v=20261023" defer></script>
   <script>
     (function () {
       document.querySelectorAll('.more-btn').forEach(function (b) { b.addEventListener('click', function () { var o = b.getAttribute('aria-expanded') === 'true'; b.setAttribute('aria-expanded', String(!o)); document.getElementById(b.getAttribute('aria-controls')).hidden = o; }); });
       function push(o) { try { (window.dataLayer = window.dataLayer || []).push(o); } catch (e) { } }
+      // Busca + filtro das 14 especialidades (data-tags em cada .svc)
+      (function () {
+        var input = document.getElementById('busca-servicos');
+        var cards = [].slice.call(document.querySelectorAll('#lista-servicos .svc'));
+        var chips = [].slice.call(document.querySelectorAll('.svc-chip'));
+        var empty = document.getElementById('svc-no-results');
+        if (!input || !cards.length) return;
+        var filter = 'all', timer;
+        function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+        function apply() {
+          var q = norm(input.value).trim(), shown = 0;
+          cards.forEach(function (c) {
+            var tags = ' ' + c.getAttribute('data-tags') + ' ';
+            var okF = filter === 'all' || tags.indexOf(' ' + filter + ' ') > -1;
+            var okQ = !q || norm(c.textContent + ' ' + tags).indexOf(q) > -1;
+            var show = okF && okQ;
+            c.classList.toggle('is-hidden', !show);
+            if (show) shown++;
+          });
+          if (empty) empty.style.display = shown ? 'none' : 'block';
+          return shown;
+        }
+        input.addEventListener('input', function () {
+          apply();
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            var q = norm(input.value).trim();
+            if (q.length > 1) push({ event: 'clinica_busca_servico', search_term: q, results: apply() });
+          }, 900);
+        });
+        chips.forEach(function (b) {
+          b.addEventListener('click', function () {
+            filter = b.getAttribute('data-filter');
+            chips.forEach(function (x) { x.classList.toggle('active', x === b); });
+            apply();
+            push({ event: 'clinica_filtro_servico', filter_area: filter });
+          });
+        });
+        // Cada especialidade aberta pelo link/âncora (hub ou busca) vira evento
+        cards.forEach(function (c) {
+          var wa = c.querySelector('.svc-wa-btn');
+          if (wa) wa.addEventListener('click', function () { push({ event: 'clinica_especialidade_click', especialidade: c.id }); });
+        });
+      })();
       document.querySelectorAll('[data-cta]').forEach(function (a) {
         var where = a.getAttribute('data-cta');
         a.addEventListener('click', function () { push({ event: 'clinica_cta_click', cta_location: where }); });

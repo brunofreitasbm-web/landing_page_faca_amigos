@@ -5,10 +5,10 @@
 - [Início — visão geral do ecossistema](https://institutofacaamigos.com.br/): Playground, Circuito e Clínica, endereços, horários e perguntas frequentes.
 - [Playground Inclusivo](https://institutofacaamigos.com.br/playground): preços, Horário Inclusivo, meia-entrada inclusiva, como funciona e perguntas frequentes.
 - [Circuito de Carrinhos Elétricos](https://institutofacaamigos.com.br/circuito): passeios, preço e perguntas frequentes.
-- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, psicologia e terapia comportamental, fonoaudiologia, terapia ocupacional, psicopedagogia, avaliação neuropsicológica e orientação a pais e escola.
+- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, 14 especialidades terapêuticas (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), planos particulares de sessões e convênios IASEP e PROASA.
 - [Eventos — palestras, encontros e treinamentos](https://institutofacaamigos.com.br/eventos): agenda do Instituto para famílias e profissionais em Belém, com inscrição gratuita ou paga, vagas limitadas reais e lista de espera.
 - [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): guias curtos sobre birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
-- [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 40 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
+- [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 50 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
 - [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/teste): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
 - [E-book O Brincar com Propósito](https://institutofacaamigos.com.br/guia): guia prático de Análise do Comportamento para mães, pais e cuidadores.
 - [E-book O Código do Desenvolvimento Infantil](https://institutofacaamigos.com.br/codigo): guia curto e acolhedor sobre o comportamento infantil.
@@ -42,7 +42,7 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 | **Melhor Horário Sensorial** | 10h às 16h (Horário Inclusivo, todos os dias) |
 | **Endereço Operacional 1** | Parque Shopping Belém — {{ENDERECO_PARQUE}} |
 | **Endereço Operacional 2** | Shopping Bosque Grão-Pará — {{ENDERECO_BOSQUE}}, 1º piso, em frente à Renner. Seg-sáb 10h às 22h, domingo 10h às 21h (Aberto) |
-| **Endereço Clínico** | Rua Boaventura da Silva, 1573 — Umarizal, Belém - PA, CEP 66060-147 (Em Breve) |
+| **Endereço Clínico** | Rua Boaventura da Silva, 1573 — Umarizal, Belém - PA, CEP 66060-147 (atendendo desde novembro de 2026) |
 
 ---
 
@@ -61,6 +61,38 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 {{PRECOS_CIRCUITO_TABELA}}
 - **Minuto adicional**: {{CIRCUITO_MINUTO_ADICIONAL}}
 - **Modos de Pilotagem**: controle remoto pelos pais ou pilotagem autônoma pela criança.
+
+### FaçaAmigos Clínica (Centro de Terapia Comportamental)
+- **Localização**: Rua Boaventura da Silva, 1573 — Umarizal, Belém/PA
+- **Especialidades Atendidas (Nomes Comerciais & Foco)**:
+  - **Terapia ABA**: comunicação funcional, autonomia e ampliação de repertório
+  - **Psicologia**: regulação emocional, autoestima e suporte em cada fase
+  - **Fonoaudiologia**: linguagem, fala, comunicação alternativa e deglutição
+  - **Terapia Ocupacional**: vida diária, coordenação motora fina, brincar e independência
+  - **T.O. com Integração Sensorial**: modulação sensorial, planejamento motor e regulação
+  - **Fisioterapia**: desenvolvimento motor, tônus, marcha e postura
+  - **Psicopedagogia**: aprendizagem, alfabetização e adaptação escolar
+  - **Psicomotricidade**: esquema corporal, equilíbrio e coordenação global
+  - **Musicoterapia**: comunicação, interação e expressão emocional pela música
+  - **Nutrição**: seletividade alimentar e orientação à família
+  - **Educação Física Adaptada**: habilidades motoras, esporte adaptado e socialização
+  - **Treino de Habilidades Sociais**: interação com pares, regras sociais e amizade
+  - **Orientação Parental**: manejo em casa e acolhimento da família
+  - **Avaliação Neuropsicológica**: atenção, memória, funções executivas e apoio ao diagnóstico
+- **Duração das Sessões**: 40 minutos em todas as especialidades. Treino ABA em blocos de 3 sessões consecutivas de 40 min (120 min).
+- **Tabela de Sessões e Planos Particulares**:
+  - **Encontro (sessão avulsa)**: 1 sessão
+  - **Primeiro Passo**: 4 sessões/mês
+  - **Laço**: 8 sessões/mês
+  - **Vínculo**: 12 sessões/mês
+  - **Turma**: 16 sessões/mês
+  - **Abraço**: 20 sessões/mês
+  - **Voo Livre**: 24 sessões/mês
+  - **Avaliação Neuropsicológica**: valor fechado completo
+  - **Regras comerciais**: avaliação inicial inclusa no plano contratado (conta como 1 sessão); combinação livre de especialidades no mês; parcelamento em até 3x no cartão.
+- **Convênios e Reembolso**:
+  - Atendimento pelos convênios parceiros **IASEP** e **PROASA** (a clínica solicita a autorização da guia mediante laudo com CID, carteirinha e RG).
+  - Para outros convênios: emissão de nota fiscal e relatórios detalhados para solicitação de reembolso junto à operadora de saúde.
 
 ---
 
@@ -84,7 +116,7 @@ R: Não. O atendimento no Playground e no Circuito é feito por ordem de chegada
 R: Crianças a partir de 3 anos recebem uma pulseira de identificação vinculada ao responsável cadastrado na entrada. A liberação na saída ocorre mediante validação presencial do mesmo responsável.
 
 #### Q4: Onde ficam as unidades e qual o horário?
-R: O Playground e o Circuito funcionam no Parque Shopping Belém ({{ENDERECO_PARQUE}}), Térreo, próximo às Lojas Americanas, todos os dias das {{HORARIO}}. O Playground também funciona no Shopping Bosque Grão-Pará ({{ENDERECO_BOSQUE}}), 1º piso, em frente à Renner, de segunda a sábado das 10h às 22h e aos domingos das 10h às 21h, com os mesmos preços. A Clínica ficará na Rua Boaventura da Silva, 1573, Umarizal, e está em breve.
+R: O Playground e o Circuito funcionam no Parque Shopping Belém ({{ENDERECO_PARQUE}}), Térreo, próximo às Lojas Americanas, todos os dias das {{HORARIO}}. O Playground também funciona no Shopping Bosque Grão-Pará ({{ENDERECO_BOSQUE}}), 1º piso, em frente à Renner, de segunda a sábado das 10h às 22h e aos domingos das 10h às 21h, com os mesmos preços. A Clínica funciona na Rua Boaventura da Silva, 1573, Umarizal, com atendimento por hora marcada desde novembro de 2026.
 
 #### Q5: Qual o melhor horário para crianças com sensibilidade sensorial?
 R: O Horário Inclusivo, todos os dias das 10h às 16h, tem som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita.

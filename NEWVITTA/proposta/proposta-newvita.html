@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Proposta New Vita | Mídia indoor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --red: #ed1c2e; --ink: #090909; --paper: #f7f6f3; --white: #fff;
+    --muted: #5a5a5a; --gold: #f5bb2c;
+    --display: "Anton", Impact, "Arial Narrow", sans-serif;
+    --body: "DM Sans", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #d9d9d9; }
+  body { font-family: var(--body); color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: inherit; text-decoration: none; }
+
+  .page { position: relative; width: 210mm; height: 296.6mm; overflow: hidden; background: var(--paper); page-break-after: always; break-after: page; }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; background: var(--ink); color: var(--white); padding: 0 12mm; height: 19mm; }
+  .brand { display: flex; align-items: center; gap: 4mm; }
+  .mark { display: grid; place-items: center; width: 11mm; height: 11mm; border-radius: 50%; border: 0.9mm solid var(--red); background: var(--white); color: var(--red); font-family: var(--display); font-size: 6.5mm; line-height: 1; box-shadow: 0 0 0 0.6mm var(--ink), 0 0 0 0.95mm #e4a927; }
+  .brand-name { font-family: var(--display); font-size: 7mm; line-height: 1; letter-spacing: .01em; }
+  .brand-name span { color: var(--red); }
+  .brand-sub { margin-top: .8mm; font-size: 2.3mm; font-weight: 700; letter-spacing: .2em; color: #c8c8c8; }
+  .top-note { font-size: 2.5mm; font-weight: 800; letter-spacing: .14em; text-align: right; text-transform: uppercase; color: #c8c8c8; line-height: 1.5; }
+
+  .eyebrow { display: flex; align-items: center; gap: 2.5mm; margin: 0 0 3mm; font-size: 2.6mm; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+  .eyebrow::before { content: ""; width: 8mm; height: 0.9mm; background: currentColor; }
+
+  /* PÁGINA 1 */
+  .hero { position: relative; height: 104mm; background: var(--red); color: var(--white); overflow: hidden; padding: 11mm 12mm 0; }
+  .hero::before { content: ""; position: absolute; top: -20mm; right: -26mm; width: 92mm; height: 170mm; background: var(--ink); transform: rotate(24deg); }
+  .hero-text { position: relative; z-index: 2; width: 104mm; }
+  .hero h1 { margin: 0 0 4mm; font-family: var(--display); font-weight: 400; font-size: 13.6mm; line-height: .96; text-transform: uppercase; letter-spacing: -.01em; }
+  .hero h1 .k { color: var(--ink); }
+  .hero p.lead { margin: 0; font-size: 3.7mm; font-weight: 600; line-height: 1.4; max-width: 96mm; }
+  .frames { position: absolute; z-index: 3; right: 12mm; top: 9mm; display: flex; align-items: flex-end; gap: 4mm; }
+  .frame { display: block; position: relative; background: #111; border: 1.1mm solid var(--white); box-shadow: 0 3mm 7mm #0007; overflow: hidden; }
+  .frame.real { width: 49mm; height: 87mm; }
+  .frame.real img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .frame.ph { width: 33mm; height: 59mm; border: 0.5mm dashed #ffffffc0; background: #ffffff14; box-shadow: none; display: grid; place-items: center; text-align: center; padding: 3mm; }
+  .frame.ph span { font-size: 2.5mm; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; line-height: 1.5; }
+  .frame-cap { position: absolute; z-index: 3; right: 12mm; top: 97mm; width: 86mm; font-size: 2.1mm; font-weight: 700; letter-spacing: .06em; color: #ffffffd0; text-align: right; text-transform: uppercase; }
+  .tv-tag { position: absolute; left: 12mm; bottom: 8mm; z-index: 3; display: flex; gap: 5mm; font-family: var(--display); font-size: 5.2mm; letter-spacing: .04em; text-transform: uppercase; }
+  .tv-tag em { font-style: normal; color: var(--ink); }
+
+  .p1-body { display: grid; grid-template-columns: 1fr 66mm; gap: 8mm; padding: 9mm 12mm 0; }
+  h2.sec { margin: 0 0 3.5mm; font-family: var(--display); font-weight: 400; font-size: 8.4mm; line-height: 1; text-transform: uppercase; }
+  h2.sec .a { color: var(--red); }
+  .step { display: grid; grid-template-columns: 11mm 1fr; gap: 4mm; align-items: center; padding: 3mm 0; border-top: 0.3mm solid #1113; }
+  .step b.n { display: grid; place-items: center; width: 10mm; height: 10mm; background: var(--red); color: var(--white); font-family: var(--display); font-weight: 400; font-size: 5.2mm; }
+  .step strong { display: block; font-family: var(--display); font-weight: 400; font-size: 5.1mm; line-height: 1; text-transform: uppercase; }
+  .step small { display: block; margin-top: 1mm; font-size: 3mm; line-height: 1.35; color: var(--muted); font-weight: 600; }
+
+  .price { background: var(--ink); color: var(--white); padding: 7mm 6mm 6mm; position: relative; }
+  .price .lbl { font-size: 2.5mm; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #c8c8c8; }
+  .price .val { display: flex; align-items: baseline; gap: 1.5mm; margin: 2mm 0 3mm; font-family: var(--display); line-height: .9; }
+  .price .val .cur { font-size: 7mm; color: var(--red); }
+  .price .val .num { font-size: 21mm; }
+  .price .val .per { font-size: 6mm; color: #c8c8c8; }
+  .price ul { list-style: none; margin: 0 0 4.5mm; padding: 0; font-size: 3.1mm; font-weight: 600; line-height: 1.4; }
+  .price li { display: grid; grid-template-columns: 4mm 1fr; gap: 1.5mm; padding: 1.1mm 0; border-top: 0.25mm solid #ffffff26; }
+  .price li::before { content: "✓"; color: var(--red); font-weight: 800; }
+  .btn { display: flex; align-items: center; justify-content: space-between; background: var(--red); color: var(--white); padding: 3.6mm 4mm; font-family: var(--display); font-size: 4.4mm; letter-spacing: .04em; text-transform: uppercase; }
+
+  .why { margin: 8mm 12mm 0; display: grid; grid-template-columns: 1.3mm 1fr; gap: 5mm; background: var(--white); padding: 6mm 7mm 6mm 0; }
+  .why::before { content: ""; background: var(--red); grid-row: 1; }
+  .why .t { font-family: var(--display); font-size: 6.6mm; line-height: 1; text-transform: uppercase; margin: 0 0 2.4mm; }
+  .why .t span { color: var(--red); }
+  .why p { margin: 0 0 2mm; font-size: 3.3mm; line-height: 1.45; font-weight: 500; }
+  .why p:last-child { margin: 0; }
+
+  .foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; height: 11mm; padding: 0 12mm; background: var(--ink); color: #c8c8c8; font-size: 2.5mm; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .foot strong { color: var(--white); }
+  .foot a { color: var(--white); border-bottom: 0.3mm solid var(--red); }
+
+  /* PÁGINA 2 */
+  .top.slim { height: 14mm; }
+  .p2-body { padding: 6mm 12mm 0; }
+  .p2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5mm; margin-bottom: 3mm; }
+  .kpi { background: var(--ink); color: var(--white); padding: 2.2mm 3mm 2mm; }
+  .kpi b { display: block; font-family: var(--display); font-weight: 400; font-size: 7mm; line-height: 1; color: var(--white); }
+  .kpi b i { font-style: normal; color: var(--red); }
+  .kpi span { display: block; margin-top: 1mm; font-size: 2.3mm; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #c8c8c8; line-height: 1.35; }
+  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5mm; margin-bottom: 3mm; }
+  .thumbs a { display: block; aspect-ratio: 1; background: #111; border: 0.3mm solid #1114; overflow: hidden; }
+  .thumbs img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .audit h3 { margin: 0 0 2mm; font-size: 2.7mm; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--red); }
+  .audit ul { margin: 0; padding: 0; list-style: none; font-size: 2.85mm; line-height: 1.34; font-weight: 500; }
+  .audit li { position: relative; padding: 1.1mm 0 1.1mm 4mm; border-top: 0.25mm solid #1112; }
+  .audit li::before { content: ""; position: absolute; left: 0; top: 2.5mm; width: 1.7mm; height: 1.7mm; background: var(--red); }
+  .audit.opp li::before { background: var(--ink); }
+  .caveat { margin: 2.2mm 0 0; font-size: 2.4mm; line-height: 1.35; color: var(--muted); font-weight: 600; }
+
+  .bridge { position: relative; margin: 4.5mm -12mm 0; padding: 4.2mm 12mm; background: var(--red); color: var(--white); overflow: hidden; }
+  .bridge::before { content: ""; position: absolute; top: -10mm; right: -18mm; width: 60mm; height: 80mm; background: var(--ink); transform: rotate(26deg); }
+  .bridge .in { position: relative; z-index: 2; max-width: 138mm; }
+  .bridge h2 { margin: 0 0 1.6mm; font-family: var(--display); font-weight: 400; font-size: 7mm; line-height: 1; text-transform: uppercase; }
+  .bridge h2 span { color: var(--ink); }
+  .bridge p { margin: 0; font-size: 3mm; line-height: 1.38; font-weight: 600; }
+
+  .map { margin-top: 4.5mm; }
+  .map table { width: 100%; border-collapse: collapse; background: var(--white); }
+  .map th { background: var(--ink); color: var(--white); padding: 1.8mm 3mm; font-size: 2.3mm; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; text-align: left; }
+  .map th.c, .map td.c { text-align: center; width: 20mm; }
+  .map td { padding: 1.5mm 3mm; border-top: 0.25mm solid #1112; font-size: 2.8mm; line-height: 1.25; vertical-align: middle; }
+  .map td strong { display: block; font-family: var(--display); font-weight: 400; font-size: 3.9mm; line-height: 1.05; text-transform: uppercase; }
+  .map td small { display: block; color: var(--muted); font-size: 2.5mm; font-weight: 600; margin-top: .4mm; }
+  .cb { display: inline-block; width: 4.4mm; height: 4.4mm; border: 0.5mm solid var(--ink); vertical-align: middle; }
+  .map-note { margin: 1.8mm 0 0; font-size: 2.4mm; color: var(--muted); font-weight: 600; line-height: 1.35; }
+</style>
+</head>
+<body>
+
+<!-- ============ PÁGINA 1 ============ -->
+<section class="page" id="p1">
+  <header class="top">
+    <div class="brand">
+      <div class="mark">N</div>
+      <div>
+        <div class="brand-name">NEW <span>VITA</span></div>
+        <div class="brand-sub">BELÉM · PA</div>
+      </div>
+    </div>
+    <div class="top-note">Proposta comercial<br>Mídia indoor · Smart TV</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Mídia indoor online</p>
+      <h1>A tela da sua recepção, <span class="k">sempre atualizada.</span></h1>
+      <p class="lead">O melhor do seu Instagram em tela cheia, no momento em que o paciente mais tem tempo de olhar.</p>
+    </div>
+
+    <div class="frames">
+      <a class="frame real" href="https://www.instagram.com/newvitabelem/" title="Amostra da tela">
+        <img src="preview-tv.png" alt="Amostra da tela da recepção com o branding da New Vita">
+      </a>
+      <a class="frame ph" href="https://www.instagram.com/newvitabelem/" title="Espaço reservado para a arte do cliente">
+        <span>Espaço reservado<br>Sua arte aqui</span>
+      </a>
+    </div>
+    <div class="frame-cap">Amostra montada só com o branding público do Instagram</div>
+
+    <div class="tv-tag"><span>Smart TV</span><em>·</em><span>Atualização semanal</span></div>
+  </div>
+
+  <div class="p1-body">
+    <div>
+      <h2 class="sec">Como <span class="a">funciona.</span></h2>
+      <div class="step"><b class="n">1</b><div><strong>Você envia as artes</strong><small>O material gráfico que vai aparecer na tela da sua recepção.</small></div></div>
+      <div class="step"><b class="n">2</b><div><strong>Atualizamos em até 96 horas</strong><small>O prazo conta a partir do recebimento das artes.</small></div></div>
+      <div class="step"><b class="n">3</b><div><strong>Uma vez por semana</strong><small>Durante todo o mês, a tela se renova com o que há de novo no seu perfil.</small></div></div>
+    </div>
+
+    <aside class="price">
+      <div class="lbl">Investimento mensal</div>
+      <div class="val"><span class="cur">R$</span><span class="num">60</span><span class="per">/mês</span></div>
+      <ul>
+        <li>Cancele quando quiser</li>
+        <li>Sem multa e sem burocracia</li>
+        <li>Atualizações semanais incluídas</li>
+      </ul>
+      <a class="btn" href="https://wa.me/"><span>Quero a minha tela</span><span>↗</span></a>
+    </aside>
+  </div>
+
+  <div class="why">
+    <div style="grid-column:2">
+      <div class="t">Por que só pelo <span>Instagram.</span></div>
+      <p>A tela é alimentada pelo conteúdo do seu perfil: as artes, a identidade e o QR code que leva o paciente até você. Sem um perfil ativo e bem cuidado, a tela fica sem o que mostrar.</p>
+      <p>Por isso o serviço existe a partir do Instagram, e por isso a qualidade do perfil aparece, de forma direta, na qualidade da tela. Na próxima página, mostramos como o seu perfil está hoje.</p>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span><strong>NEW VITA</strong> · Belém</span>
+    <a href="https://www.instagram.com/newvitabelem/">@newvitabelem</a>
+    <span>Página 1 de 2</span>
+  </footer>
+</section>
+
+<!-- ============ PÁGINA 2 ============ -->
+<section class="page" id="p2">
+  <header class="top slim">
+    <div class="brand">
+      <div class="mark" style="width:9mm;height:9mm;font-size:5.4mm">N</div>
+      <div class="brand-name" style="font-size:6mm">NEW <span>VITA</span></div>
+    </div>
+    <div class="top-note">Inteligência de redes sociais</div>
+  </header>
+
+  <div class="p2-body">
+    <p class="eyebrow" style="color:var(--red)">Leitura do perfil @newvitabelem</p>
+    <h2 class="sec" style="font-size:9.4mm">O seu Instagram, <span class="a">hoje.</span></h2>
+
+    <div class="kpis">
+      <div class="kpi"><b>2.177</b><span>Seguidores</span></div>
+      <div class="kpi"><b>12<i>·</i>33</b><span>Publicações em 33 dias</span></div>
+      <div class="kpi"><b>2,5<i>/</i>sem</b><span>Ritmo de publicação</span></div>
+      <div class="kpi"><b>3 <i>formatos</i></b><span>Feed, carrossel e reels</span></div>
+    </div>
+
+    <div class="thumbs">
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-aulao-interativo.jpg" alt="Aulão interativo"></a>
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-mobilidade.jpg" alt="Mobilidade é liberdade"></a>
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-treinar-com-dor.jpg" alt="Treinar com dor"></a>
+      <a href="https://www.instagram.com/newvitabelem/"><img src="../img/ig-dia-do-medico.jpg" alt="Dia do médico"></a>
+    </div>
+
+    <div class="p2-grid">
+      <div class="audit">
+        <h3>O que já funciona</h3>
+        <ul>
+          <li>Identidade visual reconhecível em todos os cards.</li>
+          <li>Ritmo regular: 2,5 publicações por semana.</li>
+          <li>Conteúdo educativo, institucional e de eventos.</li>
+          <li>Publicação em parceria com profissional.</li>
+        </ul>
+      </div>
+      <div class="audit opp">
+        <h3>Onde há espaço para crescer</h3>
+        <ul>
+          <li>Bio com localização abreviada e link único.</li>
+          <li>Reels são cerca de 25% do conteúdo.</li>
+          <li>Cards com muito texto, difíceis de ler na TV.</li>
+          <li>Alcance, salvamentos e cliques sem medição.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="caveat">Leitura da vitrine pública em 28/10/2026 (12 publicações visíveis). Alcance e engajamento dependem de [FILL: acesso à conta do Instagram].</p>
+
+    <div class="bridge">
+      <div class="in">
+        <h2>A tela mostra o que o perfil <span>entrega.</span></h2>
+        <p>Quando os dois estão afinados, o paciente já chega decidido. Cuidar da tela é o primeiro passo. Cuidar da vitrine que a alimenta, e de cada lugar onde o paciente procura você, é o que completa o caminho.</p>
+      </div>
+    </div>
+
+    <div class="map">
+      <h2 class="sec" style="font-size:7.6mm">Mapa de <span class="a">decisão.</span></h2>
+      <table>
+        <thead>
+          <tr><th>Próximo passo possível</th><th class="c">Agora</th><th class="c">Em 90 dias</th><th class="c">Ainda não</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Gestão do Instagram</strong><small>Calendário, reels, bio e destaques alinhados à tela.</small></td><td class="c"><i class="cb" data-f="ig-agora"></i></td><td class="c"><i class="cb" data-f="ig-90"></i></td><td class="c"><i class="cb" data-f="ig-nao"></i></td></tr>
+          <tr><td><strong>Google Meu Negócio</strong><small>Perfil completo na busca: horários, fotos e avaliações.</small></td><td class="c"><i class="cb" data-f="gmn-agora"></i></td><td class="c"><i class="cb" data-f="gmn-90"></i></td><td class="c"><i class="cb" data-f="gmn-nao"></i></td></tr>
+          <tr><td><strong>Google Maps</strong><small>Endereço no ponto certo, avaliações e fotos do espaço.</small></td><td class="c"><i class="cb" data-f="maps-agora"></i></td><td class="c"><i class="cb" data-f="maps-90"></i></td><td class="c"><i class="cb" data-f="maps-nao"></i></td></tr>
+          <tr><td><strong>Waze</strong><small>Local cadastrado para quem chega de carro, com rota em um toque.</small></td><td class="c"><i class="cb" data-f="waze-agora"></i></td><td class="c"><i class="cb" data-f="waze-90"></i></td><td class="c"><i class="cb" data-f="waze-nao"></i></td></tr>
+          <tr><td><strong>Métricas da internet</strong><small>Painel mensal de visitas, rotas, ligações e seguidores.</small></td><td class="c"><i class="cb" data-f="met-agora"></i></td><td class="c"><i class="cb" data-f="met-90"></i></td><td class="c"><i class="cb" data-f="met-nao"></i></td></tr>
+        </tbody>
+      </table>
+      <p class="map-note">Marcar uma opção não gera compromisso. Devolva este PDF com as caixas preenchidas e montamos o plano em conjunto.</p>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span><strong>NEW VITA</strong> · Belém</span>
+    <a href="https://wa.me/">Responder esta proposta [FILL: contato]</a>
+    <span>Página 2 de 2</span>
+  </footer>
+</section>
+
+<script>
+  if (location.hash === "#p2") document.getElementById("p1").style.display = "none";
+  window.addEventListener("load", () => {
+    const out = [];
+    document.querySelectorAll(".cb").forEach((el) => {
+      const page = el.closest(".page");
+      const p = page.getBoundingClientRect();
+      const r = el.getBoundingClientRect();
+      out.push({ f: el.dataset.f, page: page.id === "p1" ? 0 : 1, x: r.left - p.left, y: r.top - p.top, w: r.width, h: r.height });
+    });
+    const s = document.createElement("script");
+    s.type = "application/json";
+    s.id = "rects";
+    s.textContent = JSON.stringify(out);
+    document.body.appendChild(s);
+  });
+</script>
+</body>
+</html>

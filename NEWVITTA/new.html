@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="New Vita Belém. Centro de reabilitação inteligente: diagnóstico, tratamento e treino no mesmo lugar, pela mesma equipe.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>New Vita | Movimento é liberdade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --red: #ed1c2e;
+      --ink: #090909;
+      --paper: #f7f6f3;
+      --white: #fff;
+      --muted: #c8c8c8;
+      --pink: #e83276;
+      --display: "Anton", Impact, "Arial Narrow", sans-serif;
+      --body: "DM Sans", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #171717;
+      font-family: var(--body);
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { font: inherit; }
+    a { color: inherit; }
+
+    .tv-rotate {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .poster {
+      container-type: inline-size;
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      grid-template-rows: 11% auto minmax(0, 1fr) 12%;
+      width: min(100vw, 56.25vh);
+      height: min(100vh, 177.7778vw);
+      overflow: hidden;
+      aspect-ratio: 9 / 16;
+      background: var(--ink);
+      box-shadow: 0 24px 90px #0008;
+    }
+
+    .topbar, .bottombar {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 6.2cqw;
+      background: var(--ink);
+    }
+
+    .topbar { border-bottom: 1px solid #ffffff24; }
+
+    .draft-notice {
+      position: relative;
+      z-index: 5;
+      padding: 1.6cqw 6.2cqw;
+      background: #f5bb2c;
+      color: var(--ink);
+      font-size: 2.5cqw;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .draft-notice strong { letter-spacing: 0.12em; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 3cqw;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 11cqw;
+      height: 11cqw;
+      max-width: 96px;
+      max-height: 96px;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 0.8cqw solid var(--red);
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--red);
+      box-shadow: 0 0 0 0.55cqw var(--ink), 0 0 0 0.9cqw #e4a927;
+    }
+
+    .brand-mark span {
+      font-family: var(--display);
+      font-size: 7.3cqw;
+      line-height: 1;
+      transform: translateY(-0.2cqw);
+    }
+
+    .brand-name {
+      font-family: var(--display);
+      font-size: 7.4cqw;
+      letter-spacing: 0.01em;
+      line-height: 0.95;
+      white-space: nowrap;
+    }
+
+    .brand-name span { color: var(--red); }
+
+    .brand-location {
+      margin-top: 1cqw;
+      color: var(--muted);
+      font-size: 2.5cqw;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+    }
+
+    .brand-note {
+      max-width: 27cqw;
+      color: var(--muted);
+      font-size: 2.5cqw;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      line-height: 1.4;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .slide-window {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 3.5cqw;
+      padding: 6cqw 7cqw 5cqw;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(2.5cqw);
+      transition: opacity 650ms ease, transform 650ms ease, visibility 650ms;
+    }
+
+    .slide.is-active {
+      z-index: 1;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .slide::after {
+      position: absolute;
+      z-index: -1;
+      right: -17cqw;
+      bottom: 10cqw;
+      width: 45cqw;
+      height: 45cqw;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      content: "";
+      opacity: 0.11;
+      box-shadow: 0 0 0 5cqw transparent, 0 0 0 5.2cqw currentColor, 0 0 0 10cqw transparent, 0 0 0 10.2cqw currentColor;
+    }
+
+    .slide--hero {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .slide--hero::before, .slide--red::before {
+      position: absolute;
+      z-index: -1;
+      top: -9cqw;
+      right: -16cqw;
+      width: 45cqw;
+      height: 130%;
+      background: var(--ink);
+      content: "";
+      transform: rotate(28deg);
+    }
+
+    .slide--white {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .slide--white::after { color: var(--red); }
+
+    .slide--dark {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .slide--red {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .slide--pink {
+      background: #fff7f9;
+      color: var(--ink);
+    }
+
+    .slide--pink::after { color: var(--pink); }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 2.5cqw;
+      margin: 0;
+      font-size: 3.1cqw;
+      font-weight: 800;
+      letter-spacing: 0.19em;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 8cqw;
+      height: 0.9cqw;
+      flex: 0 0 auto;
+      background: currentColor;
+      content: "";
+    }
+
+    .slide--white .eyebrow, .slide--pink .eyebrow { color: var(--red); }
+
+    .slide-content {
+      position: relative;
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    .headline {
+      max-width: 100%;
+      margin-bottom: 4cqw;
+      font-family: var(--display);
+      font-size: 16cqw;
+      font-weight: 400;
+      letter-spacing: -0.015em;
+      line-height: 0.93;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    .headline .accent { color: var(--red); }
+    .slide--hero .headline .accent, .slide--red .headline .accent { color: var(--ink); }
+    .slide--pink .headline .accent { color: var(--pink); }
+
+    .intro {
+      max-width: 86%;
+      margin: 0;
+      font-size: 4.7cqw;
+      font-weight: 600;
+      line-height: 1.38;
+    }
+
+    .hero-art {
+      position: relative;
+      display: grid;
+      min-height: 44cqw;
+      flex: 1;
+      place-items: center;
+      margin: 4cqw -7cqw -5cqw;
+      overflow: hidden;
+    }
+
+    .hero-art::before {
+      position: absolute;
+      right: 12%;
+      bottom: -34%;
+      width: 74cqw;
+      height: 74cqw;
+      border: 1px solid #ffffff85;
+      border-radius: 50%;
+      content: "";
+      box-shadow: 0 0 0 7cqw #ffffff08, 0 0 0 7.2cqw #ffffff60, 0 0 0 15cqw #ffffff08, 0 0 0 15.2cqw #ffffff38;
+    }
+
+    .hero-art svg {
+      position: relative;
+      z-index: 1;
+      width: 78%;
+      height: 78%;
+      max-height: 60cqw;
+      overflow: visible;
+    }
+
+    .corner-label {
+      position: absolute;
+      right: 7cqw;
+      bottom: 5cqw;
+      z-index: 2;
+      font-family: var(--display);
+      font-size: 4.2cqw;
+      letter-spacing: 0.08em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .steps {
+      display: grid;
+      gap: 2.7cqw;
+      margin-top: 4cqw;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 12cqw 1fr;
+      align-items: center;
+      gap: 4cqw;
+      min-height: 18cqw;
+      padding: 3cqw;
+      border-top: 1px solid #1113;
+    }
+
+    .step-number {
+      display: grid;
+      width: 11cqw;
+      height: 11cqw;
+      place-items: center;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--display);
+      font-size: 6cqw;
+    }
+
+    .step strong {
+      display: block;
+      font-family: var(--display);
+      font-size: 7cqw;
+      font-weight: 400;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .step small {
+      display: block;
+      margin-top: 1.2cqw;
+      color: #555;
+      font-size: 3.1cqw;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .slide--white .steps {
+      gap: 1.5cqw;
+      margin-top: 1cqw;
+    }
+
+    .slide--white .step {
+      min-height: 14cqw;
+      padding: 2cqw;
+    }
+
+    .quote-mark {
+      margin: 3cqw 0 0;
+      color: var(--red);
+      font-family: Georgia, serif;
+      font-size: 20cqw;
+      line-height: 0.65;
+    }
+
+    .quote {
+      max-width: 90%;
+      margin: 0;
+      font-family: var(--display);
+      font-size: 12.5cqw;
+      line-height: 1.02;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    .quote em { color: var(--red); font-style: normal; }
+    .slide--red .quote em, .slide--red .quote-mark { color: var(--white); }
+
+    .signal {
+      position: relative;
+      width: 52cqw;
+      height: 52cqw;
+      align-self: flex-end;
+      margin: 3cqw 0 0;
+    }
+
+    .signal-ring {
+      position: absolute;
+      inset: 0;
+      border: 1.2cqw solid var(--red);
+      border-radius: 50%;
+    }
+
+    .signal-ring:nth-child(2) { inset: 12%; opacity: 0.7; }
+    .signal-ring:nth-child(3) { inset: 24%; opacity: 0.45; }
+
+    .signal-dot {
+      position: absolute;
+      top: 17%;
+      left: 44%;
+      width: 10cqw;
+      height: 10cqw;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 10cqw 16cqw 0 -2cqw var(--red), -8cqw 28cqw 0 -3cqw var(--red);
+    }
+
+    .pink-ribbon {
+      position: absolute;
+      right: 9cqw;
+      bottom: 4cqw;
+      width: 31cqw;
+      height: 38cqw;
+      transform: rotate(12deg);
+    }
+
+    .pink-ribbon::before, .pink-ribbon::after {
+      position: absolute;
+      top: 0;
+      width: 12cqw;
+      height: 31cqw;
+      border: 3.8cqw solid var(--pink);
+      border-radius: 50% 50% 0 0;
+      content: "";
+    }
+
+    .pink-ribbon::before { left: 2cqw; transform: rotate(-35deg); }
+    .pink-ribbon::after { right: 2cqw; transform: rotate(35deg); }
+
+    .contact-slide { gap: 4cqw; }
+    .contact-slide .headline { font-size: 12cqw; }
+
+    .contact-card {
+      display: grid;
+      gap: 4cqw;
+      margin-top: auto;
+      padding: 5cqw;
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .contact-line {
+      display: grid;
+      grid-template-columns: 9cqw 1fr;
+      align-items: start;
+      gap: 3cqw;
+      font-size: 4cqw;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .contact-icon {
+      display: grid;
+      width: 8cqw;
+      height: 8cqw;
+      place-items: center;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--display);
+      font-size: 4.5cqw;
+    }
+
+    .contact-label {
+      display: block;
+      margin-bottom: 0.8cqw;
+      color: #686868;
+      font-size: 2.7cqw;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .contact-actions {
+      display: grid;
+      gap: 2.5cqw;
+      margin-top: 2cqw;
+    }
+
+    .action-link {
+      display: flex;
+      min-height: 13cqw;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3cqw;
+      padding: 3cqw 4cqw;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--display);
+      font-size: 5.2cqw;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .action-link.secondary {
+      min-height: 10cqw;
+      border: 1px solid #1115;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 3.5cqw;
+      font-weight: 800;
+    }
+
+    .action-arrow { font-size: 7cqw; line-height: 0.7; }
+
+    .bottombar {
+      gap: 3cqw;
+      border-top: 1px solid #ffffff24;
+      color: var(--muted);
+      font-size: 2.6cqw;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .ig-follow {
+      display: flex;
+      align-items: center;
+      gap: 3cqw;
+    }
+
+    .ig-qr {
+      width: 13cqw;
+      height: 13cqw;
+      flex: 0 0 auto;
+      padding: 1cqw;
+      border-radius: 1.4cqw;
+      background: var(--white);
+    }
+
+    .ig-follow-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4cqw;
+      min-width: 0;
+    }
+
+    .ig-follow-label {
+      color: var(--muted);
+      font-size: 2.4cqw;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .ig-follow-handle {
+      font-family: var(--display);
+      font-size: 4.3cqw;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 38cqw);
+      justify-content: center;
+      gap: 2.5cqw;
+    }
+
+    .ig-post {
+      aspect-ratio: 1;
+      overflow: hidden;
+      margin: 0;
+      border: 1px solid #ffffff30;
+    }
+
+    .ig-post img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .slide--white:not(.contact-slide) .headline { font-size: 12cqw; }
+    .slide--feed .headline { margin-bottom: 0; font-size: 11cqw; }
+
+    .controls {
+      display: flex;
+      gap: 1.5cqw;
+    }
+
+    .control {
+      display: grid;
+      width: 8cqw;
+      height: 8cqw;
+      place-items: center;
+      border: 1px solid #ffffff70;
+      border-radius: 50%;
+      background: #ffffff0b;
+      color: var(--white);
+      cursor: pointer;
+      font-size: 4.5cqw;
+    }
+
+    .footer-end {
+      display: flex;
+      align-items: center;
+      gap: 3cqw;
+    }
+
+    .control:focus-visible, .action-link:focus-visible {
+      outline: 0.8cqw solid #f5bb2c;
+      outline-offset: 0.8cqw;
+    }
+
+    @media (orientation: landscape) {
+      .poster { box-shadow: 0 0 0 100vmax #171717; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="tv-rotate">
+  <div class="poster" id="poster">
+    <header class="topbar">
+      <div class="brand" aria-label="New Vita, Belém">
+        <div class="brand-mark" aria-hidden="true"><span>N</span></div>
+        <div>
+          <div class="brand-name">NEW <span>VITA</span></div>
+          <div class="brand-location">BELÉM · PA</div>
+        </div>
+      </div>
+      <div class="brand-note">CENTRO DE<br>REABILITAÇÃO</div>
+    </header>
+
+    <div class="draft-notice" role="note">
+      <strong>Material bruto · minuta.</strong> Montado apenas a partir do branding público do Instagram @newvitabelem. Nenhuma mídia foi fornecida pela New Vita Belém.
+    </div>
+
+    <main class="slide-window" id="slideWindow" aria-live="polite">
+      <section class="slide slide--hero is-active" aria-label="Apresentação New Vita">
+        <p class="eyebrow">Centro de reabilitação inteligente</p>
+        <div class="slide-content">
+          <div>
+            <h1 class="headline">MOVIMENTO É <span class="accent">LIBERDADE.</span></h1>
+            <p class="intro">Diagnóstico, tratamento e treino, no mesmo lugar, pela mesma equipe.</p>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <svg viewBox="0 0 420 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M37 254H383" stroke="white" stroke-width="2" opacity=".55"/>
+              <path d="M51 278H340" stroke="white" stroke-width="2" opacity=".3"/>
+              <circle cx="245" cy="69" r="32" fill="#F7F6F3"/>
+              <path d="M222 112C196 131 181 164 178 194L145 249H190L222 207L249 251H300L269 181L288 139L335 158L351 128L292 103C270 94 242 97 222 112Z" fill="#090909"/>
+              <path d="M224 118L275 146L259 180L222 157L199 192L169 178L191 139L224 118Z" fill="#F7F6F3"/>
+              <path d="M157 253L138 277H193L207 253H157Z" fill="#090909"/>
+              <path d="M250 252L261 278H319L299 252H250Z" fill="#090909"/>
+              <path d="M90 105L116 79M79 158H116M105 210L127 188" stroke="white" stroke-width="5" stroke-linecap="square" opacity=".8"/>
+              <path d="M321 67L341 47M338 94H370" stroke="#090909" stroke-width="5" stroke-linecap="square"/>
+            </svg>
+            <span class="corner-label">Seu próximo passo<br>começa em movimento</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide--white" aria-label="Diagnóstico, tratamento e treino">
+        <p class="eyebrow">Cuidado integrado</p>
+        <div class="slide-content">
+          <div>
+            <h2 class="headline">TUDO NO MESMO <span class="accent">LUGAR.</span></h2>
+            <p class="intro">Uma equipe conecta cada etapa do cuidado.</p>
+          </div>
+          <div class="steps" aria-label="Etapas do cuidado">
+            <div class="step"><span class="step-number">01</span><div><strong>Diagnóstico</strong><small>Entender o que o corpo mostra</small></div></div>
+            <div class="step"><span class="step-number">02</span><div><strong>Tratamento</strong><small>Cuidado pensado para você</small></div></div>
+            <div class="step"><span class="step-number">03</span><div><strong>Treino</strong><small>Movimento em cada fase</small></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide--dark" aria-label="Treinar com dor">
+        <p class="eyebrow">Escute seu corpo</p>
+        <div class="slide-content">
+          <div>
+            <h2 class="headline">TREINAR <span class="accent">COM DOR?</span></h2>
+            <p class="intro">Seu corpo dá sinais. Aprender a reconhecê-los também faz parte do tratamento.</p>
+          </div>
+          <div class="signal" aria-hidden="true">
+            <span class="signal-ring"></span><span class="signal-ring"></span><span class="signal-ring"></span><span class="signal-dot"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide--red" aria-label="Mobilidade e autonomia">
+        <p class="eyebrow">Mais movimento para sua vida</p>
+        <div class="slide-content">
+          <div>
+            <p class="quote-mark" aria-hidden="true">“</p>
+            <h2 class="quote">Mais movimento. Mais força. <em>Mais autonomia.</em></h2>
+          </div>
+          <p class="intro">Para viver melhor em todas as fases da vida.</p>
+        </div>
+      </section>
+
+      <section class="slide slide--pink" aria-label="Prevenção também é cuidado">
+        <p class="eyebrow">Cuidado que começa antes</p>
+        <div class="slide-content">
+          <div>
+            <h2 class="headline">PREVENÇÃO TAMBÉM É <span class="accent">CUIDADO.</span></h2>
+            <p class="intro">Uma forma de cuidar de você.</p>
+          </div>
+          <div class="pink-ribbon" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section class="slide slide--dark slide--feed" aria-label="Siga a New Vita no Instagram">
+        <p class="eyebrow">Acompanhe o dia a dia</p>
+        <div class="slide-content">
+          <h2 class="headline">SIGA A NEW VITA NO <span class="accent">INSTAGRAM.</span></h2>
+          <div class="ig-grid">
+            <figure class="ig-post"><img src="img/ig-aulao-interativo.jpg" alt="Publicação: Aulão interativo, sexta-feira 30/10, das 9h às 11h" loading="lazy"></figure>
+            <figure class="ig-post"><img src="img/ig-mobilidade.jpg" alt="Publicação: Mobilidade é liberdade" loading="lazy"></figure>
+            <figure class="ig-post"><img src="img/ig-treinar-com-dor.jpg" alt="Publicação: Treinar com dor, seu corpo dá sinais" loading="lazy"></figure>
+            <figure class="ig-post"><img src="img/ig-dia-do-medico.jpg" alt="Publicação: Dia do médico" loading="lazy"></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide--white contact-slide" aria-label="Endereço e contato">
+        <p class="eyebrow">New Vita Belém</p>
+        <div class="slide-content">
+          <div>
+            <h2 class="headline">SUA VIDA EM <span class="accent">MOVIMENTO.</span></h2>
+            <p class="intro">Converse com a equipe e conheça a New Vita.</p>
+          </div>
+          <div class="contact-card">
+            <div class="contact-line">
+              <span class="contact-icon" aria-hidden="true">⌖</span>
+              <div><span class="contact-label">Estamos em Belém</span>Conselheiro Furtado, 1891</div>
+            </div>
+            <div class="contact-line">
+              <span class="contact-icon" aria-hidden="true">W</span>
+              <div><span class="contact-label">WhatsApp</span>(91) 99380-9246</div>
+            </div>
+          </div>
+          <div class="contact-actions">
+            <a class="action-link" href="https://wa.me/5591993809246" target="_blank" rel="noopener noreferrer">
+              <span>Fale com a equipe</span><span class="action-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="action-link secondary" href="https://www.instagram.com/newvitabelem/" target="_blank" rel="noopener noreferrer">
+              <span>Acompanhe @newvitabelem</span><span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="bottombar">
+      <div class="ig-follow">
+        <img class="ig-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=6&data=https%3A%2F%2Fwww.instagram.com%2Fnewvitabelem%2F" alt="QR Code para o Instagram @newvitabelem" width="240" height="240" loading="lazy">
+        <div class="ig-follow-text">
+          <span class="ig-follow-label">Aponte a câmera</span>
+          <span class="ig-follow-handle">@newvitabelem</span>
+        </div>
+      </div>
+      <div class="footer-end">
+        <span id="counter">01 / 07</span>
+        <nav class="controls" aria-label="Navegação da vitrine">
+          <button class="control" id="previous" type="button" aria-label="Tela anterior">‹</button>
+          <button class="control" id="next" type="button" aria-label="Próxima tela">›</button>
+        </nav>
+      </div>
+    </footer>
+  </div>
+  </div>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const counter = document.getElementById("counter");
+      const windowEl = document.getElementById("slideWindow");
+      const interval = 11000;
+      let current = 0;
+      let timer;
+      let touchStartX = 0;
+
+      function showSlide(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          const active = i === current;
+          slide.classList.toggle("is-active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+        });
+        counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+        clearTimeout(timer);
+        timer = setTimeout(() => showSlide(current + 1), interval);
+      }
+
+      document.getElementById("previous").addEventListener("click", () => showSlide(current - 1));
+      document.getElementById("next").addEventListener("click", () => showSlide(current + 1));
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === " ") {
+          event.preventDefault();
+          showSlide(current + 1);
+        } else if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          showSlide(current - 1);
+        }
+      });
+      windowEl.addEventListener("touchstart", (event) => {
+        touchStartX = event.changedTouches[0].screenX;
+      }, { passive: true });
+      windowEl.addEventListener("touchend", (event) => {
+        const distance = event.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(distance) > 50) showSlide(current + (distance < 0 ? 1 : -1));
+      }, { passive: true });
+      showSlide(0);
+    })();
+  </script>
+</body>
+</html>

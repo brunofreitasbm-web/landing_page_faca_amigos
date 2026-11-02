@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Cartão de pré-visualização</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; background: #090909; }
+  body { position: relative; color: #fff; font-family: "DM Sans", Arial, sans-serif; }
+  .tri { position: absolute; width: 230px; height: 230px; background: #ed1c2e; }
+  .tri.a { top: 0; right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+  .tri.b { bottom: 0; left: 0; clip-path: polygon(0 0, 0 100%, 100% 100%); width: 190px; height: 190px; }
+  .wrap { position: absolute; inset: 0; padding: 62px 84px 56px 96px; display: flex; flex-direction: column; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 22px; }
+  .mark { display: grid; place-items: center; width: 78px; height: 78px; border-radius: 50%; border: 8px solid #ed1c2e; background: #fff; color: #ed1c2e; font-family: "Anton", Impact, sans-serif; font-size: 48px; line-height: 1; }
+  .name { font-family: "Anton", Impact, sans-serif; font-size: 62px; line-height: 1; letter-spacing: .01em; }
+  .name span { color: #ed1c2e; }
+  .eyebrow { margin-top: 34px; font-size: 25px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: #ff5a68; }
+  h1 { margin-top: 14px; max-width: 980px; font-family: "Anton", Impact, sans-serif; font-weight: 400; font-size: 90px; line-height: .98; letter-spacing: -.005em; text-transform: uppercase; }
+  h1 .a { color: #ff5a68; }
+  .foot { display: flex; align-items: center; justify-content: space-between; font-size: 30px; font-weight: 700; }
+  .foot .l { max-width: 760px; line-height: 1.25; }
+  .foot .r { font-family: "Anton", Impact, sans-serif; font-weight: 400; font-size: 34px; letter-spacing: .04em; color: #fff; opacity: .9; }
+</style>
+</head>
+<body>
+  <div class="tri a"></div><div class="tri b"></div>
+  <div class="wrap">
+    <div>
+      <div class="brand"><div class="mark">N</div><div class="name">NEW <span>VITA</span></div></div>
+      <div class="eyebrow">Proposta para a New Vita Belém</div>
+      <h1>Mais pacientes agendados, <span class="a">com dados</span> em vez de palpite.</h1>
+    </div>
+    <div class="foot"><div class="l">Um plano para ver de onde vêm os seus pacientes.</div><div class="r">@newvitabelem</div></div>
+  </div>
+</body>
+</html>
