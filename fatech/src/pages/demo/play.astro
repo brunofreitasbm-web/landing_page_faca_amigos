@@ -492,6 +492,7 @@ const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curren
   #modal-corpo :global(p) { line-height: 1.5; }
 
   .cego { display: grid; justify-items: center; gap: 8px; padding: 28px 16px; border: 1px dashed var(--linha); border-radius: var(--raio); text-align: center; }
+  .cego[hidden] { display: none; }
   .cadeado { width: 56px; height: 56px; border-radius: 50%; background: var(--petroleo-900); color: var(--agua); display: grid; place-items: center; font-size: 26px; font-weight: 700; }
   #caixa-conf :global(.dif) { border-radius: var(--raio); padding: 12px 14px; line-height: 1.45; }
   #caixa-conf :global(.dif.ok) { background: var(--ok-suave); color: #14573A; }
@@ -505,5 +506,5 @@ const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curren
   .kpi.mini { box-shadow: none; padding: 12px; }
   .kpi.mini .val { font-size: 22px; }
   .kpi.mini .cmp { font-size: 12px; line-height: 1.35; }
-  .alerta-item { display: flex; gap: 8px; align-items: flex-start; line-height: 1.4; }
+  :global(.alerta-item) { display: flex; gap: 8px; align-items: flex-start; line-height: 1.4; }
 </style>
