@@ -292,9 +292,9 @@
         <div>
           <div class="big clock">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6M12 2v3"/></svg>
-            <span>+5 <span class="unit">min</span></span>
+            <span>25 <em style="font-style:normal;font-size:.6em">ou</em> 35 <span class="unit">min</span></span>
           </div>
-          <div class="label">adicionais grátis em qualquer plano do Circuito</div>
+          <div class="label">Compre 20 min e ande 25. Compre 30 e ande 35 no Circuito</div>
         </div>
       </div>
     </div>
@@ -310,7 +310,7 @@
       <div class="ic ic-pink">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/><circle cx="12" cy="12" r="9"/></svg>
       </div>
-      <h2>Três lugares pra ele sorrir</h2>
+      <h2>Quatro lugares pra ele sorrir</h2>
     </div>
 
     <div class="places">
@@ -332,10 +332,23 @@
         <div class="veil"></div>
         <div class="txt">
           <div>
-            <span class="tag">Playground</span>
+            <span class="tag">Playground · Inaugurado em 8 de outubro</span>
             <h3>Shopping Bosque Grão-Pará</h3>
             <p>Av. Centenário, 1052 · 1º piso, em frente à Renner</p>
             <p class="meta">Seg a sáb, 10h às 22h · Dom, 12h às 21h</p>
+          </div>
+          <span class="go">Ver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+      <a class="place" id="ctaClinica" href="#" target="_blank" rel="noopener">
+        <img src="https://institutofacaamigos.com.br/img/clinica-fachada.webp" width="1200" height="800" alt="Fachada da Clínica FaçaAmigos no Umarizal" loading="lazy" decoding="async" onerror="this.style.opacity=0">
+        <div class="veil"></div>
+        <div class="txt">
+          <div>
+            <span class="tag">Clínica · já atendendo</span>
+            <h3>Clínica FaçaAmigos</h3>
+            <p>Rua Boaventura da Silva, 1573 · Umarizal</p>
+            <p class="meta">Terapias para crianças típicas e atípicas</p>
           </div>
           <span class="go">Ver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
@@ -416,10 +429,11 @@
   $("ctaPlaygroundParque").href = SITE + "/playground?" + UTM + "&utm_content=parque_shopping";
   $("ctaPlaygroundGrao").href = SITE + "/playground?" + UTM + "&utm_content=grao_para#unidades";
   $("ctaCircuito").href = SITE + "/circuito?" + UTM;
+  $("ctaClinica").href = SITE + "/clinica?" + UTM + "&utm_content=clinica_portal";
   $("ctaGuia").href = SITE + "/guia?" + UTM;
   $("ctaCodigo").href = SITE + "/codigo?" + UTM;
   $("linkWifiPage").href = SITE + "/wifi?" + UTM;
-  ["ctaTeste", "ctaPlaygroundParque", "ctaPlaygroundGrao", "ctaCircuito", "rotaParque", "rotaGrao", "ctaGuia", "ctaCodigo", "linkWifiPage"].forEach(function (id) {
+  ["ctaTeste", "ctaPlaygroundParque", "ctaPlaygroundGrao", "ctaCircuito", "ctaClinica", "rotaParque", "rotaGrao", "ctaGuia", "ctaCodigo", "linkWifiPage"].forEach(function (id) {
     $(id).addEventListener("click", function () { pushDL("wifi_cta_click", { cta: id }); });
   });
 
