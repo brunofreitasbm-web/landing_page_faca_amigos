@@ -25,7 +25,7 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 - **Nova página:** `src/pages/x.astro` usando `Base`; incluir a URL em `public/sitemap.xml` (o `lastmod` é mantido por `npm run sitemap`).
 
 ### Pendências conhecidas
-- As páginas legadas em `public/*.html` (evento, ingresso, descadastrar e família) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
+- As páginas legadas em `public/*.html` (ingresso, descadastrar e família) ainda não foram migradas e repetem cabeçalho, rodapé e CSS.
 - `/trabalhe-conosco`: vagas com schema `JobPosting` (hoje a página é só o formulário de candidatura); `/parcerias` (depende de haver oferta de dia útil).
 - `evento` (acoplada ao `middleware.js`, que reescreve o HTML dela por texto exato), `ingresso`, `teste` (questionário), `guia` e `codigo` (checkout da Hotmart) e as páginas grandes de venda ficaram de fora de propósito: têm lógica ou CSS próprio que exige migração com mais cuidado.
 - `sitemap.xml` ainda é mantido à mão (`public/`).
@@ -115,7 +115,7 @@ flowchart LR
 | `/guia` | src/pages/guia.astro (texto em src/data/paginas/guia.*, CSS escopado em src/styles/lp/guia.css) | E-book "O Brincar com Propósito" (capítulo grátis + Hotmart) | sim | |
 | `/codigo` | src/pages/codigo.astro (texto em src/data/paginas/codigo.*, CSS em src/styles/lp/codigo.css) | E-book "O Código do Desenvolvimento Infantil" (Hotmart) | sim | |
 | `/eventos` | eventos.html | Lista de encontros, palestras e treinamentos | sim | dados vêm da função `eventos-public` |
-| `/eventos/:slug` | evento.html | Detalhe e inscrição | não | `vercel.json` reescreve para `/evento`; canonical aponta para `/eventos` |
+| `/eventos/:slug` | src/pages/evento.astro (texto em src/data/paginas/evento.*) | Detalhe e inscrição | não | `vercel.json` reescreve para `/evento`; canonical aponta para `/eventos`. O `middleware.js` troca metas/h1/spans por texto exato: ao mexer na página, rode a simulação do middleware (título, canonical, og:*, robots, h1) |
 | `/ingresso` | ingresso.html | Voucher com QR do inscrito | não | noindex, Disallow no robots |
 | `/wifi` | wifi.html | Portal do Wi-Fi da clínica | não | noindex, follow |
 | `/familia` | familia.html | Como entrar no Portal da Família (3 passos + botão para o login do sistema). Destino do QR da TV da sala de espera (`/tv3`) | não | noindex, nofollow |
