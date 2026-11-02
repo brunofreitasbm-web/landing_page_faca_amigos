@@ -843,12 +843,9 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "circuito",
-    "image": "img/circuito-frota-quiosque.webp",
+    "image": "img/circuito-bombeiro.webp",
     "images": [
-      "img/circuito-frota-quiosque.webp",
-      "img/circuito-lamborghini-sorriso.webp",
-      "img/circuito-jeep-menino.webp",
-      "img/circuito-capivara-menina.webp"
+      "img/circuito-bombeiro.webp"
     ],
     "kicker": "🚗 Conheça o Circuito",
     "kickerClass": "yellow",
@@ -862,7 +859,8 @@
     "qrHint": "Sem agendamento",
     "highlightIcon": "🚗",
     "highlightText": "Pelúcias e jeep por 20 minutos. Carros e moto por 30.",
-    "isabella": false
+    "isabella": false,
+    "imageFit": "retrato"
   },
   {
     "id": "j_equipe",

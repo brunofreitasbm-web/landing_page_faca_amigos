@@ -786,7 +786,7 @@ Sem valores na tela: o site diz que valores e condições são passados pela equ
 
 O Circuito só existe no Parque Shopping (quiosque no térreo). "Mesma equipe" vem da página /circuito. QR `circuito`.
 
-- `j_convite` · QR: circuito · "Venha conhecer o Circuito FaçaAmigos." Foto do quiosque com a frota.
+- `j_convite` · QR: circuito · "Venha conhecer o Circuito FaçaAmigos." Foto fixa do caminhão de bombeiro (`img/circuito-bombeiro.webp`), o carro mais alugado, em modo retrato (o sorteio de fotos novas não troca).
 - `j_equipe` · dias 1, 3 e 5 · sem QR · "No Circuito, a mesma equipe FaçaAmigos."
 
 ## K. Playground no Grão-Pará
