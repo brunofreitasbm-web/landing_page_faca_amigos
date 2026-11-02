@@ -1,0 +1,19 @@
+/* Identidade FA Tech — caminho 1 "Petróleo Clínico" (escolhido em 02/11/2026).
+   Sem rosa e sem amarelo. Fonte única: Inter, pesos 300 / 400 / 600. */
+@import '@fontsource/inter/latin-300.css';
+@import '@fontsource/inter/latin-400.css';
+@import '@fontsource/inter/latin-600.css';
+
+:root {
+  --petroleo-900: #0F2E36; /* fundo escuro, títulos sobre claro */
+  --petroleo-600: #1F7F86; /* destaque sobre fundo claro (passa contraste) */
+  --agua:         #3FB7BF; /* destaque sobre fundo escuro */
+  --linha:        #DCE2E5;
+  --gelo:         #F4F6F7;
+  --branco:       #FFFFFF;
+  --tinta:        #1C2328; /* texto principal */
+  --cinza:        #5C6870; /* texto secundário */
+
+  --fonte: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --raio: 8px;
+}

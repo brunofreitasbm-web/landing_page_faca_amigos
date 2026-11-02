@@ -12,6 +12,8 @@
     { "source": "/playground/politica-privacidade.html", "destination": "/politica-privacidade", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/fatech", "destination": "https://fa-tech-bruno-bm-projects.vercel.app/fatech" },
+    { "source": "/fatech/:path*", "destination": "https://fa-tech-bruno-bm-projects.vercel.app/fatech/:path*" },
     { "source": "/eventos/:slug", "destination": "/evento" },
     { "source": "/vitrine-digital", "destination": "/tv" },
     { "source": "/tv2", "destination": "/tv2" },

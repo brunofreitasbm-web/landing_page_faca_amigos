@@ -1,0 +1,68 @@
+---
+// Roll-up 85 × 200 cm. Arquivo: 856 × 2006 mm (3 mm de sangria). Os 15 cm de baixo ficam dentro da base: sem conteúdo ali.
+import Impresso from '../../layouts/Impresso.astro';
+import Logo from '../../components/Logo.astro';
+import marca from '../../data/marca.json';
+import produtos from '../../data/produtos.json';
+import { icone } from '../../lib/icone.js';
+import { qrSvg, urlCadastro } from '../../lib/qr.js';
+const qr = await qrSvg(urlCadastro('rollup'));
+---
+<Impresso titulo="Roll-up FA Tech" larguraMm={856} alturaMm={2006}>
+  <section class="folha rollup">
+    <header class="topo">
+      <Logo tamanho="62mm" tema="escuro" />
+      <h1>Quanto sua clínica deixa de receber <strong>todo&nbsp;mês?</strong></h1>
+      <p class="sub">{marca.origem}</p>
+    </header>
+
+    <div class="cta">
+      <div class="qr" set:html={qr} />
+      <div class="cta__texto">
+        <p class="cta__acao">Aponte a câmera.</p>
+        <p>Em 1 minuto você vê quanto sua clínica pode recuperar e testa os sistemas no seu celular.</p>
+      </div>
+    </div>
+
+    <ul class="lista">
+      {produtos.map((p) => (
+        <li>
+          <span class="ico" set:html={icone(p.icone, { tamanho: 50, traco: 1.4 })} />
+          <span>
+            <b>{p.nome}</b>{p.parceria && <em> · em parceria</em>}
+            <span class="dor">{p.dorCurta}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+
+    <footer class="rodape">
+      <span set:html={icone('shield-check', { tamanho: 44, traco: 1.4 })} />
+      <span>{marca.privacidade}</span>
+    </footer>
+  </section>
+</Impresso>
+<style>
+  .rollup { background: var(--petroleo-900); color: #fff; padding: 100mm 78mm 175mm; display: flex; flex-direction: column; }
+  .topo h1 { font-weight: 300; font-size: 86mm; line-height: 1.06; letter-spacing: -0.02em; margin-top: 64mm; }
+  .topo h1 strong { font-weight: 600; color: var(--agua); }
+  .sub { font-weight: 300; font-size: 32mm; line-height: 1.3; opacity: .78; margin-top: 30mm; max-width: 640mm; }
+
+  .cta { margin-top: 64mm; display: flex; gap: 46mm; align-items: center; background: #fff; color: var(--tinta); border-radius: 18mm; padding: 34mm; }
+  .qr { width: 236mm; height: 236mm; flex: none; }
+  .qr :global(svg) { width: 100%; height: 100%; display: block; }
+  .cta__texto { font-size: 27mm; line-height: 1.3; font-weight: 400; color: var(--cinza); }
+  .cta__acao { font-size: 50mm; font-weight: 600; color: var(--petroleo-900); line-height: 1.05; margin-bottom: 18mm; }
+
+  .lista { list-style: none; margin: 56mm 0 40mm; display: grid; gap: 13mm; }
+  .lista li { display: flex; gap: 22mm; align-items: center; font-size: 25mm; line-height: 1.25; }
+  .lista b { font-weight: 600; color: var(--agua); }
+  .lista em { font-style: normal; font-weight: 300; opacity: .7; font-size: .8em; }
+  .dor { display: block; font-weight: 300; opacity: .88; margin-top: 2mm; }
+  .ico { flex: none; width: 50mm; height: 50mm; color: var(--agua); }
+  .ico :global(svg) { width: 100%; height: 100%; }
+
+  /* o padding de baixo (175 mm) protege a área escondida na base do roll-up (150 mm + 3 mm de sangria) */
+  .rodape { margin-top: auto; display: flex; gap: 16mm; align-items: center; font-size: 25mm; font-weight: 300; border-top: .6mm solid rgba(255,255,255,.25); padding-top: 22mm; color: rgba(255,255,255,.85); }
+  .rodape :global(svg) { width: 44mm; height: 44mm; color: var(--agua); flex: none; }
+</style>

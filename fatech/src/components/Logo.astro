@@ -1,0 +1,24 @@
+---
+// Logo FA Tech: monograma em quadrado de contorno + nome. Sem símbolo do Faça Amigos.
+interface Props { tamanho?: string; tema?: 'escuro' | 'claro'; descritor?: boolean }
+const { tamanho = '1em', tema = 'escuro', descritor = true } = Astro.props;
+---
+<div class={`logo logo--${tema}`} style={`font-size:${tamanho}`}>
+  <span class="logo__marca" aria-hidden="true">FA</span>
+  <span class="logo__texto">
+    <span class="logo__nome">FA <b>Tech</b></span>
+    {descritor && <span class="logo__descritor">Gestão para clínicas</span>}
+  </span>
+</div>
+<style>
+  .logo { display:inline-flex; align-items:center; gap:.38em; font-family:var(--fonte); line-height:1; }
+  .logo__marca { width:1.15em; height:1.15em; border:.055em solid var(--acento); border-radius:.22em; display:grid; place-items:center; font-weight:600; font-size:1em; }
+  .logo__marca { font-size:.5em; width:2.3em; height:2.3em; border-width:.11em; border-radius:.44em; }
+  .logo__nome { font-weight:300; font-size:1em; letter-spacing:.01em; display:block; }
+  .logo__nome b { font-weight:600; }
+  .logo__descritor { display:block; font-size:.32em; letter-spacing:.16em; text-transform:uppercase; margin-top:.55em; opacity:.65; font-weight:400; }
+  .logo--escuro { color:#fff; --acento:var(--agua); }
+  .logo--escuro .logo__marca { color:var(--agua); }
+  .logo--claro { color:var(--petroleo-900); --acento:var(--petroleo-600); }
+  .logo--claro .logo__marca { color:var(--petroleo-600); }
+</style>
