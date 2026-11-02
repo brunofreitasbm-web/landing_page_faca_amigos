@@ -4,6 +4,8 @@ Documento para a Isabella e para o dono do negócio. O texto de cada slide está
 
 ## Como a volta funciona e o que ficou de fora
 
+**Ritmo.** Os tempos `dur` abaixo são os do roteiro. A TV multiplica todos por `CONFIG.ritmo` (hoje 1,25: um slide de 15 s fica 18,75 s na tela e a volta de ~11,9 min dura ~14,9 min). Para mais devagar ou mais depressa, mude só esse número no `tv3.html`.
+
 1. A volta tem cerca de 10 a 11 minutos e mostra cada slide uma vez; `a_lembrete` aparece duas vezes. Em 2 a 3 horas de espera o pai vê a volta umas 12 a 18 vezes, por isso o miolo é variado e as dicas e respiros trocam a cada dia do ciclo de 5 dias.
 2. Abre sempre em `b_boasvindas` (acolhe, diz que dia é e dá permissão para descansar) e fecha sempre em `a_fecho` (compromisso: da próxima vez que o QR aparecer, eu aponto a câmera).
 3. O QR do Portal aparece no máximo a cada 6 minutos. `a_dor22h` e `a_tut` andam juntos: primeiro a cena que o pai reconhece, depois o passo a passo.

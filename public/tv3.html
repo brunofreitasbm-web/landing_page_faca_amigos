@@ -932,6 +932,7 @@
       const CONFIG = {
         experiment: 'base-2026-12',   // rótulo do experimento (formato <o-que-mudou>-AAAA-MM)
         roundMin: 10,                 // alvo de duração de uma volta, em minutos
+        ritmo: 1.25,                  // multiplica o tempo de todos os slides (1 = tempos do roteiro; maior = mais devagar)
         maxCopias: 2,                 // quantas vezes um slide com weight pode aparecer por volta
         cadenciaPortalSeg: 360,       // no máximo 6 min sem QR do Portal na tela
         portalAtivo: true,            // false esconde a família A (use enquanto o Portal não estiver liberado)
@@ -1377,7 +1378,7 @@
           if (instant) prev.remove(); else setTimeout(() => { if (prev !== currentEl && prev.parentNode) prev.remove(); }, 1300);
         }
         updateCounter();
-        armTimer(OV.slide || instant ? 1e9 : item.dur * 1000 / OV.vel);
+        armTimer(OV.slide || instant ? 1e9 : item.dur * 1000 * CONFIG.ritmo / OV.vel);
 
         if (window.dataLayer) {
           window.dataLayer.push({
