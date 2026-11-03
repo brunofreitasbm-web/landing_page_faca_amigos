@@ -132,7 +132,8 @@ Padrões comuns: `Deno.serve` único roteado por `action`; CORS e helpers copiad
 | `guia-sequence` | 3 e-mails (24h/72h/144h) pós-resultado; descadastro | `x-run-key` (`SEQ_RUN_KEY`); HMAC (`SEQ_SECRET`) | leads, `fa_teste_ebook_seq`, `fa_ebook_compras` |
 | `hotmart-webhook` | Eventos de compra/reembolso/chargeback/carrinho; ingressos pagos; GA4 MP + Meta CAPI | `hottok` | `fa_hotmart_eventos`, `fa_ebook_compras`, `fa_ebook_carrinhos`, RPCs de eventos |
 | `hotmart-sync` | Polling da API de vendas (conferência do webhook) | `x-sync-key` | `fa_ebook_compras`, leads |
-| `wifi-lead-webhook` | Cadastro do portal Wi-Fi, cupom `ESPERA-XXXX` (1 por cliente a cada 30 dias, por telefone, e-mail ou MAC), e-mail | Pública (honeypot, 20/h por IP) | `fa_wifi_leads`, `fa_kiosk_coupons` |
+| `wifi-lead-webhook` | Cadastro do portal Wi-Fi (1 por cliente a cada 30 dias, por telefone, e-mail ou MAC; soma visitas). Não emite cupom nem envia e-mail | Pública (honeypot, 20/h por IP) | `fa_wifi_leads` |
+| `wifi-mural-coupon` | Único emissor do cupom `ESPERA-XXXX` (3 cupons no caixa, sem e-mail), para o responsável do Mural da Família; 1 a cada 30 dias por responsável | JWT da service role (só o servidor do Mural) | `fa_wifi_leads`, `fa_kiosk_coupons` |
 | `wifi-coupon-admin` | Consulta/resgate manual de cupom | Bearer `WIFI_ADMIN_API_KEY` | `fa_wifi_leads` |
 | `geo-facts` | JSON público de preços/unidades do quiosque (GET, cache 1h) | Pública | `fa_kiosk_*` (somente leitura) |
 | `fa-health` | Rotina diária 07h Belém: saúde, drift de preços (GEO), follow-up de lead quente | `x-ops-key` | vários + RPC `fa_health_snapshot` |
@@ -142,7 +143,7 @@ Padrões comuns: `Deno.serve` único roteado por `action`; CORS e helpers copiad
 - **Auth do painel**: `gestao-hub` (`launch painel|eventos`) cria ticket em `fa_gestao_painel_tickets` → `/admin#sso=` → `behavior-test-admin` `sso` cria sessão em `fa_teste_admin_sessions` → `eventos-admin` reutiliza o mesmo Bearer.
 - **E-mail de eventos**: `eventos-public`/`eventos-admin`/`hotmart-webhook` → `eventos-dispatch` (`x-ops-key`) → Brevo. O cron chama `run`.
 - **Compra de e-book**: link com `src/sck/utm/xcod` → Hotmart → `hotmart-webhook` (+ `hotmart-sync`) → `fa_ebook_compras` → para a `guia-sequence` do lead → GA4/Meta server-side.
-- **Wi-Fi**: MikroTik `login.html` → `wifi-lead-webhook` → lead + 3 cupons nativos (Circuito +5 min, Playground Parque 50%, Playground Grão-Pará 50%) → e-mail → `/wifi`.
+- **Wi-Fi**: MikroTik `login.html` → `wifi-lead-webhook` → só o lead (sem cupom, sem e-mail) → `/wifi`. **Cupom**: Mural da Família → `wifi-mural-coupon` → lead `source = 'mural'` + 3 cupons nativos (Circuito +5 min, Playground Parque 50%, Playground Grão-Pará 50%).
 
 ### Variáveis de ambiente (nomes)
 `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`; Clínica: `CLINICA_SUPABASE_URL`, `CLINICA_SUPABASE_ANON_KEY`, `CLINICA_SUPABASE_SERVICE_ROLE_KEY`; chaves de operação: `OPS_KEY`, `SEQ_RUN_KEY`, `SEQ_SECRET`, `HOTMART_SYNC_KEY`, `HOTMART_HOTTOK`, `HOTMART_BASIC_TOKEN`, `WIFI_ADMIN_API_KEY`, `EVENTOS_SECRET`, `GESTAO_SSO_SECRET_CACAU`; produtos: `HOTMART_PRODUCT_ID`, `HOTMART_CODIGO_PRODUCT_ID`, `EBOOK_URL`, `EBOOK2_URL`, `EBOOK_PRICE_*`; e-mail: `BREVO_API_KEY`, `BREVO_FROM`, `BREVO_REPLY_TO`, `BREVO_LIST_ID`, `BREVO_LIST_EVENTOS_*`; alertas: `ALERT_EMAIL`, `LEAD_NOTIFY_EMAIL`, `LEAD_WHATSAPP`; analytics: `GA4_API_SECRET`, `GA4_MEASUREMENT_ID`, `META_PIXEL_ID`, `META_CAPI_TOKEN`; outros: `GEMINI_API_KEY`, `SITE_URL`, `COMUNIDADE_WHATSAPP_*`, `GESTAO_URL_*`.

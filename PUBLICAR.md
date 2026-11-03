@@ -315,3 +315,13 @@ Só o site: nada de migration, função ou secret. Arquivos novos: `familia.html
 3. Na TV, abrir `/tv3` (deitada: `/tv3?rot=90`), tela cheia, e deixar. Chrome em modo quiosque com
    `--autoplay-policy=no-user-gesture-required` para a trilha tocar sem clique.
 4. Mudar texto ou QR: ver "Como mudar um texto" no `PLANO-TV3.md`.
+
+## Lote 14: Wi-Fi sem cupom por e-mail, só o Mural emite, 03/11/2026 (pendente: banco, função e site)
+
+- **Regra.** O cadastro do portal Wi-Fi deixa de gerar cupom `ESPERA-XXXX`, de criar cupons no caixa e de enviar e-mail. Quem emite cupom é só `wifi-mural-coupon`, para o responsável cadastrado no Mural da Família. Quem não é cliente não recebe cupom, nem por e-mail.
+- **`wifi-lead-webhook`** só grava o lead (consentimento, opt-ins, UTM, MAC) e soma visitas dentro de 30 dias. A deduplicação ignora linhas do Mural (`source = 'mural'`). A resposta continua igual para cadastro novo e repetido.
+- **Migração** `20261103120000_wifi_cadastro_sem_cupom.sql`: `coupon_code`, `coupon_status` e `coupon_expires_at` passam a aceitar nulo.
+- **`behavior-test-admin`**: a aba Cupons Wi-Fi lista só linhas com cupom; o resumo conta todos os cadastros, e as métricas de cupom (resgate, vigentes, vencidos, taxa) consideram só linhas com cupom.
+- **Textos:** `wifi.html`, `hotspot/alogin.html` e `hotspot/logout.html` trocam "Seu cupom está no seu e-mail" por "Cliente da clínica? Seu cupom está no Mural da Família". Falta copiar `alogin.html` e `logout.html` para o roteador.
+- **Ordem:** (1) migração 20261102120000 (já aplicada, se o Mural já emite) e depois 20261103120000; (2) deploy de `wifi-lead-webhook` (`--no-verify-jwt`) e `behavior-test-admin`; (3) site; (4) roteador. Deploy da função antes da migração faz o cadastro falhar (500) por causa do `coupon_code` nulo.
+- **Fora desta mudança:** e-mail de produto no lugar do cupom (nenhum definido) e o campo de e-mail do `login.html`, que continua obrigatório.
