@@ -29,7 +29,7 @@
          border-top:8px solid var(--amarelo);display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px}
   #faixa img{height:66px;width:auto;display:block}
   #aqui{display:flex;align-items:center;gap:14px;background:var(--rosa);color:var(--creme);border-radius:999px;
-        padding:10px 30px 12px 34px;font-size:52px;box-shadow:0 6px 0 #9c1235}
+        padding:10px 30px 12px 34px;font-size:52px;box-shadow:0 6px 0 #9c1235;transform-origin:center}
   #seta{display:block}
   #brilho{position:absolute;top:370px;left:0;width:140px;height:110px;
           background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);mix-blend-mode:soft-light}
@@ -50,7 +50,7 @@
   <div id="faixa">
     <img src="../public/img/logo-facaamigos.png" alt="FaçaAmigos">
     <div id="aqui"><span class="txt">AQUI NO PARQUE</span>
-      <svg id="seta" width="46" height="52" viewBox="0 0 46 52"><path d="M14 2h18v24h12L23 50 2 26h12z" fill="#FFF9F1"/></svg>
+      <svg id="seta" width="46" height="52" viewBox="0 0 46 52"><path id="seta-p" d="M14 2h18v24h12L23 50 2 26h12z" fill="#FFF9F1"/></svg>
     </div>
   </div>
   <div id="brilho"></div>
@@ -168,7 +168,17 @@ function render(t) {
   T($('grao'), $('grao')._x, 134 + (1 - k4) * 20, 1, 0, k4);
 
   /* faixa fixa: seta quica e brilho passa */
-  $('seta').style.transform = `translateY(${Math.abs(Math.sin(t * 4.2)) * 8}px)`;
+  // AQUI NO PARQUE pisca e pulsa: batida a cada 0,5s (2 Hz, 20 batidas = loop sem emenda);
+  // a cor alterna a cada batida (1 Hz), longe da faixa de 3 Hz+ que incomoda fotossensíveis.
+  const BAT = 0.5, fb = (t % BAT) / BAT, batida = Math.floor(t / BAT);
+  const pulso = Math.exp(-fb * 6);                       // pico no início da batida e decai
+  const aqui = $('aqui'), par = batida % 2 === 0;
+  aqui.style.transform = `scale(${1 + 0.06 * pulso})`;
+  aqui.style.background = par ? '#D61F4A' : '#FDC51D';
+  aqui.style.color = par ? '#FFF9F1' : '#D61F4A';
+  aqui.style.boxShadow = `0 6px 0 ${par ? '#9c1235' : '#c98f00'}, 0 0 ${10 + 28 * pulso}px ${4 + 10 * pulso}px ${par ? 'rgba(214,31,74,.55)' : 'rgba(253,197,29,.65)'}`;
+  $('seta-p').setAttribute('fill', par ? '#FFF9F1' : '#D61F4A');
+  $('seta').style.transform = `translateY(${(1 - pulso) * 0 + pulso * 9}px)`;
   $('brilho').style.transform = `translateX(${((t % 5) / 5) * 1700 - 200}px)`;
 }
 
