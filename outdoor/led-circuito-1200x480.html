@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Circuito · LED</title>
+<!--
+  Peça "Circuito de carrinhos", 10s, telão de LED 1200x480 da fachada do Parque Shopping.
+  Mesmo sistema da peça da chuva: faixa fixa (logo + AQUI NO PARQUE piscando) nos 10s.
+  Carrinhos desenhados (sem foto de criança e sem marca de montadora) e bandeira quadriculada
+  (nada que imite semáforo, para não confundir quem dirige).
+  render(t) é função pura do tempo. Preview em loop no navegador; ?t=4.2 congela um quadro.
+  MP4: node scripts/outdoor-render.mjs circuito
+-->
+<style>
+  @font-face{font-family:'Fredoka';font-weight:300 700;src:url(../public/assets/fonts/fredoka-500.woff2) format('woff2');}
+  :root{--amarelo:#FDC51D;--turquesa:#07C5C8;--rosa:#D61F4A;--petroleo:#065264;--petroleo-fundo:#043F4E;--creme:#FFF9F1;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:480px;overflow:hidden;background:var(--petroleo-fundo)}
+  #palco{position:relative;width:1200px;height:480px;overflow:hidden;font-family:'Fredoka',sans-serif;font-weight:700}
+  #cena{position:absolute;left:0;top:0;width:1200px;height:370px;overflow:hidden;
+        background:radial-gradient(ellipse at 50% 0,#0a6a80 0,var(--petroleo) 45%,var(--petroleo-fundo) 100%)}
+  #pista{position:absolute;left:0;top:200px;width:1200px;height:170px;background:#26353b}
+  .zebra{position:absolute;left:0;width:1200px;height:14px;
+         background:repeating-linear-gradient(90deg,#D61F4A 0 40px,#FFF9F1 40px 80px)}
+  #faixa-centro{position:absolute;left:0;top:96px;width:2400px;height:6px;
+         background:repeating-linear-gradient(90deg,rgba(255,249,241,.7) 0 50px,transparent 50px 100px)}
+  .abs{position:absolute;left:0;top:0;will-change:transform}
+  .txt{white-space:nowrap;line-height:1;paint-order:stroke fill}
+  #t1a{font-size:70px;color:var(--creme);text-shadow:0 6px 0 rgba(0,0,0,.35)}
+  #t1b{font-size:120px;color:var(--amarelo);-webkit-text-stroke:12px var(--petroleo-fundo);text-shadow:0 9px 0 rgba(0,0,0,.35)}
+  #t3{font-size:92px;color:var(--amarelo);-webkit-text-stroke:12px var(--petroleo-fundo);text-shadow:0 8px 0 rgba(0,0,0,.35)}
+  #local{font-size:38px;font-weight:600;color:var(--petroleo);background:var(--creme);border-radius:999px;padding:9px 26px}
+  #fx{position:absolute;left:0;top:0}
+  /* faixa fixa (igual à peça da chuva) */
+  #faixa{position:absolute;left:0;top:370px;width:1200px;height:110px;background:var(--creme);
+         border-top:8px solid var(--amarelo);display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px}
+  #faixa img{height:66px;width:auto;display:block}
+  #aqui{display:flex;align-items:center;gap:14px;background:var(--rosa);color:var(--creme);border-radius:999px;
+        padding:10px 30px 12px 34px;font-size:52px;box-shadow:0 6px 0 #9c1235;transform-origin:center}
+  #seta{display:block}
+  #brilho{position:absolute;top:370px;left:0;width:140px;height:110px;
+          background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);mix-blend-mode:soft-light}
+</style>
+</head>
+<body>
+<div id="palco">
+  <div id="cena">
+    <div id="pista">
+      <div class="zebra" style="top:0"></div>
+      <div id="faixa-centro"></div>
+      <div class="zebra" style="bottom:0"></div>
+    </div>
+    <svg class="abs" id="bandeira" width="260" height="190" viewBox="0 0 260 190"></svg>
+    <div id="carros"></div>
+    <canvas id="fx" width="1200" height="370"></canvas>
+    <div class="abs txt" id="t1a">Aqui dentro,</div>
+    <div class="abs txt" id="t1b">eles PILOTAM!</div>
+    <div class="abs txt" id="t3">Circuito de carrinhos</div>
+    <div class="abs txt" id="local">Térreo · em frente à C&amp;A</div>
+  </div>
+  <canvas id="xadrez" width="1200" height="370" style="position:absolute;left:0;top:0"></canvas>
+  <div id="faixa">
+    <img src="../public/img/logo-facaamigos.png" alt="FaçaAmigos">
+    <div id="aqui"><span class="txt">AQUI NO PARQUE</span>
+      <svg id="seta" width="46" height="52" viewBox="0 0 46 52"><path id="seta-p" d="M14 2h18v24h12L23 50 2 26h12z" fill="#FFF9F1"/></svg>
+    </div>
+  </div>
+  <div id="brilho"></div>
+</div>
+
+<script>
+const DUR = 10;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const outCubic = (k) => 1 - Math.pow(1 - k, 3);
+const inOutCubic = (k) => k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const outBack = (k, s = 1.7) => { const c = s + 1; return 1 + c * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2); };
+const outElastic = (k) => k === 0 || k === 1 ? k : Math.pow(2, -10 * k) * Math.sin((k * 10 - 0.75) * (2 * Math.PI) / 3) + 1;
+function rng(seed) { return () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
+function T(el, x, y, s = 1, r = 0, o = 1) { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; el.style.opacity = o; }
+
+/* ---------- carrinho desenhado (vista lateral, 280x170) ---------- */
+function carroSVG(id, corpo, sombra, capacete) {
+  const roda = (cx, n) => `
+    <g transform="translate(${cx} 132)"><circle r="34" fill="#141c1f"/><circle r="27" fill="#2b3a40"/>
+      <g id="${id}-r${n}"><circle r="15" fill="#d9e2e4"/>
+        ${[0, 72, 144, 216, 288].map((a) => `<rect x="-3" y="-25" width="6" height="12" rx="3" fill="#d9e2e4" transform="rotate(${a})"/>`).join('')}
+        <circle r="6" fill="${corpo}"/></g></g>`;
+  return `<svg class="abs" id="${id}" width="280" height="170" viewBox="0 0 280 170" style="overflow:visible">
+    <ellipse cx="140" cy="164" rx="118" ry="8" fill="rgba(0,0,0,.35)"/>
+    <!-- piloto -->
+    <g transform="translate(150 38)">
+      <rect x="-22" y="18" width="44" height="40" rx="14" fill="${capacete}"/>
+      <circle r="27" fill="${capacete}"/>
+      <path d="M-4 -12 h28 a8 8 0 0 1 8 8 v16 a6 6 0 0 1 -6 6 h-30 z" fill="#0b2a33"/>
+      <path d="M2 -8 h16" stroke="rgba(255,255,255,.6)" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="-14" cy="-14" r="5" fill="rgba(255,255,255,.55)"/>
+    </g>
+    <!-- volante -->
+    <path d="M186 70 l18 -22" stroke="#141c1f" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="205" cy="46" rx="5" ry="15" fill="#141c1f" transform="rotate(-30 205 46)"/>
+    <!-- carroceria -->
+    <path d="M20 118 C14 92 34 78 62 76 L100 74 C110 62 124 58 140 60 L198 66 C226 68 252 82 262 104 C268 118 262 132 248 134 L34 134 C24 134 20 128 20 118 Z" fill="${corpo}"/>
+    <path d="M24 122 C24 128 28 134 36 134 L246 134 C256 134 262 128 262 118 C200 124 90 126 24 122 Z" fill="${sombra}"/>
+    <path d="M44 92 C70 86 120 86 150 90" stroke="rgba(255,255,255,.55)" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="250" cy="104" r="9" fill="#FFF9F1"/><circle cx="250" cy="104" r="4" fill="#FDC51D"/>
+    <rect x="16" y="98" width="12" height="14" rx="4" fill="#D61F4A"/>
+    <text x="104" y="118" font-family="Fredoka" font-weight="700" font-size="22" fill="#FFF9F1" opacity=".95">FA</text>
+    ${roda(70, 1)}${roda(214, 2)}
+  </svg>`;
+}
+const CARROS = [
+  { id: 'cA', corpo: '#FDC51D', sombra: '#c99a0e', capacete: '#D61F4A' },
+  { id: 'cB', corpo: '#D61F4A', sombra: '#9c1235', capacete: '#07C5C8' },
+  { id: 'cC', corpo: '#07C5C8', sombra: '#05868A', capacete: '#FDC51D' },
+];
+$('carros').innerHTML = CARROS.map((c) => carroSVG(c.id, c.corpo, c.sombra, c.capacete)).join('');
+
+/* bandeira quadriculada (6x4) presa num mastro */
+(function bandeira() {
+  let h = '<rect x="18" y="10" width="9" height="180" rx="4" fill="#d9e2e4"/>';
+  for (let c = 0; c < 6; c++) {
+    h += `<g id="bc${c}">`;
+    for (let r = 0; r < 4; r++) h += `<rect x="${27 + c * 36}" y="${12 + r * 32}" width="36.5" height="32.5" fill="${(c + r) % 2 ? '#0b1416' : '#FFF9F1'}"/>`;
+    h += '</g>';
+  }
+  $('bandeira').innerHTML = h;
+})();
+const colunas = [...Array(6)].map((_, c) => $('bc' + c));
+
+const ctx = $('fx').getContext('2d'), xz = $('xadrez').getContext('2d');
+const R = rng(5);
+const fumaca = [...Array(14)].map(() => ({ dx: R() * 50, dy: (R() - 0.5) * 30, v: 60 + R() * 120, r: 14 + R() * 18, t: R() * 0.3 }));
+
+// passagem de um carro: entra pela esquerda e sai pela direita
+const BASE = [292, 322, 352];              // linha do chão de cada faixa (o carro escala a partir da base)
+const PISTA_Y = BASE.map((b) => b - 170);   // topo do SVG (170px de altura)
+function passa(t, t0, dur) { const k = prog(t, t0, t0 + dur); return { k, x: lerp(-320, 1260, inOutCubic(k) * 0.35 + k * 0.65) }; }
+function linhasVelocidade(x, y, cor, a) {
+  ctx.strokeStyle = cor; ctx.globalAlpha = a; ctx.lineCap = 'round';
+  for (let i = 0; i < 5; i++) { const yy = y + 80 + i * 14, L = 90 + (i % 2) * 60;
+    ctx.lineWidth = 6 - i * 0.6; ctx.beginPath(); ctx.moveTo(x - 10 - i * 8, yy); ctx.lineTo(x - 10 - i * 8 - L, yy); ctx.stroke(); }
+  ctx.globalAlpha = 1;
+}
+function rodas(id, ang) { for (const n of [1, 2]) $(`${id}-r${n}`).setAttribute('transform', `rotate(${ang})`); }
+
+function render(t) {
+  t = ((t % DUR) + DUR) % DUR;
+  ctx.clearRect(0, 0, 1200, 370); xz.clearRect(0, 0, 1200, 370);
+  const final = t >= 6.45;
+
+  /* faixa central da pista corre (sensação de velocidade) até parar no final */
+  const vel = final ? 0 : 1;
+  $('faixa-centro').style.transform = `translateX(${-((t * 900) % 100) * vel}px)`;
+
+  /* bandeira: sobe, tremula e sai quando o texto entra */
+  const kb = outBack(prog(t, 0.05, 0.45)), sai = outCubic(prog(t, 1.45, 1.8));
+  T($('bandeira'), 470, lerp(-220, 10, kb) - sai * 260, 1, -6 + Math.sin(t * 5) * 4);
+  colunas.forEach((g, c) => g.setAttribute('transform', `translate(0 ${Math.sin(t * 11 - c * 0.9) * (3 + c * 1.6)}) skewY(${Math.cos(t * 11 - c * 0.9) * 4})`));
+
+  /* carros passando: amarelo 0,6s, rosa 1,4s, turquesa 2,1s; amarelo volta e derrapa até parar em 3,6s */
+  const cA = $('cA'), cB = $('cB'), cC = $('cC');
+  if (!final) {
+    const pB = passa(t, 1.25, 1.0), pC = passa(t, 1.95, 1.05);
+    T(cB, pB.x, PISTA_Y[0] + Math.sin(t * 40) * 1.5, 0.7, 0, pB.k > 0 && pB.k < 1 ? 1 : 0);
+    T(cC, pC.x, PISTA_Y[1] + Math.sin(t * 37) * 1.5, 0.76, 0, pC.k > 0 && pC.k < 1 ? 1 : 0);
+    if (pB.k > 0 && pB.k < 1) linhasVelocidade(pB.x + 30, PISTA_Y[0], '#FFF9F1', 0.55);
+    if (pC.k > 0 && pC.k < 1) linhasVelocidade(pC.x + 30, PISTA_Y[1], '#FFF9F1', 0.55);
+    rodas('cB', t * 1400); rodas('cC', t * 1500);
+    let ax, ay = PISTA_Y[2], ar = 0, ao = 1;
+    if (t < 1.6) { const p = passa(t, 0.45, 1.0); ax = p.x; ao = p.k > 0 && p.k < 1 ? 1 : 0;
+      if (ao) linhasVelocidade(ax + 30, ay, '#FDC51D', 0.6); rodas('cA', t * 1500); }
+    else { // volta pela esquerda, freia e derrapa no meio
+      const k = prog(t, 2.7, 3.6), e = outCubic(k);
+      ax = lerp(-320, 470, e); ao = t > 2.7 ? 1 : 0;
+      ar = Math.sin(k * Math.PI) * -7 + (k >= 1 ? Math.sin((t - 3.6) * 18) * 2 * (1 - prog(t, 3.6, 4.0)) : 0);
+      rodas('cA', 2.7 * 1500 + e * 900);
+      if (k > 0 && k < 1) linhasVelocidade(ax + 30, ay, '#FDC51D', 0.6 * (1 - k));
+      // fumaça da derrapagem
+      const df = t - 3.15;
+      if (df > 0 && df < 1.3) for (const f of fumaca) { const d = df - f.t; if (d < 0) continue;
+        const a = 0.5 * (1 - d / 1.0); if (a <= 0) continue;
+        ctx.fillStyle = `rgba(230,240,242,${a})`; ctx.beginPath();
+        ctx.arc(ax + 60 - f.dx - f.v * d, ay + 155 + f.dy - 30 * d, f.r * (1 + d * 1.5), 0, Math.PI * 2); ctx.fill(); }
+      // depois de parado, o carrinho "acelera no lugar"
+      if (k >= 1) ay += Math.abs(Math.sin(t * 22)) * -2 * (t < 6.2 ? 1 : 0);
+    }
+    T(cA, ax, ay, 0.82, ar, ao);
+  } else {
+    // final: os três carrinhos estacionados lado a lado (frota alinhada)
+    const ks = [0, 1, 2].map((i) => outBack(prog(t, 6.6 + i * 0.12, 7.0 + i * 0.12), 1.3));
+    T(cB, lerp(-320, 150, ks[0]), 340 - 170, 0.76, 0, 1);
+    T(cA, lerp(1300, 465, ks[1]), 352 - 170, 0.82, 0, 1);
+    T(cC, lerp(1300, 780, ks[2]), 340 - 170, 0.76, 0, 1);
+    rodas('cA', -ks[1] * 600); rodas('cB', ks[0] * 600); rodas('cC', -ks[2] * 600);
+  }
+
+  /* textos */
+  const k1a = outCubic(prog(t, 1.55, 1.8)), k1b = prog(t, 1.75, 2.05), s1 = outCubic(prog(t, 6.15, 6.4));
+  T($('t1a'), $('t1a')._x, lerp(-90, 12, k1a) - s1 * 300, 1, -2, k1a);
+  T($('t1b'), $('t1b')._x, 84 - s1 * 300, Math.max(0.001, k1b < 1 ? lerp(2.5, 1, outCubic(k1b)) : 1),
+    -3 + (k1b >= 1 ? Math.sin((t - 2.05) * 40) * 2.2 * (1 - prog(t, 2.05, 2.35)) : 0), k1b > 0 ? clamp(k1b * 3) : 0);
+  const k3 = outElastic(prog(t, 6.55, 7.2));
+  T($('t3'), $('t3')._x, 18, Math.max(0.001, k3), -2, k3 > 0 ? 1 : 0);
+  const k4 = outCubic(prog(t, 7.0, 7.3));
+  T($('local'), $('local')._x, 124 + (1 - k4) * 20, 1, 0, k4);
+
+  /* transição em xadrez 6,15 a 6,75s (quadrados crescem até cobrir, depois somem) */
+  const kx = prog(t, 6.1, 6.8);
+  if (kx > 0 && kx < 1) {
+    const L = 60;
+    for (let cx = 0; cx < 20; cx++) for (let cy = 0; cy < 7; cy++) {
+      const atraso = (cx + cy) / 26 * 0.45, k = clamp((kx - atraso) / 0.55);
+      const s = Math.sin(k * Math.PI);              // 0 -> 1 -> 0
+      if (s <= 0) continue;
+      xz.fillStyle = (cx + cy) % 2 ? '#0b1416' : '#FFF9F1';
+      const w = L * s; xz.fillRect(cx * L + (L - w) / 2, cy * L + (L - w) / 2, w + 0.5, w + 0.5);
+    }
+  }
+
+  /* faixa fixa: AQUI NO PARQUE pisca (cor a 1 Hz) e pulsa (2 Hz) — igual à peça da chuva */
+  const BAT = 0.5, fb = (t % BAT) / BAT, par = Math.floor(t / BAT) % 2 === 0, pulso = Math.exp(-fb * 6);
+  const aqui = $('aqui');
+  aqui.style.transform = `scale(${1 + 0.06 * pulso})`;
+  aqui.style.background = par ? '#D61F4A' : '#FDC51D';
+  aqui.style.color = par ? '#FFF9F1' : '#D61F4A';
+  aqui.style.boxShadow = `0 6px 0 ${par ? '#9c1235' : '#c98f00'}, 0 0 ${10 + 28 * pulso}px ${4 + 10 * pulso}px ${par ? 'rgba(214,31,74,.55)' : 'rgba(253,197,29,.65)'}`;
+  $('seta-p').setAttribute('fill', par ? '#FFF9F1' : '#D61F4A');
+  $('seta').style.transform = `translateY(${pulso * 9}px)`;
+  $('brilho').style.transform = `translateX(${((t % 5) / 5) * 1700 - 200}px)`;
+}
+
+window.render = render;
+window.__pronto = (async () => {
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
+  const encaixa = (el, maxW) => { let fs = parseFloat(getComputedStyle(el).fontSize);
+    while (el.scrollWidth > maxW && fs > 20) { fs--; el.style.fontSize = fs + 'px'; } };
+  encaixa($('t1b'), 1000); encaixa($('t3'), 1100);
+  for (const id of ['t1a', 't1b', 't3', 'local']) { const el = $(id); el._x = (1200 - el.scrollWidth) / 2; el.style.transformOrigin = 'center'; }
+  for (const c of CARROS) $(c.id).style.transformOrigin = '50% 100%';
+  $('bandeira').style.transformOrigin = '22px 190px';
+  return true;
+})();
+const q = new URLSearchParams(location.search);
+window.__pronto.then(() => {
+  if (q.has('render')) return;
+  if (q.has('t')) return render(parseFloat(q.get('t')));
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); };
+  loop();
+});
+</script>
+</body>
+</html>

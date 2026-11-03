@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Renderiza as peças de outdoor/ em MP4 (1200x480, 30fps, 10s, sem áudio).
-// Uso: node scripts/outdoor-render.mjs [chuva|racha] [--quadros 0.5,2,4]
+// Uso: node scripts/outdoor-render.mjs [chuva|circuito|racha] [--quadros 0.5,2,4]
 //   chuva (padrão) -> outdoor/led-chuva-1200x480.html -> faca-amigos-led-chuva-1200x480-10s.mp4
+//   circuito       -> outdoor/led-circuito-1200x480.html -> faca-amigos-led-circuito-1200x480-10s.mp4
 //   racha          -> outdoor/led-1200x480.html       -> faca-amigos-led-1200x480-10s.mp4
 //   --quadros salva só PNGs de conferência em outdoor/quadros/
 //
@@ -19,6 +20,7 @@ const { chromium } = await import(pathToFileURL(PW).href);
 const FPS = 30, DUR = 10, W = 1200, H = 480;
 const PECAS = {
   chuva: { pagina: 'led-chuva-1200x480.html', saida: 'faca-amigos-led-chuva-1200x480-10s.mp4' },
+  circuito: { pagina: 'led-circuito-1200x480.html', saida: 'faca-amigos-led-circuito-1200x480-10s.mp4' },
   racha: { pagina: 'led-1200x480.html', saida: 'faca-amigos-led-1200x480-10s.mp4' },
 };
 const peca = PECAS[process.argv[2]] || PECAS.chuva;
