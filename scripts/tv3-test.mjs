@@ -48,6 +48,13 @@ async function abrir(query = '', viewport = { width: 1920, height: 1080 }, opts 
       await route.fulfill({ response: r, body: corpo });
     });
   }
+  if (opts.comTag) {
+    // Religa o rastreamento (a tv3 vem com data-fa-sem-tag): serve para testar o evento tv3_slide e o interruptor reversível
+    await page.route(`${BASE}/tv3.html*`, async (route) => {
+      const r = await route.fetch();
+      await route.fulfill({ response: r, body: (await r.text()).replace(' data-fa-sem-tag', '') });
+    });
+  }
   if (opts.antes) await opts.antes(page);
   await page.goto(`${BASE}/tv3.html?debug=1${query ? '&' + query : ''}`);
   return page;
@@ -161,7 +168,7 @@ async function testeMotor() {
   ok((await page.locator('.tv-slide.active').getAttribute('data-id')) === 'a_tut', '?slide=a_tut fixa o slide');
   await page.context().close();
   // reprodução de verdade, com relógio acelerado
-  page = await abrir('exp=teste-exp&dia=3&seed=reproducao&vel=50', { width: 1920, height: 1080 }, { clock: '2026-12-01T16:00:00Z' });
+  page = await abrir('exp=teste-exp&dia=3&seed=reproducao&vel=50', { width: 1920, height: 1080 }, { clock: '2026-12-01T16:00:00Z', comTag: true });
   await page.clock.runFor(60 * 1000);
   const eventos = await page.evaluate(() => (window.dataLayer || []).filter((e) => e.event === 'tv3_slide'));
   const exps = new Set(eventos.map((e) => e.tv3_experiment));
