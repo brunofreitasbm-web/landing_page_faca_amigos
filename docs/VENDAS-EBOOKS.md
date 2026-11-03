@@ -28,8 +28,8 @@ Resumo:
 
 ## 1. Canais próprios (já no código; falta instalar e imprimir)
 
-- **TV da sala de espera da Clínica (`/tv3`)**: 2 slides novos na família E, em rodízio com o Mapeamento.
-  Dias 1, 3 e 5: capítulo 1 grátis do Guia. Dias 2 e 4: o Código (R$ 9,90). O QR abre a prévia da página,
+- **TV da sala de espera da Clínica (`/tv3`)**: 2 slides novos na família E, em toda volta: capítulo 1 grátis
+  do Guia e o Código (R$ 9,90). O QR abre a prévia da página,
   com `utm_source=tv3`. Entram no ar junto com a TV, quando a Clínica abrir (dezembro/2026).
 - **Cartaz de balcão A5**: `public/cartaz-ebooks/cartaz-ebooks-a5.pdf` (fonte em `public/cartaz-ebooks/index.html`;
   para gerar de novo: `node scripts/cartaz-ebooks-pdf.mjs`). Imprimir 1 para a recepção da Clínica e 1 para cada

@@ -19,7 +19,7 @@ Documento para a Isabella e para o dono do negócio. O texto de cada slide está
 
 **Legenda das fontes:** `LP` = este repositório (langing_page_faca_amigos) · `CF` = repositório clinica_facaamigos (código do Portal) · `PLANO` = PLANO-TV3.md · `briefing do pedido` = instruções desta tarefa (dados de NPS e sessões, endereços, texto de benefício).
 
-**Famílias:** A: 12, B: 9, C: 8, D: 7, E: 4 (2 por dia), R: 4 · total 44 slides · 600 s somados (sem repetir `a_lembrete`).
+**Famílias:** A: 12, B: 9, C: 8, D: 7, E: 4, R: 4 · total 44 slides · 600 s somados (sem repetir `a_lembrete`).
 
 
 ---
@@ -683,7 +683,7 @@ Família E · 15 s · QR: teste, layout padrao
   - Gratuito: LP/teste.html:941
 
 ### `e_ebook_guia` **[ISABELLA]**
-Família E · 15 s · QR: guia, layout padrao, capa inteira na lateral (imageFit retrato), dias 1,3,5
+Família E · 15 s · QR: guia, layout padrao, capa inteira na lateral (imageFit retrato)
 - **Intenção:** Reciprocidade antes da venda. O pedido é baixar o capítulo grátis, não comprar. Quem lê o começo decide sozinho, na página.
 - **Imagem:** `img/tv/ebook-guia-capa.webp` (original `img/tv3/ebook-guia-capa.webp`, cópia de `img/guia/capa.webp`)
 - **Texto na tela:**
@@ -705,7 +705,7 @@ Família E · 15 s · QR: guia, layout padrao, capa inteira na lateral (imageFit
   - Material educativo: LP/src/data/paginas/guia.html:335
 
 ### `e_ebook_codigo` **[ISABELLA]**
-Família E · 15 s · QR: codigo, layout padrao, capa inteira na lateral (imageFit retrato), dias 2,4
+Família E · 15 s · QR: codigo, layout padrao, capa inteira na lateral (imageFit retrato)
 - **Intenção:** Produto de entrada (R$ 9,90) com o preço à vista: a sala de espera tem tempo para ler um livro curto. O QR abre a prévia, não o checkout.
 - **Imagem:** `img/tv/ebook-codigo-capa.webp` (original `img/tv3/ebook-codigo-capa.webp`, cópia de `img/codigo/capa.webp`)
 - **Texto na tela:**
@@ -726,7 +726,7 @@ Família E · 15 s · QR: codigo, layout padrao, capa inteira na lateral (imageF
   - Preço R$ 9,90: LP/src/data/paginas/codigo.html:43, 228. **Se o preço mudar na Hotmart, mudar aqui também.**
   - Sumário na prévia (`/codigo#h-previa`): LP/src/data/paginas/codigo.html:168-176
 
-**Rodízio da família E:** para a volta continuar dentro de 12 min (teste do motor), cada dia tem um slide do Mapeamento e um de e-book: dias 1,3,5 `e_oque_e` + `e_ebook_guia`; dias 2,4 `e_indicar` + `e_ebook_codigo`.
+**Família E todos os dias:** os 2 slides do Mapeamento e os 2 de e-book entram em toda volta. Para caber, o teto da volta no teste do motor subiu de 12 para 13 min de roteiro (~16 min na tela, com `ritmo` 1,25).
 
 
 ---
@@ -845,7 +845,7 @@ Endereço, horário, "mesmos preços, mesma equipe e mesmos atrativos" e o Whats
 - `k_vem` · QR: graopara · "Brinque também no Grão-Pará."
 - `k_equipe` · dias 2 e 4 · sem QR · "No Grão-Pará, a mesma equipe do Parque Shopping."
 
-## Rodízio por dia (para a volta ficar em até 12 min)
+## Rodízio por dia (para a volta ficar em até 13 min de roteiro)
 
 `d_fds` e `d_prova` dias 1, 3 e 5; `d_quando_ir` e `d_beneficio` dias 2 e 4; `f_pergunte` dias 1, 3 e 5; `p_combinam` dias 2 e 4; `p_parcelas` dias 1, 3 e 5.
 

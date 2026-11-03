@@ -945,10 +945,6 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "teste",
-    "dia": [
-      2,
-      4
-    ],
     "isabella": false,
     "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
@@ -974,11 +970,6 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "teste",
-    "dia": [
-      1,
-      3,
-      5
-    ],
     "isabella": true,
     "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
@@ -1004,11 +995,6 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "guia",
-    "dia": [
-      1,
-      3,
-      5
-    ],
     "isabella": true,
     "image": "img/tv/ebook-guia-capa.webp",
     "imageFit": "retrato",
@@ -1031,10 +1017,6 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "codigo",
-    "dia": [
-      2,
-      4
-    ],
     "isabella": true,
     "image": "img/tv/ebook-codigo-capa.webp",
     "imageFit": "retrato",
