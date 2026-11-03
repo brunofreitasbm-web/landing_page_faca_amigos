@@ -328,8 +328,8 @@ aqui é a configuração técnica, não uma orientação legal.
    Wi-Fi" do `/admin` e procure a linha dele. O portal libera a internet mesmo se o envio do lead
    falhar (é de propósito), então Wi-Fi funcionando **não prova** que o cadastro foi gravado. Sem
    linha, o walled garden da seção 6 está errado. Depois feche a janela do CNA (comportamento
-   normal do iOS/Android) e confirme que o e-mail do cupom chegou mesmo assim — **este é o teste
-   mais importante do projeto**.
+   normal do iOS/Android) e confirme que a linha do cadastro continua lá (o portal não envia mais e-mail
+   nem cupom) — **este é o teste mais importante do projeto**.
 5. Desconectar e reconectar o mesmo aparelho → anotar se o formulário volta ou não, e qual tela
    aparece. Se o formulário voltar, aplique o plano B da seção 5.
 6. Com um aparelho **não logado**, tentar abrir um site fora da lista → deve cair no portal, não
@@ -342,8 +342,8 @@ aqui é a configuração técnica, não uma orientação legal.
 ## Fases 2 e 3 — já implementadas no repositório
 
 - **Backend:** `supabase/migrations/20260919120000_fa_wifi_leads.sql` (tabela
-  `fa_wifi_leads`) + `supabase/functions/wifi-lead-webhook/` (grava o lead, gera o
-  cupom `ESPERA-XXXX` e envia por Brevo) + `supabase/functions/wifi-coupon-admin/`
+  `fa_wifi_leads`) + `supabase/functions/wifi-lead-webhook/` (grava o lead; desde 03/11/2026 não gera
+  cupom nem envia e-mail: o `ESPERA-XXXX` nasce no Mural, via `wifi-mural-coupon`) + `supabase/functions/wifi-coupon-admin/`
   (consulta/resgate do cupom pelo balcão). Migration aplicada e as duas functions
   implantadas em 19/09/2026 (projeto `ivjvpdzsfjdpyabbzzuj`).
 - **Site:** `wifi.html` na raiz do repo, rota `/wifi` (via `cleanUrls` do Vercel),
@@ -357,11 +357,11 @@ aqui é a configuração técnica, não uma orientação legal.
 
 ## Resgate do cupom e resumo
 
-- **Um cupom por cliente a cada 30 dias.** Quem se cadastra de novo com o mesmo WhatsApp (com ou sem o 9), o mesmo
-  e-mail ou o mesmo aparelho antes de 30 dias, contados da emissão do cupom anterior, tem o Wi-Fi liberado, mas não
-  recebe cupom nem e-mail novos: o cadastro só soma uma visita. O cupom vale 15 dias, então entre o dia 16 e o 30 o
-  cliente fica sem cupom. Se o e-mail do primeiro cadastro falhou, ele pode tentar de novo. Quem digitou o e-mail
-  errado fica sem o cupom até os 30 dias; a recepção encontra o código pelo nome na aba Cupons Wi-Fi.
+- **O cupom só nasce no Mural da Família** (função `wifi-mural-coupon`), para o responsável cadastrado na Clínica: 1
+  por responsável a cada 30 dias, vale 15 dias. O cadastro do Wi-Fi não emite cupom nem envia e-mail. Quem se
+  cadastra de novo com o mesmo WhatsApp (com ou sem o 9), o mesmo e-mail ou o mesmo aparelho antes de 30 dias só soma
+  uma visita ao cadastro existente. A aba Cupons Wi-Fi lista só linhas com cupom; o resumo do dono conta todos os
+  cadastros, mas as métricas de cupom consideram só as linhas com cupom.
 
 - **Aba "Cupons Wi-Fi" do `/admin`** (entrada pelo Hub de Gestão; a equipe usa o login direto limitado): lista os
   cadastros, mostra o código, o nome e o status, e resgata no Playground ou no Circuito (um benefício por cupom, cupom

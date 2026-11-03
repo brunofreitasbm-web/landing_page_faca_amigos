@@ -958,6 +958,7 @@ Deno.serve(async (req) => {
       .select(
         "id, guardian_name, guardian_phone, guardian_email, coupon_code, coupon_status, coupon_operation, coupon_expires_at, last_redeemed_at, redeemed_count, visit_count, created_at, marketing_opt_in_whatsapp, marketing_opt_in_email, kiosk_coupon_synced_at, kiosk_coupon_error, playground_coupon_synced_at, playground_coupon_error, graopara_coupon_synced_at, graopara_coupon_error",
       )
+      .not("coupon_code", "is", null) // cadastro do portal sem cupom não aparece na aba de cupons
       .order("created_at", { ascending: false })
       .limit(100);
     if (!equipe && optin === "whatsapp") query = query.eq("marketing_opt_in_whatsapp", true);
@@ -1039,9 +1040,10 @@ Deno.serve(async (req) => {
       vigentes: 0, vencem_em_3_dias: 0, vencidos_sem_uso: 0,
       falhas_caixa: 0, falhas_email: 0,
     };
+    let comCupom = 0;
     for (const l of leads) {
       const criado = new Date(String(l.created_at)).getTime();
-      const code = String(l.coupon_code);
+      const code = l.coupon_code ? String(l.coupon_code) : null;
       if (criado >= todayStart) r.hoje++;
       if (criado >= now - 7 * DAY) r.ultimos_7_dias++;
       if (criado >= now - 30 * DAY) r.ultimos_30_dias++;
@@ -1051,6 +1053,9 @@ Deno.serve(async (req) => {
       if (l.marketing_opt_in_email) r.optin_email++;
       if (Number(l.visit_count ?? 1) > 1) r.voltaram++;
 
+      // Cadastro do portal sem cupom (o cupom agora nasce no Mural): conta como cadastro, mas fora das métricas de cupom.
+      if (!code) continue;
+      comCupom++;
       const naAba = Number(l.redeemed_count ?? 0) > 0;
       const noPlay = uso.playground.has(code);
       const noGrao = uso.graopara.has(code);
@@ -1077,7 +1082,7 @@ Deno.serve(async (req) => {
     }
     return jsonResponse(req, {
       ...r,
-      taxa_resgate: leads.length ? Math.round((r.resgatados / leads.length) * 100) : 0,
+      taxa_resgate: comCupom ? Math.round((r.resgatados / comCupom) * 100) : 0,
       por_dia: Object.entries(porDia).map(([data, total]) => ({ data, total })),
     });
   }

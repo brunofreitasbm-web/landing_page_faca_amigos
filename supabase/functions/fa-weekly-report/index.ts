@@ -8,7 +8,7 @@
 //  - leads com área em atenção especial (tier3) e quantos seguem sem contato há mais de 48h;
 //  - compras de e-book (fa_ebook_compras por produto: compras, receita, reembolsos/chargebacks/cancelamentos) e
 //    carrinhos abandonados (fa_ebook_carrinhos) com quantos foram recuperados;
-//  - Wi-Fi da clínica (fa_wifi_leads): cadastros (cada cadastro emite um cupom), opt-ins e cupons resgatados por
+//  - Wi-Fi da clínica (fa_wifi_leads): cadastros do portal (não emitem cupom; o cupom nasce no Mural), opt-ins e cupons resgatados por
 //    operação (playground / circuito);
 //  - e-mails da sequência do guia enviados (fa_teste_ebook_seq).
 //
