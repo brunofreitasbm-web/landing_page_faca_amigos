@@ -137,7 +137,8 @@ async function testeMotor() {
     });
     ok(problemas.size === 0, `dia ${dia}: ${ROUNDS} voltas respeitam abertura, fechamento, famílias alternadas, weight e cadência`, [...problemas].slice(0, 4).join(' | '));
     const media = somaDur / ROUNDS / 60;
-    ok(media >= 7 && media <= 12, `dia ${dia}: volta média de ${media.toFixed(1)} min (entre 7 e 12)`);
+    // teto em tempo de roteiro; na tela multiplica por CONFIG.ritmo (1,25: 13 min viram ~16 min)
+    ok(media >= 7 && media <= 13, `dia ${dia}: volta média de ${media.toFixed(1)} min (entre 7 e 13)`);
     ok(comDica / comArco >= 0.95, `dia ${dia}: dica (C) antes do pedido do Portal em ${Math.round(100 * comDica / comArco)}% das voltas`);
     const unicos = new Set(voltas.flat().map((s) => s.id));
     ok(unicos.size >= 25, `dia ${dia}: ${unicos.size} slides diferentes aparecem`);
