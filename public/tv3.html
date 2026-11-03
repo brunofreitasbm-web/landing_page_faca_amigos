@@ -110,7 +110,7 @@
     .tv-brand {
       display: flex;
       align-items: center;
-      gap: 18px;
+      
     }
 
     .tv-logo-symbol {
@@ -133,7 +133,7 @@
       line-height: 1;
       display: flex;
       align-items: center;
-      gap: 10px;
+      
     }
 
     .tv-brand-badge {
@@ -159,7 +159,7 @@
     .tv-header-center {
       display: flex;
       align-items: center;
-      gap: 28px;
+      
       background: rgba(255, 255, 255, 0.1);
       padding: 8px 24px;
       border-radius: 999px;
@@ -169,7 +169,7 @@
     .tv-live-tag {
       display: flex;
       align-items: center;
-      gap: 8px;
+      
       font-size: 14px;
       font-weight: 800;
       letter-spacing: 0.5px;
@@ -196,13 +196,13 @@
       color: rgba(255, 255, 255, 0.9);
       display: flex;
       align-items: center;
-      gap: 8px;
+      
     }
 
     .tv-clock-box {
       display: flex;
       align-items: center;
-      gap: 16px;
+      
       text-align: right;
     }
 
@@ -317,7 +317,7 @@
     .tv-kicker {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      
       background: var(--yellow);
       color: var(--petrol-deep);
       padding: 8px 18px;
@@ -342,7 +342,7 @@
 
     .tv-headline {
       font-family: var(--font-display);
-      font-size: clamp(40px, 2.9vw, 56px);
+      font-size: 52px;
       line-height: 1.16;
       color: var(--white);
       margin-bottom: 14px;
@@ -380,13 +380,13 @@
     .tv-action-header {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      
     }
 
     .tv-pill-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      
       align-self: flex-start;
       padding: 6px 14px;
       background: var(--petrol-soft);
@@ -418,7 +418,7 @@
       flex-direction: column;
       text-align: center;
       align-items: center;
-      gap: 16px;
+      
       background: var(--white);
       padding: 20px 24px;
       border-radius: 28px;
@@ -448,7 +448,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      
     }
 
     .tv-qr-callout {
@@ -479,7 +479,7 @@
       border-left: 5px solid var(--teal-dark);
       display: flex;
       align-items: center;
-      gap: 16px;
+      
     }
 
     .tv-highlight-icon {
@@ -504,7 +504,7 @@
     .tv-step-item {
       display: flex;
       align-items: center;
-      gap: 16px;
+      
       background: rgba(255, 255, 255, 0.12);
       backdrop-filter: blur(10px);
       padding: 12px 18px;
@@ -529,7 +529,7 @@
     .tv-step-body {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      
     }
 
     .tv-step-body strong {
@@ -557,7 +557,7 @@
       padding: 14px 18px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      
     }
 
     .tv-vs-box.bad {
@@ -577,7 +577,7 @@
       letter-spacing: 0.8px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      
     }
 
     .tv-vs-box.bad .tv-vs-header { color: #FFA8B6; }
@@ -587,7 +587,7 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      
       font-size: 13.5px;
       font-weight: 700;
       color: var(--white);
@@ -596,7 +596,7 @@
     .tv-vs-list li {
       display: flex;
       align-items: flex-start;
-      gap: 6px;
+      
       line-height: 1.25;
     }
 
@@ -614,35 +614,20 @@
       z-index: 50;
     }
 
-    .tv-progress-container {
-      position: absolute;
-      top: -4px;
-      left: 0;
-      right: 0;
-      height: 6px;
-      background: rgba(6, 82, 100, 0.15);
-      overflow: hidden;
-    }
 
-    .tv-progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--teal), var(--pink));
-      transition: width 0.1s linear;
-    }
 
     .tv-footer-amenities {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 32px;
+      
       flex: 1;
     }
 
     .tv-amenity-item {
       display: flex;
       align-items: center;
-      gap: 10px;
+      
       font-size: 15px;
       font-weight: 800;
       color: var(--petrol-deep);
@@ -684,7 +669,7 @@
       bottom: 74px;
       right: 44px;
       display: flex;
-      gap: 10px;
+      
       z-index: 100;
       opacity: 0;
       transform: translateY(10px);
@@ -710,7 +695,7 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      
       transition: background 0.2s, transform 0.2s;
     }
 
@@ -735,7 +720,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      gap: 18px;
+      
       padding: 32px 36px;
     }
     .tv-qr-big {
@@ -787,15 +772,15 @@
     .tv-slide.pacotes .tv-visual-text { padding: 26px 44px 0; }
     .tv-slide.pacotes .tv-headline { font-size: 52px; margin-bottom: 0; }
     .tv-slide.pacotes .tv-kicker { margin-bottom: 10px; font-size: 16px; }
-    .tv-pacotes-row { flex: 1; min-height: 0; display: flex; justify-content: center; align-items: center; gap: 24px; padding: 12px 44px 0; }
-    .tv-pacotes-row img { flex: 0 1 calc((100% - 48px) / 3); max-height: 100%; width: auto; min-width: 0; aspect-ratio: 1; object-fit: contain; border-radius: 30px; box-shadow: 0 14px 34px rgba(3, 45, 55, 0.16); }
+    .tv-pacotes-row { flex: 1; min-height: 0; display: flex; justify-content: center; align-items: center;  padding: 12px 44px 0; }
+    .tv-pacotes-row img { flex: 0 1 calc((100% - 48px) / 3); max-height: 100%; width: auto; min-width: 0; object-fit: contain; border-radius: 30px; box-shadow: 0 14px 34px rgba(3, 45, 55, 0.16); }
     .tv-pacotes-nota { padding: 10px 44px 24px; font-size: 24px; font-weight: 700; color: var(--ink-soft); text-align: center; }
     .tv-slide.cartao .tv-visual-card { justify-content: center; }
     .tv-slide.cartao .tv-visual-text { max-width: 56%; }
     .tv-slide.cartao .tv-headline { font-size: 60px; }
     .tv-slide.cartao.solo .tv-visual-text { max-width: 48%; }
     .tv-slide.cartao.solo .tv-cartao-mascote { height: 56%; right: 9%; }
-    .tv-cartao-circulo { position: absolute; right: -9%; bottom: -26%; width: 62%; aspect-ratio: 1; border-radius: 50%; background: var(--accent-soft, #FFF0B8); z-index: 1; }
+    .tv-cartao-circulo { position: absolute; right: -9%; bottom: -26%; width: 62%; height: 0; padding-bottom: 62%; border-radius: 50%; background: var(--accent-soft, #FFF0B8); z-index: 1; }
     .tv-cartao-mascote { position: absolute; right: 7%; bottom: 6%; height: 50%; width: auto; z-index: 2; filter: drop-shadow(0 10px 18px rgba(3, 45, 55, 0.18)); }
     .tv-cartao-chip { display: inline-flex; margin-top: 18px; padding: 10px 24px; border-radius: 999px; background: var(--yellow); color: var(--petrol-deep); font-family: var(--font-display); font-size: 30px; box-shadow: 0 6px 16px rgba(245, 158, 11, 0.28); }
 
@@ -816,7 +801,7 @@
     #tvStage.t32 .tv-header-info { font-size: 18px; }
     #tvStage.t32 .tv-clock-time { font-size: 44px; }
     #tvStage.t32 .tv-clock-date { font-size: 20px; }
-    #tvStage.t32 .tv-amenity-item { font-size: 26px; gap: 12px; }
+    #tvStage.t32 .tv-amenity-item { font-size: 26px;  }
     #tvStage.t32 .tv-rodape-insta b { color: var(--pink-dark); }
     #tvStage.t32 .tv-rodape-site b { color: var(--petrol); background: var(--petrol-soft); }
     #tvStage.t32 .tv-amenity-icon { font-size: 24px; width: 42px; height: 42px; }
@@ -838,9 +823,9 @@
     #tvStage.t32 .tv-pill-badge { font-size: 22px; }
     #tvStage.t32 .tv-action-title { font-size: calc(38px * var(--k)); }
     #tvStage.t32 .tv-action-desc { font-size: calc(25px * var(--k)); }
-    #tvStage.t32 .tv-qr-wrapper { flex-direction: row; text-align: left; align-items: center; gap: 24px; padding: 18px 22px; margin: 10px 0; }
+    #tvStage.t32 .tv-qr-wrapper { flex-direction: row; text-align: left; align-items: center;  padding: 18px 22px; margin: 10px 0; }
     #tvStage.t32 .tv-qr-box { width: var(--qr); height: var(--qr); padding: 4px; }
-    #tvStage.t32 .tv-qr-text { align-items: flex-start; flex: 1; min-width: 0; gap: 8px; }
+    #tvStage.t32 .tv-qr-text { align-items: flex-start; flex: 1; min-width: 0;  }
     #tvStage.t32 .tv-qr-callout { font-size: calc(34px * var(--k)); }
     #tvStage.t32 .tv-qr-instructions { font-size: calc(26px * var(--k)); }
     #tvStage.t32 .tv-qr-subhint { font-size: calc(24px * var(--k)); }
@@ -861,12 +846,12 @@
     #tvStage.portrait-mode .tv-slide.retrato .tv-image-overlay { background: linear-gradient(180deg, rgba(6, 82, 100, 0.1) 0%, rgba(3, 45, 55, 0.4) 45%, rgba(3, 45, 55, 0.95) 100%); }
     #tvStage.portrait-mode .tv-slide.retrato .tv-visual-text { max-width: 100%; }
     #tvStage.portrait-mode .tv-slide.retrato .tv-headline { max-width: 100%; }
-    #tvStage.portrait-mode .tv-pacotes-row { flex-direction: column; gap: 18px; padding: 14px 30px 0; }
+    #tvStage.portrait-mode .tv-pacotes-row { flex-direction: column;  padding: 14px 30px 0; }
     #tvStage.portrait-mode .tv-pacotes-row img { flex: 0 1 calc((100% - 36px) / 3); height: calc((100% - 36px) / 3); width: auto; max-width: 100%; max-height: none; }
     #tvStage.portrait-mode .tv-slide.cartao .tv-visual-card { justify-content: flex-start; }
     #tvStage.portrait-mode .tv-slide.cartao .tv-visual-text { max-width: 100%; padding-top: 70px; }
     #tvStage.portrait-mode .tv-slide.cartao .tv-cartao-mascote { height: 34%; right: 6%; bottom: 3%; }
-    #tvStage.portrait-mode .tv-slide.cartao .tv-cartao-circulo { width: 90%; right: -20%; bottom: -14%; }
+    #tvStage.portrait-mode .tv-slide.cartao .tv-cartao-circulo { width: 90%; padding-bottom: 90%; right: -20%; bottom: -14%; }
     #tvStage.portrait-mode .tv-slide.solo .tv-headline,
     #tvStage.portrait-mode .tv-slide.solo .tv-subtext { max-width: 100%; }
 
@@ -877,17 +862,56 @@
     /* o anel tracejado só muda de opacidade (não cresce), então nunca invade o texto: fica a 18 px do QR */
     .tv-qr-box.arte::after, .tv-qr-big.arte::after { content: ''; position: absolute; top: -18px; right: -18px; bottom: -18px; left: -18px; border: 4px dashed var(--qr-acento, #E01560); border-radius: 40px; opacity: 0.3; pointer-events: none; animation: qrPulso 2.6s ease-in-out infinite; }
     @keyframes qrPulso { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.75; } }
-    .tv-qr-wrapper.arte { gap: 40px; padding: 28px 24px; }
+    .tv-qr-wrapper.arte {  padding: 28px 24px; }
     .tv-qr-mascote { display: none; width: auto; height: auto; max-height: 170px; max-width: 290px; filter: drop-shadow(0 8px 12px rgba(3, 45, 55, 0.22)); pointer-events: none; }
     #tvStage.t32 .tv-qr-wrapper.arte { align-items: stretch; }
     #tvStage.t32 .tv-qr-text .tv-qr-mascote { display: block; margin-top: auto; align-self: flex-end; }
     #tvStage.t32 .tv-qr-wrapper { padding: 26px 30px; }
-    #tvStage.t32 .tv-qr-wrapper.arte { gap: 52px; padding: 26px 12px; background: transparent; border: 0; box-shadow: none; }
+    #tvStage.t32 .tv-qr-wrapper.arte {  padding: 26px 12px; background: transparent; border: 0; box-shadow: none; }
     .tv-qr-big.arte { margin-bottom: 30px; }
     .tv-qr-big.arte .tv-qr-mascote { display: block; position: absolute; right: -196px; bottom: 0; max-height: 180px; max-width: 150px; }
     #tvStage.t32 .tv-action-card, #tvStage.t32 .tv-step-item { backdrop-filter: none; -webkit-backdrop-filter: none; }
     #tvStage.t32 .tv-step-item { background: rgba(3, 45, 55, 0.55); }
     @media (prefers-reduced-motion: reduce) { .tv-qr-box.arte::after, .tv-qr-big.arte::after { animation: none; opacity: 0.4; } }
+
+
+    /* ==========================================================================
+       ESPAÇO ENTRE ITENS SEM "gap" EM CAIXA FLEXÍVEL. O "gap" de flex só existe a partir do Chrome 84 e o navegador da TV é
+       mais antigo (na foto da TV o ponto verde colou no texto e o QR colou no texto ao lado). Por isso o espaço entre filhos é
+       feito com margem, que funciona em qualquer navegador. "gap" só sobrou em contêiner de GRADE (.tv-slide, passos e comparativo).
+       ========================================================================== */
+    .tv-brand > * + * { margin-left: 18px; }
+    .tv-brand-badge { margin-left: 10px; }
+    .tv-live-dot { margin-right: 8px; }
+    .tv-header-center > * + * { margin-left: 28px; }
+    .tv-clock-box > * + * { margin-left: 16px; }
+    .tv-highlight-box > * + * { margin-left: 16px; }
+    .tv-step-item > * + * { margin-left: 16px; }
+    .tv-vs-list li > * + * { margin-left: 6px; }
+    .tv-amenity-item > * + * { margin-left: 10px; }
+    #tvStage.t32 .tv-amenity-item > * + * { margin-left: 12px; }
+    .tv-footer-amenities > * + * { margin-left: 32px; }
+    .tv-mock-head > * + * { margin-left: 14px; }
+    .tv-mock-tabs > * + * { margin-left: 10px; }
+    .tv-pacotes-row > * + * { margin-left: 24px; }
+    #tvStage.portrait-mode .tv-pacotes-row > * + * { margin-left: 0; margin-top: 18px; }
+    .tv-action-header > * + * { margin-top: 12px; }
+    .tv-qr-wrapper > * + * { margin-top: 16px; }
+    .tv-qr-wrapper.arte > * + * { margin-top: 40px; }
+    .tv-qr-text > * + * { margin-top: 6px; }
+    #tvStage.t32 .tv-qr-text > * + * { margin-top: 8px; }
+    .tv-step-body > * + * { margin-top: 2px; }
+    .tv-vs-box > * + * { margin-top: 8px; }
+    .tv-vs-list > * + * { margin-top: 9px; }
+    .tv-action-card.tutorial > * + * { margin-top: 18px; }
+    /* no painel do QR da TV de 32" o QR fica à esquerda e o texto à direita: o espaço passa a ser lateral */
+    #tvStage.t32 .tv-qr-wrapper > * + * { margin-top: 0; margin-left: 24px; }
+    #tvStage.t32 .tv-qr-wrapper.arte > * + * { margin-top: 0; margin-left: 52px; }
+
+    /* TV de 32" (painel HD): sem zoom lento na foto e sem deslizar o slide inteiro; só um fade curto. Menos trabalho para a GPU. */
+    #tvStage.t32 .tv-slide, #tvStage.t32 .tv-slide.active { transform: none; transition: opacity 0.45s ease, visibility 0.45s; }
+    #tvStage.t32 .tv-slide-image, #tvStage.t32 .tv-slide.active .tv-slide-image { transform: none; transition: none; }
+    .tv-hud > * + * { margin-left: 10px; }
 
     /* Respiro: foto cheia e uma frase */
     .tv-slide.respiro .tv-image-overlay {
@@ -917,12 +941,12 @@
       padding: 18px 24px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      
       font-family: var(--font-display);
       font-size: 30px;
     }
     .tv-mock-head em { color: var(--yellow); font-style: normal; }
-    .tv-mock-tabs { display: flex; gap: 10px; padding: 16px 20px; flex-wrap: wrap; }
+    .tv-mock-tabs { display: flex;  padding: 16px 20px; flex-wrap: wrap; }
     .tv-mock-tabs span {
       background: var(--petrol-soft);
       color: var(--petrol);
@@ -938,7 +962,7 @@
     .tv-vs-box.left .tv-vs-header { color: var(--white); }
     .tv-vs-box.right .tv-vs-header { color: #A7F3D0; }
     .tv-vs-header { font-size: 17px; }
-    .tv-vs-list { font-size: 19px; gap: 9px; }
+    .tv-vs-list { font-size: 19px;  }
     .tv-vs-box { padding: 18px 22px; }
   </style>
 </head>
@@ -971,7 +995,7 @@
 
       <div class="tv-clock-box">
         <div>
-          <div class="tv-clock-time" id="clockTime">00:00:00</div>
+          <div class="tv-clock-time" id="clockTime">00:00</div>
           <div class="tv-clock-date" id="clockDate">Carregando data...</div>
         </div>
       </div>
@@ -984,9 +1008,6 @@
 
     <!-- RODAPÉ DA TV -->
     <footer class="tv-footer">
-      <div class="tv-progress-container">
-        <div class="tv-progress-bar" id="progressBar"></div>
-      </div>
 
       <div class="tv-footer-amenities">
         <div class="tv-amenity-item tv-rodape-site">
@@ -1356,19 +1377,16 @@
       // MONTAGEM DO SLIDE (criado na hora e removido depois: a TV não guarda 40 fotos decodificadas)
       // ======================================================================
       const container = document.getElementById('slideContainer');
-      const progressBar = document.getElementById('progressBar');
       const slideCounter = document.getElementById('slideCounter');
       const stage = document.getElementById('tvStage');
       const tvHud = document.getElementById('tvHud');
 
-      const state = { round: [], idx: -1, n: 0, currentMs: 0 };
+      const state = { round: [], idx: -1, n: 0, currentMs: 0, troca: 0 };
       let currentEl = null;
       let slideTimer = null;
-      let progressTimer = null;
       let isPaused = false;
       let currentRotation = 0;
       let rotOverride = null; // ?rot=… na URL ou a tecla R; sem isso a rotação sai de CONFIG.orientacao e da forma da tela
-      let progressStartTime = 0;
       let hudTimeout = null;
 
       const DIAS_SEMANA = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
@@ -1427,11 +1445,13 @@
 
       function buildSlideEl(raw) {
         const s = deepFill(raw);
+        const sorteada = raw._img; // foto já sorteada e pré-carregada (prepararSlide)
+        delete raw._img;
         const layout = s.layout || 'padrao';
         const hasQr = !!(s.qr && QR[s.qr]);
         const el = document.createElement('article');
         const cls = layout === 'respiro' ? 'respiro solo' : layout === 'tutorial' ? 'tutorial' : layout === 'pacotes' ? 'solo pacotes' : (layout === 'cartao' ? (hasQr ? '' : 'solo') + ' cartao' : (hasQr ? '' : 'solo'));
-        const img = slideImage(s) || '';
+        const img = (sorteada !== undefined ? sorteada : slideImage(s)) || '';
         // Foto vertical (arquivo terminado em -v.webp, ou foto nova de altura maior que largura) vai para a lateral, sem esticar
         const vertical = s.imageFit === 'retrato' || img.retrato || /-v\.webp$/.test(img.src || img);
         el.className = 'tv-slide' + (cls ? ' ' + cls : '') + (vertical ? ' retrato' : '');
@@ -1520,6 +1540,50 @@
         while (estoura() && qr > 260) { qr -= 20; el.style.setProperty('--qr', qr + 'px'); }
       }
 
+      // ======================================================================
+      // PRÉ-CARGA: a foto (e o mascote) do PRÓXIMO slide baixa enquanto o slide atual está na tela
+      // ======================================================================
+      const preCarga = {};
+      const preOrdem = [];
+      function carregarImagem(src) {
+        if (!src) return null;
+        if (preCarga[src]) return preCarga[src];
+        const im = new Image();
+        im.decoding = 'async';
+        im.src = src;
+        preCarga[src] = im;
+        preOrdem.push(src);
+        while (preOrdem.length > 10) delete preCarga[preOrdem.shift()]; // só as últimas 10: a TV tem pouca memória
+        return im;
+      }
+      function urlsDoSlide(item) {
+        const u = [];
+        const img = item._img;
+        if (img) u.push(img.src || img);
+        if (item.mascot) u.push(item.mascot);
+        (item.cards || []).forEach((c) => u.push(c));
+        if (item.qr && qrArte() && QR_ARTE[item.qr]) u.push('img/tv/mascote-' + QR_ARTE[item.qr][1] + '.webp');
+        return u;
+      }
+      // Sorteia a foto uma vez só (guarda em _img) para o slide mostrar a mesma que foi pré-carregada
+      function prepararSlide(item) {
+        if (item._img === undefined) item._img = slideImage(item) || '';
+        return urlsDoSlide(item).map(carregarImagem).filter(Boolean);
+      }
+      function esperarImagens(ims, ms, fn) {
+        const falta = ims.filter((im) => !im.complete);
+        if (!falta.length) return fn();
+        let feito = false;
+        const fim = () => { if (!feito) { feito = true; fn(); } };
+        let restam = falta.length;
+        falta.forEach((im) => {
+          const um = () => { restam--; if (restam <= 0) fim(); };
+          im.addEventListener('load', um);
+          im.addEventListener('error', um);
+        });
+        setTimeout(fim, ms);
+      }
+
       // instant=true: sem transição (usado pelos testes)
       function showSlide(item, instant) {
         const el = buildSlideEl(item);
@@ -1540,6 +1604,8 @@
         }
         updateCounter();
         armTimer(OV.slide || instant ? 1e9 : item.dur * 1000 * CONFIG.ritmo / OV.vel);
+        const seguinte = !instant && !OV.slide ? state.round[state.idx + 1] : null;
+        if (seguinte && seguinte !== item) prepararSlide(seguinte);
 
         if (window.dataLayer) {
           window.dataLayer.push({
@@ -1563,28 +1629,21 @@
           if (!state.round.length) return;
         }
         state.idx++;
-        showSlide(state.round[state.idx]);
+        // só troca de slide quando a foto já chegou (no máx. 3 s de espera): antes o texto aparecia e a foto vinha segundos depois
+        const item = state.round[state.idx];
+        const troca = ++state.troca;
+        esperarImagens(prepararSlide(item), 3000, () => { if (troca === state.troca) showSlide(item); });
       }
       function nextSlide() { playNext(); }
       function prevSlide() { state.idx = Math.max(-1, state.idx - 2); playNext(); }
 
       // ======================================================================
-      // BARRA DE PROGRESSO E TEMPORIZADOR
+      // TEMPORIZADOR DO SLIDE (sem barra de progresso: ela redesenhava a tela a cada 80 ms)
       // ======================================================================
       function armTimer(ms) {
-        clearInterval(progressTimer);
         clearTimeout(slideTimer);
-        progressBar.style.width = '0%';
         state.currentMs = ms;
         if (isPaused) return;
-
-        progressStartTime = Date.now();
-        progressTimer = setInterval(() => {
-          if (isPaused) return;
-          const pct = Math.min(100, ((Date.now() - progressStartTime) / ms) * 100);
-          progressBar.style.width = pct + '%';
-          if (pct >= 100) clearInterval(progressTimer);
-        }, 80);
         slideTimer = setTimeout(() => { if (!isPaused) playNext(); }, ms);
       }
 
@@ -1593,7 +1652,6 @@
         const btn = document.getElementById('btnPause');
         if (isPaused) {
           btn.innerHTML = '▶ [Espaço] Continuar';
-          clearInterval(progressTimer);
           clearTimeout(slideTimer);
         } else {
           btn.innerHTML = '⏸ [Espaço] Pausar';
@@ -1656,13 +1714,17 @@
       // ======================================================================
       // RELÓGIO DIGITAL E DATA EM TEMPO REAL
       // ======================================================================
+      // Só horas e minutos (sem segundos): o cabeçalho deixa de ser redesenhado todo segundo, o que ajuda a TV a não engasgar.
+      // Confere a cada 5 s, mas só mexe na tela quando o minuto muda.
+      let relogioAtual = '';
       function updateClock() {
         const b = belemNow();
-        const timeEl = document.getElementById('clockTime');
-        const dateEl = document.getElementById('clockDate');
-        timeEl.textContent = [b.hours, b.minutes, b.seconds].map(n => String(n).padStart(2, '0')).join(':');
+        const hhmm = [b.hours, b.minutes].map(n => String(n).padStart(2, '0')).join(':');
+        if (hhmm === relogioAtual) return;
+        relogioAtual = hhmm;
+        document.getElementById('clockTime').textContent = hhmm;
         const d = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Belem' });
-        dateEl.textContent = d.charAt(0).toUpperCase() + d.slice(1);
+        document.getElementById('clockDate').textContent = d.charAt(0).toUpperCase() + d.slice(1);
       }
 
       // Cabeçalho e rodapé: só mostram o que foi configurado
@@ -1846,7 +1908,7 @@
       fitStage();
       applyAmenities();
       updateClock();
-      setInterval(updateClock, 1000);
+      setInterval(updateClock, 5000);
       aplicarSom();
       setInterval(aplicarSom, 5000);
       playNext();
