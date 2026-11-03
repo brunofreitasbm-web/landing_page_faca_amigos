@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-fa-kiosk>
+<html lang="pt-BR" data-fa-kiosk data-fa-sem-tag>
 
 <head>
   <script src="/assets/fa-track.js"></script>
@@ -13,9 +13,14 @@
   <link rel="icon" type="image/png" href="img/logo-simbolo.png">
 
   <!-- Fontes Oficiais da Marca -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" href="/assets/fonts/fredoka-one-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/nunito-400.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    /* Fontes da marca hospedadas aqui: a TV não depende do Google nem espera por ele */
+    @font-face{font-family:'Fredoka One';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/fredoka-one-400.woff2) format('woff2');}
+    @font-face{font-family:'Fredoka';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/fredoka-500.woff2) format('woff2');}
+    @font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;font-display:swap;src:url(/assets/fonts/nunito-400.woff2) format('woff2');}
+  </style>
 
   <style>
     :root {
@@ -412,7 +417,6 @@
 </head>
 
 <body>
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NPDJ58XR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div id="tvCanvas">
 
@@ -822,6 +826,7 @@
       const EXPERIMENT = (new URLSearchParams(location.search).get('exp') || CONFIG.experiment).slice(0, 40);
 
       function trackSlide(slide) {
+        if (document.documentElement.hasAttribute('data-fa-sem-tag')) return; // TV sem Tag Manager: não acumula eventos
         try {
           (window.dataLayer = window.dataLayer || []).push({
             event: 'tv2_slide',
