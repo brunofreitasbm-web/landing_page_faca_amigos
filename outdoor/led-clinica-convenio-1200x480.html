@@ -5,8 +5,8 @@
 <title>Clínica Convênio · LED</title>
 <!--
   Peça "Clínica · IASEP e PROASA", 10s, telão de LED 1200x480 (fachada do Parque Shopping).
-  Afirma só o que foi confirmado: o IASEP cobre Terapia ABA (confirmado pelo cliente), a Clínica atende
-  IASEP e PROASA e solicita a autorização da guia. Não associa ABA ao PROASA. Sem logos dos convênios.
+  Afirma só o que foi confirmado pelo cliente: IASEP e PROASA cobrem Terapia ABA, e a Clínica solicita a
+  autorização da guia. Sem logos dos convênios (só os nomes).
   Faixa fixa igual à da peça de inauguração (logo da Clínica + Umarizal + WhatsApp animado).
   Linha da responsável técnica (nome + CRP) visível nos 10s.
   render(t) é função pura do tempo; ?t=4.2 congela um quadro.  MP4: node scripts/outdoor-render.mjs convenio
@@ -29,7 +29,7 @@
   .w{font-size:92px;color:var(--creme);text-shadow:0 7px 0 rgba(0,0,0,.35)}
   .chip{font-size:96px;color:var(--petroleo);border-radius:24px;padding:10px 30px 14px;box-shadow:0 9px 0 rgba(0,0,0,.35);
         border:6px solid var(--creme)}
-  #cI{background:var(--amarelo)} #cP{background:var(--turquesa)}
+  #cA{background:var(--rosa);color:var(--creme)} #cI{background:var(--amarelo)} #cP{background:var(--turquesa)}
   #carimbo{font-size:84px;color:var(--rosa);background:rgba(255,249,241,.96);border:11px solid var(--rosa);border-radius:20px;
            padding:4px 30px 9px;letter-spacing:3px;box-shadow:0 10px 0 rgba(0,0,0,.3)}
   /* cena 2 */
@@ -69,10 +69,11 @@
     <canvas id="fx" width="1200" height="370"></canvas>
     <!-- cena 1 -->
     <div class="abs" id="linha">
-      <span class="txt w" id="wTem">Terapia</span>
-      <span class="txt chip" id="cI">ABA</span>
-      <span class="txt w" id="wOu">pelo</span>
-      <span class="txt chip" id="cP">IASEP</span>
+      <span class="txt chip" id="cA">ABA</span>
+      <span class="txt w" id="wPelo">pelo</span>
+      <span class="txt chip" id="cI">IASEP</span>
+      <span class="txt w" id="wOu">ou</span>
+      <span class="txt chip" id="cP">PROASA</span>
       <span class="txt w" id="wQ">?</span>
     </div>
     <div class="abs txt" id="carimbo">TEM, SIM!</div>
@@ -93,8 +94,8 @@
     <div class="abs txt" id="r">A gente cuida.</div>
     <!-- cena 3 -->
     <div class="abs" id="cartao"><img src="../public/img/logo-clinica.png" alt="FaçaAmigos Centro de Terapia Comportamental"></div>
-    <div class="abs txt pilula" id="p1">Terapia ABA pelo IASEP</div>
-    <div class="abs txt pilula" id="p2">Também atendemos PROASA</div>
+    <div class="abs txt pilula" id="p1">Terapia ABA pelo IASEP e PROASA</div>
+    <div class="abs txt pilula" id="p2">Umarizal</div>
     <div id="rt">Responsável técnica: Isabella Gonçalves Freitas · Psicóloga · CRP 10/4727</div>
   </div>
   <div id="faixa">
@@ -144,14 +145,15 @@ function render(t) {
   $('linha').style.visibility = $('carimbo').style.visibility = on1 ? 'visible' : 'hidden';
   if (on1) {
     T($('linha'), $('linha')._x, 70 - sai1 * 330);
-    const kT = outCubic(prog(t, 0.1, 0.35));
-    T($('wTem'), 0, (1 - kT) * -40, 1, 0, kT);
-    const bI = bate(t, 0.45), bP = bate(t, 1.0);
-    T($('cI'), 0, 0, Math.max(0.001, bI.s), -3 + bI.tremor, bI.k > 0 ? 1 : 0);
-    const kO = outCubic(prog(t, 0.8, 1.0));
-    T($('wOu'), 0, 0, 1, 0, kO);
-    T($('cP'), 0, 0, Math.max(0.001, bP.s), 3 + bP.tremor, bP.k > 0 ? 1 : 0);
-    const kQ = outElastic(prog(t, 1.4, 1.9));
+    const bA = bate(t, 0.15), bI = bate(t, 0.65), bP = bate(t, 1.15);
+    T($('cA'), 0, 0, Math.max(0.001, bA.s), -4 + bA.tremor, bA.k > 0 ? 1 : 0);
+    const kPe = outCubic(prog(t, 0.4, 0.6));
+    T($('wPelo'), 0, (1 - kPe) * -30, 1, 0, kPe);
+    T($('cI'), 0, 0, Math.max(0.001, bI.s), 3 + bI.tremor, bI.k > 0 ? 1 : 0);
+    const kO = outCubic(prog(t, 0.9, 1.1));
+    T($('wOu'), 0, (1 - kO) * -30, 1, 0, kO);
+    T($('cP'), 0, 0, Math.max(0.001, bP.s), -3 + bP.tremor, bP.k > 0 ? 1 : 0);
+    const kQ = outElastic(prog(t, 1.45, 1.95));
     T($('wQ'), 0, 0, Math.max(0.001, kQ), 8 + Math.sin(t * 6) * 6 * (t > 1.9 ? 1 : 0), kQ > 0 ? 1 : 0);
     // carimbo
     const bC = bate(t, T_CARIMBO, 0.18);
