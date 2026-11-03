@@ -11,9 +11,12 @@
   <link rel="icon" type="image/png" href="/img/logo-simbolo.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#065264">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" href="/assets/fonts/nunito-400.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face{font-family:'Fredoka One';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/fredoka-one-400.woff2) format('woff2');}
+    @font-face{font-family:'Fredoka';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/fredoka-500.woff2) format('woff2');}
+    @font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;font-display:swap;src:url(/assets/fonts/nunito-400.woff2) format('woff2');}
+  </style>
   <style>
     :root { --petrol: #065264; --ice: #F4FAFB; --pink: #D61F4A; --yellow: #FDC51D; --teal: #07C5C8; --teal-10: #E2F8F8; --yellow-20: #FFF3D2; --pink-10: #FFECF0; }
     * { box-sizing: border-box; }
