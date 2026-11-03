@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Chuva de Bolinhas · LED</title>
+<!--
+  Peça "Chuva de bolinhas", 10s, telão de LED 1200x480 da fachada do Parque Shopping.
+  Faixa fixa (logo + AQUI NO PARQUE) nos 10s: quem olha 1-2s em qualquer ponto do loop vê marca e local.
+  render(t) é função pura do tempo. Abrir no navegador = preview em loop; ?t=4.2 congela um quadro.
+  MP4: node scripts/outdoor-render.mjs chuva
+-->
+<style>
+  @font-face{font-family:'Fredoka';font-weight:300 700;src:url(../public/assets/fonts/fredoka-500.woff2) format('woff2');}
+  :root{--amarelo:#FDC51D;--turquesa:#07C5C8;--rosa:#D61F4A;--petroleo:#065264;--petroleo-fundo:#043F4E;--creme:#FFF9F1;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:480px;overflow:hidden;background:var(--petroleo-fundo)}
+  #palco{position:relative;width:1200px;height:480px;overflow:hidden;font-family:'Fredoka',sans-serif;font-weight:700}
+  #ceu{position:absolute;left:0;top:0;width:1200px;height:370px;overflow:hidden;
+       background:radial-gradient(ellipse at 50% 0,#0a6a80 0,var(--petroleo) 45%,var(--petroleo-fundo) 100%)}
+  .abs{position:absolute;left:0;top:0;will-change:transform}
+  .txt{white-space:nowrap;line-height:1;paint-order:stroke fill}
+  #cv{position:absolute;left:0;top:0}
+  #l2a{font-size:70px;color:var(--creme);text-shadow:0 6px 0 rgba(0,0,0,.35)}
+  #l2b{font-size:124px;color:var(--amarelo);-webkit-text-stroke:12px var(--petroleo-fundo);text-shadow:0 9px 0 rgba(0,0,0,.35)}
+  #l3{font-size:96px;color:var(--amarelo);-webkit-text-stroke:12px var(--petroleo-fundo);text-shadow:0 8px 0 rgba(0,0,0,.35)}
+  #grao{font-size:32px;font-weight:600;color:var(--petroleo);background:var(--creme);border-radius:999px;padding:9px 24px}
+  /* faixa fixa */
+  #faixa{position:absolute;left:0;top:370px;width:1200px;height:110px;background:var(--creme);
+         border-top:8px solid var(--amarelo);display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px}
+  #faixa img{height:66px;width:auto;display:block}
+  #aqui{display:flex;align-items:center;gap:14px;background:var(--rosa);color:var(--creme);border-radius:999px;
+        padding:10px 30px 12px 34px;font-size:52px;box-shadow:0 6px 0 #9c1235;transform-origin:center}
+  #seta{display:block}
+  #brilho{position:absolute;top:370px;left:0;width:140px;height:110px;
+          background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);mix-blend-mode:soft-light}
+</style>
+</head>
+<body>
+<div id="palco">
+  <div id="ceu">
+    <img class="abs" id="zoe" src="../public/img/tv/mascote-cachorro.webp" alt="">
+    <img class="abs" id="tartaruga" src="../public/img/tv/mascote-tartaruga.webp" alt="">
+    <img class="abs" id="tucano" src="../public/img/tv/mascote-tucano.webp" alt="">
+    <canvas id="cv" width="1200" height="370"></canvas>
+    <div class="abs txt" id="l2a">Aqui dentro,</div>
+    <div class="abs txt" id="l2b">chove BOLINHA!</div>
+    <div class="abs txt" id="l3">Playground inclusivo</div>
+    <div class="abs txt" id="grao">também no Grão-Pará</div>
+  </div>
+  <div id="faixa">
+    <img src="../public/img/logo-facaamigos.png" alt="FaçaAmigos">
+    <div id="aqui"><span class="txt">AQUI NO PARQUE</span>
+      <svg id="seta" width="46" height="52" viewBox="0 0 46 52"><path id="seta-p" d="M14 2h18v24h12L23 50 2 26h12z" fill="#FFF9F1"/></svg>
+    </div>
+  </div>
+  <div id="brilho"></div>
+</div>
+
+<script>
+const DUR = 10, W = 1200, H = 370;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const outCubic = (k) => 1 - Math.pow(1 - k, 3);
+const outBack = (k, s = 1.7) => { const c = s + 1; return 1 + c * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2); };
+const outElastic = (k) => k === 0 || k === 1 ? k : Math.pow(2, -10 * k) * Math.sin((k * 10 - 0.75) * (2 * Math.PI) / 3) + 1;
+function rng(seed) { return () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
+function T(el, x, y, s = 1, r = 0, o = 1) { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; el.style.opacity = o; }
+
+const CORES = ['#FDC51D', '#D61F4A', '#07C5C8', '#FFF9F1', '#F59E0B', '#7AC943'];
+const R = rng(11);
+
+/* ---------- piscina: 5 fileiras que caem e se acomodam ---------- */
+const FILEIRAS = 4, DY = 33, T_PISC0 = 2.3, T_PISC1 = 6.1;
+const piscina = [];
+for (let f = 0; f < FILEIRAS; f++) {
+  for (let i = 0; i < 31; i++) {
+    const r = 21 + R() * 4;
+    const t0 = T_PISC0 + f * ((T_PISC1 - T_PISC0 - 0.7) / (FILEIRAS - 1)) + R() * 0.7;
+    piscina.push({ x: 8 + i * 40 + (f % 2) * 20 + (R() - 0.5) * 10, y: H - 20 - f * DY + (R() - 0.5) * 6, r,
+                   cor: CORES[Math.floor(R() * CORES.length)], t0, y0: -30 - R() * 160 });
+  }
+}
+piscina.sort((a, b) => a.y - b.y);   // de trás (alto) para a frente (baixo)
+const superficie = (t) => H - 8 - clamp((t - T_PISC0 - 0.3) / (T_PISC1 - T_PISC0)) * FILEIRAS * DY;
+
+/* ---------- chuva que vira bolinha ---------- */
+const gotas = [];
+for (let i = 0; i < 110; i++) gotas.push({ x: R() * (W + 120) - 60, fase: R() * 450, v: 760 + R() * 300,
+  tm: 1.55 + R() * 0.6, cor: CORES[Math.floor(R() * CORES.length)], r: 13 + R() * 8 });
+
+/* ---------- respingo do mergulho da Zoe ---------- */
+const T_MERGULHO = 5.0;
+const respingo = [];
+for (let i = 0; i < 26; i++) { const a = -Math.PI / 2 + (R() - 0.5) * 2.2, v = 380 + R() * 420;
+  respingo.push({ vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: 12 + R() * 9, cor: CORES[Math.floor(R() * CORES.length)] }); }
+
+const ctx = $('cv').getContext('2d');
+function bola(x, y, r, cor) {
+  const g = ctx.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.1, x, y, r);
+  g.addColorStop(0, '#ffffff'); g.addColorStop(0.18, cor); g.addColorStop(1, sombra(cor));
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+}
+const _s = {};
+function sombra(hex) { if (_s[hex]) return _s[hex];
+  const n = parseInt(hex.slice(1), 16), k = 0.62;
+  return (_s[hex] = `rgb(${((n >> 16) & 255) * k | 0},${((n >> 8) & 255) * k | 0},${(n & 255) * k | 0})`); }
+
+function render(t) {
+  t = ((t % DUR) + DUR) % DUR;
+  ctx.clearRect(0, 0, W, H);
+  const sup = superficie(t);
+
+  /* chuva / bolinhas no ar (atrás da piscina) */
+  if (t < 6.4) for (const g of gotas) {
+    const ciclo = g.fase + t * g.v, y = (ciclo % 450) - 40, inicio = t - (y + 40) / g.v;
+    if (inicio > 6.0) continue;
+    const k = prog(t, g.tm, g.tm + 0.35);          // 0 = gota, 1 = bolinha
+    const yb = y;
+    if (k > 0 && yb > sup - 6) continue;            // bolinha some ao chegar na piscina
+    if (k < 1) {
+      ctx.strokeStyle = `rgba(190,235,240,${0.55 * (1 - k)})`; ctx.lineWidth = 3; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(g.x, yb - 30 * (1 - k)); ctx.lineTo(g.x - 6 * (1 - k), yb); ctx.stroke();
+    }
+    if (k > 0) bola(g.x, yb, g.r * outBack(k), g.cor);
+  }
+
+  /* mascotes (atrás da piscina) */
+  // Zoe mergulha
+  const kz = prog(t, 4.35, T_MERGULHO);
+  const zx = lerp(-320, 120, kz), zy = lerp(40, 168, kz) - Math.sin(kz * Math.PI) * 170;
+  const zSai = t > 6.5 ? -outBack(prog(t, 6.5, 6.95)) * 78 : 0;   // põe a cabeça para fora
+  T($('zoe'), zx, zy + zSai, 0.58, lerp(-30, 6, kz), t > 4.35 ? 1 : 0);
+  // tartaruga e tucano surgem da piscina no final
+  const kt = outBack(prog(t, 6.7, 7.15));
+  T($('tartaruga'), 830, lerp(330, 112, kt), 0.36, 0, kt > 0 ? 1 : 0);
+  const ku = outBack(prog(t, 6.9, 7.35));
+  T($('tucano'), 1065, lerp(330, 70, ku), 0.37, 8, ku > 0 ? 1 : 0);
+
+  /* piscina */
+  for (const b of piscina) {
+    const k = prog(t, b.t0, b.t0 + 0.42);
+    if (k <= 0) continue;
+    let y = lerp(b.y0, b.y, k * k);
+    if (k >= 1) y = b.y - Math.abs(Math.sin(prog(t, b.t0 + 0.42, b.t0 + 0.62) * Math.PI)) * 9;
+    // a piscina "respira" depois do mergulho
+    if (t > T_MERGULHO) y += Math.sin(t * 3 + b.x * 0.05) * 2.5 * prog(t, T_MERGULHO, T_MERGULHO + 0.3);
+    bola(b.x, y, b.r, b.cor);
+  }
+  /* respingo */
+  const dt = t - T_MERGULHO;
+  if (dt > 0 && dt < 1.4) for (const p of respingo) {
+    const x = 250 + p.vx * dt, y = sup + p.vy * dt + 900 * dt * dt;
+    if (dt > 0.2 && y > sup) continue;
+    bola(x, y, p.r, p.cor);
+  }
+
+  /* textos */
+  const k2a = outCubic(prog(t, 1.75, 2.0)), k2b = prog(t, 1.95, 2.25), s2 = prog(t, 6.25, 6.5);
+  const sobe2 = outCubic(s2) * -300;
+  T($('l2a'), $('l2a')._x, lerp(-90, 18, k2a) + sobe2, 1, -2, k2a);
+  T($('l2b'), $('l2b')._x, 92 + sobe2, Math.max(0.001, k2b < 1 ? lerp(2.5, 1, outCubic(k2b)) : 1),
+    -3 + (k2b >= 1 ? Math.sin((t - 2.25) * 40) * 2.2 * (1 - prog(t, 2.25, 2.55)) : 0), k2b > 0 ? clamp(k2b * 3) : 0);
+  const k3 = outElastic(prog(t, 6.55, 7.2));
+  T($('l3'), $('l3')._x, 22, Math.max(0.001, k3), -2, k3 > 0 ? 1 : 0);
+  const k4 = outCubic(prog(t, 7.1, 7.4));
+  T($('grao'), $('grao')._x, 134 + (1 - k4) * 20, 1, 0, k4);
+
+  /* faixa fixa: seta quica e brilho passa */
+  // AQUI NO PARQUE pisca e pulsa: batida a cada 0,5s (2 Hz, 20 batidas = loop sem emenda);
+  // a cor alterna a cada batida (1 Hz), longe da faixa de 3 Hz+ que incomoda fotossensíveis.
+  const BAT = 0.5, fb = (t % BAT) / BAT, batida = Math.floor(t / BAT);
+  const pulso = Math.exp(-fb * 6);                       // pico no início da batida e decai
+  const aqui = $('aqui'), par = batida % 2 === 0;
+  aqui.style.transform = `scale(${1 + 0.06 * pulso})`;
+  aqui.style.background = par ? '#D61F4A' : '#FDC51D';
+  aqui.style.color = par ? '#FFF9F1' : '#D61F4A';
+  aqui.style.boxShadow = `0 6px 0 ${par ? '#9c1235' : '#c98f00'}, 0 0 ${10 + 28 * pulso}px ${4 + 10 * pulso}px ${par ? 'rgba(214,31,74,.55)' : 'rgba(253,197,29,.65)'}`;
+  $('seta-p').setAttribute('fill', par ? '#FFF9F1' : '#D61F4A');
+  $('seta').style.transform = `translateY(${(1 - pulso) * 0 + pulso * 9}px)`;
+  $('brilho').style.transform = `translateX(${((t % 5) / 5) * 1700 - 200}px)`;
+}
+
+window.render = render;
+window.__pronto = (async () => {
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
+  const encaixa = (el, maxW) => { let fs = parseFloat(getComputedStyle(el).fontSize);
+    while (el.scrollWidth > maxW && fs > 20) { fs--; el.style.fontSize = fs + 'px'; } };
+  encaixa($('l2b'), 1080); encaixa($('l3'), 1100);
+  for (const id of ['l2a', 'l2b', 'l3', 'grao']) { const el = $(id); el._x = (W - el.scrollWidth) / 2; el.style.transformOrigin = 'center'; }
+  for (const id of ['zoe', 'tartaruga', 'tucano']) $(id).style.transformOrigin = '0 0';
+  return true;
+})();
+const q = new URLSearchParams(location.search);
+window.__pronto.then(() => {
+  if (q.has('render')) return;
+  if (q.has('t')) return render(parseFloat(q.get('t')));
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); };
+  loop();
+});
+</script>
+</body>
+</html>

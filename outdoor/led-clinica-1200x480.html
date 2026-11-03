@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Clínica · LED</title>
+<!--
+  Peça "Inauguração da Clínica", 10s, telão de LED 1200x480 (fachada do Parque Shopping).
+  A Clínica fica no Umarizal, não no shopping: a faixa fixa traz logo da Clínica + Umarizal + WhatsApp
+  (sem "AQUI NO PARQUE" e sem pisca-pisca: tom mais calmo para saúde).
+  Linha da responsável técnica (CFP: nome + CRP em publicidade de serviços de psicologia) fica visível os 10s.
+  Sem promessa de resultado. render(t) é função pura do tempo; ?t=4.2 congela um quadro.
+  MP4: node scripts/outdoor-render.mjs clinica
+-->
+<style>
+  @font-face{font-family:'Fredoka';font-weight:300 700;src:url(../public/assets/fonts/fredoka-500.woff2) format('woff2');}
+  :root{--amarelo:#FDC51D;--turquesa:#07C5C8;--rosa:#D61F4A;--petroleo:#065264;--petroleo-fundo:#043F4E;--creme:#FFF9F1;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:480px;overflow:hidden;background:var(--petroleo-fundo)}
+  #palco{position:relative;width:1200px;height:480px;overflow:hidden;font-family:'Fredoka',sans-serif;font-weight:700}
+  #cena{position:absolute;left:0;top:0;width:1200px;height:370px;overflow:hidden;
+        background:radial-gradient(ellipse at 50% 30%,#0a6a80 0,var(--petroleo) 45%,var(--petroleo-fundo) 100%)}
+  #raios{position:absolute;left:-700px;top:-1115px;width:2600px;height:2600px;border-radius:50%;opacity:0;
+         background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.07) 0 8deg,transparent 8deg 16deg)}
+  .abs{position:absolute;left:0;top:0;will-change:transform}
+  .txt{white-space:nowrap;line-height:1;paint-order:stroke fill}
+  #novo{font-size:108px;color:var(--creme);text-shadow:0 8px 0 rgba(0,0,0,.35)}
+  #fita{position:absolute;left:0;top:0}
+  #cartao{background:var(--creme);border-radius:20px;padding:30px 36px;box-shadow:0 12px 0 rgba(0,0,0,.3)}
+  #cartao img{width:800px;height:auto;display:block}
+  #selo{font-size:44px;color:var(--petroleo);background:var(--amarelo);border-radius:16px;padding:12px 24px;
+        border:5px solid var(--creme);box-shadow:0 8px 0 rgba(0,0,0,.3)}
+  #f1{font-size:84px;color:var(--amarelo);-webkit-text-stroke:11px var(--petroleo-fundo);text-shadow:0 7px 0 rgba(0,0,0,.35)}
+  #f2{font-size:50px;color:var(--creme);text-shadow:0 5px 0 rgba(0,0,0,.35)}
+  .pilula{font-size:38px;border-radius:999px;padding:10px 26px}
+  #p1{color:var(--creme);border:4px solid var(--creme);font-weight:600}
+  #p2{color:var(--petroleo);background:var(--amarelo)}
+  #rt{position:absolute;left:0;bottom:6px;width:1200px;text-align:center;font-family:'Fredoka',sans-serif;font-weight:500;
+      font-size:17px;color:rgba(255,249,241,.85);letter-spacing:.3px}
+  #fx{position:absolute;left:0;top:0}
+  /* faixa fixa da Clínica */
+  #faixa{position:absolute;overflow:visible;left:0;top:370px;width:1200px;height:110px;background:var(--creme);
+         border-top:8px solid var(--turquesa);display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 28px}
+  #faixa img{height:64px;width:auto;display:block}
+  #contato{display:flex;align-items:center;gap:14px}
+  #contato .a{font-size:26px;color:var(--rosa);text-align:right;line-height:1.05}
+  #zap{position:relative;display:flex;align-items:center;gap:14px;background:var(--petroleo);color:var(--creme);
+       border-radius:999px;padding:8px 28px 10px 16px;transform-origin:center;overflow:hidden}
+  #zap .b{font-size:50px}
+  #fone{display:block;transform-origin:50% 50%}
+  #anel{position:absolute;border-radius:999px;border:5px solid var(--rosa);pointer-events:none}
+  #zap-brilho{position:absolute;top:0;left:0;width:90px;height:100%;
+              background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent)}
+  #brilho{position:absolute;top:370px;left:0;width:140px;height:110px;
+          background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);mix-blend-mode:soft-light}
+</style>
+</head>
+<body>
+<div id="palco">
+  <div id="cena">
+    <div id="raios"></div>
+    <div class="abs txt" id="novo">Novo em Belém.</div>
+    <svg id="fita" width="1200" height="370" viewBox="0 0 1200 370" style="overflow:visible">
+      <g id="fitaE">
+        <rect x="-20" y="214" width="620" height="44" fill="#D61F4A"/>
+        <rect x="-20" y="222" width="620" height="6" fill="#ff5a80"/>
+        <rect x="-20" y="246" width="620" height="4" fill="#9c1235"/>
+      </g>
+      <g id="fitaD">
+        <rect x="600" y="214" width="620" height="44" fill="#D61F4A"/>
+        <rect x="600" y="222" width="620" height="6" fill="#ff5a80"/>
+        <rect x="600" y="246" width="620" height="4" fill="#9c1235"/>
+      </g>
+      <g id="laco">
+        <path d="M600 236 C560 170 500 180 512 236 C500 292 560 302 600 236Z" fill="#D61F4A" stroke="#9c1235" stroke-width="5"/>
+        <path d="M600 236 C640 170 700 180 688 236 C700 292 640 302 600 236Z" fill="#D61F4A" stroke="#9c1235" stroke-width="5"/>
+        <path d="M588 250 L560 336 L584 326 L596 344 L604 256Z" fill="#c41a43"/>
+        <path d="M612 250 L640 336 L616 326 L604 344 L596 256Z" fill="#c41a43"/>
+        <circle cx="600" cy="236" r="22" fill="#ff5a80" stroke="#9c1235" stroke-width="5"/>
+      </g>
+      <g id="tesoura">
+        <g id="lamina1"><path d="M0 0 L190 -16 L190 -4 Z" fill="#d9e2e4" stroke="#7d8e93" stroke-width="3"/>
+          <circle cx="-62" cy="-30" r="30" fill="none" stroke="#FDC51D" stroke-width="16"/></g>
+        <g id="lamina2"><path d="M0 0 L190 16 L190 4 Z" fill="#c5d1d4" stroke="#7d8e93" stroke-width="3"/>
+          <circle cx="-62" cy="30" r="30" fill="none" stroke="#07C5C8" stroke-width="16"/></g>
+        <circle r="9" fill="#065264"/>
+      </g>
+    </svg>
+    <canvas id="fx" width="1200" height="370"></canvas>
+    <div class="abs" id="cartao"><img src="../public/img/logo-clinica.png" alt="FaçaAmigos Centro de Terapia Comportamental"></div>
+    <div class="abs txt" id="selo">JÁ ESTÁ ATENDENDO</div>
+    <div class="abs txt" id="f1">Avaliação e terapia infantil</div>
+    <div class="abs txt" id="f2">ABA · Fono · T.O. · Psicologia</div>
+    <div class="abs txt pilula" id="p1">+10 especialidades</div>
+    <div class="abs txt pilula" id="p2">Convênios IASEP e PROASA</div>
+    <img class="abs" id="zoe" src="../public/img/amigos/cachorro-acena.webp" alt="">
+    <div id="rt">Responsável técnica: Isabella Gonçalves Freitas · Psicóloga · CRP 10/4727</div>
+  </div>
+  <div id="faixa">
+    <img src="../public/img/logo-clinica.png" alt="FaçaAmigos Centro de Terapia Comportamental">
+    <div id="contato"><span class="txt a">Umarizal<br>WhatsApp</span>
+      <div id="zap">
+        <svg id="fone" width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#FFF9F1"/>
+          <path d="M17 11c1.4-.6 3 0 3.6 1.4l2 4.6c.5 1.2.2 2.6-.8 3.4l-2 1.7c1.3 2.9 3.6 5.2 6.5 6.6l1.7-2c.8-1 2.2-1.3 3.4-.8l4.6 2c1.4.6 2 2.2 1.4 3.6l-1 2.4c-.7 1.6-2.3 2.6-4 2.4C21.6 37.4 10.6 26.4 9.7 15.6c-.2-1.7.8-3.3 2.4-4z" fill="#065264"/></svg>
+        <span class="txt b">(91) 99178-2027</span><div id="zap-brilho"></div>
+      </div>
+    </div>
+    <div id="anel"></div>
+  </div>
+  <div id="brilho"></div>
+</div>
+
+<script>
+const DUR = 10;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const outCubic = (k) => 1 - Math.pow(1 - k, 3);
+const inCubic = (k) => k * k * k;
+const outBack = (k, s = 1.7) => { const c = s + 1; return 1 + c * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2); };
+const outElastic = (k) => k === 0 || k === 1 ? k : Math.pow(2, -10 * k) * Math.sin((k * 10 - 0.75) * (2 * Math.PI) / 3) + 1;
+function rng(seed) { return () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
+function T(el, x, y, s = 1, r = 0, o = 1) { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; el.style.opacity = o; }
+const set = (id, v) => $(id).setAttribute('transform', v);
+
+const CORES = ['#FDC51D', '#D61F4A', '#07C5C8', '#FFF9F1'];
+const R = rng(23);
+const T_CORTE = 2.45;
+const confete = [...Array(120)].map(() => { const a = -Math.PI / 2 + (R() - 0.5) * 2.9, v = 380 + R() * 620;
+  return { vx: Math.cos(a) * v, vy: Math.sin(a) * v, w: 10 + R() * 12, h: 6 + R() * 8, cor: CORES[Math.floor(R() * 4)],
+           r0: R() * 6, vr: (R() - 0.5) * 14, t0: T_CORTE + R() * 0.15 }; });
+
+const ctx = $('fx').getContext('2d');
+function render(t) {
+  t = ((t % DUR) + DUR) % DUR;
+  ctx.clearRect(0, 0, 1200, 370);
+
+  /* ===== cena 1: Novo em Belém + fita de inauguração cortada (0 a 3s) ===== */
+  const kn = outElastic(prog(t, 0.15, 0.75)), sn = outCubic(prog(t, 2.75, 3.05));
+  T($('novo'), $('novo')._x, 50 - sn * 260, Math.max(0.001, kn), -2, 1);
+  // fita entra esticando, depois as metades caem após o corte
+  const kf = outCubic(prog(t, 0.3, 0.8));
+  const qc = prog(t, T_CORTE, T_CORTE + 0.7), cai = inCubic(qc);
+  $('fita').style.opacity = t < 3.3 ? 1 : 0;
+  set('fitaE', `translate(${(kf - 1) * 640} 0) rotate(${cai * 70} 0 236)`);
+  set('fitaD', `translate(${(1 - kf) * 640} 0) rotate(${-cai * 70} 1200 236)`);
+  set('laco', `translate(600 ${236 + cai * 260}) rotate(${cai * 40}) scale(${outBack(prog(t, 0.6, 1.0))}) translate(-600 -236)`);
+  // tesoura: entra pela direita, fecha no laço e sai por cima
+  const ke = outCubic(prog(t, 1.4, 2.15)), ksai = inCubic(prog(t, 2.52, 2.78));
+  const tx = lerp(1450, 700, ke) + ksai * 500, ty = 236 - ksai * 300;
+  const abre = t < 2.2 ? 22 + Math.sin(t * 9) * 4 : lerp(22, 2, prog(t, 2.2, T_CORTE)) + prog(t, T_CORTE + 0.1, 2.7) * 14;
+  set('tesoura', `translate(${tx} ${ty}) rotate(180) scale(1.45)`);
+  set('lamina1', `rotate(${-abre / 2})`); set('lamina2', `rotate(${abre / 2})`);
+
+  /* confete do corte */
+  for (const p of confete) { const dt = t - p.t0; if (dt < 0 || dt > 3.2) continue;
+    const x = 600 + p.vx * dt, y = 236 + p.vy * dt + 480 * dt * dt; if (y > 380) continue;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(p.r0 + p.vr * dt); ctx.scale(1, Math.abs(Math.cos(p.r0 + dt * 8)) * 0.8 + 0.2);
+    ctx.fillStyle = p.cor; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore(); }
+
+  /* ===== cena 2: revelação do logo (2,8 a 6,3s) ===== */
+  const kc = outBack(prog(t, 2.75, 3.25), 1.4), sc = outCubic(prog(t, 6.05, 6.35));
+  $('raios').style.opacity = clamp(prog(t, 2.6, 3.0) - prog(t, 6.0, 6.4)) * 1;
+  $('raios').style.transform = `rotate(${t * 10}deg)`;
+  T($('cartao'), $('cartao')._x, 58 - sc * 380, Math.max(0.001, kc), 0, t > 2.75 ? 1 : 0);
+  const ks = outElastic(prog(t, 3.35, 4.0));
+  T($('selo'), 1200 - $('selo')._w - 40, 14 - sc * 380, Math.max(0.001, ks), -6, ks > 0 ? 1 : 0);
+  // Zoe acenando: entra na cena 2 à esquerda e vai para a direita no final
+  const kz = outBack(prog(t, 3.6, 4.0)), kz2 = outCubic(prog(t, 6.2, 6.7));
+  const aceno = Math.sin(t * 6) * 5;
+  T($('zoe'), -10, lerp(380, 186, kz) + kz2 * 260, 0.55, aceno, kz > 0 && kz2 < 1 ? 1 : 0);   // sai no final (tom da Clínica)
+
+  /* ===== cena 3: o que a Clínica faz (6,3 a 10s) ===== */
+  const k1 = outElastic(prog(t, 6.4, 7.0));
+  T($('f1'), $('f1')._x, 26, Math.max(0.001, k1), -2, k1 > 0 ? 1 : 0);
+  const k2 = outCubic(prog(t, 6.75, 7.05));
+  T($('f2'), $('f2')._x, 138 + (1 - k2) * 20, 1, 0, k2);
+  const k3 = outBack(prog(t, 7.05, 7.4)), k4 = outBack(prog(t, 7.2, 7.55));
+  T($('p1'), $('p1')._x, 222, Math.max(0.001, k3), 0, k3 > 0 ? 1 : 0);
+  T($('p2'), $('p2')._x, 222, Math.max(0.001, k4), -2, k4 > 0 ? 1 : 0);
+
+  $('brilho').style.transform = `translateX(${((t % 5) / 5) * 1700 - 200}px)`;
+
+  /* WhatsApp chamativo: pulsa a cada 1s (10 batidas = loop sem emenda), fundo alterna petróleo/rosa,
+     anel de brilho expande, telefone "toca" e um reflexo passa pelo número */
+  const fb = t % 1, par = Math.floor(t) % 2 === 0, pulso = Math.exp(-fb * 5);
+  const zap = $('zap');
+  zap.style.transform = `scale(${1 + 0.05 * pulso})`;
+  zap.style.background = par ? '#065264' : '#D61F4A';
+  zap.style.boxShadow = `0 6px 0 ${par ? '#033845' : '#9c1235'}`;
+  const toca = fb < 0.45 ? Math.sin(fb * 70) * 16 * (1 - fb / 0.45) : 0;
+  $('fone').style.transform = `rotate(${toca}deg)`;
+  $('fone').querySelector('path').setAttribute('fill', par ? '#065264' : '#D61F4A');
+  const anel = $('anel'), r = $('zap')._r, cresce = fb * 26;
+  anel.style.left = (r.x - cresce) + 'px'; anel.style.top = (r.y - cresce) + 'px';
+  anel.style.width = (r.w + cresce * 2) + 'px'; anel.style.height = (r.h + cresce * 2) + 'px';
+  anel.style.opacity = (1 - fb) * 0.9; anel.style.borderColor = par ? '#D61F4A' : '#07C5C8';
+  $('zap-brilho').style.transform = `translateX(${((t % 2.5) / 2.5) * 700 - 120}px)`;
+}
+
+window.render = render;
+window.__pronto = (async () => {
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
+  const encaixa = (el, maxW) => { let fs = parseFloat(getComputedStyle(el).fontSize);
+    while (el.scrollWidth > maxW && fs > 20) { fs--; el.style.fontSize = fs + 'px'; } };
+  encaixa($('f1'), 1120); encaixa($('f2'), 980);
+  for (const id of ['novo', 'cartao', 'f1', 'f2']) { const el = $(id); el._x = (1200 - el.offsetWidth) / 2; el.style.transformOrigin = 'center'; }
+  // as duas pílulas lado a lado, centralizadas
+  const p1 = $('p1'), p2 = $('p2'), gap = 22, tot = p1.offsetWidth + p2.offsetWidth + gap;
+  p1._x = (1200 - tot) / 2; p2._x = p1._x + p1.offsetWidth + gap;
+  for (const id of ['selo', 'p1', 'p2']) $(id).style.transformOrigin = 'center';
+  $('selo')._w = $('selo').offsetWidth;
+  $('zoe').style.transformOrigin = '0 0';
+  { const b = $('zap').getBoundingClientRect(), f = $('faixa').getBoundingClientRect(); $('zap')._r = { x: b.left - f.left, y: b.top - f.top, w: b.width, h: b.height }; }
+  return true;
+})();
+const q = new URLSearchParams(location.search);
+window.__pronto.then(() => {
+  if (q.has('render')) return;
+  if (q.has('t')) return render(parseFloat(q.get('t')));
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); };
+  loop();
+});
+</script>
+</body>
+</html>

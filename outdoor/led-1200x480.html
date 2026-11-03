@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Outdoor LED · Faça Amigos</title>
+<!--
+  Peça de 10s para o telão de LED (1200x480) da fachada do Parque Shopping.
+  A animação é uma função pura do tempo: render(t), com t em segundos (0 a 10).
+  Abrir no navegador = preview em loop. ?t=4.2 congela um quadro.
+  O MP4 é gerado por scripts/outdoor-render.mjs (screenshot quadro a quadro + ffmpeg).
+-->
+<style>
+  @font-face{font-family:'Fredoka';font-weight:300 700;src:url(../public/assets/fonts/fredoka-500.woff2) format('woff2');}
+  :root{
+    --amarelo:#FDC51D; --amarelo2:#FFD84D; --turquesa:#07C5C8; --turquesa-esc:#05868A;
+    --rosa:#D61F4A; --petroleo:#065264; --petroleo-fundo:#043F4E; --creme:#FFF9F1;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:480px;overflow:hidden;background:#043F4E}
+  #palco{position:relative;width:1200px;height:480px;overflow:hidden;font-family:'Fredoka',sans-serif;font-weight:700;}
+  .camada{position:absolute;inset:0;overflow:hidden}
+  .abs{position:absolute;left:0;top:0;will-change:transform}
+  img{display:block}
+  .txt{white-space:nowrap;line-height:1;paint-order:stroke fill}
+
+  /* Cena 1 */
+  #c1{background:radial-gradient(circle at 870px 240px,#0a6a80 0,var(--petroleo) 320px,var(--petroleo-fundo) 900px)}
+  #psiu{font-size:230px;color:var(--amarelo);-webkit-text-stroke:14px var(--petroleo-fundo);text-shadow:0 12px 0 rgba(0,0,0,.35);letter-spacing:4px}
+  #olha{font-size:62px;color:var(--creme);text-shadow:0 5px 0 rgba(0,0,0,.35)}
+  #furo{width:330px;height:330px;border-radius:50%;overflow:hidden;background:#021d24;
+        box-shadow:0 0 0 14px var(--creme),0 0 0 22px var(--amarelo),0 18px 40px rgba(0,0,0,.55),inset 0 0 40px rgba(0,0,0,.8)}
+  #furo-img{position:absolute;width:900px;max-width:none}
+  #palpebra{position:absolute;left:0;top:0;width:100%;height:100%;background:var(--petroleo);border-bottom:10px solid var(--petroleo-fundo)}
+  #rachas{position:absolute;inset:0}
+
+  /* Cena 2 */
+  #c2{background:var(--amarelo)}
+  #raios{position:absolute;width:2600px;height:2600px;left:-640px;top:-1060px;border-radius:50%;
+         background:repeating-conic-gradient(from 0deg,var(--amarelo) 0 9deg,var(--amarelo2) 9deg 18deg)}
+  .t2{font-size:112px;color:var(--petroleo);-webkit-text-stroke:14px var(--creme);text-shadow:0 9px 0 rgba(4,63,78,.35)}
+  #t2b{color:var(--rosa)}
+
+  /* Cena 3 */
+  #c3{background:radial-gradient(circle at 300px 200px,#2fd3d5 0,var(--turquesa) 420px,#06aeb1 1100px)}
+  #cartao{background:var(--creme);border-radius:14px;padding:24px 30px;box-shadow:0 10px 0 rgba(5,82,100,.35)}
+  #cartao img{width:580px;height:auto}
+  #inclusivo{font-size:78px;color:var(--petroleo);text-shadow:0 5px 0 rgba(255,255,255,.35)}
+  #grao{font-size:38px;font-weight:600;color:var(--creme);background:var(--petroleo);border-radius:999px;padding:12px 30px}
+  #selo{width:400px;height:220px;background:var(--amarelo);border-radius:28px;box-shadow:0 12px 0 var(--petroleo-fundo);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;border:7px solid var(--creme)}
+  #selo .a{font-size:62px;color:var(--petroleo)}
+  #selo .b{font-size:104px;color:var(--rosa);-webkit-text-stroke:10px var(--creme);margin-top:-2px}
+
+  #fx{position:absolute;inset:0;pointer-events:none}
+  #cortina{position:absolute;top:-100px;width:700px;height:700px;background:var(--rosa);transform-origin:center}
+  #flash{position:absolute;inset:0;background:#fff;opacity:0}
+</style>
+</head>
+<body>
+<div id="palco">
+
+  <!-- CENA 3 (fica embaixo de tudo; é revelada pela cortina) -->
+  <div class="camada" id="c3">
+    <div class="abs" id="cartao"><img src="../public/img/logo-facaamigos.png" alt="FaçaAmigos"></div>
+    <div class="abs txt" id="inclusivo">Playground inclusivo</div>
+    <div class="abs txt" id="grao">também no Grão-Pará</div>
+    <div class="abs" id="selo"><div class="txt a">AQUI NO</div><div class="txt b">PARQUE</div></div>
+    <svg class="abs" id="seta" width="150" height="150" viewBox="0 0 150 150">
+      <path d="M45 8 h60 v62 h36 L75 142 9 70 h36z" fill="#D61F4A" stroke="#FFF9F1" stroke-width="9" stroke-linejoin="round"/>
+    </svg>
+    <img class="abs" id="tucano3" src="../public/img/tv/mascote-tucano.webp" alt="">
+    <img class="abs" id="tartaruga3" src="../public/img/tv/mascote-tartaruga.webp" alt="">
+  </div>
+
+  <!-- CENA 2 -->
+  <div class="camada" id="c2">
+    <div id="raios"></div>
+    <div class="abs txt t2" id="t2a">TEM PLAYGROUND</div>
+    <div class="abs txt t2" id="t2b">AQUI DENTRO!</div>
+    <img class="abs" id="macaco2" src="../public/img/tv/mascote-macaco.webp" alt="">
+    <img class="abs" id="cachorro2" src="../public/img/tv/mascote-cachorro.webp" alt="">
+  </div>
+
+  <!-- CENA 1 -->
+  <div class="camada" id="c1">
+    <div class="abs txt" id="psiu">PSIU!</div>
+    <div class="abs txt" id="olha">ei, olha aqui!</div>
+    <div class="abs" id="furo">
+      <img id="furo-img" src="../public/img/tv/mascote-cachorro.webp" alt="">
+      <div id="palpebra"></div>
+    </div>
+    <svg id="rachas" width="1200" height="480" viewBox="0 0 1200 480"></svg>
+  </div>
+
+  <canvas id="fx" width="1200" height="480"></canvas>
+  <div id="cortina"></div>
+  <div id="flash"></div>
+</div>
+
+<script>
+const DUR = 10;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const outCubic = (k) => 1 - Math.pow(1 - k, 3);
+const inCubic = (k) => k * k * k;
+const outBack = (k, s = 1.9) => { const c = s + 1; return 1 + c * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2); };
+const outElastic = (k) => k === 0 || k === 1 ? k : Math.pow(2, -10 * k) * Math.sin((k * 10 - 0.75) * (2 * Math.PI) / 3) + 1;
+function rng(seed) { return () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
+function T(el, x, y, s = 1, r = 0, o = 1) {
+  el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`;
+  el.style.opacity = o;
+}
+
+const CORES = ['#FDC51D', '#D61F4A', '#07C5C8', '#FFF9F1', '#065264'];
+const C = { x: 870, y: 240 };           // centro do furo / origem da rachadura
+
+/* ---------- geometria das rachaduras e dos cacos (determinística) ---------- */
+const R = rng(7);
+const angs = [];
+for (let i = 0; i < 13; i++) angs.push((i / 13) * Math.PI * 2 + (R() - 0.5) * 0.35);
+const rachas = angs.map((a) => {
+  const pts = [[C.x + Math.cos(a) * 172, C.y + Math.sin(a) * 172]];
+  let r = 172, ang = a;
+  while (r < 1300) { r += 70 + R() * 90; ang = a + (R() - 0.5) * 0.22; pts.push([C.x + Math.cos(ang) * r, C.y + Math.sin(ang) * r]); }
+  return pts;
+});
+(function desenhaRachas() {
+  const svg = $('rachas');
+  let html = '';
+  for (const p of rachas) {
+    const d = 'M' + p.map((q) => q.map((v) => v.toFixed(1)).join(' ')).join(' L');
+    html += `<path d="${d}" pathLength="1" fill="none" stroke="#FFF9F1" stroke-width="4" stroke-linejoin="round" stroke-dasharray="1" stroke-dashoffset="1" style="filter:drop-shadow(0 0 6px #fff)"/>`;
+  }
+  // ramificações curtas
+  for (let i = 0; i < 18; i++) {
+    const p = rachas[i % rachas.length], j = 1 + Math.floor(R() * (p.length - 2));
+    const [x, y] = p[j], a = Math.atan2(y - C.y, x - C.x) + (R() < 0.5 ? 1 : -1) * (0.5 + R() * 0.6), L = 50 + R() * 80;
+    html += `<path d="M${x.toFixed(1)} ${y.toFixed(1)} L${(x + Math.cos(a) * L).toFixed(1)} ${(y + Math.sin(a) * L).toFixed(1)}" pathLength="1" fill="none" stroke="#FFF9F1" stroke-width="2.5" stroke-dasharray="1" stroke-dashoffset="1"/>`;
+  }
+  svg.innerHTML = html;
+})();
+const rachaPaths = [...$('rachas').querySelectorAll('path')];
+
+// cacos: anéis x fatias a partir do centro, seguindo as rachaduras
+const cacos = [];
+const aneis = [0, 165, 330, 560, 1400];
+for (let i = 0; i < angs.length; i++) {
+  const a0 = angs[i], a1 = angs[(i + 1) % angs.length] + (i === angs.length - 1 ? Math.PI * 2 : 0);
+  for (let k = 0; k < aneis.length - 1; k++) {
+    const r0 = aneis[k], r1 = aneis[k + 1];
+    const pts = r0 === 0
+      ? [[C.x, C.y], [C.x + Math.cos(a0) * r1, C.y + Math.sin(a0) * r1], [C.x + Math.cos(a1) * r1, C.y + Math.sin(a1) * r1]]
+      : [[C.x + Math.cos(a0) * r0, C.y + Math.sin(a0) * r0], [C.x + Math.cos(a0) * r1, C.y + Math.sin(a0) * r1],
+         [C.x + Math.cos(a1) * r1, C.y + Math.sin(a1) * r1], [C.x + Math.cos(a1) * r0, C.y + Math.sin(a1) * r0]];
+    const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length, cy = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+    const am = Math.atan2(cy - C.y, cx - C.x);
+    const cor = R() < 0.55 ? (R() < 0.5 ? '#065264' : '#0a6a80') : CORES[Math.floor(R() * 3)];
+    cacos.push({ pts, cx, cy, vx: Math.cos(am) * (500 + R() * 700), vy: Math.sin(am) * (400 + R() * 600) - 200,
+                 vr: (R() - 0.5) * 9, cor, atraso: (Math.hypot(cx - C.x, cy - C.y) / 1400) * 0.12 });
+  }
+}
+
+// confete (cena 2)
+const confete = [];
+const RC = rng(42);
+for (let i = 0; i < 110; i++) {
+  const a = -Math.PI / 2 + (RC() - 0.5) * 2.6, v = 500 + RC() * 650;
+  confete.push({ x0: lerp(380, 820, RC()), y0: 500, vx: Math.cos(a) * v * 0.9, vy: Math.sin(a) * v,
+                 w: 10 + RC() * 12, h: 6 + RC() * 8, cor: CORES[Math.floor(RC() * 4)], r0: RC() * 6, vr: (RC() - 0.5) * 14,
+                 t0: 3.45 + RC() * 0.35 });
+}
+
+/* ---------- ajuste de texto à largura ---------- */
+function encaixa(el, maxW) {
+  let fs = parseFloat(getComputedStyle(el).fontSize);
+  while (el.scrollWidth > maxW && fs > 20) { fs -= 1; el.style.fontSize = fs + 'px'; }
+}
+
+/* ---------- render(t) ---------- */
+const ctx = $('fx').getContext('2d');
+function render(t) {
+  t = ((t % DUR) + DUR) % DUR;
+  ctx.clearRect(0, 0, 1200, 480);
+
+  /* ===== CENA 1: 0 a 2,9s ===== */
+  const c1on = t < 2.9;
+  $('c1').style.visibility = c1on ? 'visible' : 'hidden';
+  if (c1on) {
+    // furo abre
+    const kf = outBack(prog(t, 0.05, 0.5));
+    T($('furo'), C.x - 165, C.y - 165, Math.max(0.001, kf));
+    // Zoe olhando para os lados dentro do furo
+    const olhar = Math.sin(Math.max(0, t - 0.5) * 3.2) * 30 * prog(t, 0.5, 0.8);
+    const sobe = lerp(60, 0, outCubic(prog(t, 0.3, 0.8)));
+    $('furo-img').style.transform = `translate(${-420 + olhar}px,${-30 + sobe}px)`;
+    // piscada (pálpebra desce e sobe) em 1,55s e 2,2s
+    const pisca = (c) => { const k = prog(t, c - 0.09, c + 0.09); return 1 - Math.abs(k * 2 - 1); };
+    const fecha = Math.max(t < 0.5 ? 1 - prog(t, 0.35, 0.6) : 0, pisca(1.55), pisca(2.25));
+    $('palpebra').style.transform = `translateY(${(fecha - 1) * 100}%)`;
+    // PSIU!
+    const kp = prog(t, 0.2, 0.55);
+    const balanca = Math.sin(t * 9) * 3 * prog(t, 0.6, 0.8);
+    T($('psiu'), 80, 70, Math.max(0.001, outElastic(kp)), -4 + balanca);
+    // ei, olha aqui!
+    const ko = outCubic(prog(t, 0.75, 1.1));
+    T($('olha'), lerp(40, 120, ko), 345, 1, 0, ko);
+    // rachaduras 2,45 a 2,85s
+    const kr = prog(t, 2.45, 2.82);
+    rachaPaths.forEach((p, i) => p.setAttribute('stroke-dashoffset', 1 - clamp(kr * 1.25 - (i > 12 ? 0.25 : 0))));
+    // tremor
+    const tre = t > 2.45 ? (1 - prog(t, 2.45, 2.9)) * 0 + 7 * prog(t, 2.45, 2.6) : 0;
+    $('c1').style.transform = tre ? `translate(${Math.sin(t * 97) * tre}px,${Math.cos(t * 83) * tre}px)` : '';
+  }
+
+  /* ===== CENA 2: 2,9 a 6,4s ===== */
+  const c2on = t >= 2.88 && t < 6.45;
+  $('c2').style.visibility = c2on ? 'visible' : 'hidden';
+  if (c2on) {
+    $('raios').style.transform = `rotate(${t * 14}deg)`;
+    // Zoe atravessa: sai do furo, vem para a frente e pousa à esquerda
+    const kd = prog(t, 2.95, 3.55);
+    const e = outCubic(kd);
+    const dx = lerp(C.x - 230, -45, e), dy = lerp(C.y - 210, 75, e) - Math.sin(kd * Math.PI) * 60;
+    const ds = lerp(0.25, 0.88, e) + Math.sin(kd * Math.PI) * 0.35;
+    const quica = t > 3.55 ? Math.abs(Math.sin((t - 3.55) * 6)) * -10 * (1 - prog(t, 3.55, 5)) : 0;
+    T($('cachorro2'), dx, dy + quica, ds, lerp(-25, -4, e));
+    // macaco desce pendurado na corda pela direita
+    const km = outBack(prog(t, 3.35, 3.9), 1.4);
+    const bal = Math.sin((t - 3.35) * 3.4) * 7 * (1 - prog(t, 3.9, 6));
+    T($('macaco2'), 950, lerp(-460, -95, km), 0.86, bal);
+    $('macaco2').style.transformOrigin = '50% 0';
+    // textos batendo
+    const ka = prog(t, 3.3, 3.55), kb = prog(t, 3.55, 3.8);
+    const sacode = (k, tt) => k >= 1 ? Math.sin(tt * 40) * 2 * (1 - prog(tt, 0, 0.3)) : 0;
+    T($('t2a'), $('t2a')._x, 115, Math.max(0.001, ka < 1 ? lerp(2.4, 1, outCubic(ka)) : 1), -3 + sacode(ka, t - 3.55), ka > 0 ? clamp(ka * 3) : 0);
+    T($('t2b'), $('t2b')._x, 250, Math.max(0.001, kb < 1 ? lerp(2.6, 1, outCubic(kb)) : 1), -3 + sacode(kb, t - 3.8), kb > 0 ? clamp(kb * 3) : 0);
+    // confete
+    for (const p of confete) {
+      const dt = t - p.t0;
+      if (dt < 0) continue;
+      const x = p.x0 + p.vx * dt, y = p.y0 + p.vy * dt + 520 * dt * dt;
+      if (y > 520) continue;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(p.r0 + p.vr * dt);
+      ctx.scale(1, Math.abs(Math.cos(p.r0 + dt * 8)) * 0.8 + 0.2);
+      ctx.fillStyle = p.cor; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    }
+  }
+
+  /* ===== cacos voando (2,85 a 3,7s) ===== */
+  if (t >= 2.85 && t < 3.8) {
+    for (const c of cacos) {
+      const dt = Math.max(0, t - 2.85 - c.atraso);
+      const s = 1 - prog(dt, 0.15, 0.85) * 0.7;
+      ctx.save();
+      ctx.translate(c.cx + c.vx * dt, c.cy + c.vy * dt + 900 * dt * dt);
+      ctx.rotate(c.vr * dt); ctx.scale(s, s);
+      ctx.beginPath();
+      c.pts.forEach((p, i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, p[0] - c.cx, p[1] - c.cy));
+      ctx.closePath();
+      ctx.fillStyle = c.cor; ctx.fill();
+      ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,249,241,.9)'; ctx.stroke();
+      ctx.restore();
+    }
+  }
+  // clarão no estouro
+  $('flash').style.opacity = t >= 2.85 && t < 3.05 ? (1 - prog(t, 2.85, 3.05)) * 0.85 : 0;
+
+  /* ===== cortina rosa: 6,05 a 6,55s ===== */
+  const kc = prog(t, 6.05, 6.55);
+  const cort = $('cortina');
+  if (kc > 0 && kc < 1) {
+    cort.style.display = 'block';
+    T(cort, lerp(-900, 1400, inCubic(kc) * 0.5 + outCubic(kc) * 0.5), 0, 1, 18);
+    cort.style.width = '900px';
+  } else cort.style.display = 'none';
+
+  /* ===== CENA 3: 6,3 a 10s ===== */
+  const c3on = t >= 6.25;
+  $('c3').style.visibility = c3on ? 'visible' : 'hidden';
+  if (c3on) {
+    const k1 = outBack(prog(t, 6.35, 6.8));
+    T($('cartao'), 40, lerp(-200, 52, k1), 1, lerp(-6, -2, k1));
+    const k2 = outCubic(prog(t, 6.6, 6.95));
+    T($('inclusivo'), lerp(-700, 52, k2), 232);
+    const k3 = outCubic(prog(t, 6.85, 7.15));
+    T($('grao'), 52, 345, 1, 0, k3);
+    const k4 = outElastic(prog(t, 6.75, 7.45));
+    T($('selo'), 745, 40, Math.max(0.001, k4), -5);
+    const k5 = prog(t, 7.1, 7.35);
+    const bob = Math.abs(Math.sin((t - 7.35) * 5)) * 22 * (t > 7.35 ? 1 : 0);
+    T($('seta'), 870, 300 + bob - (1 - outCubic(k5)) * 40, 1, 0, k5);
+    const k6 = outBack(prog(t, 7.0, 7.4));
+    T($('tucano3'), 1040, lerp(520, 268, k6), 0.48, lerp(20, 6, k6));
+    $('tucano3').style.transformOrigin = '0 0';
+    const k7 = outCubic(prog(t, 7.2, 7.6));
+    T($('tartaruga3'), lerp(-420, 520, k7) + 120, 330, 0.36, 0);
+    $('tartaruga3').style.transformOrigin = '0 0';
+  }
+}
+
+/* ---------- inicialização ---------- */
+window.render = render;
+window.__pronto = (async () => {
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
+  encaixa($('t2a'), 610); encaixa($('t2b'), 610);
+  for (const id of ['t2a', 't2b']) { const el = $(id); el._x = 695 - el.scrollWidth / 2; el.style.transformOrigin = 'center'; }
+  for (const id of ['psiu', 'selo']) $(id).style.transformOrigin = 'center';
+  encaixa($('inclusivo'), 650);
+  for (const id of ['tucano3', 'tartaruga3']) $(id).style.transformOrigin = '0 0';
+  return true;
+})();
+
+const q = new URLSearchParams(location.search);
+window.__pronto.then(() => {
+  if (q.has('render')) return;                 // o script de render chama render(t)
+  if (q.has('t')) return render(parseFloat(q.get('t')));
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); };
+  loop();
+});
+</script>
+</body>
+</html>
