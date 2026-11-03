@@ -48,6 +48,13 @@ async function abrir(query = '', viewport = { width: 1920, height: 1080 }, opts 
       await route.fulfill({ response: r, body: corpo });
     });
   }
+  if (opts.comTag) {
+    // Religa o rastreamento (a tv3 vem com data-fa-sem-tag): serve para testar o evento tv3_slide e o interruptor reversível
+    await page.route(`${BASE}/tv3.html*`, async (route) => {
+      const r = await route.fetch();
+      await route.fulfill({ response: r, body: (await r.text()).replace(' data-fa-sem-tag', '') });
+    });
+  }
   if (opts.antes) await opts.antes(page);
   await page.goto(`${BASE}/tv3.html?debug=1${query ? '&' + query : ''}`);
   return page;
@@ -161,7 +168,7 @@ async function testeMotor() {
   ok((await page.locator('.tv-slide.active').getAttribute('data-id')) === 'a_tut', '?slide=a_tut fixa o slide');
   await page.context().close();
   // reprodução de verdade, com relógio acelerado
-  page = await abrir('exp=teste-exp&dia=3&seed=reproducao&vel=50', { width: 1920, height: 1080 }, { clock: '2026-12-01T16:00:00Z' });
+  page = await abrir('exp=teste-exp&dia=3&seed=reproducao&vel=50', { width: 1920, height: 1080 }, { clock: '2026-12-01T16:00:00Z', comTag: true });
   await page.clock.runFor(60 * 1000);
   const eventos = await page.evaluate(() => (window.dataLayer || []).filter((e) => e.event === 'tv3_slide'));
   const exps = new Set(eventos.map((e) => e.tv3_experiment));
@@ -417,6 +424,10 @@ async function testeTVAntiga() {
   // 2) a barra de progresso saiu
   const page0 = await abrir('', { width: 1366, height: 768 });
   ok(await page0.evaluate(() => !document.querySelector('.tv-progress-container, .tv-progress-bar')), 'sem barra de progresso na tela');
+  await page0.waitForTimeout(1500);
+  const rastros = page0.externas.filter((u) => /googletagmanager|google-analytics|clarity\.ms|facebook\.net/.test(u));
+  ok(rastros.length === 0, 'tv3 não carrega Tag Manager, Analytics, Clarity nem pixel da Meta (data-fa-sem-tag)', rastros.join(', '));
+  ok(await page0.evaluate(() => !document.querySelector('.tv-slide.active') || !document.querySelector('.tv-slide.active').matches('[class*="aparecendo"]')), 'slide ativo sem estado preso de animação');
   await page0.context().close();
   // 3) pré-carga: com internet lenta (cada imagem demora 700 ms) o slide só aparece com a foto pronta
   const page = await abrir('vel=25', { width: 1366, height: 768 }, {

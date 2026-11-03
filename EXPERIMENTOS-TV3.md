@@ -1,5 +1,8 @@
 # Experimentos da `/tv3` (sala de espera da Clínica)
 
+> **Aviso (nov/2026):** a `tv3.html` está com `data-fa-sem-tag` no `<html>`: não carrega GTM nem GA4 e, por isso, **não envia mais o `tv3_slide` ao GA4**. Foi uma troca pedida para a TV de painel HD abrir mais rápido. Para medir exposição por slide de novo, tire o atributo do `<html>` da `tv3.html`.
+
+
 Objetivo: saber se uma mudança na TV faz mais famílias entrarem no Portal, em vez de decidir no palpite.
 
 ## Como a medição funciona
