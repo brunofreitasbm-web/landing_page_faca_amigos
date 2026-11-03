@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 // Renderiza as peças de outdoor/ em MP4 (1200x480, 30fps, 10s, sem áudio).
-// Uso: node scripts/outdoor-render.mjs [chuva|circuito|clinica|racha] [--quadros 0.5,2,4]
+// Uso: node scripts/outdoor-render.mjs [chuva|circuito|clinica|convenio|racha] [--quadros 0.5,2,4]
 //   chuva (padrão) -> outdoor/led-chuva-1200x480.html -> faca-amigos-led-chuva-1200x480-10s.mp4
 //   circuito       -> outdoor/led-circuito-1200x480.html -> faca-amigos-led-circuito-1200x480-10s.mp4
 //   clinica        -> outdoor/led-clinica-1200x480.html -> faca-amigos-led-clinica-1200x480-10s.mp4
+//   convenio       -> outdoor/led-clinica-convenio-1200x480.html -> faca-amigos-led-clinica-convenio-1200x480-10s.mp4
 //   racha          -> outdoor/led-1200x480.html       -> faca-amigos-led-1200x480-10s.mp4
 //   --quadros salva só PNGs de conferência em outdoor/quadros/
 //
@@ -23,6 +24,7 @@ const PECAS = {
   chuva: { pagina: 'led-chuva-1200x480.html', saida: 'faca-amigos-led-chuva-1200x480-10s.mp4' },
   circuito: { pagina: 'led-circuito-1200x480.html', saida: 'faca-amigos-led-circuito-1200x480-10s.mp4' },
   clinica: { pagina: 'led-clinica-1200x480.html', saida: 'faca-amigos-led-clinica-1200x480-10s.mp4' },
+  convenio: { pagina: 'led-clinica-convenio-1200x480.html', saida: 'faca-amigos-led-clinica-convenio-1200x480-10s.mp4' },
   racha: { pagina: 'led-1200x480.html', saida: 'faca-amigos-led-1200x480-10s.mp4' },
 };
 const peca = PECAS[process.argv[2]] || PECAS.chuva;
