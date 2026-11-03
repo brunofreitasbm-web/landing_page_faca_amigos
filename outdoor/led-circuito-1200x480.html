@@ -173,21 +173,7 @@ function render(t) {
     rodas('cB', t * 1400); rodas('cC', t * 1500);
     let ax, ay = PISTA_Y[2], ar = 0, ao = 1;
     if (t < 1.6) { ax = -400; ao = 0; }
-    else { // volta pela esquerda, freia e derrapa no meio
-      const k = prog(t, 2.7, 3.6), e = outCubic(k);
-      ax = lerp(-320, 470, e); ao = t > 2.7 ? 1 : 0;
-      ar = Math.sin(k * Math.PI) * -7 + (k >= 1 ? Math.sin((t - 3.6) * 18) * 2 * (1 - prog(t, 3.6, 4.0)) : 0);
-      rodas('cA', 2.7 * 1500 + e * 900);
-      if (k > 0 && k < 1) linhasVelocidade(ax + 30, ay, '#FDC51D', 0.6 * (1 - k));
-      // fumaça da derrapagem
-      const df = t - 3.15;
-      if (df > 0 && df < 1.3) for (const f of fumaca) { const d = df - f.t; if (d < 0) continue;
-        const a = 0.5 * (1 - d / 1.0); if (a <= 0) continue;
-        ctx.fillStyle = `rgba(230,240,242,${a})`; ctx.beginPath();
-        ctx.arc(ax + 60 - f.dx - f.v * d, ay + 155 + f.dy - 30 * d, f.r * (1 + d * 1.5), 0, Math.PI * 2); ctx.fill(); }
-      // depois de parado, o carrinho "acelera no lugar"
-      if (k >= 1) ay += Math.abs(Math.sin(t * 22)) * -2 * (t < 6.2 ? 1 : 0);
-    }
+    else { ax = -400; ao = 0; }
     T(cA, ax, ay, 0.82, ar, ao);
     // carrinho GIGANTE atravessa a tela inteira na abertura (0,15 a 1,5s), na frente da bandeira
     const kg = prog(t, 0.15, 1.5), cG = $('cG');
@@ -201,6 +187,26 @@ function render(t) {
         ctx.strokeStyle = i % 2 ? 'rgba(255,249,241,.7)' : 'rgba(253,197,29,.8)';
         ctx.lineWidth = 12 - i; ctx.beginPath(); ctx.moveTo(x0, yy); ctx.lineTo(x0 - L, yy); ctx.stroke();
       }
+    } else if (t >= 2.55) {
+      // o gigante VOLTA pela esquerda, freia, derrapa e estaciona à esquerda (escala 1,8)
+      const k = prog(t, 2.55, 3.5), e = outCubic(k), GS = 1.8;
+      const gx = lerp(-760, 122, e);
+      const gr = Math.sin(k * Math.PI) * -8 + (k >= 1 ? Math.sin((t - 3.5) * 18) * 2.5 * (1 - prog(t, 3.5, 3.95)) : 0);
+      let gy = 364 - 170;
+      if (k >= 1 && t < 6.1) gy += Math.abs(Math.sin(t * 22)) * -3;     // acelera no lugar
+      T(cG, gx, gy, GS, gr, 1);
+      rodas('cG', 2.55 * 1100 + e * 1400);
+      const vx = gx + 140 - 140 * GS;                                 // borda esquerda visível
+      if (k > 0 && k < 0.85) { ctx.lineCap = 'round';
+        for (let i = 0; i < 6; i++) { const yy = 90 + i * 42, L = (220 + (i % 3) * 90) * (1 - k);
+          ctx.strokeStyle = i % 2 ? 'rgba(255,249,241,.7)' : 'rgba(253,197,29,.8)';
+          ctx.lineWidth = 11 - i; ctx.beginPath(); ctx.moveTo(vx - 10, yy); ctx.lineTo(vx - 10 - L, yy); ctx.stroke(); } }
+      // fumaça da derrapagem saindo da roda traseira
+      const df = t - 3.0, rx = gx + 140 + (70 - 140) * GS, ry = 352;
+      if (df > 0 && df < 1.5) for (const f of fumaca) { const d = df - f.t; if (d < 0) continue;
+        const a = 0.6 * (1 - d / 1.1); if (a <= 0) continue;
+        ctx.fillStyle = `rgba(230,240,242,${a})`; ctx.beginPath();
+        ctx.arc(rx - f.dx * 1.6 - f.v * 1.4 * d, ry - 20 + f.dy - 60 * d, f.r * 1.7 * (1 + d * 1.6), 0, Math.PI * 2); ctx.fill(); }
     } else T(cG, -900, 0, 2.15, 0, 0);
   } else {
     T($('cG'), -900, 0, 2.15, 0, 0);
@@ -253,8 +259,9 @@ window.__pronto = (async () => {
   await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
   const encaixa = (el, maxW) => { let fs = parseFloat(getComputedStyle(el).fontSize);
     while (el.scrollWidth > maxW && fs > 20) { fs--; el.style.fontSize = fs + 'px'; } };
-  encaixa($('t1b'), 1000); encaixa($('t3'), 1100);
-  for (const id of ['t1a', 't1b', 't3', 'local']) { const el = $(id); el._x = (1200 - el.scrollWidth) / 2; el.style.transformOrigin = 'center'; }
+  encaixa($('t1b'), 620); encaixa($('t3'), 1100);
+  for (const id of ['t3', 'local']) { const el = $(id); el._x = (1200 - el.scrollWidth) / 2; el.style.transformOrigin = 'center'; }
+  for (const id of ['t1a', 't1b']) { const el = $(id); el._x = 880 - el.scrollWidth / 2; el.style.transformOrigin = 'center'; }   // metade direita: o gigante estaciona à esquerda
   for (const c of CARROS) $(c.id).style.transformOrigin = '50% 100%';
   $('bandeira').style.transformOrigin = '22px 190px';
   return true;
