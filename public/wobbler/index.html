@@ -120,22 +120,20 @@
   const C = {
     A: (u) => ({ bg:'#FFF9F1', body:
       `<circle cx="100" cy="100" r="94" fill="none" stroke="#07C5C8" stroke-width="2.2"/>` +
-      logo(18, 74) + stars(52) +
-      t('A brincadeira foi boa?', 76, 12.5, '#065264') +
-      t('Conta pro Google!', 91, 14, '#D61F4A') +
-      qrBox(u.qr, 40, 98) +
-      t('Aponte a câmera · leva 30 segundos', 157, 6, '#4F646B', {font:'Nunito,sans-serif', w:800}) +
-      t(u.rodape, 171, 6.2, '#065264', {font:'Nunito,sans-serif', w:800}) }),
+      logo(13, 58) + stars(40, 7.5, 17) +
+      t('Avalie no Google', 63, 14, '#D61F4A') +
+      qrBox(u.qr, 68, 71) +
+      t('Aponte a câmera', 162, 8.5, '#065264', {font:'Nunito,sans-serif', w:800}) +
+      t(u.rodape, 174, 5.8, '#4F646B', {font:'Nunito,sans-serif', w:800}) }),
     B: (u) => ({ bg:'#FDC51D', body:
       `<circle cx="100" cy="100" r="94" fill="none" stroke="#065264" stroke-width="1.6" stroke-dasharray="1 4" stroke-linecap="round"/>` +
-      logo(17, 70) +
-      t('Gostou de brincar?', 44, 13, '#065264') +
-      t('Conta pra gente', 59, 13, '#D61F4A') + stars(75, 6.5, 14.5, '#D61F4A') +
-      mascot('macaco-coracao.webp', 16, 90, 52) +
-      qrBox(u.qr, 38, 92) +
-      t('Aponte a câmera', 148, 6.4, '#043F4E', {font:'Nunito,sans-serif', w:800}) +
-      t('e avalie no Google', 156, 6.4, '#043F4E', {font:'Nunito,sans-serif', w:800}) +
-      t(u.rodape, 172, 6, '#043F4E', {font:'Nunito,sans-serif', w:800}) }),
+      logo(12, 56) +
+      t('Gostou de brincar?', 38, 11, '#065264') +
+      t('Avalie no Google', 53, 13.5, '#D61F4A') + stars(66, 6, 14, '#D61F4A') +
+      mascot('macaco-coracao.webp', 8, 96, 50) +
+      qrBox(u.qr, 58, 76) +
+      t('Aponte a câmera', 155, 8, '#043F4E', {font:'Nunito,sans-serif', w:800}) +
+      t(u.rodape, 168, 5.8, '#043F4E', {font:'Nunito,sans-serif', w:800}) }),
     C: () => ({ bg:'#065264', body:
       `<circle cx="100" cy="100" r="94" fill="none" stroke="#FDC51D" stroke-width="1.6"/>` +
       t('FIDELIDADE', 34, 7, '#FDC51D', {font:'Nunito,sans-serif', w:800, ls:2}) +
@@ -166,26 +164,25 @@
       t('Aponte a câmera e siga no Instagram', 153, 5.8, '#4F646B', {font:'Nunito,sans-serif', w:800}) }),
     CL: () => ({ bg:'#F4FAFB', body:
       `<circle cx="100" cy="100" r="94" fill="none" stroke="#065264" stroke-width="1.6"/>` +
-      logo(19, 78, 'logo-clinica.png', 1040/179) +
-      t('Sua opinião ajuda', 52, 12.5, '#065264') +
-      t('outras famílias', 66, 12.5, '#065264') +
-      stars(84, 6.5, 14.5) +
-      qrBox('clinica', 38, 96) +
-      t('Aponte a câmera e avalie no Google', 152, 6, '#4F646B', {font:'Nunito,sans-serif', w:800}) +
-      t('Centro de Terapia Comportamental', 166, 5.6, '#065264', {font:'Nunito,sans-serif', w:800}) }),
+      logo(13, 74, 'logo-clinica.png', 1040/179) +
+      stars(42, 7, 16) +
+      t('Avalie no Google', 63, 13, '#065264') +
+      qrBox('clinica', 66, 71) +
+      t('Aponte a câmera', 160, 8.2, '#065264', {font:'Nunito,sans-serif', w:800}) +
+      t('Centro de Terapia Comportamental', 173, 5.2, '#4F646B', {font:'Nunito,sans-serif', w:800}) }),
   };
 
   const concepts20 = [
-    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Pergunta direta + QR grande. Estrelas só como desenho.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
+    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Estrelas + "Avalie no Google" + QR de 68 mm. Quase sem texto, para ler em 2 segundos.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
     { id:'A-grao', k:'A', tag:'A · Avaliação Google', titulo:'Grão-Pará', onde:'Playground Grão-Pará, na saída', desc:'Mesma arte, QR do perfil do Grão-Pará.', prov:'QR provisório: falta o link do perfil', u:{qr:'graopara', rodape:'Playground Grão-Pará'} },
     { id:'A-circuito', k:'A', tag:'A · Avaliação Google', titulo:'Circuito', onde:'Circuito de Carrinhos, na saída', desc:'QR leva ao perfil do Parque, já que o Circuito não tem perfil próprio. O rodapé diz "FaçaAmigos" para não confundir.', u:{qr:'parque', rodape:'FaçaAmigos · Parque Shopping'} },
-    { id:'B-parque', k:'B', tag:'B · Avaliação com mascote', titulo:'Versão infantil', onde:'Qualquer Playground', desc:'Amarelo, macaco e tom mais leve. Chama a criança e o responsável.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
+    { id:'B-parque', k:'B', tag:'B · Avaliação com mascote', titulo:'Versão infantil', onde:'Qualquer Playground', desc:'Amarelo, macaco e tom mais leve. QR de 58 mm.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
     { id:'C', k:'C', tag:'C · Fidelidade', titulo:'A 10ª é grátis', onde:'Circuito ou Playground', desc:'Regra literal do site (10 visitas por CPF). Muda comportamento, não gera avaliação.' },
     { id:'D', k:'D', tag:'D · Horário Inclusivo', titulo:'Ambiente mais calmo', onde:'Playground, ponte para a Clínica', desc:'Cruza o Playground com o público da Clínica. QR para /clinica.' },
     { id:'F', k:'F', tag:'F · Instagram', titulo:'Foto no carrinho', onde:'Circuito', desc:'Conteúdo gerado pelos clientes. Não ajuda no Google.' },
   ];
   const concepts15 = [
-    { id:'CL', k:'CL', tag:'Clínica · Avaliação Google', titulo:'Sóbria, sem mascote', onde:'Clínica (2 discos iguais)', desc:'Tom sóbrio. Verificar com o CRP-10 antes de imprimir.' },
+    { id:'CL', k:'CL', tag:'Clínica · Avaliação Google', titulo:'Sóbria, sem mascote', onde:'Clínica (2 discos iguais)', desc:'Tom sóbrio, QR de 66 mm (Ø15: ~50 mm). Verificar com o CRP-10 antes de imprimir.' },
   ];
 
   const build = (c, pxScale) => {
