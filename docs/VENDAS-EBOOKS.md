@@ -1,6 +1,7 @@
 # Vender os e-books com verba zero
 
-Situação em 03/11/2026: o banco do site não tem **nenhuma** venda, carrinho ou evento da Hotmart desde setembro.
+Situação em 03/11/2026: a API da Hotmart confirma **zero** vendas (a `hotmart-sync` consulta a cada 15 min), e o banco
+não tem nenhum carrinho ou evento de webhook desde setembro.
 Foram 20 Mapeamentos concluídos em 6 semanas. O gargalo é gente vendo a oferta, e não a página nem o preço
 (que já caiu de R$ 149 para R$ 29,90 e R$ 9,90). Este guia reúne o que dá para fazer **uma vez** e deixar rodando,
 sem verba e sem ninguém postando toda semana.
@@ -10,21 +11,25 @@ sem verba e sem ninguém postando toda semana.
 | O Brincar com Propósito (97 págs.) | R$ 29,90 | M107692257Y · id 8560642 | `/guia` |
 | O Código do Desenvolvimento Infantil (40 págs.) | R$ 9,90 | V107698297N | `/codigo` |
 
-**Ordem:** 0 → 1 → 2 → 3. O passo 0 vem antes porque, sem ele, não dá para saber se o resto funcionou.
+**Ordem:** 0 → 1 → 2 → 3.
 
 ---
 
-## 0. Ligar a medição (15 min, painel da Hotmart)
+## 0. Conferir a medição (5 min, painel da Hotmart)
 
-O webhook nunca recebeu um evento (`fa_hotmart_eventos` vazia). Passo a passo completo em `PUBLICAR.md`, Lote 3.
-Resumo:
+**As vendas já são medidas.** A `hotmart-sync` consulta a API da Hotmart a cada 15 min (pg_cron `hotmart-sync-15min`)
+e responde `{"days":7,"sales":0}`: o zero é real, não falha de integração (conferido em 03/11/2026 nas respostas
+guardadas em `net._http_response`). O webhook (`fa_hotmart_eventos` vazia) nunca recebeu nada, o que é coerente
+com zero vendas, mas também acontece se ele não estiver cadastrado. Ele faz falta só para **carrinho abandonado**
+e para mandar a compra na hora ao GA4/Meta.
 
-1. Hotmart → Ferramentas → Webhook → URL `https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/hotmart-webhook`,
-   versão 2.0.0, **os dois produtos**, eventos: compra aprovada/completa, reembolso, chargeback, cancelada, carrinho abandonado.
-2. O "hottok" mostrado no painel precisa ser igual ao secret `HOTMART_HOTTOK` no Supabase.
-3. Conferir os secrets `HOTMART_PRODUCT_ID=8560642,<id do Código>` e `HOTMART_CODIGO_PRODUCT_ID=<id do Código>`.
-   O id numérico aparece com `POST .../hotmart-sync?list_products=1` e o cabeçalho `x-sync-key`.
-4. Usar o "enviar teste" do painel e conferir: `select * from fa_hotmart_eventos order by received_at desc;`
+1. Conferir o id do Código: `POST .../hotmart-sync?list_products=1` com o cabeçalho `x-sync-key`. O secret
+   `HOTMART_PRODUCT_ID` precisa ter os dois ids (`8560642,<id do Código>`). Se tiver só o do Guia, a sync não vê as
+   vendas do Código.
+2. Hotmart → Ferramentas → Webhook: se a URL `https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/hotmart-webhook`
+   não estiver lá, cadastrar (versão 2.0.0, os dois produtos, compra/reembolso/chargeback/cancelada/carrinho abandonado).
+   O hottok do painel tem que ser igual ao secret `HOTMART_HOTTOK`. Passo a passo em `PUBLICAR.md`, Lote 3.
+3. "Enviar teste" no painel e conferir: `select * from fa_hotmart_eventos order by received_at desc;`
 
 ## 1. Canais próprios (já no código; falta instalar e imprimir)
 
