@@ -1,6 +1,9 @@
 #!/usr/bin/env node
-// Renderiza outdoor/led-1200x480.html em MP4 (1200x480, 30fps, 10s, sem áudio).
-// Uso: node scripts/outdoor-render.mjs [--quadros 0.5,2,4]   (com --quadros salva só PNGs de conferência)
+// Renderiza as peças de outdoor/ em MP4 (1200x480, 30fps, 10s, sem áudio).
+// Uso: node scripts/outdoor-render.mjs [chuva|racha] [--quadros 0.5,2,4]
+//   chuva (padrão) -> outdoor/led-chuva-1200x480.html -> faca-amigos-led-chuva-1200x480-10s.mp4
+//   racha          -> outdoor/led-1200x480.html       -> faca-amigos-led-1200x480-10s.mp4
+//   --quadros salva só PNGs de conferência em outdoor/quadros/
 //
 // Variáveis: PW_MODULE (padrão /opt/node-tools/node_modules/playwright/index.mjs)
 import { spawn, spawnSync } from 'node:child_process';
@@ -14,7 +17,12 @@ const PW = process.env.PW_MODULE || '/opt/node-tools/node_modules/playwright/ind
 const { chromium } = await import(pathToFileURL(PW).href);
 
 const FPS = 30, DUR = 10, W = 1200, H = 480;
-const SAIDA = path.join(ROOT, 'outdoor', 'faca-amigos-led-1200x480-10s.mp4');
+const PECAS = {
+  chuva: { pagina: 'led-chuva-1200x480.html', saida: 'faca-amigos-led-chuva-1200x480-10s.mp4' },
+  racha: { pagina: 'led-1200x480.html', saida: 'faca-amigos-led-1200x480-10s.mp4' },
+};
+const peca = PECAS[process.argv[2]] || PECAS.chuva;
+const SAIDA = path.join(ROOT, 'outdoor', peca.saida);
 const iq = process.argv.indexOf('--quadros');
 const quadros = iq > 0 ? process.argv[iq + 1].split(',').map(Number) : null;
 
@@ -26,7 +34,7 @@ const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'outdoor-'));
 try {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
-  await page.goto(`http://127.0.0.1:${PORT}/outdoor/led-1200x480.html?render`);
+  await page.goto(`http://127.0.0.1:${PORT}/outdoor/${peca.pagina}?render`);
   await page.evaluate(() => window.__pronto);
 
   if (quadros) {
