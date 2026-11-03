@@ -31,6 +31,7 @@
   #t3{font-size:92px;color:var(--amarelo);-webkit-text-stroke:12px var(--petroleo-fundo);text-shadow:0 8px 0 rgba(0,0,0,.35)}
   #local{font-size:38px;font-weight:600;color:var(--petroleo);background:var(--creme);border-radius:999px;padding:9px 26px}
   #fx{position:absolute;left:0;top:0}
+  #bandeira{z-index:1} #carros svg{z-index:2} #cG{z-index:4} #fx{z-index:3} .txt{z-index:5}
   /* faixa fixa (igual à peça da chuva) */
   #faixa{position:absolute;left:0;top:370px;width:1200px;height:110px;background:var(--creme);
          border-top:8px solid var(--amarelo);display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px}
@@ -115,6 +116,7 @@ const CARROS = [
   { id: 'cA', corpo: '#FDC51D', sombra: '#c99a0e', capacete: '#D61F4A' },
   { id: 'cB', corpo: '#D61F4A', sombra: '#9c1235', capacete: '#07C5C8' },
   { id: 'cC', corpo: '#07C5C8', sombra: '#05868A', capacete: '#FDC51D' },
+  { id: 'cG', corpo: '#FDC51D', sombra: '#c99a0e', capacete: '#D61F4A' },   // o gigante da abertura
 ];
 $('carros').innerHTML = CARROS.map((c) => carroSVG(c.id, c.corpo, c.sombra, c.capacete)).join('');
 
@@ -170,8 +172,7 @@ function render(t) {
     if (pC.k > 0 && pC.k < 1) linhasVelocidade(pC.x + 30, PISTA_Y[1], '#FFF9F1', 0.55);
     rodas('cB', t * 1400); rodas('cC', t * 1500);
     let ax, ay = PISTA_Y[2], ar = 0, ao = 1;
-    if (t < 1.6) { const p = passa(t, 0.45, 1.0); ax = p.x; ao = p.k > 0 && p.k < 1 ? 1 : 0;
-      if (ao) linhasVelocidade(ax + 30, ay, '#FDC51D', 0.6); rodas('cA', t * 1500); }
+    if (t < 1.6) { ax = -400; ao = 0; }
     else { // volta pela esquerda, freia e derrapa no meio
       const k = prog(t, 2.7, 3.6), e = outCubic(k);
       ax = lerp(-320, 470, e); ao = t > 2.7 ? 1 : 0;
@@ -188,7 +189,21 @@ function render(t) {
       if (k >= 1) ay += Math.abs(Math.sin(t * 22)) * -2 * (t < 6.2 ? 1 : 0);
     }
     T(cA, ax, ay, 0.82, ar, ao);
+    // carrinho GIGANTE atravessa a tela inteira na abertura (0,15 a 1,5s), na frente da bandeira
+    const kg = prog(t, 0.15, 1.5), cG = $('cG');
+    if (kg > 0 && kg < 1) {
+      const gx = lerp(-700, 1300, kg * 0.75 + inOutCubic(kg) * 0.25);
+      T(cG, gx, 364 - 170, 2.15, Math.sin(t * 30) * 0.6, 1);
+      rodas('cG', t * 1100);
+      ctx.lineCap = 'round';
+      for (let i = 0; i < 7; i++) {                     // linhas de velocidade grandes atrás dele
+        const yy = 70 + i * 40, L = 260 + (i % 3) * 110, x0 = gx - 170 - (i % 2) * 40;
+        ctx.strokeStyle = i % 2 ? 'rgba(255,249,241,.7)' : 'rgba(253,197,29,.8)';
+        ctx.lineWidth = 12 - i; ctx.beginPath(); ctx.moveTo(x0, yy); ctx.lineTo(x0 - L, yy); ctx.stroke();
+      }
+    } else T(cG, -900, 0, 2.15, 0, 0);
   } else {
+    T($('cG'), -900, 0, 2.15, 0, 0);
     // final: os três carrinhos estacionados lado a lado (frota alinhada)
     const ks = [0, 1, 2].map((i) => outBack(prog(t, 6.6 + i * 0.12, 7.0 + i * 0.12), 1.3));
     T(cB, lerp(-320, 150, ks[0]), 340 - 170, 0.76, 0, 1);
