@@ -41,7 +41,7 @@ O nome certo é **Portal da Família**. "Mural" é só uma seção dentro dele. 
 
 `?dia=1..5` força o dia do ciclo · `?exp=rotulo` rótulo do experimento · `?slide=<id>` fixa um slide ·
 `?portal=0` esconde a família A · `?som=0|1` força o som · `?rot=90|270` gira o palco (TV deitada) ·
-`?debug=1&seed=x&vel=50` só para teste.
+`?debug=1&seed=x&vel=50` só para teste · `?video=1` modo de gravação do MP4 (sem relógio, data e botões).
 
 Teclas: `←` `→` troca, espaço pausa, `R` gira, `F` tela cheia, `S` som. Os botões aparecem com o mouse.
 
@@ -75,6 +75,21 @@ sem exclamação; sem convênio; sem prognóstico; número só com fonte. O vali
 - Em 1.500 voltas simuladas: abertura, fechamento, famílias alternadas, ausência de repetição, QR do Portal a cada 6 min e dica antes do pedido.
 - Nenhum texto estoura o cartão nos 42 slides, em paisagem e girado.
 - A trilha toca nos horários certos, pausa no ciclo, respeita `?som=0` e a tecla `S`, e as 20 faixas existem.
+
+## Vídeo MP4 para pen-drive (TV sem navegador)
+
+A TV da sala (Roku, em pé) não tem navegador, então a tv3 vai para ela como vídeo. `node scripts/tv3-video.mjs` grava a
+página em `tv3.html?video=1` e gera `video/tv3-sala-de-espera.mp4` (a pasta `video/` não entra no git).
+
+- **Conteúdo:** uma volta de cada dia do ciclo (1 a 5), em sequência, ~75 min. A TV repete o arquivo (ligar "repetir" no player USB).
+- **`?video=1`** esconde o relógio, a data e os botões, e troca as boas-vindas ("Bom dia, hoje é…") por um texto fixo
+  (`CONFIG.textosVideo`). Sem som. A ordem dos slides é fixa (seed por dia).
+- **Giro já no arquivo:** 1920x1080 com o conteúdo girado 90° no sentido horário, porque a TV foi virada no sentido
+  anti-horário (a borda de baixo original fica à direita) e o player USB não gira vídeo. Imagem de cabeça para baixo:
+  `node scripts/tv3-video.mjs --so-girar --giro 270` (refaz em minutos, a partir de `video/tv3-master-vertical.mp4`).
+- **Teste rápido de giro:** `node scripts/tv3-video.mjs --teste` gera `video/tv3-teste-rotacao.mp4` (15 s, "ESTE LADO PARA CIMA").
+- **O vídeo não se atualiza:** mudou um slide, um texto ou um QR, gere de novo e troque o arquivo no pen-drive.
+- Formato: H.264 High 4.1, yuv420p, 30 fps, sem áudio. Pen-drive em FAT32 aceita até 4 GB por arquivo.
 
 ## Limites conhecidos
 
