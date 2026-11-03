@@ -5,8 +5,8 @@
 <title>Clínica Convênio · LED</title>
 <!--
   Peça "Clínica · IASEP e PROASA", 10s, telão de LED 1200x480 (fachada do Parque Shopping).
-  Só afirma o que a Clínica faz de fato: atende IASEP e PROASA e solicita a autorização da guia.
-  Não diz que esta ou aquela terapia é coberta, e não usa os logos dos convênios (só os nomes).
+  Afirma só o que foi confirmado: o IASEP cobre Terapia ABA (confirmado pelo cliente), a Clínica atende
+  IASEP e PROASA e solicita a autorização da guia. Não associa ABA ao PROASA. Sem logos dos convênios.
   Faixa fixa igual à da peça de inauguração (logo da Clínica + Umarizal + WhatsApp animado).
   Linha da responsável técnica (nome + CRP) visível nos 10s.
   render(t) é função pura do tempo; ?t=4.2 congela um quadro.  MP4: node scripts/outdoor-render.mjs convenio
@@ -69,13 +69,13 @@
     <canvas id="fx" width="1200" height="370"></canvas>
     <!-- cena 1 -->
     <div class="abs" id="linha">
-      <span class="txt w" id="wTem">Tem</span>
-      <span class="txt chip" id="cI">IASEP</span>
-      <span class="txt w" id="wOu">ou</span>
-      <span class="txt chip" id="cP">PROASA</span>
+      <span class="txt w" id="wTem">Terapia</span>
+      <span class="txt chip" id="cI">ABA</span>
+      <span class="txt w" id="wOu">pelo</span>
+      <span class="txt chip" id="cP">IASEP</span>
       <span class="txt w" id="wQ">?</span>
     </div>
-    <div class="abs txt" id="carimbo">ATENDEMOS!</div>
+    <div class="abs txt" id="carimbo">TEM, SIM!</div>
     <!-- cena 2 -->
     <svg class="abs" id="guia" viewBox="0 0 210 270" style="overflow:visible">
       <path d="M14 6 h140 l46 46 v206 a8 8 0 0 1 -8 8 H14 a8 8 0 0 1 -8 -8 V14 a8 8 0 0 1 8 -8z" fill="#FFF9F1" stroke="#043F4E" stroke-width="4"/>
@@ -93,8 +93,8 @@
     <div class="abs txt" id="r">A gente cuida.</div>
     <!-- cena 3 -->
     <div class="abs" id="cartao"><img src="../public/img/logo-clinica.png" alt="FaçaAmigos Centro de Terapia Comportamental"></div>
-    <div class="abs txt pilula" id="p1">Atendemos IASEP e PROASA</div>
-    <div class="abs txt pilula" id="p2">Terapia infantil · Umarizal</div>
+    <div class="abs txt pilula" id="p1">Terapia ABA pelo IASEP</div>
+    <div class="abs txt pilula" id="p2">Também atendemos PROASA</div>
     <div id="rt">Responsável técnica: Isabella Gonçalves Freitas · Psicóloga · CRP 10/4727</div>
   </div>
   <div id="faixa">
