@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-fa-kiosk>
+<html lang="pt-BR" data-fa-kiosk data-fa-sem-tag>
 
 <head>
   <script src="/assets/fa-track.js"></script>
@@ -906,6 +906,33 @@
     #tvStage.t32 .tv-slide-image, #tvStage.t32 .tv-slide.active .tv-slide-image { transform: none; transition: none; }
     .tv-hud > * + * { margin-left: 10px; }
 
+
+    /* ==========================================================================
+       ANIMAÇÃO LEVE: acontece UMA vez quando o slide aparece (~1 s) e acaba. Só usa opacity e transform (o navegador faz na placa de
+       vídeo, sem recalcular estilo) e nada fica rodando depois: sem animação infinita, sem zoom na foto, sem deslizar o slide inteiro.
+       ========================================================================== */
+    #tvStage.anim .tv-visual-text > * { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    #tvStage.anim .tv-visual-text > *:nth-child(1) { transition-delay: 0.15s; }
+    #tvStage.anim .tv-visual-text > *:nth-child(2) { transition-delay: 0.27s; }
+    #tvStage.anim .tv-visual-text > *:nth-child(3) { transition-delay: 0.39s; }
+    #tvStage.anim .tv-visual-text > *:nth-child(n+4) { transition-delay: 0.5s; }
+    #tvStage.anim .tv-qr-box, #tvStage.anim .tv-qr-big { opacity: 0; transform: scale(0.9); transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s; }
+    #tvStage.anim .tv-qr-mascote, #tvStage.anim .tv-cartao-mascote { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease 0.65s, transform 0.6s ease 0.65s; }
+    #tvStage.anim .tv-pacotes-row img { opacity: 0; transform: translateY(28px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    #tvStage.anim .tv-pacotes-row img:nth-child(1) { transition-delay: 0.2s; }
+    #tvStage.anim .tv-pacotes-row img:nth-child(2) { transition-delay: 0.35s; }
+    #tvStage.anim .tv-pacotes-row img:nth-child(3) { transition-delay: 0.5s; }
+    #tvStage.anim .tv-slide.active .tv-visual-text > *,
+    #tvStage.anim .tv-slide.active .tv-qr-box, #tvStage.anim .tv-slide.active .tv-qr-big,
+    #tvStage.anim .tv-slide.active .tv-qr-mascote, #tvStage.anim .tv-slide.active .tv-cartao-mascote,
+    #tvStage.anim .tv-slide.active .tv-pacotes-row img { opacity: 1; transform: none; }
+    /* slide que está saindo mantém tudo visível enquanto some; modo instantâneo (testes) pula a animação */
+    #tvStage.anim .tv-slide.saindo .tv-visual-text > *,
+    #tvStage.anim .tv-slide.saindo .tv-qr-box, #tvStage.anim .tv-slide.saindo .tv-qr-big,
+    #tvStage.anim .tv-slide.saindo .tv-qr-mascote, #tvStage.anim .tv-slide.saindo .tv-cartao-mascote,
+    #tvStage.anim .tv-slide.saindo .tv-pacotes-row img { opacity: 1; transform: none; transition: none; }
+    #tvStage.anim .tv-slide.instantaneo * { transition: none !important; }
+
     /* Respiro: foto cheia e uma frase */
     .tv-slide.respiro .tv-image-overlay {
       background: linear-gradient(180deg, rgba(3, 45, 55, 0.05) 0%, rgba(3, 45, 55, 0.35) 55%, rgba(3, 45, 55, 0.9) 100%);
@@ -1043,6 +1070,7 @@
         experiment: 'base-2026-12',   // rótulo do experimento (formato <o-que-mudou>-AAAA-MM)
         roundMin: 10,                 // alvo de duração de uma volta, em minutos
         tela: '32',                   // tamanho da TV: '32' (textos e QR maiores) ou 'grande' (55" ou mais)
+        animacao: 'leve',             // 'leve' (entrada suave de cada slide, uma vez, ~1 s) ou 'nenhuma'. Também vale ?animacao=nenhuma na URL
         qrEstilo: 'arte',             // 'arte' (QR arredondado, olhos coloridos, selo e mascote) ou 'classico' (QR quadrado simples)
         orientacao: 'horizontal',     // como a TV fica na parede: 'horizontal' (deitada) ou 'vertical' (em pé). Também vale ?orientacao=vertical na URL
         giro: 90,                     // só para TV em pé que o sistema da TV NÃO girou: 90 ou 270, conforme o lado para onde a TV foi virada
@@ -1580,7 +1608,7 @@
       // instant=true: sem transição (usado pelos testes)
       function showSlide(item, instant) {
         const el = buildSlideEl(item);
-        if (instant) el.style.transition = 'none';
+        if (instant) { el.style.transition = 'none'; el.classList.add('instantaneo'); }
         container.appendChild(el);
         ajustarTexto(el);
         if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(() => { if (el.parentNode) ajustarTexto(el); });
@@ -1592,6 +1620,7 @@
           requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('active')));
         }
         if (prev) {
+          prev.classList.add('saindo');
           prev.classList.remove('active');
           if (instant) prev.remove(); else setTimeout(() => { if (prev !== currentEl && prev.parentNode) prev.remove(); }, 1300);
         }
@@ -1600,7 +1629,7 @@
         const seguinte = !instant && !OV.slide ? state.round[state.idx + 1] : null;
         if (seguinte && seguinte !== item) prepararSlide(seguinte);
 
-        if (window.dataLayer) {
+        if (window.dataLayer && !document.documentElement.hasAttribute('data-fa-sem-tag')) {
           window.dataLayer.push({
             event: 'tv3_slide',
             tv3_slide_id: item.id,
@@ -1660,6 +1689,9 @@
         const q = new URLSearchParams(window.location.search).get('tela');
         const tela = q === '32' || q === 'grande' ? q : String(CONFIG.tela);
         document.getElementById('tvStage').classList.toggle('t32', tela === '32');
+        const qa = new URLSearchParams(window.location.search).get('animacao');
+        const anim = qa === 'leve' || qa === 'nenhuma' ? qa : String(CONFIG.animacao);
+        document.getElementById('tvStage').classList.toggle('anim', anim === 'leve');
       })();
 
       // Orientação: CONFIG.orientacao diz como a TV fica na parede. Se a tela já chega em pé (o sistema da TV girou),

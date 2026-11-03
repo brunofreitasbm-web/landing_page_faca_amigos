@@ -417,6 +417,10 @@ async function testeTVAntiga() {
   // 2) a barra de progresso saiu
   const page0 = await abrir('', { width: 1366, height: 768 });
   ok(await page0.evaluate(() => !document.querySelector('.tv-progress-container, .tv-progress-bar')), 'sem barra de progresso na tela');
+  await page0.waitForTimeout(1500);
+  const rastros = page0.externas.filter((u) => /googletagmanager|google-analytics|clarity\.ms|facebook\.net/.test(u));
+  ok(rastros.length === 0, 'tv3 não carrega Tag Manager, Analytics, Clarity nem pixel da Meta (data-fa-sem-tag)', rastros.join(', '));
+  ok(await page0.evaluate(() => !document.querySelector('.tv-slide.active') || !document.querySelector('.tv-slide.active').matches('[class*="aparecendo"]')), 'slide ativo sem estado preso de animação');
   await page0.context().close();
   // 3) pré-carga: com internet lenta (cada imagem demora 700 ms) o slide só aparece com a foto pronta
   const page = await abrir('vel=25', { width: 1366, height: 768 }, {

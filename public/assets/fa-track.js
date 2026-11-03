@@ -192,13 +192,19 @@
   }
 
   // ---------- GTM + GA4 (sempre, em modo sem cookies até o aceite) ----------
-  window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-  loadScript('https://www.googletagmanager.com/gtm.js?id=' + IDS.gtm);
-  loadScript('https://www.googletagmanager.com/gtag/js?id=' + IDS.ga4);
-  gtag('js', new Date());
-  // linker: sem isso o GA4 abre sessão nova no salto hub -> playground e registra o próprio subdomínio como
-  // referral, matando a atribuição do tráfego pago. accept_incoming fecha o outro lado do mesmo problema.
-  gtag('config', IDS.ga4, { linker: { domains: INTERNAL_HOSTS, accept_incoming: true } });
+  // <html data-fa-sem-tag> (hoje só a tv3.html): não carrega GTM nem GA4. Em TV de painel HD fraco e internet lenta, esses dois
+  // scripts (~170 KB, ~8 requisições externas) atrasam a primeira tela e disputam banda com as fotos. Preço: a página deixa de
+  // mandar os eventos (ex.: tv3_slide) ao GA4. Para voltar a medir, é só tirar o atributo do <html>.
+  var SEM_TAG = document.documentElement.hasAttribute('data-fa-sem-tag');
+  if (!SEM_TAG) {
+    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    loadScript('https://www.googletagmanager.com/gtm.js?id=' + IDS.gtm);
+    loadScript('https://www.googletagmanager.com/gtag/js?id=' + IDS.ga4);
+    gtag('js', new Date());
+    // linker: sem isso o GA4 abre sessão nova no salto hub -> playground e registra o próprio subdomínio como
+    // referral, matando a atribuição do tráfego pago. accept_incoming fecha o outro lado do mesmo problema.
+    gtag('config', IDS.ga4, { linker: { domains: INTERNAL_HOSTS, accept_incoming: true } });
+  }
   applyConsent(read(CONSENT_KEY));
 
   // ---------- origem do visitante ----------
