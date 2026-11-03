@@ -103,3 +103,8 @@ a:hover { color: var(--pink-dark); }
 .wa-float:hover { color: #fff; background: #146637; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+
+/* Revelação ao rolar (ativada por /assets/fa-reveal.js; sem o script nada fica escondido) */
+html.fa-rv-on .fa-rv { opacity: 0; transform: translateY(20px); transition: opacity .6s cubic-bezier(.2, .6, .2, 1), transform .6s cubic-bezier(.2, .6, .2, 1); }
+html.fa-rv-on .fa-rv.fa-rv-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { html.fa-rv-on .fa-rv { opacity: 1; transform: none; transition: none; } }

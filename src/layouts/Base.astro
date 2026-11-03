@@ -84,6 +84,7 @@ const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org',
   <main id="conteudo"><slot /></main>
   {minimo ? <LpRodape wa={wa} /> : <Footer kind="hub" />}
   {!semWa && <WhatsAppFloat href={waUrl(wa, waTexto)} />}
+  <script is:inline src="/assets/fa-reveal.js" defer></script>
   {cta && <script is:inline src="/assets/fa-cta.js" defer data-label={cta.label} data-href={cta.href} data-event={cta.event}></script>}
 </body>
 </html>
