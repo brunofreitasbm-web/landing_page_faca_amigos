@@ -27,7 +27,7 @@ Objetivo: saber se uma mudança na TV faz mais famílias entrarem no Portal, em 
 
 | Rótulo | No ar de | Até | O que mudou | Entradas no Portal por semana | Conclusão |
 |---|---|---|---|---|---|
-| `base-2026-12` | (data da instalação) | | 42 slides, volta de ~9 min, QR do Portal a cada 6 min, trilha baixa | | Linha de base: comparar a próxima mudança contra ela |
+| `base-2026-12` | (data da instalação) | | 63 slides no JSON (com os 2 de e-book da família E, em rodízio por dia), volta de ~12 min, QR do Portal a cada 6 min, trilha baixa | | Linha de base: comparar a próxima mudança contra ela. Os slides de e-book entraram antes da instalação, então já fazem parte da base. Vendas por origem: `fa_ebook_compras.origem_src` / UTM `utm_source=tv3` |
 
 ## Ideias de testes, em ordem sugerida
 

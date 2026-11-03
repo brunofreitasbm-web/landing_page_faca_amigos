@@ -31,6 +31,9 @@ QR_URLS = {
     'aprender:rotina': f'{HOME}/aprender/rotina-visual-em-casa?utm_source=tv3',
     'aprender:crise': f'{HOME}/aprender/birra-ou-crise?utm_source=tv3',
     'aprender:brincar': f'{HOME}/aprender/brincar-com-proposito-10-minutos?utm_source=tv3',
+    # e-books: a página de vendas repassa as UTMs ao checkout da Hotmart (origem da venda em fa_ebook_compras)
+    'guia': f'{HOME}/guia?utm_source=tv3&utm_medium=indoor#h-previa',
+    'codigo': f'{HOME}/codigo?utm_source=tv3&utm_medium=indoor#h-previa',
     # provisórios: saem quando o motor de voltas (POOL) substituir a lista antiga de slides
     'playground': f'{HOME}/playground?utm_source=tv3&utm_medium=indoor',
     'circuito': f'{HOME}/circuito?utm_source=tv3&utm_medium=indoor',

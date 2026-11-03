@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Cartaz e-books — FaçaAmigos</title>
+<!-- Cartaz de balcão A5 (Clínica e Playground). Gerar o PDF: node scripts/cartaz-ebooks-pdf.mjs
+     QR com utm_source=cartaz&utm_medium=impresso: as visitas e vendas vindas do cartaz aparecem separadas no GA4
+     e na origem da venda. Se o preço mudar na Hotmart, mudar aqui também (R$ 9,90 e R$ 29,90). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@700;800&display=swap">
+<style>
+  @page { size: A5; margin: 0; }
+  :root { --pink:#E01560; --teal:#2ECFB5; --teal-dark:#137A6A; --yellow:#FFE234; --dark:#1A3F35; --soft:#4C6B62; --cream:#FFF9F1; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  html,body { background:#ddd; }
+  .page { width:148mm; height:210mm; margin:0 auto; background:var(--cream); position:relative; overflow:hidden;
+          font-family:'Nunito','Segoe UI',sans-serif; color:var(--dark); padding:8mm 9mm 6mm; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .blob { position:absolute; border-radius:50%; z-index:0; }
+  .b1 { width:80mm; height:80mm; background:var(--teal); opacity:.18; top:-28mm; right:-26mm; }
+  .b2 { width:60mm; height:60mm; background:var(--yellow); opacity:.45; bottom:-22mm; left:-22mm; }
+  .page > *:not(.blob) { position:relative; z-index:1; }
+  .logo { height:11mm; margin-bottom:3mm; }
+  .kicker { background:var(--dark); color:var(--yellow); font-weight:800; font-size:9pt; letter-spacing:.08em; text-transform:uppercase; padding:1.8mm 5mm; border-radius:99px; }
+  h1 { font-family:'Fredoka',sans-serif; font-weight:700; font-size:26pt; line-height:1; color:var(--pink); margin:3mm 0 1.5mm; }
+  h1 span { color:var(--teal-dark); }
+  .lead { font-size:10.5pt; font-weight:700; color:var(--soft); max-width:115mm; line-height:1.3; }
+  .books { margin-top:4.5mm; display:flex; gap:5mm; width:100%; }
+  .book { flex:1; background:#fff; border-radius:6mm; border:.8mm solid var(--dark); box-shadow:0 1.4mm 0 var(--dark); padding:3.5mm 3.5mm 3mm; display:flex; flex-direction:column; align-items:center; }
+  .book .tag { font-size:8.5pt; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#fff; background:var(--pink); padding:1mm 3.5mm; border-radius:99px; }
+  .book .tag.teal { background:var(--teal); color:var(--dark); }
+  .book img.capa { width:24mm; height:auto; margin:2.5mm 0 2mm; border-radius:1.5mm; box-shadow:0 1mm 3mm rgba(0,0,0,.2); }
+  .book b { font-family:'Fredoka',sans-serif; font-weight:700; font-size:12pt; line-height:1.1; }
+  .book small { display:block; font-size:8.5pt; font-weight:700; color:var(--soft); margin:1.2mm 0 2mm; line-height:1.3; }
+  .book .qr { width:30mm; height:30mm; margin-top:auto; }
+  .book .qr img { width:100%; height:100%; display:block; }
+  .book .cta { margin-top:2mm; font-size:9pt; font-weight:800; color:var(--dark); }
+  .aviso { margin-top:auto; padding-top:3mm; font-size:8pt; font-weight:700; color:var(--soft); line-height:1.35; max-width:120mm; }
+  .foot { margin-top:2.5mm; font-size:8.5pt; font-weight:800; color:var(--dark); }
+  @media screen { .page { margin:10mm auto; box-shadow:0 4px 30px rgba(0,0,0,.2); } }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="blob b1"></div><div class="blob b2"></div>
+
+  <img class="logo" src="../img/logo-facaamigos.png" alt="FaçaAmigos">
+  <span class="kicker">Para ler enquanto espera</span>
+  <h1>O comportamento<br><span>tem lógica.</span></h1>
+  <p class="lead">Dois e-books da psicóloga Isabella Gonçalves Freitas (CRP 10/4727), em linguagem simples, para ler no celular.</p>
+
+  <div class="books">
+    <div class="book">
+      <span class="tag teal">Capítulo 1 grátis</span>
+      <img class="capa" src="../img/guia/capa.webp" alt="Capa do e-book O Brincar com Propósito">
+      <b>O Brincar com Propósito</b>
+      <small>Guia prático com exercícios para a rotina da casa · R$ 29,90</small>
+      <div class="qr"><img src="qr-guia.svg" alt="QR Code para a página do guia O Brincar com Propósito"></div>
+      <div class="cta">Baixe o capítulo 1 grátis</div>
+    </div>
+    <div class="book">
+      <span class="tag">E-book curto</span>
+      <img class="capa" src="../img/codigo/capa.webp" alt="Capa do e-book O Código do Desenvolvimento Infantil">
+      <b>O Código do Desenvolvimento Infantil</b>
+      <small>9 capítulos, cerca de 40 páginas, sem jargão · R$ 9,90</small>
+      <div class="qr"><img src="qr-codigo.svg" alt="QR Code para a página do e-book O Código do Desenvolvimento Infantil"></div>
+      <div class="cta">Veja o sumário</div>
+    </div>
+  </div>
+
+  <p class="aviso">Aponte a câmera do celular para o QR Code. Material educativo: não faz diagnóstico e não substitui avaliação e acompanhamento profissional. Venda e entrega pela Hotmart.</p>
+  <div class="foot">institutofacaamigos.com.br</div>
+</main>
+</body>
+</html>

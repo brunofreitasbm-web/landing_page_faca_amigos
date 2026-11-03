@@ -19,7 +19,7 @@ Documento para a Isabella e para o dono do negócio. O texto de cada slide está
 
 **Legenda das fontes:** `LP` = este repositório (langing_page_faca_amigos) · `CF` = repositório clinica_facaamigos (código do Portal) · `PLANO` = PLANO-TV3.md · `briefing do pedido` = instruções desta tarefa (dados de NPS e sessões, endereços, texto de benefício).
 
-**Famílias:** A: 12, B: 9, C: 8, D: 7, E: 2, R: 4 · total 42 slides · 600 s somados (sem repetir `a_lembrete`).
+**Famílias:** A: 12, B: 9, C: 8, D: 7, E: 4 (2 por dia), R: 4 · total 44 slides · 600 s somados (sem repetir `a_lembrete`).
 
 
 ---
@@ -632,7 +632,7 @@ Família D · 15 s · sem QR, layout padrao
 
 ---
 
-## E. Indicação do Mapeamento
+## E. Indicação do Mapeamento e e-books
 
 ### `e_indicar`
 Família E · 15 s · QR: teste, layout padrao
@@ -681,6 +681,52 @@ Família E · 15 s · QR: teste, layout padrao
   - Não substitui avaliação profissional: LP/teste.html:946; LP/teste-perguntas.json:6
   - Criado por Isabella Gonçalves Freitas (CRP 10/4727): LP/teste.html:945
   - Gratuito: LP/teste.html:941
+
+### `e_ebook_guia` **[ISABELLA]**
+Família E · 15 s · QR: guia, layout padrao, capa inteira na lateral (imageFit retrato), dias 1,3,5
+- **Intenção:** Reciprocidade antes da venda. O pedido é baixar o capítulo grátis, não comprar. Quem lê o começo decide sozinho, na página.
+- **Imagem:** `img/tv/ebook-guia-capa.webp` (original `img/tv3/ebook-guia-capa.webp`, cópia de `img/guia/capa.webp`)
+- **Texto na tela:**
+  - Kicker: 📖 Para ler em casa
+  - Headline: O capítulo 1 do guia é <em>grátis</em>.
+  - Subtexto: O Brincar com Propósito, da Isabella, leva a Análise do Comportamento para a rotina da casa, com exercícios curtos. Leia o começo antes de decidir.
+  - Selo: Capítulo 1 grátis
+  - Título da ação: Capítulo 1 em PDF, grátis
+  - Descrição da ação: Baixe no celular e veja se o jeito de escrever combina com a sua família.
+  - Título do QR: Baixe o capítulo 1
+  - Texto do QR: Aponte a câmera, abra a página e toque em Baixar o capítulo 1 grátis.
+  - Dica sob o QR: Escrito pela Isabella
+  - Ícone do destaque: 📄
+  - Destaque: Material educativo. Não substitui a avaliação e o acompanhamento da equipe.
+- **Fatos usados:**
+  - Capítulo 1 grátis e texto do botão: LP/src/data/paginas/guia.html:218-219
+  - Exercícios na rotina: LP/src/data/paginas/guia.html:39
+  - QR leva à prévia (`/guia#h-previa`), onde fica o botão do capítulo: LP/src/data/paginas/guia.html:194-219
+  - Material educativo: LP/src/data/paginas/guia.html:335
+
+### `e_ebook_codigo` **[ISABELLA]**
+Família E · 15 s · QR: codigo, layout padrao, capa inteira na lateral (imageFit retrato), dias 2,4
+- **Intenção:** Produto de entrada (R$ 9,90) com o preço à vista: a sala de espera tem tempo para ler um livro curto. O QR abre a prévia, não o checkout.
+- **Imagem:** `img/tv/ebook-codigo-capa.webp` (original `img/tv3/ebook-codigo-capa.webp`, cópia de `img/codigo/capa.webp`)
+- **Texto na tela:**
+  - Kicker: 📘 Para ler na espera
+  - Headline: Todo comportamento <em>tem uma lógica</em>.
+  - Subtexto: O Código do Desenvolvimento Infantil explica, em 9 capítulos curtos e sem jargão, por que um comportamento se repete e o que ajuda no dia a dia.
+  - Selo: E-book · R$ 9,90
+  - Título da ação: 9 capítulos, cerca de 40 páginas
+  - Descrição da ação: PDF para ler no celular, aqui na espera ou em casa, no seu ritmo.
+  - Título do QR: Veja o sumário
+  - Texto do QR: Aponte a câmera e abra a página com o sumário e páginas de amostra.
+  - Dica sob o QR: Escrito pela Isabella
+  - Ícone do destaque: 📄
+  - Destaque: Material educativo. Não substitui a avaliação e o acompanhamento da equipe.
+- **Fatos usados:**
+  - "O comportamento do seu filho tem lógica": LP/src/data/paginas/codigo.json (ogDescricao)
+  - 9 capítulos, 40 páginas, sem jargão, PDF no celular: LP/src/data/paginas/codigo.html:123, 172, 221-224
+  - Preço R$ 9,90: LP/src/data/paginas/codigo.html:43, 228. **Se o preço mudar na Hotmart, mudar aqui também.**
+  - Sumário na prévia (`/codigo#h-previa`): LP/src/data/paginas/codigo.html:168-176
+
+**Rodízio da família E:** para a volta continuar dentro de 12 min (teste do motor), cada dia tem um slide do Mapeamento e um de e-book: dias 1,3,5 `e_oque_e` + `e_ebook_guia`; dias 2,4 `e_indicar` + `e_ebook_codigo`.
 
 
 ---

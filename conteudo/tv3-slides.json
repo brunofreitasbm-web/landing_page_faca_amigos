@@ -945,6 +945,10 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "teste",
+    "dia": [
+      2,
+      4
+    ],
     "isabella": false,
     "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
@@ -970,6 +974,11 @@
     "dur": 15,
     "layout": "padrao",
     "qr": "teste",
+    "dia": [
+      1,
+      3,
+      5
+    ],
     "isabella": true,
     "image": "img/tv/clinica-atividade-pedagogica.webp",
     "images": [
@@ -988,6 +997,59 @@
     "qrHint": "Resultado na tela e por e-mail",
     "highlightIcon": "🧡",
     "highlightText": "Grátis e sem compromisso. Não substitui avaliação profissional."
+  },
+  {
+    "id": "e_ebook_guia",
+    "fam": "E",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "guia",
+    "dia": [
+      1,
+      3,
+      5
+    ],
+    "isabella": true,
+    "image": "img/tv/ebook-guia-capa.webp",
+    "imageFit": "retrato",
+    "kicker": "📖 Para ler em casa",
+    "kickerClass": "teal",
+    "headline": "O capítulo 1 do guia é <em>grátis</em>.",
+    "subtext": "O Brincar com Propósito, da Isabella, leva a Análise do Comportamento para a rotina da casa, com exercícios curtos. Leia o começo antes de decidir.",
+    "badge": "Capítulo 1 grátis",
+    "actionTitle": "Capítulo 1 em PDF, grátis",
+    "actionDesc": "Baixe no celular e veja se o jeito de escrever combina com a sua família.",
+    "qrTitle": "Baixe o capítulo 1",
+    "qrDesc": "Aponte a câmera, abra a página e toque em Baixar o capítulo 1 grátis.",
+    "qrHint": "Escrito pela Isabella",
+    "highlightIcon": "📄",
+    "highlightText": "Material educativo. Não substitui a avaliação e o acompanhamento da equipe."
+  },
+  {
+    "id": "e_ebook_codigo",
+    "fam": "E",
+    "dur": 15,
+    "layout": "padrao",
+    "qr": "codigo",
+    "dia": [
+      2,
+      4
+    ],
+    "isabella": true,
+    "image": "img/tv/ebook-codigo-capa.webp",
+    "imageFit": "retrato",
+    "kicker": "📘 Para ler na espera",
+    "kickerClass": "teal",
+    "headline": "Todo comportamento <em>tem uma lógica</em>.",
+    "subtext": "O Código do Desenvolvimento Infantil explica, em 9 capítulos curtos e sem jargão, por que um comportamento se repete e o que ajuda no dia a dia.",
+    "badge": "E-book · R$ 9,90",
+    "actionTitle": "9 capítulos, cerca de 40 páginas",
+    "actionDesc": "PDF para ler no celular, aqui na espera ou em casa, no seu ritmo.",
+    "qrTitle": "Veja o sumário",
+    "qrDesc": "Aponte a câmera e abra a página com o sumário e páginas de amostra.",
+    "qrHint": "Escrito pela Isabella",
+    "highlightIcon": "📄",
+    "highlightText": "Material educativo. Não substitui a avaliação e o acompanhamento da equipe."
   },
   {
     "id": "g_cinco",
