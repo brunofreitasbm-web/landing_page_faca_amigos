@@ -41,3 +41,5 @@ Objetivo: saber se uma mudança na TV faz mais famílias entrarem no Portal, em 
 
 O rótulo e as entradas se cruzam por data, não por pessoa. Isso mostra tendência, não prova causa. Se a clínica mudar de
 rotina de cadastro na mesma semana, a conclusão fica em aberto.
+
+> Atualização: `tv.html` e `tv2.html` também ficaram sem Tag Manager/Analytics (`data-fa-sem-tag`). O evento `tv2_slide` deixou de ser enviado ao GA4.
