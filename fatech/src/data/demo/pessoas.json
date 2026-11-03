@@ -1,0 +1,77 @@
+{
+  "clinica": "Clínica Arco-Íris",
+  "semana": "Semana de 09 a 13/11",
+  "kpis": [
+    { "rotulo": "Horas extras evitadas", "valor": "18 h", "cmp": "▲ 7 h a mais que em outubro", "tom": "sobe" },
+    { "rotulo": "Pontos fora da clínica bloqueados", "valor": "9", "cmp": "▼ eram 14 em outubro", "tom": "sobe" },
+    { "rotulo": "Documentos em dia", "valor": "92%", "cmp": "Meta 95% · ▲ 6 p.p. vs. outubro", "tom": "neutro" },
+    { "rotulo": "Pontos sem falha de registro", "valor": "97%", "cmp": "▲ 11 p.p. vs. outubro", "tom": "sobe" }
+  ],
+  "ponto": {
+    "pessoa": "Ana Beatriz",
+    "funcao": "Estagiária de Psicologia",
+    "distancia": "12 m",
+    "distanciaCasa": "4,2 km",
+    "hora": "07:58"
+  },
+  "historico": [
+    { "nome": "Rafael T.", "hora": "07:41", "tipo": "Entrada", "ok": true, "obs": "Na clínica (8 m) · rosto confirmado" },
+    { "nome": "Júlia F.", "hora": "07:52", "tipo": "Entrada", "ok": true, "obs": "Na clínica (15 m) · rosto confirmado" },
+    { "nome": "Pedro H.", "hora": "07:55", "tipo": "Entrada", "ok": false, "obs": "Recusado: rosto não confere com o cadastro" }
+  ],
+  "limiteDia": 6,
+  "limiteSemana": 30,
+  "dias": ["Seg", "Ter", "Qua", "Qui", "Sex"],
+  "frequencia": [
+    { "nome": "Ana Beatriz S.", "curso": "Psicologia", "horas": [6, 5.5, 6, 5.5, null], "situacao": "ok", "nota": "Dentro do limite" },
+    { "nome": "Caio R.", "curso": "Psicologia", "horas": [6, 6, 6, 6, null], "situacao": "alerta", "nota": "Pode fazer só 6 h na sexta" },
+    { "nome": "Larissa M.", "curso": "Terapia Ocupacional", "horas": [5, 5, "falta", 5, null], "situacao": "erro", "nota": "Quarta sem saída registrada" },
+    { "nome": "Pedro H.", "curso": "Fonoaudiologia", "horas": [4, 4, 4, 4, null], "situacao": "ok", "nota": "Dentro do limite" },
+    { "nome": "Júlia F.", "curso": "Psicologia", "horas": [6, 5, 6, 6.5, null], "situacao": "alerta", "nota": "Passou de 6 h na quinta" },
+    { "nome": "Rafael T.", "curso": "Pedagogia", "horas": [5, 5, 5, 5, null], "situacao": "ok", "nota": "Dentro do limite" }
+  ],
+  "alertas": [
+    { "tipo": "alerta", "texto": "Caio R. já tem 24 h na semana. Na sexta pode fazer no máximo 6 h para não passar das 30 h da lei." },
+    { "tipo": "alerta", "texto": "Júlia F. ficou 6 h 30 na quinta. A supervisora recebeu aviso para ajustar o horário." },
+    { "tipo": "erro", "texto": "Larissa M. bateu a entrada na quarta, mas não a saída. Ela recebeu mensagem para justificar." }
+  ],
+  "dossie": {
+    "nome": "Ana Beatriz Souza",
+    "curso": "Psicologia · 7º semestre",
+    "instituicao": "Faculdade Ventura (fictícia)",
+    "supervisora": "Helena Costa, psicóloga",
+    "unidade": "Clínica Arco-Íris",
+    "inicio": "03/03/2026",
+    "fim": "02/03/2027",
+    "bolsa": "R$ 1.100,00",
+    "auxilio": "R$ 220,00",
+    "jornada": "6 h por dia · 30 h por semana",
+    "documentos": [
+      { "nome": "Termo de compromisso de estágio (TCE) assinado", "status": "ok", "info": "Assinado pelas 3 partes" },
+      { "nome": "Plano de atividades", "status": "ok", "info": "Aprovado pela faculdade" },
+      { "nome": "Seguro contra acidentes", "status": "ok", "info": "Vale até 02/03/2027" },
+      { "nome": "Comprovante de matrícula do semestre", "status": "alerta", "info": "Vence em 12 dias" },
+      { "nome": "Relatório semestral de atividades", "status": "erro", "info": "Atrasado 5 dias" },
+      { "nome": "Documento com foto e CPF", "status": "ok", "info": "Conferido" }
+    ],
+    "avaliacoes": [
+      { "periodo": "1º bimestre", "nota": 8.5, "texto": "Pontual e atenta às crianças. Precisa ganhar segurança para falar com as famílias." },
+      { "periodo": "2º bimestre", "nota": 9.2, "texto": "Melhorou muito a conversa com as famílias. Registros de sessão completos." }
+    ]
+  },
+  "funcoes": ["Acompanhante terapêutico", "Recepção", "Estágio em Psicologia"],
+  "disc": {
+    "D": { "rot": "Decisão", "cor": "#C0392B" },
+    "I": { "rot": "Comunicação", "cor": "#B7791F" },
+    "S": { "rot": "Calma e paciência", "cor": "#1F8A5B" },
+    "C": { "rot": "Organização", "cor": "#1F7F86" }
+  },
+  "talentos": [
+    { "id": "t1", "nome": "Mariana L.", "funcao": "Acompanhante terapêutico", "fit": 91, "perfil": { "D": 20, "I": 35, "S": 85, "C": 60 }, "bairro": "Marco", "formacao": "Psicologia (6º semestre)", "disponibilidade": "Manhã e tarde", "fortes": ["Muita paciência com crianças que se desregulam", "Já trabalhou com ABA em projeto da faculdade"], "atencao": ["Prefere rotina fixa: avisar com antecedência de mudanças"] },
+    { "id": "t2", "nome": "Thiago P.", "funcao": "Acompanhante terapêutico", "fit": 74, "perfil": { "D": 55, "I": 70, "S": 50, "C": 30 }, "bairro": "Pedreira", "formacao": "Educação Física", "disponibilidade": "Tarde", "fortes": ["Ótimo em atividades motoras", "Puxa conversa com as famílias"], "atencao": ["Registros de sessão podem ficar incompletos"] },
+    { "id": "t3", "nome": "Fernanda C.", "funcao": "Recepção", "fit": 88, "perfil": { "D": 30, "I": 80, "S": 65, "C": 55 }, "bairro": "Umarizal", "formacao": "Administração", "disponibilidade": "Integral", "fortes": ["Simpática ao telefone e no WhatsApp", "Experiência com agenda de consultório"], "atencao": ["Precisa de treino em autorizações de plano"] },
+    { "id": "t4", "nome": "Gustavo R.", "funcao": "Recepção", "fit": 62, "perfil": { "D": 70, "I": 40, "S": 25, "C": 50 }, "bairro": "Nazaré", "formacao": "Ensino médio completo", "disponibilidade": "Manhã", "fortes": ["Resolve problemas rápido"], "atencao": ["Pode soar apressado com famílias ansiosas"] },
+    { "id": "t5", "nome": "Beatriz N.", "funcao": "Estágio em Psicologia", "fit": 85, "perfil": { "D": 25, "I": 45, "S": 70, "C": 80 }, "bairro": "Batista Campos", "formacao": "Psicologia (5º semestre)", "disponibilidade": "Manhã", "fortes": ["Organizada nos registros", "Estudou desenvolvimento infantil"], "atencao": ["Ainda tímida em grupo"] },
+    { "id": "t6", "nome": "Lucas V.", "funcao": "Estágio em Psicologia", "fit": 69, "perfil": { "D": 45, "I": 75, "S": 40, "C": 35 }, "bairro": "Cremação", "formacao": "Psicologia (4º semestre)", "disponibilidade": "Tarde", "fortes": ["Criativo nas brincadeiras"], "atencao": ["Precisa de supervisão próxima nos registros"] }
+  ]
+}

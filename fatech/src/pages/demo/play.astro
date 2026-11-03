@@ -1,0 +1,510 @@
+---
+// Demonstração FA Play: balcão de espaço de brincar (entrada com cuidados sensoriais, painel com tempo,
+// saída com pulseira + ticket, caixa às cegas e app do dono). Funciona sem internet.
+// Dados inventados em src/data/demo/play.json.
+import Demo from '../../layouts/Demo.astro';
+import Historia from '../../components/Historia.astro';
+import { icone } from '../../lib/icone.js';
+import d from '../../data/demo/play.json';
+
+const icones: Record<string, string> = Object.fromEntries(d.tags.map((t) => [t.id, icone(t.icone, { tamanho: 16, traco: 2 })]));
+const wifi = icone('wifi-off', { tamanho: 20, traco: 2 });
+const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+---
+<Demo titulo="FA Play · demonstração" produto="FA Play">
+  <main class="wrap stack">
+    <Historia
+      espelho="O caixa do seu espaço de brincar <strong>fecha certo</strong> todo dia?"
+      antes="Tempo controlado no relógio de parede, criança passando do tempo sem ninguém cobrar e diferença no caixa sem explicação."
+      virada="Montamos um sistema de balcão que funciona até sem internet."
+      depois="Tempo controlado sozinho, saída segura com pulseira e ticket, e um caixa que confere sozinho."
+    />
+
+    <div class="row between">
+      <div><h2>{d.espaco}</h2><p class="muted small">{d.data} · balcão de atendimento</p></div>
+      <div class="row">
+        <span class="pill p-ok" id="status-net">Online · tudo sincronizado</span>
+        <button class="btn btn-sec" id="btn-offline" type="button">Simular queda de internet</button>
+      </div>
+    </div>
+    <div class="offline" id="banner-off" role="status" hidden>
+      <span set:html={wifi} />
+      <span><b>Sem internet: tudo continua funcionando e sincroniza quando voltar.</b><br /><span class="small" id="pend-txt">Nenhum registro esperando.</span></span>
+    </div>
+
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true" data-aba="entrada" id="aba-entrada">Entrada</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="painel" id="aba-painel">Painel ao vivo</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="saida" id="aba-saida">Saída</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="caixa" id="aba-caixa">Caixa</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="dono" id="aba-dono">App do dono</button>
+    </div>
+
+    <!-- ENTRADA -->
+    <section data-painel="entrada">
+      <div class="grid g2" style="align-items:start">
+        <form class="card stack" id="form-entrada" onsubmit="return false">
+          <h3>Nova entrada</h3>
+          <div class="campo"><label for="e-nome">Nome da criança</label><input id="e-nome" value="Sofia L." autocomplete="off" /></div>
+          <div class="campo"><label for="e-resp">Responsável que vai buscar</label><input id="e-resp" value="Renata L." autocomplete="off" /></div>
+          <div class="campo">
+            <label>Plano</label>
+            <div class="planos" id="planos">
+              {d.planos.map((p) => (
+                <button type="button" class="plano" data-min={p.min} aria-pressed={p.min === 30 ? 'true' : 'false'}>
+                  <b>{p.min} min</b><span class="small">{brl(p.preco)}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div class="campo" id="tags-sensoriais">
+            <label>Cuidados da criança (a equipe vê no painel)</label>
+            <div class="row" style="gap:8px">
+              {d.tags.map((t) => (
+                <button type="button" class="chip tagchip" data-tag={t.id} aria-pressed={t.id === 'barulho' || t.id === 'autismo' ? 'true' : 'false'}>
+                  <span set:html={icones[t.id]} />{t.rot}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button class="btn btn-pri" id="btn-entrada" type="button" style="min-height:52px">Gerar pulseira e iniciar o tempo</button>
+        </form>
+        <div class="card stack" id="pulseira-res">
+          <h3>Pulseira e ticket</h3>
+          <div class="vazio-res muted small" id="pulseira-vazio">A pulseira aparece aqui. A criança fica com a pulseira e o responsável com o ticket de mesmo número.</div>
+          <div id="pulseira-ok" hidden class="stack">
+            <div class="pulseira-vis"><span class="furo"></span><b class="num" id="pv-num"></b><span id="pv-nome"></span></div>
+            <div class="ticket-vis">
+              <span class="small muted">Ticket do responsável</span>
+              <b class="num" id="tk-num"></b>
+              <span class="small" id="tk-info"></span>
+            </div>
+            <p class="small muted">Na saída, o sistema confere se a pulseira e o ticket têm o mesmo número.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAINEL -->
+    <section data-painel="painel" class="stack" hidden>
+      <div class="row between">
+        <div><h2>Quem está brincando agora</h2><p class="muted small">Tempo acelerado para a demonstração · <span id="qtd-agora"></span></p></div>
+        <div class="row small">
+          <span class="luzleg verde">Mais de 10 min</span><span class="luzleg amarelo">Até 10 min</span><span class="luzleg laranja">Até 5 min</span><span class="luzleg vermelho">Passou do tempo</span>
+        </div>
+      </div>
+      <div class="grid g3" id="painel-grid"></div>
+    </section>
+
+    <!-- SAÍDA -->
+    <section data-painel="saida" hidden>
+      <div class="grid g2" style="align-items:start">
+        <div class="card stack">
+          <h3>Saída da criança</h3>
+          <p class="small muted">Leia a pulseira da criança e o ticket do responsável. Só libera se os dois forem iguais.</p>
+          <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div class="campo"><label for="s-pul">Nº da pulseira</label><input id="s-pul" inputmode="numeric" autocomplete="off" /></div>
+            <div class="campo"><label for="s-tk">Nº do ticket</label><input id="s-tk" inputmode="numeric" autocomplete="off" /></div>
+          </div>
+          <button class="btn btn-pri" id="btn-liberar" type="button">Conferir e liberar</button>
+          <div class="ex">
+            <span class="small muted">Testes rápidos:</span>
+            <button class="btn btn-sec" id="btn-certo" type="button">Pulseira e ticket certos</button>
+            <button class="btn btn-sec" id="btn-trocado" type="button">Pulseira e ticket trocados</button>
+          </div>
+        </div>
+        <div class="card stack" id="saida-res">
+          <h3>Conta da saída</h3>
+          <p class="muted small" id="saida-vazio">Depois de conferir, a conta aparece aqui com o tempo extra calculado sozinho.</p>
+          <div id="saida-conta" hidden class="stack"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAIXA -->
+    <section data-painel="caixa" hidden>
+      <div class="grid g2" style="align-items:start">
+        <div class="card stack">
+          <h3>Fechamento do caixa · operadora {d.caixa.operadora}</h3>
+          <p class="small muted">Conte o dinheiro da gaveta e digite o total. O sistema só mostra quanto deveria ter depois que você digitar. Assim ninguém "ajusta" a contagem.</p>
+          <div class="campo">
+            <label for="c-cont">Dinheiro contado na gaveta (R$)</label>
+            <input id="c-cont" inputmode="decimal" placeholder={`ex.: ${d.caixa.exemploContado}`} autocomplete="off" />
+          </div>
+          <button class="btn btn-pri" id="btn-fechar" type="button">Fechar caixa</button>
+          <p class="small muted">Pix e cartão conferem sozinhos com o banco e a maquininha.</p>
+        </div>
+        <div class="card stack" id="caixa-res">
+          <h3>Conferência</h3>
+          <div class="cego" id="caixa-cego">
+            <span class="cadeado">?</span>
+            <p class="small muted">Valor esperado escondido até a contagem.</p>
+          </div>
+          <div id="caixa-conf" hidden class="stack"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DONO -->
+    <section data-painel="dono" hidden>
+      <div class="grid g2" style="align-items:start">
+        <div class="stack">
+          <h2>O dono acompanha pelo celular</h2>
+          <p class="muted">De casa ou viajando: quanto entrou hoje, quantas crianças estão brincando e se o caixa fechou certo. Cada número vem comparado com a semana passada ou com a meta.</p>
+        </div>
+        <div class="celular" id="app-dono">
+          <div class="tela dono">
+            <div class="dono-topo"><span class="small">Hoje · {d.espaco}</span><b>Olá, Sérgio</b></div>
+            <div class="dono-corpo stack">
+              <div class="card kpi mini">
+                <div class="rot">Faturamento hoje</div>
+                <div class="val">{brl(d.dono.faturamento)}</div>
+                <div class="cmp sobe">▲ {Math.round((d.dono.faturamento / d.dono.faturamentoSemanaPassada - 1) * 100)}% vs. quarta passada ({brl(d.dono.faturamentoSemanaPassada)})</div>
+              </div>
+              <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px">
+                <div class="card kpi mini">
+                  <div class="rot">Crianças agora</div>
+                  <div class="val" id="dono-agora">6</div>
+                  <div class="cmp" id="dono-agora-cmp">vs. {d.dono.criancasMesmaHora} na quarta passada</div>
+                </div>
+                <div class="card kpi mini">
+                  <div class="rot">Ticket médio</div>
+                  <div class="val">{brl(d.dono.ticket)}</div>
+                  <div class="cmp desce">{Math.round((d.dono.ticket / d.dono.metaTicket) * 100)}% da meta ({brl(d.dono.metaTicket)})</div>
+                </div>
+              </div>
+              <div class="card kpi mini">
+                <div class="rot">Tempo extra cobrado</div>
+                <div class="val">{brl(d.dono.extraCobrado)}</div>
+                <div class="cmp sobe">vs. {brl(d.dono.extraSemanaPassada)} na quarta passada</div>
+              </div>
+              <div>
+                <h3>Avisos</h3>
+                <div id="dono-alertas" class="stack" style="margin-top:8px">
+                  <div class="alerta-item"><span class="pill p-alerta">Caixa</span><span class="small">Ontem o caixa fechou com R$ 18,00 a menos. Joana justificou: troco errado.</span></div>
+                  <div class="alerta-item"><span class="pill p-info">Tempo</span><span class="small">3 crianças passaram do tempo hoje. Todas cobradas na saída.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-fundo" id="modal" hidden>
+    <div class="modal stack" role="alertdialog" aria-modal="true" aria-labelledby="modal-tit">
+      <h2 id="modal-tit"></h2>
+      <div id="modal-corpo" class="stack"></div>
+      <div class="row" id="modal-acoes"></div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ dados: d, icones: icones }}>
+    window.FA_DADOS = { d: dados, icones: icones };
+    window.FA_TOUR = [
+      { alvo: '#btn-entrada', texto: 'Na entrada, o balcão anota a criança, o plano e os cuidados dela, como "sensível a barulho". Toque para gerar a pulseira.', clique: true },
+      { alvo: '#aba-painel', texto: 'Agora veja o painel que a equipe acompanha. Toque aqui.', clique: true },
+      { alvo: '#painel-grid', texto: 'Cada criança com o tempo correndo. Verde, amarelo, laranja e vermelho: dá para ver de longe quem está acabando. Os ícones mostram os cuidados de cada uma.' },
+      { alvo: '#aba-saida', texto: 'O momento mais importante: a saída. Toque aqui.', clique: true },
+      { alvo: '#btn-trocado', texto: 'Teste uma troca: a pulseira de uma criança com o ticket de outra família. Toque aqui.', clique: true },
+      { alvo: '#modal .modal', texto: 'Saída bloqueada. Nenhuma criança sai com quem não deve. Toque no aviso para fechar.', clique: true },
+      { alvo: '#aba-caixa', texto: 'Fim do dia: o caixa é fechado às cegas. Toque aqui.', clique: true },
+      { alvo: '#aba-dono', texto: 'E o dono acompanha tudo pelo celular. Toque aqui.', clique: true },
+      { alvo: '#btn-offline', texto: 'E se a internet cair no meio do sábado? Toque aqui.', clique: true }
+    ];
+  </script>
+  <script>
+    const { d, icones } = (window as any).FA_DADOS;
+    const fa = (window as any).fa;
+    const $ = (id: string) => document.getElementById(id)!;
+    const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const tagRot: Record<string, string> = Object.fromEntries(d.tags.map((t: any) => [t.id, t.rot]));
+
+    // Abas
+    const abas = document.querySelectorAll<HTMLButtonElement>('.aba');
+    abas.forEach((b) => b.addEventListener('click', () => {
+      abas.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      document.querySelectorAll<HTMLElement>('[data-painel]').forEach((p) => (p.hidden = p.dataset.painel !== b.dataset.aba));
+    }));
+
+    // Modal
+    const modal = $('modal');
+    let acaoPerigo: (() => void) | undefined;
+    function abrir(tit: string, corpo: string, acoes: { rot: string; cls: string; fn?: () => void }[], perigo = false) {
+      acaoPerigo = perigo ? acoes[0]?.fn : undefined;
+      $('modal-tit').textContent = tit;
+      $('modal-tit').style.color = perigo ? 'var(--erro)' : '';
+      $('modal-corpo').innerHTML = corpo;
+      modal.querySelector('.modal')!.classList.toggle('perigo', perigo);
+      const box = $('modal-acoes'); box.innerHTML = '';
+      acoes.forEach((a) => {
+        const b = document.createElement('button');
+        b.className = `btn ${a.cls}`; b.textContent = a.rot; b.type = 'button';
+        b.onclick = () => { modal.hidden = true; a.fn?.(); };
+        box.appendChild(b);
+      });
+      modal.hidden = false;
+    }
+    // No alerta de bloqueio, tocar em qualquer parte do aviso equivale a "Chamei o responsável".
+    modal.querySelector('.modal')!.addEventListener('click', (e) => {
+      if (!modal.querySelector('.modal')!.classList.contains('perigo')) return;
+      if ((e.target as HTMLElement).closest('button')) return;
+      modal.hidden = true; acaoPerigo?.();
+    });
+
+    // Internet (simulada)
+    let offline = false, pendentes = 0;
+    function registrar() {
+      if (!offline) return;
+      pendentes++;
+      $('pend-txt').textContent = `${pendentes} ${pendentes === 1 ? 'registro guardado' : 'registros guardados'} no aparelho, esperando a internet.`;
+    }
+    $('btn-offline').addEventListener('click', () => {
+      offline = !offline;
+      const st = $('status-net');
+      $('banner-off').hidden = !offline;
+      if (offline) {
+        pendentes = 0; $('pend-txt').textContent = 'Pode continuar atendendo normalmente: entrada, saída e caixa.';
+        st.className = 'pill p-alerta'; st.textContent = 'Sem internet · modo local';
+        $('btn-offline').textContent = 'Voltar a internet';
+        $('banner-off').scrollIntoView({ block: 'center', behavior: 'smooth' });
+        fa.aviso('Internet caiu. O balcão continua funcionando.', 'erro');
+      } else {
+        st.className = 'pill p-ok'; st.textContent = 'Online · tudo sincronizado';
+        $('btn-offline').textContent = 'Simular queda de internet';
+        fa.aviso(pendentes ? `Internet voltou: ${pendentes} registro(s) sincronizado(s).` : 'Internet voltou. Tudo sincronizado.', 'ok');
+      }
+    });
+
+    // Estado das crianças (minutos restantes, podem ficar negativos)
+    type Crianca = { nome: string; responsavel: string; pulseira: number; plano: number; restante: number; tags: string[] };
+    const criancas: Crianca[] = d.criancas.map((c: any) => ({ ...c }));
+    let proxPulseira = d.proximaPulseira;
+    const grid = $('painel-grid');
+
+    function fase(r: number) {
+      if (r < 0) return { cls: 'vermelho', rot: `Passou ${Math.ceil(-r)} min: cobrar extra` };
+      if (r <= 5) return { cls: 'laranja', rot: 'Acabando: avisar a família' };
+      if (r <= 10) return { cls: 'amarelo', rot: 'Menos de 10 min' };
+      return { cls: 'verde', rot: 'Tempo de sobra' };
+    }
+    const mmss = (r: number) => {
+      const s = Math.floor(Math.abs(r) * 60);
+      return `${r < 0 ? '+' : ''}${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+    };
+    function card(c: Crianca) {
+      const el = document.createElement('article');
+      el.className = 'card crianca'; el.dataset.p = String(c.pulseira); el.id = `cr-${c.pulseira}`;
+      el.innerHTML = `
+        <div class="cr-topo"><b>${c.nome}</b><span class="pulseira-tag num">Pulseira ${c.pulseira}</span></div>
+        <div class="cr-tempo"><span class="luz"></span><span class="tempo num"></span></div>
+        <div class="cr-rot small"></div>
+        <div class="small muted">Plano ${c.plano} min · busca: ${c.responsavel}</div>
+        ${c.tags.length ? `<div class="cr-tags">${c.tags.map((t) => `<span class="cr-tag" title="${tagRot[t]}">${icones[t]}${tagRot[t]}</span>`).join('')}</div>` : ''}
+        <button class="btn btn-sec cr-avisar" type="button">Avisar responsável</button>`;
+      el.querySelector('.cr-avisar')!.addEventListener('click', () => {
+        registrar();
+        fa.aviso(`Mensagem enviada para ${c.responsavel}: ${c.restante < 0 ? `${c.nome} já passou do tempo.` : `faltam ${Math.max(1, Math.ceil(c.restante))} min para ${c.nome}.`}`, 'ok');
+      });
+      return el;
+    }
+    function atualizar() {
+      criancas.forEach((c) => {
+        const el = document.getElementById(`cr-${c.pulseira}`);
+        if (!el) return;
+        const f = fase(c.restante);
+        el.className = `card crianca luz-${f.cls}`;
+        el.querySelector('.tempo')!.textContent = mmss(c.restante);
+        el.querySelector('.cr-rot')!.textContent = f.rot;
+      });
+      $('qtd-agora').textContent = `${criancas.length} ${criancas.length === 1 ? 'criança' : 'crianças'} brincando`;
+      $('dono-agora').textContent = String(criancas.length);
+      const dif = criancas.length - d.dono.criancasMesmaHora;
+      const cmp = $('dono-agora-cmp');
+      cmp.className = `cmp ${dif > 0 ? 'sobe' : dif < 0 ? 'desce' : 'neutro'}`;
+      cmp.textContent = `${dif > 0 ? '▲ ' : dif < 0 ? '▼ ' : ''}vs. ${d.dono.criancasMesmaHora} na quarta passada`;
+    }
+    criancas.forEach((c) => grid.appendChild(card(c)));
+    atualizar();
+    const relogio = window.setInterval(() => {
+      criancas.forEach((c) => (c.restante -= d.velocidade / 60));
+      atualizar();
+    }, 1000);
+    addEventListener('pagehide', () => clearInterval(relogio));
+
+    // Entrada
+    let planoSel = 30;
+    document.querySelectorAll<HTMLButtonElement>('.plano').forEach((b) => b.addEventListener('click', () => {
+      document.querySelectorAll('.plano').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      planoSel = Number(b.dataset.min);
+    }));
+    document.querySelectorAll<HTMLButtonElement>('.tagchip').forEach((b) => b.addEventListener('click', () => {
+      b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+    }));
+    $('btn-entrada').addEventListener('click', () => {
+      const nome = ($('e-nome') as HTMLInputElement).value.trim();
+      const resp = ($('e-resp') as HTMLInputElement).value.trim();
+      if (!nome || !resp) return fa.aviso('Preencha o nome da criança e de quem vai buscar.', 'erro');
+      const tags = [...document.querySelectorAll<HTMLElement>('.tagchip[aria-pressed="true"]')].map((x) => x.dataset.tag!);
+      const c: Crianca = { nome, responsavel: resp, pulseira: proxPulseira++, plano: planoSel, restante: planoSel, tags };
+      criancas.push(c); grid.prepend(card(c)); atualizar(); registrar();
+      $('pulseira-vazio').hidden = true; $('pulseira-ok').hidden = false;
+      $('pv-num').textContent = String(c.pulseira); $('pv-nome').textContent = nome;
+      $('tk-num').textContent = String(c.pulseira);
+      const preco = d.planos.find((p: any) => p.min === planoSel).preco;
+      $('tk-info').textContent = `${nome} · ${planoSel} min · ${brl(preco)} · busca: ${resp}`;
+      fa.aviso(`Pulseira ${c.pulseira} gerada. O tempo de ${nome} já está correndo.`, 'ok');
+      ($('e-nome') as HTMLInputElement).value = ''; ($('e-resp') as HTMLInputElement).value = '';
+    });
+
+    // Saída
+    const sPul = $('s-pul') as HTMLInputElement, sTk = $('s-tk') as HTMLInputElement;
+    function conferir() {
+      const p = Number(sPul.value), t = Number(sTk.value);
+      if (!p || !t) return fa.aviso('Digite o número da pulseira e do ticket.', 'erro');
+      const c = criancas.find((x) => x.pulseira === p);
+      if (!c) return fa.aviso(`A pulseira ${p} não está no painel.`, 'erro');
+      if (p !== t) {
+        const outro = criancas.find((x) => x.pulseira === t);
+        return abrir('Pulseira e ticket não batem: chame o responsável', `
+          <p>A pulseira <b>${p}</b> é de <b>${c.nome}</b>, que deve ser buscado por <b>${c.responsavel}</b>.</p>
+          <p>O ticket <b>${t}</b> ${outro ? `é de outra criança (${outro.nome}).` : 'não é de nenhuma criança no espaço.'}</p>
+          <p class="small muted">A saída fica travada até o responsável certo chegar com o ticket certo. O dono recebe o aviso.</p>`,
+          [{ rot: 'Chamei o responsável', cls: 'btn-perigo', fn: () => fa.aviso('Saída segurada. Aguardando o responsável com o ticket certo.', 'erro') }], true);
+      }
+      const extraMin = c.restante < 0 ? Math.ceil(-c.restante) : 0;
+      const preco = d.planos.find((x: any) => x.min === c.plano).preco;
+      const extra = extraMin * d.extraMinuto;
+      $('saida-vazio').hidden = true;
+      const conta = $('saida-conta'); conta.hidden = false;
+      conta.innerHTML = `
+        <div class="row between"><b>${c.nome}</b><span class="pill p-ok">Pulseira e ticket conferem</span></div>
+        <table class="tabela"><tbody>
+          <tr><td>Plano ${c.plano} min (pago na entrada)</td><td class="num" style="text-align:right">${brl(preco)}</td></tr>
+          <tr><td>Tempo usado</td><td class="num" style="text-align:right">${Math.max(1, Math.round(c.plano - c.restante))} min</td></tr>
+          <tr><td>${extraMin ? `Tempo extra: ${extraMin} min × ${brl(d.extraMinuto)}` : 'Sem tempo extra'}</td><td class="num" style="text-align:right"><b>${brl(extra)}</b></td></tr>
+        </tbody></table>
+        <button class="btn btn-ok" id="btn-cobrar" type="button">${extra ? `Cobrar ${brl(extra)} e liberar` : 'Liberar saída'}</button>`;
+      $('btn-cobrar').addEventListener('click', () => {
+        const i = criancas.indexOf(c);
+        if (i >= 0) criancas.splice(i, 1);
+        document.getElementById(`cr-${c.pulseira}`)?.remove();
+        atualizar(); registrar();
+        conta.innerHTML = `<p><b>${c.nome}</b> saiu com ${c.responsavel}.</p><p class="small muted">Saída registrada${extra ? ` e ${brl(extra)} de tempo extra cobrados` : ''}.</p>`;
+        sPul.value = ''; sTk.value = '';
+        fa.aviso(`${c.nome} liberado(a) com ${c.responsavel}.`, 'ok');
+      });
+    }
+    $('btn-liberar').addEventListener('click', conferir);
+    $('btn-certo').addEventListener('click', () => {
+      const c = [...criancas].sort((a, b) => a.restante - b.restante)[0];
+      if (!c) return fa.aviso('Não há crianças no espaço.', 'erro');
+      sPul.value = sTk.value = String(c.pulseira);
+      conferir();
+    });
+    $('btn-trocado').addEventListener('click', () => {
+      if (criancas.length < 2) return fa.aviso('Este teste precisa de duas crianças no espaço.', 'erro');
+      sPul.value = String(criancas[0].pulseira); sTk.value = String(criancas[1].pulseira);
+      conferir();
+    });
+
+    // Caixa às cegas
+    const esperado = d.caixa.fundo + d.caixa.dinheiro;
+    $('btn-fechar').addEventListener('click', () => {
+      const inp = $('c-cont') as HTMLInputElement;
+      const raw = inp.value.trim().replace(/\./g, '').replace(',', '.');
+      const contado = Number(raw);
+      if (!raw || Number.isNaN(contado)) return fa.aviso('Digite quanto dinheiro tem na gaveta.', 'erro');
+      inp.disabled = true; ($('btn-fechar') as HTMLButtonElement).disabled = true;
+      registrar();
+      const dif = Math.round((contado - esperado) * 100) / 100;
+      $('caixa-cego').hidden = true;
+      const box = $('caixa-conf'); box.hidden = false;
+      box.innerHTML = `
+        <table class="tabela"><tbody>
+          <tr><td>Fundo de troco</td><td class="num" style="text-align:right">${brl(d.caixa.fundo)}</td></tr>
+          <tr><td>Vendas em dinheiro</td><td class="num" style="text-align:right">${brl(d.caixa.dinheiro)}</td></tr>
+          <tr><td><b>Deveria ter na gaveta</b></td><td class="num" style="text-align:right"><b>${brl(esperado)}</b></td></tr>
+          <tr><td><b>Contado</b></td><td class="num" style="text-align:right"><b>${brl(contado)}</b></td></tr>
+        </tbody></table>
+        <div class="dif ${dif === 0 ? 'ok' : 'erro'}">
+          ${dif === 0 ? '<b>Caixa certo.</b> Nenhuma diferença.' : `<b>Diferença de ${brl(Math.abs(dif))} ${dif < 0 ? 'a menos' : 'a mais'}.</b> A operadora precisa justificar e o dono já foi avisado no celular.`}
+        </div>
+        <p class="small muted">Pix ${brl(d.caixa.pix)} e cartão ${brl(d.caixa.cartao)} conferidos com o banco e a maquininha.</p>
+        <button class="btn btn-sec" id="btn-recontar" type="button">Contar de novo</button>`;
+      $('btn-recontar').addEventListener('click', () => {
+        inp.disabled = false; inp.value = ''; ($('btn-fechar') as HTMLButtonElement).disabled = false;
+        box.hidden = true; $('caixa-cego').hidden = false;
+      });
+      if (dif !== 0) {
+        const a = document.createElement('div');
+        a.className = 'alerta-item';
+        a.innerHTML = `<span class="pill p-erro">Caixa</span><span class="small">Hoje o caixa fechou com ${brl(Math.abs(dif))} ${dif < 0 ? 'a menos' : 'a mais'}. Aguardando justificativa de ${d.caixa.operadora}.</span>`;
+        $('dono-alertas').prepend(a);
+        fa.aviso(`Diferença de ${brl(Math.abs(dif))} registrada. O dono foi avisado.`, 'erro');
+      } else fa.aviso('Caixa fechado sem diferença.', 'ok');
+    });
+  </script>
+</Demo>
+<style>
+  .offline { display: flex; gap: 12px; align-items: flex-start; background: var(--alerta-suave); border: 1px solid var(--alerta); color: #6B4510; border-radius: var(--raio); padding: 14px 16px; line-height: 1.4; }
+  .offline[hidden] { display: none; }
+  .offline > span:first-child { display: grid; margin-top: 2px; }
+
+  .planos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .plano { min-height: 64px; border: 1px solid var(--linha); background: #fff; border-radius: var(--raio); font: inherit; color: var(--tinta); cursor: pointer; display: grid; place-content: center; gap: 2px; text-align: center; }
+  .plano[aria-pressed="true"] { background: var(--petroleo-900); color: #fff; border-color: var(--petroleo-900); }
+  .tagchip { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+  .tagchip :global(svg) { flex: none; }
+
+  .vazio-res { border: 1px dashed var(--linha); border-radius: var(--raio); padding: 24px 16px; text-align: center; }
+  .pulseira-vis { position: relative; background: linear-gradient(90deg, var(--agua), var(--petroleo-600)); color: #fff; border-radius: 999px; padding: 14px 20px 14px 52px; display: flex; align-items: baseline; gap: 12px; animation: entra .4s ease-out; }
+  .pulseira-vis .furo { position: absolute; left: 18px; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; background: var(--gelo); }
+  .pulseira-vis b { font-size: 30px; font-weight: 700; letter-spacing: .04em; }
+  .ticket-vis { border: 2px dashed var(--linha); border-radius: var(--raio); padding: 12px 16px; display: grid; gap: 2px; }
+  .ticket-vis b { font-size: 26px; color: var(--petroleo-900); }
+  @keyframes entra { from { opacity: 0; transform: translateY(8px); } }
+
+  .luzleg { display: inline-flex; align-items: center; gap: 6px; }
+  .luzleg::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--c); }
+  .verde { --c: #1F8A5B; } .amarelo { --c: #D4A017; } .laranja { --c: #E07B24; } .vermelho { --c: #C0392B; }
+
+  #painel-grid :global(.crianca) { display: grid; gap: 8px; border-top: 6px solid var(--c, var(--linha)); transition: border-color .4s; }
+  #painel-grid :global(.luz-verde) { --c: #1F8A5B; }
+  #painel-grid :global(.luz-amarelo) { --c: #D4A017; }
+  #painel-grid :global(.luz-laranja) { --c: #E07B24; }
+  #painel-grid :global(.luz-vermelho) { --c: #C0392B; background: var(--erro-suave); }
+  #painel-grid :global(.cr-topo) { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  #painel-grid :global(.pulseira-tag) { font-size: 12px; font-weight: 600; color: var(--petroleo-600); background: var(--info-suave); border-radius: 999px; padding: 2px 8px; white-space: nowrap; }
+  #painel-grid :global(.cr-tempo) { display: flex; align-items: center; gap: 10px; }
+  #painel-grid :global(.luz) { width: 18px; height: 18px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 22%, transparent); }
+  #painel-grid :global(.tempo) { font-size: 34px; font-weight: 600; letter-spacing: -.02em; color: var(--c); }
+  #painel-grid :global(.cr-rot) { font-weight: 600; color: var(--c); }
+  #painel-grid :global(.luz-amarelo .cr-rot), #painel-grid :global(.luz-amarelo .tempo) { color: #8A6A0C; }
+  #painel-grid :global(.cr-tags) { display: flex; flex-wrap: wrap; gap: 6px; }
+  #painel-grid :global(.cr-tag) { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; background: #EFE9FB; color: #4B2E83; border-radius: 999px; padding: 4px 9px; }
+  #painel-grid :global(.cr-avisar) { min-height: 44px; }
+
+  .ex { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-top: 1px solid var(--linha); padding-top: 12px; }
+  .ex .small { width: 100%; }
+  .modal.perigo { border-top: 8px solid var(--erro); }
+  #modal-corpo :global(p) { line-height: 1.5; }
+
+  .cego { display: grid; justify-items: center; gap: 8px; padding: 28px 16px; border: 1px dashed var(--linha); border-radius: var(--raio); text-align: center; }
+  .cego[hidden] { display: none; }
+  .cadeado { width: 56px; height: 56px; border-radius: 50%; background: var(--petroleo-900); color: var(--agua); display: grid; place-items: center; font-size: 26px; font-weight: 700; }
+  #caixa-conf :global(.dif) { border-radius: var(--raio); padding: 12px 14px; line-height: 1.45; }
+  #caixa-conf :global(.dif.ok) { background: var(--ok-suave); color: #14573A; }
+  #caixa-conf :global(.dif.erro) { background: var(--erro-suave); color: #8E2A20; }
+
+  .dono { background: var(--gelo); }
+  .dono-topo { background: var(--petroleo-900); color: #fff; padding: 18px 16px 16px; display: grid; }
+  .dono-topo .small { color: rgba(255,255,255,.75); }
+  .dono-topo b { font-size: 20px; font-weight: 600; }
+  .dono-corpo { padding: 12px; }
+  .kpi.mini { box-shadow: none; padding: 12px; }
+  .kpi.mini .val { font-size: 22px; }
+  .kpi.mini .cmp { font-size: 12px; line-height: 1.35; }
+  :global(.alerta-item) { display: flex; gap: 8px; align-items: flex-start; line-height: 1.4; }
+</style>

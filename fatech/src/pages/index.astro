@@ -1,13 +1,47 @@
 ---
+// Entrada da FA Tech (institutofacaamigos.com.br/fatech): leva às demonstrações e à calculadora.
 import '../styles/tokens.css';
 import Logo from '../components/Logo.astro';
 import marca from '../data/marca.json';
+import { u } from '../lib/url.js';
 ---
-<html lang="pt-BR"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>FA Tech</title><meta name="robots" content="noindex" /></head>
-<body style="margin:0;min-height:100vh;background:var(--petroleo-900);color:#fff;font-family:var(--fonte);display:grid;place-items:center;padding:24px 16px">
-  <main style="max-width:560px">
-    <Logo tamanho="40px" tema="escuro" />
-    <p style="font-weight:300;font-size:20px;line-height:1.4;margin-top:32px;opacity:.85">{marca.origem}</p>
-    <p style="font-size:14px;opacity:.6;margin-top:16px">Em construção para o evento: {marca.evento}.</p>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0F2E36" />
+  <title>FA Tech · Gestão para clínicas</title>
+</head>
+<body>
+  <main>
+    <Logo tamanho="38px" tema="escuro" />
+    <h1>Gestão para clínicas, <strong>criada dentro de uma clínica.</strong></h1>
+    <p>Agenda, guias, faturamento, WhatsApp, equipe e recepção. Cada sistema nasceu de uma dor real de uma clínica de terapia em Belém.</p>
+    <div class="acoes">
+      <a class="btn pri" href={u('/demo')}>Ver os sistemas funcionando</a>
+      <a class="btn sec" href={u('/demo/calculadora')}>Quanto sua clínica deixa de receber?</a>
+    </div>
+    <p class="priv">{marca.privacidade}</p>
+    <nav class="mais" aria-label="Materiais do estande">
+      <a href={u('/apresentacao')}>Apresentação</a>
+      <a href={u('/tv')}>TV do estande</a>
+      <a href={u('/cadastro?origem=site')}>Falar com o Bruno</a>
+    </nav>
   </main>
-</body></html>
+</body>
+</html>
+<style>
+  body { margin: 0; min-height: 100vh; background: var(--petroleo-900); color: #fff; font-family: var(--fonte); display: grid; place-items: center; padding: 40px 16px; box-sizing: border-box; }
+  main { max-width: 620px; width: 100%; }
+  h1 { font-weight: 300; font-size: clamp(30px, 6vw, 46px); line-height: 1.12; letter-spacing: -.02em; margin: 44px 0 16px; }
+  h1 strong { font-weight: 600; color: var(--agua); }
+  p { font-weight: 300; font-size: 18px; line-height: 1.5; opacity: .85; margin: 0; }
+  .acoes { display: grid; gap: 12px; margin-top: 32px; }
+  .btn { display: block; text-align: center; padding: 16px 18px; border-radius: var(--raio); font-weight: 600; font-size: 17px; text-decoration: none; }
+  .pri { background: var(--agua); color: var(--petroleo-900); }
+  .sec { border: 1px solid rgba(255,255,255,.3); color: #fff; }
+  .priv { font-size: 14px; opacity: .6; margin-top: 28px; }
+  .mais { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.15); }
+  .mais a { color: rgba(255,255,255,.75); font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; }
+</style>

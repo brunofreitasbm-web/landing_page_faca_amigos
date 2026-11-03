@@ -1,0 +1,51 @@
+---
+import Demo from '../../layouts/Demo.astro';
+import produtos from '../../data/produtos.json';
+import { icone } from '../../lib/icone.js';
+import { u } from '../../lib/url.js';
+---
+<Demo titulo="FA Tech: veja os sistemas funcionando" voltar={false}>
+  <main class="wrap stack">
+    <section class="hub-topo">
+      <h1>Qual dessas dores pesa mais na sua clínica hoje?</h1>
+      <p class="muted">Toque na que você reconhece. Cada sistema nasceu de um problema real de uma clínica de terapia em Belém.</p>
+    </section>
+
+    <a class="card calc" href={u('/demo/calculadora')} id="hub-calc">
+      <span class="calc-ico" set:html={icone('calculator', { tamanho: 28, traco: 1.6 })} />
+      <span>
+        <b>Quanto sua clínica deixa de receber por mês?</b>
+        <span class="muted small">Faça a conta em 1 minuto com os números da sua clínica.</span>
+      </span>
+      <span class="seta" aria-hidden="true">→</span>
+    </a>
+
+    <div class="grid g3">
+      {produtos.map((p) => (
+        <a class="card prod" href={u(`/demo/${p.id}`)} id={`hub-${p.id}`}>
+          <span class="row between">
+            <span class="prod-ico" set:html={icone(p.icone, { tamanho: 26, traco: 1.6 })} />
+            {p.parceria && <span class="pill p-info">em parceria</span>}
+          </span>
+          <b class="prod-nome">{p.nome}</b>
+          <span class="prod-dor" set:html={p.pergunta} />
+          <span class="prod-cta">Ver funcionando →</span>
+        </a>
+      ))}
+    </div>
+    <p class="muted small">Tudo o que aparece nas demonstrações é inventado: nomes, números e pessoas. Os dados da sua clínica ficam só com a sua clínica.</p>
+  </main>
+</Demo>
+<style>
+  .hub-topo { padding: 12px 0 4px; display: grid; gap: 8px; max-width: 760px; }
+  .calc { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--tinta); border-color: var(--agua); background: #F0FAFB; }
+  .calc b { display: block; font-size: 17px; }
+  .calc-ico { width: 52px; height: 52px; border-radius: 12px; background: var(--petroleo-900); color: var(--agua); display: grid; place-items: center; flex: none; }
+  .seta { margin-left: auto; font-size: 22px; color: var(--petroleo-600); }
+  .prod { display: grid; gap: 10px; text-decoration: none; color: var(--tinta); align-content: start; min-height: 190px; }
+  .prod-ico { width: 44px; height: 44px; border-radius: 10px; background: var(--info-suave); color: var(--petroleo-600); display: grid; place-items: center; }
+  .prod-nome { font-size: 17px; }
+  .prod-dor { color: var(--cinza); font-size: 15px; line-height: 1.4; }
+  .prod-dor :global(strong) { color: var(--petroleo-900); font-weight: 600; }
+  .prod-cta { margin-top: auto; font-weight: 600; color: var(--petroleo-600); font-size: 14px; }
+</style>

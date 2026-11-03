@@ -841,6 +841,14 @@ Para pôr a TV em pé, a edição é uma linha: `orientacao: 'vertical'`. Os lay
 - As fotos da fotógrafa (Supabase) não podem ser refeitas aqui: recebem só um filtro leve de brilho e cor no navegador.
 - O rodapé tem o site à esquerda e o Instagram à direita (`rodapeSite` e `rodapeInstagram` no `CONFIG`).
 
+## Compatibilidade com o navegador da TV, lag e relógio
+
+- **Espaço entre itens sem `gap`.** O `gap` de caixa flexível só existe a partir do Chrome 84, e o navegador da TV é mais antigo: na foto da TV o QR colou no texto e o ponto verde colou em "SALA DE ESPERA". Agora o espaço é feito com margem. `gap` só resta em contêiner de grade. Também saíram `aspect-ratio` e `clamp()`. O teste `antiga` (e o cenário "navegador antigo" do `qrlayout`) simula esse navegador e confere isso.
+- **Foto atrasada.** O slide só aparece depois que a foto (e o mascote) chegaram, com no máximo 3 s de espera. A foto do próximo slide baixa enquanto o atual está na tela. O teste `antiga` simula internet lenta (700 ms por imagem).
+- **Barra de progresso removida.** Ela redesenhava a tela a cada 80 ms.
+- **Menos animação na TV de 32".** Sem zoom lento na foto e sem deslizar o slide inteiro: só um fade curto.
+- **Relógio sem segundos.** Mostra HH:MM e só mexe na tela quando o minuto muda.
+
 ## Autoexame
 
 Regex sobre `tv3-slides.json`: `promessa|confian[çc]a|oferta|garantid|cura\b|especial|normal|problem|!|—|convênio|IASEP|PROASA`

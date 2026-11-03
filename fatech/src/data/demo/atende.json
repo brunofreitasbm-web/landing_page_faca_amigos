@@ -1,0 +1,113 @@
+{
+  "clinica": "Clínica Arco-Íris",
+  "agora": "23:14",
+  "banner": "23:14 · recepção fechada · o robô respondeu 6 famílias",
+  "atendente": "Paula",
+  "conversas": [
+    {
+      "id": "c1", "nome": "Juliana", "sub": "mãe do Pedro H.", "hora": "23:09", "naoLidas": 2, "estado": "robo",
+      "msgs": [
+        { "de": "fam", "txt": "Boa noite! Meu filho recebeu o diagnóstico de autismo e estou procurando terapia. Vocês atendem?", "hora": "23:09" },
+        { "de": "bot", "txt": "Boa noite, Juliana! Aqui é o assistente da Clínica Arco-Íris. Atendemos sim: ABA, fonoaudiologia, terapia ocupacional e psicologia. Como posso ajudar?", "hora": "23:09" }
+      ],
+      "ficha": { "responsavel": "Juliana", "crianca": "Pedro H.", "idade": "", "plano": "", "interesse": "", "origem": "Instagram", "situacao": "Conversando com o robô" }
+    },
+    {
+      "id": "c2", "nome": "Carlos", "sub": "pai da Lia M.", "hora": "22:52", "naoLidas": 0, "estado": "humana",
+      "msgs": [
+        { "de": "fam", "txt": "Boa noite. A guia da Lia veio negada pelo plano, preciso falar com alguém.", "hora": "22:50" },
+        { "de": "bot", "txt": "Entendi, Carlos. Guia negada precisa de uma pessoa olhando com calma. Já passei para a recepção com o resumo, e você é o primeiro da fila amanhã às 7h.", "hora": "22:50" },
+        { "de": "fam", "txt": "Obrigado, fico aguardando.", "hora": "22:52" }
+      ],
+      "ficha": { "responsavel": "Carlos", "crianca": "Lia M.", "idade": "6 anos", "plano": "Plano Saúde B", "interesse": "Guia negada pelo plano", "origem": "Já é paciente", "situacao": "Na fila humana" }
+    },
+    {
+      "id": "c3", "nome": "Patrícia", "sub": "avó da Sofia L.", "hora": "22:41", "naoLidas": 0, "estado": "resolvida",
+      "msgs": [
+        { "de": "fam", "txt": "Oi, queria marcar uma avaliação para minha neta.", "hora": "22:38" },
+        { "de": "bot", "txt": "Claro, Patrícia! Avaliação pré-agendada para quarta, 26/11, às 10:00. A recepção confirma amanhã cedo.", "hora": "22:41" }
+      ],
+      "ficha": { "responsavel": "Patrícia", "crianca": "Sofia L.", "idade": "3 anos", "plano": "Plano Saúde A", "interesse": "Avaliação inicial", "origem": "Indicação", "situacao": "Avaliação pré-agendada" }
+    },
+    {
+      "id": "c4", "nome": "Marcos", "sub": "pai do Enzo D.", "hora": "21:58", "naoLidas": 0, "estado": "resolvida",
+      "msgs": [
+        { "de": "fam", "txt": "Qual o valor da avaliação particular?", "hora": "21:57" },
+        { "de": "bot", "txt": "A 1ª avaliação particular é R$ 250 e dura cerca de 1 hora. Os valores das terapias dependem do plano definido na avaliação.", "hora": "21:58" }
+      ],
+      "ficha": { "responsavel": "Marcos", "crianca": "Enzo D.", "idade": "5 anos", "plano": "Particular", "interesse": "Valor particular", "origem": "Google", "situacao": "Resolvida pelo robô" }
+    },
+    {
+      "id": "c5", "nome": "Renata", "sub": "mãe do Caio S.", "hora": "21:12", "naoLidas": 0, "estado": "resolvida",
+      "msgs": [
+        { "de": "fam", "txt": "Vocês abrem sábado?", "hora": "21:11" },
+        { "de": "bot", "txt": "Abrimos sim, Renata: sábado das 8h às 12h. De segunda a sexta, das 7h às 19h.", "hora": "21:12" }
+      ],
+      "ficha": { "responsavel": "Renata", "crianca": "Caio S.", "idade": "8 anos", "plano": "Plano Saúde B", "interesse": "Horário de sábado", "origem": "Já é paciente", "situacao": "Resolvida pelo robô" }
+    },
+    {
+      "id": "c6", "nome": "Aline", "sub": "mãe da Laura B.", "hora": "20:37", "naoLidas": 0, "estado": "resolvida",
+      "msgs": [
+        { "de": "fam", "txt": "Vocês atendem Plano Saúde A?", "hora": "20:36" },
+        { "de": "bot", "txt": "Atendemos sim, Aline! Plano Saúde A, Plano Saúde B e particular.", "hora": "20:37" }
+      ],
+      "ficha": { "responsavel": "Aline", "crianca": "Laura B.", "idade": "2 anos", "plano": "Plano Saúde A", "interesse": "Planos atendidos", "origem": "Instagram", "situacao": "Resolvida pelo robô" }
+    }
+  ],
+  "inicio": ["planos", "agendar", "valor", "endereco", "pessoa"],
+  "fluxo": {
+    "planos": { "rot": "Quais planos vocês atendem?", "fam": "Quais planos vocês atendem?",
+      "bot": "Atendemos Plano Saúde A, Plano Saúde B e também particular. Para a 1ª avaliação pelo plano, é só ter o pedido médico em mãos. Quer que eu veja um horário?",
+      "ficha": { "interesse": "Planos atendidos" }, "proximos": ["agendar", "valor", "endereco", "pessoa"] },
+    "agendar": { "rot": "Quero agendar avaliação", "fam": "Quero agendar uma avaliação.",
+      "bot": "Que bom, vou te ajudar agora mesmo! Quantos anos tem a criança?",
+      "ficha": { "interesse": "Avaliação inicial" }, "proximos": ["idade4", "idade2", "idade7"] },
+    "idade4": { "rot": "4 anos", "fam": "Tem 4 anos.", "bot": "Obrigado! A avaliação vai ser pelo plano ou particular?",
+      "ficha": { "idade": "4 anos" }, "proximos": ["planoA", "planoB", "particular"] },
+    "idade2": { "rot": "Menos de 3 anos", "fam": "Tem 2 anos e meio.", "bot": "Obrigado! Quanto antes começar, melhor. A avaliação vai ser pelo plano ou particular?",
+      "ficha": { "idade": "2 anos e meio" }, "proximos": ["planoA", "planoB", "particular"] },
+    "idade7": { "rot": "Mais de 6 anos", "fam": "Tem 7 anos.", "bot": "Obrigado! A avaliação vai ser pelo plano ou particular?",
+      "ficha": { "idade": "7 anos" }, "proximos": ["planoA", "planoB", "particular"] },
+    "planoA": { "rot": "Plano Saúde A", "fam": "Pelo Plano Saúde A.", "bot": "Certo! Tenho estes horários para a 1ª avaliação. Qual fica melhor?",
+      "ficha": { "plano": "Plano Saúde A" }, "proximos": ["horario1", "horario2"] },
+    "planoB": { "rot": "Plano Saúde B", "fam": "Pelo Plano Saúde B.", "bot": "Certo! Tenho estes horários para a 1ª avaliação. Qual fica melhor?",
+      "ficha": { "plano": "Plano Saúde B" }, "proximos": ["horario1", "horario2"] },
+    "particular": { "rot": "Particular", "fam": "Particular.", "bot": "Certo! A avaliação particular é R$ 250. Tenho estes horários. Qual fica melhor?",
+      "ficha": { "plano": "Particular" }, "proximos": ["horario1", "horario2"] },
+    "horario1": { "rot": "Terça 25/11 · 09:00", "fam": "Terça às 9h.",
+      "bot": "Pronto! Avaliação pré-agendada para terça, 25/11, às 09:00. Amanhã cedo a recepção confirma e pede a foto do pedido médico e da carteirinha. Posso ajudar em mais alguma coisa?",
+      "ficha": { "situacao": "Avaliação pré-agendada · 25/11 09:00" }, "proximos": ["endereco", "valor", "pessoa"] },
+    "horario2": { "rot": "Quinta 27/11 · 14:00", "fam": "Quinta às 14h.",
+      "bot": "Pronto! Avaliação pré-agendada para quinta, 27/11, às 14:00. Amanhã cedo a recepção confirma e pede a foto do pedido médico e da carteirinha. Posso ajudar em mais alguma coisa?",
+      "ficha": { "situacao": "Avaliação pré-agendada · 27/11 14:00" }, "proximos": ["endereco", "valor", "pessoa"] },
+    "valor": { "rot": "Valor particular", "fam": "Qual o valor particular?",
+      "bot": "A 1ª avaliação particular é R$ 250 e dura cerca de 1 hora. Os valores das terapias dependem do plano definido na avaliação, e a recepção passa tudo por escrito.",
+      "ficha": {}, "proximos": ["agendar", "endereco", "pessoa"] },
+    "endereco": { "rot": "Endereço e horário", "fam": "Onde fica e qual o horário?",
+      "bot": "Ficamos na Rua Arco-Íris, 250, bairro Jardim. Atendemos de segunda a sexta, das 7h às 19h, e sábado das 8h às 12h. Tem estacionamento na frente.",
+      "ficha": {}, "proximos": ["agendar", "valor", "pessoa"] },
+    "pessoa": { "rot": "Falar com uma pessoa", "fam": "Quero falar com uma pessoa.",
+      "bot": "Claro! A recepção abre às 7h. Já deixei seu pedido na fila com o resumo da nossa conversa, e a primeira pessoa a chegar te chama por aqui.",
+      "ficha": { "situacao": "Na fila humana" }, "proximos": [] }
+  },
+  "kpis": [
+    { "rotulo": "Tempo médio da 1ª resposta", "valor": "8 s", "cmp": "eram 47 min em outubro", "tom": "sobe" },
+    { "rotulo": "Famílias atendidas fora do horário", "valor": "38", "cmp": "▲ 31 vs. outubro (7)", "tom": "sobe" },
+    { "rotulo": "Resolvidas pelo robô", "valor": "64%", "cmp": "▲ 9 p.p. vs. outubro · meta 60%", "tom": "sobe" },
+    { "rotulo": "Avaliações pré-agendadas", "valor": "12", "cmp": "▲ 5 vs. outubro · meta 10", "tom": "sobe" }
+  ],
+  "horarios": [
+    { "rotulo": "7h–12h", "familias": 41, "fora": false },
+    { "rotulo": "12h–19h", "familias": 36, "fora": false },
+    { "rotulo": "19h–23h", "familias": 22, "fora": true },
+    { "rotulo": "23h–7h", "familias": 9, "fora": true },
+    { "rotulo": "Fim de semana", "familias": 14, "fora": true }
+  ],
+  "assuntos": [
+    { "texto": "Planos atendidos", "pct": 92 },
+    { "texto": "Endereço e horário", "pct": 98 },
+    { "texto": "Agendar avaliação", "pct": 71 },
+    { "texto": "Valor particular", "pct": 85 },
+    { "texto": "Guia, laudo e reembolso", "pct": 18 }
+  ]
+}

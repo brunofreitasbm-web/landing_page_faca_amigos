@@ -1,0 +1,256 @@
+---
+// Demonstração FA Wi-Fi: o Wi-Fi da recepção pede o contato (com autorização LGPD) antes de liberar a internet.
+// À esquerda o que a família vê no celular; à direita o painel da clínica recebendo os contatos.
+// Dados inventados em src/data/demo/wifi.json.
+import Demo from '../../layouts/Demo.astro';
+import Historia from '../../components/Historia.astro';
+import d from '../../data/demo/wifi.json';
+
+const mascarar = (w: string) => w.replace(/(\d{2})\d{3}-/, '$1•••-');
+const hoje = d.contatos.filter((c) => c.quando.startsWith('Hoje')).length;
+const ontem = d.contatos.filter((c) => c.quando.startsWith('Ontem')).length;
+---
+<Demo titulo="FA Wi-Fi · demonstração" produto="FA Wi-Fi">
+  <main class="wrap stack">
+    <Historia
+      espelho="Quantas famílias usaram seu Wi-Fi e <strong>foram embora sem deixar contato?</strong>"
+      antes="A senha do Wi-Fi ficava colada no balcão. A família usava a internet e ia embora sem nenhum contato registrado."
+      virada="Fizemos o próprio Wi-Fi pedir o contato, com a autorização da família, antes de liberar a internet."
+      depois="Cada visita vira um contato com permissão para a clínica conversar depois."
+    />
+
+    <div class="grid wf-grid">
+      <div class="stack">
+        <div><h2>O que a família vê no celular</h2><p class="muted small">Ela escolhe a rede "{d.rede}" e esta tela abre sozinha.</p></div>
+        <div class="celular">
+          <div class="tela wf-tela">
+            <!-- Tela 1: cadastro -->
+            <form class="wf-form" id="wf-form" novalidate>
+              <div class="wf-topo">
+                <span class="wf-logo" aria-hidden="true">AI</span>
+                <b>Wi-Fi grátis da {d.clinica}</b>
+                <span class="small">Preencha para conectar. Leva 20 segundos.</span>
+              </div>
+              <div class="wf-corpo">
+                <div class="campo">
+                  <label for="wf-nome">Seu nome</label>
+                  <input id="wf-nome" type="text" autocomplete="name" value={d.exemplo.nome} />
+                </div>
+                <div class="campo">
+                  <label for="wf-zap">WhatsApp com DDD</label>
+                  <input id="wf-zap" type="tel" inputmode="tel" autocomplete="tel" value={d.exemplo.whatsapp} />
+                </div>
+                <label class="wf-check" id="wf-consent-box" for="wf-consent">
+                  <input type="checkbox" id="wf-consent" />
+                  <span>Aceito a <u>Política de Privacidade</u> e o uso dos meus dados para receber o acesso <em>(obrigatório)</em></span>
+                </label>
+                <label class="wf-check opt" for="wf-optin">
+                  <input type="checkbox" id="wf-optin" />
+                  <span>Quero receber novidades da clínica</span>
+                </label>
+                <p class="wf-erro" id="wf-erro" role="alert" hidden></p>
+                <button class="btn btn-pri wf-btn" id="wf-enviar" type="submit">Conectar</button>
+                <p class="small muted">Seus dados ficam só com a {d.clinica}. Você pode pedir para apagar quando quiser.</p>
+              </div>
+            </form>
+            <!-- Tela 2: conectado -->
+            <div class="wf-ok" id="wf-ok" hidden>
+              <div class="wf-visto" aria-hidden="true">✓</div>
+              <h2>Conectado!</h2>
+              <p class="muted" id="wf-ola">Bom ter você aqui.</p>
+              <div class="cupom" id="wf-cupom">
+                <span class="small">Presente da recepção</span>
+                <b>{d.beneficio.titulo}</b>
+                <span class="small">{d.beneficio.texto}</span>
+                <code>{d.beneficio.codigo}</code>
+              </div>
+              <button class="btn btn-sec" id="wf-de-novo" type="button">Cadastrar outra pessoa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack" id="wf-painel">
+        <div class="row between">
+          <div><h2>Painel da clínica</h2><p class="muted small">Contatos que chegaram pelo Wi-Fi · novembro</p></div>
+          <button class="btn btn-sec" id="btn-csv" type="button">Exportar planilha</button>
+        </div>
+        <div class="grid wf-kpis" id="wf-kpis">
+          <div class="card kpi">
+            <div class="rot">Contatos novos no mês</div>
+            <div class="val" id="k-novos">{d.mes.novos}</div>
+            <div class="cmp sobe" id="k-novos-cmp"></div>
+          </div>
+          <div class="card kpi">
+            <div class="rot">Com autorização para novidades</div>
+            <div class="val" id="k-aut"></div>
+            <div class="cmp sobe" id="k-aut-cmp"></div>
+          </div>
+          <div class="card kpi">
+            <div class="rot">Famílias que voltaram</div>
+            <div class="val">{d.mes.retornos}</div>
+            <div class="cmp sobe">▲ {d.mes.retornos - d.mes.retornosAnterior} vs. outubro ({d.mes.retornosAnterior})</div>
+          </div>
+          <div class="card kpi">
+            <div class="rot">Contatos hoje</div>
+            <div class="val" id="k-hoje">{hoje}</div>
+            <div class="cmp neutro" id="k-hoje-cmp">ontem: {ontem}</div>
+          </div>
+        </div>
+        <div class="card rolar" style="padding:4px 8px">
+          <table class="tabela">
+            <thead><tr><th>Nome</th><th>WhatsApp</th><th>Chegou</th><th>Novidades</th><th>Visita</th></tr></thead>
+            <tbody id="wf-lista">
+              {d.contatos.map((c) => (
+                <tr>
+                  <td><b>{c.nome}</b></td>
+                  <td class="num">{mascarar(c.whatsapp)}</td>
+                  <td class="small">{c.quando}</td>
+                  <td>{c.novidades ? <span class="pill p-ok">Sim</span> : <span class="pill p-neutro">Não</span>}</td>
+                  <td class="small">{c.visita}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted">No painel o número aparece pela metade. Só quem tem permissão vê completo e exporta.</p>
+      </div>
+    </div>
+  </main>
+
+  <script is:inline define:vars={{ dados: d }}>
+    window.FA_DADOS = dados;
+    window.FA_TOUR = [
+      { alvo: '#wf-enviar', texto: 'A família já preencheu nome e WhatsApp. Toque em Conectar sem marcar a autorização.', clique: true },
+      { alvo: '#wf-consent-box', texto: 'Sem autorização, não conecta: é a regra da LGPD. Toque para marcar.', clique: true },
+      { alvo: '#wf-enviar', texto: 'Agora sim. Toque em Conectar.', clique: true },
+      { alvo: '#wf-cupom', texto: 'A família ganha um presente da recepção. Simples e simpático.' },
+      { alvo: '#wf-lista', texto: 'E o contato chega na hora no painel da clínica, com a autorização registrada.' },
+      { alvo: '#wf-kpis', texto: 'Os números do mês, sempre comparados com outubro ou com a meta.' },
+      { alvo: '#btn-csv', texto: 'Um toque e a lista vira planilha.' }
+    ];
+  </script>
+  <script>
+    const d = (window as any).FA_DADOS;
+    const fa = (window as any).fa;
+    const contatos = d.contatos.map((c: any) => ({ ...c }));
+    const mes = { ...d.mes };
+    let hoje = contatos.filter((c: any) => c.quando.startsWith('Hoje')).length;
+
+    const pct = (a: number, b: number) => Math.round((a / b) * 100);
+    function kpis() {
+      document.getElementById('k-novos')!.textContent = String(mes.novos);
+      document.getElementById('k-novos-cmp')!.textContent = `▲ ${pct(mes.novos - mes.anterior, mes.anterior)}% vs. outubro (${mes.anterior})`;
+      const aut = pct(mes.comAutorizacao, mes.novos);
+      document.getElementById('k-aut')!.textContent = `${aut}%`;
+      const k = document.getElementById('k-aut-cmp')!;
+      k.textContent = `meta ${mes.metaAutorizacao}% · ${aut >= mes.metaAutorizacao ? 'acima' : 'abaixo'} da meta`;
+      k.className = `cmp ${aut >= mes.metaAutorizacao ? 'sobe' : 'desce'}`;
+      document.getElementById('k-hoje')!.textContent = String(hoje);
+    }
+    kpis();
+
+    const form = document.getElementById('wf-form') as HTMLFormElement;
+    const ok = document.getElementById('wf-ok')!;
+    const erro = document.getElementById('wf-erro')!;
+    const nome = document.getElementById('wf-nome') as HTMLInputElement;
+    const zap = document.getElementById('wf-zap') as HTMLInputElement;
+    const consent = document.getElementById('wf-consent') as HTMLInputElement;
+    const optin = document.getElementById('wf-optin') as HTMLInputElement;
+    const consentBox = document.getElementById('wf-consent-box')!;
+
+    // Máscara (00) 90000-0009
+    zap.addEventListener('input', () => {
+      const n = zap.value.replace(/\D/g, '').slice(0, 11);
+      let v = n;
+      if (n.length > 2) v = `(${n.slice(0, 2)}) ${n.slice(2)}`;
+      if (n.length > 7) v = `(${n.slice(0, 2)}) ${n.slice(2, 7)}-${n.slice(7)}`;
+      zap.value = v;
+    });
+    consent.addEventListener('change', () => { if (consent.checked) { consentBox.classList.remove('falta'); erro.hidden = true; } });
+
+    const falhar = (msg: string, el: HTMLElement) => {
+      erro.textContent = msg; erro.hidden = false;
+      fa.aviso(msg, 'erro');
+      el.focus({ preventScroll: true });
+    };
+    const mascarar = (w: string) => w.replace(/(\d{2})\d{3}-/, '$1•••-');
+    const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const n = nome.value.trim();
+      const digitos = zap.value.replace(/\D/g, '');
+      if (n.length < 2) return falhar('Escreva seu nome para conectar.', nome);
+      if (digitos.length < 10) return falhar('Confira o WhatsApp com DDD.', zap);
+      if (!consent.checked) { consentBox.classList.add('falta'); return falhar('Para conectar, marque a autorização de uso dos dados.', consent); }
+      erro.hidden = true;
+
+      const agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const c = { nome: n, whatsapp: zap.value, quando: `Hoje ${agora}`, novidades: optin.checked, visita: '1ª visita' };
+      contatos.unshift(c);
+      mes.novos++; if (c.novidades) mes.comAutorizacao++; hoje++;
+      kpis();
+
+      const tr = document.createElement('tr');
+      tr.className = 'novo';
+      tr.innerHTML = `<td><b>${esc(c.nome)}</b> <span class="pill p-info">Agora</span></td><td class="num">${esc(mascarar(c.whatsapp))}</td><td class="small">${c.quando}</td><td>${c.novidades ? '<span class="pill p-ok">Sim</span>' : '<span class="pill p-neutro">Não</span>'}</td><td class="small">${c.visita}</td>`;
+      document.getElementById('wf-lista')!.prepend(tr);
+
+      document.getElementById('wf-ola')!.textContent = `Bom ter você aqui, ${n.split(' ')[0]}.`;
+      form.hidden = true; ok.hidden = false;
+      fa.aviso(`Contato de ${n} chegou no painel${c.novidades ? ', com autorização para novidades' : ''}.`, 'ok');
+    });
+
+    document.getElementById('wf-de-novo')!.addEventListener('click', () => {
+      nome.value = ''; zap.value = ''; consent.checked = false; optin.checked = false;
+      ok.hidden = true; form.hidden = false; nome.focus({ preventScroll: true });
+    });
+
+    // Planilha (CSV com ; e BOM, abre direto no Excel em português)
+    document.getElementById('btn-csv')!.addEventListener('click', () => {
+      const cel = (v: string) => `"${String(v).replace(/"/g, '""')}"`;
+      const linhas = [['Nome', 'WhatsApp', 'Quando', 'Aceita novidades', 'Visita'].map(cel).join(';')]
+        .concat(contatos.map((c: any) => [c.nome, c.whatsapp, c.quando, c.novidades ? 'Sim' : 'Não', c.visita].map(cel).join(';')));
+      const blob = new Blob(['﻿' + linhas.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'contatos-wifi-clinica-arco-iris.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      fa.aviso(`Planilha com ${contatos.length} contatos baixada.`, 'ok');
+    });
+  </script>
+</Demo>
+<style>
+  .wf-grid { grid-template-columns: 320px minmax(0, 1fr); align-items: start; gap: 24px; }
+  @media (max-width: 899px) { .wf-grid { grid-template-columns: minmax(0, 1fr); } }
+  .wf-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wf-kpis .val { font-size: 26px; }
+
+  .celular .wf-tela { background: var(--gelo); height: auto; min-height: 560px; }
+  .wf-topo { background: var(--petroleo-900); color: #fff; padding: 18px 16px; display: grid; gap: 4px; }
+  .wf-topo b { font-size: 19px; font-weight: 600; line-height: 1.25; }
+  .wf-topo .small { color: rgba(255,255,255,.75); }
+  .wf-logo { width: 40px; height: 40px; border-radius: 50%; background: var(--agua); color: var(--petroleo-900); display: grid; place-items: center; font-weight: 600; margin-bottom: 4px; }
+  .wf-corpo { padding: 14px; display: grid; gap: 12px; }
+  .wf-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 10px; border: 1px solid var(--linha); border-radius: var(--raio); background: #fff; font-size: 13px; line-height: 1.4; cursor: pointer; }
+  .wf-check input { width: 22px; height: 22px; flex: none; margin: 0; accent-color: var(--petroleo-600); }
+  .wf-check em { color: var(--cinza); font-style: normal; }
+  .wf-check.falta { border-color: var(--erro); background: var(--erro-suave); }
+  .wf-erro { background: var(--erro-suave); color: var(--erro); border-radius: var(--raio); padding: 10px 12px; font-size: 14px; font-weight: 600; }
+  .wf-erro[hidden], .wf-form[hidden], .wf-ok[hidden] { display: none; }
+  .wf-btn { width: 100%; min-height: 52px; font-size: 17px; }
+
+  .wf-ok { padding: 28px 18px; display: grid; gap: 12px; justify-items: center; text-align: center; animation: entra .4s ease; }
+  .wf-visto { width: 64px; height: 64px; border-radius: 50%; background: var(--ok); color: #fff; display: grid; place-items: center; font-size: 32px; font-weight: 600; }
+  .wf-ok h2 { font-size: 24px; }
+  .cupom { width: 100%; border: 2px dashed var(--petroleo-600); border-radius: 12px; background: var(--info-suave); padding: 16px; display: grid; gap: 4px; }
+  .cupom b { font-size: 20px; color: var(--petroleo-900); }
+  .cupom code { justify-self: center; margin-top: 6px; font: 600 16px var(--fonte); letter-spacing: .12em; background: #fff; border-radius: 6px; padding: 6px 12px; }
+
+  :global(#wf-lista tr.novo) { animation: chega 1.6s ease; }
+  @keyframes chega { 0% { background: var(--info-suave); transform: translateY(-8px); opacity: 0; } 25% { opacity: 1; transform: none; } 100% { background: transparent; } }
+  @keyframes entra { from { opacity: 0; transform: scale(.96); } }
+  .tabela { min-width: 520px; }
+</style>

@@ -1,0 +1,15 @@
+---
+// Abre cada demonstração com a narrativa de venda consultiva:
+// espelho da dor → como era na nossa clínica → a virada → como ficou.
+// `espelho` aceita HTML simples (use <strong> no trecho de destaque).
+interface Props { espelho: string; antes: string; virada: string; depois: string }
+const { espelho, antes, virada, depois } = Astro.props;
+---
+<section class="historia" aria-label="Por que este sistema existe">
+  <p class="espelho" set:html={espelho} />
+  <div class="passos">
+    <div class="passo"><b>Como era</b>{antes}</div>
+    <div class="passo"><b>A virada</b>{virada}</div>
+    <div class="passo"><b>Como ficou</b>{depois}</div>
+  </div>
+</section>

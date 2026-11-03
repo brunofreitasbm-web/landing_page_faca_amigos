@@ -1,0 +1,413 @@
+---
+// TV do estande (notebook + HDMI, Chrome em tela cheia). Palco fixo 1920×1080 que se ajusta a qualquer tela.
+// Textos em src/data/tv-slides.json. Funciona sem internet depois de carregada (fontes e QR vão junto).
+// Parâmetros: ?slide=N (começa no cartão N, contando de 1) · ?pausa=1 (congela) · ?rapido=1 (2 s por cartão, para teste)
+// Teclado: → próximo · ← anterior · espaço pausa/continua
+import '../styles/tokens.css';
+import Logo from '../components/Logo.astro';
+import marca from '../data/marca.json';
+import produtos from '../data/produtos.json';
+import tv from '../data/tv-slides.json';
+import { icone } from '../lib/icone.js';
+import { qrSvg, urlCadastro } from '../lib/qr.js';
+
+const qr = await qrSvg(urlCadastro('tv'));
+const porId = Object.fromEntries(produtos.map((p) => [p.id, p]));
+const cartoes = tv.sequencia.map((c) => {
+  const dur = tv.tempos[c.tipo] ?? 10;
+  if (c.tipo !== 'produto') return { ...c, dur };
+  const p = porId[c.id];
+  if (!p) throw new Error(`tv-slides.json: produto "${c.id}" não existe em produtos.json`);
+  return { ...p, ...c, pergunta: c.pergunta ?? p.pergunta, alivio: c.alivio ?? p.alivio, dur };
+});
+const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>FA Tech · TV do estande</title>
+</head>
+<body>
+  <div id="palco" class="palco">
+    <div class="progresso" aria-hidden="true"><span id="barra"></span></div>
+
+    {cartoes.map((c, i) => (
+      <section class={`cartao cartao--${c.tipo}`} data-dur={c.dur} data-i={i} aria-hidden="true">
+        {c.tipo === 'abertura' && (
+          <div class="abertura">
+            <Logo tamanho="190px" tema="escuro" />
+            <h1 class="anima a2" set:html={c.titulo} />
+            {c.subtitulo && <p class="anima a3">{c.subtitulo}</p>}
+          </div>
+        )}
+
+        {c.tipo === 'chamada' && (
+          <div class="chamada">
+            <span class="chamada__traco anima a1" />
+            <h2 class="anima a2" set:html={c.texto} />
+            {c.apoio && <p class="anima a3">{c.apoio}</p>}
+          </div>
+        )}
+
+        {c.tipo === 'encerramento' && (
+          <div class="chamada encerramento">
+            <Logo tamanho="88px" tema="escuro" descritor={false} />
+            <h2 class="anima a2" set:html={c.titulo} />
+            {c.subtitulo && <p class="anima a3">{c.subtitulo}</p>}
+            <span class="seta anima a4" set:html={ic('arrow-down-right', 120, 1.2)} />
+          </div>
+        )}
+
+        {c.tipo === 'produto' && (
+          <div class="produto">
+            <div class="produto__texto">
+              <p class="tag anima a1"><span set:html={ic(c.icone, 44, 1.6)} />{c.nome}{c.parceria && <em> · em parceria</em>}</p>
+              <h2 class="anima a2" set:html={c.pergunta} />
+              <p class="alivio anima a3">{c.alivio}</p>
+            </div>
+            <div class={`ilus ilus--${c.id} anima a4`} aria-hidden="true">
+              {c.id === 'clinica' && (
+                <div class="tela">
+                  <div class="tela__topo"><i /><i /><i /><b>Agenda da semana</b></div>
+                  <div class="agenda">
+                    {['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].map((d) => <span class="agenda__dia">{d}</span>)}
+                    {Array.from({ length: 20 }).map((_, k) => (
+                      <span class={`bloco ${[1, 4, 6, 9, 13, 15, 18].includes(k) ? 'bloco--vazio' : ''} ${k === 11 ? 'bloco--barrado' : ''} ${[0, 7, 14, 17].includes(k) ? 'bloco--b' : ''}`}>
+                        {k === 11 && <><span set:html={ic('ban', 22, 2)} /> sem guia</>}
+                      </span>
+                    ))}
+                  </div>
+                  <div class="aviso aviso--erro"><span set:html={ic('shield-x', 26, 1.8)} />Sessão barrada antes de acontecer: guia vencida.</div>
+                </div>
+              )}
+
+              {c.id === 'faturamento' && (
+                <div class="tela">
+                  <div class="tela__topo"><i /><i /><i /><b>Guias para enviar ao plano</b></div>
+                  <ul class="guias">
+                    {[0, 1, 2, 3, 4].map((k) => (
+                      <li class={k === 2 ? 'erro' : ''}>
+                        <span class="guias__ico" set:html={ic(k === 2 ? 'x' : 'check', 22, 2.4)} />
+                        <span class="linhas"><span style={`width:${[62, 48, 70, 55, 66][k]}%`} /><span style={`width:${[38, 44, 30, 40, 34][k]}%`} /></span>
+                        <span class="selo">{k === 2 ? 'Falta assinatura' : 'Conferida'}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="aviso aviso--ok"><span set:html={ic('check-check', 26, 1.8)} />Só vai ao plano o que passou na conferência.</div>
+                </div>
+              )}
+
+              {c.id === 'atende' && (
+                <div class="celular">
+                  <div class="celular__topo"><span class="avatar" set:html={ic('message-circle', 22, 1.8)} /><b>Clínica · WhatsApp</b></div>
+                  <div class="chat">
+                    <p class="msg msg--familia">Boa noite! Vocês atendem pelo convênio?</p>
+                    <p class="msg msg--robo">Boa noite! Atendemos, sim. Posso te enviar a lista de documentos para a primeira avaliação?</p>
+                    <p class="msg msg--familia">Pode, por favor.</p>
+                    <p class="msg msg--robo">Enviado. Amanhã cedo a recepção continua com você.</p>
+                  </div>
+                  <span class="digitando"><i /><i /><i /></span>
+                </div>
+              )}
+
+              {c.id === 'pessoas' && (
+                <div class="celular celular--ponto">
+                  <div class="rosto"><span set:html={ic('scan-face', 120, 1.2)} /></div>
+                  <p class="ponto__linha"><span set:html={ic('map-pin', 24, 1.8)} />Na clínica</p>
+                  <p class="ponto__linha"><span set:html={ic('user-check', 24, 1.8)} />Rosto confere</p>
+                  <div class="ponto__ok"><span set:html={ic('check', 40, 2.6)} />Ponto registrado</div>
+                  <p class="ponto__lei">Jornada do estágio dentro da lei</p>
+                </div>
+              )}
+
+              {c.id === 'play' && (
+                <div class="tela">
+                  <div class="tela__topo"><i /><i /><i /><b>Espaço de brincar</b></div>
+                  <ul class="timers">
+                    {[['verde', 82, 'Cuidado: barulho alto'], ['ambar', 38, 'Faltam poucos minutos'], ['vermelho', 6, 'Tempo encerrado']].map(([cor, pct, txt]) => (
+                      <li>
+                        <span class={`farol farol--${cor}`} />
+                        <span class="timers__nome"><span class="linhas"><span style="width:60%" /></span><small>{txt}</small></span>
+                        <span class="timers__barra"><span class={`farol--${cor}`} style={`width:${pct}%`} /></span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="aviso aviso--ok"><span set:html={ic('receipt-text', 26, 1.8)} />Caixa do dia fechado e conferido.</div>
+                </div>
+              )}
+
+              {c.id === 'tv' && (
+                <div class="tvmini">
+                  <div class="tvmini__tela">
+                    <span class="tvmini__titulo">Bem-vindos!</span>
+                    <span class="linhas linhas--claras"><span style="width:70%" /><span style="width:52%" /></span>
+                    <span class="tvmini__card"><span set:html={ic('calendar-check', 30, 1.6)} />Oficina no sábado</span>
+                  </div>
+                  <span class="tvmini__pe" />
+                  <div class="tvmini__controle">
+                    <span set:html={ic('smartphone', 30, 1.6)} />
+                    <span class="linhas"><span style="width:80%" /><span style="width:55%" /></span>
+                    <span class="botaozinho">Publicar</span>
+                  </div>
+                </div>
+              )}
+
+              {c.id === 'wifi' && (
+                <div class="celular celular--wifi">
+                  <span class="wifi__ico" set:html={ic('wifi', 64, 1.6)} />
+                  <b>Wi-Fi da recepção</b>
+                  <span class="campo">Seu nome</span>
+                  <span class="campo">Seu WhatsApp</span>
+                  <span class="consent"><span class="caixa" set:html={ic('check', 18, 3)} />Aceito receber contato da clínica</span>
+                  <span class="botao">Conectar e receber o material</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </section>
+    ))}
+
+    <footer class="rodape"><span set:html={ic('shield-check', 30, 1.6)} />{marca.privacidade}</footer>
+
+    <div class="qr" aria-label="QR code: teste os sistemas">
+      <div class="qr__texto">
+        <b>{tv.qrRotulo}</b>
+        <span>{tv.qrSubrotulo}</span>
+        <span class="qr__seta" set:html={ic('arrow-right', 44, 1.6)} />
+      </div>
+      <div class="qr__caixa" set:html={qr} />
+    </div>
+
+    <div id="pausado" class="pausado" hidden>Pausado · espaço continua</div>
+  </div>
+
+  <script>
+    const palco = document.getElementById('palco');
+    const barra = document.getElementById('barra');
+    const selo = document.getElementById('pausado');
+    const cartoes = [...palco.querySelectorAll('.cartao')];
+    const q = new URLSearchParams(location.search);
+    const rapido = q.get('rapido') === '1';
+    let atual = Math.min(Math.max((parseInt(q.get('slide') || '1', 10) || 1) - 1, 0), cartoes.length - 1);
+    let pausado = q.get('pausa') === '1';
+    let decorrido = 0;
+    let ultimo = performance.now();
+
+    // palco fixo em 1920×1080, escalado para caber (com faixas se a proporção for diferente)
+    function escalar() {
+      const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+      palco.style.transform = `translate(-50%, -50%) scale(${s})`;
+    }
+    addEventListener('resize', escalar);
+    escalar();
+
+    const duracao = (i) => (rapido ? 2 : Number(cartoes[i].dataset.dur) || 10) * 1000;
+
+    function mostrar(i) {
+      const antigo = cartoes[atual];
+      atual = (i + cartoes.length) % cartoes.length;
+      cartoes.forEach((c) => c.classList.remove('saindo'));
+      if (antigo !== cartoes[atual]) { antigo.classList.remove('ativo'); antigo.classList.add('saindo'); antigo.setAttribute('aria-hidden', 'true'); }
+      cartoes[atual].classList.add('ativo');
+      cartoes[atual].removeAttribute('aria-hidden');
+      decorrido = 0;
+      barra.style.transform = 'scaleX(0)';
+    }
+
+    function pausar(v) { pausado = v; selo.hidden = !v; }
+
+    setInterval(() => {
+      const agora = performance.now();
+      let dt = agora - ultimo;
+      ultimo = agora;
+      if (dt > 2000) dt = 0; // notebook dormiu ou aba ficou em segundo plano: não pula vários cartões
+      if (pausado) return;
+      decorrido += dt;
+      const d = duracao(atual);
+      barra.style.transform = `scaleX(${Math.min(decorrido / d, 1)})`;
+      if (decorrido >= d) mostrar(atual + 1);
+    }, 100);
+
+    addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') mostrar(atual + 1);
+      else if (e.key === 'ArrowLeft') mostrar(atual - 1);
+      else if (e.key === ' ') { e.preventDefault(); pausar(!pausado); }
+      else return;
+    });
+
+    // cursor some depois de 3 s parado
+    let tCursor;
+    function mexeu() {
+      document.body.classList.remove('sem-cursor');
+      clearTimeout(tCursor);
+      tCursor = setTimeout(() => document.body.classList.add('sem-cursor'), 3000);
+    }
+    addEventListener('mousemove', mexeu);
+    mexeu();
+
+    // pede para a tela não apagar (quando o navegador permite)
+    async function acordado() {
+      try { if ('wakeLock' in navigator && document.visibilityState === 'visible') await navigator.wakeLock.request('screen'); } catch {}
+    }
+    document.addEventListener('visibilitychange', acordado);
+    acordado();
+
+    mostrar(atual);
+    pausar(pausado);
+  </script>
+</body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+  body { font-family: var(--fonte); -webkit-font-smoothing: antialiased; user-select: none; }
+  body.sem-cursor, body.sem-cursor * { cursor: none !important; }
+  [hidden] { display: none !important; }
+</style>
+
+<style>
+  .palco {
+    position: absolute; top: 50%; left: 50%; width: 1920px; height: 1080px; overflow: hidden;
+    transform-origin: center center; transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 88% 8%, rgba(63, 183, 191, .14), transparent 42%), var(--petroleo-900);
+    color: #fff;
+  }
+  .progresso { position: absolute; left: 0; right: 0; top: 0; height: 6px; background: rgba(255,255,255,.08); z-index: 5; }
+  .progresso span { display: block; height: 100%; background: var(--agua); transform-origin: left; transform: scaleX(0); transition: transform .1s linear; }
+
+  /* cartões */
+  .cartao { position: absolute; inset: 0; padding: 96px 96px 0; opacity: 0; visibility: hidden; transform: translateX(60px);
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1), visibility 0s .9s; }
+  .cartao.ativo { opacity: 1; visibility: visible; transform: none; transition: opacity .9s cubic-bezier(.2,.7,.2,1) .25s, transform .9s cubic-bezier(.2,.7,.2,1) .25s, visibility 0s; }
+  .cartao.saindo { transform: translateX(-60px); }
+  .anima { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .ativo .anima { opacity: 1; transform: none; }
+  .ativo .a1 { transition-delay: .35s; } .ativo .a2 { transition-delay: .5s; } .ativo .a3 { transition-delay: .8s; } .ativo .a4 { transition-delay: 1.05s; }
+
+  :global(strong) { font-weight: 600; color: var(--agua); }
+
+  /* abertura */
+  .abertura { height: 820px; display: flex; flex-direction: column; justify-content: center; max-width: 1300px; }
+  .abertura h1 { font-weight: 300; font-size: 76px; line-height: 1.12; letter-spacing: -.02em; margin-top: 90px; }
+  .abertura p { font-weight: 300; font-size: 36px; line-height: 1.35; opacity: .75; margin-top: 36px; max-width: 1100px; }
+
+  /* chamada */
+  .chamada { height: 820px; display: flex; flex-direction: column; justify-content: center; max-width: 1340px; }
+  .chamada__traco { width: 120px; height: 6px; background: var(--agua); border-radius: 3px; margin-bottom: 56px; }
+  .chamada h2 { font-weight: 300; font-size: 108px; line-height: 1.08; letter-spacing: -.025em; }
+  .chamada p { font-weight: 300; font-size: 38px; line-height: 1.35; opacity: .78; margin-top: 44px; }
+  .encerramento h2 { margin-top: 70px; }
+  .seta { position: absolute; right: 470px; bottom: 210px; color: var(--agua); }
+  .seta :global(svg) { display: block; }
+
+  /* produto */
+  .produto { display: grid; grid-template-columns: 1fr 640px; gap: 88px; height: 820px; }
+  .produto__texto { display: flex; flex-direction: column; justify-content: center; padding-bottom: 40px; }
+  .tag { display: flex; align-items: center; gap: 18px; font-size: 34px; font-weight: 600; letter-spacing: .02em; color: var(--agua); }
+  .tag em { font-style: normal; font-weight: 300; color: rgba(255,255,255,.7); }
+  .tag :global(svg) { display: block; }
+  .produto h2 { font-weight: 300; font-size: 82px; line-height: 1.1; letter-spacing: -.022em; margin-top: 44px; }
+  .alivio { font-weight: 300; font-size: 38px; line-height: 1.38; color: rgba(255,255,255,.88); margin-top: 52px; padding-left: 30px; border-left: 5px solid var(--agua); max-width: 960px; }
+
+  .ilus { align-self: start; margin-top: 30px; height: 540px; display: flex; align-items: flex-start; justify-content: center; color: var(--tinta); }
+
+  /* mini telas desenhadas em CSS */
+  .tela { width: 640px; background: var(--gelo); border-radius: 18px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+  .tela__topo { display: flex; align-items: center; gap: 9px; padding: 18px 24px; background: #fff; border-bottom: 1px solid var(--linha); font-size: 22px; color: var(--petroleo-900); }
+  .tela__topo i { width: 13px; height: 13px; border-radius: 50%; background: var(--linha); }
+  .tela__topo b { font-weight: 600; margin-left: 12px; }
+  .aviso { display: flex; align-items: center; gap: 14px; margin: 0 24px 24px; padding: 16px 20px; border-radius: 12px; font-size: 21px; font-weight: 600; line-height: 1.25; }
+  .aviso :global(svg) { flex: none; display: block; }
+  .aviso--erro { background: #FBE7E4; color: #A93226; }
+  .aviso--ok { background: #E3F4EC; color: #1A7550; }
+  .linhas { display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .linhas > span { height: 11px; border-radius: 6px; background: #CBD5DA; }
+  .linhas--claras > span { background: rgba(255,255,255,.35); }
+
+  .agenda { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 22px 24px; }
+  .agenda__dia { font-size: 18px; font-weight: 600; color: var(--cinza); text-align: center; }
+  .bloco { height: 62px; border-radius: 9px; background: #CDE9EB; border-left: 5px solid var(--petroleo-600); display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 15px; font-weight: 600; }
+  .bloco--b { background: #DCE7F0; border-left-color: #4A6F8A; }
+  .bloco--vazio { background: transparent; border: 2px dashed var(--linha); }
+  .bloco--barrado { background: #FBE7E4; border: 3px solid #C0392B; color: #A93226; animation: piscar 2.4s ease-in-out infinite; }
+  .bloco--barrado :global(svg) { display: block; }
+  @keyframes piscar { 50% { box-shadow: 0 0 0 8px rgba(192,57,43,.18); } }
+
+  .guias { list-style: none; padding: 18px 24px; display: grid; gap: 8px; }
+  .guias li { display: flex; align-items: center; gap: 18px; background: #fff; border-radius: 12px; padding: 10px 16px; border: 1px solid var(--linha); }
+  .guias__ico { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #E3F4EC; color: #1F8A5B; flex: none; }
+  .selo { font-size: 17px; font-weight: 600; color: #1F8A5B; background: #E3F4EC; padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
+  .guias li.erro { border: 3px solid #C0392B; background: #FFF6F5; }
+  .guias li.erro .guias__ico, .guias li.erro .selo { background: #FBE7E4; color: #A93226; }
+
+  .celular { width: 380px; min-height: 540px; background: #fff; border-radius: 40px; border: 12px solid #0A2128; box-shadow: 0 30px 80px rgba(0,0,0,.4); overflow: hidden; display: flex; flex-direction: column; }
+  .celular__topo { display: flex; align-items: center; gap: 12px; padding: 18px; background: var(--petroleo-600); color: #fff; font-size: 19px; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.2); display: grid; place-items: center; }
+  .chat { padding: 18px 16px 8px; display: flex; flex-direction: column; gap: 12px; background: var(--gelo); flex: 1; }
+  .msg { font-size: 18px; line-height: 1.35; padding: 12px 16px; border-radius: 16px; max-width: 86%; }
+  .msg--familia { background: #fff; border: 1px solid var(--linha); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg--robo { background: #D4EEF0; color: var(--petroleo-900); align-self: flex-end; border-bottom-right-radius: 4px; }
+  .digitando { display: flex; gap: 6px; padding: 10px 22px 18px; background: var(--gelo); }
+  .digitando i { width: 10px; height: 10px; border-radius: 50%; background: var(--petroleo-600); opacity: .3; animation: ponto 1.4s infinite; }
+  .digitando i:nth-child(2) { animation-delay: .2s; } .digitando i:nth-child(3) { animation-delay: .4s; }
+  @keyframes ponto { 40% { opacity: 1; } }
+
+  .celular--ponto { align-items: center; padding: 34px 26px; gap: 16px; }
+  .rosto { width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--agua); display: grid; place-items: center; color: var(--petroleo-600); }
+  .ponto__linha { display: flex; align-items: center; gap: 10px; font-size: 21px; color: var(--tinta); align-self: stretch; padding: 10px 14px; background: var(--gelo); border-radius: 10px; }
+  .ponto__linha :global(svg) { color: var(--petroleo-600); }
+  .ponto__ok { display: flex; align-items: center; gap: 12px; font-size: 25px; font-weight: 600; color: #1A7550; margin-top: 6px; }
+  .ponto__ok :global(svg) { background: #E3F4EC; border-radius: 50%; padding: 6px; width: 52px; height: 52px; }
+  .ponto__lei { font-size: 17px; color: var(--cinza); }
+
+  .timers { list-style: none; padding: 22px 24px; display: grid; gap: 14px; }
+  .timers li { display: grid; grid-template-columns: 34px 1fr 200px; align-items: center; gap: 18px; background: #fff; border: 1px solid var(--linha); border-radius: 12px; padding: 18px; }
+  .farol { width: 30px; height: 30px; border-radius: 50%; }
+  .farol--verde { background: #1F8A5B; } .farol--ambar { background: #B7791F; } .farol--vermelho { background: #C0392B; }
+  .timers__nome small { display: block; font-size: 17px; color: var(--cinza); margin-top: 8px; }
+  .timers__barra { height: 16px; border-radius: 8px; background: var(--linha); overflow: hidden; }
+  .timers__barra span { display: block; height: 100%; border-radius: 8px; }
+
+  .tvmini { width: 640px; position: relative; padding-top: 10px; }
+  .tvmini__tela { height: 360px; background: linear-gradient(135deg, #1F7F86, #0F2E36); border: 16px solid #0A1A1F; border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,.45); padding: 36px 40px; display: flex; flex-direction: column; gap: 22px; color: #fff; }
+  .tvmini__titulo { font-size: 46px; font-weight: 300; }
+  .tvmini__card { display: flex; align-items: center; gap: 14px; margin-top: auto; background: rgba(255,255,255,.14); border-radius: 12px; padding: 16px 20px; font-size: 22px; }
+  .tvmini__pe { display: block; width: 160px; height: 22px; margin: 0 auto; background: #0A1A1F; border-radius: 0 0 10px 10px; }
+  .tvmini__controle { position: absolute; right: -24px; bottom: -40px; width: 240px; background: #fff; border-radius: 22px; border: 8px solid #0A2128; padding: 18px; display: flex; flex-direction: column; gap: 14px; color: var(--petroleo-600); box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+  .botaozinho { background: var(--petroleo-600); color: #fff; font-size: 17px; font-weight: 600; text-align: center; padding: 10px; border-radius: 10px; }
+
+  .celular--wifi { align-items: stretch; padding: 34px 28px; gap: 16px; text-align: center; }
+  .wifi__ico { color: var(--petroleo-600); display: flex; justify-content: center; }
+  .celular--wifi b { font-size: 25px; font-weight: 600; color: var(--petroleo-900); margin-bottom: 8px; }
+  .campo { text-align: left; font-size: 19px; color: var(--cinza); border: 2px solid var(--linha); border-radius: 10px; padding: 15px 16px; }
+  .consent { display: flex; align-items: center; gap: 12px; text-align: left; font-size: 17px; color: var(--tinta); line-height: 1.3; }
+  .caixa { flex: none; width: 28px; height: 28px; border-radius: 6px; background: var(--petroleo-600); color: #fff; display: grid; place-items: center; }
+  .botao { margin-top: 8px; background: var(--petroleo-600); color: #fff; font-size: 19px; font-weight: 600; padding: 16px; border-radius: 12px; }
+
+  /* fixos em todos os cartões */
+  .rodape { position: absolute; left: 96px; bottom: 60px; display: flex; align-items: center; gap: 14px; font-size: 26px; font-weight: 300; color: rgba(255,255,255,.72); z-index: 4; }
+  .rodape :global(svg) { color: var(--agua); display: block; }
+  .qr { position: absolute; right: 72px; bottom: 56px; display: flex; align-items: flex-end; gap: 30px; z-index: 4; }
+  .qr__caixa { width: 292px; height: 292px; background: #fff; border-radius: 22px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+  .qr__caixa :global(svg) { width: 100%; height: 100%; display: block; }
+  .qr__texto { display: flex; flex-direction: column; align-items: flex-end; text-align: right; padding-bottom: 10px; }
+  .qr__texto b { font-size: 40px; font-weight: 600; line-height: 1.1; }
+  .qr__texto span { font-size: 30px; font-weight: 300; opacity: .82; margin-top: 6px; }
+  .qr__seta { color: var(--agua); margin-top: 12px !important; opacity: 1 !important; animation: cutuca 2.6s ease-in-out infinite; }
+  .qr__seta :global(svg) { display: block; }
+  @keyframes cutuca { 50% { transform: translateX(10px); } }
+  .pausado { position: absolute; top: 28px; right: 72px; z-index: 6; font-size: 20px; font-weight: 600; background: rgba(255,255,255,.12); padding: 8px 16px; border-radius: 999px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cartao, .cartao.ativo, .cartao.saindo { transform: none; transition: opacity .4s linear, visibility 0s; }
+    .cartao:not(.ativo) { transition: opacity .4s linear, visibility 0s .4s; }
+    .anima, .ativo .anima { opacity: 1; transform: none; transition: none; }
+    .bloco--barrado, .digitando i, .qr__seta { animation: none; }
+    .progresso span { transition: none; }
+  }
+</style>

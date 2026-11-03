@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Testes da /tv3 com Playwright. Uso: node scripts/tv3-test.mjs [qr|motor|layout|copy|audio|orient|qrlayout|qrhd|todos]
+// Testes da /tv3 com Playwright. Uso: node scripts/tv3-test.mjs [qr|motor|layout|copy|audio|orient|qrlayout|qrhd|antiga|todos]
 //
 // Variáveis de ambiente:
 //   PW_MODULE        caminho do playwright (padrão /opt/node-tools/node_modules/playwright/index.mjs)
@@ -39,6 +39,16 @@ async function abrir(query = '', viewport = { width: 1920, height: 1080 }, opts 
   page.on('request', (rq) => { const u = rq.url(); if (!u.startsWith(BASE) && !u.startsWith('data:') && !u.startsWith('blob:')) externas.push(u); });
   page.externas = externas;
   if (opts.clock) await page.clock.install({ time: new Date(opts.clock) });
+  if (opts.antigo) {
+    // Simula um navegador de TV antigo (< Chrome 84): sem "gap", sem aspect-ratio, sem inset e sem clamp()
+    await page.route(`${BASE}/tv3.html*`, async (route) => {
+      const r = await route.fetch();
+      const css = (c) => c.replace(/(^|[;{\s])(gap|grid-gap|aspect-ratio):\s*[^;}]+;?/g, '$1').replace(/(^|[;{\s])inset:\s*[^;}]+;?/g, '$1').replace(/clamp\([^)]*\)/g, 'invalid');
+      const corpo = (await r.text()).replace(/<style>[\s\S]*?<\/style>/, (s) => css(s));
+      await route.fulfill({ response: r, body: corpo });
+    });
+  }
+  if (opts.antes) await opts.antes(page);
   await page.goto(`${BASE}/tv3.html?debug=1${query ? '&' + query : ''}`);
   return page;
 }
@@ -353,9 +363,9 @@ async function testeQRHD() {
 // O selo do QR (anel de 11 px + anel tracejado de 18 px) não pode encostar em texto, no mascote nem sair do painel.
 async function testeQRLayout() {
   console.log('\n# QR SEM SOBREPOSIÇÃO');
-  const cenarios = [['', { width: 1920, height: 1080 }, 'deitada, 32"'], ['', { width: 1366, height: 768 }, 'deitada, painel HD 1366x768'], ['', { width: 1280, height: 720 }, 'deitada, painel HD 1280x720'], ['orientacao=vertical', { width: 1080, height: 1920 }, 'em pé, 32"'], ['tela=grande', { width: 1920, height: 1080 }, 'deitada, TV grande']];
-  for (const [q, vp, nome] of cenarios) {
-    const page = await abrir(q, vp);
+  const cenarios = [['', { width: 1920, height: 1080 }, 'deitada, 32"', false], ['', { width: 1366, height: 768 }, 'navegador antigo (sem gap), painel HD 1366x768', true], ['', { width: 1366, height: 768 }, 'deitada, painel HD 1366x768'], ['', { width: 1280, height: 720 }, 'deitada, painel HD 1280x720'], ['orientacao=vertical', { width: 1080, height: 1920 }, 'em pé, 32"'], ['tela=grande', { width: 1920, height: 1080 }, 'deitada, TV grande']];
+  for (const [q, vp, nome, antigo] of cenarios) {
+    const page = await abrir(q, vp, { antigo });
     const ids = await page.evaluate(() => window.TV3.POOL.filter((s) => s.qr && window.TV3.QR[s.qr]).map((s) => s.id));
     const ruins = [];
     for (const id of ids) {
@@ -386,6 +396,49 @@ async function testeQRLayout() {
     ok(ruins.length === 0, `QR sem sobreposição com texto, mascote ou borda, tela ${nome} (${ids.length} slides)`, ruins.slice(0, 4).join(' | '));
     await page.context().close();
   }
+}
+
+
+// ---------------------------------------------------------------- COMPATIBILIDADE COM TV ANTIGA + PRÉ-CARGA
+async function testeTVAntiga() {
+  console.log('\n# TV ANTIGA E PRÉ-CARGA');
+  // 1) CSS: nada que o navegador da TV (anterior ao Chrome 84/88) não entenda
+  const html = fs.readFileSync(path.join(ROOT, 'public', 'tv3.html'), 'utf8');
+  const css = html.slice(html.indexOf('<style>'), html.indexOf('</style>'));
+  const GRADE = new Set(['.tv-slide', '#tvStage.portrait-mode .tv-slide', '.tv-tutorial-steps', '.tv-slide.tutorial .tv-tutorial-steps', '.tv-vs-grid']);
+  const gaps = [];
+  for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const sel = m[1].replace(/\/\*[\s\S]*?\*\//g, '').trim();
+    if (/(^|[;\s])gap:/.test(m[2]) && !GRADE.has(sel)) gaps.push(sel);
+  }
+  ok(gaps.length === 0, '"gap" só em contêiner de grade (flex-gap exige Chrome 84; use margem)', gaps.join(' | '));
+  const modernos = ['aspect-ratio', 'inset:', ':has(', 'clamp(', ':is(', ':where('].filter((k) => css.includes(k));
+  ok(modernos.length === 0, 'CSS sem recursos recentes demais para a TV (aspect-ratio, inset, :has, clamp)', modernos.join(', '));
+  // 2) a barra de progresso saiu
+  const page0 = await abrir('', { width: 1366, height: 768 });
+  ok(await page0.evaluate(() => !document.querySelector('.tv-progress-container, .tv-progress-bar')), 'sem barra de progresso na tela');
+  await page0.context().close();
+  // 3) pré-carga: com internet lenta (cada imagem demora 700 ms) o slide só aparece com a foto pronta
+  const page = await abrir('vel=25', { width: 1366, height: 768 }, {
+    antes: async (pg) => {
+      await pg.addInitScript(() => {
+        window.__ativacoes = [];
+        new MutationObserver((ms) => ms.forEach((m) => {
+          const el = m.target;
+          if (el.classList && el.classList.contains('tv-slide') && el.classList.contains('active')) {
+            const im = el.querySelector('.tv-slide-image');
+            window.__ativacoes.push({ id: el.getAttribute('data-id'), pronta: im ? im.complete && im.naturalWidth > 0 : true });
+          }
+        })).observe(document, { subtree: true, attributes: true, attributeFilter: ['class'] });
+      });
+      await pg.route('**/img/**', async (r) => { await new Promise((x) => setTimeout(x, 700)); r.continue(); });
+    },
+  });
+  await page.waitForTimeout(14000);
+  const at = await page.evaluate(() => window.__ativacoes);
+  const semFoto = at.filter((a) => !a.pronta).map((a) => a.id);
+  ok(at.length >= 6 && semFoto.length === 0, `internet lenta: ${at.length} slides apareceram e todos já com a foto pronta`, semFoto.join(','));
+  await page.context().close();
 }
 
 // ---------------------------------------------------------------- ORIENTAÇÃO (horizontal ou vertical)
@@ -419,7 +472,7 @@ async function testeOrientacao() {
   await page.context().close();
 }
 
-const testes = { qr: testeQR, motor: testeMotor, layout: testeLayout, qrlayout: testeQRLayout, qrhd: testeQRHD, copy: testeCopy, audio: testeAudio, orient: testeOrientacao };
+const testes = { qr: testeQR, motor: testeMotor, layout: testeLayout, qrlayout: testeQRLayout, qrhd: testeQRHD, antiga: testeTVAntiga, copy: testeCopy, audio: testeAudio, orient: testeOrientacao };
 try {
   for (const [nome, fn] of Object.entries(testes)) if (only === 'todos' || only === nome) await fn();
 } finally {

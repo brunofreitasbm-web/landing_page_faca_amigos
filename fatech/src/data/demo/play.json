@@ -1,0 +1,44 @@
+{
+  "espaco": "Circuito Mini Pista",
+  "data": "Quarta-feira, 18 de novembro",
+  "planos": [
+    { "min": 20, "preco": 25 },
+    { "min": 30, "preco": 35 },
+    { "min": 60, "preco": 60 }
+  ],
+  "extraMinuto": 1.5,
+  "velocidade": 20,
+  "tags": [
+    { "id": "barulho", "rot": "Sensível a barulho", "icone": "volume-x" },
+    { "id": "toque", "rot": "Não gosta de toque", "icone": "hand" },
+    { "id": "pausa", "rot": "Precisa de pausa", "icone": "circle-pause" },
+    { "id": "autismo", "rot": "Autismo", "icone": "infinity" },
+    { "id": "tdah", "rot": "TDAH", "icone": "zap" }
+  ],
+  "proximaPulseira": 221,
+  "criancas": [
+    { "nome": "Miguel S.", "responsavel": "Carla S.", "pulseira": 214, "plano": 30, "restante": 2.5, "tags": ["autismo", "barulho"] },
+    { "nome": "Helena P.", "responsavel": "Rodrigo P.", "pulseira": 219, "plano": 60, "restante": 34, "tags": [] },
+    { "nome": "Davi M.", "responsavel": "Patrícia M.", "pulseira": 216, "plano": 30, "restante": -4, "tags": ["tdah"] },
+    { "nome": "Alice R.", "responsavel": "Juliana R.", "pulseira": 217, "plano": 20, "restante": 7, "tags": ["toque", "pausa"] },
+    { "nome": "Bernardo L.", "responsavel": "Marcos L.", "pulseira": 218, "plano": 30, "restante": 16, "tags": [] },
+    { "nome": "Laura T.", "responsavel": "Fernanda T.", "pulseira": 220, "plano": 60, "restante": 11, "tags": ["autismo"] }
+  ],
+  "caixa": {
+    "operadora": "Joana",
+    "fundo": 200,
+    "dinheiro": 1084,
+    "pix": 1462,
+    "cartao": 874,
+    "exemploContado": 1248
+  },
+  "dono": {
+    "faturamento": 3420,
+    "faturamentoSemanaPassada": 2980,
+    "criancasMesmaHora": 4,
+    "ticket": 41.2,
+    "metaTicket": 45,
+    "extraCobrado": 186,
+    "extraSemanaPassada": 54
+  }
+}

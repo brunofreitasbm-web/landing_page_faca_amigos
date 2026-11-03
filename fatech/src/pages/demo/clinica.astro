@@ -1,0 +1,373 @@
+---
+// Demonstração FA Clínica: agenda, guias (com bloqueio), evolução por voz, portal da família e painel do gestor.
+// Todos os dados vêm de src/data/demo/clinica.json e são inventados.
+import Demo from '../../layouts/Demo.astro';
+import Historia from '../../components/Historia.astro';
+import d from '../../data/demo/clinica.json';
+
+const statusInfo: Record<string, { rot: string; cls: string }> = {
+  realizada: { rot: 'Realizada', cls: 'p-ok' },
+  atendimento: { rot: 'Em atendimento', cls: 'p-info' },
+  confirmada: { rot: 'Confirmada', cls: 'p-neutro' },
+  aconfirmar: { rot: 'A confirmar', cls: 'p-alerta' },
+  falta: { rot: 'Falta', cls: 'p-erro' },
+  bloqueada: { rot: 'Sem guia válida', cls: 'p-erro' },
+};
+const guiaInfo: Record<string, { rot: string; cls: string }> = {
+  ok: { rot: 'Em dia', cls: 'p-ok' },
+  acabando: { rot: 'Acabando', cls: 'p-alerta' },
+  vencida: { rot: 'Vencida', cls: 'p-erro' },
+  aguardando: { rot: 'Aguardando plano', cls: 'p-neutro' },
+};
+const maxSemana = Math.max(...d.gestor.semanas.map((s) => Math.max(s.sessoes, s.meta)));
+---
+<Demo titulo="FA Clínica · demonstração" produto="FA Clínica">
+  <main class="wrap stack">
+    <Historia
+      espelho="Quantas sessões sua clínica atendeu este mês <strong>sem guia válida?</strong>"
+      antes="Agenda numa planilha, guias em outra, evolução no papel. A gente só descobria a sessão sem guia quando o plano recusava o pagamento."
+      virada="Decidimos que o sistema tinha que impedir o erro antes de acontecer, e não só avisar depois."
+      depois="Agenda, guias e evoluções no mesmo lugar. Sessão sem guia válida nem chega a ser marcada."
+    />
+
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true" data-aba="agenda" id="aba-agenda">Agenda do dia</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="guias" id="aba-guias">Autorizações</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="evolucao" id="aba-evolucao">Evolução por voz</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="familia" id="aba-familia">Portal da família</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="gestor" id="aba-gestor">Painel do gestor</button>
+    </div>
+
+    <!-- AGENDA -->
+    <section data-painel="agenda" class="stack">
+      <div class="row between">
+        <div><h2>{d.data}</h2><p class="muted small">{d.clinica} · {d.agenda.length} sessões hoje</p></div>
+        <div class="row small">
+          {Object.entries(statusInfo).map(([, s]) => <span class={`pill ${s.cls}`}>{s.rot}</span>)}
+        </div>
+      </div>
+      <div class="card rolar">
+        <table class="agenda">
+          <thead><tr><th>Hora</th>{d.salas.map((s) => <th>{s}</th>)}</tr></thead>
+          <tbody>
+            {d.horarios.map((h) => (
+              <tr>
+                <td class="hora num">{h}</td>
+                {d.salas.map((_, si) => {
+                  const a = d.agenda.find((x) => x.hora === h && x.sala === si);
+                  if (!a) return <td class="vazio">livre</td>;
+                  const s = statusInfo[a.status];
+                  return (
+                    <td>
+                      <button class={`sessao st-${a.status}`} data-sessao={a.id} id={`sessao-${a.id}`}>
+                        <b>{a.crianca}</b>
+                        <span class="small muted">{a.terapia} · {a.terapeuta}</span>
+                        <span class={`pill ${s.cls}`}>{s.rot}</span>
+                      </button>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- GUIAS -->
+    <section data-painel="guias" class="stack" hidden>
+      <div class="row between">
+        <div><h2>Autorizações dos planos</h2><p class="muted small">Cada sessão desconta da guia. Quando acaba ou vence, a agenda trava sozinha.</p></div>
+        <button class="btn btn-pri" id="btn-agendar-lucas">Tentar agendar Lucas M.</button>
+      </div>
+      <div class="card rolar">
+        <table class="tabela">
+          <thead><tr><th>Criança</th><th>Plano</th><th>Terapia</th><th>Sessões usadas</th><th>Validade</th><th>Situação</th></tr></thead>
+          <tbody>
+            {d.guias.map((g) => {
+              const pct = g.autorizadas ? Math.round((g.usadas / g.autorizadas) * 100) : 0;
+              const s = guiaInfo[g.situacao];
+              return (
+                <tr>
+                  <td><b>{g.crianca}</b></td>
+                  <td>{g.convenio}</td>
+                  <td>{g.terapia}</td>
+                  <td style="min-width:160px">
+                    <span class="num small">{g.usadas} de {g.autorizadas || '—'}</span>
+                    <div class="barra" style="margin-top:6px"><span style={`width:${pct}%;${g.situacao === 'vencida' ? 'background:var(--erro)' : g.situacao === 'acabando' ? 'background:var(--alerta)' : ''}`}></span></div>
+                  </td>
+                  <td class="num">{g.validade}</td>
+                  <td><span class={`pill ${s.cls}`}>{s.rot}</span></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- EVOLUÇÃO -->
+    <section data-painel="evolucao" class="stack" hidden>
+      <div class="grid g2">
+        <div class="card stack">
+          <div><h2>Evolução da sessão</h2><p class="muted small">Theo A. · ABA com Marina · hoje 08:00</p></div>
+          <button class="mic" id="btn-mic" type="button" aria-label="Gravar evolução por voz">
+            <span class="mic-ico" aria-hidden="true">●</span>
+            <span id="mic-txt">Toque e fale a evolução</span>
+          </button>
+          <div class="campo">
+            <label for="evo">Texto da evolução</label>
+            <textarea id="evo" rows="7" placeholder="O texto aparece aqui enquanto a terapeuta fala."></textarea>
+          </div>
+          <button class="btn btn-ok" id="btn-salvar-evo" disabled>Salvar evolução</button>
+        </div>
+        <div class="card stack">
+          <h2>Registro de tentativas</h2>
+          <p class="muted small">Toque em cada tentativa: acerto independente, com ajuda ou erro.</p>
+          <div class="tentativas" id="tentativas">
+            {Array.from({ length: 10 }, (_, i) => <button class="tent" data-t={i} aria-label={`Tentativa ${i + 1}`}>{i + 1}</button>)}
+          </div>
+          <p class="num" id="tent-res">0 de 10 independentes</p>
+          <p class="muted small">Semana passada: 6 de 10. O gráfico de progresso é atualizado sozinho.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAMÍLIA -->
+    <section data-painel="familia" class="stack" hidden>
+      <div class="grid g2" style="align-items:start">
+        <div class="stack">
+          <h2>O que a família vê no celular</h2>
+          <p class="muted">Agenda do filho, frequência e metas em linguagem simples. Confirmar presença é um toque. Menos ligação para a recepção, menos falta.</p>
+        </div>
+        <div class="celular">
+          <div class="tela fam">
+            <div class="fam-topo">
+              <span class="small">Olá, família do</span>
+              <b>{d.familia.crianca}</b>
+            </div>
+            <div class="fam-corpo stack">
+              <div class="card kpi" style="box-shadow:none">
+                <div class="rot">Frequência em novembro</div>
+                <div class="val">{d.familia.frequencia}%</div>
+                <div class="cmp sobe">▲ {d.familia.frequencia - d.familia.frequenciaAnterior} p.p. vs. outubro</div>
+              </div>
+              <div>
+                <h3>Próximas sessões</h3>
+                {d.familia.proximas.map((p, i) => (
+                  <div class="fam-sessao">
+                    <span><b class="small">{p.dia} · {p.hora}</b><br /><span class="small muted">{p.terapia}</span></span>
+                    <button class="btn btn-sec fam-conf" data-conf={i} id={`fam-conf-${i}`} style="min-height:36px;padding:6px 10px;font-size:13px">Confirmar</button>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <h3>Metas do {d.familia.crianca}</h3>
+                {d.familia.metas.map((m) => (
+                  <div style="margin-top:10px">
+                    <div class="small">{m.texto}</div>
+                    <div class="barra" style="margin-top:4px"><span style={`width:${m.progresso}%`}></span></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GESTOR -->
+    <section data-painel="gestor" class="stack" hidden>
+      <div><h2>Painel do gestor · novembro</h2><p class="muted small">Todo indicador vem com comparação: mês anterior ou meta.</p></div>
+      <div class="grid g4" id="gestor-kpis">
+        {d.gestor.kpis.map((k) => (
+          <div class="card kpi">
+            <div class="rot">{k.rotulo}</div>
+            <div class="val">{k.valor}</div>
+            <div class={`cmp ${k.tom}`}>{k.cmp}</div>
+          </div>
+        ))}
+      </div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="card-hd"><h3>Sessões realizadas por semana</h3><span class="small muted">linha = meta ({d.gestor.semanas[0].meta})</span></div>
+          <div class="barras" role="img" aria-label="Sessões por semana comparadas à meta">
+            {d.gestor.semanas.map((s) => (
+              <div class="bcol">
+                <span class="bval num small">{s.sessoes}</span>
+                <div class="btrilho">
+                  <div class="bmeta" style={`bottom:${(s.meta / maxSemana) * 100}%`}></div>
+                  <div class={`bbar ${s.sessoes >= s.meta ? 'acima' : ''}`} style={`height:${(s.sessoes / maxSemana) * 100}%`}></div>
+                </div>
+                <span class="small muted">{s.rotulo}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="card stack" id="gestor-alertas">
+          <h3>O que precisa de atenção hoje</h3>
+          {d.gestor.alertas.map((a) => (
+            <div class="alerta-item"><span class={`pill p-${a.tipo}`}>{a.tipo === 'erro' ? 'Urgente' : a.tipo === 'alerta' ? 'Atenção' : 'Lembrete'}</span><span>{a.texto}</span></div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-fundo" id="modal" hidden>
+    <div class="modal stack" role="dialog" aria-modal="true" aria-labelledby="modal-tit">
+      <h2 id="modal-tit"></h2>
+      <p id="modal-txt"></p>
+      <div class="row" id="modal-acoes"></div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ agenda: d.agenda, falada: d.evolucaoFalada }}>
+    window.FA_DADOS = { agenda: agenda, falada: falada };
+    window.FA_TOUR = [
+      { alvo: '#sessao-a7', texto: 'Esta sessão está vermelha: a guia do Lucas venceu. Toque nela.', clique: true },
+      { alvo: '#modal .modal', texto: 'O sistema não deixa a sessão acontecer sem guia válida. É aqui que a glosa deixa de existir.' },
+      { alvo: '#aba-guias', texto: 'Veja todas as guias e quantas sessões restam em cada uma. Toque em Autorizações.', clique: true },
+      { alvo: '#aba-evolucao', texto: 'Agora a evolução por voz. Toque aqui.', clique: true },
+      { alvo: '#btn-mic', texto: 'A terapeuta fala e o texto aparece sozinho. Toque no microfone.', clique: true },
+      { alvo: '#aba-familia', texto: 'O que a família vê no celular. Toque aqui.', clique: true },
+      { alvo: '#aba-gestor', texto: 'E o painel do dono, com cada número comparado à meta. Toque aqui.', clique: true },
+      { alvo: '#gestor-kpis', texto: 'Ocupação, faltas, sessões sem guia e evoluções: tudo comparado com o mês passado e com a meta.' }
+    ];
+  </script>
+  <script>
+    const { agenda, falada } = (window as any).FA_DADOS;
+    const fa = (window as any).fa;
+
+    // Abas
+    const abas = document.querySelectorAll<HTMLButtonElement>('.aba');
+    abas.forEach((b) => b.addEventListener('click', () => {
+      abas.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      document.querySelectorAll<HTMLElement>('[data-painel]').forEach((p) => (p.hidden = p.dataset.painel !== b.dataset.aba));
+    }));
+
+    // Modal
+    const modal = document.getElementById('modal')!;
+    function abrir(tit: string, txt: string, acoes: { rot: string; cls: string; fn?: () => void }[]) {
+      document.getElementById('modal-tit')!.textContent = tit;
+      document.getElementById('modal-txt')!.textContent = txt;
+      const box = document.getElementById('modal-acoes')!;
+      box.innerHTML = '';
+      acoes.forEach((a) => {
+        const b = document.createElement('button');
+        b.className = `btn ${a.cls}`; b.textContent = a.rot;
+        b.onclick = () => { modal.hidden = true; a.fn?.(); };
+        box.appendChild(b);
+      });
+      modal.hidden = false;
+    }
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.hidden = true; });
+
+    const bloquear = () => abrir(
+      'Sessão bloqueada',
+      'A guia de Integração Sensorial do Lucas M. venceu em 28/10 e as 12 sessões autorizadas já foram usadas. Sem guia válida, o plano não paga. A recepção já recebeu a tarefa de pedir a renovação.',
+      [{ rot: 'Pedir renovação da guia', cls: 'btn-pri', fn: () => fa.aviso('Pedido de renovação enviado ao Plano Saúde B.', 'ok') }, { rot: 'Fechar', cls: 'btn-sec' }]
+    );
+
+    // Agenda
+    document.querySelectorAll<HTMLButtonElement>('[data-sessao]').forEach((b) => b.addEventListener('click', () => {
+      const a = agenda.find((x: any) => x.id === b.dataset.sessao);
+      if (a.status === 'bloqueada') return bloquear();
+      if (a.status === 'confirmada' || a.status === 'aconfirmar') {
+        return abrir(`${a.crianca} · ${a.hora}`, `${a.terapia} com ${a.terapeuta} · ${a.convenio}. Guia válida.`, [
+          { rot: 'Fazer check-in', cls: 'btn-ok', fn: () => {
+            a.status = 'atendimento';
+            const pill = b.querySelector('.pill')!; pill.className = 'pill p-info'; pill.textContent = 'Em atendimento';
+            b.className = 'sessao st-atendimento';
+            fa.aviso(`Check-in de ${a.crianca} feito. Uma sessão descontada da guia.`, 'ok');
+          } },
+          { rot: 'Fechar', cls: 'btn-sec' },
+        ]);
+      }
+      const txt: Record<string, string> = {
+        realizada: 'Sessão realizada. Evolução registrada e sessão descontada da guia.',
+        atendimento: 'Em atendimento agora. O horário de entrada fica registrado pelo check-in.',
+        falta: 'Falta registrada. A família recebe mensagem para remarcar e a vaga entra na lista de reposição.',
+      };
+      abrir(`${a.crianca} · ${a.hora}`, txt[a.status], [{ rot: 'Fechar', cls: 'btn-sec' }]);
+    }));
+    document.getElementById('btn-agendar-lucas')!.addEventListener('click', bloquear);
+
+    // Evolução por voz (simulada)
+    const mic = document.getElementById('btn-mic')!;
+    const evo = document.getElementById('evo') as HTMLTextAreaElement;
+    const salvar = document.getElementById('btn-salvar-evo') as HTMLButtonElement;
+    let gravando = false;
+    mic.addEventListener('click', () => {
+      if (gravando) return;
+      gravando = true; mic.classList.add('on');
+      document.getElementById('mic-txt')!.textContent = 'Ouvindo...';
+      evo.value = '';
+      const palavras = falada.split(' ');
+      let i = 0;
+      const t = setInterval(() => {
+        evo.value += (i ? ' ' : '') + palavras[i++];
+        if (i >= palavras.length) {
+          clearInterval(t); gravando = false; mic.classList.remove('on');
+          document.getElementById('mic-txt')!.textContent = 'Toque para falar de novo';
+          salvar.disabled = false;
+        }
+      }, 70);
+    });
+    salvar.addEventListener('click', () => { fa.aviso('Evolução salva. Ela já aparece no prontuário e no portal da família.', 'ok'); salvar.disabled = true; });
+
+    // Tentativas
+    const estados = ['', 'ind', 'ajuda', 'erro'];
+    document.querySelectorAll<HTMLButtonElement>('.tent').forEach((b) => b.addEventListener('click', () => {
+      const atual = estados.indexOf(b.dataset.e || '');
+      b.dataset.e = estados[(atual + 1) % estados.length];
+      const ind = document.querySelectorAll('.tent[data-e="ind"]').length;
+      document.getElementById('tent-res')!.textContent = `${ind} de 10 independentes`;
+    }));
+
+    // Família
+    document.querySelectorAll<HTMLButtonElement>('.fam-conf').forEach((b) => b.addEventListener('click', () => {
+      b.textContent = 'Confirmada ✓'; b.disabled = true;
+      fa.aviso('Presença confirmada. A recepção já vê na agenda.', 'ok');
+    }));
+  </script>
+</Demo>
+<style>
+  .agenda { width: 100%; border-collapse: separate; border-spacing: 6px; min-width: 760px; }
+  .agenda th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--cinza); text-align: left; padding: 4px 6px; font-weight: 600; }
+  .hora { font-weight: 600; color: var(--cinza); width: 64px; }
+  .vazio { color: #B5C0C5; font-size: 13px; padding-left: 10px; }
+  .sessao { width: 100%; text-align: left; display: grid; gap: 4px; padding: 10px; border-radius: var(--raio); border: 1px solid var(--linha); border-left: 4px solid var(--linha); background: #fff; font: inherit; color: inherit; cursor: pointer; min-height: 84px; }
+  .st-realizada { border-left-color: var(--ok); }
+  .st-atendimento { border-left-color: var(--petroleo-600); background: var(--info-suave); }
+  .st-confirmada { border-left-color: #9AA7AD; }
+  .st-aconfirmar { border-left-color: var(--alerta); }
+  .st-falta { border-left-color: var(--erro); opacity: .75; }
+  .st-bloqueada { border-left-color: var(--erro); background: var(--erro-suave); }
+  .sessao .pill { justify-self: start; }
+
+  .mic { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 12px; border: 1px dashed var(--petroleo-600); background: var(--info-suave); font: 600 16px var(--fonte); color: var(--petroleo-900); cursor: pointer; min-height: 64px; }
+  .mic-ico { width: 40px; height: 40px; border-radius: 50%; background: var(--petroleo-900); color: var(--agua); display: grid; place-items: center; font-size: 14px; }
+  .mic.on .mic-ico { background: var(--erro); color: #fff; animation: pulsa 1s infinite; }
+  @keyframes pulsa { 50% { transform: scale(1.12); } }
+
+  .tentativas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .tent { min-height: 52px; border-radius: var(--raio); border: 1px solid var(--linha); background: #fff; font: 600 16px var(--fonte); cursor: pointer; color: var(--cinza); }
+  .tent[data-e="ind"] { background: var(--ok); color: #fff; border-color: var(--ok); }
+  .tent[data-e="ajuda"] { background: var(--alerta-suave); color: var(--alerta); border-color: var(--alerta); }
+  .tent[data-e="erro"] { background: var(--erro-suave); color: var(--erro); border-color: var(--erro); }
+
+  .fam { background: var(--gelo); }
+  .fam-topo { background: var(--petroleo-900); color: #fff; padding: 18px 16px 16px; display: grid; }
+  .fam-topo b { font-size: 22px; font-weight: 600; }
+  .fam-corpo { padding: 14px; }
+  .fam-sessao { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--linha); }
+
+  .barras { display: flex; gap: 16px; align-items: flex-end; height: 200px; padding-top: 10px; }
+  .bcol { flex: 1; display: grid; justify-items: center; gap: 6px; height: 100%; grid-template-rows: auto 1fr auto; }
+  .btrilho { position: relative; width: 100%; max-width: 56px; height: 100%; }
+  .bbar { position: absolute; bottom: 0; left: 0; right: 0; background: #9FCFD3; border-radius: 6px 6px 0 0; }
+  .bbar.acima { background: var(--petroleo-600); }
+  .bmeta { position: absolute; left: -6px; right: -6px; border-top: 2px dashed var(--petroleo-900); z-index: 1; }
+  .alerta-item { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.4; }
+</style>

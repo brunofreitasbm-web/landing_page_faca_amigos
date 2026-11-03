@@ -1,0 +1,16 @@
+{
+  "clinica": "Clínica Arco-Íris",
+  "rede": "ArcoIris-Familias",
+  "exemplo": { "nome": "Joana", "whatsapp": "(00) 90000-0001" },
+  "beneficio": { "titulo": "Café grátis na recepção", "texto": "Mostre esta tela no balcão. Vale hoje.", "codigo": "ARCO-CAFE" },
+  "mes": { "novos": 148, "anterior": 97, "comAutorizacao": 105, "metaAutorizacao": 60, "retornos": 39, "retornosAnterior": 28 },
+  "contatos": [
+    { "nome": "Marcos T.", "whatsapp": "(00) 90000-0002", "quando": "Hoje 09:42", "novidades": true, "visita": "1ª visita" },
+    { "nome": "Patrícia L.", "whatsapp": "(00) 90000-0003", "quando": "Hoje 09:15", "novidades": true, "visita": "Retorno" },
+    { "nome": "Renata S.", "whatsapp": "(00) 90000-0004", "quando": "Hoje 08:51", "novidades": false, "visita": "1ª visita" },
+    { "nome": "Daniel A.", "whatsapp": "(00) 90000-0005", "quando": "Ontem 17:20", "novidades": true, "visita": "1ª visita" },
+    { "nome": "Fernanda C.", "whatsapp": "(00) 90000-0006", "quando": "Ontem 15:03", "novidades": true, "visita": "Retorno" },
+    { "nome": "Juliana M.", "whatsapp": "(00) 90000-0007", "quando": "Ontem 10:48", "novidades": false, "visita": "1ª visita" },
+    { "nome": "Carlos E.", "whatsapp": "(00) 90000-0008", "quando": "Ontem 08:30", "novidades": true, "visita": "1ª visita" }
+  ]
+}

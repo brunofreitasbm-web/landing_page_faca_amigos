@@ -1,0 +1,62 @@
+{
+  "clinica": "Clínica Arco-Íris",
+  "data": "Quinta, 20 de novembro",
+  "salas": ["Sala ABA 1", "Sala ABA 2", "Integração Sensorial", "Fonoaudiologia"],
+  "horarios": ["08:00", "09:00", "10:00", "11:00", "14:00", "15:00"],
+  "agenda": [
+    { "id": "a1", "sala": 0, "hora": "08:00", "crianca": "Theo A.", "terapeuta": "Marina", "terapia": "ABA", "status": "realizada", "convenio": "Plano Saúde A" },
+    { "id": "a2", "sala": 1, "hora": "08:00", "crianca": "Helena C.", "terapeuta": "Rafael", "terapia": "ABA", "status": "realizada", "convenio": "Particular" },
+    { "id": "a3", "sala": 2, "hora": "08:00", "crianca": "Davi S.", "terapeuta": "Júlia", "terapia": "Integração Sensorial", "status": "falta", "convenio": "Plano Saúde B" },
+    { "id": "a4", "sala": 0, "hora": "09:00", "crianca": "Maria L.", "terapeuta": "Marina", "terapia": "ABA", "status": "atendimento", "convenio": "Plano Saúde A" },
+    { "id": "a5", "sala": 3, "hora": "09:00", "crianca": "Bento R.", "terapeuta": "Carla", "terapia": "Fono", "status": "atendimento", "convenio": "Plano Saúde B" },
+    { "id": "a6", "sala": 1, "hora": "10:00", "crianca": "Alice P.", "terapeuta": "Rafael", "terapia": "ABA", "status": "confirmada", "convenio": "Plano Saúde A" },
+    { "id": "a7", "sala": 2, "hora": "10:00", "crianca": "Lucas M.", "terapeuta": "Júlia", "terapia": "Integração Sensorial", "status": "bloqueada", "convenio": "Plano Saúde B" },
+    { "id": "a8", "sala": 3, "hora": "10:00", "crianca": "Cecília V.", "terapeuta": "Carla", "terapia": "Fono", "status": "confirmada", "convenio": "Particular" },
+    { "id": "a9", "sala": 0, "hora": "11:00", "crianca": "Pedro H.", "terapeuta": "Marina", "terapia": "ABA", "status": "aconfirmar", "convenio": "Plano Saúde A" },
+    { "id": "a10", "sala": 1, "hora": "14:00", "crianca": "Laura F.", "terapeuta": "Rafael", "terapia": "ABA", "status": "confirmada", "convenio": "Plano Saúde B" },
+    { "id": "a11", "sala": 2, "hora": "14:00", "crianca": "Gael T.", "terapeuta": "Júlia", "terapia": "Integração Sensorial", "status": "aconfirmar", "convenio": "Plano Saúde A" },
+    { "id": "a12", "sala": 3, "hora": "15:00", "crianca": "Sofia N.", "terapeuta": "Carla", "terapia": "Fono", "status": "confirmada", "convenio": "Plano Saúde A" }
+  ],
+  "guias": [
+    { "crianca": "Theo A.", "convenio": "Plano Saúde A", "terapia": "ABA", "usadas": 14, "autorizadas": 20, "validade": "15/12", "situacao": "ok" },
+    { "crianca": "Maria L.", "convenio": "Plano Saúde A", "terapia": "ABA", "usadas": 18, "autorizadas": 20, "validade": "30/11", "situacao": "acabando" },
+    { "crianca": "Lucas M.", "convenio": "Plano Saúde B", "terapia": "Integração Sensorial", "usadas": 12, "autorizadas": 12, "validade": "28/10", "situacao": "vencida" },
+    { "crianca": "Bento R.", "convenio": "Plano Saúde B", "terapia": "Fono", "usadas": 6, "autorizadas": 16, "validade": "20/01", "situacao": "ok" },
+    { "crianca": "Gael T.", "convenio": "Plano Saúde A", "terapia": "Integração Sensorial", "usadas": 0, "autorizadas": 0, "validade": "—", "situacao": "aguardando" }
+  ],
+  "evolucaoFalada": "Theo chegou tranquilo e aceitou a transição da sala de espera sem apoio físico. Trabalhamos pedido com figura: 8 de 10 tentativas independentes, acima das 6 de 10 da semana passada. Um episódio curto de choro na troca de atividade, resolvido com o quadro de rotina. Próxima sessão: generalizar o pedido para o ambiente da recepção.",
+  "familia": {
+    "crianca": "Theo",
+    "frequencia": 94,
+    "frequenciaAnterior": 88,
+    "proximas": [
+      { "dia": "Seg 24/11", "hora": "08:00", "terapia": "ABA com Marina" },
+      { "dia": "Qua 26/11", "hora": "08:00", "terapia": "ABA com Marina" },
+      { "dia": "Sex 28/11", "hora": "09:00", "terapia": "Fono com Carla" }
+    ],
+    "metas": [
+      { "texto": "Pedir o que quer usando figuras", "progresso": 80 },
+      { "texto": "Esperar a vez em brincadeiras curtas", "progresso": 55 },
+      { "texto": "Trocar de atividade sem choro", "progresso": 40 }
+    ]
+  },
+  "gestor": {
+    "kpis": [
+      { "rotulo": "Ocupação da agenda", "valor": "87%", "cmp": "▲ 4 p.p. vs. outubro · meta 85%", "tom": "sobe" },
+      { "rotulo": "Faltas no mês", "valor": "6,1%", "cmp": "▼ 2,3 p.p. vs. outubro", "tom": "sobe" },
+      { "rotulo": "Sessões sem guia válida", "valor": "0", "cmp": "eram 7 em outubro · meta 0", "tom": "sobe" },
+      { "rotulo": "Evoluções em dia", "valor": "96%", "cmp": "▲ 11 p.p. vs. outubro · meta 95%", "tom": "sobe" }
+    ],
+    "semanas": [
+      { "rotulo": "Sem 1", "sessoes": 182, "meta": 190 },
+      { "rotulo": "Sem 2", "sessoes": 196, "meta": 190 },
+      { "rotulo": "Sem 3", "sessoes": 201, "meta": 190 },
+      { "rotulo": "Sem 4", "sessoes": 188, "meta": 190 }
+    ],
+    "alertas": [
+      { "tipo": "alerta", "texto": "Guia de Maria L. termina em 2 sessões. Pedido de renovação já enviado." },
+      { "tipo": "erro", "texto": "Davi S. faltou 3 vezes em 30 dias. Risco de abandono: ligar para a família." },
+      { "tipo": "info", "texto": "2 evoluções de ontem ainda abertas (Júlia)." }
+    ]
+  }
+}
