@@ -148,7 +148,7 @@
     '    <li>' + link(hub('/planos'), 'Pacotes particulares') + '</li>',
     '    <li>' + link(hub('/playground'), 'Playground Inclusivo') + '</li>',
     '    <li>' + link(hub('/circuito'), 'Circuito de Carrinhos') + '</li>',
-    '    <li>' + link(hub('/teste'), 'Mapeamento Gratuito', ' data-fa-link="rodape_' + kind + '"') + '</li>',
+    '    <li>' + link(hub('/mapeamento'), 'Mapeamento Gratuito', ' data-fa-link="rodape_' + kind + '"') + '</li>',
     '    <li>' + link(hub('/eventos'), 'Eventos (palestras e treinamentos)') + '</li>',
     '  </ul>',
     '</div>'

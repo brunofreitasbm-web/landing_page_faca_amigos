@@ -18,11 +18,11 @@ const onde = [u.andar, u.referencia].filter(Boolean).join(', ');
 const faq = [
   { q: 'Precisa agendar?', a: `Não. O atendimento é por ordem de chegada, ${horarioTexto(id).replace(' · ', ' e ').replace('Segunda a sábado', 'de segunda a sábado').replace('Domingo', 'aos domingos')}.` },
   { q: `Onde fica o Playground no ${u.shopping}?`, a: `No ${onde} do ${u.shopping}, na ${u.endereco}${u.bairro ? ', ' + u.bairro : ''}, em Belém.` },
-  { q: 'O Playground é só para crianças com diagnóstico?', a: 'Não. O espaço é para todas as crianças de 0 a 12 anos, com ou sem laudo. Os mediadores são treinados em acolhimento neurodivergente e há cantinho de descompressão e abafadores de ruído.' },
+  { q: 'O espaço kids é só para crianças com laudo?', a: 'Não. O espaço é para todas as crianças de 0 a 12 anos, com ou sem laudo. Os mediadores são treinados em acolhimento neurodivergente e há cantinho de descompressão e abafadores de ruído.' },
   { q: 'Os preços são os mesmos nas duas unidades?', a: `Os planos e valores do Playground estão na página do Playground. Na dúvida, chame a unidade no WhatsApp ${fmtFone(u.whatsapp as string)}.` },
 ];
-const titulo = `Playground no ${u.shopping} | FaçaAmigos`;
-const descricao = `Playground inclusivo no ${u.shopping}, ${onde}. ${horarioTexto(id)}. Sem agendamento.`;
+const titulo = `Espaço Kids no ${u.shopping} | FaçaAmigos`;
+const descricao = `Espaço kids no ${u.shopping}, ${onde}: 0 a 12 anos, sem agendamento. ${horarioTexto(id)}.`;
 ---
 <Base
   title={titulo}
@@ -34,7 +34,7 @@ const descricao = `Playground inclusivo no ${u.shopping}, ${onde}. ${horarioText
   wa={id}
   cta={{ label: 'Chamar no WhatsApp', href: 'whatsapp', event: 'whatsapp_unidade' }}
   jsonLd={[
-    localBusiness(id, { '@type': ['LocalBusiness', 'AmusementPark'] }),
+    localBusiness(id, { '@type': ['LocalBusiness', 'EntertainmentBusiness'] }),
     faqNo(path, faq),
     trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Playground', path: '/playground' }, { nome: u.curto, path }]),
   ]}
@@ -44,8 +44,8 @@ const descricao = `Playground inclusivo no ${u.shopping}, ${onde}. ${horarioText
       <p class="crumbs"><a href="/">Início</a> › <a href="/playground">Playground</a> › <b>{u.curto}</b></p>
       <div class="split">
         <div class="stack-lg">
-          <p class="eyebrow">Playground inclusivo · {u.curto}</p>
-          <h1>Playground FaçaAmigos no {u.shopping}</h1>
+          <p class="eyebrow">Parquinho FaçaAmigos · {u.curto}</p>
+          <h1>Espaço kids no {u.shopping}</h1>
           <p class="lead">Espaço para todas as crianças de 0 a 12 anos, com ou sem laudo, no {onde} do {u.shopping}. Sem agendamento: é só chegar.</p>
           <ul class="facts">
             <li><span>Onde</span><strong>{localTexto(id)}</strong></li>
@@ -96,7 +96,7 @@ const descricao = `Playground inclusivo no ${u.shopping}, ${onde}. ${horarioText
 
   <section class="section">
     <div class="wrap card">
-      <h2>Também estamos no {outra.shopping}</h2>
+      <h2>Também tem espaço kids FaçaAmigos no {outra.shopping}</h2>
       <p>{localTexto(outraId)}. {horarioTexto(outraId)}.</p>
       <div class="actions"><a class="btn" href={outra.rota}>Ver a unidade {outra.curto}</a></div>
     </div>

@@ -10,7 +10,7 @@
 - [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): 19 guias sobre autismo, TDAH, neurodivergência, terapia ABA, plano de saúde, birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
 - [Direitos da pessoa autista e neurodivergente](https://institutofacaamigos.com.br/direitos): passo a passo (o que levar, como pedir, o que fazer se negarem) de CIPTEA, BPC, plano de saúde, escola, atendimento prioritário e mais. Informação geral, não é consultoria jurídica.
 - [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 50 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
-- [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/teste): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
+- [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/mapeamento): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
 - [E-book O Brincar com Propósito](https://institutofacaamigos.com.br/guia): guia prático de Análise do Comportamento para mães, pais e cuidadores.
 - [E-book O Código do Desenvolvimento Infantil](https://institutofacaamigos.com.br/codigo): guia curto e acolhedor sobre o comportamento infantil.
 - [Política de Privacidade](https://institutofacaamigos.com.br/politica-privacidade): tratamento de dados pessoais e de crianças, conforme a LGPD.
@@ -151,6 +151,6 @@ R: Não. O Playground é para todas as crianças de 0 a 12 anos, com ou sem laud
   - Parque Shopping (Playground &amp; Circuito): +55 (91) 99234-7673 (WhatsApp)
   - Shopping Bosque Grão-Pará (Playground): +55 (91) 99110-1215 (WhatsApp)
   - Clínica de Terapia Comportamental: +55 (91) 99178-2027 (WhatsApp)
-- **Outros conteúdos**: `/clinica` (serviços da Clínica), `/eventos` (agenda de palestras e treinamentos), `/aprender` (guias educativos), `/glossario` (glossário de termos), `/teste` (Mapeamento Comportamental gratuito), `/guia` (e-book O Brincar com Propósito), `/codigo` (e-book O Código do Desenvolvimento Infantil)
+- **Outros conteúdos**: `/clinica` (serviços da Clínica), `/eventos` (agenda de palestras e treinamentos), `/aprender` (guias educativos), `/glossario` (glossário de termos), `/mapeamento` (Mapeamento Comportamental gratuito), `/guia` (e-book O Brincar com Propósito), `/codigo` (e-book O Código do Desenvolvimento Infantil)
 - **Resumo curto**: `https://institutofacaamigos.com.br/llms.txt`
 - **Fatos legíveis por máquina**: `https://institutofacaamigos.com.br/geo-facts.json`

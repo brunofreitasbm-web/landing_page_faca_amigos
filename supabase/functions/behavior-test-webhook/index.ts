@@ -845,7 +845,7 @@ async function sendResultEmailToGuardian(params: {
           <p style="font-family:Arial,sans-serif;font-size:11px;color:#8791A6;margin:0;line-height:1.5;">
             Este material é um retrato educativo e informativo, não um diagnóstico. Para uma leitura completa e individualizada, uma avaliação psicológica presencial é sempre o caminho mais seguro.
           </p>
-          <p style="margin:16px 0 0;font-size:11px;color:#9ca3af;">Você recebeu este e-mail porque pediu o resultado do mapeamento em institutofacaamigos.com.br/teste.</p>
+          <p style="margin:16px 0 0;font-size:11px;color:#9ca3af;">Você recebeu este e-mail porque pediu o resultado do mapeamento em institutofacaamigos.com.br/mapeamento.</p>
         </td></tr>
       </table>
     </td></tr>

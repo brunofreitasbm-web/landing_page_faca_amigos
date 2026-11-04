@@ -25,7 +25,7 @@ Modelo:
 ```
 
 - `unidade`: de quem é o WhatsApp do botão e o endereço do rodapé (`parque`, `graopara` ou `clinica`). O Circuito não tem telefone próprio: use `parque`.
-- `cta.tipo`: `whatsapp` (padrão) ou `link` (com `href`, ex.: `/teste` ou o checkout do e-book).
+- `cta.tipo`: `whatsapp` (padrão) ou `link` (com `href`, ex.: `/mapeamento` ou o checkout do e-book).
 - `encerraEm` (opcional): depois dessa data a página deixa de ser gerada no próximo deploy.
 - O build recusa texto com termos proibidos pela marca: festa, aniversário, promessa, confiança, oferta (não existe serviço de festa; o aniversário é só cortesia no CRM).
 - Sem promessa de resultado clínico, sem depoimento de paciente, nunca expor a criança.

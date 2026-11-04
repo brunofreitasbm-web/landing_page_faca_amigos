@@ -1,23 +1,23 @@
 {
   "slug": "teste",
-  "path": "/teste",
-  "titleTag": "Mapeamento Comportamental Infantil Gratuito | Instituto FaçaAmigos",
-  "descricao": "Mapeamento Comportamental gratuito para crianças de 4 a 17 anos: em cerca de 5 minutos, um retrato inicial do desenvolvimento. Não substitui avaliação profissional.",
+  "path": "/mapeamento",
+  "titleTag": "Mapeamento do Desenvolvimento Infantil | FaçaAmigos Belém",
+  "descricao": "Um retrato do desenvolvimento do seu filho em 5 minutos, criado por psicóloga. Material informativo, não é diagnóstico.",
   "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
-  "ogTitle": "Mapeamento Comportamental Infantil Gratuito | Instituto FaçaAmigos",
-  "ogDescricao": "Um olhar acolhedor e baseado em ciência sobre o dia a dia do seu filho. Em poucos minutos, você recebe um retrato inicial do desenvolvimento dele.",
+  "ogTitle": "Mapeamento do Desenvolvimento Infantil | FaçaAmigos Belém",
+  "ogDescricao": "Um retrato do desenvolvimento do seu filho em 5 minutos, criado por psicóloga. Material informativo, não é diagnóstico.",
   "ogSiteName": "Instituto FaçaAmigos",
   "ogType": "website",
-  "ogImage": "img/og/og-teste.jpg",
-  "ogImageAlt": "Mapeamento Comportamental gratuito do FaçaAmigos, criado pela psicóloga Isabella Gonçalves Freitas",
+  "ogImage": "img/og/og-mapeamento.jpg",
+  "ogImageAlt": "Mapeamento do Desenvolvimento Infantil do FaçaAmigos, criado pela psicóloga Isabella Gonçalves Freitas",
   "fa_cta": null,
   "jsonLd": [
     {
       "@type": "WebPage",
-      "name": "Mapeamento Comportamental gratuito para crianças de 4 a 17 anos",
-      "url": "https://institutofacaamigos.com.br/teste",
+      "name": "Mapeamento do Desenvolvimento Infantil",
+      "url": "https://institutofacaamigos.com.br/mapeamento",
       "inLanguage": "pt-BR",
-      "description": "Um retrato inicial e acolhedor de como seu filho se comunica, brinca e se relaciona. Gratuito, cerca de 5 minutos. Não substitui avaliação profissional.",
+      "description": "Um retrato do desenvolvimento do seu filho em cerca de 5 minutos, para crianças de 4 a 17 anos. Material informativo criado por psicóloga; não é diagnóstico.",
       "isAccessibleForFree": true,
       "author": {
         "@type": "Person",
@@ -31,7 +31,7 @@
         "name": "Instituto FaçaAmigos",
         "url": "https://institutofacaamigos.com.br/"
       },
-      "@id": "https://institutofacaamigos.com.br/teste#webpage",
+      "@id": "https://institutofacaamigos.com.br/mapeamento#webpage",
       "isPartOf": {
         "@id": "https://institutofacaamigos.com.br/#website"
       },

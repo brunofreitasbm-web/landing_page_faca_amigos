@@ -28,7 +28,7 @@
   },
   "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
   "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=plano_de_saude_cobre_terapia_aba",
-  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em Belém →",
   "leiaTambem": [
     {
       "href": "/aprender/laudo-e-ciptea",
@@ -44,12 +44,12 @@
   "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
   "fa_cta": {
     "label": "Fazer o mapeamento grátis",
-    "href": "/teste",
+    "href": "/mapeamento",
     "event": "aprender_cta"
   },
   "card": {
     "img": "img/clinica-fachada.jpg",
-    "alt": "Fachada da Clínica FaçaAmigos, no Umarizal",
+    "alt": "Fachada da Clínica FaçaAmigos, em Belém",
     "w": "900",
     "h": "1080",
     "estilo": null,
