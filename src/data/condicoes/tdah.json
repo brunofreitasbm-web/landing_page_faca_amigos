@@ -1,0 +1,92 @@
+{
+  "area": "psicologia",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "slug": "tdah",
+  "nome": "TDAH",
+  "path": "/tdah",
+  "titleTag": "TDAH infantil em Belém: sinais, diagnóstico e tratamento | FaçaAmigos",
+  "descricao": "Guia sobre TDAH na infância: sinais de desatenção e hiperatividade, quem diagnostica, diferença para autismo e como é o acompanhamento em Belém/PA.",
+  "h1": "TDAH na infância: sinais, diagnóstico e como é o acompanhamento",
+  "eyebrow": "Guia · TDAH",
+  "resposta": "TDAH (Transtorno do Déficit de Atenção com Hiperatividade) é uma condição do neurodesenvolvimento marcada por desatenção, hiperatividade e impulsividade acima do esperado para a idade, que atrapalham a vida em mais de um ambiente. O diagnóstico é clínico, feito por médico, e o cuidado combina orientação, estratégias na escola e, quando indicado, medicação.",
+  "about": {
+    "@type": "MedicalCondition",
+    "name": "Transtorno do Déficit de Atenção com Hiperatividade",
+    "alternateName": [
+      "TDAH"
+    ],
+    "code": {
+      "@type": "MedicalCode",
+      "codeValue": "6A05",
+      "codingSystem": "ICD-11"
+    }
+  },
+  "waTexto": "Olá! Gostaria de saber mais sobre o atendimento para TDAH na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre atenção e comportamento do seu filho?",
+  "faq": [
+    {
+      "q": "Toda criança agitada tem TDAH?",
+      "a": "Não. Agitação e distração são comuns na infância. No TDAH, os sinais são mais frequentes e intensos que o esperado para a idade, aparecem em mais de um ambiente (casa e escola, por exemplo) e prejudicam a rotina."
+    },
+    {
+      "q": "Com que idade o TDAH pode ser diagnosticado?",
+      "a": "Os sinais precisam estar presentes antes dos 12 anos. Em crianças muito pequenas é difícil separar o TDAH do comportamento esperado, por isso a avaliação é cuidadosa e feita por profissional experiente."
+    },
+    {
+      "q": "Quem faz o diagnóstico de TDAH?",
+      "a": "O diagnóstico é clínico, feito por médico (neuropediatra ou psiquiatra infantil), com entrevista, informações da escola e, às vezes, avaliação neuropsicológica. Não existe exame de sangue ou de imagem que confirme o TDAH."
+    },
+    {
+      "q": "TDAH e autismo são a mesma coisa?",
+      "a": "Não, mas podem ocorrer juntos. Os manuais atuais permitem os dois diagnósticos na mesma pessoa. O que muda é o núcleo: no TDAH, atenção e controle de impulsos; no autismo, comunicação social e comportamentos repetitivos."
+    },
+    {
+      "q": "TDAH sempre precisa de remédio?",
+      "a": "Não. A decisão é médica e depende da intensidade e do impacto. O cuidado costuma combinar orientação aos pais, estratégias na escola e acompanhamento psicológico, com medicação quando o médico indica."
+    },
+    {
+      "q": "Meu filho com TDAH tem direitos na escola?",
+      "a": "Existe lei federal (Lei 14.254/2021) sobre acompanhamento integral de estudantes com dislexia ou TDAH na educação básica. Converse com a escola e peça um plano de apoio por escrito."
+    }
+  ],
+  "relacionados": [
+    {
+      "href": "/clinica/avaliacao-neuropsicologica",
+      "tag": "Especialidade",
+      "titulo": "Avaliação Neuropsicológica"
+    },
+    {
+      "href": "/clinica/orientacao-parental",
+      "tag": "Especialidade",
+      "titulo": "Orientação Parental"
+    },
+    {
+      "href": "/clinica/psicopedagogia",
+      "tag": "Especialidade",
+      "titulo": "Psicopedagogia"
+    },
+    {
+      "href": "/aprender/tdah-ou-autismo-diferencas",
+      "tag": "Guia",
+      "titulo": "TDAH ou autismo: quais as diferenças"
+    }
+  ],
+  "revisor": {
+    "id": "isabella",
+    "nome": "Isabella Gonçalves Freitas",
+    "registro": "CRP 10/4727",
+    "papel": "Psicóloga infantil",
+    "rota": "/equipe/isabella-freitas",
+    "foto": "img/isabella-2.webp"
+  },
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Psicologia (CFP)",
+      "url": "https://site.cfp.org.br"
+    }
+  ]
+}

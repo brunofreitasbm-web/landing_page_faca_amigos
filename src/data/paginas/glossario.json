@@ -108,7 +108,7 @@
           "@type": "DefinedTerm",
           "name": "Convênio (IASEP e PROASA)",
           "url": "https://institutofacaamigos.com.br/glossario#convenio",
-          "description": "Planos de saúde que a Clínica FaçaAmigos vai atender assim que abrir, além do atendimento particular."
+          "description": "Planos de saúde que a Clínica FaçaAmigos atende (IASEP e PROASA), além do atendimento particular."
         },
         {
           "@type": "DefinedTerm",
@@ -325,6 +325,36 @@
           "name": "Treino de Habilidades Sociais",
           "url": "https://institutofacaamigos.com.br/glossario#treino-habilidades-sociais",
           "description": "Treino de interação com pares, conversação, regras sociais e amizade, em grupo ou individual."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "ESDM (Modelo Denver de Intervenção Precoce)",
+          "url": "https://institutofacaamigos.com.br/glossario#esdm",
+          "description": "Programa de intervenção para crianças pequenas com autismo que une princípios da ABA a brincadeiras e interação no dia a dia. Aparece quando se compara abordagens para a primeira infância. Muda pra você: entender que o ensino pode acontecer dentro da brincadeira, junto com a família."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Nível de suporte (autismo)",
+          "url": "https://institutofacaamigos.com.br/glossario#nivel-de-suporte",
+          "description": "Forma de descrever quanto apoio a pessoa autista precisa no dia a dia: nível 1 (precisa de apoio), nível 2 (apoio substancial) e nível 3 (apoio muito substancial). Não mede inteligência nem é \"grau leve ou grave\", e pode mudar com a idade e com os apoios."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "PECS (Sistema de Comunicação por Troca de Figuras)",
+          "url": "https://institutofacaamigos.com.br/glossario#pecs",
+          "description": "Sistema em que a criança aprende a pedir entregando uma figura ao parceiro de comunicação. Aparece como opção de comunicação alternativa, em geral conduzida com a fonoaudiologia e a ABA."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TEACCH (ensino estruturado)",
+          "url": "https://institutofacaamigos.com.br/glossario#teacch",
+          "description": "Abordagem que organiza o ambiente e as tarefas de forma visual e previsível, com agendas, divisões de espaço e passos claros, para ajudar a pessoa autista a entender o que se espera. Pode ser combinada com outras abordagens."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "VB-MAPP (avaliação de linguagem e habilidades)",
+          "url": "https://institutofacaamigos.com.br/glossario#vb-mapp",
+          "description": "Instrumento usado em programas de ABA para avaliar a linguagem e outras habilidades da criança e escolher metas. É uma avaliação, não uma terapia."
         }
       ]
     },

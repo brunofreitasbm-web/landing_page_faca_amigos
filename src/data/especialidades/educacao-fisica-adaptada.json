@@ -1,0 +1,55 @@
+{
+  "slug": "educacao-fisica-adaptada",
+  "nome": "Educação Física Adaptada",
+  "area": "outra",
+  "titleTag": "Educação Física Adaptada infantil em Belém | FaçaAmigos",
+  "descricao": "Educação Física Adaptada em Belém/PA: condicionamento, habilidades motoras, esporte inclusivo e socialização para crianças atípicas e típicas.",
+  "h1": "Educação Física Adaptada infantil em Belém",
+  "eyebrow": "Clínica · Educação Física Adaptada",
+  "resposta": "A Educação Física Adaptada oferece atividade física pensada para as necessidades de cada criança: condicionamento, habilidades motoras, jogos e esportes, com apoio e adaptações. O objetivo é saúde, diversão e participação, e também socialização com outras crianças.",
+  "path": "/clinica/educacao-fisica-adaptada",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Educação Física Adaptada na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Educação Física Adaptada?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Educação Física Adaptada"
+  },
+  "faq": [
+    {
+      "q": "Educação física adaptada é só para criança com deficiência?",
+      "a": "Não. É para quem precisa de adaptação ou apoio para participar, com ou sem diagnóstico. O objetivo é incluir a criança na prática de atividade física."
+    },
+    {
+      "q": "Qual a diferença para fisioterapia?",
+      "a": "A fisioterapia trata condições clínicas do movimento, com objetivo terapêutico. A educação física adaptada promove atividade física, habilidades motoras e socialização."
+    },
+    {
+      "q": "Meu filho tem medo de bola e de jogos em grupo. Pode participar?",
+      "a": "Sim. As atividades são adaptadas e graduais, com apoio, e respeitam o tempo e os limites sensoriais da criança."
+    },
+    {
+      "q": "A criança precisa de liberação médica?",
+      "a": "Para atividade física regular, é recomendável ter avaliação do pediatra, principalmente em crianças com condições de saúde específicas. A equipe orienta."
+    }
+  ],
+  "relacionadosSlugs": [
+    "psicomotricidade",
+    "fisioterapia",
+    "habilidades-sociais"
+  ],
+  "fontes": [
+    {
+      "nome": "CONFEF — Educação Física",
+      "url": "https://www.confef.org.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "atividade física inclusiva"
+  ]
+}

@@ -377,6 +377,51 @@ for (const arq of paginas) {
     }
   }
 
+  // Páginas de saúde (especialidades, condições e guias de /aprender): conteúdo de saúde infantil exige cuidado extra (CFP, COFFITO, CFFa).
+  {
+    const ehEspecialidade = /^clinica\/(?!equipe\.html$)[^/]+\.html$/.test(arq);
+    const ehCondicao = ['autismo.html', 'tdah.html', 'neurodivergencia.html'].includes(arq);
+    const ehGuia = arq.startsWith('aprender/') || arq === 'direitos.html';
+    if (ehEspecialidade || ehCondicao || ehGuia) {
+      const artigo = limpo.match(/<article\b[\s\S]*?<\/article>/i)?.[0] ?? '';
+      const texto = textoVisivel(artigo);
+      const palavras = texto.split(/\s+/).filter(Boolean).length;
+      if ((ehEspecialidade || ehCondicao) && palavras < 450) erros.push(`conteúdo raso: ${palavras} palavras (mínimo 450 em páginas de especialidade/condição)`);
+      // Termos proibidos: promessa de resultado, superlativo sem fato público e "cura" (regra da casa + conselhos profissionais).
+      const proibidos = [
+        [/\bmelhor(es)? (cl[ií]nica|terapia|profissional|psic[óo]log|tratamento)/i, '"melhor clínica/terapia/profissional" (superlativo sem fato público)'],
+        [/refer[êe]ncia (em|no|na) /i, '"referência em" (superlativo sem fato público)'],
+        [/resultados? garantidos?|garantia de resultado|garantimos/i, 'promessa de resultado'],
+        [/\bcura(r|do|da)?\b(?! mil)/i, '"cura" (autismo/TDAH não têm cura; só é permitido negando, ver lista abaixo)'],
+        [/depoimentos? de (pais|pacientes|m[ãa]es)/i, 'depoimento de paciente (vetado por CFP/COFFITO/CFFa)'],
+      ];
+      for (const [re, rotulo] of proibidos) {
+        const m = texto.match(re);
+        if (!m) continue;
+        // "cura" só passa em frase de negação ("não tem cura", "sem cura", "promessas de cura", "milagrosa").
+        if (/cura/i.test(rotulo)) {
+          const ctx = texto.slice(Math.max(0, m.index - 40), m.index + 40).toLowerCase();
+          if (/n[ãa]o (tem|existe|é|promete|prometem|oferece)|sem |promess|prometer|milagr|"cura"|desconfie|cura\b.*\bpromete/.test(ctx)) continue;
+        }
+        erros.push(`termo proibido em conteúdo de saúde: ${rotulo}`);
+      }
+    }
+    if (ehEspecialidade || ehCondicao) {
+      const tiposDe = tipos;
+      const pagina = nosLd.find((n) => tiposDe(n).includes('MedicalWebPage'));
+      if (!pagina) erros.push('falta MedicalWebPage no JSON-LD');
+      else {
+        if (!pagina.dateModified) erros.push('MedicalWebPage sem dateModified');
+        // Só psicologia revisa conteúdo de psicologia: Isabella (CRP) não pode constar como revisora de fono, T.O., fisio, nutrição etc.
+        const psicologia = ['avaliacao-inicial', 'terapia-aba', 'psicologia-infantil', 'habilidades-sociais', 'orientacao-parental', 'avaliacao-neuropsicologica'];
+        const slug = arq.replace(/^clinica\//, '').replace(/\.html$/, '');
+        if (ehEspecialidade && !psicologia.includes(slug) && pagina.reviewedBy) erros.push('reviewedBy em especialidade fora da área da psicologia');
+      }
+      if (!nosLd.some((n) => tiposDe(n).includes('FAQPage'))) erros.push('falta FAQPage no JSON-LD');
+      if (!limpo.includes('class="resposta"')) erros.push('falta o bloco "Resposta curta" (.resposta)');
+    }
+  }
+
   // og:image / twitter:image
   for (const m of limpo.matchAll(/<meta\s+[^>]*>/gi)) {
     const a = attrs(m[0]);

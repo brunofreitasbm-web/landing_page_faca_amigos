@@ -1,0 +1,60 @@
+{
+  "slug": "niveis-de-suporte-autismo",
+  "titulo": "Níveis de suporte no autismo: o que significam os níveis 1, 2 e 3?",
+  "titleTag": "Níveis de suporte no autismo (1, 2 e 3) | FaçaAmigos",
+  "descricao": "Entenda o que são os níveis 1, 2 e 3 de suporte no autismo, por que não indicam “grau leve ou grave” nem inteligência, e por que o nível pode mudar.",
+  "ogImage": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "autismo",
+    "níveis de suporte",
+    "DSM-5-TR"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=niveis_de_suporte_autismo",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/sinais-de-autismo-por-idade",
+      "tag": "6 min · Autismo",
+      "titulo": "Sinais de autismo por idade: o que observar em cada fase?"
+    },
+    {
+      "href": "/aprender/tdah-ou-autismo-diferencas",
+      "tag": "6 min · Desenvolvimento",
+      "titulo": "TDAH ou autismo? Semelhanças, diferenças e quando coexistem"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-fachada.jpg",
+    "alt": "Fachada da Clínica FaçaAmigos, no Umarizal",
+    "w": "900",
+    "h": "1080",
+    "estilo": null,
+    "tag": "6 min · Autismo",
+    "titulo": "Níveis de suporte no autismo: o que significam os níveis 1, 2 e 3?",
+    "resumo": "O que cada nível quer dizer, o que não quer dizer e por que ele pode mudar."
+  },
+  "ordemIndice": 10
+}

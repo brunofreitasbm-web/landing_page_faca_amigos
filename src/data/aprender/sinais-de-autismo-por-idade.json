@@ -1,0 +1,61 @@
+{
+  "slug": "sinais-de-autismo-por-idade",
+  "titulo": "Sinais de autismo por idade: o que observar em cada fase?",
+  "titleTag": "Sinais de autismo por idade: o que observar | FaçaAmigos",
+  "descricao": "Veja sinais que famílias e profissionais observam no autismo até 12 meses, aos 1–2 anos, aos 3–5 e na escola, quem avalia e quando buscar ajuda.",
+  "ogImage": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "autismo",
+    "sinais de autismo",
+    "M-CHAT-R/F",
+    "desenvolvimento infantil"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=sinais_de_autismo_por_idade",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/autismo-ou-atraso-de-fala",
+      "tag": "6 min · Comunicação",
+      "titulo": "Autismo ou atraso de fala? Como diferenciar e quem avalia"
+    },
+    {
+      "href": "/aprender/sinais-para-observar",
+      "tag": "5 min · Desenvolvimento",
+      "titulo": "Será que é normal?: sinais que valem um olhar mais de perto"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/equipe-recepcao.jpg",
+    "alt": "Equipe na recepção da clínica",
+    "w": "800",
+    "h": "1000",
+    "estilo": "object-position:50% 30%",
+    "tag": "6 min · Autismo",
+    "titulo": "Sinais de autismo por idade: o que observar em cada fase?",
+    "resumo": "Sinais por faixa de idade, quem avalia e quando buscar ajuda, sem rótulo."
+  },
+  "ordemIndice": 11
+}

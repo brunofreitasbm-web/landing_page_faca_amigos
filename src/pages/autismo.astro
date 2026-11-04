@@ -1,0 +1,7 @@
+---
+// Página pilar de condição. Dados: src/data/condicoes/autismo.json (metadados, FAQ) + autismo.html (texto).
+import PaginaSaude from '../components/PaginaSaude.astro';
+import d from '../data/condicoes/autismo.json';
+import corpo from '../data/condicoes/autismo.html?raw';
+---
+<PaginaSaude d={d} corpo={corpo} tipo="condicao" trilha={[{ nome: 'Início', path: '/' }, { nome: d.nome, path: d.path }]} />

@@ -1,0 +1,62 @@
+{
+  "slug": "habilidades-sociais",
+  "nome": "Treino de Habilidades Sociais",
+  "area": "psicologia",
+  "titleTag": "Treino de habilidades sociais infantil | FaçaAmigos",
+  "descricao": "Treino de habilidades sociais em Belém/PA: fazer amigos, iniciar conversas, entender regras sociais. Individual ou em grupo, no Umarizal.",
+  "h1": "Treino de habilidades sociais para crianças em Belém",
+  "eyebrow": "Clínica · Treino de Habilidades Sociais",
+  "resposta": "O treino de habilidades sociais ensina, de forma prática, como se relacionar: iniciar uma conversa, esperar a vez, entender expressões e regras sociais, lidar com recusas e fazer amigos. Pode ser individual ou em pequenos grupos, com brincadeiras e situações encenadas.",
+  "path": "/clinica/habilidades-sociais",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Treino de Habilidades Sociais na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Treino de Habilidades Sociais?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Treino de Habilidades Sociais"
+  },
+  "faq": [
+    {
+      "q": "Em que idade o treino de habilidades sociais é indicado?",
+      "a": "Depende do perfil de cada criança. Em geral, os grupos são organizados por faixa etária e perfil; pergunte à equipe como funcionam. A avaliação indica o melhor formato, individual ou em grupo."
+    },
+    {
+      "q": "O treino é só para crianças com autismo?",
+      "a": "Não. Ajuda também crianças com TDAH, ansiedade social, timidez intensa e outras dificuldades de convivência."
+    },
+    {
+      "q": "O objetivo é fazer a criança agir como as outras?",
+      "a": "Não. O objetivo é ampliar o repertório e dar escolhas para que a criança se relacione de modo confortável, respeitando seu jeito e seus limites."
+    },
+    {
+      "q": "Individual ou em grupo?",
+      "a": "Muitas crianças começam no individual, para construir base e confiança, e depois vão para o grupo. A indicação depende de cada caso."
+    }
+  ],
+  "relacionadosSlugs": [
+    "psicologia-infantil",
+    "musicoterapia",
+    "orientacao-parental"
+  ],
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Psicologia (CFP)",
+      "url": "https://site.cfp.org.br"
+    }
+  ],
+  "revisor": {
+    "id": "isabella",
+    "nome": "Isabella Gonçalves Freitas",
+    "registro": "CRP 10/4727",
+    "papel": "Psicóloga infantil",
+    "rota": "/equipe/isabella-freitas",
+    "foto": "img/isabella-2.webp"
+  },
+  "condicoes": [
+    "habilidades sociais"
+  ]
+}

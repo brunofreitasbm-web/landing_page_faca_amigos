@@ -1,0 +1,61 @@
+{
+  "slug": "como-escolher-clinica-de-terapia-aba",
+  "titulo": "Como escolher uma clínica de terapia ABA? Checklist de perguntas",
+  "titleTag": "Como escolher clínica de terapia ABA: checklist | FaçaAmigos",
+  "descricao": "Checklist neutro para escolher clínica de terapia ABA: supervisão, plano por escrito, metas medidas, família, equipe, privacidade, custos e manejo sem punição.",
+  "ogImage": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 7 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "terapia ABA",
+    "escolha de clínica",
+    "plano terapêutico individual",
+    "direitos da criança"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=como_escolher_clinica_de_terapia_aba",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/aba-denver-pecs-diferencas",
+      "tag": "6 min · Terapia",
+      "titulo": "ABA, Modelo Denver, PECS e TEACCH: quais as diferenças?"
+    },
+    {
+      "href": "/aprender/plano-de-saude-cobre-terapia-aba",
+      "tag": "7 min · Direitos",
+      "titulo": "O plano de saúde cobre terapia ABA? O que diz a lei e o que fazer se negarem"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-recursos-terapeuticos.jpg",
+    "alt": "Recursos terapêuticos da clínica",
+    "w": "1440",
+    "h": "1920",
+    "estilo": "object-position:50% 40%",
+    "tag": "7 min · Terapia",
+    "titulo": "Como escolher uma clínica de terapia ABA? Checklist de perguntas",
+    "resumo": "Perguntas para fazer a qualquer clínica antes de decidir."
+  },
+  "ordemIndice": 19
+}

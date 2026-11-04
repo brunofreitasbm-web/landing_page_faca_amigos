@@ -1,0 +1,7 @@
+---
+// Página pilar de condição. Dados: src/data/condicoes/tdah.json (metadados, FAQ) + tdah.html (texto).
+import PaginaSaude from '../components/PaginaSaude.astro';
+import d from '../data/condicoes/tdah.json';
+import corpo from '../data/condicoes/tdah.html?raw';
+---
+<PaginaSaude d={d} corpo={corpo} tipo="condicao" trilha={[{ nome: 'Início', path: '/' }, { nome: d.nome, path: d.path }]} />

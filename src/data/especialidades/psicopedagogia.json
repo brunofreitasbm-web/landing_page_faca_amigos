@@ -1,0 +1,50 @@
+{
+  "slug": "psicopedagogia",
+  "nome": "Psicopedagogia",
+  "area": "outra",
+  "titleTag": "Psicopedagogia infantil em Belém | FaçaAmigos",
+  "descricao": "Psicopedagogia em Belém/PA: dificuldades de leitura, escrita, matemática, atenção e adaptação escolar. Entenda como funciona e quando procurar.",
+  "h1": "Psicopedagogia infantil em Belém",
+  "eyebrow": "Clínica · Psicopedagogia",
+  "resposta": "A psicopedagogia investiga e acompanha as dificuldades de aprendizagem: leitura, escrita, matemática, memória, atenção e adaptação à escola. O trabalho identifica como a criança aprende, o que a trava e quais estratégias ajudam, em diálogo com a família e a escola.",
+  "path": "/clinica/psicopedagogia",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Psicopedagogia na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Psicopedagogia?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Psicopedagogia"
+  },
+  "faq": [
+    {
+      "q": "Dificuldade de aprendizagem é a mesma coisa que dislexia ou TDAH?",
+      "a": "Não. Dificuldade de aprendizagem é um termo amplo. Dislexia e TDAH são condições específicas, com diagnóstico próprio feito por profissionais de saúde. A psicopedagogia ajuda a investigar e a apoiar a aprendizagem."
+    },
+    {
+      "q": "A psicopedagogia faz reforço escolar?",
+      "a": "Não é reforço escolar. O foco é entender como a criança aprende e desenvolver as bases (atenção, memória, leitura, raciocínio), o que pode melhorar o desempenho nas matérias."
+    },
+    {
+      "q": "Quando procurar um psicopedagogo?",
+      "a": "Quando a dificuldade persiste mesmo com apoio da escola e da família: não aprende a ler no tempo esperado, esquece muito, se frustra com as tarefas ou evita ir à escola."
+    },
+    {
+      "q": "A escola precisa participar?",
+      "a": "É muito útil. O psicopedagogo orienta a escola e, com autorização da família, alinha estratégias com a professora e a coordenação."
+    }
+  ],
+  "relacionadosSlugs": [
+    "avaliacao-neuropsicologica",
+    "orientacao-parental",
+    "psicologia-infantil"
+  ],
+  "fontes": [],
+  "revisor": null,
+  "condicoes": [
+    "dificuldades de aprendizagem"
+  ]
+}

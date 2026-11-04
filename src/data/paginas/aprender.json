@@ -13,7 +13,7 @@
       "@type": "CollectionPage",
       "@id": "https://institutofacaamigos.com.br/aprender#colecao",
       "name": "Aprender — Guias sobre desenvolvimento infantil e inclusão",
-      "description": "Guias curtos escritos por uma psicóloga infantil sobre birra e crise, rotina visual, laudo e CIPTEA, primeira visita ao playground e mais.",
+      "description": "Guias escritos por uma psicóloga infantil sobre autismo, TDAH, neurodivergência, terapia, birra e crise, rotina visual, laudo e CIPTEA, plano de saúde e mais.",
       "url": "https://institutofacaamigos.com.br/aprender",
       "isPartOf": {
         "@id": "https://institutofacaamigos.com.br/#organization"
@@ -64,6 +64,56 @@
           "@type": "Article",
           "headline": "5 brincadeiras de 10 minutos que ensinam sem parecer aula",
           "url": "https://institutofacaamigos.com.br/aprender/brincar-com-proposito-10-minutos"
+        },
+        {
+          "@type": "Article",
+          "headline": "Níveis de suporte no autismo: o que significam os níveis 1, 2 e 3?",
+          "url": "https://institutofacaamigos.com.br/aprender/niveis-de-suporte-autismo"
+        },
+        {
+          "@type": "Article",
+          "headline": "Sinais de autismo por idade: o que observar em cada fase?",
+          "url": "https://institutofacaamigos.com.br/aprender/sinais-de-autismo-por-idade"
+        },
+        {
+          "@type": "Article",
+          "headline": "Autismo ou atraso de fala? Como diferenciar e quem avalia",
+          "url": "https://institutofacaamigos.com.br/aprender/autismo-ou-atraso-de-fala"
+        },
+        {
+          "@type": "Article",
+          "headline": "TDAH ou autismo? Semelhanças, diferenças e quando coexistem",
+          "url": "https://institutofacaamigos.com.br/aprender/tdah-ou-autismo-diferencas"
+        },
+        {
+          "@type": "Article",
+          "headline": "O que é neurodivergência? E o que significa “atípico”?",
+          "url": "https://institutofacaamigos.com.br/aprender/o-que-e-neurodivergencia-e-atipico"
+        },
+        {
+          "@type": "Article",
+          "headline": "ABA, Modelo Denver, PECS e TEACCH: quais as diferenças?",
+          "url": "https://institutofacaamigos.com.br/aprender/aba-denver-pecs-diferencas"
+        },
+        {
+          "@type": "Article",
+          "headline": "O plano de saúde cobre terapia ABA? O que diz a lei e o que fazer se negarem",
+          "url": "https://institutofacaamigos.com.br/aprender/plano-de-saude-cobre-terapia-aba"
+        },
+        {
+          "@type": "Article",
+          "headline": "Seletividade alimentar no autismo: por que acontece e o que ajuda",
+          "url": "https://institutofacaamigos.com.br/aprender/seletividade-alimentar-no-autismo"
+        },
+        {
+          "@type": "Article",
+          "headline": "Integração sensorial: como reconhecer hiper e hipossensibilidade?",
+          "url": "https://institutofacaamigos.com.br/aprender/integracao-sensorial-sinais"
+        },
+        {
+          "@type": "Article",
+          "headline": "Como escolher uma clínica de terapia ABA? Checklist de perguntas",
+          "url": "https://institutofacaamigos.com.br/aprender/como-escolher-clinica-de-terapia-aba"
         }
       ]
     },

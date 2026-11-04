@@ -1,0 +1,61 @@
+{
+  "slug": "seletividade-alimentar-no-autismo",
+  "titulo": "Seletividade alimentar no autismo: por que acontece e o que ajuda",
+  "titleTag": "Seletividade alimentar no autismo: o que ajuda | FaçaAmigos",
+  "descricao": "Por que muitas crianças autistas comem poucos alimentos, quais sinais de alerta observar, o que evitar à mesa e o que ajuda, com apoio de nutrição, T.O. e fono.",
+  "ogImage": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "seletividade alimentar",
+    "autismo",
+    "nutrição",
+    "sensorial"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=seletividade_alimentar_no_autismo",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/integracao-sensorial-sinais",
+      "tag": "6 min · Sensorial",
+      "titulo": "Integração sensorial: como reconhecer hiper e hipossensibilidade?"
+    },
+    {
+      "href": "/aprender/rotina-visual-em-casa",
+      "tag": "6 min · Rotina",
+      "titulo": "Rotina visual em casa: um passo a passo de 20 minutos"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/hero-piscina-bolinhas.jpg",
+    "alt": "Piscina de bolinhas no espaço do FaçaAmigos",
+    "w": "784",
+    "h": "803",
+    "estilo": null,
+    "tag": "6 min · Alimentação",
+    "titulo": "Seletividade alimentar no autismo: por que acontece e o que ajuda",
+    "resumo": "Por que acontece, o que não fazer e o que ajuda de verdade à mesa."
+  },
+  "ordemIndice": 17
+}

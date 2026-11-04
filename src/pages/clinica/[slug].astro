@@ -1,0 +1,34 @@
+---
+// Uma página por especialidade da Clínica. Dados: src/data/especialidades/<slug>.json (metadados, FAQ) + <slug>.html (texto).
+import PaginaSaude from '../../components/PaginaSaude.astro';
+import { abs, SITE } from '../../data/marca';
+
+const meta = import.meta.glob('../../data/especialidades/*.json', { eager: true, import: 'default' }) as Record<string, any>;
+const corpos = import.meta.glob('../../data/especialidades/*.html', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+
+export function getStaticPaths() {
+  const lista = Object.values(import.meta.glob('../../data/especialidades/*.json', { eager: true, import: 'default' })) as any[];
+  return lista.map((a) => ({ params: { slug: a.slug } }));
+}
+
+const { slug } = Astro.params;
+const d = meta[`../../data/especialidades/${slug}.json`];
+const corpo = corpos[`../../data/especialidades/${slug}.html`];
+const path = `/clinica/${slug}`;
+// Relacionados: títulos vêm dos próprios JSON (uma fonte só).
+const porSlug = new Map(Object.values(meta).map((m: any) => [m.slug, m]));
+d.relacionados = (d.relacionadosSlugs ?? []).map((s: string) => porSlug.get(s)).filter(Boolean).map((m: any) => ({ href: `/clinica/${m.slug}`, tag: 'Especialidade', titulo: m.nome }));
+const extraLd = [
+  {
+    '@type': 'Service',
+    '@id': `${abs(path)}#servico`,
+    name: `${d.nome} infantil — FaçaAmigos`,
+    serviceType: d.nome,
+    url: abs(path),
+    provider: { '@id': `${SITE.url}/#clinica` },
+    areaServed: { '@type': 'City', name: 'Belém', containedInPlace: { '@type': 'State', name: 'Pará' } },
+    audience: { '@type': 'PeopleAudience', suggestedMinAge: 0, suggestedMaxAge: 17 },
+  },
+];
+---
+<PaginaSaude d={d} corpo={corpo} extraLd={extraLd} tipo="especialidade" trilha={[{ nome: 'Início', path: '/' }, { nome: 'Clínica', path: '/clinica' }, { nome: d.nome, path }]} />

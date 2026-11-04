@@ -11,7 +11,7 @@
 // arquivos llms.txt/llms-full.txt. scripts/check.mjs garante que os preços do llms*.txt são um
 // subconjunto dos preços das páginas; supabase/functions/fa-health compara os % de desconto do
 // quiosque com os 40%/50% que o site pressupõe.
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -59,6 +59,20 @@ function render(tpl, vars) {
     return vars[key];
   });
 }
+
+// Lista de páginas de saúde (condições e especialidades) lida dos próprios JSON do site: página nova entra sozinha.
+function paginasDe(dir, linha) {
+  const pasta = join(root, 'src', 'data', dir);
+  return readdirSync(pasta)
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => JSON.parse(readFileSync(join(pasta, f), 'utf8')))
+    .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
+    .map(linha)
+    .join('\n');
+}
+const SITE_URL = 'https://institutofacaamigos.com.br';
+const linhaCondicao = (d) => `- [${d.nome}](${SITE_URL}${d.path}): ${d.resposta}`;
+const linhaEspecialidade = (d) => `- [${d.nome}](${SITE_URL}/clinica/${d.slug}): ${d.resposta}`;
 
 function buildVars(facts) {
   const parque = unit(facts, 'playground-parque');
@@ -119,6 +133,8 @@ function buildVars(facts) {
     PRECOS_CIRCUITO_LISTA: listaCircuito,
     PRECOS_CIRCUITO_TABELA: tabelaCircuito,
     CIRCUITO_MINUTO_ADICIONAL: `R$ ${brl(circuito.plans[0]?.overage_brl)}`,
+    CONDICOES_LISTA: paginasDe('condicoes', linhaCondicao),
+    ESPECIALIDADES_LISTA: paginasDe('especialidades', linhaEspecialidade),
   };
 }
 

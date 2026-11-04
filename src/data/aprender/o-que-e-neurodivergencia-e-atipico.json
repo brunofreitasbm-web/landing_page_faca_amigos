@@ -1,0 +1,61 @@
+{
+  "slug": "o-que-e-neurodivergencia-e-atipico",
+  "titulo": "O que é neurodivergência? E o que significa “atípico”?",
+  "titleTag": "Neurodivergente, neurotípico e atípico: o que é | FaçaAmigos",
+  "descricao": "Entenda o que é neurodivergência, o que são neurotípico e “atípico”, quais condições costumam entrar e como falar disso com respeito, sem rótulos nem juízo.",
+  "ogImage": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "neurodivergência",
+    "neurodiversidade",
+    "neurotípico",
+    "linguagem respeitosa"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=o_que_e_neurodivergencia_e_atipico",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/tdah-ou-autismo-diferencas",
+      "tag": "6 min · Desenvolvimento",
+      "titulo": "TDAH ou autismo? Semelhanças, diferenças e quando coexistem"
+    },
+    {
+      "href": "/aprender/e-para-todas-as-criancas",
+      "tag": "4 min · Convivência",
+      "titulo": "O playground inclusivo é só pra criança autista? Não. E isso é bom pro seu filho também"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/inclusao-cantinho-leitura.jpg",
+    "alt": "Cantinho de leitura inclusivo",
+    "w": "819",
+    "h": "1024",
+    "estilo": null,
+    "tag": "6 min · Conceitos",
+    "titulo": "O que é neurodivergência? E o que significa “atípico”?",
+    "resumo": "Palavras que aparecem muito, o que cada uma quer dizer e como usar com respeito."
+  },
+  "ordemIndice": 14
+}
