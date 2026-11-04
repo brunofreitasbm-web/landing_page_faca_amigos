@@ -77,3 +77,19 @@ Como ler o resultado:
 - Em Belém o volume costuma ser baixo e aparecer em faixas ("10 a 100"). Isso não significa que o termo não vale: serve para escolher entre dois nomes, não para estimar visitas.
 - O Planejador mede busca no Google Ads. Complete com o Search Console depois de 4 semanas, que mostra o que de fato trouxe visita.
 - Termos de compra ("comprar", "preço", "24v") devem ser marcados e **não** usados em título. O Circuito já sofre com isso.
+
+## 6. O que os dados do GA4 mostram (04/11/2026, últimos 30 dias, propriedade "Clinica FaçaAmigos")
+Lido pelo conector do Windsor. São 940 `page_view` no domínio principal. Volume baixo: leia como tendência, não como número exato.
+
+| Achado | Dado | O que fazer |
+|---|---|---|
+| **`form_start` inflado em `/trabalhe-conosco`** | 957 `form_start` contra 69 `page_view` e 164 sessões (14 por visita). É o evento automático da medição avançada, não vem do nosso código | Desligar "Interações com formulários" na medição avançada (Admin > Fluxos de dados). Não usar `form_start` como conversão |
+| **Candidatura não aparece** | `job_application_submit` não existe no GA4, mesmo o site disparando no dataLayer | Conferir no GTM se existe tag que envia esse evento ao GA4. Só chegam ao GA4: `whatsapp_click`, `cta_click`, `generate_lead`, `begin_checkout`, `scroll_depth`, `maps_click`, `phone_click` |
+| **Passos do mapeamento não aparecem** | Nenhum `teste_*` no GA4. Só `form_start` (20) e `generate_lead` (7) | Mesma conferência no GTM. Sem isso não dá para ver onde as pessoas abandonam o mapeamento |
+| **Sessões sem `page_view`** | 2.003 `session_start` contra 940 `page_view`. Antes de 16/10 era o inverso | Hipótese, não confirmada: o consentimento negado por padrão faz cada evento sem cookie contar como sessão nova. Confirmar no DebugView |
+| **Pico de 16 e 17/10** | 719 sessões e 164 cliques de WhatsApp na home em 2 dias, quase tudo do Instagram (`ig` 297, `l.instagram.com` 194) e direto (155) | Foi campanha ou post, e os cliques parecem reais. `l.instagram.com` sem UTM não identifica qual post foi: colocar UTM nos links do Instagram |
+| **TVs ainda no histórico** | `/tv` 17, `/tv2` 17, `/tv3` 22, `/musica` 5 views, com 54, 31, 11 e 31 sessões | É histórico, de antes do `data-fa-sem-tag`. Conferir por data se ainda entram depois do deploy do PR #127 |
+| **Tráfego que não é de cliente** | `localhost` (9 views), 3 domínios de preview da Vercel (8 views) e `192.168.30.1` (roteador). Também `clinica.institutofacaamigos.com.br` (67 views), o host antigo | Criar filtro de dados por nome do host: manter só `institutofacaamigos.com.br` e `playground.` |
+| **WhatsApp concentrado na home** | 295 dos 381 `whatsapp_click` vêm de `/`. A `/clinica` tem só 20, e esse número estava subcontado (ver 1.4) | Reler depois do deploy |
+| **`/trabalhe-conosco`** | 69 views: direto 30, Instagram 28, Google 5. Não é cliente se perdendo | Já separado pelo parâmetro `publico` |
+| **`/teste`** | 12 views. Não há sinal de view duplicada | A hipótese do `fa-back.js` não se confirma neste volume |
