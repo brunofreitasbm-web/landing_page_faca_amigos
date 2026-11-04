@@ -72,7 +72,7 @@ const d = {
     { href: '/aprender/plano-de-saude-cobre-terapia-aba', tag: 'Guia', titulo: 'Plano de saúde cobre terapia ABA?' },
   ],
   revisor: null, fontes: [],
-  aviso: 'Informação geral, escrita com base na legislação federal e atualizada em 4 de novembro de 2026. Não é consultoria jurídica nem garante a concessão de nenhum benefício. Regras mudam: confirme sempre no órgão responsável ou com a Defensoria Pública antes de agir.',
+  aviso: 'Informação geral, conferida por pesquisa em 4 de novembro de 2026 (nem todos os textos oficiais foram abertos). Não é consultoria jurídica nem garante a concessão de nenhum benefício. Regras mudam: confirme sempre no órgão responsável ou com a Defensoria Pública antes de agir.',
 };
 const itens = dados.direitos.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x.titulo, url: `${abs(path)}#${x.id}` }));
 const extraLd = [{ '@type': 'ItemList', '@id': `${abs(path)}#lista`, name: 'Direitos da pessoa com autismo', itemListElement: itens }];

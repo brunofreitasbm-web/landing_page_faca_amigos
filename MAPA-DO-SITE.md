@@ -34,7 +34,7 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 - `sitemap.xml` é gerado a partir das páginas construídas (`npm run build && npm run sitemap`) e fica versionado em `public/`: o `lastmod` sai do git local, e o CI faz checkout raso. `sitemap-playground.xml` segue fixo (transição).
 - Hoje são servidos publicamente `NEWVITTA/`, `contexto.md`, `EXPERIMENTOS-TV2.md` e `chatbot-clinica/`. Decidir se saem de `public/`.
 - ~~Textos "em breve no Umarizal" e "lista de espera"~~: corrigidos (a Clínica já atende).
-- **`/direitos`** (passo a passo de benefícios): dados em `src/data/direitos.json`, página em `src/pages/direitos.astro`. Escrita com base na legislação federal, **sem links externos e sem conferência online** (o ambiente bloqueia as fontes oficiais). Revisar por advogado(a) quando possível. Ficaram de fora, por incerteza: isenção de impostos na compra de carro (reforma tributária em transição), IPVA no Pará e transporte urbano em Belém.
+- **`/direitos`** (passo a passo de benefícios): dados em `src/data/direitos.json`, página em `src/pages/direitos.astro`. Escrita com base na legislação federal e conferida em 04/11/2026 por pesquisa na web (sites jurídicos, universidades e notícias; **os textos oficiais do Planalto/ANS não foram abertos**), **sem links externos**. A CIPTEA no Pará é emitida pela Sespa (lei estadual 5.310/2026). Revisar por advogado(a) quando possível. Ficaram de fora, por incerteza: isenção de impostos na compra de carro (reforma tributária em transição), IPVA no Pará e transporte urbano em Belém.
 - Preço do Parque no caixa (50% para o público geral) diverge do site e de `geo-facts.json` do repositório (40%).
 
 ## 1. Domínios e quem serve o quê

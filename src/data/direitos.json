@@ -88,10 +88,10 @@
       "id": "ciptea",
       "emoji": "🪪",
       "titulo": "Carteira CIPTEA",
-      "escopo": "Federal, emitida por órgão estadual ou municipal",
+      "escopo": "Lei federal; no Pará, emitida pela Sespa",
       "umaFrase": "Um documento que identifica a pessoa com autismo e ajuda a ter atendimento prioritário em serviços públicos e privados.",
       "quemTem": [
-        "Pessoa com diagnóstico de TEA (autismo).",
+        "Pessoa com diagnóstico de TEA (autismo) que more no Pará.",
         "Criança, adulto ou idoso: não tem idade mínima."
       ],
       "tdah": "Não vale só para TDAH. A carteira é específica para autismo.",
@@ -104,19 +104,19 @@
       ],
       "passos": [
         "Peça ao médico um laudo atualizado, com CID e a assinatura e o CRM dele.",
-        "Descubra onde a CIPTEA é emitida no seu local: pergunte na Secretaria de Saúde do Estado do Pará (Sespa) ou na prefeitura de Belém qual é o canal atual (site, balcão ou mutirão).",
-        "Junte os documentos da lista, original e cópia.",
-        "Faça o pedido no canal indicado e guarde o número do protocolo.",
-        "Retire a carteira (física ou digital, conforme o órgão) e guarde uma cópia no celular."
+        "No Pará, a carteira é emitida pela Secretaria de Estado de Saúde Pública (Sespa), pela Coordenadoria Estadual de Políticas para o Autismo (Cepa). Procure o serviço de solicitação da CIPTEA no site da Sespa.",
+        "Preencha o cadastro e o formulário no site da Sespa e anexe os documentos da lista, em foto ou arquivo legível.",
+        "Envie o pedido e guarde o número do protocolo.",
+        "Acompanhe a análise. A lei estadual prevê resposta em até 60 dias úteis e a carteira pode ser física e digital (é possível pedir só a digital)."
       ],
-      "custo": "Em geral gratuita. Confirme no órgão antes de pagar qualquer taxa.",
-      "prazo": "Varia por órgão. Pergunte o prazo no protocolo.",
+      "custo": "Gratuita (a lei federal determina a emissão gratuita).",
+      "prazo": "A lei estadual do Pará prevê decisão em até 60 dias úteis.",
       "senegarem": [
         "Peça a negativa por escrito, com o motivo.",
         "Defensoria Pública do Estado do Pará.",
         "Ministério Público."
       ],
-      "base": "Lei 13.977/2020 (Lei Romeo Mion), que alterou a Lei 12.764/2012."
+      "base": "Lei federal 13.977/2020 (Lei Romeo Mion), que alterou a Lei 12.764/2012, e lei estadual do Pará 5.310/2026. O canal de solicitação pode mudar: confirme no site da Sespa."
     },
     {
       "id": "bpc",
@@ -126,7 +126,7 @@
       "umaFrase": "Um salário mínimo por mês para pessoa com deficiência de baixa renda. Não precisa ter contribuído para o INSS.",
       "quemTem": [
         "Pessoa com deficiência (autismo entra) com impedimento de longo prazo, de pelo menos 2 anos.",
-        "Renda por pessoa da família de até 1/4 do salário mínimo.",
+        "Renda por pessoa da família de até 1/4 do salário mínimo, em regra. Se for um pouco acima, o INSS pode analisar o caso (por exemplo, gastos com saúde); peça ajuda ao CRAS ou à Defensoria.",
         "Estar inscrita no CadÚnico, com os dados atualizados."
       ],
       "tdah": "TDAH sozinho nem sempre dá direito ao BPC: o INSS avalia se há impedimento de longo prazo e barreiras na vida diária. Depende do laudo e da perícia.",
@@ -184,7 +184,7 @@
         "Procon do Pará.",
         "Defensoria Pública do Estado do Pará ou advogado, para pedir a terapia na Justiça."
       ],
-      "base": "Resolução Normativa ANS 539/2022 e Lei 14.454/2022. Vale para planos regulados pela ANS; convênios de servidores com regras próprias podem ter outras normas."
+      "base": "Resoluções Normativas da ANS 539/2022 (cobertura de qualquer método ou técnica indicado pelo médico para o CID F84) e 541/2022 (fim do limite de sessões), e Lei 14.454/2022. O STJ também considera abusivo limitar as sessões. Vale para planos regulados pela ANS; convênios de servidores com regras próprias podem ter outras normas."
     },
     {
       "id": "escola",
@@ -196,7 +196,7 @@
         "Estudante com autismo ou outra deficiência, em escola pública ou particular.",
         "Apoio individual em sala quando houver comprovação da necessidade."
       ],
-      "tdah": "Para TDAH e dislexia existe lei própria de acompanhamento na escola: peça o plano de apoio por escrito. Mas matrícula garantida e multa à escola valem para deficiência, como o autismo.",
+      "tdah": "Para TDAH e dislexia existe lei própria de acompanhamento na educação básica: peça o plano de apoio por escrito. Mas matrícula garantida e multa à escola valem para deficiência, como o autismo.",
       "levar": [
         "Laudo e relatórios dos profissionais",
         "Pedido por escrito à escola",
@@ -215,7 +215,7 @@
         "Secretaria de Educação (municipal ou estadual), para escola pública.",
         "Conselho Tutelar.",
         "Ministério Público e Defensoria Pública.",
-        "Recusa de matrícula pode gerar multa ao gestor da escola."
+        "Recusar a matrícula pode gerar multa de 3 a 20 salários mínimos ao gestor da escola, e a reincidência pode levar à perda do cargo."
       ],
       "base": "Lei 12.764/2012, art. 3º e 7º, e Lei Brasileira de Inclusão (Lei 13.146/2015). Para TDAH e dislexia: Lei 14.254/2021."
     },
@@ -237,17 +237,17 @@
       "passos": [
         "Leve o laudo ou a CIPTEA, de preferência uma cópia no celular.",
         "Ao chegar no banco, mercado, repartição ou consulta, avise na entrada que precisa de atendimento prioritário.",
-        "Se quiser, use o cordão de girassol (de tecido, com desenho de girassóis) para sinalizar.",
+        "Se quiser, use o cordão de fita com girassóis para sinalizar a deficiência oculta. O uso é opcional.",
         "Se negarem, peça o nome do responsável e o protocolo da reclamação."
       ],
-      "custo": "Gratuito. O cordão pode ser comprado em lojas, não precisa de registro.",
+      "custo": "Gratuito. O cordão é opcional: não ter o cordão não tira o direito à prioridade.",
       "prazo": "Imediato.",
       "senegarem": [
         "Procon.",
         "Ouvidoria do estabelecimento ou do órgão.",
         "Defensoria Pública."
       ],
-      "base": "Lei 10.048/2000 (prioridade de atendimento) e Lei 14.624/2023 (cordão de girassol)."
+      "base": "Lei 10.048/2000 (prioridade de atendimento) e Lei 13.146/2015, art. 2º-A, incluído pela Lei 14.624/2023 (cordão de girassol)."
     },
     {
       "id": "meia-entrada",
@@ -261,13 +261,13 @@
       ],
       "tdah": "A regra é para deficiência comprovada. TDAH sozinho nem sempre se enquadra.",
       "levar": [
-        "CIPTEA, cartão do BPC ou outro documento que comprove a deficiência",
+        "Cartão do BPC ou outro documento oficial que comprove a deficiência (muitos locais também aceitam a CIPTEA, confirme antes)",
         "Laudo, se pedirem",
         "Documento com foto"
       ],
       "passos": [
         "Na compra, escolha \"meia-entrada\" e confira qual comprovação o local pede.",
-        "Leve a CIPTEA ou o documento de comprovação, impresso ou no celular.",
+        "Leve o documento de comprovação, impresso ou no celular. A forma de comprovar vem do regulamento da lei e pode variar por local.",
         "Na entrada, apresente o documento junto com o ingresso.",
         "Se o acompanhante for necessário, leve-o junto e avise na compra."
       ],
@@ -278,7 +278,7 @@
         "Ouvidoria do local.",
         "Defensoria Pública."
       ],
-      "base": "Lei 12.933/2013 (Lei da Meia-Entrada). A forma de comprovar pode mudar por local; confirme antes de comprar. No Playground FaçaAmigos, a meia-entrada inclusiva vale mediante laudo ou CIPTEA."
+      "base": "Lei 12.933/2013 (Lei da Meia-Entrada) e Decreto 8.537/2015. A forma de comprovar pode mudar por local; confirme antes de comprar. No Playground FaçaAmigos, a meia-entrada inclusiva vale mediante laudo ou CIPTEA."
     },
     {
       "id": "passe-livre",
@@ -309,14 +309,14 @@
         "Ouvidoria da empresa.",
         "Defensoria Pública."
       ],
-      "base": "Lei 8.899/1994 (Passe Livre) e Decreto 3.691/2000."
+      "base": "Lei 8.899/1994 (Passe Livre) e Decreto 3.691/2000. As regras de operação saem em portaria do governo federal (a mais recente apontada é de 2026): confirme a vigente antes de pedir."
     },
     {
       "id": "jornada-servidor",
       "emoji": "💼",
       "titulo": "Horário especial para servidor público pai ou mãe",
       "escopo": "Federal (servidores federais); estados e municípios têm leis próprias",
-      "umaFrase": "Servidor público federal com filho com deficiência pode ter horário especial, sem precisar compensar as horas.",
+      "umaFrase": "Servidor público federal com filho com deficiência pode ter horário especial, sem precisar compensar as horas. A necessidade é confirmada por junta médica oficial.",
       "quemTem": [
         "Servidor público federal, cônjuge ou responsável por pessoa com deficiência.",
         "Comprovação da deficiência e da necessidade de acompanhar."
@@ -331,6 +331,7 @@
         "Peça ao médico um laudo que explique a necessidade de acompanhamento.",
         "Faça um requerimento ao setor de recursos humanos do seu órgão.",
         "Anexe o laudo e os documentos que comprovem o parentesco.",
+        "O órgão encaminha o caso à junta médica oficial, que confirma a necessidade.",
         "Peça resposta por escrito e guarde o protocolo."
       ],
       "custo": "Gratuito.",
@@ -346,11 +347,11 @@
       "id": "vaga",
       "emoji": "🅿️",
       "titulo": "Vaga especial de estacionamento",
-      "escopo": "Federal e municipal",
-      "umaFrase": "Quem tem deficiência pode pedir a credencial de vaga especial no órgão de trânsito do município.",
+      "escopo": "Regras do Contran e do município",
+      "umaFrase": "A credencial de vaga especial é emitida pelo órgão de trânsito do município onde a pessoa mora.",
       "quemTem": [
-        "Pessoa com deficiência que tenha dificuldade de locomoção ou de acompanhamento exigido pela condição.",
-        "O órgão de trânsito do município define quem se enquadra."
+        "A regra federal do Contran trata de pessoa com deficiência com comprometimento de mobilidade.",
+        "Para autismo sem dificuldade de locomoção, depende da regra do município: algumas cidades e o Distrito Federal preveem credencial para pessoa autista. Pergunte ao órgão de trânsito de Belém."
       ],
       "tdah": "Depende do enquadramento definido pelo órgão de trânsito. Pergunte antes de reunir os documentos.",
       "levar": [
@@ -371,7 +372,7 @@
         "Ouvidoria do órgão de trânsito.",
         "Defensoria Pública."
       ],
-      "base": "Lei Brasileira de Inclusão (Lei 13.146/2015), art. 47, e regras do Contran e do município."
+      "base": "Resolução Contran 965/2022 (alterada pela Resolução 1012/2024, que prevê a credencial digital) e regras do município de domicílio."
     }
   ],
   "faq": [
