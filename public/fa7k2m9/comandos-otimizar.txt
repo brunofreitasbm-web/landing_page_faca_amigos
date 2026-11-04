@@ -1,0 +1,44 @@
+OTIMIZADOR WINDOWS 11 - FACA AMIGOS
+Script versao: 2026.11.04-3
+Hash SHA256 esperado: 71d1dde0cf4ecbce6413067b5f5d7184b54852b68df243287554bd1ce045f5e8
+
+COMO USAR
+1) Entre no Windows com a conta de administrador.
+2) Abra o PowerShell (menu Iniciar, digite powershell). Nao precisa abrir como administrador.
+3) Copie e cole o bloco A inteiro e aperte Enter.
+4) Clique em "Sim" no aviso do UAC. No final responda S para reiniciar.
+5) Depois de reiniciar, defina o Chrome como navegador padrao manualmente
+   (Configuracoes > Aplicativos > Aplicativos padrao).
+
+------------------------------------------------------------
+BLOCO A - baixar, conferir e executar (recomendado)
+------------------------------------------------------------
+cd $env:USERPROFILE\Downloads
+Invoke-WebRequest https://institutofacaamigos.com.br/fa7k2m9/otimizar-win11.ps1 -OutFile otimizar-win11.ps1
+$esperado = '71d1dde0cf4ecbce6413067b5f5d7184b54852b68df243287554bd1ce045f5e8'
+$atual = (Get-FileHash .\otimizar-win11.ps1 -Algorithm SHA256).Hash
+if ($atual -eq $esperado) { Write-Host 'Arquivo OK (versao 2026.11.04-3)' -ForegroundColor Green; powershell -ExecutionPolicy Bypass -File .\otimizar-win11.ps1 } else { Write-Host 'HASH DIFERENTE - NAO EXECUTE' -ForegroundColor Red }
+
+------------------------------------------------------------
+BLOCO B - so baixar e conferir (sem executar)
+------------------------------------------------------------
+cd $env:USERPROFILE\Downloads
+Invoke-WebRequest https://institutofacaamigos.com.br/fa7k2m9/otimizar-win11.ps1 -OutFile otimizar-win11.ps1
+Get-FileHash .\otimizar-win11.ps1 -Algorithm SHA256
+Select-String -Path .\otimizar-win11.ps1 -Pattern 'ScriptVersao ='
+
+------------------------------------------------------------
+BLOCO C - abrir o log da ultima execucao
+------------------------------------------------------------
+notepad (Get-ChildItem C:\ProgramData\FacaAmigos\*.log | Sort-Object LastWriteTime | Select-Object -Last 1).FullName
+
+------------------------------------------------------------
+SE ALGO DER ERRADO
+------------------------------------------------------------
+- "HASH DIFERENTE": espere 1 minuto (o site pode estar atualizando) e rode de novo.
+  Se continuar diferente, NAO execute e avise o responsavel.
+- Para desfazer: menu Iniciar > "Criar ponto de restauracao" > Restauracao do Sistema.
+  O script cria um ponto de restauracao antes de alterar qualquer coisa.
+- Se o script avisar que o OneDrive nao foi removido, e a trava de seguranca:
+  Desktop/Documentos estao dentro do OneDrive.
+- Cada usuario ja existente no PC precisa rodar o script no proprio login.
