@@ -18,6 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          check-latest: true
       - name: Instalar dependências
         run: npm ci --no-audit --no-fund
       - name: Construir o site (Astro)

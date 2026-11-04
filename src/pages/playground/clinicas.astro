@@ -1,0 +1,138 @@
+---
+import Base from '../../layouts/Base.astro';
+import { unidades, abs, fmtFone, waUrl, trilhaNo, SITE } from '../../data/marca';
+import type { UnidadeId } from '../../data/marca';
+
+// Extensão FaçaAmigos: pacotes B2B para clínicas de terapia infantil usarem o Playground.
+// Preços e regras vêm do texto aprovado pela gestão (nov/2026). Ao mudar um valor, mude aqui e no JSON-LD (sai do mesmo array).
+const path = '/playground/clinicas';
+const titulo = 'Extensão FaçaAmigos: o Playground como sala da sua clínica';
+const descricao = 'Pacotes mensais para clínicas de terapia infantil conduzirem sessões no Playground FaçaAmigos, no Parque Shopping ou no Bosque Grão-Pará, em Belém.';
+
+const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+const pacotes = [
+  { nome: 'Essencial', creditos: 8, sessao: 86.4, indicado: '2 crianças, 1 sessão por semana', inclui: ['Agendamento livre dentro da janela', 'Mediação Olhar FaçaAmigos'] },
+  { nome: 'Clínica', creditos: 16, sessao: 75.6, indicado: '4 crianças, 1 sessão por semana', inclui: ['Prioridade de agenda', 'Mediação Olhar FaçaAmigos', 'Relatório mensal de uso', 'Cartão com QR code da clínica para as famílias'] },
+  { nome: 'Parceira', creditos: 32, sessao: 64.8, indicado: '8 crianças, 1 sessão por semana', inclui: ['Bloco fixo semanal reservado', 'Mediador FaçaAmigos dedicado ao grupo', 'Relatório mensal de uso', 'Cartão com QR code da clínica para as famílias'] },
+].map((p) => ({ ...p, mensal: Math.round(p.creditos * p.sessao * 100) / 100 }));
+
+const UNIDADES: UnidadeId[] = ['parque', 'graopara'];
+const msg = (u: UnidadeId) =>
+  `Oi! Sou de uma clínica de terapia infantil e quero saber mais sobre a Extensão FaçaAmigos no ${unidades[u].curto} (vim pelo site).`;
+---
+<Base
+  title="Extensão FaçaAmigos para clínicas | Playground FaçaAmigos"
+  description={descricao}
+  path={path}
+  ogImage="img/og/og-playground.jpg"
+  ogImageAlt="Playground FaçaAmigos, espaço inclusivo para crianças em Belém"
+  secao="playground"
+  jsonLd={[
+    { '@type': 'WebPage', '@id': `${abs(path)}#pagina`, url: abs(path), name: titulo, description: descricao, isPartOf: { '@id': `${SITE.url}/#website` }, about: { '@id': `${SITE.url}/#organization` }, inLanguage: 'pt-BR' },
+    {
+      '@type': 'OfferCatalog',
+      name: 'Extensão FaçaAmigos: pacotes para clínicas',
+      url: abs(path),
+      itemListElement: pacotes.map((p) => ({
+        '@type': 'Offer',
+        price: p.mensal.toFixed(2),
+        priceCurrency: 'BRL',
+        itemOffered: { '@type': 'Service', name: `Pacote ${p.nome} (${p.creditos} créditos por mês)`, description: `1 crédito = 1 criança por 1 hora no Playground. ${brl(p.sessao)} por sessão.` },
+      })),
+    },
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Playground', path: '/playground' }, { nome: 'Para clínicas', path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <a href="/playground">Playground</a> › <b>Para clínicas</b></p>
+      <p class="eyebrow">Extensão FaçaAmigos · para clínicas</p>
+      <h1>O Playground como sala da sua clínica</h1>
+      <p class="lead">Sua clínica de terapia infantil pode conduzir sessões dentro do Playground FaçaAmigos, com brincadeira real, movimento e espaço, sem obra e sem aluguel de sala.</p>
+      <div class="actions">
+        <a class="btn btn-pri" href="#fale" data-cta="extensao_hero">Combinar a semana de início</a>
+        <a class="btn" href="#pacotes">Ver pacotes</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>Como funciona</h2>
+      <div class="grid cols-3">
+        <div class="card"><p class="eyebrow">1</p><h3>Escolha o pacote</h3><p>A clínica define quantas sessões de 1 hora por mês precisa, no Parque Shopping ou no Bosque Grão-Pará.</p></div>
+        <div class="card"><p class="eyebrow">2</p><h3>Agende na janela</h3><p>As sessões acontecem de segunda a quinta, antes das 16h, quando o espaço está mais tranquilo e previsível.</p></div>
+        <div class="card"><p class="eyebrow">3</p><h3>Seu terapeuta conduz</h3><p>O terapeuta da clínica segue o plano terapêutico. Um mediador FaçaAmigos apoia o grupo e o ambiente.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pacotes">
+    <div class="wrap stack-lg">
+      <h2>Pacotes mensais</h2>
+      <p><strong>1 crédito = 1 criança por 1 hora.</strong></p>
+      <div class="grid cols-3">
+        {pacotes.map((p) => (
+          <div class="card ext-pacote">
+            <h3>{p.nome}</h3>
+            <p class="ext-preco">{brl(p.mensal)}<span>/mês</span></p>
+            <p>{p.creditos} créditos por mês · {brl(p.sessao)} por sessão</p>
+            <p><strong>Indicado para:</strong> {p.indicado}</p>
+            <ul>{p.inclui.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap grid cols-2">
+      <div class="stack-lg">
+        <h2>Regras simples</h2>
+        <ul class="ext-lista">
+          <li><strong>Validade:</strong> os créditos valem 30 dias e não acumulam para o mês seguinte.</li>
+          <li><strong>Nominal:</strong> cada crédito é de uma criança cadastrada. Não é transferível nem revendável.</li>
+          <li><strong>Grupos:</strong> não há limite de crianças por horário. Para 6 ou mais crianças juntas, avise com antecedência para organizarmos a mediação.</li>
+          <li><strong>Contrato:</strong> mínimo de 3 meses, com mensalidade antecipada. O que exceder o valor do plano é cobrado à parte.</li>
+        </ul>
+      </div>
+      <div class="stack-lg">
+        <h2>Responsabilidades</h2>
+        <ul class="ext-lista">
+          <li><strong>Clínica:</strong> conduz a terapia, responde por seu terapeuta e pelo termo de risco das famílias, e define como cobra os pacientes.</li>
+          <li><strong>FaçaAmigos:</strong> oferece o espaço, a mediação e o relatório de uso.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-petrol" id="fale">
+    <div class="wrap stack-lg">
+      <p class="eyebrow">Fale com a gente</p>
+      <h2>Combine a semana de início</h2>
+      <p>Comece a usar o Playground como extensão da sua clínica.</p>
+      <div class="grid cols-2">
+        {UNIDADES.map((u) => (
+          <div class="card">
+            <h3>{unidades[u].curto}</h3>
+            <p>{fmtFone(unidades[u].whatsapp)}</p>
+            <div class="actions"><a class="btn btn-pri" href={waUrl(u, msg(u))} target="_blank" rel="noopener" data-cta={`extensao_wa_${u}`}>Falar no WhatsApp</a></div>
+          </div>
+        ))}
+      </div>
+      <p>E-mail: <a href={`mailto:${SITE.email}?subject=${encodeURIComponent('Extensão FaçaAmigos para clínicas')}`}>{SITE.email}</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ext-pacote ul { margin: 12px 0 0; padding-left: 18px; }
+  .ext-pacote li { margin: 4px 0; }
+  .ext-preco { font-size: 1.8rem; font-weight: 800; margin: 4px 0; }
+  .ext-preco span { font-size: 1rem; font-weight: 500; opacity: .75; }
+  .ext-lista { padding-left: 18px; }
+  .ext-lista li { margin: 8px 0; }
+  .band-petrol .card h3 { color: var(--petrol); }
+  .band-petrol a:not(.btn) { color: #fff; }
+</style>
