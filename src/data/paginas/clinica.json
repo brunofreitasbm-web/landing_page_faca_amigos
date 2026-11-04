@@ -2,14 +2,14 @@
   "slug": "clinica",
   "path": "/clinica",
   "titleTag": "Terapia ABA e Fonoaudiologia Infantil em Belém | FaçaAmigos",
-  "descricao": "Centro de Terapia Comportamental no Umarizal: ABA, fonoaudiologia, terapia ocupacional e psicologia infantil. Convênios IASEP e PROASA e particular.",
+  "descricao": "Centro de Terapia Comportamental em Belém: ABA, fonoaudiologia, terapia ocupacional e psicologia infantil. Convênios IASEP e PROASA e particular.",
   "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
   "ogTitle": "Terapia ABA e Fonoaudiologia Infantil em Belém | FaçaAmigos",
-  "ogDescricao": "Centro de Terapia Comportamental no Umarizal: ABA, fonoaudiologia, terapia ocupacional e psicologia infantil. Convênios IASEP e PROASA e particular.",
+  "ogDescricao": "Centro de Terapia Comportamental em Belém: ABA, fonoaudiologia, terapia ocupacional e psicologia infantil. Convênios IASEP e PROASA e particular.",
   "ogSiteName": "FaçaAmigos — Centro de Terapia Comportamental",
   "ogType": "website",
   "ogImage": "img/clinica-fachada.jpg",
-  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "fa_cta": {
     "label": "Agendar avaliação",
     "href": "whatsapp",
@@ -33,7 +33,7 @@
       "@type": "MedicalClinic",
       "@id": "https://institutofacaamigos.com.br/#clinica",
       "name": "FaçaAmigos — Centro de Terapia Comportamental",
-      "description": "Clínica especializada em Terapia ABA, Psicologia, Fonoaudiologia, Terapia Ocupacional com Integração Sensorial, Fisioterapia, Psicomotricidade, Musicoterapia, Nutrição e Avaliação Neuropsicológica no Umarizal, Belém/PA. Convênios IASEP e PROASA.",
+      "description": "Clínica especializada em Terapia ABA, Psicologia, Fonoaudiologia, Terapia Ocupacional com Integração Sensorial, Fisioterapia, Psicomotricidade, Musicoterapia, Nutrição e Avaliação Neuropsicológica em Belém/PA. Convênios IASEP e PROASA.",
       "url": "https://institutofacaamigos.com.br/clinica",
       "telephone": "+5591991782027",
       "email": "institutofacaamigos@gmail.com",
@@ -263,7 +263,7 @@
           "name": "A Clínica já está atendendo?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sim. A Clínica FaçaAmigos está atendendo desde novembro de 2026, em Umarizal, Belém. Para agendar a avaliação, chame a equipe pelo WhatsApp."
+            "text": "Sim. A Clínica FaçaAmigos está atendendo desde novembro de 2026, em Belém. Para agendar a avaliação, chame a equipe pelo WhatsApp."
           }
         },
         {

@@ -113,3 +113,24 @@ Grep no HTML renderizado da /circuito: kart 0, meia 0, R$ 25 0, aluguel 0, festa
 - Rich Results Test em /clinica, /playground, /playground/* e /circuito.
 - GTM Preview: conferir os eventos de WhatsApp, de formulário (mapeamento) e de agendamento.
 - Google Meu Negócio (manual): nomes sem palavra-chave; a descrição abre com "espaço kids"/"parquinho" e, no Circuito, com "Passeio de carrinho elétrico infantil no térreo do Parque Shopping Belém, em frente à C&A".
+
+## Umarizal → Belém (pedido do Bruno, 04/11)
+Trocado em titles, descriptions, H1, eyebrows, chips, textos de link ("Conhecer a Clínica FaçaAmigos, em Belém"), alt das fotos e trechos curtos (81 linhas). Nas descriptions que já diziam "em Belém/PA", o "no Umarizal" do fim foi retirado, para não repetir a cidade.
+
+**Mantido de propósito:** o endereço completo (Rua Boaventura da Silva, 1573, Umarizal), o `streetAddress` do JSON-LD, o `bairro` do `marca.json`, o rodapé, termos, política e llms.txt. O Google confere se nome, endereço e telefone batem entre o site e o Google Meu Negócio, e o bairro faz parte do endereço.
+
+## Dependências de /teste (o que pode quebrar e o que foi feito)
+| Onde | Como usa /teste | Risco | Ação |
+|---|---|---|---|
+| `behavior-test-webhook` (Supabase) | Valida só o **domínio** (`Origin`), não o caminho. Grava `landing_page` como texto | Nenhum | Só o rodapé do e-mail de resultado mudou para /mapeamento. **Vale depois do deploy da função** |
+| Eventos do dataLayer (`teste_start`, `teste_lead`, `generate_lead` com `lead_source: teste_comportamento`) e `utm_source=teste` nos links de e-book | Nomes de evento e de origem | Renomear quebraria gatilhos do GTM e relatórios | **Não renomeados** |
+| GTM / GA4 / Google Ads | Gatilho que dependa de *Page Path* = `/teste` | **Não dá para ver pelo repositório** | Conferir no GTM se algum gatilho ou conversão usa o caminho /teste. Se usar, trocar para /mapeamento |
+| Repo `faca_amigos`: `crm-mapeamento-dispatch` (WhatsApp 7 dias) | `MAPEAMENTO_URL` padrão aponta para /teste com UTM | Funciona pelo 301 (a Vercel repassa a query) | Sem mudança de código: dá para definir o secret `MAPEAMENTO_URL` no Supabase com /mapeamento |
+| Repo `faca_amigos`: template Meta `fa_mapeamento_followup` | A URL vai na variável {{4}} do corpo, não num botão fixo | Nenhum | Não precisa reaprovar na Meta |
+| Repo `faca_amigos`: `MapeamentoBanner.tsx` (QR no app do Playground) e o protótipo | URL fixa com UTM | Funciona pelo 301 | Trocar no próximo deploy do app (repo não alterado aqui) |
+| `hotspot/alogin.html` (roteador do Wi-Fi) | Botão "ctaTeste" | Funciona pelo 301 | Atualizado no repo. **Precisa subir o arquivo no roteador** |
+| `supabase/email-templates/ebook-d*.html` | Texto do rodapé | Só texto | Atualizado no repo. Vale onde os templates estiverem cadastrados |
+| `public/tv3.html` (QR da TV da clínica) | A matriz do QR é pré-calculada para a URL /teste | Funciona pelo 301 | Não alterado. Para trocar, regenerar com `scripts/tv3-qr.py` |
+| Bio do Instagram, anúncios, links antigos | /teste | Funciona pelo 301 | Trocar com calma para economizar o salto do redirecionamento |
+
+Depois do deploy, testar: `curl -sI "https://institutofacaamigos.com.br/teste?utm_source=x"` deve responder 301 com `Location: /mapeamento?utm_source=x`.
