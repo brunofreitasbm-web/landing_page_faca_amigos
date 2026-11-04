@@ -1,0 +1,29 @@
+intencao,termo,pagina_alvo,volume_mensal_belem,observacao
+Clínica,clínica autismo Belém,/clinica,,
+Clínica,terapia ABA Belém,/clinica/terapia-aba,,
+Clínica,terapia ABA,/clinica/terapia-aba,,termo de serviço mais forte no Trends (índice 60 no Brasil)
+Clínica,fonoaudiologia infantil Belém,/clinica/fonoaudiologia,,
+Clínica,terapia ocupacional infantil Belém,/clinica/terapia-ocupacional,,
+Clínica,psicólogo infantil Belém,/clinica/psicologia-infantil,,
+Clínica,atraso na fala Belém,/clinica,,
+Convênio,ABA pelo plano de saúde,/aprender/plano-de-saude-cobre-terapia-aba,,
+Convênio,plano de saúde cobre terapia ABA,/aprender/plano-de-saude-cobre-terapia-aba,,
+Convênio,IASEP terapia autismo,/aprender/plano-de-saude-cobre-terapia-aba,,
+Convênio,PROASA terapia ABA,/aprender/plano-de-saude-cobre-terapia-aba,,
+Dúvida,autismo ou atraso de fala,/aprender/autismo-ou-atraso-de-fala,,
+Dúvida,sinais de autismo por idade,/aprender/sinais-de-autismo-por-idade,,
+Dúvida,sinais de autismo,/aprender/sinais-para-observar,,índice 62 no Trends; nunca como diagnóstico
+Dúvida,meu filho é autista,/aprender/sinais-para-observar,,
+Dúvida,graus de autismo,/aprender/niveis-de-suporte-autismo,,em alta no Trends (+80%)
+Dúvida,o que é ABA,/aprender/como-e-a-terapia-comportamental,,em alta no Trends (+70%)
+Passeio,playground Belém,/playground,,"""playground"" sozinho atrai a ferramenta Playground AI; comparar com espaço kids"
+Passeio,espaço kids Belém,/playground,,termo principal da Fase 2 (índice 69 no Trends)
+Passeio,parquinho Belém,/playground,,
+Passeio,espaço kids Parque Shopping,/playground/parque-shopping,,
+Passeio,espaço kids Shopping Bosque Grão-Pará,/playground/grao-para,,
+Passeio,onde levar criança em Belém,/playground,,
+Passeio,restaurante com espaço kids Belém,/playground,,em alta no Trends (+2.950%)
+Passeio,carrinho elétrico Parque Shopping,/circuito,,intenção de passeio; comparar com termos de compra
+Passeio,passeio de carrinho elétrico Belém,/circuito,,
+Evitar,comprar carrinho elétrico infantil,,,termo de compra: marcar e NÃO usar em título
+Evitar,moto elétrica infantil,,,termo de compra (índice 42 no Trends)

@@ -196,11 +196,19 @@
   // scripts (~170 KB, ~8 requisições externas) atrasam a primeira tela e disputam banda com as fotos. Preço: a página deixa de
   // mandar os eventos (ex.: tv3_slide) ao GA4. Para voltar a medir, é só tirar o atributo do <html>.
   var SEM_TAG = document.documentElement.hasAttribute('data-fa-sem-tag');
+  var PUBLICO = /^\/trabalhe-conosco(\/|$)/.test(location.pathname) ? 'candidato'
+    : /^\/(tv|tv2|tv3|tv-controle|tv-clinica|tv-circuito|vitrine-digital|musica|musicas|player|som|gestao|admin|clinica\/tv|circuito\/tv)(\/|$)/.test(location.pathname) ? 'interno'
+    : 'cliente';
+  window.dataLayer.push({ publico: PUBLICO }); // variável do GTM: usar nas tags e gatilhos
   if (!SEM_TAG) {
     window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
     loadScript('https://www.googletagmanager.com/gtm.js?id=' + IDS.gtm);
     loadScript('https://www.googletagmanager.com/gtag/js?id=' + IDS.ga4);
     gtag('js', new Date());
+    // Público da página (candidato | interno | cliente): vai em TODOS os eventos, inclusive o page_view. No GA4,
+    // cadastrar "publico" como dimensão personalizada de evento (Admin > Definições personalizadas) e filtrar
+    // os relatórios por ela. Candidato a vaga e equipe não entram na conta de clientes.
+    gtag('set', { publico: PUBLICO });
     // linker: sem isso o GA4 abre sessão nova no salto hub -> playground e registra o próprio subdomínio como
     // referral, matando a atribuição do tráfego pago. accept_incoming fecha o outro lado do mesmo problema.
     gtag('config', IDS.ga4, { linker: { domains: INTERNAL_HOSTS, accept_incoming: true } });
@@ -302,21 +310,27 @@
     if (!a) return;
     var href = a.getAttribute('href') || '';
 
-    // Links internos sem UTM: o "onde clicou" vai como evento. A origem real já está no cookie fa_origin.
-    var linkId = a.getAttribute('data-fa-link');
-    if (linkId) {
-      track('cta_click', { cta_location: linkId, destino: a.pathname, pagina: window.location.pathname, secao: sectionOf(a) });
-      return;
-    }
-
     var wa = href.match(/(?:wa\.me\/|phone=)(\d{10,15})/);
+    var linkId = a.getAttribute('data-fa-link');
+
+    // WhatsApp primeiro: um link de WhatsApp que também carrega data-fa-link (os 15 botões por especialidade da
+    // /clinica) virava só cta_click e nunca contava como whatsapp_click, a conversão principal. Agora conta como
+    // whatsapp_click e leva o data-fa-link em cta_location.
     if (wa) {
-      track('whatsapp_click', {
+      var evt = {
         unidade: WHATSAPP_UNITS[wa[1]] || wa[1],
         pagina: window.location.pathname,
         secao: sectionOf(a),
         link_text: (a.textContent || '').trim().slice(0, 60)
-      });
+      };
+      if (linkId) evt.cta_location = linkId;
+      track('whatsapp_click', evt);
+      return;
+    }
+
+    // Links internos sem UTM: o "onde clicou" vai como evento. A origem real já está no cookie fa_origin.
+    if (linkId) {
+      track('cta_click', { cta_location: linkId, destino: a.pathname, pagina: window.location.pathname, secao: sectionOf(a) });
       return;
     }
 
