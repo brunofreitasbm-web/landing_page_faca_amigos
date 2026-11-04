@@ -194,6 +194,31 @@ if ($RemoverBloatware) {
             }
     }
     $Resumo.Add("Apps removidos: $removidos")
+
+    # --- Teams: instalador machine-wide (Win32) e Teams classico do usuario ---
+    Write-Step 'Teams e Outlook novo: remocao completa'
+    Get-Process -Name 'Teams','ms-teams','olk' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    foreach ($ub in 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*',
+                    'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*') {
+        Get-ItemProperty $ub -ErrorAction SilentlyContinue |
+            Where-Object { $_.DisplayName -like 'Teams Machine-Wide Installer*' } | ForEach-Object {
+                if ($_.PSChildName -match '^\{[0-9A-Fa-f-]+\}$') {
+                    Start-Process msiexec.exe -ArgumentList "/x $($_.PSChildName) /qn /norestart" -Wait
+                    Write-Ok 'Teams Machine-Wide Installer removido'
+                }
+            }
+    }
+    $teamsUpdate = "$env:LOCALAPPDATA\Microsoft\Teams\Update.exe"
+    if (Test-Path $teamsUpdate) {
+        Start-Process $teamsUpdate -ArgumentList '--uninstall -s' -Wait
+        Write-Ok 'Teams classico removido (usuario atual)'
+    }
+    # Impede o Windows Update de reinstalar o Outlook novo e o Dev Home
+    foreach ($k in 'OutlookUpdate','DevHomeUpdate') {
+        $p = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\$k"
+        if (Test-Path $p) { Remove-Item $p -Recurse -Force -ErrorAction SilentlyContinue; Write-Ok "Reinstalacao bloqueada: $k" }
+    }
+    $Resumo.Add('Teams (app, instalador e icone de chat) e Outlook novo removidos, sem reinstalacao automatica')
 }
 
 # ------------------------------------------------------------------
