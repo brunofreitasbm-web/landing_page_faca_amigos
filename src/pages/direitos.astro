@@ -1,0 +1,80 @@
+---
+// Direitos da pessoa autista e neurodivergente. Dados: src/data/direitos.json (um objeto por direito).
+// Sem links externos de propósito: nome da lei e do serviço, para a família procurar na fonte oficial.
+import PaginaSaude from '../components/PaginaSaude.astro';
+import dados from '../data/direitos.json';
+import { abs } from '../data/marca';
+
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const li = (xs: string[], cls = '') => `<ul${cls ? ` class="${cls}"` : ''}>${xs.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+const porId = new Map(dados.direitos.map((x) => [x.id, x]));
+
+const situacoes = dados.situacoes.map((s) => {
+  const nomes = s.direitos.map((id) => porId.get(id)!.titulo).join(' · ');
+  return `<a class="situacao" href="#${s.direitos[0]}">${esc(s.titulo)}<small>${esc(nomes)}</small></a>`;
+}).join('');
+
+const cards = dados.direitos.map((x) => `
+<article class="direito" id="${x.id}">
+  <span class="tag">${esc(x.escopo)}</span>
+  <h3>${x.emoji} ${esc(x.titulo)}</h3>
+  <p class="ganha">${esc(x.umaFrase)}</p>
+  <h4>Quem tem direito</h4>${li(x.quemTem, 'ok')}
+  <p class="tdah"><b>E o TDAH?</b> ${esc(x.tdah)}</p>
+  <h4>O que levar</h4>${li(x.levar)}
+  <h4>Passo a passo</h4><ol class="passos">${x.passos.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>
+  <div class="meta"><span><b>Custo:</b> ${esc(x.custo)}</span><span><b>Prazo:</b> ${esc(x.prazo)}</span></div>
+  <h4>Se negarem</h4>${li(x.senegarem)}
+  <p class="fonte"><b>Base legal:</b> ${esc(x.base)}</p>
+</article>`).join('');
+
+const corpo = `
+<h2>Por onde começar?</h2>
+<p>Escolha a situação mais parecida com a sua. Cada direito abaixo tem o mesmo formato: o que você ganha, quem tem direito, o que levar, o passo a passo e o que fazer se negarem.</p>
+<div class="situacoes">${situacoes}</div>
+<h2>Antes de tudo: 3 regras que evitam dor de cabeça</h2>
+<ul>
+<li><b>Guarde tudo.</b> Laudo, relatórios, protocolos e negativas por escrito. Tire foto de tudo e salve no celular.</li>
+<li><b>Nunca pague para dar entrada</b> em BPC, CIPTEA ou plano de saúde. Os pedidos são gratuitos.</li>
+<li><b>Peça sempre o protocolo.</b> Se alguém negar um direito, peça a negativa por escrito, com o motivo. É ela que abre as portas da reclamação.</li>
+</ul>
+<h2>Os direitos, um por um</h2>
+${cards}
+<h2>Em qualquer negativa: onde pedir ajuda de graça</h2>
+<ul>
+<li><b>Defensoria Pública do Estado do Pará:</b> atende gratuitamente quem não pode pagar advogado.</li>
+<li><b>Ministério Público:</b> recebe denúncias sobre escola, saúde e serviços públicos.</li>
+<li><b>Procon do Pará:</b> para cobranças e negativas de serviços privados, como planos de saúde e eventos.</li>
+<li><b>Ouvidoria do SUS (136)</b> e <b>Disque ANS (0800 701 9656)</b> para saúde.</li>
+</ul>
+<h2>E o que a FaçaAmigos pode fazer?</h2>
+<p>Não somos escritório de advocacia e não conseguimos benefícios por você. Podemos ajudar com a parte clínica: a <a href="/clinica/avaliacao-inicial">avaliação inicial</a>, a <a href="/clinica/avaliacao-neuropsicologica">avaliação neuropsicológica</a> e relatórios de acompanhamento, que costumam ser pedidos em BPC, plano de saúde e escola. Para entender o diagnóstico, veja os guias de <a href="/autismo">autismo</a>, <a href="/tdah">TDAH</a> e <a href="/neurodivergencia">neurodivergência</a>, e o texto sobre <a href="/aprender/laudo-e-ciptea">laudo e CIPTEA</a>.</p>
+`;
+
+const path = '/direitos';
+const d = {
+  slug: 'direitos', path, nome: 'Direitos', schemaTipo: 'WebPage', area: 'outra',
+  titleTag: 'Direitos do autista e neurodivergente: passo a passo | FaçaAmigos',
+  descricao: 'Direitos de pessoas com autismo e neurodivergentes (federais): CIPTEA, BPC, plano de saúde, escola e mais, com passo a passo simples. Belém/PA.',
+  h1: 'Direitos da pessoa autista e neurodivergente: o que a lei garante e como pedir',
+  eyebrow: 'Guia · Direitos',
+  resposta: 'A lei garante à pessoa com autismo direitos como atendimento pelo SUS, carteira CIPTEA, BPC, cobertura do plano de saúde, matrícula escolar e atendimento prioritário. Esta página explica cada um em passos simples, com o que levar e o que fazer se negarem. TDAH e dislexia têm regras próprias e nem sempre dão acesso aos mesmos benefícios.',
+  about: { '@type': 'Thing', name: 'Direitos da pessoa com autismo' },
+  datePublished: '2026-11-04', dateModified: '2026-11-04', dataTexto: '4 de novembro de 2026',
+  ogImage: 'img/clinica-fachada.jpg', ogImageAlt: 'Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém',
+  waTexto: 'Olá! Li a página de direitos do site e gostaria de conversar com a Clínica FaçaAmigos.',
+  ctaTitulo: 'Precisa de relatório ou avaliação para pedir um direito?',
+  faq: dados.faq,
+  relacionados: [
+    { href: '/autismo', tag: 'Guia', titulo: 'Autismo (TEA): sinais, diagnóstico e terapias' },
+    { href: '/tdah', tag: 'Guia', titulo: 'TDAH na infância' },
+    { href: '/aprender/laudo-e-ciptea', tag: 'Guia', titulo: 'Laudo e CIPTEA: o que são e onde valem em Belém' },
+    { href: '/aprender/plano-de-saude-cobre-terapia-aba', tag: 'Guia', titulo: 'Plano de saúde cobre terapia ABA?' },
+  ],
+  revisor: null, fontes: [],
+  aviso: 'Informação geral, escrita com base na legislação federal e atualizada em 4 de novembro de 2026. Não é consultoria jurídica nem garante a concessão de nenhum benefício. Regras mudam: confirme sempre no órgão responsável ou com a Defensoria Pública antes de agir.',
+};
+const itens = dados.direitos.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x.titulo, url: `${abs(path)}#${x.id}` }));
+const extraLd = [{ '@type': 'ItemList', '@id': `${abs(path)}#lista`, name: 'Direitos da pessoa com autismo', itemListElement: itens }];
+---
+<PaginaSaude d={d} corpo={corpo} extraLd={extraLd} tipo="condicao" trilha={[{ nome: 'Início', path: '/' }, { nome: 'Direitos', path }]} />

@@ -191,7 +191,7 @@
         "postalCode": "66060-147",
         "addressCountry": "BR"
       },
-      "hasMap": "https://maps.google.com/?q=Rua+Boaventura+da+Silva,+1573,+Bel%C3%A9m+PA",
+      "hasMap": "https://share.google/QnOuCGKHLVgtPtWQj",
       "medicalSpecialty": [
         "Pediatric",
         "Behavioral",
@@ -364,7 +364,10 @@
             }
           }
         ]
-      }
+      },
+      "sameAs": [
+        "https://share.google/QnOuCGKHLVgtPtWQj"
+      ]
     },
     {
       "@type": [

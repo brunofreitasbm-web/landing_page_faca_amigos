@@ -1,0 +1,403 @@
+{
+  "atualizadoEm": "2026-11-04",
+  "situacoes": [
+    {
+      "id": "laudo-novo",
+      "titulo": "Meu filho acabou de receber o laudo",
+      "direitos": [
+        "sus",
+        "ciptea",
+        "bpc",
+        "escola"
+      ]
+    },
+    {
+      "id": "plano-negou",
+      "titulo": "O plano de saúde negou a terapia",
+      "direitos": [
+        "plano"
+      ]
+    },
+    {
+      "id": "escola-recusou",
+      "titulo": "A escola recusou a matrícula ou o apoio",
+      "direitos": [
+        "escola"
+      ]
+    },
+    {
+      "id": "quero-bpc",
+      "titulo": "Quero saber do BPC",
+      "direitos": [
+        "bpc"
+      ]
+    },
+    {
+      "id": "passeios",
+      "titulo": "Quero pagar menos em passeios e viagens",
+      "direitos": [
+        "meia-entrada",
+        "passe-livre",
+        "prioridade",
+        "vaga"
+      ]
+    },
+    {
+      "id": "trabalho",
+      "titulo": "Sou servidor(a) e preciso de horário especial",
+      "direitos": [
+        "jornada-servidor"
+      ]
+    }
+  ],
+  "direitos": [
+    {
+      "id": "sus",
+      "emoji": "🏥",
+      "titulo": "Diagnóstico e terapias pelo SUS",
+      "escopo": "Federal",
+      "umaFrase": "Você tem direito a diagnóstico precoce e atendimento multiprofissional pelo SUS, de graça.",
+      "quemTem": [
+        "Pessoa com autismo (TEA) ou suspeita de autismo, de qualquer idade.",
+        "Não precisa de laudo para começar: a avaliação é justamente para chegar nele."
+      ],
+      "tdah": "TDAH também é atendido pelo SUS. O que muda é o serviço indicado pela equipe de saúde.",
+      "levar": [
+        "Documento da criança e do responsável",
+        "Cartão Nacional de Saúde (Cartão SUS)",
+        "Comprovante de residência",
+        "Relatórios da escola ou do pediatra, se tiver"
+      ],
+      "passos": [
+        "Vá à Unidade Básica de Saúde (UBS) mais perto de casa com o Cartão SUS.",
+        "Diga: \"Quero avaliação do desenvolvimento do meu filho por suspeita de autismo\".",
+        "Peça o encaminhamento por escrito para neuropediatra, psiquiatra infantil ou serviço de reabilitação.",
+        "Pergunte se há CAPS infantil (CAPSi) ou centro de reabilitação para o seu caso e anote data e local.",
+        "Guarde o protocolo e volte à UBS se o encaminhamento demorar."
+      ],
+      "custo": "Gratuito.",
+      "prazo": "Varia: depende da fila do serviço. Peça sempre uma data ou um protocolo.",
+      "senegarem": [
+        "Ouvidoria do SUS: ligue 136 (Disque Saúde).",
+        "Defensoria Pública do Estado do Pará (gratuita) para exigir o atendimento.",
+        "Ministério Público, se a demora for longa e sem justificativa."
+      ],
+      "base": "Lei 12.764/2012 (Política Nacional de Proteção dos Direitos da Pessoa com TEA), art. 2º e 3º."
+    },
+    {
+      "id": "ciptea",
+      "emoji": "🪪",
+      "titulo": "Carteira CIPTEA",
+      "escopo": "Federal, emitida por órgão estadual ou municipal",
+      "umaFrase": "Um documento que identifica a pessoa com autismo e ajuda a ter atendimento prioritário em serviços públicos e privados.",
+      "quemTem": [
+        "Pessoa com diagnóstico de TEA (autismo).",
+        "Criança, adulto ou idoso: não tem idade mínima."
+      ],
+      "tdah": "Não vale só para TDAH. A carteira é específica para autismo.",
+      "levar": [
+        "Laudo médico com o CID de autismo (CID-10 F84 ou CID-11 6A02)",
+        "RG e CPF da pessoa (ou certidão de nascimento, para criança)",
+        "Documento e CPF do responsável",
+        "Comprovante de residência",
+        "Foto 3x4"
+      ],
+      "passos": [
+        "Peça ao médico um laudo atualizado, com CID e a assinatura e o CRM dele.",
+        "Descubra onde a CIPTEA é emitida no seu local: pergunte na Secretaria de Saúde do Estado do Pará (Sespa) ou na prefeitura de Belém qual é o canal atual (site, balcão ou mutirão).",
+        "Junte os documentos da lista, original e cópia.",
+        "Faça o pedido no canal indicado e guarde o número do protocolo.",
+        "Retire a carteira (física ou digital, conforme o órgão) e guarde uma cópia no celular."
+      ],
+      "custo": "Em geral gratuita. Confirme no órgão antes de pagar qualquer taxa.",
+      "prazo": "Varia por órgão. Pergunte o prazo no protocolo.",
+      "senegarem": [
+        "Peça a negativa por escrito, com o motivo.",
+        "Defensoria Pública do Estado do Pará.",
+        "Ministério Público."
+      ],
+      "base": "Lei 13.977/2020 (Lei Romeo Mion), que alterou a Lei 12.764/2012."
+    },
+    {
+      "id": "bpc",
+      "emoji": "💰",
+      "titulo": "BPC (benefício de 1 salário mínimo)",
+      "escopo": "Federal, pedido ao INSS",
+      "umaFrase": "Um salário mínimo por mês para pessoa com deficiência de baixa renda. Não precisa ter contribuído para o INSS.",
+      "quemTem": [
+        "Pessoa com deficiência (autismo entra) com impedimento de longo prazo, de pelo menos 2 anos.",
+        "Renda por pessoa da família de até 1/4 do salário mínimo.",
+        "Estar inscrita no CadÚnico, com os dados atualizados."
+      ],
+      "tdah": "TDAH sozinho nem sempre dá direito ao BPC: o INSS avalia se há impedimento de longo prazo e barreiras na vida diária. Depende do laudo e da perícia.",
+      "levar": [
+        "CadÚnico atualizado (procure o CRAS)",
+        "Documentos de todos que moram na casa, com CPF",
+        "Comprovante de residência",
+        "Laudo médico e relatórios recentes, com CID",
+        "Receitas, exames e relatório da escola ou das terapias"
+      ],
+      "passos": [
+        "Vá ao CRAS do seu bairro e peça para fazer ou atualizar o CadÚnico.",
+        "Reúna laudo e relatórios médicos recentes, com CID, assinados e com carimbo.",
+        "Baixe o aplicativo ou entre no site Meu INSS e faça login com a conta gov.br.",
+        "Procure \"Benefício Assistencial à Pessoa com Deficiência\" e faça o pedido.",
+        "Compareça à avaliação social e à perícia médica nas datas marcadas, com os documentos.",
+        "Acompanhe o resultado pelo Meu INSS ou pela central 135."
+      ],
+      "custo": "Gratuito. Não pague a ninguém para dar entrada.",
+      "prazo": "Varia bastante. Acompanhe pelo Meu INSS ou ligue 135.",
+      "senegarem": [
+        "Peça o motivo da negativa e entre com recurso, pelo Meu INSS, no prazo informado na decisão.",
+        "Defensoria Pública da União ou do Estado.",
+        "Se o INSS demorar demais, a Defensoria pode ajudar a ir à Justiça."
+      ],
+      "base": "Lei 8.742/1993 (Lei Orgânica da Assistência Social), art. 20."
+    },
+    {
+      "id": "plano",
+      "emoji": "🩺",
+      "titulo": "Plano de saúde cobrir as terapias",
+      "escopo": "Federal (ANS)",
+      "umaFrase": "Planos regulados pela ANS devem cobrir as terapias indicadas pelo médico para autismo, sem limite de sessões.",
+      "quemTem": [
+        "Pessoa com diagnóstico de TEA (CID F84) e plano de saúde regulado pela ANS.",
+        "Terapias com fonoaudiólogo, psicólogo, terapeuta ocupacional e fisioterapeuta, conforme o pedido médico."
+      ],
+      "tdah": "A regra ampla é para autismo (CID F84). Para TDAH, a cobertura depende do que o médico pede e do contrato; em caso de negativa, vale reclamar.",
+      "levar": [
+        "Pedido médico detalhado, com o CID, a terapia indicada e a frequência",
+        "Carteirinha do plano",
+        "Laudo e relatórios, se houver"
+      ],
+      "passos": [
+        "Peça ao médico um pedido por escrito, com CID, terapias e quantas sessões por semana.",
+        "Entregue o pedido à operadora e peça a autorização. Anote o número do protocolo.",
+        "Se negarem ou demorarem, peça a negativa por escrito, com o motivo.",
+        "Ligue para o Disque ANS, 0800 701 9656, e registre a reclamação. Guarde o protocolo.",
+        "Se a operadora não resolver, procure o Procon e a Defensoria Pública."
+      ],
+      "custo": "O plano cobre. Pode haver coparticipação, se estiver no seu contrato.",
+      "prazo": "A operadora tem um prazo curto para responder à reclamação na ANS (em geral, poucos dias úteis).",
+      "senegarem": [
+        "ANS: Disque ANS 0800 701 9656 (reclamação, chamada NIP).",
+        "Procon do Pará.",
+        "Defensoria Pública do Estado do Pará ou advogado, para pedir a terapia na Justiça."
+      ],
+      "base": "Resolução Normativa ANS 539/2022 e Lei 14.454/2022. Vale para planos regulados pela ANS; convênios de servidores com regras próprias podem ter outras normas."
+    },
+    {
+      "id": "escola",
+      "emoji": "🎒",
+      "titulo": "Matrícula na escola e apoio em sala",
+      "escopo": "Federal",
+      "umaFrase": "A escola não pode recusar matrícula nem cobrar a mais por ser autista, e deve garantir apoio quando for necessário.",
+      "quemTem": [
+        "Estudante com autismo ou outra deficiência, em escola pública ou particular.",
+        "Apoio individual em sala quando houver comprovação da necessidade."
+      ],
+      "tdah": "Para TDAH e dislexia existe lei própria de acompanhamento na escola: peça o plano de apoio por escrito. Mas matrícula garantida e multa à escola valem para deficiência, como o autismo.",
+      "levar": [
+        "Laudo e relatórios dos profissionais",
+        "Pedido por escrito à escola",
+        "Documentos da criança"
+      ],
+      "passos": [
+        "Faça a matrícula normalmente. Não é obrigatório contar o diagnóstico antes de matricular.",
+        "Entregue o laudo à coordenação e peça o apoio necessário por escrito (protocolo).",
+        "Peça um plano de ensino individualizado (PEI) e adaptações, como tempo extra e tarefas em partes.",
+        "Se for preciso acompanhante em sala, leve um relatório que explique a necessidade.",
+        "Marque reuniões regulares e guarde tudo por escrito."
+      ],
+      "custo": "A escola não pode cobrar valor extra pelo apoio ou pela adaptação.",
+      "prazo": "Peça resposta por escrito em prazo curto e guarde o protocolo.",
+      "senegarem": [
+        "Secretaria de Educação (municipal ou estadual), para escola pública.",
+        "Conselho Tutelar.",
+        "Ministério Público e Defensoria Pública.",
+        "Recusa de matrícula pode gerar multa ao gestor da escola."
+      ],
+      "base": "Lei 12.764/2012, art. 3º e 7º, e Lei Brasileira de Inclusão (Lei 13.146/2015). Para TDAH e dislexia: Lei 14.254/2021."
+    },
+    {
+      "id": "prioridade",
+      "emoji": "🌻",
+      "titulo": "Atendimento prioritário e cordão de girassol",
+      "escopo": "Federal",
+      "umaFrase": "Pessoas com deficiência têm prioridade em filas e atendimento, e o cordão de girassol identifica deficiências que não aparecem.",
+      "quemTem": [
+        "Pessoa com deficiência, incluindo autismo.",
+        "O cordão de girassol é pensado para deficiências ocultas, como o autismo."
+      ],
+      "tdah": "A prioridade legal é para pessoa com deficiência. TDAH sozinho nem sempre é enquadrado: costuma depender do serviço e do laudo.",
+      "levar": [
+        "CIPTEA ou laudo, para comprovar se pedirem",
+        "Documento com foto"
+      ],
+      "passos": [
+        "Leve o laudo ou a CIPTEA, de preferência uma cópia no celular.",
+        "Ao chegar no banco, mercado, repartição ou consulta, avise na entrada que precisa de atendimento prioritário.",
+        "Se quiser, use o cordão de girassol (de tecido, com desenho de girassóis) para sinalizar.",
+        "Se negarem, peça o nome do responsável e o protocolo da reclamação."
+      ],
+      "custo": "Gratuito. O cordão pode ser comprado em lojas, não precisa de registro.",
+      "prazo": "Imediato.",
+      "senegarem": [
+        "Procon.",
+        "Ouvidoria do estabelecimento ou do órgão.",
+        "Defensoria Pública."
+      ],
+      "base": "Lei 10.048/2000 (prioridade de atendimento) e Lei 14.624/2023 (cordão de girassol)."
+    },
+    {
+      "id": "meia-entrada",
+      "emoji": "🎟️",
+      "titulo": "Meia-entrada em cinema, shows e eventos",
+      "escopo": "Federal",
+      "umaFrase": "Pessoa com deficiência e, quando necessário, um acompanhante pagam meia-entrada em eventos culturais, esportivos e de lazer.",
+      "quemTem": [
+        "Pessoa com deficiência, incluindo autismo.",
+        "Um acompanhante, quando a pessoa precisa de ajuda para participar."
+      ],
+      "tdah": "A regra é para deficiência comprovada. TDAH sozinho nem sempre se enquadra.",
+      "levar": [
+        "CIPTEA, cartão do BPC ou outro documento que comprove a deficiência",
+        "Laudo, se pedirem",
+        "Documento com foto"
+      ],
+      "passos": [
+        "Na compra, escolha \"meia-entrada\" e confira qual comprovação o local pede.",
+        "Leve a CIPTEA ou o documento de comprovação, impresso ou no celular.",
+        "Na entrada, apresente o documento junto com o ingresso.",
+        "Se o acompanhante for necessário, leve-o junto e avise na compra."
+      ],
+      "custo": "Metade do valor do ingresso.",
+      "prazo": "Imediato.",
+      "senegarem": [
+        "Procon.",
+        "Ouvidoria do local.",
+        "Defensoria Pública."
+      ],
+      "base": "Lei 12.933/2013 (Lei da Meia-Entrada). A forma de comprovar pode mudar por local; confirme antes de comprar. No Playground FaçaAmigos, a meia-entrada inclusiva vale mediante laudo ou CIPTEA."
+    },
+    {
+      "id": "passe-livre",
+      "emoji": "🚌",
+      "titulo": "Passe livre em viagens interestaduais",
+      "escopo": "Federal",
+      "umaFrase": "Pessoa com deficiência de baixa renda viaja de graça em ônibus, trem e barco entre estados.",
+      "quemTem": [
+        "Pessoa com deficiência comprovada e de baixa renda.",
+        "Em certos casos, um acompanhante também viaja de graça."
+      ],
+      "tdah": "A regra é para deficiência comprovada e baixa renda. TDAH sozinho nem sempre se enquadra.",
+      "levar": [
+        "Laudo médico",
+        "Comprovante de renda ou CadÚnico",
+        "Documento com foto e CPF"
+      ],
+      "passos": [
+        "Procure o serviço oficial do Passe Livre da pessoa com deficiência no portal gov.br ou na empresa de transporte.",
+        "Reúna o laudo e o comprovante de renda.",
+        "Faça o cadastro e peça a emissão da credencial.",
+        "Antes de cada viagem, reserve o bilhete gratuito na empresa dentro do prazo exigido."
+      ],
+      "custo": "Gratuito.",
+      "prazo": "Varia. Reserve com antecedência.",
+      "senegarem": [
+        "Agência reguladora do transporte.",
+        "Ouvidoria da empresa.",
+        "Defensoria Pública."
+      ],
+      "base": "Lei 8.899/1994 (Passe Livre) e Decreto 3.691/2000."
+    },
+    {
+      "id": "jornada-servidor",
+      "emoji": "💼",
+      "titulo": "Horário especial para servidor público pai ou mãe",
+      "escopo": "Federal (servidores federais); estados e municípios têm leis próprias",
+      "umaFrase": "Servidor público federal com filho com deficiência pode ter horário especial, sem precisar compensar as horas.",
+      "quemTem": [
+        "Servidor público federal, cônjuge ou responsável por pessoa com deficiência.",
+        "Comprovação da deficiência e da necessidade de acompanhar."
+      ],
+      "tdah": "Depende de a deficiência estar comprovada. Para servidor estadual ou municipal, a regra vem da lei do estado ou do município: consulte o RH.",
+      "levar": [
+        "Laudo médico",
+        "Documento que comprove o parentesco",
+        "Requerimento ao RH"
+      ],
+      "passos": [
+        "Peça ao médico um laudo que explique a necessidade de acompanhamento.",
+        "Faça um requerimento ao setor de recursos humanos do seu órgão.",
+        "Anexe o laudo e os documentos que comprovem o parentesco.",
+        "Peça resposta por escrito e guarde o protocolo."
+      ],
+      "custo": "Gratuito.",
+      "prazo": "Varia por órgão.",
+      "senegarem": [
+        "Recurso administrativo no próprio órgão.",
+        "Sindicato ou associação dos servidores.",
+        "Defensoria Pública ou advogado."
+      ],
+      "base": "Lei 8.112/1990, art. 98, com a redação dada pela Lei 13.370/2016. Só servidores federais."
+    },
+    {
+      "id": "vaga",
+      "emoji": "🅿️",
+      "titulo": "Vaga especial de estacionamento",
+      "escopo": "Federal e municipal",
+      "umaFrase": "Quem tem deficiência pode pedir a credencial de vaga especial no órgão de trânsito do município.",
+      "quemTem": [
+        "Pessoa com deficiência que tenha dificuldade de locomoção ou de acompanhamento exigido pela condição.",
+        "O órgão de trânsito do município define quem se enquadra."
+      ],
+      "tdah": "Depende do enquadramento definido pelo órgão de trânsito. Pergunte antes de reunir os documentos.",
+      "levar": [
+        "Laudo médico",
+        "Documento com foto e CPF",
+        "Comprovante de residência",
+        "Documento do veículo, se pedirem"
+      ],
+      "passos": [
+        "Ligue ou vá ao órgão de trânsito do seu município e pergunte como pedir a credencial.",
+        "Pergunte quais documentos e qual laudo são aceitos.",
+        "Reúna os documentos e faça o pedido.",
+        "Use a credencial em local visível no veículo, sempre que a pessoa com deficiência estiver no carro."
+      ],
+      "custo": "Em geral gratuita. Confirme no órgão.",
+      "prazo": "Varia.",
+      "senegarem": [
+        "Ouvidoria do órgão de trânsito.",
+        "Defensoria Pública."
+      ],
+      "base": "Lei Brasileira de Inclusão (Lei 13.146/2015), art. 47, e regras do Contran e do município."
+    }
+  ],
+  "faq": [
+    {
+      "q": "A CIPTEA substitui o laudo?",
+      "a": "Não. A CIPTEA identifica a pessoa, mas o laudo médico continua sendo o documento que comprova o diagnóstico. Guarde os dois."
+    },
+    {
+      "q": "TDAH dá direito ao BPC e à CIPTEA?",
+      "a": "A CIPTEA é só para autismo. O BPC depende de haver deficiência com impedimento de longo prazo, avaliada pelo INSS. TDAH sozinho nem sempre se enquadra, mas na escola existe lei própria de apoio."
+    },
+    {
+      "q": "Preciso pagar alguém para dar entrada no BPC ou na CIPTEA?",
+      "a": "Não. Os pedidos são gratuitos. Desconfie de quem cobra para dar entrada e procure o CRAS, o INSS ou a Defensoria."
+    },
+    {
+      "q": "Meu filho ainda não tem laudo. Posso pedir algum direito?",
+      "a": "Alguns direitos, como o atendimento pelo SUS, não exigem laudo para começar a investigação. Para BPC, CIPTEA e benefícios, o laudo costuma ser exigido; por isso vale iniciar a avaliação o quanto antes."
+    },
+    {
+      "q": "Onde peço ajuda de graça se negarem um direito?",
+      "a": "Na Defensoria Pública do Estado do Pará, que atende gratuitamente quem não pode pagar advogado. Também vale procurar o Ministério Público, o Procon e as ouvidorias dos serviços."
+    },
+    {
+      "q": "As informações desta página valem para o Pará e para Belém?",
+      "a": "A maior parte é lei federal, válida em todo o país. Quando o pedido depende do estado ou do município, como a emissão da CIPTEA, a página indica que você deve confirmar o canal atual no órgão."
+    }
+  ]
+}

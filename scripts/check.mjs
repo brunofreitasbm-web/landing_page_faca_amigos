@@ -381,7 +381,7 @@ for (const arq of paginas) {
   {
     const ehEspecialidade = /^clinica\/(?!equipe\.html$)[^/]+\.html$/.test(arq);
     const ehCondicao = ['autismo.html', 'tdah.html', 'neurodivergencia.html'].includes(arq);
-    const ehGuia = arq.startsWith('aprender/');
+    const ehGuia = arq.startsWith('aprender/') || arq === 'direitos.html';
     if (ehEspecialidade || ehCondicao || ehGuia) {
       const artigo = limpo.match(/<article\b[\s\S]*?<\/article>/i)?.[0] ?? '';
       const texto = textoVisivel(artigo);

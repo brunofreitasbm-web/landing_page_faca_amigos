@@ -48,7 +48,14 @@
       "url": "https://site.cfp.org.br"
     }
   ],
-  "revisor": null,
+  "revisor": {
+    "id": "isabella",
+    "nome": "Isabella Gonçalves Freitas",
+    "registro": "CRP 10/4727",
+    "papel": "Psicóloga infantil",
+    "rota": "/equipe/isabella-freitas",
+    "foto": "img/isabella-2.webp"
+  },
   "condicoes": [
     "desenvolvimento infantil"
   ],
