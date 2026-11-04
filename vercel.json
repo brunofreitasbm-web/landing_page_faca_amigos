@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "buildCommand": "npm run build",
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "source": "/p-x5jv7epa32ifdyk9c8g4/(.*)",
+      "source": "/fa7k2m9/(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
         { "key": "Cache-Control", "value": "no-store" }
