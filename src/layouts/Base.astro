@@ -31,6 +31,9 @@ interface Props {
 }
 const { title, ogTitle, ogDescription, siteName = 'FaçaAmigos', articleAuthor, description, path, ogImage = 'img/og/og-hub.jpg', ogImageAlt = 'FaçaAmigos', ogType = 'website', noindex = false, jsonLd = [], secao = '', wa = 'parque', waTexto, semWa = false, cta, minimo = false } = Astro.props;
 const canonical = abs(path);
+// Rodapé por contexto: Playground/Circuito só com os WhatsApp do Playground; Clínica, conteúdo para pais e Mapeamento só com o da Clínica.
+const rodapeContexto = ['playground', 'circuito'].includes(secao) ? 'playground'
+  : (['clinica', 'pais'].includes(secao) || path.startsWith('/mapeamento')) ? 'clinica' : 'hub';
 const robots = noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 const imagem = abs('/' + ogImage);
 const og = await dims(ogImage);
@@ -82,7 +85,7 @@ const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org',
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   {minimo ? <LpTopo /> : <Nav atual={secao} wa={wa} texto={waTexto} semWa={semWa} />}
   <main id="conteudo"><slot /></main>
-  {minimo ? <LpRodape wa={wa} /> : <Footer kind="hub" />}
+  {minimo ? <LpRodape wa={wa} /> : <Footer kind="hub" contexto={rodapeContexto} />}
   {!semWa && <WhatsAppFloat href={waUrl(wa, waTexto)} />}
   <script is:inline src="/assets/fa-reveal.js" defer></script>
   {cta && <script is:inline src="/assets/fa-cta.js" defer data-label={cta.label} data-href={cta.href} data-event={cta.event}></script>}

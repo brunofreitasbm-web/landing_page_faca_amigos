@@ -4,8 +4,11 @@ import type { UnidadeId } from '../data/marca';
 // Rodapé único do site, todo em HTML estático (aparece sem JavaScript, para o Google e para quem desliga o JS).
 // Dados das unidades vêm de src/data/marca.json (endereço, WhatsApp, mapa) e do geo-facts (horário).
 // "kind" só alimenta o tracking dos links (data-fa-link="rodape_<kind>").
-const { kind = 'hub' } = Astro.props;
-const ordem: UnidadeId[] = ['parque', 'graopara', 'clinica'];
+// "contexto" escolhe os cartões de unidade (rodapé por contexto, aprovado em 04/11/2026): o telefone da Clínica
+// não aparece no Playground/Circuito, e os do Playground não aparecem na Clínica. "hub" mostra as três.
+const { kind = 'hub', contexto = 'hub' } = Astro.props as { kind?: string; contexto?: 'hub' | 'playground' | 'clinica' };
+const ordens: Record<string, UnidadeId[]> = { hub: ['parque', 'graopara', 'clinica'], playground: ['parque', 'graopara'], clinica: ['clinica'] };
+const ordem: UnidadeId[] = ordens[contexto] ?? ordens.hub;
 // Páginas de cada unidade (links do cartão) e o rótulo de status que o rodapé sempre mostrou na Clínica.
 const paginas: Record<string, [string, string][]> = {
   parque: [['Playground', '/playground'], ['Circuito', '/circuito']],
@@ -28,7 +31,7 @@ function endereco(id: UnidadeId) {
   return [u.endereco, u.bairro, andar].filter(Boolean).join(' · ');
 }
 ---
-<footer data-fa-footer={kind} class="rodape">
+<footer data-fa-footer={kind} data-fa-contexto={contexto} class="rodape">
   <div class="rodape-wrap">
     <span class="fa-logo-card"><img class="fa-logo-img" src="/img/logo-facaamigos.png" alt="FaçaAmigos" width="1024" height="147" loading="lazy" decoding="async" /></span>
     <div class="rodape-unidades">

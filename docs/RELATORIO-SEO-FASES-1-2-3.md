@@ -98,7 +98,7 @@ Grep no HTML renderizado da /circuito: kart 0, meia 0, R$ 25 0, aluguel 0, festa
 - Screenshot em 390 px e 1280 px das 5 heroes: sem rolagem horizontal e com a identidade visual mantida.
 
 ## Pendências para o Bruno
-1. **Rodapé por contexto (Fase 3, item 4):** não executado. Hoje o rodapé global mostra os três WhatsApp (clínica, Parque e Grão-Pará) em todas as páginas. Isso também fere a regra 4.4 da Fase 2: o telefone da clínica aparece no Playground, e os do Playground aparecem na clínica.
+1. ~~Rodapé por contexto~~: **aprovado e executado em 04/11** (ver seção no fim).
 2. **Horário do Circuito:** o JSON-LD já não declara horário. Mas o texto visível (FAQ e chamada final) ainda diz seg–sáb 10h–22h e dom 12h–21h. Se o horário for outro, esse texto está errado hoje.
 3. **Sábado da clínica:** o documento diz até 11h45, e o site e o `marca.json` dizem até 12h. O site foi mantido. Corrigir em `marca.json` → `horarioClinica` se o certo for 11h45.
 4. **Minuto adicional de R$ 3,00 no Circuito:** continua no site. O documento diz "só o passeio de R$ 48". Confirmar se esse adicional ainda existe.
@@ -134,3 +134,14 @@ Trocado em titles, descriptions, H1, eyebrows, chips, textos de link ("Conhecer 
 | Bio do Instagram, anúncios, links antigos | /teste | Funciona pelo 301 | Trocar com calma para economizar o salto do redirecionamento |
 
 Depois do deploy, testar: `curl -sI "https://institutofacaamigos.com.br/teste?utm_source=x"` deve responder 301 com `Location: /mapeamento?utm_source=x`.
+
+## Rodapé por contexto (aprovado pelo Bruno em 04/11)
+`Base.astro` escolhe o contexto pela seção da página e passa para `Footer.astro`:
+| Páginas | Cartões e WhatsApp no rodapé |
+|---|---|
+| /playground, /playground/*, /circuito | Parque Shopping (99234-7673) e Grão-Pará (99110-1215) |
+| /clinica, /clinica/*, /planos, /autismo, /tdah, /neurodivergencia, /aprender, /aprender/*, /glossario, /mapeamento | Clínica (99178-2027) |
+| Home, quem somos, eventos, equipe, trabalhe conosco, termos, política, 404 | Os três (são páginas da marca inteira) |
+
+O tracking continua igual: `data-fa-footer="hub"` e `data-fa-link="rodape_hub"`, então os relatórios não quebram. Os links de navegação do rodapé (Clínica, Playground, Circuito) continuam em todas as páginas, porque não são telefone. `/aprender` e `/glossario` passaram a usar o WhatsApp da clínica no botão do topo e no flutuante, como os artigos já faziam (antes caíam no padrão Parque).
+Conferido no HTML gerado: 0 ocorrência de 99178 nas páginas do Playground e do Circuito, e 0 de 99234/99110 nas páginas da clínica.
