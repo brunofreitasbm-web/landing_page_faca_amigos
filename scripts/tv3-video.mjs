@@ -121,7 +121,7 @@ async function renderizar() {
 
 async function girar() {
   // arquivo do pen-drive: H.264 High 4.1, yuv420p, 30 fps, sem áudio, moov no início (abre em quase toda TV com USB)
-  await ffmpeg(['-i', MASTER, '-vf', filtroGiro, '-an', '-c:v', 'libx264', '-preset', 'slow', '-tune', 'stillimage', '-crf', '20',
+  await ffmpeg(['-i', MASTER, '-vf', filtroGiro, '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'stillimage', '-crf', '21',
     '-profile:v', 'high', '-level', '4.1', '-pix_fmt', 'yuv420p', '-r', String(FPS), '-g', String(FPS * 4), '-movflags', '+faststart', FINAL]).fim;
   const mb = (fs.statSync(FINAL).size / 1e6).toFixed(0);
   console.log(`pen-drive: ${FINAL} (${mb} MB, giro ${GIRO})`);
