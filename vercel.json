@@ -6,6 +6,9 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
+    { "source": "/teste", "destination": "/mapeamento", "statusCode": 301 },
+    { "source": "/teste.html", "destination": "/mapeamento", "statusCode": 301 },
+    { "source": "/teste/:path*", "destination": "/mapeamento", "statusCode": 301 },
     { "source": "/servicos", "destination": "/clinica", "permanent": true },
     { "source": "/servicos.html", "destination": "/clinica", "permanent": true },
     { "source": "/playground/politica-privacidade", "destination": "/politica-privacidade", "permanent": true },

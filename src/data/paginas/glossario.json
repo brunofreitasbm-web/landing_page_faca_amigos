@@ -378,7 +378,7 @@
   ],
   "fa_cta": {
     "label": "Fazer o mapeamento grátis",
-    "href": "/teste",
+    "href": "/mapeamento",
     "event": "mapeamento"
   },
   "scripts": 1,

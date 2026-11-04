@@ -43,7 +43,9 @@
     /* Hero: faixa petróleo da Clínica, com as mesmas bolhas do hub */
     .lp .hero { padding: 56px 0 72px; position: relative; overflow: hidden; border-radius: 0 0 48px 48px; }
     .lp .hero .wrap { display: grid; gap: 22px; max-width: 900px; text-align: center; }
-    .lp .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 4px; color: #fff; }
+    /* H1 = frase de busca (SEO); a frase de marca "Respira..." fica com o visual de título, em <p class="h1-look">. */
+    .lp .hero h1.h1-kicker { font-size: clamp(1.05rem, 2.6vw, 1.35rem); font-weight: 700; line-height: 1.3; color: var(--yellow); margin: 0; }
+    .lp .hero .h1-look { font-family: var(--font-display); font-weight: 600; line-height: 1.15; letter-spacing: -.005em; font-size: clamp(2rem, 5vw, 3.2rem); margin: 0 0 4px; color: #fff; }
     .lp .hero .sub { font-size: 1.15rem; font-weight: 600; color: rgba(255, 255, 255, .92); max-width: 40rem; margin: 0 auto; }
     .lp .seal { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
     .lp .seal span { display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, .13); border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: .88rem; }

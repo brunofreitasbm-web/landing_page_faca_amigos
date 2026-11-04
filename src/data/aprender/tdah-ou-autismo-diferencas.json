@@ -21,7 +21,7 @@
   "proximo": {
     "rotulo": "Próximo passo",
     "titulo": "Quer organizar o que você observa no dia a dia?",
-    "href": "/teste",
+    "href": "/mapeamento",
     "cta": "proximo_passo",
     "externo": false,
     "botao": "Fazer o mapeamento grátis"
@@ -44,7 +44,7 @@
   "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
   "fa_cta": {
     "label": "Fazer o mapeamento grátis",
-    "href": "/teste",
+    "href": "/mapeamento",
     "event": "aprender_cta"
   },
   "card": {

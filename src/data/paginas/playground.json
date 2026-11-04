@@ -1,11 +1,11 @@
 {
   "slug": "playground",
   "path": "/playground",
-  "titleTag": "Playground em Belém | FaçaAmigos no Parque Shopping",
-  "descricao": "Playground inclusivo no Parque Shopping Belém, para todas as crianças, com ou sem laudo. A partir de R$ 60, sem agendamento, seg a sáb das 10h às 22h e dom das 12h às 21h.",
+  "titleTag": "Parquinho e Espaço Kids em Belém | FaçaAmigos Playground",
+  "descricao": "Espaço kids no Parque Shopping e no Shopping Bosque Grão-Pará para crianças de 0 a 12 anos, com mediadores, pulseira de identificação e sem agendamento.",
   "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
-  "ogTitle": "Playground em Belém | FaçaAmigos no Parque Shopping",
-  "ogDescricao": "Playground inclusivo no Parque Shopping Belém, para todas as crianças, com ou sem laudo. A partir de R$ 60, sem agendamento, seg a sáb das 10h às 22h e dom das 12h às 21h.",
+  "ogTitle": "Parquinho e Espaço Kids em Belém | FaçaAmigos Playground",
+  "ogDescricao": "Espaço kids no Parque Shopping e no Shopping Bosque Grão-Pará para crianças de 0 a 12 anos, com mediadores, pulseira de identificação e sem agendamento.",
   "ogSiteName": "FaçaAmigos",
   "ogType": "business.business",
   "ogImage": "img/og/og-playground.jpg",
@@ -20,8 +20,8 @@
       "@type": "WebPage",
       "@id": "https://institutofacaamigos.com.br/playground#webpage",
       "url": "https://institutofacaamigos.com.br/playground",
-      "name": "Playground em Belém | FaçaAmigos no Parque Shopping",
-      "description": "Playground inclusivo no Parque Shopping Belém, para todas as crianças, com ou sem laudo. A partir de R$ 60, sem agendamento, seg a sáb das 10h às 22h e dom das 12h às 21h.",
+      "name": "Parquinho e Espaço Kids em Belém | FaçaAmigos Playground",
+      "description": "Espaço kids no Parque Shopping e no Shopping Bosque Grão-Pará para crianças de 0 a 12 anos, com mediadores, pulseira de identificação e sem agendamento.",
       "inLanguage": "pt-BR",
       "isPartOf": {
         "@id": "https://institutofacaamigos.com.br/#website"
@@ -341,7 +341,7 @@
           "name": "Preciso agendar para brincar?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Não! É só chegar entre 10h e 22h, qualquer dia da semana, fazer o cadastro rápido na recepção e brincar."
+            "text": "Não! É só chegar de segunda a sábado, das 10h às 22h, ou no domingo, das 12h às 21h, fazer o cadastro rápido na recepção e brincar."
           }
         },
         {

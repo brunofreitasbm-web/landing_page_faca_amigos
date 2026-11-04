@@ -1,18 +1,18 @@
 {
   "slug": "index",
   "path": "/",
-  "titleTag": "FaçaAmigos Belém: Terapia Comportamental e Playground",
-  "descricao": "Clínica infantil no Umarizal, Belém, atendendo desde novembro de 2026: convênios IASEP e PROASA e particular. Também Playground e Circuito.",
+  "titleTag": "Terapia Infantil e Espaço Kids em Belém | FaçaAmigos",
+  "descricao": "Terapia ABA, fonoaudiologia e terapia ocupacional no Umarizal, com IASEP, PROASA e particular. Espaço kids no Parque Shopping e no Grão-Pará.",
   "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
-  "ogTitle": "FaçaAmigos Belém: Terapia Comportamental e Playground",
-  "ogDescricao": "Clínica infantil no Umarizal, Belém, atendendo desde novembro de 2026: convênios IASEP e PROASA e particular. Também Playground e Circuito.",
+  "ogTitle": "Terapia Infantil e Espaço Kids em Belém | FaçaAmigos",
+  "ogDescricao": "Terapia ABA, fonoaudiologia e terapia ocupacional no Umarizal, com IASEP, PROASA e particular. Espaço kids no Parque Shopping e no Grão-Pará.",
   "ogSiteName": "FaçaAmigos",
   "ogType": "website",
   "ogImage": "img/og/og-hub.jpg",
   "ogImageAlt": "FaçaAmigos em Belém: fachada da clínica, piscina de bolinhas do playground e carrinhos elétricos do circuito",
   "fa_cta": {
     "label": "Fazer o mapeamento grátis",
-    "href": "/teste",
+    "href": "/mapeamento",
     "event": "mapeamento"
   },
   "jsonLd": [
@@ -31,7 +31,7 @@
       "@type": "WebPage",
       "@id": "https://institutofacaamigos.com.br/#webpage",
       "url": "https://institutofacaamigos.com.br/",
-      "name": "FaçaAmigos Belém: Terapia Comportamental e Playground",
+      "name": "Terapia Infantil e Espaço Kids em Belém | FaçaAmigos",
       "description": "Clínica infantil no Umarizal, Belém, atendendo desde novembro de 2026: convênios IASEP e PROASA e particular. Também Playground e Circuito.",
       "inLanguage": "pt-BR",
       "isPartOf": {
