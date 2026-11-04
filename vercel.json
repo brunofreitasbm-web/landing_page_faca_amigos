@@ -53,7 +53,7 @@
       ]
     },
     {
-      "source": "/fa7k2m9/(.*)",
+      "source": "/fa7k2m9/:path*",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
         { "key": "Cache-Control", "value": "no-store" }
