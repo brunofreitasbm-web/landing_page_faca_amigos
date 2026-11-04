@@ -31,6 +31,7 @@ param(
 )
 
 # ============================== CONFIGURACAO ==============================
+$ScriptVersao         = '2026.11.04-3'   # AAAA.MM.DD-numero (some 1 a cada publicacao)
 $RemoverOneDrive      = $true
 $RemoverBloatware     = $true
 $NeutralizarEdge      = $true    # Edge NAO e desinstalado (ver observacao no final)
@@ -105,6 +106,8 @@ $LogDir = 'C:\ProgramData\FacaAmigos'
 New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
 $LogFile = Join-Path $LogDir ("otimizar-{0}.log" -f (Get-Date -Format 'yyyyMMdd-HHmmss'))
 Start-Transcript -Path $LogFile -Force | Out-Null
+Write-Host "`n#### Otimizador Windows 11 - Faca Amigos - VERSAO $ScriptVersao ####" -ForegroundColor Magenta
+Write-Host "Computador: $env:COMPUTERNAME | Usuario: $env:USERNAME | Data: $(Get-Date -Format 'dd/MM/yyyy HH:mm')" -ForegroundColor Gray
 
 function Write-Step([string]$msg) { Write-Host "`n=== $msg ===" -ForegroundColor Cyan }
 function Write-Ok([string]$msg)   { Write-Host "  [ok] $msg" -ForegroundColor Green }
