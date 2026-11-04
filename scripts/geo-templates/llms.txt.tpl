@@ -7,9 +7,9 @@
 - [Início — visão geral do ecossistema](https://institutofacaamigos.com.br/): Playground, Circuito e Clínica, endereços, horários e perguntas frequentes.
 - [Playground Inclusivo](https://institutofacaamigos.com.br/playground): preços, Horário Inclusivo, meia-entrada inclusiva, como funciona e perguntas frequentes.
 - [Circuito de Carrinhos Elétricos](https://institutofacaamigos.com.br/circuito): passeios, preço e perguntas frequentes.
-- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, 14 especialidades terapêuticas (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), planos particulares de sessões e convênios IASEP e PROASA.
+- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, 14 especialidades terapêuticas, cada uma com página própria (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), planos particulares de sessões e convênios IASEP e PROASA.
 - [Eventos — palestras, encontros e treinamentos](https://institutofacaamigos.com.br/eventos): agenda do Instituto para famílias e profissionais em Belém, com inscrição gratuita ou paga, vagas limitadas reais e lista de espera.
-- [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): guias curtos sobre birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
+- [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): 19 guias sobre autismo, TDAH, neurodivergência, terapia ABA, plano de saúde, birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
 - [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 50 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
 - [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/teste): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
 - [E-book O Brincar com Propósito](https://institutofacaamigos.com.br/guia): guia prático de Análise do Comportamento para mães, pais e cuidadores.
@@ -17,6 +17,21 @@
 - [Política de Privacidade](https://institutofacaamigos.com.br/politica-privacidade): tratamento de dados pessoais e de crianças, conforme a LGPD.
 - [Termos de Uso e de Compra](https://institutofacaamigos.com.br/termos): entrega, garantia de 7 dias e licença de uso dos e-books.
 - [Faça parte do nosso time](https://institutofacaamigos.com.br/trabalhe-conosco): vagas na Clínica, no Playground e no Circuito (Saúde, Educação e Operação; CLT, PJ e Estágio) e formulário de candidatura com currículo em PDF.
+
+
+---
+
+## Condições e especialidades (conteúdo informativo)
+
+Guias sobre as condições mais buscadas pelas famílias. Não são diagnóstico: o diagnóstico é clínico e feito por profissionais de saúde.
+
+{{CONDICOES_LISTA}}
+
+### Especialidades da Clínica (uma página para cada)
+
+Sessões de 40 minutos (Treino ABA: blocos de 3 sessões seguidas de 40 minutos). Convênios IASEP e PROASA ou particular.
+
+{{ESPECIALIDADES_LISTA}}
 
 ---
 

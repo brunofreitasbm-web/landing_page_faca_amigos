@@ -7,9 +7,9 @@
 - [Início — visão geral do ecossistema](https://institutofacaamigos.com.br/): Playground, Circuito e Clínica, endereços, horários e perguntas frequentes.
 - [Playground Inclusivo](https://institutofacaamigos.com.br/playground): preços, Horário Inclusivo, meia-entrada inclusiva, como funciona e perguntas frequentes.
 - [Circuito de Carrinhos Elétricos](https://institutofacaamigos.com.br/circuito): passeios, preço e perguntas frequentes.
-- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, 14 especialidades terapêuticas (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), planos particulares de sessões e convênios IASEP e PROASA.
+- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, 14 especialidades terapêuticas, cada uma com página própria (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), planos particulares de sessões e convênios IASEP e PROASA.
 - [Eventos — palestras, encontros e treinamentos](https://institutofacaamigos.com.br/eventos): agenda do Instituto para famílias e profissionais em Belém, com inscrição gratuita ou paga, vagas limitadas reais e lista de espera.
-- [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): guias curtos sobre birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
+- [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): 19 guias sobre autismo, TDAH, neurodivergência, terapia ABA, plano de saúde, birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
 - [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 50 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
 - [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/teste): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
 - [E-book O Brincar com Propósito](https://institutofacaamigos.com.br/guia): guia prático de Análise do Comportamento para mães, pais e cuidadores.
@@ -17,6 +17,37 @@
 - [Política de Privacidade](https://institutofacaamigos.com.br/politica-privacidade): tratamento de dados pessoais e de crianças, conforme a LGPD.
 - [Termos de Uso e de Compra](https://institutofacaamigos.com.br/termos): entrega, garantia de 7 dias e licença de uso dos e-books.
 - [Faça parte do nosso time](https://institutofacaamigos.com.br/trabalhe-conosco): vagas na Clínica, no Playground e no Circuito (Saúde, Educação e Operação; CLT, PJ e Estágio) e formulário de candidatura com currículo em PDF.
+
+
+---
+
+## Condições e especialidades (conteúdo informativo)
+
+Guias sobre as condições mais buscadas pelas famílias. Não são diagnóstico: o diagnóstico é clínico e feito por profissionais de saúde.
+
+- [Autismo (TEA)](https://institutofacaamigos.com.br/autismo): Autismo, ou Transtorno do Espectro Autista (TEA), é uma condição do neurodesenvolvimento que afeta a comunicação e a interação social e envolve comportamentos e interesses repetitivos ou restritos. Aparece na infância, varia muito de pessoa para pessoa e o diagnóstico é clínico, feito por médico com equipe multiprofissional.
+- [Neurodivergência](https://institutofacaamigos.com.br/neurodivergencia): Neurodivergente é a pessoa cujo cérebro funciona de um modo diferente do que a sociedade considera típico, como no autismo, no TDAH, na dislexia e nas altas habilidades. "Neurotípico" é quem tem o funcionamento mais comum. "Atípico" é um termo usado por famílias e não é um diagnóstico.
+- [TDAH](https://institutofacaamigos.com.br/tdah): TDAH (Transtorno do Déficit de Atenção com Hiperatividade) é uma condição do neurodesenvolvimento marcada por desatenção, hiperatividade e impulsividade acima do esperado para a idade, que atrapalham a vida em mais de um ambiente. O diagnóstico é clínico, feito por médico, e o cuidado combina orientação, estratégias na escola e, quando indicado, medicação.
+
+### Especialidades da Clínica (uma página para cada)
+
+Sessões de 40 minutos (Treino ABA: blocos de 3 sessões seguidas de 40 minutos). Convênios IASEP e PROASA ou particular.
+
+- [Avaliação inicial e acolhimento](https://institutofacaamigos.com.br/clinica/avaliacao-inicial): A avaliação inicial é a primeira etapa na clínica: a equipe escuta a família, observa a criança sem pressa e organiza o Plano Terapêutico Singular (PTS), com as especialidades que fazem sentido. Não exige laudo e não é um diagnóstico.
+- [Avaliação Neuropsicológica](https://institutofacaamigos.com.br/clinica/avaliacao-neuropsicologica): A avaliação neuropsicológica mede, com testes e entrevistas, funções como atenção, memória, linguagem, raciocínio e funções executivas. Gera um laudo que apoia a investigação de TDAH, autismo e dificuldades de aprendizagem. Não substitui a avaliação médica: o diagnóstico é feito pela equipe.
+- [Educação Física Adaptada](https://institutofacaamigos.com.br/clinica/educacao-fisica-adaptada): A Educação Física Adaptada oferece atividade física pensada para as necessidades de cada criança: condicionamento, habilidades motoras, jogos e esportes, com apoio e adaptações. O objetivo é saúde, diversão e participação, e também socialização com outras crianças.
+- [Fisioterapia](https://institutofacaamigos.com.br/clinica/fisioterapia): A fisioterapia infantil trata o movimento: marcos motores como sentar, engatinhar e andar, tônus muscular, postura, equilíbrio e marcha. É indicada quando a criança tem atraso motor, hipotonia, quedas frequentes ou alterações no jeito de andar, após avaliação.
+- [Fonoaudiologia](https://institutofacaamigos.com.br/clinica/fonoaudiologia): A fonoaudiologia cuida da comunicação e da alimentação: linguagem, fala, voz, audição e deglutição. Na infância, ajuda crianças com atraso de fala, troca de sons, gagueira, dificuldade para mastigar ou engolir, e também apresenta comunicação alternativa (CAA) a quem não fala.
+- [Musicoterapia](https://institutofacaamigos.com.br/clinica/musicoterapia): Musicoterapia usa experiências musicais, como cantar, tocar, improvisar e ouvir, com objetivos terapêuticos: comunicação, interação social, atenção e expressão de emoções. Não é aula de música nem exige talento; o foco é a relação e o desenvolvimento da criança.
+- [Nutrição](https://institutofacaamigos.com.br/clinica/nutricao): A nutrição infantil cuida da alimentação da criança em todas as fases. Na clínica, atende sobretudo seletividade alimentar: recusa de grupos de alimentos por textura, cor ou cheiro, com plano gradual de novos alimentos e orientação à família, sem forçar nem dietas restritivas sem indicação.
+- [Orientação Parental](https://institutofacaamigos.com.br/clinica/orientacao-parental): A orientação parental é um acompanhamento para pais e cuidadores aprenderem estratégias práticas para a rotina, as birras e o desenvolvimento do filho. Ajuda a levar para casa o que a criança aprende nas terapias, e acolhe a família, que também precisa de cuidado.
+- [Psicologia infantil](https://institutofacaamigos.com.br/clinica/psicologia-infantil): A psicologia infantil ajuda a criança a entender e lidar com emoções e comportamentos, usando brincadeira, conversa e orientação aos responsáveis. Serve para ansiedade, birras intensas, medos, dificuldades com amizades e mudanças difíceis, com ou sem diagnóstico.
+- [Psicomotricidade](https://institutofacaamigos.com.br/clinica/psicomotricidade): A psicomotricidade trabalha a relação entre corpo, movimento, emoção e aprendizagem. Para crianças, ajuda na coordenação motora global, no equilíbrio, na lateralidade e na noção do próprio corpo, por meio de jogos e circuitos motores.
+- [Psicopedagogia](https://institutofacaamigos.com.br/clinica/psicopedagogia): A psicopedagogia investiga e acompanha as dificuldades de aprendizagem: leitura, escrita, matemática, memória, atenção e adaptação à escola. O trabalho identifica como a criança aprende, o que a trava e quais estratégias ajudam, em diálogo com a família e a escola.
+- [T.O. com Integração Sensorial](https://institutofacaamigos.com.br/clinica/integracao-sensorial): Integração sensorial é uma abordagem da terapia ocupacional para crianças que reagem muito (ou pouco) a sons, toques, luzes e movimento. A terapia oferece experiências sensoriais graduais e seguras para ajudar na regulação e na participação nas atividades.
+- [Terapia ABA](https://institutofacaamigos.com.br/clinica/terapia-aba): ABA (Análise do Comportamento Aplicada) é uma abordagem que ensina habilidades, como comunicação e autonomia, por meio de metas pequenas, registro de dados e reforço positivo. É muito usada no autismo, mas não é exclusiva dele nem é a única opção de terapia.
+- [Terapia Ocupacional](https://institutofacaamigos.com.br/clinica/terapia-ocupacional): A terapia ocupacional (T.O.) ajuda a criança a fazer o que faz parte do seu dia: vestir-se, comer, brincar, usar lápis e tesoura, participar da escola. O foco é a autonomia nas atividades do cotidiano, adaptando a tarefa, o ambiente ou a forma de fazer.
+- [Treino de Habilidades Sociais](https://institutofacaamigos.com.br/clinica/habilidades-sociais): O treino de habilidades sociais ensina, de forma prática, como se relacionar: iniciar uma conversa, esperar a vez, entender expressões e regras sociais, lidar com recusas e fazer amigos. Pode ser individual ou em pequenos grupos, com brincadeiras e situações encenadas.
 
 ---
 

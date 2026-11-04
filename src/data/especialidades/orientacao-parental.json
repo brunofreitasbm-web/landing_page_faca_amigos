@@ -1,0 +1,55 @@
+{
+  "slug": "orientacao-parental",
+  "nome": "Orientação Parental",
+  "area": "psicologia",
+  "titleTag": "Orientação parental e treino de pais em Belém | FaçaAmigos",
+  "descricao": "Orientação parental em Belém/PA: estratégias práticas para rotina, birras e desenvolvimento em casa, com acolhimento à família.",
+  "h1": "Orientação parental em Belém: apoio para pais e cuidadores",
+  "eyebrow": "Clínica · Orientação Parental",
+  "resposta": "A orientação parental é um acompanhamento para pais e cuidadores aprenderem estratégias práticas para a rotina, as birras e o desenvolvimento do filho. Ajuda a levar para casa o que a criança aprende nas terapias, e acolhe a família, que também precisa de cuidado.",
+  "path": "/clinica/orientacao-parental",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Orientação Parental na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Orientação Parental?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Orientação Parental"
+  },
+  "faq": [
+    {
+      "q": "Orientação parental é terapia para os pais?",
+      "a": "Não exatamente. É um acompanhamento com foco em habilidades práticas para lidar com a criança, e pode envolver acolhimento emocional. Se a família precisar de psicoterapia própria, o psicólogo orienta o encaminhamento."
+    },
+    {
+      "q": "Preciso levar a criança?",
+      "a": "Em geral os encontros são com os responsáveis. A criança participa em momentos específicos, quando o profissional indica."
+    },
+    {
+      "q": "Quantos encontros são necessários?",
+      "a": "Depende do caso e das metas. O número e a frequência são combinados no plano e revisados com a família."
+    },
+    {
+      "q": "Meu filho já faz terapia. Ainda preciso da orientação?",
+      "a": "Costuma ajudar bastante, porque a criança passa a maior parte do tempo em casa. A orientação ajuda a manter as estratégias na rotina e a alinhar a família com a equipe."
+    }
+  ],
+  "relacionadosSlugs": [
+    "terapia-aba",
+    "psicologia-infantil",
+    "habilidades-sociais"
+  ],
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Psicologia (CFP)",
+      "url": "https://site.cfp.org.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "orientação familiar"
+  ]
+}

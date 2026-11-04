@@ -1,0 +1,55 @@
+{
+  "slug": "nutricao",
+  "nome": "Nutrição",
+  "area": "outra",
+  "titleTag": "Nutrição infantil e seletividade alimentar | FaçaAmigos",
+  "descricao": "Nutrição infantil em Belém/PA: seletividade alimentar, recusa de texturas e introdução de novos alimentos, com orientação à família no Umarizal.",
+  "h1": "Nutrição infantil e seletividade alimentar em Belém",
+  "eyebrow": "Clínica · Nutrição",
+  "resposta": "A nutrição infantil cuida da alimentação da criança em todas as fases. Na clínica, atende sobretudo seletividade alimentar: recusa de grupos de alimentos por textura, cor ou cheiro, com plano gradual de novos alimentos e orientação à família, sem forçar nem dietas restritivas sem indicação.",
+  "path": "/clinica/nutricao",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Nutrição infantil na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Nutrição?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Nutrição"
+  },
+  "faq": [
+    {
+      "q": "Meu filho só come cinco alimentos. É normal?",
+      "a": "Muitas crianças passam por fases seletivas, mas quando o repertório é muito restrito, cai com o tempo ou afeta o crescimento, vale avaliação. A nutricionista e o pediatra indicam os próximos passos."
+    },
+    {
+      "q": "Posso forçar a criança a provar?",
+      "a": "Não é recomendado. Pressão costuma aumentar a recusa. O que ajuda é exposição gradual, repetida e sem cobrança, em um ambiente tranquilo."
+    },
+    {
+      "q": "Dieta sem glúten e sem leite ajuda no autismo?",
+      "a": "Não há evidência suficiente para recomendar essas dietas como tratamento do autismo, e restringir alimentos sem necessidade pode causar deficiências. Só faça mudanças com indicação de médico ou nutricionista."
+    },
+    {
+      "q": "Seletividade alimentar é sempre sinal de autismo?",
+      "a": "Não. É comum no autismo, mas ocorre em outras crianças também. A avaliação identifica a causa e o tipo de apoio necessário."
+    }
+  ],
+  "relacionadosSlugs": [
+    "fonoaudiologia",
+    "terapia-ocupacional",
+    "integracao-sensorial"
+  ],
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Nutricionistas (CFN)",
+      "url": "https://www.cfn.org.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "seletividade alimentar"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "slug": "fonoaudiologia",
+  "nome": "Fonoaudiologia",
+  "area": "outra",
+  "titleTag": "Fonoaudiologia infantil em Belém | FaçaAmigos",
+  "descricao": "Fonoaudiologia infantil em Belém/PA: atraso de fala, comunicação alternativa (CAA), troca de sons, deglutição e seletividade oral. Convênios e particular.",
+  "h1": "Fonoaudiologia infantil em Belém",
+  "eyebrow": "Clínica · Fonoaudiologia",
+  "resposta": "A fonoaudiologia cuida da comunicação e da alimentação: linguagem, fala, voz, audição e deglutição. Na infância, ajuda crianças com atraso de fala, troca de sons, gagueira, dificuldade para mastigar ou engolir, e também apresenta comunicação alternativa (CAA) a quem não fala.",
+  "path": "/clinica/fonoaudiologia",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Fonoaudiologia na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Fonoaudiologia?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Fonoaudiologia"
+  },
+  "faq": [
+    {
+      "q": "Meu filho de 3 anos ainda não fala. Devo procurar uma fono?",
+      "a": "Sim, vale uma avaliação. Quanto antes se entende o motivo (audição, linguagem, desenvolvimento), melhor se organiza o apoio. A avaliação inclui checar a audição."
+    },
+    {
+      "q": "Fonoaudiologia trata gagueira e troca de letras?",
+      "a": "Sim. A fonoaudiologia avalia e acompanha gagueira, trocas e omissões de sons e outras alterações de fala. Algumas trocas são esperadas até certa idade; o profissional diz o que é esperado para cada faixa."
+    },
+    {
+      "q": "Comunicação alternativa (CAA) atrapalha a criança de falar?",
+      "a": "Não há indicação de que atrapalhe. A CAA dá à criança uma forma de se fazer entender e costuma reduzir a frustração, enquanto a linguagem se desenvolve. Quem orienta o uso é o fonoaudiólogo."
+    },
+    {
+      "q": "A fonoaudiologia ajuda na seletividade alimentar?",
+      "a": "Pode ajudar na parte oral e motora (mastigar, engolir, tolerar texturas). O ideal é trabalhar junto com nutricionista e terapeuta ocupacional."
+    },
+    {
+      "q": "Preciso de pedido médico para fazer fonoaudiologia?",
+      "a": "Para iniciar a avaliação particular, não é obrigatório. Para convênio, a guia costuma exigir pedido médico e laudo; a clínica orienta quais documentos reunir."
+    }
+  ],
+  "relacionadosSlugs": [
+    "terapia-aba",
+    "terapia-ocupacional",
+    "nutricao"
+  ],
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Fonoaudiologia (CFFa)",
+      "url": "https://www.fonoaudiologia.org.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "atraso de fala",
+    "comunicação alternativa"
+  ]
+}

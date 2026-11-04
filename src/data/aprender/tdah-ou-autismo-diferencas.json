@@ -1,0 +1,61 @@
+{
+  "slug": "tdah-ou-autismo-diferencas",
+  "titulo": "TDAH ou autismo? Semelhanças, diferenças e quando coexistem",
+  "titleTag": "TDAH ou autismo? Semelhanças e diferenças | FaçaAmigos",
+  "descricao": "TDAH e autismo se parecem em alguns comportamentos, mas são diferentes e podem coexistir. Entenda as diferenças, quem diagnostica e como a avaliação funciona.",
+  "ogImage": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "TDAH",
+    "autismo",
+    "diagnóstico",
+    "neurodivergência"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=tdah_ou_autismo_diferencas",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/niveis-de-suporte-autismo",
+      "tag": "6 min · Autismo",
+      "titulo": "Níveis de suporte no autismo: o que significam os níveis 1, 2 e 3?"
+    },
+    {
+      "href": "/aprender/o-que-e-neurodivergencia-e-atipico",
+      "tag": "6 min · Conceitos",
+      "titulo": "O que é neurodivergência? E o que significa “atípico”?"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-atividade-pedagogica.jpg",
+    "alt": "Atividade pedagógica na clínica",
+    "w": "1440",
+    "h": "1920",
+    "estilo": "object-position:50% 40%",
+    "tag": "6 min · Desenvolvimento",
+    "titulo": "TDAH ou autismo? Semelhanças, diferenças e quando coexistem",
+    "resumo": "O que as duas condições têm em comum, o que muda e por que podem coexistir."
+  },
+  "ordemIndice": 13
+}

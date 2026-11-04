@@ -1,0 +1,65 @@
+{
+  "slug": "terapia-aba",
+  "nome": "Terapia ABA",
+  "area": "psicologia",
+  "titleTag": "Terapia ABA para autismo em Belém | FaçaAmigos",
+  "descricao": "Terapia ABA (Análise do Comportamento Aplicada) infantil em Belém/PA: o que é, para quem serve, como são as sessões e como funciona com convênio.",
+  "h1": "Terapia ABA em Belém: o que é e como funciona",
+  "eyebrow": "Clínica · Terapia ABA",
+  "resposta": "ABA (Análise do Comportamento Aplicada) é uma abordagem que ensina habilidades, como comunicação e autonomia, por meio de metas pequenas, registro de dados e reforço positivo. É muito usada no autismo, mas não é exclusiva dele nem é a única opção de terapia.",
+  "path": "/clinica/terapia-aba",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse na Terapia ABA na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Terapia ABA?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Terapia ABA"
+  },
+  "faq": [
+    {
+      "q": "ABA serve só para autismo?",
+      "a": "Não. É usada no autismo, mas também em atrasos de desenvolvimento, deficiência intelectual e problemas de comportamento. Quem indica é a avaliação de cada caso, não o rótulo."
+    },
+    {
+      "q": "Quantas horas por semana a criança precisa fazer?",
+      "a": "Depende da avaliação, da idade e das metas. Não existe número mágico. A carga é definida no plano individual e pode mudar com o tempo; desconfie de quem fixa horas sem avaliar a criança."
+    },
+    {
+      "q": "ABA é só treino de mesa e repetição?",
+      "a": "Não necessariamente. Na prática atual, grande parte do ensino é naturalista, na brincadeira e na rotina. O que define ABA é o uso de metas mensuráveis, registro de dados e análise da função do comportamento."
+    },
+    {
+      "q": "A família participa das sessões?",
+      "a": "Deve participar. A orientação parental ensina os responsáveis a aplicar as estratégias em casa, o que ajuda a criança a generalizar o que aprende na clínica."
+    },
+    {
+      "q": "O convênio cobre a terapia ABA?",
+      "a": "A clínica atende os convênios IASEP e PROASA mediante autorização da guia, com laudo contendo CID, carteirinha e documento. Para outros planos, emitimos nota fiscal e relatórios para pedido de reembolso."
+    },
+    {
+      "q": "Preciso de laudo para começar?",
+      "a": "Não é obrigatório para começar a avaliação. Para usar convênio, o laudo costuma ser exigido. Sem laudo, a avaliação inicial ajuda a organizar os próximos passos."
+    }
+  ],
+  "relacionadosSlugs": [
+    "fonoaudiologia",
+    "orientacao-parental",
+    "habilidades-sociais"
+  ],
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Psicologia (CFP)",
+      "url": "https://site.cfp.org.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "autismo",
+    "atrasos de desenvolvimento"
+  ],
+  "duracao": "O Treino ABA acontece em blocos de 3 sessões seguidas de 40 minutos (120 minutos no total). As demais especialidades têm sessões de 40 minutos."
+}

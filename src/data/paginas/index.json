@@ -145,16 +145,53 @@
       ]
     },
     {
-      "@type": "MedicalBusiness",
+      "@type": "MedicalClinic",
       "@id": "https://institutofacaamigos.com.br/#clinica",
       "name": "FaçaAmigos — Centro de Terapia Comportamental",
       "description": "Clínica especializada em Terapia ABA, Psicologia, Fonoaudiologia, Terapia Ocupacional com Integração Sensorial, Fisioterapia, Psicomotricidade, Musicoterapia, Nutrição e Avaliação Neuropsicológica no Umarizal, Belém/PA. Convênios IASEP e PROASA.",
       "url": "https://institutofacaamigos.com.br/clinica",
       "telephone": "+5591991782027",
+      "email": "institutofacaamigos@gmail.com",
       "image": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "12:00"
+        }
+      ],
       "parentOrganization": {
         "@id": "https://institutofacaamigos.com.br/#organization"
       },
+      "founder": {
+        "@type": "Person",
+        "name": "Isabella Gonçalves Freitas",
+        "jobTitle": "Psicóloga infantil",
+        "identifier": "CRP 10/4727",
+        "@id": "https://institutofacaamigos.com.br/#isabella"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Boaventura da Silva, 1573 — Umarizal",
+        "addressLocality": "Belém",
+        "addressRegion": "PA",
+        "postalCode": "66060-147",
+        "addressCountry": "BR"
+      },
+      "hasMap": "https://maps.google.com/?q=Rua+Boaventura+da+Silva,+1573,+Bel%C3%A9m+PA",
       "medicalSpecialty": [
         "Pediatric",
         "Behavioral",
@@ -179,13 +216,154 @@
         "Orientação Parental",
         "Avaliação Neuropsicológica"
       ],
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Rua Boaventura da Silva, 1573 — Umarizal",
-        "addressLocality": "Belém",
-        "addressRegion": "PA",
-        "postalCode": "66060-147",
-        "addressCountry": "BR"
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços e Especialidades da Clínica FaçaAmigos",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Avaliação inicial e acolhimento",
+              "description": "Primeira conversa e observação para entender o dia a dia da criança e montar o Plano Terapêutico Singular (PTS).",
+              "url": "https://institutofacaamigos.com.br/clinica/avaliacao-inicial"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Terapia ABA",
+              "description": "Comunicação funcional, autonomia e ampliação de repertório baseada em Análise do Comportamento Aplicada.",
+              "url": "https://institutofacaamigos.com.br/clinica/terapia-aba"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Psicologia",
+              "description": "Regulação emocional, autoestima e suporte em cada fase do desenvolvimento infantil.",
+              "url": "https://institutofacaamigos.com.br/clinica/psicologia-infantil"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Fonoaudiologia",
+              "description": "Linguagem, fala, comunicação alternativa e deglutição.",
+              "url": "https://institutofacaamigos.com.br/clinica/fonoaudiologia"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Terapia Ocupacional",
+              "description": "Vida diária, coordenação motora fina, brincar e independência funcional.",
+              "url": "https://institutofacaamigos.com.br/clinica/terapia-ocupacional"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "T.O. com Integração Sensorial",
+              "description": "Modulação sensorial, planejamento motor e regulação em ambiente estruturado.",
+              "url": "https://institutofacaamigos.com.br/clinica/integracao-sensorial"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Fisioterapia",
+              "description": "Desenvolvimento motor, tônus muscular, marcha e alinhamento postural.",
+              "url": "https://institutofacaamigos.com.br/clinica/fisioterapia"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Psicopedagogia",
+              "description": "Aprendizagem, alfabetização e adaptação escolar no ritmo da criança.",
+              "url": "https://institutofacaamigos.com.br/clinica/psicopedagogia"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Psicomotricidade",
+              "description": "Esquema corporal, equilíbrio e coordenação global.",
+              "url": "https://institutofacaamigos.com.br/clinica/psicomotricidade"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Musicoterapia",
+              "description": "Comunicação, interação e expressão emocional através da música.",
+              "url": "https://institutofacaamigos.com.br/clinica/musicoterapia"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Nutrição",
+              "description": "Seletividade alimentar, ampliação de cardápio e orientação à família.",
+              "url": "https://institutofacaamigos.com.br/clinica/nutricao"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Educação Física Adaptada",
+              "description": "Habilidades motoras, esporte adaptado e socialização ativa.",
+              "url": "https://institutofacaamigos.com.br/clinica/educacao-fisica-adaptada"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Treino de Habilidades Sociais",
+              "description": "Interação com pares, regras sociais e desenvolvimento de amizades.",
+              "url": "https://institutofacaamigos.com.br/clinica/habilidades-sociais"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Orientação Parental",
+              "description": "Manejo comportamental no dia a dia, rotina em casa e acolhimento da família.",
+              "url": "https://institutofacaamigos.com.br/clinica/orientacao-parental"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Avaliação Neuropsicológica",
+              "description": "Atenção, memória, funções executivas e apoio qualificado ao diagnóstico.",
+              "url": "https://institutofacaamigos.com.br/clinica/avaliacao-neuropsicologica"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Planos de Sessões Particulares",
+              "description": "Seis planos mensais de 4 a 24 sessões de 40 min com terapias combinadas, além de sessão avulsa (Encontro) e Avaliação Neuropsicológica. Valores com a equipe pelo WhatsApp."
+            }
+          }
+        ]
       }
     },
     {

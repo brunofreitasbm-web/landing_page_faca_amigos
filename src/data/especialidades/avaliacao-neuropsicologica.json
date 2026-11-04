@@ -1,0 +1,62 @@
+{
+  "slug": "avaliacao-neuropsicologica",
+  "nome": "Avaliação Neuropsicológica",
+  "area": "psicologia",
+  "titleTag": "Avaliação neuropsicológica infantil em Belém | FaçaAmigos",
+  "descricao": "Avaliação neuropsicológica infantil em Belém/PA: testes de atenção, memória e funções executivas, para apoiar a investigação de TDAH, TEA e aprendizagem.",
+  "h1": "Avaliação neuropsicológica infantil em Belém",
+  "eyebrow": "Clínica · Avaliação Neuropsicológica",
+  "resposta": "A avaliação neuropsicológica mede, com testes e entrevistas, funções como atenção, memória, linguagem, raciocínio e funções executivas. Gera um laudo que apoia a investigação de TDAH, autismo e dificuldades de aprendizagem. Não substitui a avaliação médica: o diagnóstico é feito pela equipe.",
+  "path": "/clinica/avaliacao-neuropsicologica",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse na Avaliação Neuropsicológica na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Avaliação Neuropsicológica?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Avaliação Neuropsicológica"
+  },
+  "faq": [
+    {
+      "q": "A avaliação neuropsicológica dá diagnóstico de TDAH ou autismo?",
+      "a": "Ela fornece dados e um laudo que apoiam o diagnóstico, mas o diagnóstico clínico é feito por médico (neuropediatra ou psiquiatra infantil), com base em todo o quadro. Os dois profissionais costumam trabalhar juntos."
+    },
+    {
+      "q": "A partir de que idade pode ser feita?",
+      "a": "Há instrumentos para diferentes idades, inclusive pré-escolares. A indicação depende da idade, da queixa e dos testes disponíveis."
+    },
+    {
+      "q": "A criança precisa se preparar?",
+      "a": "Não precisa estudar. Importante é vir descansada e alimentada, trazer óculos ou aparelho auditivo se usar e explicar de forma simples que vai fazer jogos e atividades."
+    },
+    {
+      "q": "O laudo serve para a escola?",
+      "a": "Sim, o laudo traz recomendações que podem ser usadas pela escola para planejar adaptações. A família decide com quem compartilhar."
+    },
+    {
+      "q": "Quanto tempo leva para ficar pronto?",
+      "a": "Varia conforme o número de sessões e a complexidade do caso. A equipe informa o prazo no início do processo."
+    }
+  ],
+  "relacionadosSlugs": [
+    "psicopedagogia",
+    "psicologia-infantil",
+    "orientacao-parental"
+  ],
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Psicologia (CFP)",
+      "url": "https://site.cfp.org.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "TDAH",
+    "autismo",
+    "dificuldades de aprendizagem"
+  ],
+  "duracao": "A avaliação é um serviço próprio, com número de sessões definido conforme o caso; os detalhes e valores são passados pela equipe pelo WhatsApp."
+}

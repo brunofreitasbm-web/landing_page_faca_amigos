@@ -1,0 +1,50 @@
+{
+  "slug": "psicomotricidade",
+  "nome": "Psicomotricidade",
+  "area": "outra",
+  "titleTag": "Psicomotricidade infantil em Belém | FaçaAmigos",
+  "descricao": "Psicomotricidade em Belém/PA: coordenação motora global, equilíbrio, lateralidade e esquema corporal. Atendimento infantil no Umarizal.",
+  "h1": "Psicomotricidade infantil em Belém",
+  "eyebrow": "Clínica · Psicomotricidade",
+  "resposta": "A psicomotricidade trabalha a relação entre corpo, movimento, emoção e aprendizagem. Para crianças, ajuda na coordenação motora global, no equilíbrio, na lateralidade e na noção do próprio corpo, por meio de jogos e circuitos motores.",
+  "path": "/clinica/psicomotricidade",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Psicomotricidade na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Psicomotricidade?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Psicomotricidade"
+  },
+  "faq": [
+    {
+      "q": "Qual a diferença entre psicomotricidade e educação física adaptada?",
+      "a": "A psicomotricidade foca o desenvolvimento global (corpo, emoção, aprendizagem) com intenção terapêutica. A educação física adaptada foca condicionamento, habilidades esportivas e atividade física inclusiva."
+    },
+    {
+      "q": "Psicomotricidade ajuda na alfabetização?",
+      "a": "Pode ajudar nas bases: noção de corpo, lateralidade e organização no espaço contribuem para escrita e leitura. Não substitui o apoio pedagógico quando há dificuldade de aprendizagem."
+    },
+    {
+      "q": "Meu filho vive caindo. Devo procurar psicomotricidade ou fisioterapia?",
+      "a": "Comece pela avaliação. O pediatra ou a equipe indicam se o foco é motor (fisioterapia), de coordenação e corpo (psicomotricidade) ou ambos."
+    },
+    {
+      "q": "Crianças autistas se beneficiam?",
+      "a": "Muitas se beneficiam de atividades corporais estruturadas, com apoio a coordenação, regulação e interação. A indicação é individual."
+    }
+  ],
+  "relacionadosSlugs": [
+    "fisioterapia",
+    "educacao-fisica-adaptada",
+    "integracao-sensorial"
+  ],
+  "fontes": [],
+  "revisor": null,
+  "condicoes": [
+    "coordenação motora global"
+  ]
+}

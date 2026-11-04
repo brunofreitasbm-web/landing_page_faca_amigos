@@ -1,0 +1,61 @@
+{
+  "slug": "aba-denver-pecs-diferencas",
+  "titulo": "ABA, Modelo Denver, PECS e TEACCH: quais as diferenças?",
+  "titleTag": "ABA, Denver, PECS e TEACCH: diferenças | FaçaAmigos",
+  "descricao": "O que são ABA, Modelo Denver (ESDM), PECS e TEACCH, para que serve cada um, como se combinam e por que não existe método único e milagroso para o autismo.",
+  "ogImage": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "terapia ABA",
+    "Modelo Denver",
+    "PECS",
+    "TEACCH"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/teste",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=aba_denver_pecs_diferencas",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/como-escolher-clinica-de-terapia-aba",
+      "tag": "7 min · Terapia",
+      "titulo": "Como escolher uma clínica de terapia ABA? Checklist de perguntas"
+    },
+    {
+      "href": "/aprender/como-e-a-terapia-comportamental",
+      "tag": "6 min · Terapia",
+      "titulo": "O que acontece numa sessão de terapia comportamental (sem jargão)"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/galeria-oficinas.jpg",
+    "alt": "Oficina com crianças no FaçaAmigos",
+    "w": "768",
+    "h": "1024",
+    "estilo": null,
+    "tag": "6 min · Terapia",
+    "titulo": "ABA, Modelo Denver, PECS e TEACCH: quais as diferenças?",
+    "resumo": "As quatro siglas explicadas, sem promessa e sem jargão."
+  },
+  "ordemIndice": 15
+}

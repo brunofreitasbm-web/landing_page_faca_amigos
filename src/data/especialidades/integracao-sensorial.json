@@ -1,0 +1,55 @@
+{
+  "slug": "integracao-sensorial",
+  "nome": "T.O. com Integração Sensorial",
+  "area": "outra",
+  "titleTag": "Integração sensorial infantil em Belém | FaçaAmigos",
+  "descricao": "Terapia ocupacional com integração sensorial em Belém/PA: sensibilidade a sons, texturas e movimento, crises por sobrecarga. Entenda como funciona.",
+  "h1": "Integração sensorial infantil em Belém",
+  "eyebrow": "Clínica · T.O. com Integração Sensorial",
+  "resposta": "Integração sensorial é uma abordagem da terapia ocupacional para crianças que reagem muito (ou pouco) a sons, toques, luzes e movimento. A terapia oferece experiências sensoriais graduais e seguras para ajudar na regulação e na participação nas atividades.",
+  "path": "/clinica/integracao-sensorial",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em T.O. com Integração Sensorial na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre T.O. com Integração Sensorial?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "T.O. com Integração Sensorial"
+  },
+  "faq": [
+    {
+      "q": "Hipersensibilidade sensorial é sinal de autismo?",
+      "a": "Não necessariamente. Alterações sensoriais são comuns no autismo, mas também aparecem em outras crianças. Elas são um dos critérios do diagnóstico de autismo, mas sozinhas não o definem."
+    },
+    {
+      "q": "Meu filho tapa os ouvidos e foge de barulho. O que fazer?",
+      "a": "Anote em que situações acontece e procure avaliação. Em casa, ajuda avisar antes, oferecer abafador de ruído e deixar uma saída calma. A T.O. pode orientar o plano."
+    },
+    {
+      "q": "Quanto tempo dura a terapia de integração sensorial?",
+      "a": "Depende da necessidade da criança. As metas e o tempo previsto são combinados na avaliação e revisados com a família."
+    },
+    {
+      "q": "O playground da FaçaAmigos tem apoio sensorial?",
+      "a": "Sim, os playgrounds têm abafadores de ruído e canto de descompressão sensorial. Eles são lazer, não terapia; o acompanhamento terapêutico acontece na clínica."
+    }
+  ],
+  "relacionadosSlugs": [
+    "terapia-ocupacional",
+    "psicomotricidade",
+    "nutricao"
+  ],
+  "fontes": [
+    {
+      "nome": "COFFITO — Fisioterapia e Terapia Ocupacional",
+      "url": "https://www.coffito.gov.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "processamento sensorial"
+  ]
+}

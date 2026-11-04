@@ -1,0 +1,56 @@
+{
+  "slug": "fisioterapia",
+  "nome": "Fisioterapia",
+  "area": "outra",
+  "titleTag": "Fisioterapia infantil em Belém | FaçaAmigos",
+  "descricao": "Fisioterapia infantil em Belém/PA: atraso motor, hipotonia, andar na ponta dos pés, postura e equilíbrio. Atendimento no Umarizal, convênio ou particular.",
+  "h1": "Fisioterapia infantil em Belém",
+  "eyebrow": "Clínica · Fisioterapia",
+  "resposta": "A fisioterapia infantil trata o movimento: marcos motores como sentar, engatinhar e andar, tônus muscular, postura, equilíbrio e marcha. É indicada quando a criança tem atraso motor, hipotonia, quedas frequentes ou alterações no jeito de andar, após avaliação.",
+  "path": "/clinica/fisioterapia",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Fisioterapia infantil na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Fisioterapia?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Fisioterapia"
+  },
+  "faq": [
+    {
+      "q": "Meu filho anda na ponta dos pés. É grave?",
+      "a": "Nem sempre. Pode ser fase, característica do jeito de andar ou ter causa neurológica, sensorial ou muscular. Se persistir após os 2 a 3 anos, vale avaliação com pediatra e fisioterapeuta."
+    },
+    {
+      "q": "Fisioterapia e psicomotricidade são a mesma coisa?",
+      "a": "Não. A fisioterapia é uma profissão de saúde regulamentada e trata movimento e função motora. A psicomotricidade trabalha a relação entre corpo, emoção e aprendizagem, com foco no desenvolvimento global."
+    },
+    {
+      "q": "Preciso de encaminhamento médico?",
+      "a": "Para a avaliação particular, não é obrigatório. Para convênio, a guia costuma pedir pedido médico. A equipe orienta sobre os documentos."
+    },
+    {
+      "q": "Com que idade a criança pode começar?",
+      "a": "A fisioterapia atende bebês e crianças. A indicação depende da avaliação; o pediatra costuma encaminhar quando há atraso motor."
+    }
+  ],
+  "relacionadosSlugs": [
+    "psicomotricidade",
+    "terapia-ocupacional",
+    "educacao-fisica-adaptada"
+  ],
+  "fontes": [
+    {
+      "nome": "COFFITO — Fisioterapia e Terapia Ocupacional",
+      "url": "https://www.coffito.gov.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "atraso motor",
+    "hipotonia"
+  ]
+}

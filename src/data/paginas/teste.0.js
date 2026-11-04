@@ -651,11 +651,11 @@
         renderEbook(result.ebook, hasTier3, result.result_band);
 
         var childLabel = state.childName || 'meu filho';
-        // Clínica ainda não abriu: com área em atenção especial o convite é para a lista de espera.
+        // Clínica já atende: com área em atenção especial o convite é para agendar uma avaliação.
         var waResultMsg = hasTier3
-          ? 'Acabei de fazer o Mapeamento Comportamental do(a) ' + childLabel + ' e gostaria de entrar na lista de espera da Clínica.'
+          ? 'Acabei de fazer o Mapeamento Comportamental do(a) ' + childLabel + ' e gostaria de agendar uma avaliação na Clínica.'
           : 'Acabei de fazer o Mapeamento Comportamental do(a) ' + childLabel + '. Gostaria de conversar.';
-        $('result-wa-label').textContent = hasTier3 ? 'Entrar na lista de espera da Clínica' : 'Conversar no WhatsApp';
+        $('result-wa-label').textContent = hasTier3 ? 'Agendar avaliação na Clínica' : 'Conversar no WhatsApp';
         $('result-wa').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(waResultMsg);
       }
 

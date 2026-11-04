@@ -20,14 +20,14 @@
   "proximo": {
     "rotulo": "Próximo passo",
     "titulo": "Quer apoio pra essa conversa?",
-    "href": "https://wa.me/5591991782027?text=Ol%C3%A1%21%20Li%20o%20guia%20sobre%20conversar%20com%20a%20escola%20e%20quero%20entrar%20na%20lista%20de%20espera%20da%20Cl%C3%ADnica%20Fa%C3%A7aAmigos.",
+    "href": "https://wa.me/5591991782027?text=Ol%C3%A1%21%20Li%20o%20guia%20sobre%20conversar%20com%20a%20escola%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Cl%C3%ADnica%20Fa%C3%A7aAmigos.",
     "cta": "proximo_passo",
     "externo": true,
-    "botao": "Entrar na lista de espera"
+    "botao": "Agendar avaliação"
   },
   "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
   "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=conversar_com_a_escola",
-  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em breve no Umarizal →",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
   "leiaTambem": [
     {
       "href": "/aprender/laudo-e-ciptea",
@@ -42,7 +42,7 @@
   ],
   "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
   "fa_cta": {
-    "label": "Entrar na lista de espera",
+    "label": "Agendar avaliação",
     "href": "whatsapp",
     "event": "aprender_cta"
   },

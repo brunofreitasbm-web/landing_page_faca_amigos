@@ -1,0 +1,56 @@
+{
+  "slug": "psicologia-infantil",
+  "nome": "Psicologia infantil",
+  "area": "psicologia",
+  "titleTag": "Psicologia infantil em Belém | FaçaAmigos",
+  "descricao": "Psicologia infantil no Umarizal, Belém/PA: ansiedade, birras intensas, dificuldades de socialização e regulação emocional. Convênio IASEP, PROASA ou particular.",
+  "h1": "Psicologia infantil em Belém",
+  "eyebrow": "Clínica · Psicologia infantil",
+  "resposta": "A psicologia infantil ajuda a criança a entender e lidar com emoções e comportamentos, usando brincadeira, conversa e orientação aos responsáveis. Serve para ansiedade, birras intensas, medos, dificuldades com amizades e mudanças difíceis, com ou sem diagnóstico.",
+  "path": "/clinica/psicologia-infantil",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Psicologia infantil na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Psicologia infantil?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Psicologia infantil"
+  },
+  "faq": [
+    {
+      "q": "Com que idade a criança pode fazer psicoterapia?",
+      "a": "Não há idade mínima fixa. Desde a primeira infância a psicologia atua com brincadeira e orientação aos responsáveis. Quem decide é a avaliação de cada caso."
+    },
+    {
+      "q": "Psicólogo infantil dá diagnóstico de autismo ou TDAH?",
+      "a": "Psicólogos participam da avaliação, mas o diagnóstico de autismo e TDAH é clínico, feito por médico com equipe. A avaliação neuropsicológica pode apoiar essa investigação com testes e laudo."
+    },
+    {
+      "q": "Quanto tempo dura o acompanhamento?",
+      "a": "Varia muito. Depende da queixa, da idade e do envolvimento da família. As metas e o tempo previsto são combinados no plano e revisados com os responsáveis."
+    },
+    {
+      "q": "Os pais podem acompanhar as sessões?",
+      "a": "Em geral a sessão é com a criança e há momentos separados com os responsáveis. A forma exata é combinada com o profissional conforme a idade e o objetivo."
+    }
+  ],
+  "relacionadosSlugs": [
+    "orientacao-parental",
+    "habilidades-sociais",
+    "avaliacao-neuropsicologica"
+  ],
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Psicologia (CFP)",
+      "url": "https://site.cfp.org.br"
+    }
+  ],
+  "revisor": null,
+  "condicoes": [
+    "ansiedade infantil",
+    "regulação emocional"
+  ]
+}

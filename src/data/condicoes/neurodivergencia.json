@@ -1,0 +1,74 @@
+{
+  "area": "psicologia",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "slug": "neurodivergencia",
+  "nome": "Neurodivergência",
+  "path": "/neurodivergencia",
+  "titleTag": "Neurodivergência e atipicidade: o que significam | FaçaAmigos",
+  "descricao": "O que é neurodivergência, quem é neurotípico e o que quer dizer \"criança atípica\": TEA, TDAH, dislexia, altas habilidades. Guia em linguagem simples.",
+  "h1": "Neurodivergência e atipicidade: o que significam",
+  "eyebrow": "Guia · Neurodivergência",
+  "resposta": "Neurodivergente é a pessoa cujo cérebro funciona de um modo diferente do que a sociedade considera típico, como no autismo, no TDAH, na dislexia e nas altas habilidades. \"Neurotípico\" é quem tem o funcionamento mais comum. \"Atípico\" é um termo usado por famílias e não é um diagnóstico.",
+  "about": {
+    "@type": "DefinedTerm",
+    "name": "Neurodivergência",
+    "description": "Funcionamento neurológico que difere do considerado típico, como autismo, TDAH, dislexia e altas habilidades."
+  },
+  "waTexto": "Olá! Gostaria de conversar sobre o desenvolvimento do meu filho na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre o desenvolvimento do seu filho?",
+  "faq": [
+    {
+      "q": "Neurodivergente é a mesma coisa que ter deficiência?",
+      "a": "Não necessariamente. Neurodivergência descreve um jeito de funcionar; deficiência é um conceito legal e social. O autismo, por exemplo, é considerado deficiência para fins legais no Brasil, mas nem toda pessoa neurodivergente se enquadra assim."
+    },
+    {
+      "q": "Autismo, TDAH e dislexia são neurodivergência?",
+      "a": "Sim, costumam ser os exemplos mais citados, junto com altas habilidades/superdotação. Cada um tem critérios e cuidados próprios."
+    },
+    {
+      "q": "O que quer dizer \"criança atípica\"?",
+      "a": "É uma expressão usada por famílias e escolas para crianças cujo desenvolvimento foge ao esperado, com ou sem diagnóstico. Não é um termo médico e não define nenhuma condição."
+    },
+    {
+      "q": "Síndrome de Down é neurodivergência?",
+      "a": "É uma condição genética, com deficiência intelectual. Algumas pessoas usam \"neurodivergente\" de forma mais ampla e outras só para autismo, TDAH e similares; as definições variam. O importante é respeitar como cada pessoa e família se identifica."
+    },
+    {
+      "q": "Preciso de laudo para dizer que meu filho é neurodivergente?",
+      "a": "Não para entender o jeito dele. Mas para direitos, convênio e adaptações escolares, o laudo costuma ser exigido. A avaliação inicial ajuda a organizar os próximos passos."
+    }
+  ],
+  "relacionados": [
+    {
+      "href": "/autismo",
+      "tag": "Guia",
+      "titulo": "Autismo (TEA)"
+    },
+    {
+      "href": "/tdah",
+      "tag": "Guia",
+      "titulo": "TDAH"
+    },
+    {
+      "href": "/glossario",
+      "tag": "Glossário",
+      "titulo": "Termos de desenvolvimento e inclusão"
+    },
+    {
+      "href": "/aprender/o-que-e-neurodivergencia-e-atipico",
+      "tag": "Guia",
+      "titulo": "Neurodivergente e atípico: conversa sem jargão"
+    }
+  ],
+  "revisor": null,
+  "fontes": [
+    {
+      "nome": "Conselho Federal de Psicologia (CFP)",
+      "url": "https://site.cfp.org.br"
+    }
+  ]
+}

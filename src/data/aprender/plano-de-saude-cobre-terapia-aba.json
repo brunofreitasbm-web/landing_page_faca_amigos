@@ -1,0 +1,61 @@
+{
+  "slug": "plano-de-saude-cobre-terapia-aba",
+  "titulo": "O plano de saúde cobre terapia ABA? O que diz a lei e o que fazer se negarem",
+  "titleTag": "Plano de saúde cobre terapia ABA? Seus direitos | FaçaAmigos",
+  "descricao": "O plano de saúde cobre terapia para autismo? Veja o que dizem a ANS e as leis 12.764 e 14.454, sem limite de sessões, e o que fazer se houver negativa.",
+  "ogImage": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 7 min de leitura",
+  "dataTexto": "4 de novembro de 2026",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "about": [
+    "plano de saúde",
+    "terapia ABA",
+    "ANS",
+    "direitos da pessoa com autismo"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "proximo": {
+    "rotulo": "Leia também",
+    "titulo": "Quer entender laudo e CIPTEA?",
+    "href": "/aprender/laudo-e-ciptea",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Ler o guia"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=plano_de_saude_cobre_terapia_aba",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, no Umarizal →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/laudo-e-ciptea",
+      "tag": "6 min · Direitos",
+      "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém"
+    },
+    {
+      "href": "/aprender/como-escolher-clinica-de-terapia-aba",
+      "tag": "7 min · Terapia",
+      "titulo": "Como escolher uma clínica de terapia ABA? Checklist de perguntas"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/teste",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-fachada.jpg",
+    "alt": "Fachada da Clínica FaçaAmigos, no Umarizal",
+    "w": "900",
+    "h": "1080",
+    "estilo": null,
+    "tag": "7 min · Direitos",
+    "titulo": "O plano de saúde cobre terapia ABA? O que diz a lei e o que fazer se negarem",
+    "resumo": "O que a ANS e as leis dizem e os passos se o plano negar a cobertura."
+  },
+  "ordemIndice": 16
+}

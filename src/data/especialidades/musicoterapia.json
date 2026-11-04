@@ -1,0 +1,51 @@
+{
+  "slug": "musicoterapia",
+  "nome": "Musicoterapia",
+  "area": "outra",
+  "titleTag": "Musicoterapia infantil em Belém | FaçaAmigos",
+  "descricao": "Musicoterapia infantil em Belém/PA: comunicação, interação social, atenção e expressão emocional por meio da música. Atendimento no Umarizal.",
+  "h1": "Musicoterapia infantil em Belém",
+  "eyebrow": "Clínica · Musicoterapia",
+  "resposta": "Musicoterapia usa experiências musicais, como cantar, tocar, improvisar e ouvir, com objetivos terapêuticos: comunicação, interação social, atenção e expressão de emoções. Não é aula de música nem exige talento; o foco é a relação e o desenvolvimento da criança.",
+  "path": "/clinica/musicoterapia",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "dataTexto": "4 de novembro de 2026",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Umarizal, Belém",
+  "waTexto": "Olá! Tenho interesse em Musicoterapia na Clínica FaçaAmigos.",
+  "ctaTitulo": "Quer conversar sobre Musicoterapia?",
+  "about": {
+    "@type": "MedicalTherapy",
+    "name": "Musicoterapia"
+  },
+  "faq": [
+    {
+      "q": "Musicoterapia é o mesmo que aula de música?",
+      "a": "Não. Na aula de música o objetivo é aprender música. Na musicoterapia o objetivo é terapêutico, como comunicação, atenção e regulação emocional, e a música é o recurso."
+    },
+    {
+      "q": "Meu filho não gosta de música. Posso fazer musicoterapia?",
+      "a": "Pode. O musicoterapeuta trabalha com sons e ritmos de diferentes tipos e a partir do que a criança aceita. Sensibilidade a certos sons é considerada no plano."
+    },
+    {
+      "q": "Musicoterapia funciona para autismo?",
+      "a": "Há estudos sobre benefícios na comunicação e interação social, e muitas famílias relatam engajamento. Como em qualquer terapia, o resultado varia e não é garantido; ela é usada em conjunto com outras abordagens."
+    },
+    {
+      "q": "Preciso comprar instrumentos?",
+      "a": "Não é necessário ter instrumentos em casa nem saber tocar. Pergunte à equipe como funcionam os materiais usados nas sessões."
+    }
+  ],
+  "relacionadosSlugs": [
+    "habilidades-sociais",
+    "fonoaudiologia",
+    "terapia-aba"
+  ],
+  "fontes": [],
+  "revisor": null,
+  "condicoes": [
+    "comunicação",
+    "interação social"
+  ]
+}

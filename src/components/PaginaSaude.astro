@@ -1,0 +1,124 @@
+---
+// Modelo único das páginas de saúde: especialidade (/clinica/<slug>) e condição (/autismo, /tdah, /neurodivergencia).
+// Dados vêm de um .json + .html (mesmo padrão de /aprender/<slug>). O FAQ visível e o do JSON-LD saem da mesma lista (faqNo).
+import Base from '../layouts/Base.astro';
+import Foto from './Foto.astro';
+import FAQ from './FAQ.astro';
+import '../styles/artigo.css';
+import '../styles/saude.css';
+import { abs, faqNo, trilhaNo, waUrl, SITE } from '../data/marca';
+
+const { d, corpo, trilha, tipo = 'especialidade', extraLd = [] } = Astro.props as {
+  d: any; corpo: string; trilha: { nome: string; path: string }[]; tipo?: 'especialidade' | 'condicao'; extraLd?: Record<string, unknown>[];
+};
+const path: string = d.path;
+// "Revisado por" só aparece quando um profissional REAL revisou e aprovou (d.revisor = { nome, registro, papel, rota, foto, id }).
+// Sem revisor, a página é da equipe. Só a área da psicologia pode ser revisada pela psicóloga (CFP); o check.mjs barra o resto.
+const rev = d.revisor ?? null;
+const wa = waUrl('clinica', d.waTexto) as string;
+const zapIcone = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5s-.6-1.5-.8-2-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>`;
+const pagina: Record<string, unknown> = {
+  '@type': 'MedicalWebPage',
+  '@id': `${abs(path)}#webpage`,
+  url: abs(path),
+  name: d.h1,
+  description: d.descricao,
+  inLanguage: 'pt-BR',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  datePublished: d.datePublished,
+  dateModified: d.dateModified,
+  publisher: { '@id': `${SITE.url}/#organization` },
+  author: { '@id': `${SITE.url}/#organization` },
+  ...(rev ? { reviewedBy: { '@id': `${SITE.url}/#${rev.id}` }, lastReviewed: d.dateModified } : {}),
+  about: d.about,
+  mainEntity: { '@id': `${abs(path)}#faq` },
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.resposta'] },
+};
+---
+<Base
+  title={d.titleTag}
+  ogTitle={d.h1}
+  description={d.descricao}
+  path={path}
+  ogType="article"
+  articleAuthor="Equipe FaçaAmigos"
+  siteName="FaçaAmigos — Centro de Terapia Comportamental"
+  ogImage={d.ogImage}
+  ogImageAlt={d.ogImageAlt}
+  secao="clinica"
+  wa="clinica"
+  waTexto={d.waTexto}
+  cta={{ label: 'Agendar avaliação', href: 'whatsapp', event: 'whatsapp' }}
+  jsonLd={[pagina, ...extraLd, faqNo(path, d.faq), trilhaNo(path, trilha)]}
+>
+  <div class="artigo-wrap">
+    <p class="crumbs" style="margin: 26px 0 14px">{trilha.map((t, i) => (<Fragment>{i > 0 && ' › '}{i < trilha.length - 1 ? <a href={t.path}>{t.nome}</a> : t.nome}</Fragment>))}</p>
+    <article class="artigo">
+      <span class="eyebrow">{d.eyebrow}</span>
+      <h1>{d.h1}</h1>
+      <div class="byline">
+        {rev ? <Foto src={rev.foto} alt={`Foto de ${rev.nome}`} /> : <Foto src="img/logo-clinica.png" alt="FaçaAmigos — Centro de Terapia Comportamental" />}
+        <div class="who">
+          {rev
+            ? <Fragment><b>Equipe FaçaAmigos</b><span>Revisado por <a href={rev.rota}>{rev.nome}</a>, {rev.papel} · {rev.registro}</span><span class="rev">Atualizado em {d.dataTexto}</span></Fragment>
+            : <Fragment><b>Equipe FaçaAmigos</b><span>Centro de Terapia Comportamental · conteúdo informativo</span><span class="rev">Atualizado em {d.dataTexto}</span></Fragment>}
+        </div>
+      </div>
+
+      <div class="resposta"><span class="lbl">Resposta curta</span><p>{d.resposta}</p></div>
+
+      <div class="prosa" set:html={corpo} />
+
+      {tipo === 'especialidade' && (
+        <div class="atende">
+          <h2>Como é na FaçaAmigos</h2>
+          <ul>
+            <li>Atendimento no Centro de Terapia Comportamental, Rua Boaventura da Silva, 1573, Umarizal, Belém/PA.</li>
+            <li>{d.duracao ?? 'Cada sessão dura 40 minutos.'}</li>
+            <li>Convênios IASEP e PROASA, ou particular. <a href="/planos">Ver os planos</a>.</li>
+            <li>Não precisa de laudo para começar: a <a href="/clinica/avaliacao-inicial">avaliação inicial</a> organiza o Plano Terapêutico Singular.</li>
+          </ul>
+        </div>
+      )}
+
+      <section class="saude-faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Perguntas frequentes</h2>
+        <FAQ itens={d.faq} />
+      </section>
+
+      <div class="proximo">
+        <span class="lbl">Próximo passo</span>
+        <h3>{d.ctaTitulo ?? 'Quer conversar sobre o seu caso?'}</h3>
+        <a class="btn btn-wa" href={wa} target="_blank" rel="noopener" data-cta="proximo_wa"><Fragment set:html={zapIcone} /> Chamar no WhatsApp</a>
+        <a href="/clinica" data-cta="todas_especialidades">Ver todas as especialidades →</a>
+      </div>
+
+      {d.relacionados?.length > 0 && (
+        <div class="leia-tambem">
+          <h3>Veja também</h3>
+          <div class="lt-grid">
+            {d.relacionados.map((l: any) => <a class="lt-card" href={l.href}><span class="lt-tag">{l.tag}</span><b>{l.titulo}</b></a>)}
+          </div>
+        </div>
+      )}
+
+      {d.fontes?.length > 0 && (
+        <div class="fontes">
+          <h2>Fontes e entidades da área</h2>
+          <ul>{d.fontes.map((f: any) => <li><a href={f.url} rel="noopener" target="_blank">{f.nome}</a></li>)}</ul>
+        </div>
+      )}
+
+      <p class="aviso">{d.aviso ?? 'Conteúdo informativo. Não é diagnóstico, não substitui avaliação e acompanhamento por profissionais de saúde e não promete resultado: cada criança tem o seu ritmo.'}</p>
+    </article>
+  </div>
+  <script is:inline>
+    (function () {
+      function push(o) { try { (window.dataLayer = window.dataLayer || []).push(o); } catch (e) { } }
+      document.querySelectorAll('[data-cta]').forEach(function (el) {
+        var where = el.getAttribute('data-cta');
+        el.addEventListener('click', function () { push({ event: 'saude_cta_click', cta_location: where, page: location.pathname }); });
+      });
+    })();
+  </script>
+</Base>
