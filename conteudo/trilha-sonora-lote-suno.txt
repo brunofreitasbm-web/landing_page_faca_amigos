@@ -1,0 +1,560 @@
+LOTE SUNO — FaçaAmigos (modo Custom). Um bloco por geração. Copie TITLE no título, STYLE em Style of Music, LYRICS na caixa de letra.
+
+=== 01 | Faça Amigos | voz: Turma ===
+TITLE: Faça Amigos
+STYLE: four distinct character voices trading lines: warm female, bright male tenor, playful boyish male, soft low female; kids choir on chorus, upbeat brazilian kids pop, 112 bpm, ukulele, claps, light marimba, warm female and children choir, catchy sing-along chorus, soft dynamics, no harsh sounds
+LYRICS:
+[Verso 1]
+Chegou cedinho, nem me conhecia
+Tirei o sapato, ganhei companhia
+Um dá a mão, o outro dá risada
+A tarde inteira virou brincadeira
+
+[Pré-refrão]
+Vem pra cá, tem lugar
+Tem espaço pra você brincar
+
+[Refrão]
+Faça amigos, faça amigos
+Um, dois, três, já somos mais!
+Faça amigos, faça amigos
+Quem chegou não fica atrás!
+
+[Verso 2]
+Tem quem corre e tem quem pula
+Tem quem olha antes da aventura
+Cada jeito tem o seu tempo
+E todo tempo cabe aqui dentro
+
+[Pré-refrão]
+Vem pra cá, tem lugar
+Tem espaço pra você brincar
+
+[Refrão]
+Faça amigos, faça amigos
+Um, dois, três, já somos mais!
+Faça amigos, faça amigos
+Quem chegou não fica atrás!
+
+[Final]
+Um, dois, três... FaçaAmigos!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 02 | Oi, Amigo! | voz: Zoe ===
+TITLE: Oi, Amigo!
+STYLE: warm friendly female lead vocal, mid register, smiling tone, cheerful acoustic kids song, 104 bpm, acoustic guitar, glockenspiel, gentle shaker, friendly female vocal, call and response with kids, warm and welcoming
+LYRICS:
+[Verso 1]
+Abanando o rabo lá na porta
+A Zoe já sabe quem chegou
+Cheira a mão, faz festa, dá a volta
+E diz baixinho: "que bom que você voltou!"
+
+[Refrão]
+Oi, amigo! (Oi, Zoe!)
+Pode entrar, pode chegar
+Oi, amigo! (Oi, Zoe!)
+No FaçaAmigos tem lugar pra brincar
+
+[Verso 2]
+Se é a primeira vez, tá tudo certo
+Pode olhar primeiro de pertinho
+A gente espera, a gente fica perto
+E vai brincando devagarinho
+
+[Refrão]
+Oi, amigo! (Oi, Zoe!)
+Pode entrar, pode chegar
+Oi, amigo! (Oi, Zoe!)
+No FaçaAmigos tem lugar pra brincar
+
+[Ponte]
+Mãozinha pra cima, tchau pra timidez
+Rodinha de amigos, chegou sua vez
+
+[Refrão final]
+Oi, amigo! (Oi, Zoe!)
+Que bom que você veio brincar!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 03 | Piscina de Bolinhas | voz: Caco ===
+TITLE: Piscina de Bolinhas
+STYLE: energetic playful boyish male lead vocal, bouncy phrasing, bouncy kids pop, 116 bpm, pizzicato strings, bubbly synth plucks, handclaps, playful children choir, catchy repetitive hook, smooth mix, no sudden drops
+LYRICS:
+[Verso 1]
+Azul, amarelo, vermelho e verdinho
+Mergulha de leve, afunda um pouquinho
+Bolinha no braço, bolinha no pé
+Quem acha o Caco escondido? Quem é?
+
+[Refrão]
+Ploc, ploc, ploc, bolinha!
+Pula no FaçaAmigos comigo
+Ploc, ploc, ploc, bolinha!
+Cada bolinha é um amigo
+
+[Verso 2]
+Joga pra cima, ela cai devagar
+Divide com o outro, que é bom de brincar
+Uma pra você, uma pra mim
+Brincar junto é mais gostoso assim
+
+[Refrão]
+Ploc, ploc, ploc, bolinha!
+Pula no FaçaAmigos comigo
+Ploc, ploc, ploc, bolinha!
+Cada bolinha é um amigo
+
+[Ponte - contando]
+Uma, duas, três, quatro, cinco
+Seis, sete, oito, nove, dez!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 04 | Vrum-Vrum do Caco | voz: Caco ===
+TITLE: Vrum-Vrum do Caco
+STYLE: energetic playful boyish male lead vocal, bouncy phrasing, fun kids rock-pop, 118 bpm, clean electric guitar, steady drums with soft kick, bass groove, playful male vocal and kids choir, driving but gentle, no horns or sirens
+LYRICS:
+[Verso 1]
+O Caco pegou o volante
+Cinto, capacete, sorriso no rosto
+Olha pra frente, olha pro lado
+Na pista da gente ninguém fica de fora
+
+[Refrão]
+Vrum, vrum, vai, Caco!
+Curva pra lá, curva pra cá
+Vrum, vrum, vai, Caco!
+Devagar também vai chegar
+
+[Verso 2]
+Luz verde é pra ir, vermelha é parar
+Espera o amigo passar
+Quem dirige com cuidado
+Dá a volta inteira do lado
+
+[Refrão]
+Vrum, vrum, vai, Caco!
+Curva pra lá, curva pra cá
+Vrum, vrum, vai, Caco!
+Devagar também vai chegar
+
+[Final]
+Última volta... e chegou! Todo mundo ganhou!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 05 | Devagar Também Chega | voz: Tati ===
+TITLE: Devagar Também Chega
+STYLE: soft low gentle female lead vocal, slow unhurried phrasing, gentle brazilian kids folk, 80 bpm, nylon guitar, soft piano, light brushed percussion, tender female vocal, warm and reassuring, lullaby-like but bright
+LYRICS:
+[Verso 1]
+A Tati anda com calma
+Um passinho de cada vez
+Enquanto o mundo corre
+Ela vê o que ninguém vê
+
+[Refrão]
+Devagar também chega
+Do seu jeito, no seu tempo
+Devagar também chega
+E chega com o coração dentro
+
+[Verso 2]
+Tem dia que a gente acelera
+Tem dia que quer descansar
+Os dois dias são da gente
+E tá tudo bem esperar
+
+[Refrão]
+Devagar também chega
+Do seu jeito, no seu tempo
+Devagar também chega
+E chega com o coração dentro
+
+[Final]
+Passinho, passinho... chegou.
+
+[Assinatura, bem suave]
+FaçaAmigos... aqui todo mundo brinca junto.
+
+=== 06 | Tuco Toca Carimbó | voz: Tuco ===
+TITLE: Tuco Toca Carimbó
+STYLE: bright expressive male tenor lead vocal, musical phrasing, light northern Brazil accent, kids carimbo from Para Brazil, 110 bpm, curimbo hand drums, banjo, maracas, flute, joyful mixed choir, folk dance groove, warm and organic, moderate volume
+LYRICS:
+[Verso 1]
+Lá no alto da mangueira
+O Tuco abriu o bico pra cantar
+Bico grande, cor de festa
+Chamou a turma pra dançar
+
+[Refrão]
+Toca, Tuco, carimbó!
+Roda a saia, roda a mão
+Toca, Tuco, carimbó!
+Belém dança no salão
+
+[Verso 2]
+Quem não dança bate palma
+Quem não canta balança o pé
+Cada um entra na roda
+Do jeitinho que quiser
+
+[Refrão]
+Toca, Tuco, carimbó!
+Roda a saia, roda a mão
+Toca, Tuco, carimbó!
+Belém dança no salão
+
+[Ponte]
+Pra esquerda, pra direita
+Agachou, levantou
+Quem rodou ganhou um amigo
+E o Tuco aplaudiu: piu, piu!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 07 | Cada Um do Seu Jeito | voz: Zoe ===
+TITLE: Cada Um do Seu Jeito
+STYLE: warm friendly female lead vocal, mid register, smiling tone, feel-good kids pop, 106 bpm, ukulele, soft synth pad, finger snaps, light bass, warm female vocal with kids choir, uplifting and inclusive, smooth and steady
+LYRICS:
+[Verso 1]
+Tem quem fala, tem quem mostra
+Tem quem canta sem falar
+Tem quem gosta de abraço
+Tem quem gosta de olhar
+
+[Refrão]
+Cada um do seu jeito
+Todo jeito é bom de ver
+Cada um do seu jeito
+Tem lugar pra mim e pra você
+
+[Verso 2]
+Tem quem brinca de rodinha
+Tem quem brinca de montar
+Tem quem prefere o cantinho
+E depois vem se juntar
+
+[Refrão]
+Cada um do seu jeito
+Todo jeito é bom de ver
+Cada um do seu jeito
+Tem lugar pra mim e pra você
+
+[Ponte]
+Ninguém fica de fora
+Ninguém fica pra trás
+Brincando todo mundo junto
+A gente é muito mais
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 08 | Respira Comigo | voz: Tati ===
+TITLE: Respira Comigo
+STYLE: soft low gentle female lead vocal, slow unhurried phrasing, calm ambient kids song, 64 bpm, soft piano, warm pad, gentle rain texture, very soft whispery female vocal, slow breathing pace, no percussion, soothing and steady
+LYRICS:
+[Verso 1]
+Enche a barriga de ar
+Como balão devagar
+Solta o ar bem levinho
+Como vento no caminho
+
+[Refrão]
+Respira comigo
+Um, dois, três
+Respira comigo
+Mais uma vez
+
+[Verso 2]
+Ombro desce, mão abriu
+O barulho já sumiu
+O coração tá contando
+Tum, tum, tum, desacelerando
+
+[Refrão]
+Respira comigo
+Um, dois, três
+Respira comigo
+Mais uma vez
+
+[Final]
+Tô aqui... tô aqui.
+
+[Assinatura, bem suave]
+FaçaAmigos... aqui todo mundo brinca junto.
+
+=== 09 | Chuva das Três | voz: Tuco ===
+TITLE: Chuva das Três
+STYLE: bright expressive male tenor lead vocal, musical phrasing, light northern Brazil accent, breezy brazilian kids pop with light brega paraense swing, 108 bpm, clean guitar, soft keys, shaker, playful female and male duet with kids choir, sunny mood, gentle mix
+LYRICS:
+[Verso 1]
+Deu três horas, o céu escureceu
+Belém já sabe o que aconteceu
+Lá fora a chuva vem molhar
+Aqui dentro a gente vai brincar
+
+[Refrão]
+Pinga, pinga, chuva das três
+Lá fora chove, aqui é nossa vez
+Pinga, pinga, chuva das três
+Quando passar, a gente brinca outra vez
+
+[Verso 2]
+A Zoe deita perto da janela
+O Tuco canta junto com ela
+A Tati fica no seu cantinho
+O Caco pula de mansinho
+
+[Refrão]
+Pinga, pinga, chuva das três
+Lá fora chove, aqui é nossa vez
+Pinga, pinga, chuva das três
+Quando passar, a gente brinca outra vez
+
+[Final]
+Abriu o sol... e o arco-íris chegou!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 10 | Até Amanhã, Amigo | voz: Zoe ===
+TITLE: Até Amanhã, Amigo
+STYLE: warm friendly female lead vocal, mid register, smiling tone, warm kids farewell song, 84 bpm, acoustic guitar, soft glockenspiel, light strings, gentle female vocal with soft kids choir, nostalgic and happy, quiet ending
+LYRICS:
+[Verso 1]
+Calça o sapato, pega a mochila
+Dá um abraço em quem brincou
+A tarde inteira foi tão bonita
+E a amizade aqui ficou
+
+[Refrão]
+Até amanhã, amigo
+Pode voltar quando quiser
+Até amanhã, amigo
+A Zoe acena com o pé
+
+[Verso 2]
+Leva no bolso uma risada
+Leva no peito um novo amigo
+O que a gente brincou junto
+Vai pra casa contigo
+
+[Refrão]
+Até amanhã, amigo
+Pode voltar quando quiser
+Até amanhã, amigo
+A Zoe acena com o pé
+
+[Final]
+Tchau, tchau... até amanhã.
+
+[Assinatura, bem suave]
+FaçaAmigos... aqui todo mundo brinca junto.
+
+=== 11 | Parabéns no FaçaAmigos | voz: Turma ===
+TITLE: Parabéns no FaçaAmigos
+STYLE: four distinct character voices trading lines: warm female, bright male tenor, playful boyish male, soft low female; kids choir on chorus, festive brazilian kids pop, 114 bpm, ukulele, handclaps, glockenspiel, warm female vocal with kids choir singing (not shouting), bright celebration, smooth dynamics, no whistles or horns
+LYRICS:
+[Verso 1]
+Hoje o salão acordou diferente
+Tem bolo, tem balão, tem muita gente
+A Zoe já colocou o chapéu
+O Tuco afinou o bico pro céu
+
+[Refrão]
+Parabéns, parabéns, é o seu dia!
+Mais um ano de brincadeira e alegria
+Parabéns, parabéns, a vela acendeu
+Sopra devagar, que o desejo é seu
+
+[Verso 2]
+O Caco trouxe um presente escondido
+A Tati chegou, mas chegou sorrindo
+Todo mundo em roda pra cantar
+Quem faz amigo nunca vai parar
+
+[Refrão]
+Parabéns, parabéns, é o seu dia!
+Mais um ano de brincadeira e alegria
+Parabéns, parabéns, a vela acendeu
+Sopra devagar, que o desejo é seu
+
+[Final]
+Viva, viva, viva! Feliz aniversário!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 12 | Brincar é Coisa Séria | voz: Tati ===
+TITLE: Brincar é Coisa Séria
+STYLE: soft low gentle female lead vocal, slow unhurried phrasing, gentle brazilian kids folk-pop, 88 bpm, nylon guitar, soft piano, light hand percussion, warm female vocal, hopeful and calm, intimate mix
+LYRICS:
+[Verso 1]
+Empilha, derruba, empilha de novo
+Cada bloquinho é um passo novo
+Olha pra mim, eu olho pra você
+Brincando a gente aprende a crescer
+
+[Refrão]
+Brincar é coisa séria
+Brincar é jeito de aprender
+Cada risada é uma conquista
+Cada tentativa, um saber
+
+[Verso 2]
+Tem dia que sai, tem dia que não
+A gente tenta com a mesma paixão
+Ninguém precisa ser igual a ninguém
+Do seu jeitinho você vai além
+
+[Refrão]
+Brincar é coisa séria
+Brincar é jeito de aprender
+Cada risada é uma conquista
+Cada tentativa, um saber
+
+[Final]
+Um passo, um passo... olha só até onde chegou.
+
+[Assinatura, bem suave]
+FaçaAmigos... aqui todo mundo brinca junto.
+
+=== 13 | Mão na Mão | voz: Caco ===
+TITLE: Mão na Mão
+STYLE: energetic playful boyish male lead vocal, bouncy phrasing, upbeat kids pop with light samba swing, 112 bpm, cavaquinho, tambourine, soft bass, warm male and female duet with kids choir, catchy, smooth mix
+LYRICS:
+[Verso 1]
+Esse brinquedo é meu, mas pode ser seu também
+A gente reveza e fica tudo bem
+Um pouquinho pra mim, um pouquinho pra você
+Dividir é uma coisa boa de fazer
+
+[Refrão]
+Mão na mão, lado a lado
+Junto é mais divertido
+Mão na mão, lado a lado
+No FaçaAmigos se ganha um amigo
+
+[Verso 2]
+Tu segura aqui, eu puxo ali
+Olha a torre que a gente fez subir
+Caiu? Tudo bem, a gente faz de novo
+Dessa vez com um amigo novo
+
+[Refrão]
+Mão na mão, lado a lado
+Junto é mais divertido
+Mão na mão, lado a lado
+No FaçaAmigos se ganha um amigo
+
+[Ponte]
+Um ajuda o outro, o outro ajuda alguém
+E no final todo mundo ajuda bem
+
+[Refrão]
+Mão na mão, lado a lado
+Junto é mais divertido
+Mão na mão, lado a lado
+No FaçaAmigos se ganha um amigo
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 14 | Tira o Sapato! | voz: Zoe ===
+TITLE: Tira o Sapato!
+STYLE: warm friendly female lead vocal, mid register, smiling tone, playful kids pop, 110 bpm, marimba, ukulele, claps, bouncy bass, clear female vocal with kids answering in call and response, fun, very clear diction
+LYRICS:
+[Verso 1]
+Chegou na porta, já sabe o que fazer
+Tira o sapato, a meia vai com você
+Guarda direitinho lá no cantinho
+E entra pisando bem de mansinho
+
+[Refrão]
+Tira o sapato! (Tirei!)
+Bota a meia! (Botei!)
+Lava a mão! (Lavei!)
+Agora sim, no FaçaAmigos pode entrar!
+
+[Verso 2]
+Na piscina a gente mergulha com cuidado
+No escorregador, um de cada vez
+Quem espera a vez brinca outra vez
+E ninguém fica machucado
+
+[Refrão]
+Tira o sapato! (Tirei!)
+Bota a meia! (Botei!)
+Lava a mão! (Lavei!)
+Agora sim, no FaçaAmigos pode entrar!
+
+[Ponte]
+Se cansou, tem um cantinho pra descansar
+Se precisar, chama a Zoe que ela vem te ajudar
+
+[Refrão]
+Tira o sapato! (Tirei!)
+Bota a meia! (Botei!)
+Lava a mão! (Lavei!)
+No FaçaAmigos, pode brincar!
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== 15 | A Turma do FaçaAmigos | voz: Turma ===
+TITLE: A Turma do FaçaAmigos
+STYLE: four distinct character voices trading lines: warm female, bright male tenor, playful boyish male, soft low female; kids choir on chorus, catchy kids theme song, 116 bpm, synth plucks, ukulele, handclaps, light bass, female vocal asking and kids choir answering the names, bright and smooth, no brass
+LYRICS:
+[Verso 1]
+Quem é que abana o rabo e recebe na porta?
+É a Zoe! (Zoe!)
+Quem é que canta bonito lá do galho da mangueira?
+É o Tuco! (Tuco!)
+
+[Verso 2]
+Quem é que pula, roda e faz careta?
+É o Caco! (Caco!)
+Quem chega devagar, mas chega sempre inteira?
+É a Tati! (Tati!)
+
+[Refrão]
+Zoe, Tuco, Caco e Tati
+A turma do FaçaAmigos tá aqui
+Zoe, Tuco, Caco e Tati
+Vem brincar com a gente aqui
+
+[Ponte]
+Um late, um canta, um pula, um sorri
+Quatro jeitos diferentes, e todos cabem aqui
+
+[Refrão]
+Zoe, Tuco, Caco e Tati
+A turma do FaçaAmigos tá aqui
+Zoe, Tuco, Caco e Tati
+Vem brincar com a gente aqui
+
+[Assinatura]
+Fa-ça-A-mi-gos!
+Aqui todo mundo brinca junto.
+
+=== INSTRUMENTAIS ===
+Para cada cantada aprovada: abrir a faixa > Cover > marcar Instrumental > mesmo STYLE. Para as extras -b, trocar 1 ou 2 instrumentos no STYLE.
