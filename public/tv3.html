@@ -214,6 +214,10 @@
       line-height: 1;
     }
 
+    /* ?video=1 (gravação do MP4 do pen-drive): sem relógio nem data, que congelariam no vídeo. visibility mantém o centro do cabeçalho no lugar */
+    #tvStage.video .tv-clock-box { visibility: hidden; }
+    #tvStage.video .tv-hud { display: none !important; }
+
     .tv-clock-date {
       font-size: 13px;
       font-weight: 800;
@@ -1121,7 +1125,9 @@
         somTocaMin: 20,               // a cada ciclo: minutos de música...
         somPausaMin: 10,              // ...e minutos de silêncio
         rodapeSite: 'institutofacaamigos.com.br',   // site na ponta esquerda do rodapé
-        rodapeInstagram: '@facaamigos.belem'        // Instagram na ponta direita do rodapé
+        rodapeInstagram: '@facaamigos.belem',       // Instagram na ponta direita do rodapé
+        // ?video=1 (MP4 do pen-drive, scripts/tv3-video.mjs): textos que dependem da hora ou do dia trocados por versões fixas
+        textosVideo: { b_boasvindas: { headline: 'Que bom ter você <em>aqui</em>.' } }
       };
 
       // QR:BEGIN (gerado por scripts/tv3-qr.py, não editar à mão)
@@ -1227,6 +1233,7 @@
       // ======================================================================
       const urlParams = new URLSearchParams(window.location.search);
       const DEBUG = urlParams.has('debug');
+      const VIDEO = urlParams.get('video') === '1';
       const OV = {
         dia: [1, 2, 3, 4, 5].indexOf(+urlParams.get('dia')) >= 0 ? +urlParams.get('dia') : calculateCurrentCycleDay(),
         exp: (urlParams.get('exp') || CONFIG.experiment).slice(0, 40),
@@ -1506,7 +1513,7 @@
       }
 
       function buildSlideEl(raw) {
-        const s = deepFill(raw);
+        const s = deepFill(VIDEO && CONFIG.textosVideo[raw.id] ? Object.assign({}, raw, CONFIG.textosVideo[raw.id]) : raw);
         const sorteada = raw._img; // foto já sorteada e pré-carregada (prepararSlide)
         delete raw._img;
         const layout = s.layout || 'padrao';
@@ -1663,7 +1670,7 @@
         if (prev) {
           prev.classList.add('saindo');
           prev.classList.remove('active');
-          if (instant) prev.remove(); else setTimeout(() => { if (prev !== currentEl && prev.parentNode) prev.remove(); }, 1300);
+          if (instant) prev.remove(); else if (!VIDEO) setTimeout(() => { if (prev !== currentEl && prev.parentNode) prev.remove(); }, 1300);
         }
         updateCounter();
         armTimer(OV.slide || instant ? 1e9 : item.dur * 1000 * CONFIG.ritmo / OV.vel);
@@ -1733,6 +1740,7 @@
         const qa = new URLSearchParams(window.location.search).get('animacao');
         const anim = qa === 'leve' || qa === 'nenhuma' ? qa : String(CONFIG.animacao);
         document.getElementById('tvStage').classList.toggle('anim', anim === 'leve');
+        document.getElementById('tvStage').classList.toggle('video', new URLSearchParams(window.location.search).get('video') === '1');
       })();
 
       // Orientação: CONFIG.orientacao diz como a TV fica na parede. Se a tela já chega em pé (o sistema da TV girou),
@@ -1969,7 +1977,13 @@
       window.addEventListener('orientationchange', fitStage);
 
       // Gancho de teste (scripts/tv3-test.mjs): só existe com ?debug=1
-      if (DEBUG) window.TV3 = { QR, qrSvg, CONFIG, POOL, OV, state, som, FAIXAS, tocaAgora, dentroDoExpediente, eligible, buildRound, show: (id) => { clearTimeout(slideTimer); showSlide(POOL.filter((x) => x.id === id)[0], true); } };
+      if (DEBUG) window.TV3 = { QR, qrSvg, CONFIG, POOL, OV, state, som, FAIXAS, tocaAgora, dentroDoExpediente, eligible, buildRound, show: (id) => { clearTimeout(slideTimer); showSlide(POOL.filter((x) => x.id === id)[0], true); },
+        // gravação do vídeo (scripts/tv3-video.mjs): para o avanço sozinho e troca para um slide com a transição normal, depois da foto carregada
+        parar: () => { clearTimeout(slideTimer); state.troca++; },
+        tocar: (item) => new Promise((ok) => esperarImagens(prepararSlide(item), 10000, () => {
+          container.querySelectorAll('.tv-slide.saindo').forEach((x) => x.remove());
+          showSlide(item); clearTimeout(slideTimer); ok();
+        })) };
 
       fitStage();
       applyAmenities();

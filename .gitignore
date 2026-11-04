@@ -24,3 +24,6 @@ public/img/raw_downloads/
 # Astro: saída do build e cache
 dist/
 .astro/
+
+# MP4 da tv3 para pen-drive (scripts/tv3-video.mjs)
+video/
