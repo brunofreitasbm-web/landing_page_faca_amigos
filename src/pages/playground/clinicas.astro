@@ -14,7 +14,7 @@ const brl = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curren
 const pacotes = [
   { nome: 'Essencial', creditos: 8, sessao: 86.4, indicado: '2 crianças, 1 sessão por semana', inclui: ['Agendamento livre dentro da janela', 'Mediação Olhar FaçaAmigos'] },
   { nome: 'Clínica', creditos: 16, sessao: 75.6, indicado: '4 crianças, 1 sessão por semana', inclui: ['Prioridade de agenda', 'Mediação Olhar FaçaAmigos', 'Relatório mensal de uso', 'Cartão com QR code da clínica para as famílias'] },
-  { nome: 'Parceira', creditos: 32, sessao: 64.8, indicado: '8 crianças, 1 sessão por semana', inclui: ['Bloco fixo semanal reservado', 'Mediador FaçaAmigos dedicado ao grupo', 'Relatório mensal de uso', 'Cartão com QR code da clínica para as famílias'] },
+  { nome: 'Parceira', creditos: 32, sessao: 64.8, indicado: '8 crianças, 1 sessão por semana', inclui: ['Bloco fixo semanal reservado', 'Relatório mensal de uso', 'Cartão com QR code da clínica para as famílias'] },
 ].map((p) => ({ ...p, mensal: Math.round(p.creditos * p.sessao * 100) / 100 }));
 
 const UNIDADES: UnidadeId[] = ['parque', 'graopara'];
