@@ -76,11 +76,11 @@
       ],
       "knowsAbout": [
         "Autismo (TEA)",
-        "Terapia ABA",
         "TDAH",
-        "Neurodivergência",
-        "Desenvolvimento infantil",
-        "Inclusão de crianças atípicas"
+        "Desenvolvimento Infantil",
+        "Terapia ABA",
+        "Playground Inclusivo",
+        "Acessibilidade Infantil"
       ],
       "description": "Ecossistema infantil inclusivo integrando clínica de terapia comportamental (ABA), playground adaptado e circuito de carrinhos elétricos em Belém/PA.",
       "address": {
@@ -125,15 +125,7 @@
           "description": "WhatsApp da Clínica e do Mapeamento Comportamental"
         }
       ],
-      "areaServed": "Belém, Ananindeua e Região Metropolitana",
-      "knowsAbout": [
-        "Autismo (TEA)",
-        "TDAH",
-        "Desenvolvimento Infantil",
-        "Terapia ABA",
-        "Playground Inclusivo",
-        "Acessibilidade Infantil"
-      ]
+      "areaServed": "Belém, Ananindeua e Região Metropolitana"
     },
     {
       "@type": "Person",
@@ -199,7 +191,7 @@
         "postalCode": "66060-147",
         "addressCountry": "BR"
       },
-      "hasMap": "https://www.google.com/search?kgmid=/g/11p2bythv6",
+      "hasMap": "https://share.google/QnOuCGKHLVgtPtWQj",
       "medicalSpecialty": [
         "Pediatric",
         "Behavioral",
@@ -427,7 +419,8 @@
         "@id": "https://institutofacaamigos.com.br/#organization"
       },
       "sameAs": [
-        "https://www.instagram.com/facaamigos.belem/"
+        "https://www.instagram.com/facaamigos.belem/",
+        "https://www.google.com/search?kgmid=/g/11zch2p29l"
       ],
       "amenityFeature": [
         {
