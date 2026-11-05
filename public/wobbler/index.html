@@ -127,7 +127,7 @@
            `<svg x="${x0+pad}" y="${y+pad}" width="${size}" height="${size}" viewBox="0 0 ${q.n} ${q.n}" shape-rendering="crispEdges"><path d="${q.d}" fill="#0B1416"/></svg>`;
   };
   const logo = (y, w, file='logo-facaamigos.png', ratio=1024/147, x=100) => `<image data-chk="logo" href="../img/${file}" x="${x-w/2}" y="${y}" width="${w}" height="${w/ratio}" preserveAspectRatio="xMidYMid meet"/>`;
-  const mascot = (file, x, y, w) => `<image data-chk="mascote" href="../img/amigos/${file}" x="${x}" y="${y}" width="${w}" height="${w}" preserveAspectRatio="xMidYMid meet"/>`;
+  const mascot = (file, x, y, w, hh) => `<image data-chk="mascote" href="../img/amigos/${file}" x="${x}" y="${y}" width="${w}" height="${hh ?? w}" preserveAspectRatio="xMidYMid meet"/>`;
   // Faixa escura do lóbulo (como no original): curva de baixo desce no meio e sobe à direita.
   const capPath = 'M-30 -40 L240 -40 L240 30 C 200 38, 180 36, 166 41 C 140 48, 120 58, 92 56 C 60 54, 40 46, 14 46 L-30 46 Z';
   const cap = (fill) => `<path d="${capPath}" fill="${fill}"/>`;
@@ -139,8 +139,9 @@
       t('Google', 41, 21, '#FDC51D', { x:L, a:'start' }) +
       stars(69, 7.4, 16.5, '#FDC51D') +
       qrBox(u.qr, 76, 79) +
-      t('Aponte a câmera', 173, 10, '#065264') +
-      N('e avalie em 30 segundos', 182.5, 6.2, '#D61F4A') }),
+      mascot('macaco-sentado.webp', 20, 97, 36, 42) +
+      mascot('cachorro-acena.webp', 145, 94, 36, 44) +
+      t('Aponte a câmera', 177, 11, '#065264') }),
     B: (u) => ({ bg:'#FDC51D', body: cap('#D61F4A') +
       N('Gostou de brincar?', 20, 8.5, '#FFFFFF', { x:L, a:'start' }) +
       t('Avalie no Google', 40, 14, '#FFE9A8', { x:L, a:'start' }) +
@@ -183,7 +184,7 @@
   };
 
   const concepts20 = [
-    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Faixa escura no lóbulo, como no original. Estrelas, "Avalie no Google" e QR de 76 mm, linha própria de 5 estrelas.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
+    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Faixa escura no lóbulo, como no original. Estrelas, "Avalie no Google" e QR de 76 mm, 5 estrelas e os amigos (macaco e cachorro) ladeando o QR.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
     { id:'A-grao', k:'A', tag:'A · Avaliação Google', titulo:'Grão-Pará', onde:'Playground Grão-Pará, na saída', desc:'Mesma arte, QR do perfil do Grão-Pará.', u:{qr:'graopara', rodape:'Playground Grão-Pará'} },
     { id:'B-parque', k:'B', tag:'B · Avaliação com mascote', titulo:'Versão infantil', onde:'Qualquer Playground', desc:'Amarelo, macaco e tom mais leve. QR de 60 mm.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
     { id:'C', k:'C', tag:'C · Fidelidade', titulo:'A 10ª é grátis', onde:'Circuito ou Playground', desc:'Regra literal do site (10 visitas por CPF). Muda comportamento, não gera avaliação.' },
