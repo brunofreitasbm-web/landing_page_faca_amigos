@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Gera public/wobbler/adesivo-20cm.pdf e adesivo-15cm.pdf: A4 em tamanho real, 1 página de gabarito (papel comum)
+// Gera public/wobbler/adesivo-20cm.pdf, adesivo-15cm.pdf e adesivo-20cm-2un.pdf (só Parque + Circuito): A4 em tamanho real, 1 página de gabarito (papel comum)
 // + 1 página por adesivo, com a linha de corte (+2 mm do original) e 3 mm de sangria além dela.
 // Uso: node scripts/wobbler-pdf.mjs   (PW_MODULE: caminho do playwright)
 import { spawn } from 'node:child_process';
@@ -14,13 +14,15 @@ const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.
 await new Promise((r) => setTimeout(r, 800));
 try {
   const browser = await chromium.launch();
-  for (const d of ['20', '15']) {
+  // [tamanho, parâmetros extras, nome do arquivo]
+  const jobs = [['20', '', 'adesivo-20cm'], ['15', '', 'adesivo-15cm'], ['20', '&ids=A-parque,A-circuito&gab=0', 'adesivo-20cm-2un']];
+  for (const [d, extra, name] of jobs) {
     const page = await browser.newPage();
-    await page.goto(`http://127.0.0.1:${PORT}/wobbler/?print=${d}`, { waitUntil: 'networkidle' });
+    await page.goto(`http://127.0.0.1:${PORT}/wobbler/?print=${d}${extra}`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     const bad = await page.evaluate(() => window.__check());
     if (bad.length) { console.error('Fora da margem de segurança:\n' + bad.join('\n')); process.exitCode = 1; }
-    const out = path.join(ROOT, 'public', 'wobbler', `adesivo-${d}cm.pdf`);
+    const out = path.join(ROOT, 'public', 'wobbler', `${name}.pdf`);
     await page.pdf({ path: out, format: 'A4', printBackground: true, preferCSSPageSize: true });
     console.log('PDF gerado:', path.relative(ROOT, out));
   }

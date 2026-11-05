@@ -60,8 +60,8 @@
     <div class="forma">
       <img src="original-contorno.jpg" alt="Foto do wobbler original com o contorno extraído em vermelho">
       <div>
-        <p><b>Contorno extraído da sua foto</b> (linha vermelha). A parte redonda ajusta a um círculo com erro médio de 0,7%. O lóbulo sobe cerca de 13 mm acima do círculo e há um pequeno degrau à esquerda, onde a tampa escura encontra a base.</p>
-        <p style="margin-top:8px"><b>Escala assumida:</b> parte redonda = Ø20 cm. O original fica com <b id="dim20">196 × 214 mm</b>. Se os 20 cm forem a maior medida do original (a altura), tudo precisa diminuir 6%. Por isso o PDF começa com uma <b>página de gabarito em papel comum</b>: recorte e encaixe no original antes de gastar o adesivo.</p>
+        <p><b>Contorno do original</b> (foto, linha vermelha) conferido pelo traçado a lápis: a parte redonda bate com um círculo com erro médio de 0,25 mm. O lóbulo sobe cerca de 13 mm acima do círculo e há um degrau à esquerda, onde a tampa escura encontra a base.</p>
+        <p style="margin-top:8px"><b>Medida real:</b> formato tirado do contorno traçado a lápis sobre o original numa folha A4 (a largura da folha, 210 mm, serviu de régua). Parte redonda Ø199 mm; original com <b id="dim20">200 × 213 mm</b>. O PDF completo começa com uma <b>página de gabarito em papel comum</b> para conferir antes de gastar o adesivo.</p>
       </div>
     </div>
     <div class="aviso"><b>Antes de escolher, três cuidados:</b>
@@ -94,7 +94,7 @@
   <div class="info">
     <h2>Pendências</h2>
     <ul style="margin-left:18px;font-size:.92rem">
-      <li>Medidas do original: confirmar largura e altura com régua. O gabarito de papel resolve na prática.</li>
+      <li>Medidas conferidas pelo traçado a lápis em A4 (Ø199 mm na parte redonda).</li>
       <li>Você tem 2 originais deste formato. Para os outros wobblers (Ø20 e Ø15), confirme se o formato é o mesmo.</li>
       <li>Link de avaliação do <b>Grão-Pará</b>: ainda não está no repositório. O QR dessa arte é provisório.</li>
       <li>Link do <b>Parque</b>: usei o que está na página /playground. Confirme que é o perfil do Parque.</li>
@@ -134,7 +134,7 @@
   // Faixa escura do lóbulo (como no original): curva de baixo desce no meio e sobe à direita.
   const capPath = 'M-30 -40 L240 -40 L240 30 C 200 38, 180 36, 166 41 C 140 48, 120 58, 92 56 C 60 54, 40 46, 14 46 L-30 46 Z';
   const cap = (fill) => `<path d="${capPath}" fill="${fill}"/>`;
-  const L = 26; // margem esquerda do texto da faixa
+  const L = 31; // margem esquerda do texto da faixa
 
   const C = {
     A: (u) => ({ bg:'#FFF9F1', body: cap('#065264') +
@@ -143,7 +143,7 @@
       stars(74, 6.5, 15) +
       qrBox(u.qr, 66, 84) +
       N('Aponte a câmera', 171, 8.5, '#065264') +
-      N(u.rodape, 182, 5.6, '#4F646B') }),
+      N(u.rodape, 180, 5.4, '#4F646B') }),
     B: (u) => ({ bg:'#FDC51D', body: cap('#D61F4A') +
       N('Gostou de brincar?', 20, 8.5, '#FFFFFF', { x:L, a:'start' }) +
       t('Avalie no Google', 40, 14, '#FFE9A8', { x:L, a:'start' }) +
@@ -238,8 +238,12 @@
   };
 
   const only = (v) => PRINT ? PRINT === v : true;
-  if (only('20')) { if (PRINT) document.getElementById('g20').appendChild(gabarito(20)); concepts20.forEach(c => document.getElementById('g20').appendChild(card(c, 20))); }
-  if (only('15')) { if (PRINT) document.getElementById('g15').appendChild(gabarito(15)); concepts15.forEach(c => document.getElementById('g15').appendChild(card(c, 15))); }
+  // ?ids=A-parque,A-circuito imprime só essas artes; ?gab=0 tira a página de gabarito
+  const IDS = params.get('ids') ? params.get('ids').split(',') : null;
+  const pick = (list) => IDS ? list.filter(c => IDS.includes(c.id)) : list;
+  const GAB = PRINT && params.get('gab') !== '0';
+  if (only('20')) { if (GAB) document.getElementById('g20').appendChild(gabarito(20)); pick(concepts20).forEach(c => document.getElementById('g20').appendChild(card(c, 20))); }
+  if (only('15')) { if (GAB) document.getElementById('g15').appendChild(gabarito(15)); pick(concepts15).forEach(c => document.getElementById('g15').appendChild(card(c, 15))); }
 
   // Conferência de margem de segurança: cada texto, QR, logo e mascote deve estar a 6 mm do contorno.
   window.__check = async () => {
