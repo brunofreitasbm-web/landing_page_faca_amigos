@@ -74,6 +74,14 @@
       "sameAs": [
         "https://www.instagram.com/facaamigos.belem/"
       ],
+      "knowsAbout": [
+        "Autismo (TEA)",
+        "Terapia ABA",
+        "TDAH",
+        "Neurodivergência",
+        "Desenvolvimento infantil",
+        "Inclusão de crianças atípicas"
+      ],
       "description": "Ecossistema infantil inclusivo integrando clínica de terapia comportamental (ABA), playground adaptado e circuito de carrinhos elétricos em Belém/PA.",
       "address": {
         "@type": "PostalAddress",
@@ -191,7 +199,7 @@
         "postalCode": "66060-147",
         "addressCountry": "BR"
       },
-      "hasMap": "https://share.google/QnOuCGKHLVgtPtWQj",
+      "hasMap": "https://www.google.com/search?kgmid=/g/11p2bythv6",
       "medicalSpecialty": [
         "Pediatric",
         "Behavioral",
@@ -366,7 +374,7 @@
         ]
       },
       "sameAs": [
-        "https://share.google/QnOuCGKHLVgtPtWQj"
+        "https://www.google.com/search?kgmid=/g/11p2bythv6"
       ]
     },
     {
