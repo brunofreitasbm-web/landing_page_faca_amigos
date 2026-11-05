@@ -14,8 +14,8 @@
 //  - Também interrompe se o contato estiver bloqueado ou tiver saído da lista no Brevo.
 //  - Quem já comprou sai da sequência: hotmart-sync grava as vendas em fa_ebook_compras e marca os leads.
 //
-// Secrets: BREVO_API_KEY, BREVO_LIST_ID (já existentes), SEQ_SECRET (assinatura do link de descadastro)
-// e SEQ_RUN_KEY (senha do ?run=1; sem ela a função recusa o disparo).
+// Secrets: BREVO_API_KEY, BREVO_LIST_ID (já existentes) e SEQ_SECRET (assinatura do link de descadastro).
+// A senha do ?run=1 é o secret 'seq_run_key' do Vault (ver ops/reagendar-crons.sql); sem ela a função recusa o disparo.
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
@@ -331,10 +331,18 @@ Deno.serve(async (req) => {
   }
 
   // Execução agendada (pg_cron). Idempotente: só envia o que já venceu e nunca duplica.
-  // Exige o cabeçalho x-run-key (secret SEQ_RUN_KEY, o mesmo guardado no Vault para o cron); sem o secret, recusa.
+  // Exige o cabeçalho x-run-key; sem chave válida, recusa.
   if (url.searchParams.get("run") === "1") {
-    const runKey = Deno.env.get("SEQ_RUN_KEY") ?? "";
-    if (!runKey || !safeEqual(req.headers.get("x-run-key") ?? "", runKey)) return json(req, { error: "não autorizado" }, 401);
+    // A chave vive no Vault (secret 'seq_run_key', gerado no banco; o cron a lê de lá). A função a confere pela RPC
+    // fa_seq_run_key_ok (só service_role). O secret de ambiente SEQ_RUN_KEY, se existir, também vale.
+    const given = req.headers.get("x-run-key") ?? "";
+    const envKey = Deno.env.get("SEQ_RUN_KEY") ?? "";
+    let authorized = !!envKey && safeEqual(given, envKey);
+    if (!authorized && given) {
+      const { data } = await admin.rpc("fa_seq_run_key_ok", { p_key: given });
+      authorized = data === true;
+    }
+    if (!authorized) return json(req, { error: "não autorizado" }, 401);
     return json(req, await runBatch(admin, url.searchParams.get("dry") === "1"));
   }
 
