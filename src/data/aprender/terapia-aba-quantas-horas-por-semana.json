@@ -1,0 +1,61 @@
+{
+  "slug": "terapia-aba-quantas-horas-por-semana",
+  "titulo": "Terapia ABA: quantas horas por semana? O que muda de criança para criança",
+  "titleTag": "Terapia ABA: quantas horas por semana? | FaçaAmigos",
+  "descricao": "Quantas horas de terapia ABA uma criança faz por semana? Não há um número igual para todas. Veja o que define a carga e como são as sessões na Clínica FaçaAmigos.",
+  "ogImage": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 6 min de leitura",
+  "dataTexto": "5 de novembro de 2026",
+  "datePublished": "2026-11-05",
+  "dateModified": "2026-11-05",
+  "about": [
+    "terapia ABA",
+    "carga horária",
+    "sessões",
+    "plano terapêutico"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "proximo": {
+    "rotulo": "Leia também",
+    "titulo": "Como escolher uma clínica de terapia ABA?",
+    "href": "/aprender/como-escolher-clinica-de-terapia-aba",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Ler o guia"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=terapia_aba_quantas_horas_por_semana",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em Belém →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/como-escolher-clinica-de-terapia-aba",
+      "tag": "7 min · Terapia",
+      "titulo": "Como escolher uma clínica de terapia ABA? Checklist de perguntas"
+    },
+    {
+      "href": "/aprender/como-e-a-terapia-comportamental",
+      "tag": "6 min · Terapia",
+      "titulo": "O que acontece numa sessão de terapia comportamental (sem jargão)"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/mapeamento",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-fachada.jpg",
+    "alt": "Fachada da Clínica FaçaAmigos, em Belém",
+    "w": "900",
+    "h": "1080",
+    "estilo": null,
+    "tag": "6 min · Terapia",
+    "titulo": "Terapia ABA: quantas horas por semana? O que muda de criança para criança",
+    "resumo": "Não existe número igual para todos. Veja o que define a carga."
+  },
+  "ordemIndice": 23
+}

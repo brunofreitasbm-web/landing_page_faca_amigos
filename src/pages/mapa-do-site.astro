@@ -4,11 +4,10 @@
 // Ordem pensada para quem chega precisando de atendimento para um filho autista; o resto vem depois.
 import Base from '../layouts/Base.astro';
 import { abs, trilhaNo, SITE } from '../data/marca';
-import artigosJson from '../data/artigos.json';
 
 const path = '/mapa-do-site';
 const espec = Object.values(import.meta.glob('../data/especialidades/*.json', { eager: true, import: 'default' })) as any[];
-const artigos = artigosJson as { slug: string; titulo: string }[];
+const artigos = Object.values(import.meta.glob('../data/aprender/*.json', { eager: true, import: 'default' })) as { slug: string; titulo: string }[];
 const porNome = (a: any, b: any) => a.nome.localeCompare(b.nome, 'pt-BR');
 const especialidades = espec.filter((e) => e.slug !== 'avaliacao-inicial').sort(porNome);
 const artigosOrdenados = [...artigos].sort((a, b) => a.titulo.localeCompare(b.titulo, 'pt-BR'));
@@ -23,6 +22,9 @@ const grupos: { titulo: string; intro: string; itens: Item[] }[] = [
       ['Avaliação inicial e acolhimento', '/clinica/avaliacao-inicial', 'a primeira etapa, sem exigir laudo'],
       ['Pacotes particulares de sessões', '/planos', 'planos mensais de 4 a 24 sessões'],
       ['Mapeamento Comportamental gratuito', '/mapeamento', 'questionário de cerca de 5 minutos'],
+      ['Como é o primeiro contato com a Clínica', '/aprender/como-comecar-na-clinica-primeiro-contato'],
+      ['Convênio IASEP e PROASA', '/aprender/convenio-iasep-proasa-terapia-autismo'],
+      ['Terapia ABA: quantas horas por semana?', '/aprender/terapia-aba-quantas-horas-por-semana'],
       ['Plano de saúde cobre terapia ABA?', '/aprender/plano-de-saude-cobre-terapia-aba'],
       ['Como escolher uma clínica de terapia ABA', '/aprender/como-escolher-clinica-de-terapia-aba'],
     ],
@@ -34,6 +36,8 @@ const grupos: { titulo: string; intro: string; itens: Item[] }[] = [
       ['Autismo (TEA)', '/autismo'],
       ['TDAH', '/tdah'],
       ['Neurodivergência', '/neurodivergencia'],
+      ['Meu filho recebeu o diagnóstico de autismo: e agora?', '/aprender/diagnostico-de-autismo-e-agora-proximos-passos'],
+      ['Neuropediatra em Belém: como chegar ao diagnóstico', '/aprender/neuropediatra-em-belem-como-chegar-ao-diagnostico'],
       ['Glossário de desenvolvimento infantil e inclusão', '/glossario', 'cerca de 50 termos em linguagem simples'],
     ],
   },

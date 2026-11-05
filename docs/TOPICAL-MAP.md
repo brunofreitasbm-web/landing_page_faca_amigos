@@ -92,6 +92,8 @@ Ordenadas por impacto na conversão. Nenhuma está feita.
 | 5 | **Neuropediatra / como achar um em Belém** | Muita mãe precisa do médico antes de começar. | Não recomendar nome de profissional de fora. Só explicar o caminho e como o SUS funciona. Fontes oficiais antes de escrever. |
 | 6 | **Páginas curtas dos momentos 4 e 5 ligadas à Clínica** | Os artigos já recebem convite; falta o caminho de volta (Clínica → artigo certo). | A Clínica e as especialidades já têm "relacionados". Falta ligar cada especialidade a 1 ou 2 artigos de Aprender. |
 
+**Atualização de 2026-11-05:** as lacunas 1, 2, 3, 4 e 5 viraram guias em `/aprender`, em rascunho até a revisão da Isabella: `como-comecar-na-clinica-primeiro-contato`, `convenio-iasep-proasa-terapia-autismo`, `diagnostico-de-autismo-e-agora-proximos-passos`, `terapia-aba-quantas-horas-por-semana` e `neuropediatra-em-belem-como-chegar-ao-diagnostico`. Só usam fatos que já estão no site e na base de conhecimento da Clínica. A lacuna 6 (ligar cada especialidade a artigos de apoio) segue aberta.
+
 ## 5. Regras de ligação entre as páginas
 
 1. Todo artigo de apoio aponta para **o pilar do momento dele** e para **a Clínica** (convite "fale conosco").
