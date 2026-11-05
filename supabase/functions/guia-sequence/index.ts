@@ -33,7 +33,10 @@ const STEPS = [
   { step: 4, templateId: 4, delayHours: 216 },
   // Passo 5: próximo passo com a clínica (convênio / particular / conversar), 3 dias depois do passo 4. Template 5 no Brevo
   // (supabase/email-templates/ebook-d12-proximo-passo.html). Sem preço, desconto ou urgência de propósito (publicidade em saúde).
-  { step: 5, templateId: 5, delayHours: 288 },
+  // DESATIVADO (enabled: false) até haver consentimento para ofertas da clínica: o checkbox do mapeamento autoriza
+  // "conteúdos gratuitos, novidades e ofertas dos materiais da idealizadora" (e-books), não os serviços da clínica.
+  // Ao reativar, exija também um intervalo mínimo desde o último envio, para não sair colado no passo 4.
+  { step: 5, templateId: 5, delayHours: 288, enabled: false },
 ];
 
 const SITE = "https://institutofacaamigos.com.br";
@@ -225,7 +228,7 @@ async function runBatch(admin: ReturnType<typeof createClient>, dry: boolean) {
       summary.stopped++;
       continue;
     }
-    const next = STEPS.find((s) => s.step === (sentByLead.get(lead.id) ?? 0) + 1);
+    const next = STEPS.filter((s) => s.enabled !== false).find((s) => s.step === (sentByLead.get(lead.id) ?? 0) + 1);
     if (!next) continue;
     if (new Date(lead.completed_at).getTime() + next.delayHours * 3600000 > now) continue;
     const email = (lead.guardian_email ?? "").trim().toLowerCase();
