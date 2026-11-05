@@ -10,7 +10,7 @@ O site é construído com **Astro 7** (estático). Fluxo: `src/` e `public/` →
 | Pasta | O que tem |
 |---|---|
 | `public/` | Tudo que já era servido, copiado **como está**: as páginas HTML ainda não migradas, `assets/`, `img/`, `audio/`, `sitemap*.xml`, `llms*.txt`, `geo-facts.json`... |
-| `src/pages/` | Páginas Astro: `quem-somos`, `playground/*`, `equipe/*`, `clinica/equipe`, `aprender` (índice), `aprender/[slug]` (os 19 artigos), `clinica/[slug]` (15 especialidades), `autismo`, `tdah` e `neurodivergencia` (páginas pilar de condição), `glossario`, `termos`, `politica-privacidade`, `404`, `trabalhe-conosco` e `eventos`. |
+| `src/pages/` | Páginas Astro: `quem-somos`, `playground/*`, `equipe/*`, `clinica/equipe`, `aprender` (índice), `aprender/[slug]` (os 24 artigos), `clinica/[slug]` (15 especialidades), `autismo`, `tdah` e `neurodivergencia` (páginas pilar de condição), `glossario`, `termos`, `politica-privacidade`, `404`, `trabalhe-conosco` e `eventos`. |
 | `src/data/` | **Fonte única dos fatos**: `marca.json` (contatos, endereço, andar, CNPJ, horário da Clínica), `equipe.json`, `artigos.json`, `especialidades.json`. `marca.ts` deriva o horário de `public/geo-facts.json` (vem do caixa). |
 | `src/components/`, `src/layouts/`, `src/styles/` | `Base` (head, GTM, JSON-LD), `Nav`, `Footer`, `Foto`, `FAQ`, `UnidadePagina`; tokens do kit da Clínica em `global.css`. |
 | `scripts/` | `check.mjs` verifica o **site construído** (`dist/`): rode `npm run build && npm run check`. |

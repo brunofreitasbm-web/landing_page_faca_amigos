@@ -1,0 +1,62 @@
+{
+  "slug": "convenio-iasep-proasa-terapia-autismo",
+  "titulo": "Convênio IASEP e PROASA na terapia infantil: como funciona na Clínica FaçaAmigos",
+  "titleTag": "Convênio IASEP e PROASA: terapia infantil em Belém",
+  "descricao": "A Clínica FaçaAmigos atende pelos convênios IASEP e PROASA, em Belém. Veja o que enviar, quem pede a guia, como fica com outros planos e o reembolso.",
+  "ogImage": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 5 min de leitura",
+  "dataTexto": "5 de novembro de 2026",
+  "datePublished": "2026-11-05",
+  "dateModified": "2026-11-05",
+  "about": [
+    "IASEP",
+    "PROASA",
+    "convênio",
+    "terapia infantil",
+    "Belém"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "proximo": {
+    "rotulo": "Leia também",
+    "titulo": "O plano de saúde cobre terapia ABA?",
+    "href": "/aprender/plano-de-saude-cobre-terapia-aba",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Ler o guia"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=convenio_iasep_proasa_terapia_autismo",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em Belém →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/plano-de-saude-cobre-terapia-aba",
+      "tag": "7 min · Direitos",
+      "titulo": "O plano de saúde cobre terapia ABA? O que diz a lei e o que fazer se negarem"
+    },
+    {
+      "href": "/aprender/laudo-e-ciptea",
+      "tag": "6 min · Direitos",
+      "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/mapeamento",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-fachada.jpg",
+    "alt": "Fachada da Clínica FaçaAmigos, em Belém",
+    "w": "900",
+    "h": "1080",
+    "estilo": null,
+    "tag": "5 min · Convênio",
+    "titulo": "Convênio IASEP e PROASA na terapia infantil: como funciona na Clínica FaçaAmigos",
+    "resumo": "O que enviar, quem pede a guia e como fica com outros planos."
+  },
+  "ordemIndice": 21
+}

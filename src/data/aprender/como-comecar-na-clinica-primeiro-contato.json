@@ -1,0 +1,61 @@
+{
+  "slug": "como-comecar-na-clinica-primeiro-contato",
+  "titulo": "Como é o primeiro contato com a Clínica FaçaAmigos: passo a passo",
+  "titleTag": "Primeiro contato com a Clínica FaçaAmigos | FaçaAmigos",
+  "descricao": "Como começar na Clínica FaçaAmigos, em Belém: o primeiro contato pelo WhatsApp, a conversa de acolhimento, o plano individual e o que levar. Não precisa de laudo.",
+  "ogImage": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "ogImageAlt": "Capa do e-book O Brincar com Propósito, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 5 min de leitura",
+  "dataTexto": "5 de novembro de 2026",
+  "datePublished": "2026-11-05",
+  "dateModified": "2026-11-05",
+  "about": [
+    "primeiro contato",
+    "Clínica FaçaAmigos",
+    "terapia infantil",
+    "Belém"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/guia/og-guia.jpg",
+  "proximo": {
+    "rotulo": "Leia também",
+    "titulo": "Quer saber como funciona o convênio?",
+    "href": "/aprender/convenio-iasep-proasa-terapia-autismo",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Ler o guia"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "https://institutofacaamigos.com.br/clinica?utm_source=hub&utm_medium=aprender&utm_campaign=como_comecar_na_clinica_primeiro_contato",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em Belém →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/como-e-a-terapia-comportamental",
+      "tag": "6 min · Terapia",
+      "titulo": "O que acontece numa sessão de terapia comportamental (sem jargão)"
+    },
+    {
+      "href": "/aprender/como-escolher-clinica-de-terapia-aba",
+      "tag": "7 min · Terapia",
+      "titulo": "Como escolher uma clínica de terapia ABA? Checklist de perguntas"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/mapeamento",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-fachada.jpg",
+    "alt": "Fachada da Clínica FaçaAmigos, em Belém",
+    "w": "900",
+    "h": "1080",
+    "estilo": null,
+    "tag": "5 min · Clínica",
+    "titulo": "Como é o primeiro contato com a Clínica FaçaAmigos: passo a passo",
+    "resumo": "O primeiro contato é uma conversa, por WhatsApp, sem formulário e sem laudo."
+  },
+  "ordemIndice": 20
+}

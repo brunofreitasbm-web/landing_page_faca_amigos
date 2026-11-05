@@ -351,4 +351,34 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://institutofacaamigos.com.br/aprender/como-comecar-na-clinica-primeiro-contato</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://institutofacaamigos.com.br/aprender/convenio-iasep-proasa-terapia-autismo</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://institutofacaamigos.com.br/aprender/diagnostico-de-autismo-e-agora-proximos-passos</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://institutofacaamigos.com.br/aprender/neuropediatra-em-belem-como-chegar-ao-diagnostico</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://institutofacaamigos.com.br/aprender/terapia-aba-quantas-horas-por-semana</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
