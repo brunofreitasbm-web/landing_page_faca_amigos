@@ -1,4 +1,4 @@
-// Sequência de e-mails do mapa: dias 1, 3 e 6 vendem o e-book (guia ou Código); o dia 9 é conteúdo gratuito (/aprender).
+// Sequência de e-mails do mapa: dias 1, 3 e 6 vendem o e-book (guia ou Código); o dia 9 é conteúdo gratuito (/aprender); o dia 12 convida para o próximo passo com a clínica.
 //
 // Como funciona:
 //  - pg_cron chama POST ?run=1 de hora em hora, com o cabeçalho x-run-key. A função procura leads que marcaram o opt-in
@@ -31,6 +31,9 @@ const STEPS = [
   // Passo 4: conteúdo gratuito (página /aprender), 3 dias depois do último e-mail de venda. Template 4 no Brevo
   // (supabase/email-templates/ebook-d9-aprender.html). Sem esse template criado, o Brevo recusa e o passo é refeito a cada hora.
   { step: 4, templateId: 4, delayHours: 216 },
+  // Passo 5: próximo passo com a clínica (convênio / particular / conversar), 3 dias depois do passo 4. Template 5 no Brevo
+  // (supabase/email-templates/ebook-d12-proximo-passo.html). Sem preço, desconto ou urgência de propósito (publicidade em saúde).
+  { step: 5, templateId: 5, delayHours: 288 },
 ];
 
 const SITE = "https://institutofacaamigos.com.br";
@@ -271,7 +274,7 @@ async function runBatch(admin: ReturnType<typeof createClient>, dry: boolean) {
             UNSUB_URL: unsubPage,
           },
           headers: { "List-Unsubscribe": `<${unsubOneClick}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
-          tags: ["guia_sequencia", `d${next.step}`, next.step === 4 ? "conteudo_aprender" : `produto_${offerKey}`],
+          tags: ["guia_sequencia", `d${next.step}`, next.step === 4 ? "conteudo_aprender" : next.step === 5 ? "proximo_passo_clinica" : `produto_${offerKey}`],
         }),
       });
       if (!resp.ok) {
