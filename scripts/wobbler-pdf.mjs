@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Gera public/wobbler/adesivo-20cm.pdf, adesivo-15cm.pdf e adesivo-20cm-2un.pdf (só Parque + Circuito): A4 em tamanho real, 1 página de gabarito (papel comum)
+// Gera public/wobbler/adesivo-20cm.pdf, adesivo-15cm.pdf adesivo-20cm-2un.pdf (só Parque + Circuito) e gabarito-20cm-A4.pdf (só o gabarito): A4 em tamanho real, 1 página de gabarito (papel comum)
 // + 1 página por adesivo, com a linha de corte (+2 mm do original) e 3 mm de sangria além dela.
 // Uso: node scripts/wobbler-pdf.mjs   (PW_MODULE: caminho do playwright)
 import { spawn } from 'node:child_process';
@@ -15,7 +15,7 @@ await new Promise((r) => setTimeout(r, 800));
 try {
   const browser = await chromium.launch();
   // [tamanho, parâmetros extras, nome do arquivo]
-  const jobs = [['20', '', 'adesivo-20cm'], ['15', '', 'adesivo-15cm'], ['20', '&ids=A-parque,A-circuito&gab=0', 'adesivo-20cm-2un']];
+  const jobs = [['20', '', 'adesivo-20cm'], ['15', '', 'adesivo-15cm'], ['20', '&ids=A-parque,A-circuito&gab=0', 'adesivo-20cm-2un'], ['20', '&ids=nenhum', 'gabarito-20cm-A4']];
   for (const [d, extra, name] of jobs) {
     const page = await browser.newPage();
     await page.goto(`http://127.0.0.1:${PORT}/wobbler/?print=${d}${extra}`, { waitUntil: 'networkidle' });
