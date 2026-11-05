@@ -7,7 +7,7 @@ import json, pathlib, segno
 HOME = 'https://institutofacaamigos.com.br'
 QR_URLS = {
     'parque': 'https://g.page/r/CdAKkR4NdeqlEAE/review',          # verificar: perfil do Playground Parque
-    'graopara': 'https://g.page/r/PREENCHER-GRAO-PARA/review',     # PROVISÓRIO: falta o link do perfil
+    'graopara': 'https://g.page/r/CVQ-LiTafrqNECE/review',          # informado pelo Bruno
     'clinica': 'https://g.page/r/CUpdqF5yECeVECE/review',          # informado pela clínica
     'fidelidade': f'{HOME}/circuito?utm_source=wobbler&utm_medium=balcao',
     'inclusivo': f'{HOME}/clinica?utm_source=wobbler&utm_medium=balcao',

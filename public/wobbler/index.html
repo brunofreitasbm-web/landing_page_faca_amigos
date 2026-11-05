@@ -84,10 +84,8 @@
     <h2>Distribuição sugerida</h2>
     <table>
       <tr><th>Original</th><th>Onde</th><th>Arte</th></tr>
-      <tr><td>Ø20 #1</td><td>Playground Parque Shopping (saída)</td><td>A ou B</td></tr>
-      <tr><td>Ø20 #2</td><td>Playground Grão-Pará (saída)</td><td>A ou B (falta o link do perfil)</td></tr>
-      <tr><td>Ø20 #3</td><td>Circuito de Carrinhos (saída)</td><td>A, com QR do perfil do Parque</td></tr>
-      <tr><td>Ø20 #4</td><td>Você escolhe</td><td>B, C, D ou F</td></tr>
+      <tr><td>Ø20 #1</td><td>Playground Parque Shopping (saída)</td><td>A</td></tr>
+      <tr><td>Ø20 #2</td><td>Playground Grão-Pará (saída)</td><td>A</td></tr>
       <tr><td>Ø15 #1 e #2</td><td>Clínica</td><td>Clínica</td></tr>
     </table>
   </div>
@@ -95,8 +93,7 @@
     <h2>Pendências</h2>
     <ul style="margin-left:18px;font-size:.92rem">
       <li>Medidas conferidas pelo traçado a lápis em A4 (Ø199 mm na parte redonda).</li>
-      <li>Você tem 2 originais deste formato. Para os outros wobblers (Ø20 e Ø15), confirme se o formato é o mesmo.</li>
-      <li>Link de avaliação do <b>Grão-Pará</b>: ainda não está no repositório. O QR dessa arte é provisório.</li>
+      <li>Só há 2 originais deste formato: as duas artes A (Parque e Grão-Pará) são as que vão para impressão.</li>
       <li>Link do <b>Parque</b>: usei o que está na página /playground. Confirme que é o perfil do Parque.</li>
     </ul>
   </div>
@@ -140,10 +137,10 @@
     A: (u) => ({ bg:'#FFF9F1', body: cap('#065264') +
       N('Avalie no', 21, 11, '#FFFFFF', { x:L, a:'start' }) +
       t('Google', 41, 21, '#FDC51D', { x:L, a:'start' }) +
-      stars(74, 6.5, 15) +
-      qrBox(u.qr, 66, 84) +
-      N('Aponte a câmera', 171, 8.5, '#065264') +
-      N(u.rodape, 180, 5.4, '#4F646B') }),
+      stars(69, 7.4, 16.5, '#FDC51D') +
+      qrBox(u.qr, 76, 79) +
+      t('Aponte a câmera', 173, 10, '#065264') +
+      N('e avalie em 30 segundos', 182.5, 6.2, '#D61F4A') }),
     B: (u) => ({ bg:'#FDC51D', body: cap('#D61F4A') +
       N('Gostou de brincar?', 20, 8.5, '#FFFFFF', { x:L, a:'start' }) +
       t('Avalie no Google', 40, 14, '#FFE9A8', { x:L, a:'start' }) +
@@ -186,9 +183,8 @@
   };
 
   const concepts20 = [
-    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Faixa escura no lóbulo, como no original. Estrelas + QR de 66 mm.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
-    { id:'A-grao', k:'A', tag:'A · Avaliação Google', titulo:'Grão-Pará', onde:'Playground Grão-Pará, na saída', desc:'Mesma arte, QR do perfil do Grão-Pará.', prov:'QR provisório: falta o link do perfil', u:{qr:'graopara', rodape:'Playground Grão-Pará'} },
-    { id:'A-circuito', k:'A', tag:'A · Avaliação Google', titulo:'Circuito', onde:'Circuito de Carrinhos, na saída', desc:'QR leva ao perfil do Parque, já que o Circuito não tem perfil próprio. O rodapé diz "FaçaAmigos" para não confundir.', u:{qr:'parque', rodape:'FaçaAmigos · Parque Shopping'} },
+    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Faixa escura no lóbulo, como no original. Estrelas, "Avalie no Google" e QR de 76 mm, linha própria de 5 estrelas.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
+    { id:'A-grao', k:'A', tag:'A · Avaliação Google', titulo:'Grão-Pará', onde:'Playground Grão-Pará, na saída', desc:'Mesma arte, QR do perfil do Grão-Pará.', u:{qr:'graopara', rodape:'Playground Grão-Pará'} },
     { id:'B-parque', k:'B', tag:'B · Avaliação com mascote', titulo:'Versão infantil', onde:'Qualquer Playground', desc:'Amarelo, macaco e tom mais leve. QR de 60 mm.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
     { id:'C', k:'C', tag:'C · Fidelidade', titulo:'A 10ª é grátis', onde:'Circuito ou Playground', desc:'Regra literal do site (10 visitas por CPF). Muda comportamento, não gera avaliação.' },
     { id:'D', k:'D', tag:'D · Horário Inclusivo', titulo:'Ambiente mais calmo', onde:'Playground, ponte para a Clínica', desc:'Cruza o Playground com o público da Clínica. QR para /clinica.' },
