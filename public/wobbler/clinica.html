@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Adesivos da Clínica — FaçaAmigos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800&display=swap">
+<style>
+  :root { --yellow:#FDC51D; --teal:#07C5C8; --pink:#D61F4A; --petrol:#065264; --ice:#F4FAFB; --gray:#4F646B; --line:#D7E6E9; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:'Nunito','Segoe UI',sans-serif; background:var(--ice); color:#0B1416; line-height:1.5; }
+  .wrap { max-width:1000px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-family:'Fredoka',sans-serif; color:var(--petrol); font-size:clamp(1.7rem,5vw,2.3rem); line-height:1.1; }
+  h2 { font-family:'Fredoka',sans-serif; color:var(--petrol); font-size:1.3rem; margin:30px 0 6px; }
+  .lead { color:var(--gray); max-width:70ch; margin-top:8px; }
+  .grade { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; margin-top:12px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:18px; padding:14px; display:flex; flex-direction:column; gap:8px; }
+  .card svg { width:100%; height:auto; display:block; filter:drop-shadow(0 3px 6px rgba(6,82,100,.22)); }
+  .card .tag { font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--pink); }
+  .card h3 { font-family:'Fredoka',sans-serif; color:var(--petrol); font-size:1.08rem; line-height:1.15; }
+  .card p { font-size:.88rem; color:var(--gray); }
+  .aviso { background:#fff; border-left:6px solid var(--pink); border-radius:12px; padding:12px 16px; margin-top:16px; font-size:.92rem; }
+  b { color:var(--petrol); }
+
+  /* Impressão: ?print=a ou ?print=b → A4 em tamanho real: gabarito + os dois temas (&gab=0 sem gabarito; &tema=g|h só um) */
+  @page { size:A4; margin:0; }
+  body.print { background:#fff; }
+  body.print .wrap { display:none; }
+  .page { width:210mm; height:296.5mm; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7mm; page-break-after:always; break-after:page; position:relative; overflow:hidden; background:#fff; }
+  .page:last-child { page-break-after:auto; break-after:auto; }
+  .page svg { display:block; }
+  .rotulo { position:absolute; bottom:8mm; left:0; right:0; text-align:center; font-size:9pt; font-weight:800; color:#555; }
+  .instr { font-size:10.5pt; font-weight:700; color:#222; max-width:150mm; text-align:center; line-height:1.4; }
+  .regua { width:100mm; height:7mm; border:.3mm solid #000; border-top:0; background:repeating-linear-gradient(90deg,#000 0 .3mm,transparent .3mm 10mm); background-size:100% 4mm; background-repeat:no-repeat; position:relative; }
+  .regua span { position:absolute; top:4.5mm; font-size:7pt; font-weight:800; white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Adesivos da Clínica</h1>
+  <p class="lead">Dois wobblers para a recepção, cada um com o seu formato (tirado do contorno a lápis na folha A4). Cada formato tem dois temas para você escolher.</p>
+  <div class="aviso"><b>Formato A</b> (cabeça com orelhas) mede <b id="dimA">—</b>. <b>Formato B</b> (círculo com aba à esquerda) mede <b id="dimB">—</b>. Tema <b>Google</b>: avaliação, como você decidiu para a Clínica. Tema <b>Acolhimento</b>: "Oi, amigo!" e "Cada um do seu jeito", sem QR, com o WhatsApp da Clínica. Sobre o Google: o CFP restringe depoimento de paciente em Psicologia, então confirme com o CRP-10 antes de imprimir.</div>
+  <h2>Formato A — cabeça com orelhas</h2>
+  <div class="grade" id="gA"></div>
+  <h2>Formato B — círculo com aba</h2>
+  <div class="grade" id="gB"></div>
+</div>
+
+<script src="qr.js"></script>
+<script src="forma-clinica-a.js"></script>
+<script src="forma-clinica-b.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const PRINT = params.get('print');            // 'a' | 'b' | null
+  if (PRINT) document.body.classList.add('print');
+  const NS = 'http://www.w3.org/2000/svg';
+  const FORMAS = { a: FORMA_CL_A, b: FORMA_CL_B };
+  const RATIO = { 'macaco-festa':280/264, 'cachorro-acena':276/340, 'tucano-joinha':300/296, 'tartaruga-sorri':296/200, 'macaco-sentado':208/240, 'cachorro-sentado':240/328, 'tartaruga-ri':304/192, 'macaco-danca':216/284, 'cachorro-pula':1 };
+
+  const star = (cx, cy, r, fill) => {
+    const pts = [];
+    for (let i = 0; i < 10; i++) { const a = -Math.PI/2 + i*Math.PI/5, rr = i%2 ? r*0.42 : r; pts.push((cx+rr*Math.cos(a)).toFixed(2)+','+(cy+rr*Math.sin(a)).toFixed(2)); }
+    return `<polygon points="${pts.join(' ')}" fill="${fill}" stroke="#043F4E" stroke-width="0.8" stroke-linejoin="round"/>`;
+  };
+  const stars = (x, y, r, gap, fill='#FDC51D') => `<g data-chk="estrelas">${[0,1,2,3,4].map(i => star(x + (i-2)*gap, y, r, fill)).join('')}</g>`;
+  const t = (txt, x, y, size, fill, o={}) => `<text data-chk x="${x}" y="${y}" text-anchor="${o.a || 'middle'}" font-family="${o.font || 'Fredoka,sans-serif'}" font-weight="${o.w || 700}" font-size="${size}" fill="${fill}" ${o.ls ? `letter-spacing="${o.ls}"` : ''}>${txt}</text>`;
+  const N = (txt, x, y, size, fill, o={}) => t(txt, x, y, size, fill, { font:'Nunito,sans-serif', w:800, ...o });
+  const qrBox = (key, size, cx, y, frame='#043F4E') => {
+    const q = QR[key], pad = 2.6, tot = size + pad*2, x0 = cx - tot/2;
+    return `<rect data-chk="qr" x="${x0}" y="${y}" width="${tot}" height="${tot}" rx="3.5" fill="#fff" stroke="${frame}" stroke-width="1"/>` +
+           `<svg x="${x0+pad}" y="${y+pad}" width="${size}" height="${size}" viewBox="0 0 ${q.n} ${q.n}" shape-rendering="crispEdges"><path d="${q.d}" fill="#0B1416"/></svg>`;
+  };
+  // Selo branco com a logo da Clínica (a logo é colorida e some em fundo amarelo ou petróleo).
+  const selo = (cx, y, w) => { const lw = w - 10, lh = lw / (1040/179), h = lh + 5;
+    return `<rect data-chk="selo" x="${cx-w/2}" y="${y}" width="${w}" height="${h}" rx="${h/2}" fill="#FFFFFF"/>` +
+           `<image href="../img/logo-clinica.png" x="${cx-lw/2}" y="${y+2.5}" width="${lw}" height="${lh}" preserveAspectRatio="xMidYMid meet"/>`; };
+  const amigo = (file, x, y, w) => `<image data-chk="amigo" href="../img/amigos/${file}.webp" x="${x}" y="${y}" width="${w}" height="${w / RATIO[file]}" preserveAspectRatio="xMidYMid meet"/>`;
+  const dots = (c, pts) => pts.map(([x,y,r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" opacity=".35"/>`).join('');
+
+  const ARTES = {
+    // ---------- Formato A (cabeça com orelhas): área útil ~ x 14-134, y 16-125 ----------
+    'a-g': { forma:'a', tema:'g', tag:'Formato A · Google', titulo:'Avalie no Google', desc:'Fundo petróleo, estrelas amarelas, QR de 46 mm e o macaco de festa.',
+      bg:'#065264', body: () =>
+        dots('#07C5C8', [[22,34,9],[128,100,12],[132,40,5]]) +
+        selo(76, 21, 58) +
+        t('Avalie no Google', 76, 49, 12, '#FDC51D') +
+        stars(76, 60, 5.3, 11.8) +
+        qrBox('clinica', 46, 62, 66) +
+        amigo('macaco-festa', 95, 70, 42) +
+        N('Aponte a câmera', 64, 122.5, 5.6, '#FFFFFF') },
+    'a-h': { forma:'a', tema:'h', tag:'Formato A · Acolhimento', titulo:'Oi, amigo!', desc:'Fundo amarelo, quatro personagens e o WhatsApp da Clínica. Sem QR.',
+      bg:'#FDC51D', body: () =>
+        dots('#FFFFFF', [[24,30,8],[128,34,5],[132,92,10]]) +
+        t('Oi, amigo!', 74, 44, 21, '#D61F4A') +
+        N('Cada um do seu jeito', 74, 56, 8.2, '#065264') +
+        amigo('cachorro-acena', 20, 59, 26) +
+        amigo('macaco-festa', 46, 62, 34) +
+        amigo('tucano-joinha', 81, 62, 30) +
+        amigo('tartaruga-sorri', 108, 72, 31) +
+        selo(78, 96.5, 58) +
+        N('WhatsApp (91) 99178-2027', 78, 119.5, 5.1, '#065264') },
+    // ---------- Formato B (círculo com aba): círculo centro (85,80) r 74.3 ----------
+    'b-g': { forma:'b', tema:'g', tag:'Formato B · Google', titulo:'Avalie no Google', desc:'Fundo petróleo, estrelas, QR de 50 mm, cachorro e tucano ladeando.',
+      bg:'#065264', body: () =>
+        dots('#07C5C8', [[30,40,9],[142,38,6],[140,120,11]]) +
+        selo(85, 21, 52) +
+        t('Avalie no Google', 85, 50, 11.2, '#FDC51D') +
+        stars(85, 59, 5.3, 12) +
+        qrBox('clinica', 50, 85, 66) +
+        amigo('cachorro-acena', 28, 78, 25) +
+        amigo('tucano-joinha', 117, 82, 27) +
+        N('Aponte a câmera', 85, 131, 6.4, '#FFFFFF') },
+    'b-h': { forma:'b', tema:'h', tag:'Formato B · Acolhimento', titulo:'Oi, amigo!', desc:'Fundo amarelo, quatro personagens e o WhatsApp da Clínica. Sem QR.',
+      bg:'#FDC51D', body: () =>
+        dots('#FFFFFF', [[30,38,8],[140,40,5],[138,118,10]]) +
+        t('Oi, amigo!', 85, 44, 16.5, '#D61F4A') +
+        N('Cada um do seu jeito', 85, 54, 7.2, '#065264') +
+        amigo('cachorro-acena', 22, 58, 28) +
+        amigo('macaco-festa', 50, 62, 36) +
+        amigo('tucano-joinha', 89, 62, 32) +
+        amigo('tartaruga-sorri', 118, 76, 30) +
+        selo(85, 103, 62) +
+        N('WhatsApp (91) 99178-2027', 85, 128, 5.4, '#065264') },
+  };
+
+  const vbOf = (F) => [F.bbox.x0 - 1, F.bbox.y0 - 1, F.bbox.x1 - F.bbox.x0 + 2, F.bbox.y1 - F.bbox.y0 + 2];
+  const svgArt = (id, print) => {
+    const a = ARTES[id], F = FORMAS[a.forma], vb = vbOf(F), uid = 'cp-' + id + (print ? '-p' : '');
+    const sz = print ? `width="${vb[2].toFixed(2)}mm" height="${vb[3].toFixed(2)}mm"` : '';
+    const outline = print ? '' : `<path d="${F.CUT}" fill="none" stroke="#065264" stroke-width="0.5" opacity=".5"/>`;
+    return `<svg class="art" data-id="${id}" xmlns="${NS}" viewBox="${vb.join(' ')}" ${sz} role="img" aria-label="${a.tag}">
+      <defs><clipPath id="${uid}"><path d="${print ? F.BLEED : F.CUT}"/></clipPath></defs>
+      <g clip-path="url(#${uid})"><rect x="${vb[0]-5}" y="${vb[1]-5}" width="${vb[2]+10}" height="${vb[3]+10}" fill="${a.bg}"/>${a.body()}</g>${outline}
+      <path class="safe" d="${F.SAFE}" fill="#000" fill-opacity="0" pointer-events="none"/></svg>`;
+  };
+  const gabarito = (k) => {
+    const F = FORMAS[k], vb = vbOf(F), d = document.createElement('div'); d.className = 'page';
+    d.innerHTML = `<svg xmlns="${NS}" viewBox="${vb.join(' ')}" width="${vb[2].toFixed(2)}mm" height="${vb[3].toFixed(2)}mm">
+        <path d="${F.SHAPE}" fill="#f3f3f3" stroke="#000" stroke-width="0.4"/>
+        <path d="${F.CUT}" fill="none" stroke="#000" stroke-width="0.25" stroke-dasharray="2 1.5"/></svg>
+      <div class="regua"><span style="left:0">0</span><span style="left:48mm">5 cm</span><span style="left:94mm">10 cm</span></div>
+      <p class="instr"><b>Gabarito da Clínica, formato ${k.toUpperCase()} — papel comum, impressão em 100% (sem "ajustar à página").</b> Confira que a régua mede 10 cm. Recorte na linha sólida e encaixe sobre o wobbler: deve cobrir exatamente. A linha tracejada é onde o adesivo será cortado (2 mm além).</p>
+      <div class="rotulo">Gabarito · Clínica · formato ${k.toUpperCase()}</div>`;
+    return d;
+  };
+
+  const dim = (k) => { const o = FORMAS[k].orig; return `${(o.x1-o.x0).toFixed(0)} × ${(o.y1-o.y0).toFixed(0)} mm`; };
+  document.getElementById('dimA').textContent = dim('a'); document.getElementById('dimB').textContent = dim('b');
+
+  const ids = Object.keys(ARTES).filter(id => !PRINT || ARTES[id].forma === PRINT).filter(id => !params.get('tema') || ARTES[id].tema === params.get('tema'));
+  if (PRINT) {
+    if (params.get('gab') !== '0') document.body.appendChild(gabarito(PRINT));
+    if (params.get('gab') !== '1') ids.forEach(id => { const p = document.createElement('div'); p.className = 'page';
+      p.innerHTML = svgArt(id, true) + `<div class="rotulo">Adesivo da Clínica · ${ARTES[id].tag} · cortar pelo gabarito</div>`; document.body.appendChild(p); });
+  } else {
+    ids.forEach(id => { const a = ARTES[id], c = document.createElement('div'); c.className = 'card';
+      c.innerHTML = `${svgArt(id, false)}<span class="tag">${a.tag}</span><h3>${a.titulo}</h3><p>${a.desc}</p>`;
+      document.getElementById(a.forma === 'a' ? 'gA' : 'gB').appendChild(c); });
+  }
+
+  window.__check = async () => {
+    await document.fonts.ready; const out = [];
+    document.querySelectorAll('svg.art').forEach(s => { const p = s.querySelector('.safe');
+      s.querySelectorAll('[data-chk]').forEach(el => { const b = el.getBBox(); let bad = 0;
+        [b.x, b.x + b.width/2, b.x + b.width].forEach(x => [b.y, b.y + b.height/2, b.y + b.height].forEach(y => { if (!p.isPointInFill(new DOMPoint(x, y))) bad++; }));
+        if (bad) out.push(`${s.dataset.id}: ${(el.textContent || el.getAttribute('data-chk')).trim().slice(0, 26)} (${bad}/9 fora)`); }); });
+    return out;
+  };
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>

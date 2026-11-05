@@ -12,6 +12,7 @@ QR_URLS = {
     'fidelidade': f'{HOME}/circuito?utm_source=wobbler&utm_medium=balcao',
     'inclusivo': f'{HOME}/clinica?utm_source=wobbler&utm_medium=balcao',
     'instagram': 'https://www.instagram.com/facaamigos.belem/',
+    'clinica_wa': 'https://wa.me/5591991782027?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20Fa%C3%A7aAmigos%20-%20Centro%20de%20Terapia%20Comportamental.',
 }
 out = {}
 for k, url in QR_URLS.items():
