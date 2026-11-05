@@ -1,6 +1,7 @@
 # Clusters de intenção comercial: regex para o Search Console
 
 > Criado em 2026-10-05. Documento interno (`docs/` não vai ao ar, ver `.vercelignore`).
+> **Atualizado em 2026-11-05:** rotas corrigidas na seção 4 (`/servicos` virou `/clinica` e `/teste` virou `/mapeamento`) e a Clínica deixou de ser tratada como "em breve". O mapa da jornada de quem busca atendimento na Clínica está em `TOPICAL-MAP.md`; a seção 4 daqui vale para os outros clusters.
 > Substitui o regex de e-commerce (`comprar|loja|pedido|estoque…`), que não descreve o FaçaAmigos: aqui se vende **serviço local**, então a intenção de compra aparece como "quanto custa", "precisa agendar", "horário", "aniversário", "convênio", "perto de mim".
 
 ## 1. O que este regex faz (e o que não faz)
@@ -11,7 +12,7 @@
 
 ## 2. Como usar no Search Console
 
-1. Use a propriedade de **Domínio** (`institutofacaamigos.com.br`). Os clusters ficam em dois hosts (hub e `playground.`); numa propriedade de prefixo de URL, Playground e Circuito somem.
+1. Use a propriedade de **Domínio** (`institutofacaamigos.com.br`). Desde 09/10/2026 o Playground e o Circuito moram no hub; o host antigo `playground.` só redireciona (308). Numa propriedade de prefixo de URL, o histórico desse host antigo some.
 2. **Desempenho > Resultados da pesquisa > + Novo > Consulta > Regex personalizado**, opção **Corresponde ao regex**. Cole um bloco abaixo.
 3. Período: **3 a 16 meses**. O site é local e novo; o GSC esconde consultas raras, e filtro fino em 28 dias tende a voltar vazio.
 4. Depois de filtrar, abra a aba **Páginas**: se a busca de um cluster cai na página errada (ex.: "preço carrinho elétrico" caindo no hub), o problema é de arquitetura, não de palavra.
@@ -150,8 +151,8 @@ Cada cluster tem uma **página pilar** (a que deve ranquear para a busca princip
 |---|---|---|---|---|---|---|
 | Playground | `institutofacaamigos.com.br/playground` | `/aprender/primeira-vez-no-playground`, `/aprender/e-para-todas-as-criancas`, FAQ do hub | playground inclusivo Belém | parquinho Parque Shopping, espaço kids, onde levar criança em Belém | quanto custa, precisa agendar, posso deixar e circular, faixa etária, horário | playground x brinquedoteca, "é só para autista?" |
 | Circuito | `institutofacaamigos.com.br/circuito` | FAQ do circuito | carrinho elétrico shopping Belém | kart infantil, mini carro, circuito de carrinhos | quanto custa (R$ 48), minuto adicional, idade/altura, vai sozinho | circuito x playground (qual escolher para a idade) |
-| Clínica | `/servicos` | `/aprender/como-e-a-terapia-comportamental`, `/aprender/laudo-e-ciptea`, `/glossario` | clínica terapia comportamental infantil Belém | ABA Umarizal, fono infantil, terapia ocupacional infantil | atende convênio, precisa laudo, idade, avaliação é diagnóstico | ABA x outras abordagens, clínica x terapia em casa |
-| Teste | `/teste` | `/aprender/sinais-para-observar`, `/aprender/birra-ou-crise` | teste comportamental infantil gratuito | checklist autismo, sinais de TDAH, meu filho é autista | o teste dá diagnóstico, quanto tempo leva, é gratuito | teste online x avaliação profissional |
+| Clínica | `/clinica` | `/aprender/como-e-a-terapia-comportamental`, `/aprender/laudo-e-ciptea`, `/glossario` | clínica terapia comportamental infantil Belém | ABA Umarizal, fono infantil, terapia ocupacional infantil | atende convênio, precisa laudo, idade, avaliação é diagnóstico | ABA x outras abordagens, clínica x terapia em casa |
+| Teste | `/mapeamento` | `/aprender/sinais-para-observar`, `/aprender/birra-ou-crise` | teste comportamental infantil gratuito | checklist autismo, sinais de TDAH, meu filho é autista | o teste dá diagnóstico, quanto tempo leva, é gratuito | teste online x avaliação profissional |
 | E-books | `/guia` e `/codigo` | `/aprender/brincar-com-proposito-10-minutos`, `/aprender/rotina-visual-em-casa` | guia para pais desenvolvimento infantil | e-book brincar com propósito, livro para pais de criança atípica | vale a pena, garantia, como recebo | guia x código: qual comprar |
 | Eventos | `/eventos` | `/aprender/conversar-com-a-escola` | palestra autismo Belém | curso para pais, treinamento para professores | ingresso, vagas, certificado | (só medir, depende do calendário) |
 
@@ -163,13 +164,13 @@ Ordem por intenção de compra e esforço. Nada disso foi implementado: este doc
 2. **Comparação "guia x código: qual escolher".** Quem compara está pronto para comprar e hoje não tem resposta; vale um bloco nas duas páginas ou um artigo em `/aprender`.
 3. **"Teste online x avaliação profissional".** Liga o Teste à Clínica sem prometer diagnóstico.
 4. **"Como escolher um playground para criança atípica".** Responde "melhor playground" com critérios, sem usar "melhor" como promessa.
-5. **Clínica por serviço (fono, TO, ABA).** Só quando a Clínica abrir; antes disso, busca comercial cai em lista de espera e frustra.
+5. **Clínica por serviço (fono, TO, ABA).** A Clínica já atende e as páginas por serviço existem (`/clinica/terapia-aba`, `/clinica/fonoaudiologia`, `/clinica/terapia-ocupacional` e outras). O que falta é ligar cada uma a artigos de apoio, como descrito em `TOPICAL-MAP.md`.
 
 ## 6. Armadilhas
 
 - **Volume baixo**: um mês sem resultado no filtro não prova que a busca não existe; o GSC oculta consultas raras. Some o período antes de concluir.
 - **Aniversário / festa**: o FaçaAmigos **não oferece** (confirmado em 2026-10-05). `anivers|festa` fica no regex de intenção só para medir demanda; não criar página nem citar em FAQ. Se o volume no GSC for alto, é dado para decidir se vale lançar o serviço.
 - **Marca infla o resultado**: "faça amigos preço" é cliente que já conhece. Descoberta é o cluster **sem** marca.
-- **Clínica "em breve"**: medir, mas não empurrar conteúdo comercial antes de abrir.
+- **Clínica**: já atende (os textos "em breve" e "lista de espera" foram corrigidos, ver `MAPA-DO-SITE.md`). Conteúdo comercial da Clínica segue as regras do `scripts/check.mjs` (sem "melhor clínica", sem promessa de resultado, sem "cura") e a revisão da Isabella.
 - **Preços** vivem em vários lugares (HTML, JSON-LD, `llms*.txt`, `fa-track.js`, `fa-health`). Conteúdo novo que cite preço tem que seguir a tabela da seção 11 do `docs/CODEBASE_MAP.md`.
 - **Regex mudou?** Revalide num motor RE2 (Go `regexp` serve) antes de colar: Python e JavaScript aceitam coisas que o GSC recusa (lookahead) e tratam `\b` diferente.
