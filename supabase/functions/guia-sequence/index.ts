@@ -1,4 +1,4 @@
-// Sequência de e-mails do guia "O Brincar com Propósito" (dias 1, 3 e 6 após o resultado do mapa).
+// Sequência de e-mails do mapa: dias 1, 3 e 6 vendem o e-book (guia ou Código); o dia 9 é conteúdo gratuito (/aprender); o dia 12 convida para o próximo passo com a clínica.
 //
 // Como funciona:
 //  - pg_cron chama POST ?run=1 de hora em hora, com o cabeçalho x-run-key. A função procura leads que marcaram o opt-in
@@ -14,8 +14,8 @@
 //  - Também interrompe se o contato estiver bloqueado ou tiver saído da lista no Brevo.
 //  - Quem já comprou sai da sequência: hotmart-sync grava as vendas em fa_ebook_compras e marca os leads.
 //
-// Secrets: BREVO_API_KEY, BREVO_LIST_ID (já existentes), SEQ_SECRET (assinatura do link de descadastro)
-// e SEQ_RUN_KEY (senha do ?run=1; sem ela a função recusa o disparo).
+// Secrets: BREVO_API_KEY, BREVO_LIST_ID (já existentes) e SEQ_SECRET (assinatura do link de descadastro).
+// A senha do ?run=1 é o secret 'seq_run_key' do Vault (ver ops/reagendar-crons.sql); sem ela a função recusa o disparo.
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
@@ -28,6 +28,12 @@ const STEPS = [
   { step: 1, templateId: 1, delayHours: 24 },
   { step: 2, templateId: 2, delayHours: 72 },
   { step: 3, templateId: 3, delayHours: 144 },
+  // Passo 4: conteúdo gratuito (página /aprender), 3 dias depois do último e-mail de venda. Template 4 no Brevo
+  // (supabase/email-templates/ebook-d9-aprender.html). Sem esse template criado, o Brevo recusa e o passo é refeito a cada hora.
+  { step: 4, templateId: 4, delayHours: 216 },
+  // Passo 5: próximo passo com a clínica (convênio / particular / conversar), 3 dias depois do passo 4. Template 5 no Brevo
+  // (supabase/email-templates/ebook-d12-proximo-passo.html). Sem preço, desconto ou urgência de propósito (publicidade em saúde).
+  { step: 5, templateId: 5, delayHours: 288 },
 ];
 
 const SITE = "https://institutofacaamigos.com.br";
@@ -74,6 +80,15 @@ function offerUrl(key: OfferKey, lead: Lead, step: number): string {
   u.searchParams.set("utm_source", "email");
   u.searchParams.set("utm_medium", "sequencia");
   u.searchParams.set("utm_campaign", `seq_${key}_d${step}`);
+  return u.toString();
+}
+
+// Página gratuita com os guias e artigos do site. Vai em todos os e-mails (params.APRENDER_URL), com rastreio no GA4.
+function aprenderUrl(step: number): string {
+  const u = new URL(SITE + "/aprender");
+  u.searchParams.set("utm_source", "email");
+  u.searchParams.set("utm_medium", "sequencia");
+  u.searchParams.set("utm_campaign", `seq_aprender_d${step}`);
   return u.toString();
 }
 
@@ -255,10 +270,11 @@ async function runBatch(admin: ReturnType<typeof createClient>, dry: boolean) {
             PRODUTO_CTA: offer.cta,
             PRODUTO_PRECO: offer.price,
             PRODUTO_PARCELAS: offer.installments,
+            APRENDER_URL: aprenderUrl(next.step),
             UNSUB_URL: unsubPage,
           },
           headers: { "List-Unsubscribe": `<${unsubOneClick}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
-          tags: ["guia_sequencia", `d${next.step}`, `produto_${offerKey}`],
+          tags: ["guia_sequencia", `d${next.step}`, next.step === 4 ? "conteudo_aprender" : next.step === 5 ? "proximo_passo_clinica" : `produto_${offerKey}`],
         }),
       });
       if (!resp.ok) {
@@ -315,10 +331,18 @@ Deno.serve(async (req) => {
   }
 
   // Execução agendada (pg_cron). Idempotente: só envia o que já venceu e nunca duplica.
-  // Exige o cabeçalho x-run-key (secret SEQ_RUN_KEY, o mesmo guardado no Vault para o cron); sem o secret, recusa.
+  // Exige o cabeçalho x-run-key; sem chave válida, recusa.
   if (url.searchParams.get("run") === "1") {
-    const runKey = Deno.env.get("SEQ_RUN_KEY") ?? "";
-    if (!runKey || !safeEqual(req.headers.get("x-run-key") ?? "", runKey)) return json(req, { error: "não autorizado" }, 401);
+    // A chave vive no Vault (secret 'seq_run_key', gerado no banco; o cron a lê de lá). A função a confere pela RPC
+    // fa_seq_run_key_ok (só service_role). O secret de ambiente SEQ_RUN_KEY, se existir, também vale.
+    const given = req.headers.get("x-run-key") ?? "";
+    const envKey = Deno.env.get("SEQ_RUN_KEY") ?? "";
+    let authorized = !!envKey && safeEqual(given, envKey);
+    if (!authorized && given) {
+      const { data } = await admin.rpc("fa_seq_run_key_ok", { p_key: given });
+      authorized = data === true;
+    }
+    if (!authorized) return json(req, { error: "não autorizado" }, 401);
     return json(req, await runBatch(admin, url.searchParams.get("dry") === "1"));
   }
 
