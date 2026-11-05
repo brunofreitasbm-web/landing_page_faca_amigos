@@ -199,7 +199,6 @@
           var submitBtn = $('contact-form-submit');
           if (input.value === 'under-4' && input.checked) {
             notice.hidden = false;
-            if (submitBtn) submitBtn.disabled = true;
             pushEvent({ event: 'teste_under4' });
           } else if (input.checked) {
             notice.hidden = true;
@@ -239,7 +238,7 @@
           return;
         }
         if (ageEl.value === 'under-4') {
-          errBox.textContent = 'Este questionário é para crianças de 4 a 17 anos. Fale com a gente pelo WhatsApp acima.';
+          errBox.textContent = 'Este questionário é para crianças de 4 a 17 anos. Para crianças menores, fale com a nossa equipe pelo WhatsApp da Clínica.';
           errBox.style.display = 'block';
           return;
         }
@@ -751,15 +750,6 @@
       $('result-clinica').addEventListener('click', function () {
         pushEvent({ event: 'teste_clinica_click' });
       });
-
-      var under4Wa = $('under4-wa');
-      if (under4Wa) {
-        under4Wa.addEventListener('click', function () {
-          var childLabel = ($('child-name') && $('child-name').value.trim()) || 'meu filho';
-          var msg = 'Oi! Minha criança (' + childLabel + ') tem menos de 4 anos e eu gostaria de conversar sobre o desenvolvimento dela.';
-          under4Wa.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
-        });
-      }
 
       $('btn-restart').addEventListener('click', function () {
         resetAll();
