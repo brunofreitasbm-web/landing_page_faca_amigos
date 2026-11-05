@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Adesivo do Circuito — FaçaAmigos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800&display=swap">
+<style>
+  :root { --yellow:#FDC51D; --teal:#07C5C8; --pink:#D61F4A; --petrol:#065264; --ice:#F4FAFB; --gray:#4F646B; --line:#D7E6E9; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:'Nunito','Segoe UI',sans-serif; background:var(--ice); color:#0B1416; line-height:1.5; }
+  .wrap { max-width:900px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-family:'Fredoka',sans-serif; color:var(--petrol); font-size:clamp(1.7rem,5vw,2.3rem); line-height:1.1; }
+  .lead { color:var(--gray); max-width:68ch; margin-top:8px; }
+  .row { display:grid; grid-template-columns:minmax(0,420px) minmax(0,1fr); gap:20px; margin-top:20px; align-items:start; }
+  .box { background:#fff; border:1px solid var(--line); border-radius:18px; padding:14px; }
+  .box svg { width:100%; height:auto; display:block; filter:drop-shadow(0 3px 6px rgba(6,82,100,.22)); }
+  .box p, .box li { font-size:.92rem; color:var(--gray); }
+  .box ul { margin:8px 0 0 18px; }
+  b { color:var(--petrol); }
+  @media (max-width:700px) { .row { grid-template-columns:1fr; } }
+
+  /* Impressão: ?print=1 → A4 em tamanho real: gabarito + arte (&gab=0 só a arte) */
+  @page { size:A4; margin:0; }
+  body.print { background:#fff; }
+  body.print .wrap { display:none; }
+  .page { width:210mm; height:296.5mm; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6mm; page-break-after:always; break-after:page; position:relative; overflow:hidden; background:#fff; }
+  .page:last-child { page-break-after:auto; break-after:auto; }
+  .page svg { display:block; }
+  .rotulo { position:absolute; bottom:8mm; left:0; right:0; text-align:center; font-size:9pt; font-weight:800; color:#555; }
+  .instr { font-size:10.5pt; font-weight:700; color:#222; max-width:150mm; text-align:center; line-height:1.4; }
+  .regua { width:100mm; height:7mm; border:.3mm solid #000; border-top:0; background:repeating-linear-gradient(90deg,#000 0 .3mm,transparent .3mm 10mm); background-size:100% 4mm; background-repeat:no-repeat; position:relative; }
+  .regua span { position:absolute; top:4.5mm; font-size:7pt; font-weight:800; white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Adesivo do Circuito de Carrinhos</h1>
+  <p class="lead">Foto no carrinho e marcação no Instagram, no formato do wobbler do Circuito (círculo com o loop no alto à direita e as barras na base).</p>
+  <div class="row">
+    <div class="box" id="prev"></div>
+    <div class="box">
+      <p><b>Formato:</b> tirado do contorno traçado a lápis na folha A4, com a perspectiva da foto corrigida pelos quatro cantos do papel. Parte redonda Ø196 mm; total <b id="dim">—</b>.</p>
+      <ul>
+        <li>QR leva ao Instagram <b>@facaamigos.belem</b>.</li>
+        <li>Corte 2 mm além do contorno do original (dobra na espessura do papelão). A arte vai 3 mm além disso (sangria).</li>
+        <li>Teste o gabarito em papel comum antes do adesivo.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="qr.js"></script>
+<script src="forma-circuito.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const PRINT = params.get('print');
+  if (PRINT) document.body.classList.add('print');
+  const NS = 'http://www.w3.org/2000/svg';
+  const { SHAPE, CUT, BLEED, SAFE, bbox, orig } = FORMA_CIRC;
+  const VB = [bbox.x0 - 1, bbox.y0 - 1, bbox.x1 - bbox.x0 + 2, bbox.y1 - bbox.y0 + 2];
+  const CX = 100, CY = 100;      // círculo da base (Ø196)
+
+  const t = (txt, y, size, fill, o={}) => `<text data-chk x="${o.x ?? 100}" y="${y}" text-anchor="${o.a || 'middle'}" font-family="${o.font || 'Fredoka,sans-serif'}" font-weight="${o.w || 700}" font-size="${size}" fill="${fill}" ${o.ls ? `letter-spacing="${o.ls}"` : ''}>${txt}</text>`;
+  const N = (txt, y, size, fill, o={}) => t(txt, y, size, fill, { font:'Nunito,sans-serif', w:800, ...o });
+  const qrBox = (key, size, y) => {
+    const q = QR[key], pad = 3.2, tot = size + pad*2, x0 = 100 - tot/2;
+    return `<rect data-chk="qr" x="${x0}" y="${y}" width="${tot}" height="${tot}" rx="4" fill="#fff" stroke="#043F4E" stroke-width="1.2"/>` +
+           `<svg x="${x0+pad}" y="${y+pad}" width="${size}" height="${size}" viewBox="0 0 ${q.n} ${q.n}" shape-rendering="crispEdges"><path d="${q.d}" fill="#0B1416"/></svg>`;
+  };
+  const logo = (y, w) => `<image data-chk="logo" href="../img/logo-facaamigos.png" x="${100-w/2}" y="${y}" width="${w}" height="${w/(1024/147)}" preserveAspectRatio="xMidYMid meet"/>`;
+  const amigo = (file, x, y, w, h) => `<image data-chk="amigo" href="../img/amigos/${file}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
+  // (sem data-chk: o getBBox de um grupo com transform vem em coordenadas locais; posição conferida à mão: x 137-159, y 4-22)
+  // Ícone de câmera genérico (corpo, lente, flash), sem usar o glifo do Instagram.
+  const camera = (cx, cy, s) => `<g transform="translate(${cx} ${cy}) scale(${s})">
+      <rect x="-12" y="-8.5" width="24" height="17" rx="3.4" fill="#FDC51D"/>
+      <rect x="-6" y="-11.5" width="9" height="4" rx="1.4" fill="#FDC51D"/>
+      <circle cx="0" cy="0.4" r="5.8" fill="#065264"/><circle cx="0" cy="0.4" r="3.6" fill="#07C5C8"/><circle cx="-1.2" cy="-0.8" r="1.1" fill="#fff"/>
+      <circle cx="8.3" cy="-4.6" r="1.1" fill="#D61F4A"/></g>`;
+  // Faixa escura de cima; curva de baixo desce no meio e sobe à direita (como no original).
+  const capPath = 'M-40 -40 L240 -40 L240 40 C 200 52, 170 50, 150 46 C 120 40, 90 54, 60 52 C 40 51, 20 48, -40 54 Z';
+
+  const art = () => {
+    const bg = '#FDC51D';
+    const body =
+      `<path d="${capPath}" fill="#065264"/>` +
+      `<rect x="-40" y="183" width="280" height="40" fill="#D61F4A"/>` +
+      camera(148, 14, 0.9) +
+      N('CIRCUITO DE CARRINHOS', 24, 4.4, '#FDC51D', { x:96, ls:1 }) +
+      t('Fez foto', 34, 11, '#FFFFFF', { x:92 }) +
+      t('no carrinho?', 49, 14.5, '#FFFFFF', { x:92 }) +
+      t('Marque a gente no Instagram!', 66, 9.2, '#D61F4A') +
+      qrBox('instagram', 70, 74) +
+      amigo('macaco-festa.webp', 20, 96, 38, 36) +
+      amigo('tucano-joinha.webp', 143, 94, 36, 36) +
+      t('@facaamigos.belem', 165, 11, '#065264') +
+      logo(173.5, 48);
+    return { bg, body };
+  };
+
+  const svg = (mode) => {
+    const o = art();
+    const print = mode === 'print';
+    const sz = print ? `width="${VB[2].toFixed(2)}mm" height="${VB[3].toFixed(2)}mm"` : '';
+    const clip = print ? BLEED : CUT;
+    const outline = print ? '' : `<path d="${CUT}" fill="none" stroke="#065264" stroke-width="0.6" opacity=".5"/>`;
+    return `<svg class="art" data-id="circuito" xmlns="${NS}" viewBox="${VB.join(' ')}" ${sz} role="img" aria-label="Adesivo do Circuito: foto no carrinho e marcação no Instagram">
+      <defs><clipPath id="cp"><path d="${clip}"/></clipPath></defs>
+      <g clip-path="url(#cp)"><rect x="${VB[0]-5}" y="${VB[1]-5}" width="${VB[2]+10}" height="${VB[3]+10}" fill="${o.bg}"/>${o.body}</g>${outline}
+      <path class="safe" d="${SAFE}" fill="#000" fill-opacity="0" pointer-events="none"/>
+    </svg>`;
+  };
+
+  document.getElementById('dim').textContent = `${(orig.x1-orig.x0).toFixed(0)} × ${(orig.y1-orig.y0).toFixed(0)} mm`;
+  const prev = document.getElementById('prev'); if (prev && !PRINT) prev.innerHTML = svg('screen');  // no PDF só existe o SVG de impressão (evita id de clip duplicado)
+
+  const gabarito = () => {
+    const div = document.createElement('div'); div.className = 'page';
+    div.innerHTML = `<svg xmlns="${NS}" viewBox="${VB.join(' ')}" width="${VB[2].toFixed(2)}mm" height="${VB[3].toFixed(2)}mm">
+        <path d="${SHAPE}" fill="#f3f3f3" stroke="#000" stroke-width="0.4"/>
+        <path d="${CUT}" fill="none" stroke="#000" stroke-width="0.25" stroke-dasharray="2 1.5"/></svg>
+      <div class="regua"><span style="left:0">0</span><span style="left:48mm">5 cm</span><span style="left:94mm">10 cm</span></div>
+      <p class="instr"><b>Gabarito do Circuito — papel comum, impressão em 100% (sem "ajustar à página").</b> Confira que a régua mede 10 cm. Recorte na linha sólida e encaixe sobre o wobbler: deve cobrir exatamente, inclusive o loop e as barras. A linha tracejada é onde o adesivo será cortado (2 mm além).</p>
+      <div class="rotulo">Gabarito · Circuito de Carrinhos</div>`;
+    return div;
+  };
+  if (PRINT) {
+    if (params.get('gab') !== '0') document.body.appendChild(gabarito());
+    if (params.get('gab') !== '1') {
+      const p = document.createElement('div'); p.className = 'page';
+      p.innerHTML = svg('print') + `<div class="rotulo">Adesivo Circuito de Carrinhos · Instagram @facaamigos.belem · cortar pelo gabarito</div>`;
+      document.body.appendChild(p);
+    }
+  }
+
+  window.__check = async () => {
+    await document.fonts.ready;
+    const out = [];
+    document.querySelectorAll('svg.art').forEach(s => {
+      const p = s.querySelector('.safe');
+      s.querySelectorAll('[data-chk]').forEach(el => {
+        const b = el.getBBox(); let bad = 0;
+        [b.x, b.x + b.width/2, b.x + b.width].forEach(x => [b.y, b.y + b.height/2, b.y + b.height].forEach(y => { if (!p.isPointInFill(new DOMPoint(x, y))) bad++; }));
+        if (bad) out.push(`${(el.textContent || el.getAttribute('data-chk')).trim().slice(0, 28)} (${bad}/9 pontos fora)`);
+      });
+    });
+    return out;
+  };
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>
