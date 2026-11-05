@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Wobblers de balcão — FaçaAmigos</title>
+<title>Adesivos de wobbler — FaçaAmigos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800&display=swap">
 <style>
@@ -18,6 +18,11 @@
   .aviso { background:#fff; border-left:6px solid var(--pink); border-radius:12px; padding:14px 16px; margin-top:20px; font-size:.95rem; }
   .aviso b { color:var(--pink); }
   .aviso ul { margin:6px 0 0 18px; }
+  .forma { display:grid; grid-template-columns:minmax(0,260px) minmax(0,1fr); gap:18px; align-items:start; margin-top:18px; background:#fff; border:1px solid var(--line); border-radius:18px; padding:14px; }
+  .forma img { width:100%; height:auto; border-radius:10px; display:block; }
+  .forma p { font-size:.92rem; color:var(--gray); }
+  .forma b { color:var(--petrol); }
+  @media (max-width:560px) { .forma { grid-template-columns:1fr; } .forma img { max-width:260px; } }
   .grade { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; margin-top:16px; }
   .card { background:#fff; border:1px solid var(--line); border-radius:18px; padding:14px; display:flex; flex-direction:column; gap:10px; }
   .card svg { width:100%; height:auto; display:block; filter:drop-shadow(0 3px 6px rgba(6,82,100,.22)); }
@@ -31,28 +36,38 @@
   th,td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
   th { background:var(--petrol); color:#fff; }
   .frase { background:var(--yellow-soft); border-radius:12px; padding:12px 16px; margin-top:10px; font-weight:800; color:var(--petrol-deep); }
-  /* modo impressão: ?print=20 ou ?print=15 mostra só os discos, 1 por página, em tamanho real */
+
+  /* Impressão: ?print=20 ou ?print=15 → A4 em tamanho real: 1 página de gabarito + 1 página por adesivo */
+  @page { size:A4; margin:0; }
   body.print { background:#fff; }
   body.print .wrap { padding:0; max-width:none; }
   body.print .intro, body.print h2, body.print .tabela, body.print .info { display:none; }
   body.print .grade { display:block; margin:0; }
-  body.print .card { border:0; padding:0; border-radius:0; display:block; page-break-after:always; break-after:page; }
-  body.print .card > *:not(svg) { display:none; }
-  body.print .card:last-child { page-break-after:auto; break-after:auto; }
-  body.print .card svg { filter:none; margin:0; display:block; }
-  body.print h2, body.print .grade:empty { display:none; }
-  body.print .prov { display:none; }
+  .page { width:210mm; height:296.5mm; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6mm; page-break-after:always; break-after:page; position:relative; overflow:hidden; background:#fff; }
+  .page:last-child { page-break-after:auto; break-after:auto; }
+  .page svg { display:block; }
+  .page .rotulo { position:absolute; bottom:8mm; left:0; right:0; text-align:center; font-size:9pt; font-weight:800; color:#555; }
+  .page .instr { font-size:10.5pt; font-weight:700; color:#222; max-width:150mm; text-align:center; line-height:1.4; }
+  .regua { width:100mm; height:7mm; border:.3mm solid #000; border-top:0; background:repeating-linear-gradient(90deg,#000 0 .3mm,transparent .3mm 10mm); background-size:100% 4mm; background-repeat:no-repeat; position:relative; }
+  .regua span { position:absolute; top:4.5mm; font-size:7pt; font-weight:800; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="intro">
-    <h1>Wobblers de balcão</h1>
-    <p class="lead">Seis discos para os computadores de venda: 4 de Ø20 cm (Playground e Circuito) e 2 de Ø15 cm (Clínica). Todos de face única, no formato do modelo: disco com a gota de encaixe deitada à esquerda.</p>
+    <h1>Adesivos de wobbler</h1>
+    <p class="lead">Adesivo para colar por cima do wobbler original, no mesmo formato: parte redonda com o lóbulo no canto superior esquerdo. Imprimir em papel adesivo, cortar à mão na linha preta. O adesivo passa 2 mm do contorno para dobrar na espessura do papelão.</p>
+    <div class="forma">
+      <img src="original-contorno.jpg" alt="Foto do wobbler original com o contorno extraído em vermelho">
+      <div>
+        <p><b>Contorno extraído da sua foto</b> (linha vermelha). A parte redonda ajusta a um círculo com erro médio de 0,7%. O lóbulo sobe cerca de 13 mm acima do círculo e há um pequeno degrau à esquerda, onde a tampa escura encontra a base.</p>
+        <p style="margin-top:8px"><b>Escala assumida:</b> parte redonda = Ø20 cm. O original fica com <b id="dim20">196 × 214 mm</b>. Se os 20 cm forem a maior medida do original (a altura), tudo precisa diminuir 6%. Por isso o PDF começa com uma <b>página de gabarito em papel comum</b>: recorte e encaixe no original antes de gastar o adesivo.</p>
+      </div>
+    </div>
     <div class="aviso"><b>Antes de escolher, três cuidados:</b>
       <ul>
         <li><b>Não peça "5 estrelas" no texto.</b> O Google proíbe incentivar só avaliações positivas, e pedir uma nota soa como pressão. As estrelas aparecem como desenho; o texto pede a avaliação, e nunca há brinde em troca.</li>
-        <li><b>Wobbler sozinho converte pouco.</b> Quem cobra precisa apontar para ele. Frase de balcão sugerida abaixo.</li>
+        <li><b>Adesivo sozinho converte pouco.</b> Quem cobra precisa apontar para ele. Frase de balcão sugerida abaixo.</li>
         <li><b>Clínica:</b> as regras de publicidade em Psicologia (CFP) restringem depoimento de paciente. Foi mantida só a avaliação no Google, como você decidiu, mas vale confirmar com o CRP-10 antes de imprimir.</li>
       </ul>
     </div>
@@ -62,24 +77,25 @@
   <h2>Ø20 cm — Playground e Circuito</h2>
   <div class="grade" id="g20"></div>
 
-  <h2>Ø15 cm — Clínica (2 unidades, mesma arte)</h2>
+  <h2>Ø15 cm — Clínica (mesmo formato reduzido a 75%)</h2>
   <div class="grade" id="g15"></div>
 
   <div class="tabela">
     <h2>Distribuição sugerida</h2>
     <table>
-      <tr><th>Disco</th><th>Onde</th><th>Arte</th></tr>
+      <tr><th>Original</th><th>Onde</th><th>Arte</th></tr>
       <tr><td>Ø20 #1</td><td>Playground Parque Shopping (saída)</td><td>A ou B</td></tr>
       <tr><td>Ø20 #2</td><td>Playground Grão-Pará (saída)</td><td>A ou B (falta o link do perfil)</td></tr>
-      <tr><td>Ø20 #3</td><td>Circuito de Carrinhos (saída)</td><td>A, com QR do perfil do Parque (o Circuito não tem perfil próprio)</td></tr>
+      <tr><td>Ø20 #3</td><td>Circuito de Carrinhos (saída)</td><td>A, com QR do perfil do Parque</td></tr>
       <tr><td>Ø20 #4</td><td>Você escolhe</td><td>B, C, D ou F</td></tr>
-      <tr><td>Ø15 #1 e #2</td><td>Clínica, recepção/atendimento</td><td>Clínica</td></tr>
+      <tr><td>Ø15 #1 e #2</td><td>Clínica</td><td>Clínica</td></tr>
     </table>
   </div>
   <div class="info">
     <h2>Pendências</h2>
     <ul style="margin-left:18px;font-size:.92rem">
-      <li>O formato foi desenhado a partir da foto (gota deitada na borda esquerda, um pouco acima do centro). Confirme a posição e o tamanho da gota antes da gráfica.</li>
+      <li>Medidas do original: confirmar largura e altura com régua. O gabarito de papel resolve na prática.</li>
+      <li>Você tem 2 originais deste formato. Para os outros wobblers (Ø20 e Ø15), confirme se o formato é o mesmo.</li>
       <li>Link de avaliação do <b>Grão-Pará</b>: ainda não está no repositório. O QR dessa arte é provisório.</li>
       <li>Link do <b>Parque</b>: usei o que está na página /playground. Confirme que é o perfil do Parque.</li>
     </ul>
@@ -87,129 +103,159 @@
 </div>
 
 <script src="qr.js"></script>
+<script src="forma.js"></script>
 <script>
 (() => {
   const params = new URLSearchParams(location.search);
   const PRINT = params.get('print');
   if (PRINT) document.body.classList.add('print');
-
   const NS = 'http://www.w3.org/2000/svg';
-  // Forma: círculo Ø200 (unidades = mm) com a gota deitada à esquerda, um pouco acima do centro.
-  const TAB_Y = 72, TAB_TIP = -17, TAB_HALF = 10;
-  const circX = (y) => 100 - Math.sqrt(100*100 - (y-100)*(y-100));
-  const yA = TAB_Y - TAB_HALF, yB = TAB_Y + TAB_HALF;
-  const SHAPE = `M${circX(yA).toFixed(2)} ${yA} A100 100 0 1 1 ${circX(yB).toFixed(2)} ${yB} C ${circX(yB)-6} ${yB-3}, ${TAB_TIP+7} ${TAB_Y+5}, ${TAB_TIP} ${TAB_Y} C ${TAB_TIP+7} ${TAB_Y-5}, ${circX(yA)-6} ${yA+3}, ${circX(yA).toFixed(2)} ${yA} Z`;
-  const VB = '-20 -4 224 208';
+  const { SHAPE, CUT, BLEED, SAFE, bbox, orig } = FORMA;
+  // Coordenadas em mm; o círculo da base é Ø200 centrado em (100,100).
+  const VB = [bbox.x0 - 1, bbox.y0 - 1, bbox.x1 - bbox.x0 + 2, bbox.y1 - bbox.y0 + 2];
+  const dim = document.getElementById('dim20');
+  if (dim) dim.textContent = `${(orig.x1 - orig.x0).toFixed(0)} × ${(orig.y1 - orig.y0).toFixed(0)} mm`;
 
   const star = (cx, cy, r, fill='#FDC51D') => {
     const pts = [];
     for (let i = 0; i < 10; i++) { const a = -Math.PI/2 + i*Math.PI/5, rr = i%2 ? r*0.42 : r; pts.push((cx+rr*Math.cos(a)).toFixed(2)+','+(cy+rr*Math.sin(a)).toFixed(2)); }
     return `<polygon points="${pts.join(' ')}" fill="${fill}" stroke="#043F4E" stroke-width="0.9" stroke-linejoin="round"/>`;
   };
-  const stars = (y, r=7.5, gap=17, fill) => [0,1,2,3,4].map(i => star(100 + (i-2)*gap, y, r, fill)).join('');
-  const t = (txt, y, size, fill, o={}) => `<text x="${o.x ?? 100}" y="${y}" text-anchor="middle" font-family="${o.font || "Fredoka,sans-serif"}" font-weight="${o.w || 700}" font-size="${size}" fill="${fill}" ${o.ls ? `letter-spacing="${o.ls}"` : ''}>${txt}</text>`;
+  const stars = (y, r=7, gap=16, fill, x=100) => `<g data-chk="estrelas">${[0,1,2,3,4].map(i => star(x + (i-2)*gap, y, r, fill)).join('')}</g>`;
+  const t = (txt, y, size, fill, o={}) => `<text data-chk x="${o.x ?? 100}" y="${y}" text-anchor="${o.a || 'middle'}" font-family="${o.font || 'Fredoka,sans-serif'}" font-weight="${o.w || 700}" font-size="${size}" fill="${fill}" ${o.ls ? `letter-spacing="${o.ls}"` : ''}>${txt}</text>`;
+  const N = (txt, y, size, fill, o={}) => t(txt, y, size, fill, { font:'Nunito,sans-serif', w:800, ...o });
   const qrBox = (key, size, y, frame='#043F4E') => {
     const q = QR[key], pad = 3.2, tot = size + pad*2, x0 = 100 - tot/2;
-    return `<rect x="${x0}" y="${y}" width="${tot}" height="${tot}" rx="4" fill="#fff" stroke="${frame}" stroke-width="1.2"/>` +
+    return `<rect data-chk="qr" x="${x0}" y="${y}" width="${tot}" height="${tot}" rx="4" fill="#fff" stroke="${frame}" stroke-width="1.2"/>` +
            `<svg x="${x0+pad}" y="${y+pad}" width="${size}" height="${size}" viewBox="0 0 ${q.n} ${q.n}" shape-rendering="crispEdges"><path d="${q.d}" fill="#0B1416"/></svg>`;
   };
-  const logo = (y, w=82, file='logo-facaamigos.png', ratio=1024/147) => `<image href="../img/${file}" x="${100-w/2}" y="${y}" width="${w}" height="${w/ratio}" preserveAspectRatio="xMidYMid meet"/>`;
-  const mascot = (file, x, y, w) => `<image href="../img/amigos/${file}" x="${x}" y="${y}" width="${w}" height="${w}" preserveAspectRatio="xMidYMid meet"/>`;
+  const logo = (y, w, file='logo-facaamigos.png', ratio=1024/147, x=100) => `<image data-chk="logo" href="../img/${file}" x="${x-w/2}" y="${y}" width="${w}" height="${w/ratio}" preserveAspectRatio="xMidYMid meet"/>`;
+  const mascot = (file, x, y, w) => `<image data-chk="mascote" href="../img/amigos/${file}" x="${x}" y="${y}" width="${w}" height="${w}" preserveAspectRatio="xMidYMid meet"/>`;
+  // Faixa escura do lóbulo (como no original): curva de baixo desce no meio e sobe à direita.
+  const capPath = 'M-30 -40 L240 -40 L240 30 C 200 38, 180 36, 166 41 C 140 48, 120 58, 92 56 C 60 54, 40 46, 14 46 L-30 46 Z';
+  const cap = (fill) => `<path d="${capPath}" fill="${fill}"/>`;
+  const L = 26; // margem esquerda do texto da faixa
 
-  // Cada conceito devolve { bg, body } em coordenadas do disco (0..200).
   const C = {
-    A: (u) => ({ bg:'#FFF9F1', body:
-      `<circle cx="100" cy="100" r="94" fill="none" stroke="#07C5C8" stroke-width="2.2"/>` +
-      logo(13, 58) + stars(40, 7.5, 17) +
-      t('Avalie no Google', 63, 14, '#D61F4A') +
-      qrBox(u.qr, 68, 71) +
-      t('Aponte a câmera', 162, 8.5, '#065264', {font:'Nunito,sans-serif', w:800}) +
-      t(u.rodape, 174, 5.8, '#4F646B', {font:'Nunito,sans-serif', w:800}) }),
-    B: (u) => ({ bg:'#FDC51D', body:
-      `<circle cx="100" cy="100" r="94" fill="none" stroke="#065264" stroke-width="1.6" stroke-dasharray="1 4" stroke-linecap="round"/>` +
-      logo(12, 56) +
-      t('Gostou de brincar?', 38, 11, '#065264') +
-      t('Avalie no Google', 53, 13.5, '#D61F4A') + stars(66, 6, 14, '#D61F4A') +
-      mascot('macaco-coracao.webp', 8, 96, 50) +
-      qrBox(u.qr, 58, 76) +
-      t('Aponte a câmera', 155, 8, '#043F4E', {font:'Nunito,sans-serif', w:800}) +
-      t(u.rodape, 168, 5.8, '#043F4E', {font:'Nunito,sans-serif', w:800}) }),
-    C: () => ({ bg:'#065264', body:
-      `<circle cx="100" cy="100" r="94" fill="none" stroke="#FDC51D" stroke-width="1.6"/>` +
-      t('FIDELIDADE', 34, 7, '#FDC51D', {font:'Nunito,sans-serif', w:800, ls:2}) +
-      t('A 10ª', 62, 26, '#fff') + t('é grátis!', 86, 22, '#FDC51D') +
-      t('A cada 10 visitas registradas', 108, 7.4, '#E6F4F6', {font:'Nunito,sans-serif', w:800}) +
-      t('pelo CPF do responsável, a 10ª entrada', 117, 7.4, '#E6F4F6', {font:'Nunito,sans-serif', w:800}) +
-      t('de 30 minutos é 100% gratuita.', 126, 7.4, '#E6F4F6', {font:'Nunito,sans-serif', w:800}) +
-      `<rect x="52" y="138" width="96" height="17" rx="8.5" fill="#D61F4A"/>` +
-      t('Informe o CPF ao pagar', 150, 8, '#fff', {font:'Nunito,sans-serif', w:800}) +
-      t('Vale no Playground e no Circuito', 170, 6, '#E6F4F6', {font:'Nunito,sans-serif', w:800}) }),
-    D: () => ({ bg:'#E3F8F4', body:
-      `<circle cx="100" cy="100" r="94" fill="none" stroke="#05868A" stroke-width="2"/>` +
-      logo(17, 70) +
-      t('Seu filho precisa de', 47, 10.5, '#065264') +
-      t('um ambiente mais calmo?', 59, 10.5, '#065264') +
-      t('Horário Inclusivo', 76, 13.5, '#D61F4A') +
-      t('10h às 16h · domingo a partir das 12h', 86, 5.8, '#4F646B', {font:'Nunito,sans-serif', w:800}) +
-      qrBox('inclusivo', 36, 93) +
-      t('Som mais baixo, menos lotação,', 150, 6.2, '#065264', {font:'Nunito,sans-serif', w:800}) +
-      t('equipe reforçada.', 158, 6.2, '#065264', {font:'Nunito,sans-serif', w:800}) }),
-    F: () => ({ bg:'#FFF6BF', body:
-      `<circle cx="100" cy="100" r="94" fill="none" stroke="#D61F4A" stroke-width="2"/>` +
-      logo(17, 70) +
-      t('Fez foto no carrinho?', 50, 12, '#065264') +
-      t('Marca a gente!', 66, 14, '#D61F4A') +
-      qrBox('instagram', 38, 76) +
-      t('@facaamigos.belem', 140, 10, '#065264', {font:'Fredoka,sans-serif', w:600}) +
-      t('Aponte a câmera e siga no Instagram', 153, 5.8, '#4F646B', {font:'Nunito,sans-serif', w:800}) }),
-    CL: () => ({ bg:'#F4FAFB', body:
-      `<circle cx="100" cy="100" r="94" fill="none" stroke="#065264" stroke-width="1.6"/>` +
-      logo(13, 74, 'logo-clinica.png', 1040/179) +
-      stars(42, 7, 16) +
-      t('Avalie no Google', 63, 13, '#065264') +
-      qrBox('clinica', 66, 71) +
-      t('Aponte a câmera', 160, 8.2, '#065264', {font:'Nunito,sans-serif', w:800}) +
-      t('Centro de Terapia Comportamental', 173, 5.2, '#4F646B', {font:'Nunito,sans-serif', w:800}) }),
+    A: (u) => ({ bg:'#FFF9F1', body: cap('#065264') +
+      N('Avalie no', 21, 11, '#FFFFFF', { x:L, a:'start' }) +
+      t('Google', 41, 21, '#FDC51D', { x:L, a:'start' }) +
+      stars(74, 6.5, 15) +
+      qrBox(u.qr, 66, 84) +
+      N('Aponte a câmera', 171, 8.5, '#065264') +
+      N(u.rodape, 182, 5.6, '#4F646B') }),
+    B: (u) => ({ bg:'#FDC51D', body: cap('#D61F4A') +
+      N('Gostou de brincar?', 20, 8.5, '#FFFFFF', { x:L, a:'start' }) +
+      t('Avalie no Google', 40, 14, '#FFE9A8', { x:L, a:'start' }) +
+      stars(72, 6, 14, '#D61F4A') +
+      mascot('macaco-coracao.webp', 21, 104, 42) +
+      qrBox(u.qr, 60, 82) +
+      N('Aponte a câmera', 166, 8, '#043F4E') +
+      N(u.rodape, 177, 5.6, '#043F4E') }),
+    C: () => ({ bg:'#065264', body: cap('#FDC51D') +
+      N('FIDELIDADE', 18, 6.5, '#065264', { x:L, a:'start', ls:1.6 }) +
+      t('A 10ª é grátis!', 38, 15, '#D61F4A', { x:L, a:'start' }) +
+      N('A cada 10 visitas registradas', 82, 7.6, '#E6F4F6') +
+      N('pelo CPF do responsável,', 92, 7.6, '#E6F4F6') +
+      N('a 10ª entrada de 30 minutos', 102, 7.6, '#E6F4F6') +
+      N('é 100% gratuita.', 112, 7.6, '#E6F4F6') +
+      `<rect data-chk="pill" x="48" y="128" width="104" height="20" rx="10" fill="#D61F4A"/>` +
+      N('Informe o CPF ao pagar', 141.2, 8.6, '#FFFFFF') +
+      N('Vale no Playground e no Circuito', 170, 6.4, '#E6F4F6') }),
+    D: () => ({ bg:'#E3F8F4', body: cap('#05868A') +
+      N('Seu filho precisa de', 19, 7.6, '#FFFFFF', { x:L, a:'start' }) +
+      t('um ambiente calmo?', 36, 11.5, '#FDC51D', { x:L, a:'start' }) +
+      t('Horário Inclusivo', 76, 14, '#D61F4A') +
+      N('10h às 16h · domingo a partir das 12h', 86, 5.8, '#4F646B') +
+      qrBox('inclusivo', 58, 94) +
+      N('Som mais baixo, menos lotação,', 170, 6.2, '#065264') +
+      N('equipe reforçada.', 179, 6.2, '#065264') }),
+    F: () => ({ bg:'#FFF6BF', body: cap('#D61F4A') +
+      N('Fez foto no carrinho?', 20, 8, '#FFFFFF', { x:L, a:'start' }) +
+      t('Marca a gente!', 40, 14.5, '#FDC51D', { x:L, a:'start' }) +
+      qrBox('instagram', 62, 70) +
+      t('@facaamigos.belem', 152, 10.5, '#065264', { w:600 }) +
+      N('Aponte a câmera e siga no Instagram', 165, 6, '#4F646B') }),
+    CL: () => ({ bg:'#F4FAFB', body: cap('#065264') +
+      N('Avalie no', 21, 11, '#FFFFFF', { x:L, a:'start' }) +
+      t('Google', 41, 21, '#FDC51D', { x:L, a:'start' }) +
+      stars(72, 6.5, 15) +
+      qrBox('clinica', 62, 82) +
+      N('Aponte a câmera', 163, 8, '#065264') +
+      logo(168, 60, 'logo-clinica.png', 1040/179) }),
   };
 
   const concepts20 = [
-    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Estrelas + "Avalie no Google" + QR de 68 mm. Quase sem texto, para ler em 2 segundos.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
+    { id:'A-parque', k:'A', tag:'A · Avaliação Google', titulo:'Parque Shopping', onde:'Playground Parque, na saída', desc:'Faixa escura no lóbulo, como no original. Estrelas + QR de 66 mm.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
     { id:'A-grao', k:'A', tag:'A · Avaliação Google', titulo:'Grão-Pará', onde:'Playground Grão-Pará, na saída', desc:'Mesma arte, QR do perfil do Grão-Pará.', prov:'QR provisório: falta o link do perfil', u:{qr:'graopara', rodape:'Playground Grão-Pará'} },
     { id:'A-circuito', k:'A', tag:'A · Avaliação Google', titulo:'Circuito', onde:'Circuito de Carrinhos, na saída', desc:'QR leva ao perfil do Parque, já que o Circuito não tem perfil próprio. O rodapé diz "FaçaAmigos" para não confundir.', u:{qr:'parque', rodape:'FaçaAmigos · Parque Shopping'} },
-    { id:'B-parque', k:'B', tag:'B · Avaliação com mascote', titulo:'Versão infantil', onde:'Qualquer Playground', desc:'Amarelo, macaco e tom mais leve. QR de 58 mm.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
+    { id:'B-parque', k:'B', tag:'B · Avaliação com mascote', titulo:'Versão infantil', onde:'Qualquer Playground', desc:'Amarelo, macaco e tom mais leve. QR de 60 mm.', u:{qr:'parque', rodape:'Playground Parque Shopping'} },
     { id:'C', k:'C', tag:'C · Fidelidade', titulo:'A 10ª é grátis', onde:'Circuito ou Playground', desc:'Regra literal do site (10 visitas por CPF). Muda comportamento, não gera avaliação.' },
     { id:'D', k:'D', tag:'D · Horário Inclusivo', titulo:'Ambiente mais calmo', onde:'Playground, ponte para a Clínica', desc:'Cruza o Playground com o público da Clínica. QR para /clinica.' },
     { id:'F', k:'F', tag:'F · Instagram', titulo:'Foto no carrinho', onde:'Circuito', desc:'Conteúdo gerado pelos clientes. Não ajuda no Google.' },
   ];
   const concepts15 = [
-    { id:'CL', k:'CL', tag:'Clínica · Avaliação Google', titulo:'Sóbria, sem mascote', onde:'Clínica (2 discos iguais)', desc:'Tom sóbrio, QR de 66 mm (Ø15: ~50 mm). Verificar com o CRP-10 antes de imprimir.' },
+    { id:'CL', k:'CL', tag:'Clínica · Avaliação Google', titulo:'Sóbria, sem mascote', onde:'Clínica (2 adesivos iguais)', desc:'Tom sóbrio. Verificar com o CRP-10 antes de imprimir.' },
   ];
 
-  const build = (c, pxScale) => {
+  const svgOpen = (c, id, wmm, hmm) => `<svg class="art" data-id="${id}" xmlns="${NS}" viewBox="${VB.join(' ')}" ${wmm ? `width="${wmm}mm" height="${hmm}mm"` : ''} role="img" aria-label="${c.tag} ${c.titulo}">`;
+  const probe = `<path class="safe" d="${SAFE}" fill="#000" fill-opacity="0" pointer-events="none"/>`;
+  const build = (c, size) => {
     const o = C[c.k](c.u || {});
-    const bleed = PRINT ? `<path d="${SHAPE}" fill="${o.bg}" stroke="${o.bg}" stroke-width="6" stroke-linejoin="round"/>` : '';
-    const guia = (params.get('guia') || !PRINT) ? `<path d="${SHAPE}" fill="none" stroke="${PRINT ? '#000' : '#065264'}" stroke-width="${PRINT ? 0.25 : 0.7}" opacity="${PRINT ? 1 : .55}"/>` : '';
-    const clipId = 'cp-' + c.id + '-' + pxScale;
-    return `<svg xmlns="${NS}" viewBox="${VB}" ${PRINT ? `width="${pxScale === 20 ? 224 : 168}mm" height="${pxScale === 20 ? 208 : 156}mm"` : ''} role="img" aria-label="${c.tag} ${c.titulo}">
-      <defs><clipPath id="${clipId}"><path d="${SHAPE}"/></clipPath></defs>
-      ${bleed}
-      <g clip-path="url(#${clipId})"><rect x="-20" y="-4" width="224" height="208" fill="${o.bg}"/>${o.body}</g>${guia}
+    const id = c.id + '-' + size, s = size / 20;
+    const clip = 'cp-' + id;
+    const box = PRINT ? [VB[2]*s, VB[3]*s] : [0, 0];
+    const outline = PRINT
+      ? `<path d="${CUT}" fill="none" stroke="#000" stroke-width="0.3"/>`
+      : `<path d="${CUT}" fill="none" stroke="#065264" stroke-width="0.6" opacity=".5"/>`;
+    return `${svgOpen(c, id, PRINT ? box[0].toFixed(2) : 0, box[1].toFixed(2))}
+      <defs><clipPath id="${clip}"><path d="${PRINT ? BLEED : CUT}"/></clipPath></defs>
+      <g clip-path="url(#${clip})"><rect x="${VB[0]-5}" y="${VB[1]-5}" width="${VB[2]+10}" height="${VB[3]+10}" fill="${o.bg}"/>${o.body}</g>${outline}${probe}
     </svg>`;
   };
   const card = (c, size) => {
     const div = document.createElement('div');
+    if (PRINT) {
+      div.className = 'page';
+      div.innerHTML = `${build(c, size)}<div class="rotulo">Adesivo Ø${size} cm · ${c.tag} · ${c.titulo} · cortar na linha preta</div>`;
+      return div;
+    }
     div.className = 'card' + (size === 15 ? ' p15' : '');
     div.innerHTML = `${build(c, size)}<span class="tag">${c.tag}</span><h3>${c.titulo}</h3><p>${c.desc}</p><span class="onde">${c.onde}</span>${c.prov ? `<span class="prov">${c.prov}</span>` : ''}`;
     return div;
   };
+  // Página de gabarito em papel comum: contorno do original (sólido) e linha de corte do adesivo (tracejada) + régua de 10 cm
+  const gabarito = (size) => {
+    const s = size / 20, div = document.createElement('div');
+    div.className = 'page';
+    div.innerHTML = `<svg xmlns="${NS}" viewBox="${VB.join(' ')}" width="${(VB[2]*s).toFixed(2)}mm" height="${(VB[3]*s).toFixed(2)}mm">
+        <path d="${SHAPE}" fill="#f3f3f3" stroke="#000" stroke-width="0.4"/>
+        <path d="${CUT}" fill="none" stroke="#000" stroke-width="0.25" stroke-dasharray="2 1.5"/></svg>
+      <div class="regua" aria-label="régua de 10 cm"><span style="left:0">0</span><span style="left:48mm">5 cm</span><span style="left:96mm">10 cm</span></div>
+      <p class="instr"><b>Gabarito Ø${size} cm — papel comum, impressão em 100% (sem "ajustar à página").</b> Confira que a régua mede 10 cm. Recorte na linha sólida e encaixe sobre o wobbler original: deve cobrir exatamente. A linha tracejada é onde o adesivo será cortado (2 mm além).</p>
+      <div class="rotulo">Gabarito Ø${size} cm</div>`;
+    return div;
+  };
+
   const only = (v) => PRINT ? PRINT === v : true;
-  if (only('20')) concepts20.forEach(c => document.getElementById('g20').appendChild(card(c, 20)));
-  if (only('15')) concepts15.forEach(c => document.getElementById('g15').appendChild(card(c, 15)));
-  if (PRINT) {
-    const s = document.createElement('style');
-    s.textContent = PRINT === '20' ? '@page{size:224mm 208mm;margin:0}' : '@page{size:168mm 156mm;margin:0}';
-    document.head.appendChild(s);
-  }
+  if (only('20')) { if (PRINT) document.getElementById('g20').appendChild(gabarito(20)); concepts20.forEach(c => document.getElementById('g20').appendChild(card(c, 20))); }
+  if (only('15')) { if (PRINT) document.getElementById('g15').appendChild(gabarito(15)); concepts15.forEach(c => document.getElementById('g15').appendChild(card(c, 15))); }
+
+  // Conferência de margem de segurança: cada texto, QR, logo e mascote deve estar a 6 mm do contorno.
+  window.__check = async () => {
+    await document.fonts.ready;
+    const out = [];
+    document.querySelectorAll('svg.art').forEach(svg => {
+      const p = svg.querySelector('.safe');
+      svg.querySelectorAll('[data-chk]').forEach(el => {
+        const b = el.getBBox(), xs = [b.x, b.x + b.width/2, b.x + b.width], ys = [b.y, b.y + b.height/2, b.y + b.height];
+        let bad = 0; xs.forEach(x => ys.forEach(y => { if (!p.isPointInFill(new DOMPoint(x, y))) bad++; }));
+        if (bad) out.push(`${svg.dataset.id}: ${(el.textContent || el.getAttribute('data-chk')).trim().slice(0, 28)} (${bad}/9 pontos fora)`);
+      });
+    });
+    return out;
+  };
+  window.__ready = true;
 })();
 </script>
 </body>

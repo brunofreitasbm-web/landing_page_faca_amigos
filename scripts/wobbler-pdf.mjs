@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Gera public/wobbler/wobbler-20cm.pdf e wobbler-15cm.pdf (tamanho real, 1 disco por página, 3 mm de sangria).
-// Uso: node scripts/wobbler-pdf.mjs   (PW_MODULE: caminho do playwright; ?guia=1 na URL desenha a linha de corte)
+// Gera public/wobbler/adesivo-20cm.pdf e adesivo-15cm.pdf: A4 em tamanho real, 1 página de gabarito (papel comum)
+// + 1 página por adesivo, com a linha de corte (+2 mm do original) e 3 mm de sangria além dela.
+// Uso: node scripts/wobbler-pdf.mjs   (PW_MODULE: caminho do playwright)
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -17,8 +18,10 @@ try {
     const page = await browser.newPage();
     await page.goto(`http://127.0.0.1:${PORT}/wobbler/?print=${d}`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
-    const out = path.join(ROOT, 'public', 'wobbler', `wobbler-${d}cm.pdf`);
-    await page.pdf({ path: out, printBackground: true, preferCSSPageSize: true });
+    const bad = await page.evaluate(() => window.__check());
+    if (bad.length) { console.error('Fora da margem de segurança:\n' + bad.join('\n')); process.exitCode = 1; }
+    const out = path.join(ROOT, 'public', 'wobbler', `adesivo-${d}cm.pdf`);
+    await page.pdf({ path: out, format: 'A4', printBackground: true, preferCSSPageSize: true });
     console.log('PDF gerado:', path.relative(ROOT, out));
   }
   await browser.close();
