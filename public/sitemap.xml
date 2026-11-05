@@ -3,14 +3,14 @@
   <!-- Hub Principal FaçaAmigos -->
   <url>
     <loc>https://institutofacaamigos.com.br/</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <!-- Playground Inclusivo -->
   <url>
     <loc>https://institutofacaamigos.com.br/playground</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -44,14 +44,14 @@
   <!-- Mapeamento Comportamental -->
   <url>
     <loc>https://institutofacaamigos.com.br/mapeamento</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- Clínica: landing e serviços -->
   <url>
     <loc>https://institutofacaamigos.com.br/clinica</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -64,7 +64,7 @@
   <!-- Área Aprender (guias educativos) -->
   <url>
     <loc>https://institutofacaamigos.com.br/aprender</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -76,49 +76,49 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/birra-ou-crise</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/sinais-para-observar</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/primeira-vez-no-playground</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/rotina-visual-em-casa</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/como-e-a-terapia-comportamental</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/laudo-e-ciptea</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/conversar-com-a-escola</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/brincar-com-proposito-10-minutos</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/quem-somos</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -188,19 +188,19 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/aba-denver-pecs-diferencas</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/autismo-ou-atraso-de-fala</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/como-escolher-clinica-de-terapia-aba</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -212,19 +212,19 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/niveis-de-suporte-autismo</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/o-que-e-neurodivergencia-e-atipico</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/plano-de-saude-cobre-terapia-aba</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -236,13 +236,13 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/sinais-de-autismo-por-idade</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/tdah-ou-autismo-diferencas</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -342,6 +342,12 @@
   <url>
     <loc>https://institutofacaamigos.com.br/direitos</loc>
     <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://institutofacaamigos.com.br/mapa-do-site</loc>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

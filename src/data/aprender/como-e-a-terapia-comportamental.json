@@ -2,7 +2,7 @@
   "slug": "como-e-a-terapia-comportamental",
   "titulo": "O que acontece numa sessão de terapia comportamental (sem jargão)",
   "titleTag": "Como é uma sessão de terapia comportamental | FaçaAmigos",
-  "descricao": "O que realmente acontece numa sessão de terapia comportamental, sem jargão: da avaliação inicial ao papel da família fora do consultório.",
+  "descricao": "O que realmente acontece numa sessão de terapia comportamental, sem jargão: do primeiro encontro ao papel da família fora do consultório.",
   "ogImage": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "ogImageW": "900",
@@ -38,6 +38,11 @@
       "href": "/aprender/laudo-e-ciptea",
       "tag": "6 min · Direitos",
       "titulo": "Laudo e CIPTEA: o que são e onde valem em Belém"
+    },
+    {
+      "href": "/aprender/autismo-ou-atraso-de-fala",
+      "tag": "6 min · Comunicação",
+      "titulo": "Autismo ou atraso de fala? Como diferenciar e quem avalia"
     }
   ],
   "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
@@ -54,7 +59,7 @@
     "estilo": null,
     "tag": "6 min · Terapia",
     "titulo": "O que acontece numa sessão de terapia comportamental",
-    "resumo": "Sem jargão: da avaliação inicial ao papel da família em casa."
+    "resumo": "Sem jargão: do primeiro encontro ao papel da família em casa."
   },
   "ordemIndice": 5
 }

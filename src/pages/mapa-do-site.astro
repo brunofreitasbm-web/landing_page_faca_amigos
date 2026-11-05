@@ -1,0 +1,137 @@
+---
+// Mapa do site em HTML: índice para pessoas e para rastreadores. Tudo sai dos mesmos JSON que geram as páginas
+// (artigos, especialidades, condições), então página nova entra aqui sozinha no próximo build.
+// Ordem pensada para quem chega precisando de atendimento para um filho autista; o resto vem depois.
+import Base from '../layouts/Base.astro';
+import { abs, trilhaNo, SITE } from '../data/marca';
+import artigosJson from '../data/artigos.json';
+
+const path = '/mapa-do-site';
+const espec = Object.values(import.meta.glob('../data/especialidades/*.json', { eager: true, import: 'default' })) as any[];
+const artigos = artigosJson as { slug: string; titulo: string }[];
+const porNome = (a: any, b: any) => a.nome.localeCompare(b.nome, 'pt-BR');
+const especialidades = espec.filter((e) => e.slug !== 'avaliacao-inicial').sort(porNome);
+const artigosOrdenados = [...artigos].sort((a, b) => a.titulo.localeCompare(b.titulo, 'pt-BR'));
+
+type Item = [string, string, string?]; // [rótulo, caminho, complemento]
+const grupos: { titulo: string; intro: string; itens: Item[] }[] = [
+  {
+    titulo: 'Quero atendimento para meu filho',
+    intro: 'O caminho mais curto para quem já tem diagnóstico ou suspeita de autismo e precisa de terapia em Belém.',
+    itens: [
+      ['Clínica FaçaAmigos: Centro de Terapia Comportamental', '/clinica', 'especialidades, horários, convênios IASEP e PROASA'],
+      ['Avaliação inicial e acolhimento', '/clinica/avaliacao-inicial', 'a primeira etapa, sem exigir laudo'],
+      ['Pacotes particulares de sessões', '/planos', 'planos mensais de 4 a 24 sessões'],
+      ['Mapeamento Comportamental gratuito', '/mapeamento', 'questionário de cerca de 5 minutos'],
+      ['Plano de saúde cobre terapia ABA?', '/aprender/plano-de-saude-cobre-terapia-aba'],
+      ['Como escolher uma clínica de terapia ABA', '/aprender/como-escolher-clinica-de-terapia-aba'],
+    ],
+  },
+  {
+    titulo: 'Entender o autismo e o desenvolvimento',
+    intro: 'Páginas de referência sobre as condições mais buscadas pelas famílias.',
+    itens: [
+      ['Autismo (TEA)', '/autismo'],
+      ['TDAH', '/tdah'],
+      ['Neurodivergência', '/neurodivergencia'],
+      ['Glossário de desenvolvimento infantil e inclusão', '/glossario', 'cerca de 50 termos em linguagem simples'],
+    ],
+  },
+  {
+    titulo: 'Direitos e documentos',
+    intro: 'O que levar, como pedir e o que fazer se negarem.',
+    itens: [
+      ['Direitos da pessoa autista e neurodivergente', '/direitos'],
+      ['Laudo e CIPTEA em Belém', '/aprender/laudo-e-ciptea'],
+    ],
+  },
+  {
+    titulo: 'Playground, Circuito e eventos',
+    intro: 'Lazer inclusivo para crianças com ou sem diagnóstico.',
+    itens: [
+      ['Playground Inclusivo', '/playground', 'Parque Shopping e Shopping Bosque Grão-Pará'],
+      ['Circuito de Carrinhos Elétricos', '/circuito'],
+      ['Eventos, palestras e treinamentos', '/eventos'],
+      ['E-book: O Brincar com Propósito', '/guia'],
+      ['E-book: O Código do Desenvolvimento Infantil', '/codigo'],
+    ],
+  },
+  {
+    titulo: 'O Instituto',
+    intro: 'Quem somos e informações legais.',
+    itens: [
+      ['Quem somos', '/quem-somos'],
+      ['Faça parte do nosso time', '/trabalhe-conosco'],
+      ['Política de Privacidade', '/politica-privacidade'],
+      ['Termos de Uso e de Compra', '/termos'],
+    ],
+  },
+];
+
+const todas = [
+  ...grupos.flatMap((g) => g.itens.map((i) => i[1])),
+  ...especialidades.map((e) => `/clinica/${e.slug}`),
+  ...artigosOrdenados.map((a) => `/aprender/${a.slug}`),
+  '/aprender',
+];
+const lista = [...new Set(todas)];
+---
+<Base
+  title="Mapa do site | FaçaAmigos Belém"
+  description="Todas as páginas do FaçaAmigos em um só lugar: terapia e especialidades da Clínica, guias para famílias, direitos, Playground, Circuito e eventos em Belém."
+  path={path}
+  ogImage="img/og/og-hub.jpg"
+  ogImageAlt="FaçaAmigos: playground, circuito e clínica em Belém"
+  secao="quem"
+  wa="clinica"
+  jsonLd={[
+    {
+      '@type': 'CollectionPage',
+      '@id': `${abs(path)}#pagina`,
+      url: abs(path),
+      name: 'Mapa do site FaçaAmigos',
+      isPartOf: { '@id': `${SITE.url}/#organization` },
+      inLanguage: 'pt-BR',
+      mainEntity: { '@type': 'ItemList', numberOfItems: lista.length, itemListElement: lista.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(p) })) },
+    },
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Mapa do site', path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <b>Mapa do site</b></p>
+      <p class="eyebrow">FaçaAmigos · Belém</p>
+      <h1>Mapa do site</h1>
+      <p class="lead">Todas as páginas em um só lugar. Se você procura atendimento para seu filho, comece pelo primeiro bloco.</p>
+    </div>
+  </section>
+
+  {grupos.map((g, i) => (
+    <section class={`section${i % 2 ? ' band-ice' : ''}`}>
+      <div class="wrap stack-lg">
+        <h2>{g.titulo}</h2>
+        <p>{g.intro}</p>
+        <ul>
+          {g.itens.map(([rotulo, href, extra]) => <li><a href={href}>{rotulo}</a>{extra ? <span>: {extra}</span> : null}</li>)}
+        </ul>
+        {i === 0 && (
+          <>
+            <h3>Especialidades da Clínica</h3>
+            <ul>
+              {especialidades.map((e) => <li><a href={`/clinica/${e.slug}`}>{e.nome}</a></li>)}
+            </ul>
+          </>
+        )}
+        {i === 1 && (
+          <>
+            <h3>Guias para famílias</h3>
+            <ul>
+              <li><a href="/aprender">Todos os guias (Aprender)</a></li>
+              {artigosOrdenados.map((a) => <li><a href={`/aprender/${a.slug}`}>{a.titulo}</a></li>)}
+            </ul>
+          </>
+        )}
+      </div>
+    </section>
+  ))}
+</Base>
