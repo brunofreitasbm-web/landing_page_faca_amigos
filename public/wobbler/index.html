@@ -56,7 +56,7 @@
 <div class="wrap">
   <div class="intro">
     <h1>Adesivos de wobbler</h1>
-    <p class="lead">Adesivo para colar por cima do wobbler original, no mesmo formato: parte redonda com o lóbulo no canto superior esquerdo. Imprimir em papel adesivo, cortar à mão na linha preta. O adesivo passa 2 mm do contorno para dobrar na espessura do papelão.</p>
+    <p class="lead">Adesivo para colar por cima do wobbler original, no mesmo formato: parte redonda com o lóbulo no canto superior esquerdo. Imprimir em papel adesivo e cortar à mão pelo gabarito. O adesivo passa 2 mm do contorno para dobrar na espessura do papelão.</p>
     <div class="forma">
       <img src="original-contorno.jpg" alt="Foto do wobbler original com o contorno extraído em vermelho">
       <div>
@@ -201,9 +201,8 @@
     const id = c.id + '-' + size, s = size / 20;
     const clip = 'cp-' + id;
     const box = PRINT ? [VB[2]*s, VB[3]*s] : [0, 0];
-    const outline = PRINT
-      ? `<path d="${CUT}" fill="none" stroke="#000" stroke-width="0.3"/>`
-      : `<path d="${CUT}" fill="none" stroke="#065264" stroke-width="0.6" opacity=".5"/>`;
+    // No PDF não há linha de corte desenhada: a arte vai até a sangria e o corte é feito pelo contorno do gabarito.
+    const outline = PRINT ? '' : `<path d="${CUT}" fill="none" stroke="#065264" stroke-width="0.6" opacity=".5"/>`;
     return `${svgOpen(c, id, PRINT ? box[0].toFixed(2) : 0, box[1].toFixed(2))}
       <defs><clipPath id="${clip}"><path d="${PRINT ? BLEED : CUT}"/></clipPath></defs>
       <g clip-path="url(#${clip})"><rect x="${VB[0]-5}" y="${VB[1]-5}" width="${VB[2]+10}" height="${VB[3]+10}" fill="${o.bg}"/>${o.body}</g>${outline}${probe}
@@ -213,7 +212,7 @@
     const div = document.createElement('div');
     if (PRINT) {
       div.className = 'page';
-      div.innerHTML = `${build(c, size)}<div class="rotulo">Adesivo Ø${size} cm · ${c.tag} · ${c.titulo} · cortar na linha preta</div>`;
+      div.innerHTML = `${build(c, size)}<div class="rotulo">Adesivo Ø${size} cm · ${c.tag} · ${c.titulo} · cortar pelo gabarito</div>`;
       return div;
     }
     div.className = 'card' + (size === 15 ? ' p15' : '');
