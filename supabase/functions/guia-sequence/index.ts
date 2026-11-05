@@ -1,4 +1,4 @@
-// Sequência de e-mails do guia "O Brincar com Propósito" (dias 1, 3 e 6 após o resultado do mapa).
+// Sequência de e-mails do mapa: dias 1, 3 e 6 vendem o e-book (guia ou Código); o dia 9 é conteúdo gratuito (/aprender).
 //
 // Como funciona:
 //  - pg_cron chama POST ?run=1 de hora em hora, com o cabeçalho x-run-key. A função procura leads que marcaram o opt-in
@@ -28,6 +28,9 @@ const STEPS = [
   { step: 1, templateId: 1, delayHours: 24 },
   { step: 2, templateId: 2, delayHours: 72 },
   { step: 3, templateId: 3, delayHours: 144 },
+  // Passo 4: conteúdo gratuito (página /aprender), 3 dias depois do último e-mail de venda. Template 4 no Brevo
+  // (supabase/email-templates/ebook-d9-aprender.html). Sem esse template criado, o Brevo recusa e o passo é refeito a cada hora.
+  { step: 4, templateId: 4, delayHours: 216 },
 ];
 
 const SITE = "https://institutofacaamigos.com.br";
@@ -74,6 +77,15 @@ function offerUrl(key: OfferKey, lead: Lead, step: number): string {
   u.searchParams.set("utm_source", "email");
   u.searchParams.set("utm_medium", "sequencia");
   u.searchParams.set("utm_campaign", `seq_${key}_d${step}`);
+  return u.toString();
+}
+
+// Página gratuita com os guias e artigos do site. Vai em todos os e-mails (params.APRENDER_URL), com rastreio no GA4.
+function aprenderUrl(step: number): string {
+  const u = new URL(SITE + "/aprender");
+  u.searchParams.set("utm_source", "email");
+  u.searchParams.set("utm_medium", "sequencia");
+  u.searchParams.set("utm_campaign", `seq_aprender_d${step}`);
   return u.toString();
 }
 
@@ -255,10 +267,11 @@ async function runBatch(admin: ReturnType<typeof createClient>, dry: boolean) {
             PRODUTO_CTA: offer.cta,
             PRODUTO_PRECO: offer.price,
             PRODUTO_PARCELAS: offer.installments,
+            APRENDER_URL: aprenderUrl(next.step),
             UNSUB_URL: unsubPage,
           },
           headers: { "List-Unsubscribe": `<${unsubOneClick}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
-          tags: ["guia_sequencia", `d${next.step}`, `produto_${offerKey}`],
+          tags: ["guia_sequencia", `d${next.step}`, next.step === 4 ? "conteudo_aprender" : `produto_${offerKey}`],
         }),
       });
       if (!resp.ok) {
