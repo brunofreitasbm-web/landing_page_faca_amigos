@@ -1,7 +1,7 @@
 {
   "slug": "trabalhe-conosco",
   "path": "/trabalhe-conosco",
-  "titleTag": "Faça parte do nosso time: vagas na Clínica, Playground e Circuito | FaçaAmigos",
+  "titleTag": "Vagas e banco de talentos | FaçaAmigos Belém",
   "descricao": "Trabalhe no FaçaAmigos em Belém: vagas em Psicologia ABA, TO, Fono, Fisioterapia, Recepção, Mediadores e Operacional. CLT, PJ e Estágio. Envie seu currículo.",
   "ogDescricao": "Vagas em Saúde, Educação e Operação na Clínica, no Playground e no Circuito FaçaAmigos, em Belém. CLT, PJ e Estágio.",
   "ogImage": "img/og/og-hub.jpg",
@@ -15,7 +15,7 @@
       "@type": "WebPage",
       "@id": "https://institutofacaamigos.com.br/trabalhe-conosco#webpage",
       "url": "https://institutofacaamigos.com.br/trabalhe-conosco",
-      "name": "Faça parte do nosso time: vagas na Clínica, Playground e Circuito | FaçaAmigos",
+      "name": "Vagas e banco de talentos | FaçaAmigos Belém",
       "description": "Venha fazer parte do time FaçaAmigos em Belém: vagas em Psicologia ABA, TO, Fono e Fisioterapia, Recepção, Mediadores e Operacional. CLT, PJ e Estágio.",
       "inLanguage": "pt-BR",
       "isPartOf": {
