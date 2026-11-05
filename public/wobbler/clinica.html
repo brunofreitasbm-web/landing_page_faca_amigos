@@ -40,24 +40,21 @@
 <body>
 <div class="wrap">
   <h1>Adesivos da Clínica</h1>
-  <p class="lead">Dois wobblers para a recepção, cada um com o seu formato (tirado do contorno a lápis na folha A4). Cada formato tem dois temas para você escolher.</p>
-  <div class="aviso"><b>Formato A</b> (cabeça com orelhas) mede <b id="dimA">—</b>. <b>Formato B</b> (círculo com aba à esquerda) mede <b id="dimB">—</b>. Tema <b>Google</b>: avaliação, como você decidiu para a Clínica. Tema <b>Acolhimento</b>: "Oi, amigo!" e "Cada um do seu jeito", sem QR, com o WhatsApp da Clínica. Sobre o Google: o CFP restringe depoimento de paciente em Psicologia, então confirme com o CRP-10 antes de imprimir.</div>
+  <p class="lead">Dois wobblers para a recepção, no formato do contorno traçado a lápis na folha A4.</p>
+  <div class="aviso">O formato é o <b>A</b> (cabeça com orelhas), que mede <b id="dimA">—</b>. Dois adesivos para a recepção: <b>Google</b> (avaliação) e <b>Instagram</b> (seguir e marcar, @facaamigos.belem). Sobre o Google: o CFP restringe depoimento de paciente em Psicologia, então confirme com o CRP-10 antes de imprimir.</div>
   <h2>Formato A — cabeça com orelhas</h2>
   <div class="grade" id="gA"></div>
-  <h2>Formato B — círculo com aba</h2>
-  <div class="grade" id="gB"></div>
 </div>
 
 <script src="qr.js"></script>
 <script src="forma-clinica-a.js"></script>
-<script src="forma-clinica-b.js"></script>
 <script>
 (() => {
   const params = new URLSearchParams(location.search);
   const PRINT = params.get('print');            // 'a' | 'b' | null
   if (PRINT) document.body.classList.add('print');
   const NS = 'http://www.w3.org/2000/svg';
-  const FORMAS = { a: FORMA_CL_A, b: FORMA_CL_B };
+  const FORMAS = { a: FORMA_CL_A };
   const RATIO = { 'macaco-festa':280/264, 'cachorro-acena':276/340, 'tucano-joinha':300/296, 'tartaruga-sorri':296/200, 'macaco-sentado':208/240, 'cachorro-sentado':240/328, 'tartaruga-ri':304/192, 'macaco-danca':216/284, 'cachorro-pula':1 };
 
   const star = (cx, cy, r, fill) => {
@@ -82,7 +79,7 @@
 
   const ARTES = {
     // ---------- Formato A (cabeça com orelhas): área útil ~ x 14-134, y 16-125 ----------
-    'a-g': { forma:'a', tema:'g', tag:'Formato A · Google', titulo:'Avalie no Google', desc:'Fundo petróleo, estrelas amarelas, QR de 46 mm e o macaco de festa.',
+    'a-g': { forma:'a', tema:'g', tag:'Clínica · Google', titulo:'Avalie no Google', desc:'Fundo petróleo, estrelas amarelas, QR de 46 mm e o macaco de festa.',
       bg:'#065264', body: () =>
         dots('#07C5C8', [[22,34,9],[128,100,12],[132,40,5]]) +
         selo(76, 21, 58) +
@@ -91,39 +88,16 @@
         qrBox('clinica', 46, 62, 66) +
         amigo('macaco-festa', 95, 70, 42) +
         N('Aponte a câmera', 64, 122.5, 5.6, '#FFFFFF') },
-    'a-h': { forma:'a', tema:'h', tag:'Formato A · Acolhimento', titulo:'Oi, amigo!', desc:'Fundo amarelo, quatro personagens e o WhatsApp da Clínica. Sem QR.',
+    'a-i': { forma:'a', tema:'i', tag:'Clínica · Instagram', titulo:'Siga e marque no Instagram', desc:'Fundo amarelo, personagens e o QR do @facaamigos.belem.',
       bg:'#FDC51D', body: () =>
-        dots('#FFFFFF', [[24,30,8],[128,34,5],[132,92,10]]) +
-        t('Oi, amigo!', 74, 44, 21, '#D61F4A') +
-        N('Cada um do seu jeito', 74, 56, 8.2, '#065264') +
-        amigo('cachorro-acena', 20, 59, 26) +
-        amigo('macaco-festa', 46, 62, 34) +
-        amigo('tucano-joinha', 81, 62, 30) +
-        amigo('tartaruga-sorri', 108, 72, 31) +
-        selo(78, 96.5, 58) +
-        N('WhatsApp (91) 99178-2027', 78, 119.5, 5.1, '#065264') },
-    // ---------- Formato B (círculo com aba): círculo centro (85,80) r 74.3 ----------
-    'b-g': { forma:'b', tema:'g', tag:'Formato B · Google', titulo:'Avalie no Google', desc:'Fundo petróleo, estrelas, QR de 50 mm, cachorro e tucano ladeando.',
-      bg:'#065264', body: () =>
-        dots('#07C5C8', [[30,40,9],[142,38,6],[140,120,11]]) +
-        selo(85, 21, 52) +
-        t('Avalie no Google', 85, 50, 11.2, '#FDC51D') +
-        stars(85, 59, 5.3, 12) +
-        qrBox('clinica', 50, 85, 66) +
-        amigo('cachorro-acena', 28, 78, 25) +
-        amigo('tucano-joinha', 117, 82, 27) +
-        N('Aponte a câmera', 85, 131, 6.4, '#FFFFFF') },
-    'b-h': { forma:'b', tema:'h', tag:'Formato B · Acolhimento', titulo:'Oi, amigo!', desc:'Fundo amarelo, quatro personagens e o WhatsApp da Clínica. Sem QR.',
-      bg:'#FDC51D', body: () =>
-        dots('#FFFFFF', [[30,38,8],[140,40,5],[138,118,10]]) +
-        t('Oi, amigo!', 85, 44, 16.5, '#D61F4A') +
-        N('Cada um do seu jeito', 85, 54, 7.2, '#065264') +
-        amigo('cachorro-acena', 22, 58, 28) +
-        amigo('macaco-festa', 50, 62, 36) +
-        amigo('tucano-joinha', 89, 62, 32) +
-        amigo('tartaruga-sorri', 118, 76, 30) +
-        selo(85, 103, 62) +
-        N('WhatsApp (91) 99178-2027', 85, 128, 5.4, '#065264') },
+        dots('#FFFFFF', [[24,32,8],[128,38,5],[132,96,10]]) +
+        selo(76, 21, 58) +
+        t('Siga no Instagram', 76, 49, 11.5, '#D61F4A') +
+        N('@facaamigos.belem', 76, 59, 7.6, '#065264') +
+        qrBox('instagram', 45, 60, 63) +
+        amigo('macaco-festa', 94, 62, 35) +
+        amigo('tucano-joinha', 109, 98, 25) +
+        N('Aponte a câmera', 61, 120.8, 5.4, '#065264') },
   };
 
   const vbOf = (F) => [F.bbox.x0 - 1, F.bbox.y0 - 1, F.bbox.x1 - F.bbox.x0 + 2, F.bbox.y1 - F.bbox.y0 + 2];
@@ -148,7 +122,7 @@
   };
 
   const dim = (k) => { const o = FORMAS[k].orig; return `${(o.x1-o.x0).toFixed(0)} × ${(o.y1-o.y0).toFixed(0)} mm`; };
-  document.getElementById('dimA').textContent = dim('a'); document.getElementById('dimB').textContent = dim('b');
+  document.getElementById('dimA').textContent = dim('a');
 
   const ids = Object.keys(ARTES).filter(id => !PRINT || ARTES[id].forma === PRINT).filter(id => !params.get('tema') || ARTES[id].tema === params.get('tema'));
   if (PRINT) {
@@ -158,7 +132,7 @@
   } else {
     ids.forEach(id => { const a = ARTES[id], c = document.createElement('div'); c.className = 'card';
       c.innerHTML = `${svgArt(id, false)}<span class="tag">${a.tag}</span><h3>${a.titulo}</h3><p>${a.desc}</p>`;
-      document.getElementById(a.forma === 'a' ? 'gA' : 'gB').appendChild(c); });
+      document.getElementById('gA').appendChild(c); });
   }
 
   window.__check = async () => {

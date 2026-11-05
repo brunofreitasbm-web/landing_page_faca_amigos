@@ -15,7 +15,7 @@ await new Promise((r) => setTimeout(r, 800));
 try {
   const browser = await chromium.launch();
   // [tamanho, parâmetros extras, nome do arquivo]
-  const jobs = [['20', '', 'adesivo-20cm'], ['15', '', 'adesivo-15cm'], ['20', '&ids=A-parque,A-grao&gab=0', 'adesivo-20cm-2un'], ['20', '&ids=nenhum', 'gabarito-20cm-A4'], ['c', '', 'adesivo-circuito'], ['c', '&gab=0', 'adesivo-circuito-so-arte'], ['c', '&gab=1', 'gabarito-circuito-A4'], ['ca', '', 'adesivo-clinica-a'], ['cb', '', 'adesivo-clinica-b']];
+  const jobs = [['20', '', 'adesivo-20cm'], ['15', '', 'adesivo-15cm'], ['20', '&ids=A-parque,A-grao&gab=0', 'adesivo-20cm-2un'], ['20', '&ids=nenhum', 'gabarito-20cm-A4'], ['c', '', 'adesivo-circuito'], ['c', '&gab=0', 'adesivo-circuito-so-arte'], ['c', '&gab=1', 'gabarito-circuito-A4'], ['ca', '', 'adesivo-clinica-a']];
   for (const [d, extra, name] of jobs) {
     const page = await browser.newPage();
     const url = d === 'c' ? `/wobbler/circuito.html?print=1${extra}` : d === 'ca' || d === 'cb' ? `/wobbler/clinica.html?print=${d[1]}${extra}` : `/wobbler/?print=${d}${extra}`;
