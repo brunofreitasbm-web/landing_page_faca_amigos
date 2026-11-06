@@ -105,6 +105,30 @@ export async function sincronizar({ drive, storage, classificar, imagem, config,
         await storage.gravar(BUCKET_PUBLICO, `${nome}-p.webp`, v.p, 'image/webp', imutavel);
         f.arquivo = nome;
         f.dims = v.dims;
+      } else if ((d.tv || d.site) && f.arquivo && config.reprocessarHd && !f.hd) {
+        // Reprocessamento HD: o cache é imutável, então grava com nome novo e só depois apaga o antigo.
+        // Se falhar, o arquivo antigo continua no ar (f.arquivo não muda) e a falha vira erro do resumo.
+        const antigo = f.arquivo;
+        try {
+          const buf = await imagem.decodificar(await drive.baixar(primeiro(g).id), ehHeic(primeiro(g)));
+          const v = await imagem.versoes(buf);
+          const nome = `${antigo.replace(/(-hd)+$/, '')}-hd`;
+          const imutavel = 'max-age=31536000';
+          await storage.gravar(BUCKET_PUBLICO, `${nome}.webp`, v.webp, 'image/webp', imutavel);
+          await storage.gravar(BUCKET_PUBLICO, `${nome}.jpg`, v.jpg, 'image/jpeg', imutavel);
+          await storage.gravar(BUCKET_PUBLICO, `${nome}-p.webp`, v.p, 'image/webp', imutavel);
+          f.arquivo = nome;
+          f.dims = v.dims;
+          f.hd = true;
+        } catch (e) {
+          resumo.erros.push(`${f.nome}: HD falhou, mantida a versão antiga: ${e.message}`);
+          log(`ERRO HD ${f.nome}: ${e.message}`);
+        }
+        if (f.hd && f.arquivo !== antigo) {
+          try { await apagarArquivos(storage, antigo); } catch (e) {
+            resumo.erros.push(`${f.nome}: HD publicado, mas não apagou o antigo: ${e.message}`);
+          }
+        }
       } else if (!(d.tv || d.site) && f.arquivo) {
         await apagarArquivos(storage, f.arquivo);
         f.arquivo = null;
@@ -190,6 +214,7 @@ async function main() {
       donos: env.FOTOS_DONOS,
       maxPorRodada: Number(env.FOTOS_MAX_POR_RODADA) || 200,
       permitirRemocaoEmMassa: env.FOTOS_PERMITIR_REMOCAO_EM_MASSA === '1',
+      reprocessarHd: env.FOTOS_REPROCESSAR_HD === '1',
     },
   });
   const texto = textoResumo(resultado);

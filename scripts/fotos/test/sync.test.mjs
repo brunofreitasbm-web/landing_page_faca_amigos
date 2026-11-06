@@ -96,6 +96,49 @@ test('rodada completa: publica na TV certa, descarta logo, segura clínica, apro
   assert.ok(!storage.objetos.has(`fotos-site/${m.src}.webp`));
 });
 
+test('reprocessamento HD: nome novo -hd, apaga o antigo, não repete e falha não derruba', async () => {
+  const storage = storageFalso();
+  const c = cenario(() => [arq('carro', 'a'), arq('carro22', 'z')]);
+  let r = await sincronizar({ ...c, storage, imagem, config, log: () => {} });
+  const antigos = r.manifesto.map((m) => m.src);
+  assert.equal(antigos.length, 2);
+
+  // 2 fotos: a de 'carro22' falha no download durante o HD e fica como estava
+  const baixarOriginal = c.drive.baixar;
+  const hd = { ...config, reprocessarHd: true };
+  c.drive.baixar = async (id) => { if (id === 'carro22') throw new Error('Drive fora'); return baixarOriginal(id); };
+  r = await sincronizar({ ...c, storage, imagem, config: hd, log: () => {} });
+  const ok = r.manifesto.find((m) => m.src.endsWith('-hd'));
+  assert.ok(ok, 'uma foto virou HD');
+  const intacta = r.manifesto.find((m) => !m.src.endsWith('-hd'));
+  assert.ok(intacta && antigos.includes(intacta.src), 'a que falhou continua com o nome antigo');
+  assert.equal(r.resumo.erros.length, 1);
+  assert.ok(storage.objetos.has(`fotos-site/${intacta.src}.webp`), 'antigo da que falhou mantido');
+  const antigoOk = antigos.find((s) => ok.src === `${s}-hd`);
+  assert.ok(antigoOk);
+  for (const suf of ['.webp', '.jpg', '-p.webp']) {
+    assert.ok(storage.objetos.has(`fotos-site/${ok.src}${suf}`));
+    assert.equal(storage.objetos.get(`fotos-site/${ok.src}${suf}`).cache, 'max-age=31536000');
+    assert.ok(!storage.objetos.has(`fotos-site/${antigoOk}${suf}`), 'arquivo antigo apagado');
+  }
+  const pub = storage.objetos.get('fotos-site/manifest.json').dados;
+  assert.ok(pub.includes(ok.src));
+
+  // Próxima rodada (Drive de volta): só a pendente é reprocessada; a já HD não baixa de novo e não vira -hd-hd
+  c.drive.baixar = baixarOriginal;
+  c.chamadas.baixar = 0;
+  r = await sincronizar({ ...c, storage, imagem, config: hd, log: () => {} });
+  assert.equal(c.chamadas.baixar, 1);
+  assert.equal(r.resumo.erros.length, 0);
+  assert.ok(r.manifesto.every((m) => /-hd$/.test(m.src) && !/-hd-hd/.test(m.src)));
+
+  // E depois disso, nenhuma baixa
+  c.chamadas.baixar = 0;
+  r = await sincronizar({ ...c, storage, imagem, config: hd, log: () => {} });
+  assert.equal(c.chamadas.baixar, 0);
+  assert.equal(c.chamadas.classificar, 2);
+});
+
 test('listagem vazia de repente não apaga tudo', async () => {
   const storage = storageFalso();
   const muitas = Array.from({ length: 8 }, (_, i) => arq(`carro${i}`, `md${i}`));
