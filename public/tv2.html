@@ -98,11 +98,11 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.04);
+      transform: scale(1);
       transition: transform 8s ease-out;
     }
 
-    .c-slide.active img { transform: scale(1.14); }
+    .c-slide.active img { transform: scale(1.06); }
 
     .c-slide::after {
       content: '';
@@ -485,43 +485,43 @@
       // plan: qual cartão de preço acende junto com a foto (20 = pelúcias e jeep, 30 = carros e moto).
       // ----------------------------------------------------------------------
       const SLIDES = [
-        { image: 'img/circuito-bombeiro', pos: '50% 40%', plan: 30, sfx: 'sirene',
+        { image: 'img/tv2hd/circuito-bombeiro', pos: '50% 40%', plan: 30, sfx: 'sirene',
           kicker: '🚨 Sirene ligada', headline: 'Hoje ele é o <em>herói</em> do shopping.' },
-        { image: 'img/circuito-frota-quiosque', pos: '50% 60%', plan: 30, sfx: 'buzina',
+        { image: 'img/tv2hd/circuito-frota-quiosque', pos: '50% 60%', plan: 30, sfx: 'buzina',
           kicker: 'Range Rover ou Lamborghini?', headline: 'Qual ele vai <em>escolher</em> hoje?' },
-        { image: 'img/circuito-lamborghini-menino', pos: '50% 45%', plan: 30, sfx: 'vroom',
+        { image: 'img/tv2hd/circuito-lamborghini-menino', pos: '50% 45%', plan: 30, sfx: 'vroom',
           kicker: '🏎️ Lamborghini do tamanho dele', headline: 'Olha a cara de quem <em>chegou</em>.' },
-        { image: 'img/circuito-macaco', pos: '50% 55%', plan: 30, sfx: 'vroom',
+        { image: 'img/tv2hd/circuito-macaco', pos: '50% 55%', plan: 30, sfx: 'vroom',
           kicker: '🎮 Controle remoto com você', headline: 'Ele no volante.<br><em>Você no controle.</em>' },
-        { image: 'img/circuito-equipe-capivara', pos: '50% 40%', plan: 20, sfx: 'plim',
+        { image: 'img/tv2hd/circuito-equipe-capivara', pos: '50% 40%', plan: 20, sfx: 'plim',
           kicker: '🐾 Pelúcias gigantes', headline: 'Um abraço desse tamanho cabe em <em>20 minutos</em>.' },
-        { image: 'img/circuito-jeep-menino', pos: '50% 50%', plan: 20, sfx: 'vroom',
+        { image: 'img/tv2hd/circuito-jeep-menino', pos: '50% 50%', plan: 20, sfx: 'vroom',
           kicker: '🛞 Jeep off-road', headline: 'Hoje o corredor vira <em>trilha</em>.' },
-        { image: 'img/circuito-lamborghini-urus', pos: '50% 60%', plan: 30, sfx: 'vroom',
+        { image: 'img/tv2hd/circuito-lamborghini-urus', pos: '50% 60%', plan: 30, sfx: 'vroom',
           kicker: '🏁 Passeio pelo shopping', headline: 'Você respira.<br><em>Ele acelera.</em>' },
-        { image: 'img/circuito-rangerover-menino', pos: '50% 45%', plan: 30, sfx: 'buzina',
+        { image: 'img/tv2hd/circuito-rangerover-menino', pos: '50% 45%', plan: 30, sfx: 'buzina',
           kicker: '🚙 Range Rover branca', headline: 'Ele dirige.<br><em>Você filma.</em>' },
-        { image: 'img/circuito-frota-alinhada', pos: '50% 55%', plan: 20, sfx: 'buzina',
+        { image: 'img/tv2hd/circuito-frota-alinhada', pos: '50% 55%', plan: 20, sfx: 'buzina',
           kicker: '👉 Está tudo pronto aqui', headline: 'Pode deixar ele <em>escolher</em>.' },
-        { image: 'img/circuito-capivara-menina', pos: '50% 18%', plan: 20, sfx: 'plim',
+        { image: 'img/tv2hd/circuito-capivara-menina', pos: '50% 18%', plan: 20, sfx: 'plim',
           kicker: '🐾 Capivara gigante', headline: 'Ela já escolheu a <em>dela</em>.' },
-        { image: 'img/circuito-carrinhos', pos: '30% 60%', plan: 30, sfx: 'tada',
+        { image: 'img/tv2hd/circuito-carrinhos', pos: '30% 60%', plan: 30, sfx: 'tada',
           kicker: '⏱️ Daqui a 30 minutos…', headline: 'Você vai ouvir:<br><em>“De novo!”</em>' },
-        { image: 'img/circuito-moto-menino', pos: '50% 22%', plan: 30, sfx: 'vroom',
+        { image: 'img/tv2hd/circuito-moto-menino', pos: '50% 22%', plan: 30, sfx: 'vroom',
           kicker: '🏍️ Tem moto também', headline: 'Duas rodas,<br><em>um sorriso enorme</em>.' },
-        { image: 'img/circuito-stitch-menina', pos: '50% 55%', plan: 20, sfx: 'plim',
+        { image: 'img/tv2hd/circuito-stitch-menina', pos: '50% 55%', plan: 20, sfx: 'plim',
           kicker: '🐾 Pelúcia que anda', headline: 'Qual pelúcia ela vai <em>escolher</em>?' },
-        { image: 'img/circuito-cachorro-pelucia', pos: '50% 40%', plan: 20, sfx: 'plim',
+        { image: 'img/tv2hd/circuito-cachorro-pelucia', pos: '50% 40%', plan: 20, sfx: 'plim',
           kicker: '🐶 Amigo de pelúcia', headline: 'Um amigo de pelúcia pra <em>passear</em>.' },
-        { image: 'img/circuito-lamborghini-sorriso', pos: '50% 45%', plan: 30, sfx: 'tada',
+        { image: 'img/tv2hd/circuito-lamborghini-sorriso', pos: '50% 45%', plan: 30, sfx: 'tada',
           kicker: '👀 Ele já viu', headline: 'Agora é só você dizer <em>sim</em>.' },
-        { image: 'img/circuito-unicornio', pos: '50% 55%', plan: 20, sfx: 'tada',
+        { image: 'img/tv2hd/circuito-unicornio', pos: '50% 55%', plan: 20, sfx: 'tada',
           kicker: '🦄 Pronto pra passear', headline: 'Roxo, macio e <em>pronto pra galope</em>.' },
-        { image: 'img/circuito-bebe-lamborghini', pos: '50% 50%', plan: 30, sfx: 'vroom',
+        { image: 'img/tv2hd/circuito-bebe-lamborghini', pos: '50% 50%', plan: 30, sfx: 'vroom',
           kicker: '🏎️ Primeira volta', headline: 'Primeira volta.<br><em>Primeiro sorriso.</em>' },
-        { image: 'img/circuito-cachorro-buggy', pos: '50% 55%', plan: 20, sfx: 'buzina',
+        { image: 'img/tv2hd/circuito-cachorro-buggy', pos: '50% 55%', plan: 20, sfx: 'buzina',
           kicker: '👉 Tem pra todo gosto', headline: 'Pelúcia ou buggy?<br><em>Ele decide.</em>' },
-        { image: 'img/circuito-quiosque', pos: '50% 45%', plan: 30, sfx: 'tada',
+        { image: 'img/tv2hd/circuito-quiosque', pos: '50% 45%', plan: 30, sfx: 'tada',
           kicker: '📍 Aqui no corredor', headline: 'Te esperamos aqui,<br><em>no corredor</em>.' }
       ];
 
@@ -838,7 +838,7 @@
           (window.dataLayer = window.dataLayer || []).push({
             event: 'tv2_slide',
             tv2_experiment: EXPERIMENT,
-            tv2_slide: slide.fotoId ? 'foto-' + slide.fotoId : slide.image.replace('img/circuito-', ''),
+            tv2_slide: slide.fotoId ? 'foto-' + slide.fotoId : slide.image.replace(/^img\/(tv2hd\/)?circuito-/, ''),
             tv2_plan: slide.plan
           });
         } catch (e) { /* medição nunca derruba a vitrine */ }
