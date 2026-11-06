@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Arte WhatsApp: clínica atende IASEP</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Imagem 1080x1350 (4:5) para enviar no WhatsApp sem corte na conversa. PNG: Chrome headless, janela 1080x1350. */
+  :root { --pink:#E01560; --teal:#2ECFB5; --teal-dark:#137A6A; --yellow:#FFE234; --dark:#1A3F35; --soft:#4C6B62; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1350px; overflow:hidden; }
+  body { font-family:'Nunito',sans-serif; color:var(--dark); position:relative;
+    background:url(../public/img/clinica-fachada.jpg) center top/cover no-repeat; }
+  body::after { content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(180deg, rgba(26,63,53,0) 34%, rgba(26,63,53,.6) 58%, rgba(26,63,53,.88) 100%); }
+  .badge { position:absolute; z-index:2; top:44px; left:50%; transform:translateX(-50%);
+    background:var(--yellow); font-family:'Fredoka',cursive; font-weight:700; font-size:34px;
+    padding:12px 38px; border-radius:999px; box-shadow:0 10px 26px rgba(26,63,53,.25); white-space:nowrap; }
+  .content { position:absolute; z-index:2; left:56px; right:56px; bottom:48px; color:#fff; text-align:center; }
+  h1 { font-family:'Fredoka One',cursive; font-weight:400; font-size:92px; line-height:1; letter-spacing:-1px; text-shadow:0 4px 18px rgba(0,0,0,.35); }
+  h1 em { font-style:normal; color:var(--yellow); }
+  .sub { margin:18px auto 0; max-width:900px; font-size:32px; font-weight:800; line-height:1.25; text-shadow:0 2px 10px rgba(0,0,0,.4); }
+  .guia { display:inline-block; margin-top:18px; background:var(--teal); color:var(--dark); font-family:'Fredoka',cursive; font-weight:700; font-size:28px; padding:8px 28px; border-radius:999px; }
+  .contacts { margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .c { background:#fff; color:var(--dark); border-radius:28px; padding:18px 14px; box-shadow:0 14px 34px rgba(0,0,0,.25); }
+  .c small { display:block; font-family:'Fredoka',cursive; font-weight:700; font-size:24px; letter-spacing:1.5px; text-transform:uppercase; color:var(--teal-dark); }
+  .c b { display:block; margin-top:2px; font-weight:900; font-size:40px; line-height:1.1; }
+  .c.wa b { color:var(--teal-dark); }
+  .c.ig b { color:var(--pink); font-size:36px; }
+  .end { margin-top:18px; font-size:26px; font-weight:800; opacity:.95; }
+</style>
+</head>
+<body>
+  <div class="badge">Convênio IASEP</div>
+  <div class="content">
+    <h1>Atendemos <em>IASEP</em></h1>
+    <p class="sub">Terapia ABA, fonoaudiologia, terapia ocupacional e psicologia infantil, em Belém.</p>
+    <span class="guia">Nós solicitamos a autorização da guia</span>
+    <div class="contacts">
+      <div class="c wa"><small>WhatsApp</small><b>(91) 99178-2027</b></div>
+      <div class="c ig"><small>Instagram</small><b>@facaamigos.belem</b></div>
+    </div>
+    <p class="end">Centro de Terapia Comportamental FaçaAmigos<br>Rua Boaventura da Silva, 1573 · Umarizal, Belém</p>
+  </div>
+</body>
+</html>
