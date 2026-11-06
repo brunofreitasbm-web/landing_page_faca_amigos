@@ -111,7 +111,8 @@ Outros atendimentos:
 - Pacote pode ser dividido entre especialidades indicadas no PTS.
 - A avaliação inicial conta como 1 sessão do pacote contratado.
 - Pagamento: até 3x no cartão.
-- Valores: NÃO estão no site. O bot não informa preço; encaminha para a equipe humana.
+- Valores: o bot NÃO escreve valores em texto. Regras de preço na seção 11.
+- Arte de preços (particular): `chatbot-clinica/planos-particular.png` (6 cards, 2048×2560, 4:5). É o único material de preço que o bot envia.
 
 ## 7. Estrutura física
 
@@ -144,11 +145,16 @@ Outros atendimentos:
 - **Como são os planos?** 6 pacotes de 4 a 24 sessões, mais Encontro e Avaliação Neuropsicológica. Avaliação inicial conta como 1 sessão.
 - **Idade?** Crianças e adolescentes; a avaliação inicial define a necessidade.
 - **A avaliação é diagnóstico?** Não. Ela monta o PTS. Diagnóstico formal: Avaliação Neuropsicológica, com laudo.
-- **Quanto custa?** "Os valores dependem do pacote e das terapias. Vou te passar para a equipe." → transbordo humano.
+- **Quanto custa? (particular, ou sem dizer o tipo)** Primeiro perguntar: "É por convênio ou particular?" Se particular: enviar a arte `planos-particular.png` e dizer: "Estes são os pacotes mensais. A quantidade e a distribuição das terapias dependem de cada criança. Vou te passar para a equipe, que monta a melhor opção com você." → transbordo humano.
+- **Quanto custa? (convênio)** Não falar valor. "Pelo convênio, a clínica solicita a autorização da guia. Vou te passar para a equipe." → transbordo humano.
 
 ## 11. Regras de segurança do bot
 
-- Não informar preços. Transbordar para humano.
+- Preço é venda consultiva. O bot nunca escreve valor em texto, em nenhum caso.
+  - Particular (ou pergunta de pacote/plano/valor/preço): enviar a arte `planos-particular.png` e transbordar para humano.
+  - Convênio (IASEP, PROASA ou outro): nunca informar preço. Transbordar.
+  - Tipo de atendimento desconhecido: perguntar "convênio ou particular?" antes de enviar qualquer coisa.
+  - Já enviou a arte nesta conversa: não reenviar, só transbordar.
 - Não diagnosticar. Não confirmar nem negar autismo/TDAH.
 - Não prometer cura, resultado ou prazo.
 - Não oferecemos serviço de aniversário (nem na clínica, nem no Playground).
@@ -162,7 +168,7 @@ Outros atendimentos:
 ## 12. Lacunas a preencher antes de ligar o bot
 
 - Horário de funcionamento da clínica (vazio no site).
-- Tabela de valores interna (para o humano, não para o bot).
+- Configuração no CRM: gatilho de envio da imagem (qual CRM e se aceita mídia por gatilho).
 - Faixa etária exata atendida.
 - "14 especialidades" x 15 cartões no site: decidir se a Avaliação Neuropsicológica entra na conta.
 - Nomes e registros dos demais profissionais da equipe.
