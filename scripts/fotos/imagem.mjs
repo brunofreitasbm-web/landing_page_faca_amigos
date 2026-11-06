@@ -31,14 +31,14 @@ export async function previa(buf) {
 }
 
 /**
- * Versões publicadas: 1600 px (webp + jpg, para TV e telas grandes) e 720 px (webp, para as
+ * Versões publicadas: 3000 px no lado maior (webp + jpg, para a TV 4K: foto vertical fica com ~2250 px de largura; 1600 deixava 1200 px e esticava 3x) e 720 px (webp, para as
  * grades das landings no celular).
  */
 export async function versoes(buf) {
   const base = () => sharp(buf).rotate().flatten({ background: '#ffffff' });
   const grande = { fit: 'inside', withoutEnlargement: true };
-  const webp = await base().resize(1600, 1600, grande).webp({ quality: 78 }).toBuffer({ resolveWithObject: true });
-  const jpg = await base().resize(1600, 1600, grande).jpeg({ quality: 80, mozjpeg: true }).toBuffer();
+  const webp = await base().resize(3000, 3000, grande).webp({ quality: 85 }).toBuffer({ resolveWithObject: true });
+  const jpg = await base().resize(3000, 3000, grande).jpeg({ quality: 85, mozjpeg: true }).toBuffer();
   const p = await base().resize(720, 720, grande).webp({ quality: 72 }).toBuffer();
   return { webp: webp.data, jpg, p, dims: { w: webp.info.width, h: webp.info.height } };
 }

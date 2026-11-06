@@ -14,6 +14,10 @@ on:
         description: 'Permitir tirar do ar mais da metade das fotos de uma vez (só se foi de propósito)'
         type: boolean
         default: false
+      reprocessar_hd:
+        description: 'Reprocessar em HD (3000 px) as fotos já publicadas, com nome novo (-hd); roda uma vez'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -53,4 +57,5 @@ jobs:
           FOTOS_DONOS: ${{ secrets.FOTOS_DONOS }}
           FOTOS_MAX_POR_RODADA: ${{ vars.FOTOS_MAX_POR_RODADA }}
           FOTOS_PERMITIR_REMOCAO_EM_MASSA: ${{ inputs.permitir_remocao_em_massa && '1' || '' }}
+          FOTOS_REPROCESSAR_HD: ${{ inputs.reprocessar_hd && '1' || '' }}
         run: node sync.mjs

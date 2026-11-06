@@ -745,6 +745,13 @@
         const scale = sideways ? Math.min(w / 1920, h / 1080) : Math.min(w / 1080, h / 1920);
         dom.canvas.style.transform = `translate(-50%, -50%) rotate(${deg}deg) scale(${scale})`;
         dom.btnRotate.textContent = `🔄 [R] Giro: ${state.rotation === 'auto' ? 'auto (' + deg + 'º)' : deg + 'º'}`;
+        // Diagnóstico de nitidez: abra /tv2?diag=1 na TV. Se mostrar 1920x1080 numa TV 4K, é o navegador
+        // da TV que renderiza em Full HD e a própria TV estica para 4K (texto mole, sem conserto no código).
+        if (/[?&]diag=1/.test(location.search)) {
+          let d = document.getElementById('diag');
+          if (!d) { d = document.createElement('div'); d.id = 'diag'; d.style.cssText = 'position:fixed;left:8px;top:8px;z-index:99999;background:#000;color:#0f0;font:20px monospace;padding:6px 10px'; document.body.appendChild(d); }
+          d.textContent = `${w}x${h} css | dpr ${window.devicePixelRatio} | físico ${Math.round(w * window.devicePixelRatio)}x${Math.round(h * window.devicePixelRatio)} | escala ${scale.toFixed(2)}`;
+        }
       }
 
       function cycleRotation() {

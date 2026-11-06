@@ -133,6 +133,10 @@ Opcional: a variável (não segredo) `FOTOS_MAX_POR_RODADA` limita quantas fotos
 - **Foto boa ficou de fora**: o resumo da rodada diz o motivo. Aprovar (mover para `Aprovadas`) passa por
   cima da nota de qualidade.
 - **Desligar as fotos novas numa TV**: abra a TV com `?fotos=0` no fim do endereço (ex.: `/tv2?fotos=0`).
+- **Reprocessar em HD (TV 4K)**: fotos já publicadas continuam em 1600 px. Rode o workflow com "reprocessar_hd" marcado
+  (ou `FOTOS_REPROCESSAR_HD=1`). Cada foto é baixada de novo e gravada com nome novo (`...-hd`, por causa do cache imutável);
+  o arquivo antigo só é apagado depois. Se uma falhar, a antiga fica no ar e o erro aparece no resumo. Marca `hd` no catálogo:
+  as próximas rodadas não repetem.
 - **Testes**: `cd scripts/fotos && npm ci && npm test` (rodam no CI em todo PR).
 
 ## Arquivos
@@ -143,6 +147,6 @@ Opcional: a variável (não segredo) `FOTOS_MAX_POR_RODADA` limita quantas fotos
 | `regras.mjs` | quem vai para onde, limpeza da copy, trava contra remoção em massa |
 | `drive.mjs` | listagem e download no Drive (somente leitura) |
 | `classificar.mjs` | prompt e esquema da IA |
-| `imagem.mjs` | HEIC → JPEG e as versões publicadas (1600 px webp/jpg e 720 px webp, sem EXIF/GPS) |
+| `imagem.mjs` | HEIC → JPEG e as versões publicadas (3000 px webp/jpg e 720 px webp, sem EXIF/GPS) |
 | `storage.mjs` | Supabase Storage |
 | `/assets/fa-fotos.js` | lado das páginas: lê o manifesto e entrega as fotos para cada TV e landing |
