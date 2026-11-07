@@ -67,7 +67,7 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 | Métrica / Parâmetro | Detalhe / Valor |
 | :--- | :--- |
 | **Faixa Etária Atendida** | 0 a 12 anos de idade |
-| **Política de Desconto PCD / TEA** | Meia-entrada inclusiva no Playground, com laudo ou CIPTEA: R$ 50,00 os 30 minutos (público geral: R$ 60,00) |
+| **Política de Desconto PCD / TEA** | Meia-entrada inclusiva no Playground, com laudo ou CIPTEA: R$ 50,00 os 30 minutos (público geral: R$ 50,00) |
 | **Programa de Fidelidade — Playground** | a cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito. |
 | **Programa de Fidelidade — Circuito** | a cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito. |
 | **Horário de Funcionamento** | Segunda a sábado, das 10h às 22h; domingo, das 12h às 21h |
@@ -83,12 +83,13 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 ### Playground Inclusivo (Parque Shopping Belém)
 | Pacote | Público geral | Meia-entrada inclusiva (laudo/CIPTEA) |
 | :--- | :--- | :--- |
-| 30 minutos | R$ 60,00 | R$ 50,00 |
-| 120 minutos | R$ 192,00 | R$ 160,00 |
-| 60 minutos | R$ 108,00 | R$ 90,00 |
-| Passaporte mensal (10h/mês, 3x sem juros) | R$ 840,00 | R$ 700,00 |
-| Day Use (10h no mesmo dia) | R$ 270,00 | R$ 225,00 |
-| Minuto adicional | R$ 1,80 | R$ 1,50 |
+| 30 minutos | R$ 50,00 | R$ 50,00 |
+| 90 minutos | R$ 130,00 | R$ 130,00 |
+| 120 minutos | R$ 160,00 | R$ 160,00 |
+| 60 minutos | R$ 90,00 | R$ 90,00 |
+| Day Use (10h no mesmo dia) | R$ 225,00 | R$ 225,00 |
+| Passaporte mensal (10h/mês, 3x sem juros) | R$ 700,00 | R$ 700,00 |
+| Minuto adicional | R$ 1,50 | R$ 1,50 |
 
 - **Crianças ≥ 3 anos**: podem permanecer no parque sob supervisão dos mediadores capacitados, com pulseira de identificação vinculada ao responsável cadastrado na entrada.
 
@@ -145,7 +146,7 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 ## Perguntas Frequentes e Respostas
 
 #### Q1: Como funciona o acesso de crianças autistas no FaçaAmigos?
-R: Apresentando a Carteira de Identificação da Pessoa com Transtorno do Espectro Autista (CIPTEA) ou laudo médico na recepção, a criança paga a meia-entrada inclusiva no Playground: R$ 50,00 os 30 minutos (público geral: R$ 60,00).
+R: Apresentando a Carteira de Identificação da Pessoa com Transtorno do Espectro Autista (CIPTEA) ou laudo médico na recepção, a criança paga a meia-entrada inclusiva no Playground: R$ 50,00 os 30 minutos (público geral: R$ 50,00).
 
 #### Q2: É necessário fazer agendamento prévio?
 R: Não. O atendimento no Playground e no Circuito é feito por ordem de chegada, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h.
