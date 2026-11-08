@@ -611,4 +611,86 @@ Deno.test("sem a função do banco o login fica bloqueado, o erro aparece e repe
   await chamar("conta_ativo", { email: "ana@t.com", ativo: true });
 });
 
+
+// ---- Manutenção TI: arquivos de TI só para owner, por URL assinada ----
+const GTOKEN = "e".repeat(64);
+A.tabela("fa_gestao_contas").push(contaBase({ email: "ti-gerente@t.com", email_codigo: "ti-gerente@t.com", nome: "Gerente TI", papel: "gerente" }));
+A.tabela("fa_gestao_sessoes").push({ token_hash: await sha(GTOKEN), email: "ti-gerente@t.com", expires_at: new Date(Date.now() + 3600_000).toISOString() });
+const eventosTi = () => A.tabela("fa_gestao_auditoria").filter((l) => l.evento === "ti_download");
+
+async function shaBytes(b: Uint8Array) {
+  const h = await crypto.subtle.digest("SHA-256", b);
+  return Array.from(new Uint8Array(h)).map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+
+Deno.test("ti_listar: owner recebe os 2 arquivos, sem o campo nome", async () => {
+  const r = await chamar("ti_listar");
+  assert.equal(r.status, 200);
+  assert.deepEqual(r.corpo.arquivos.map((a: any) => a.id), ["otimizar-win11", "comandos-otimizar"]);
+  for (const a of r.corpo.arquivos) assert.equal("nome" in a, false);
+});
+
+Deno.test("ti_listar e ti_baixar: gerente recebe 403 e fica na auditoria como acao_owner_negada", async () => {
+  const antes = A.assinaturas.length;
+  for (const acao of ["ti_listar", "ti_baixar"]) {
+    const r = await chamar(acao, { id: "otimizar-win11" }, GTOKEN);
+    assert.equal(r.status, 403, acao);
+  }
+  assert.equal(A.assinaturas.length, antes);
+  assert.ok(A.tabela("fa_gestao_auditoria").some((l) => l.evento === "acao_owner_negada" && l.email === "ti-gerente@t.com" && l.detalhe === "ti_baixar"));
+});
+
+Deno.test("ti_listar e ti_baixar: sem token ou com token inexistente recebem 401", async () => {
+  for (const acao of ["ti_listar", "ti_baixar"]) {
+    assert.equal((await chamar(acao, { id: "otimizar-win11" }, "")).status, 401, `${acao} sem token`);
+    assert.equal((await chamar(acao, { id: "otimizar-win11" }, "f".repeat(64))).status, 401, `${acao} token inexistente`);
+  }
+});
+
+Deno.test("ti_baixar: owner recebe url, 60 segundos e auditoria ti_download", async () => {
+  const antes = eventosTi().length;
+  const r = await chamar("ti_baixar", { id: "otimizar-win11" });
+  assert.equal(r.status, 200);
+  assert.match(r.corpo.url, /^http:\/\/a\/storage\/ti-arquivos\/otimizar-win11\.ps1/);
+  assert.deepEqual(A.assinaturas.at(-1), { bucket: "ti-arquivos", path: "otimizar-win11.ps1", seconds: 60, download: "otimizar-win11.ps1" });
+  const novos = eventosTi().slice(antes);
+  assert.equal(novos.length, 1);
+  assert.equal(novos[0].email, "bruno@t.com");
+  assert.equal(novos[0].app, "ti");
+  assert.equal(novos[0].detalhe, "otimizar-win11");
+});
+
+Deno.test("ti_baixar: id fora do catálogo é 404 e nada é assinado", async () => {
+  const antes = A.assinaturas.length;
+  for (const id of ["../otimizar-win11.ps1", "otimizar-win11.ps1/..", "otimizar-win11.ps1", "nao-existe", "", undefined, 42, {}]) {
+    const r = await chamar("ti_baixar", id === undefined ? {} : { id });
+    assert.equal(r.status, 404, JSON.stringify(id));
+  }
+  assert.equal(A.assinaturas.length, antes);
+});
+
+Deno.test("ti_baixar: objeto ausente no Storage é 502 sem vazar o bucket e sem auditoria de sucesso", async () => {
+  const antes = eventosTi().length;
+  A.operacoesComErro.add("storage:createSignedUrl");
+  const r = await chamar("ti_baixar", { id: "comandos-otimizar" });
+  A.operacoesComErro.delete("storage:createSignedUrl");
+  assert.equal(r.status, 502);
+  assert.equal(JSON.stringify(r.corpo).includes("ti-arquivos"), false);
+  assert.equal(eventosTi().length, antes);
+});
+
+Deno.test("ti_listar: tamanho e SHA256 do catálogo batem com os arquivos reais", async () => {
+  const r = await chamar("ti_listar");
+  const porId = Object.fromEntries(r.corpo.arquivos.map((a: any) => [a.id, a]));
+  const reais: Record<string, string> = {
+    "otimizar-win11": "supabase/ops/ti/otimizar-win11.ps1",
+    "comandos-otimizar": "supabase/ops/ti/comandos-otimizar.txt",
+  };
+  for (const [id, caminho] of Object.entries(reais)) {
+    const bytes = await Deno.readFile(new URL(`../../../${caminho}`, import.meta.url));
+    assert.equal(porId[id].tamanho_bytes, bytes.length, `${id} tamanho`);
+    assert.equal(porId[id].sha256, await shaBytes(bytes), `${id} sha256`);
+  }
+});
+
 void projetos;

@@ -1533,6 +1533,8 @@ Deno.serve(async (req) => {
     "sessoes_revogar",
     "auditoria_listar",
     "convite_link_gerar",
+    "ti_listar",
+    "ti_baixar",
   ];
   if (ACOES_OWNER.includes(action)) {
     if (conta.papel !== "owner") {
@@ -2221,6 +2223,45 @@ async function acaoEquipe(
   return jsonResponse(req, { error: "ação inválida" }, 400);
 }
 
+// ---------------------------------------------------------------------
+// Manutenção TI: arquivos de TI só para owner. Ficam num bucket privado do Storage
+// (migração 20261108120000_ti_arquivos_bucket.sql); a função gera um link de 60 s.
+// A fonte dos arquivos é supabase/ops/ti/: ao mudar um deles, atualize tamanho e SHA256 aqui
+// (o teste "tamanho e SHA256 do catálogo batem com os arquivos reais" avisa se esquecer).
+// ---------------------------------------------------------------------
+const BUCKET_TI = "ti-arquivos";
+
+type ArquivoTi = {
+  id: string;
+  rotulo: string;
+  descricao: string;
+  nome: string;
+  versao: string | null;
+  tamanho_bytes: number;
+  sha256: string;
+};
+
+const ARQUIVOS_TI: ArquivoTi[] = [
+  {
+    id: "otimizar-win11",
+    rotulo: "Script de otimização do Windows 11",
+    descricao: "Remove bloatware, neutraliza o Edge, desativa telemetria e enxuga a inicialização de um PC recém-instalado.",
+    nome: "otimizar-win11.ps1",
+    versao: "2026.11.04-3",
+    tamanho_bytes: 21725,
+    sha256: "71d1dde0cf4ecbce6413067b5f5d7184b54852b68df243287554bd1ce045f5e8",
+  },
+  {
+    id: "comandos-otimizar",
+    rotulo: "Comandos para o PowerShell",
+    descricao: "Passo a passo e blocos para copiar: conferir o hash do script e executá-lo.",
+    nome: "comandos-otimizar.txt",
+    versao: null,
+    tamanho_bytes: 2619,
+    sha256: "05ed213b1e52b3b8640e95fff19c447d3701d262590b6dc5d00df2ca51870c2c",
+  },
+];
+
 async function acaoOwner(
   admin: Admin,
   req: Request,
@@ -2229,6 +2270,32 @@ async function acaoOwner(
   dono: Conta,
 ): Promise<Response> {
   const alvoEmail = str(body.email).toLowerCase();
+
+  if (action === "ti_listar") {
+    return jsonResponse(req, {
+      arquivos: ARQUIVOS_TI.map(({ id, rotulo, descricao, versao, tamanho_bytes, sha256 }) => ({
+        id,
+        rotulo,
+        descricao,
+        versao,
+        tamanho_bytes,
+        sha256,
+      })),
+    });
+  }
+
+  if (action === "ti_baixar") {
+    // Só igualdade estrita com o catálogo: a entrada nunca vira caminho no Storage.
+    const arquivo = typeof body.id === "string" ? ARQUIVOS_TI.find((a) => a.id === body.id) : undefined;
+    if (!arquivo) return jsonResponse(req, { error: "arquivo não encontrado" }, 404);
+    const { data, error } = await admin.storage.from(BUCKET_TI).createSignedUrl(arquivo.nome, 60, { download: arquivo.nome });
+    if (error || !data?.signedUrl) {
+      console.error("ti_baixar:", error?.message);
+      return jsonResponse(req, { error: "não consegui gerar o link agora, tente de novo" }, 502);
+    }
+    await auditar(admin, req, "ti_download", { email: dono.email, app: "ti", detalhe: arquivo.id });
+    return jsonResponse(req, { url: data.signedUrl });
+  }
 
   if (action === "contas_listar") {
     const [{ data: contas, error }, { data: perms }, { data: provs }] = await Promise.all([
