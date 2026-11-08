@@ -1354,7 +1354,18 @@ Deno.serve(async (req) => {
     const sistemaInfo = APPS[appId];
     if (!sistemaInfo) return jsonResponse(req, { error: "sistema de destino inválido" }, 400);
 
+    // O convite vale só para o e-mail a quem foi enviado (quando foi enviado a alguém).
+    const destinatario = str(convite.destinatario_email).toLowerCase();
+    if (destinatario && destinatario !== emailReal) {
+      return jsonResponse(req, { error: "use o e-mail para o qual o convite foi enviado" }, 403);
+    }
+
+    // Convite só cria conta NOVA. Nunca sobrescreve senha, papel ou e-mail de código de quem já existe:
+    // dar acesso a uma conta existente é feito pelo owner no Hub (conta_salvar).
     const { data: contaExistente } = await admin.from("fa_gestao_contas").select("email").eq("email", emailReal).maybeSingle();
+    if (contaExistente) {
+      return jsonResponse(req, { error: "já existe uma conta com este e-mail. Entre no Hub e peça acesso ao responsável" }, 409);
+    }
     const senhaHash = await hashSenha(senha);
     const agoraIso = new Date().toISOString();
 
@@ -1380,18 +1391,10 @@ Deno.serve(async (req) => {
       dadosConta.painel_usuario = emailReal;
     }
 
-    if (contaExistente) {
-      const { error: updErr } = await admin.from("fa_gestao_contas").update(dadosConta).eq("email", emailReal);
-      if (updErr) {
-        console.error("upd conta convite:", updErr.message);
-        return jsonResponse(req, { error: "não foi possível atualizar os dados" }, 500);
-      }
-    } else {
-      const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
-      if (insErr) {
-        console.error("ins conta convite:", insErr.message);
-        return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
-      }
+    const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
+    if (insErr) {
+      console.error("ins conta convite:", insErr.message);
+      return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
     }
 
     const nivelPermissao = convite.permissao === "admin" || convite.permissao === "ver" ? convite.permissao : "operar";
