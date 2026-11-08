@@ -2239,6 +2239,130 @@ async function acaoEquipe(
   return jsonResponse(req, { error: "ação inválida" }, 400);
 }
 
+// ---------------------------------------------------------------------
+// Link de usuário com vários sistemas (botão "Enviar Link de Usuário")
+// ---------------------------------------------------------------------
+
+const NIVEIS_CONVITE = ["ver", "operar", "admin"] as const;
+type NivelConvite = typeof NIVEIS_CONVITE[number];
+type ItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; escopo: string | null; unidades: string[] };
+const ROTULO_NIVEL: Record<NivelConvite, string> = { ver: "Visualizador", operar: "Operador", admin: "Administrador" };
+
+// Valida os itens do convite. Devolve a lista limpa ou a mensagem de erro (nada é gravado antes disso).
+function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
+  if (bruto.length === 0) return "adicione pelo menos um sistema";
+  if (bruto.length > Object.keys(APPS).length) return "sistemas demais no convite";
+  const itens: ItemConvite[] = [];
+  for (const b of bruto) {
+    const o = (b ?? {}) as Record<string, unknown>;
+    const modulo = str(o.sistema) as AppId;
+    if (!APPS[modulo]) return "selecione um sistema válido";
+    if (itens.some((i) => i.modulo === modulo)) return "cada sistema só pode aparecer uma vez no convite";
+    const nivel = str(o.nivel) as NivelConvite;
+    if (!NIVEIS_CONVITE.includes(nivel)) return "permissão inválida";
+    const funcao = str(o.funcao).slice(0, 80);
+    if (!funcao) return "informe a função em cada sistema";
+    let escopo: string | null = null;
+    if (ESCOPOS[modulo]) {
+      escopo = escopoValido(modulo, o.escopo);
+      if (!escopo) return "escolha a empresa (Grupo IB ou Porto Terapia) desta pessoa";
+    }
+    const unidades = Array.isArray(o.unidades)
+      ? [...new Set(o.unidades.map((u) => str(u).slice(0, 80)).filter(Boolean))].slice(0, 20)
+      : [];
+    itens.push({ modulo, funcao, nivel, escopo, unidades });
+  }
+  return itens;
+}
+
+async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<string, unknown>, dono: Conta): Promise<Response> {
+  const destinatarioNome = str(body.destinatario_nome).slice(0, 120);
+  const destinatarioEmail = str(body.destinatario_email).toLowerCase();
+  const cpf = str(body.cpf).replace(/\D/g, "");
+  if (!EMAIL_RE.test(destinatarioEmail)) return jsonResponse(req, { error: "informe o e-mail da pessoa" }, 400);
+  if (!cpfValido(cpf)) return jsonResponse(req, { error: "CPF inválido" }, 400);
+  const itens = lerItensConvite(body.itens as unknown[]);
+  if (typeof itens === "string") return jsonResponse(req, { error: itens }, 400);
+
+  // Convite só cria conta nova: quem já tem conta recebe acesso pelo owner em "Pessoas e acessos".
+  const [{ data: porCpf }, { data: porEmail }] = await Promise.all([
+    admin.from("fa_gestao_contas").select("email").eq("cpf", cpf).maybeSingle(),
+    admin.from("fa_gestao_contas").select("email").eq("email", destinatarioEmail).maybeSingle(),
+  ]);
+  if (porCpf) return jsonResponse(req, { error: "já existe uma conta com este CPF. Dê o acesso pela lista de pessoas" }, 409);
+  if (porEmail) return jsonResponse(req, { error: "já existe uma conta com este e-mail. Dê o acesso pela lista de pessoas" }, 409);
+
+  const token = randomHex(24);
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  const primeiro = itens[0];
+  const { data: convite, error: insErr } = await admin.from("fa_gestao_convites").insert({
+    token: null,
+    token_hash: await sha256Hex(token),
+    // Colunas antigas (not null) recebem o primeiro sistema; os itens são a fonte de verdade.
+    unidade: primeiro.unidades[0] ?? "Instituto Faça Amigos",
+    sistema: primeiro.modulo,
+    funcao: primeiro.funcao,
+    permissao: primeiro.nivel,
+    destinatario_nome: destinatarioNome || null,
+    destinatario_email: destinatarioEmail,
+    cpf,
+    criado_por: dono.email,
+    expires_at: expiresAt,
+  }).select("id").single();
+  if (insErr || !convite) {
+    console.error("fa_gestao_convites insert (multi):", insErr?.message);
+    return jsonResponse(req, { error: "não foi possível gravar o convite no banco" }, 500);
+  }
+  const { error: itensErr } = await admin.from("fa_gestao_convite_itens").insert(
+    itens.map((i) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades })),
+  );
+  if (itensErr) {
+    console.error("fa_gestao_convite_itens insert:", itensErr.message);
+    await admin.from("fa_gestao_convites").delete().eq("id", convite.id);
+    return jsonResponse(req, { error: "não foi possível gravar o convite no banco" }, 500);
+  }
+
+  const link = `${HUB_URL}/#cadastro?token=${token}`;
+  const linhas = itens.map((i) =>
+    `<div><strong>${escapeHtml(APPS[i.modulo].rotulo)}</strong>: ${escapeHtml(i.funcao)} (${ROTULO_NIVEL[i.nivel]})` +
+    `${i.unidades.length ? `, ${escapeHtml(i.unidades.join(", "))}` : ""}</div>`
+  ).join("");
+  const html = moldeEmail(`
+    <p style="margin:0 0 12px;font-size:15px;">Olá${destinatarioNome ? `, ${escapeHtml(destinatarioNome)}` : ""}!</p>
+    <p style="margin:0 0 16px;font-size:14px;color:#4C6B62;">${escapeHtml(dono.nome)} liberou o seu acesso aos sistemas abaixo.</p>
+    <div style="background:#FFF9F1;border:1.5px solid #2ECFB5;border-radius:16px;padding:16px;margin:16px 0;text-align:left;font-size:13px;line-height:1.6;">${linhas}</div>
+    <p style="margin:20px 0;">
+      <a href="${link}" style="display:inline-block;background:#f0196b;color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:12px 24px;border-radius:999px;">Criar minha conta</a>
+    </p>
+    <p style="margin:0;font-size:12px;color:#8B9A94;">O link vale por 7 dias. Ou copie: ${link}</p>
+  `);
+  const emailEnviado = await enviarEmail(destinatarioEmail, destinatarioNome || "Novo Colaborador", "Convite de acesso aos sistemas Faça Amigos", html);
+
+  await auditar(admin, req, "convite_link_gerado", {
+    email: dono.email,
+    detalhe: `dest=${destinatarioEmail}; itens=${itens.map((i) => `${i.modulo}:${i.nivel}`).join(",")}`.slice(0, 300),
+  });
+
+  const sistemaBase = (Deno.env.get(APPS[primeiro.modulo].baseEnv) ?? APPS[primeiro.modulo].baseDefault).replace(/\/+$/, "");
+  return jsonResponse(req, {
+    ok: true,
+    token,
+    link,
+    email_enviado: emailEnviado,
+    convite: {
+      unidade: primeiro.unidades[0] ?? null,
+      sistema: primeiro.modulo,
+      sistema_nome: APPS[primeiro.modulo].rotulo,
+      sistema_url: sistemaBase,
+      funcao: primeiro.funcao,
+      permissao: primeiro.nivel,
+      destinatario_nome: destinatarioNome || null,
+      destinatario_email: destinatarioEmail,
+    },
+    itens: itens.map((i) => ({ sistema: i.modulo, sistema_nome: APPS[i.modulo].rotulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades })),
+  });
+}
+
 async function acaoOwner(
   admin: Admin,
   req: Request,
@@ -2344,6 +2468,9 @@ async function acaoOwner(
   }
 
   if (action === "convite_link_gerar") {
+    // Formato novo: uma pessoa (CPF + e-mail) e vários sistemas, cada um com sua função e nível.
+    if (Array.isArray(body.itens)) return await gerarLinkMultiSistema(admin, req, body, dono);
+
     const unidade = str(body.unidade) || "Instituto Faça Amigos";
     const sistema = str(body.sistema) as AppId;
     const funcao = str(body.funcao) || "Supervisor";

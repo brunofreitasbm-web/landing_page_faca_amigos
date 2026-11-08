@@ -7,6 +7,7 @@ Deno.env.set("SUPABASE_SERVICE_ROLE_KEY", "ka");
 Deno.env.set("CLINICA_SUPABASE_URL", "http://b");
 Deno.env.set("CLINICA_SUPABASE_SERVICE_ROLE_KEY", "kb");
 Deno.env.set("CLINICA_SUPABASE_ANON_KEY", "anon-b");
+Deno.env.set("BREVO_API_KEY", "chave-ficticia-de-teste"); // fetch do Brevo é simulado abaixo
 
 export const emailsEnviados: Array<{ para: string; assunto: string; html: string }> = [];
 const fetchOriginal = globalThis.fetch;

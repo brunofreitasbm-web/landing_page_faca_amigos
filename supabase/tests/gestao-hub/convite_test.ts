@@ -1,7 +1,7 @@
 // Convites do Hub: segurança (não sobrescrever conta) e convite com vários sistemas.
 // Rodar: deno test --no-check --config supabase/tests/gestao-hub/deno.json --allow-env --allow-net=none supabase/tests/gestao-hub
 import assert from "node:assert/strict";
-import { A, chamar, sha } from "./hub_bootstrap.ts";
+import { A, TOKEN_GERENTE, chamar, contaBase, emailsEnviados, sha } from "./hub_bootstrap.ts";
 
 async function criarConvite(token: string, over: Record<string, unknown> = {}) {
   const linha = {
@@ -60,4 +60,71 @@ Deno.test("convite_antigo_backfill_abre", async () => {
   const r = await chamar("convite_consultar", { token: "t1-antigo" }, null);
   assert.equal(r.status, 200);
   assert.equal(r.corpo.ok, true);
+});
+
+// ---------- Fase 1: link com vários sistemas, função por sistema ----------
+const DOIS_ITENS = [
+  { sistema: "clinica", funcao: "Supervisor(a)", nivel: "admin", unidades: ["Unidade A"] },
+  { sistema: "playground", funcao: "Gerente", nivel: "operar", unidades: ["Circuito"] },
+];
+const multi = (over: Record<string, unknown> = {}) => ({
+  destinatario_nome: "Carla Dias", destinatario_email: "carla@t.com", cpf: "529.982.247-25", itens: DOIS_ITENS, ...over,
+});
+
+Deno.test("link_dois_sistemas_funcoes_diferentes", async () => {
+  const r = await chamar("convite_link_gerar", multi());
+  assert.equal(r.status, 200, JSON.stringify(r.corpo));
+  const conv = A.tabela("fa_gestao_convites").find((l) => l.destinatario_email === "carla@t.com")!;
+  assert.equal(conv.cpf, "52998224725");
+  assert.equal(conv.token, null);
+  const itens = A.tabela("fa_gestao_convite_itens").filter((i) => i.convite_id === conv.id);
+  assert.deepEqual(itens.map((i) => [i.modulo, i.nivel, i.funcao]).sort(), [["clinica", "admin", "Supervisor(a)"], ["playground", "operar", "Gerente"]]);
+  assert.equal(r.corpo.itens.length, 2);
+  const mail = emailsEnviados.find((e) => e.para === "carla@t.com")!;
+  assert.ok(mail.html.includes("Clínica") && mail.html.includes("Playground"));
+});
+
+Deno.test("link_formato_antigo_continua", async () => {
+  const r = await chamar("convite_link_gerar", { sistema: "clinica", funcao: "Gerente", permissao: "ver" });
+  assert.equal(r.status, 200);
+  assert.equal(r.corpo.convite.sistema, "clinica");
+});
+
+Deno.test("itens_sem_email_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "" }));
+  assert.equal(r.status, 400);
+  assert.equal(r.corpo.error, "informe o e-mail da pessoa");
+});
+
+Deno.test("cpf_invalido_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ cpf: "111.111.111-11" }));
+  assert.equal(r.status, 400);
+  assert.equal(r.corpo.error, "CPF inválido");
+});
+
+Deno.test("cpf_ja_tem_conta_recusa", async () => {
+  A.tabela("fa_gestao_contas").push(contaBase({ email: "dono.cpf@t.com", cpf: "12345678909" }));
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x1@t.com", cpf: "123.456.789-09" }));
+  assert.equal(r.status, 409);
+});
+
+Deno.test("rh_sem_escopo_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x2@t.com", itens: [{ sistema: "rh", funcao: "Supervisor(a)", nivel: "operar" }] }));
+  assert.equal(r.status, 400);
+  assert.equal(r.corpo.error, "escolha a empresa (Grupo IB ou Porto Terapia) desta pessoa");
+});
+
+Deno.test("sistema_repetido_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x3@t.com", itens: [DOIS_ITENS[0], DOIS_ITENS[0]] }));
+  assert.equal(r.status, 400);
+});
+
+Deno.test("itens_vazio_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x4@t.com", itens: [] }));
+  assert.equal(r.status, 400);
+});
+
+Deno.test("nao_owner_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x5@t.com" }), TOKEN_GERENTE);
+  assert.equal(r.status, 403);
 });
