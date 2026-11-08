@@ -30,6 +30,8 @@ export class Projeto {
   tabelasComErro = new Set<string>();
   /** Operações pontuais que falham, no formato "upsert:profiles". */
   operacoesComErro = new Set<string>();
+  /** Gancho por tabela, chamado logo antes de um insert gravar (injeta linhas "concorrentes"). */
+  antesDoInsert: Record<string, () => void> = {};
   /** URLs assinadas pedidas ao Storage (imita storage.from(bucket).createSignedUrl). */
   assinaturas: Array<{ bucket: string; path: string; seconds: number; download: string | boolean | undefined }> = [];
   tabela(nome: string): Linha[] {
@@ -109,6 +111,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
     this.p.chamadas.push(`${this.op}:${this.nome}`);
     if (this.p.operacoesComErro.has(`${this.op}:${this.nome}`)) return { data: null, error: { message: `falha simulada em ${this.op}:${this.nome}` } };
     if (this.p.tabelasComErro.has(this.nome)) return { data: null, error: { message: `relation "${this.nome}" does not exist` } };
+    if (this.op === "insert") this.p.antesDoInsert[this.nome]?.();
     const t = this.p.tabela(this.nome);
     const casa = (l: Linha) => this.filtros.every((f) => f(l));
     let afetadas: Linha[] = [];

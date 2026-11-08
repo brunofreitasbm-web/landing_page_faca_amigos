@@ -235,7 +235,7 @@ Deno.test("conflitos_contam_no_orcamento_e_dao_429", async () => {
   } finally { desligar(); }
 });
 
-Deno.test("desafio_acima_do_limite_e_apagado_e_nao_envia_email", async () => {
+Deno.test("previa_recusa_desafio_acima_do_limite_sem_email", async () => {
   ligar();
   try {
     const p = await pagina();
@@ -256,7 +256,9 @@ Deno.test("rajada_paralela_nao_passa_de_3_codigos", async () => {
     const rs = await Promise.all(Array.from({ length: 8 }, () => enviar(p.token, CPF_LIVRE, "a@b.com")));
     const ok = rs.filter((r) => r.status === 200).length;
     assert.ok(ok <= 3);
-    assert.equal(desafios().filter((l) => l.alvo_id === p.chave).length, ok);
+    const gravados = desafios().filter((l) => l.alvo_id === p.chave).length;
+    assert.equal(gravados, ok);
+    assert.equal(emailsEnviados.length - antes, gravados);
     assert.equal(emailsEnviados.length - antes, ok);
     assert.ok(rs.every((r) => r.status === 200 || r.status === 429));
   } finally { desligar(); }
@@ -279,5 +281,71 @@ Deno.test("orcamento_isolado_por_chave", async () => {
     for (let i = 0; i < 3; i++) semear(p1.chave, 1);
     assert.equal((await enviar(p1.token, CPF_LIVRE, "a@b.com")).status, 429);
     assert.equal((await enviar(p2.token, CPF_LIVRE, "a@b.com")).status, 200);
+  } finally { desligar(); }
+});
+
+const emailsLivre = () => emailsEnviados.length;
+
+Deno.test("pos_insert_desafio_acima_do_teto_apaga_a_linha_e_nao_envia_email", async () => {
+  ligar();
+  try {
+    const p = await pagina();
+    const sementes = [0, 1, 2].map(() => crypto.randomUUID());
+    // Três pedidos concorrentes gravam entre a checagem prévia e o insert desta requisição.
+    A.antesDoInsert = {
+      fa_gestao_desafios: () => {
+        delete A.antesDoInsert!.fa_gestao_desafios;
+        for (const id of sementes) {
+          desafios().push({ id, email: "semente@x.com", finalidade: "recadastro", alvo_id: p.chave, tentativas: 0, created_at: new Date().toISOString() });
+        }
+      },
+    };
+    const antes = emailsLivre();
+    const r = await enviar(p.token, CPF_LIVRE, "propria@x.com");
+    assert.equal(r.status, 429);
+    assert.equal(r.corpo.error, "muitos códigos pedidos, aguarde 15 minutos");
+    assert.equal(emailsLivre(), antes);
+    assert.deepEqual(desafios().filter((l) => l.alvo_id === p.chave).map((l) => l.id).sort(), [...sementes].sort());
+  } finally { A.antesDoInsert = {}; desligar(); }
+});
+
+Deno.test("pos_insert_conflito_acima_do_teto_apaga_a_linha", async () => {
+  ligar();
+  try {
+    const cpf = cpfsValidos(40)[39];
+    A.tabela("fa_gestao_pessoas").push({ cpf, email_real: "dona@real.com", nome: "D" });
+    const p = await pagina();
+    const sementes = [0, 1, 2, 3, 4].map(() => crypto.randomUUID());
+    A.antesDoInsert = {
+      fa_gestao_recadastro_conflitos: () => {
+        delete A.antesDoInsert!.fa_gestao_recadastro_conflitos;
+        for (const id of sementes) {
+          conflitos().push({ id, chave: p.chave, motivo: "cpf_de_outra_pessoa", cpf_informado: "0", email_informado: "s@x.com", criado_em: new Date().toISOString() });
+        }
+      },
+    };
+    const antes = emailsLivre();
+    const r = await enviar(p.token, cpf, "outra@real.com");
+    assert.equal(r.status, 429);
+    assert.equal(emailsLivre(), antes);
+    assert.deepEqual(conflitos().filter((l) => l.chave === p.chave).map((l) => l.id).sort(), [...sementes].sort());
+  } finally { A.antesDoInsert = {}; desligar(); }
+});
+
+Deno.test("conflito_repetido_conta_no_orcamento", async () => {
+  ligar();
+  try {
+    const cpf = cpfsValidos(50)[49];
+    A.tabela("fa_gestao_pessoas").push({ cpf, email_real: "dona@real.com", nome: "D" });
+    const p = await pagina();
+    for (let i = 0; i < 5; i++) assert.equal((await enviar(p.token, cpf, `outro${i}@real.com`)).status, 409);
+    assert.equal(conflitos().filter((l) => l.chave === p.chave).length, 1, "fila do gestor não enche");
+    const a = await enviar(p.token, cpf, "outro9@real.com");
+    // e-mail que pertence a outro login no projeto B: a resposta não pode mudar
+    B.usuarios.push({ id: crypto.randomUUID(), email: "ocupado2@real.com", app_metadata: {}, user_metadata: {}, created_at: new Date().toISOString(), last_sign_in_at: null, banned_until: null });
+    const b = await enviar(p.token, cpf, "ocupado2@real.com");
+    assert.equal(a.status, 429);
+    assert.deepEqual(b, a);
+    assert.equal(conflitos().filter((l) => l.chave === p.chave).length, 1);
   } finally { desligar(); }
 });

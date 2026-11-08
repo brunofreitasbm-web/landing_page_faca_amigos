@@ -1121,17 +1121,19 @@ async function conflitosRecadastro(
   return null;
 }
 
-// Conta, na janela, os desafios de recadastro e os conflitos da chave. null = erro de leitura.
-async function contarTentativasRecadastro(admin: Admin, chave: string): Promise<{ desafios: number; conflitos: number } | null> {
+// Conta, na janela, desafios, conflitos e conflitos repetidos (só na auditoria) da chave. null = erro de leitura.
+async function contarTentativasRecadastro(admin: Admin, chave: string): Promise<{ desafios: number; outros: number } | null> {
   const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
-  const [d, c] = await Promise.all([
+  const [d, c, r] = await Promise.all([
     admin.from("fa_gestao_desafios").select("id", { count: "exact", head: true })
       .eq("finalidade", "recadastro").eq("alvo_id", chave).gte("created_at", since),
     admin.from("fa_gestao_recadastro_conflitos").select("id", { count: "exact", head: true })
       .eq("chave", chave).gte("criado_em", since),
+    admin.from("fa_gestao_auditoria").select("id", { count: "exact", head: true })
+      .eq("evento", "recadastro_conflito_repetido").eq("detalhe", chave).gte("created_at", since),
   ]);
-  if (d.error || c.error) return null;
-  return { desafios: d.count ?? 0, conflitos: c.count ?? 0 };
+  if (d.error || c.error || r.error) return null;
+  return { desafios: d.count ?? 0, outros: (c.count ?? 0) + (r.count ?? 0) };
 }
 
 async function exigirSessao(admin: Admin, req: Request): Promise<{ tokenHash: string; conta: Conta } | null> {
@@ -1809,7 +1811,7 @@ Deno.serve(async (req) => {
     // Orçamento único por chave: o 429 vem antes de qualquer consulta de conflito, então não revela nada.
     const antes = await contarTentativasRecadastro(admin, ident.chave);
     if (!antes) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
-    if (antes.desafios >= RECADASTRO_CODES_MAX || antes.desafios + antes.conflitos >= RECADASTRO_TENTATIVAS_MAX) {
+    if (antes.desafios >= RECADASTRO_CODES_MAX || antes.desafios + antes.outros >= RECADASTRO_TENTATIVAS_MAX) {
       return jsonResponse(req, { error: RECADASTRO_429 }, 429);
     }
 
@@ -1828,11 +1830,20 @@ Deno.serve(async (req) => {
         if (erroGrava) console.error("conflito gravar:", erroGrava.message);
         else {
           const dep = await contarTentativasRecadastro(admin, ident.chave);
-          if (dep && dep.desafios + dep.conflitos > RECADASTRO_TENTATIVAS_MAX) {
+          if (dep && dep.desafios + dep.outros > RECADASTRO_TENTATIVAS_MAX) {
             await admin.from("fa_gestao_recadastro_conflitos").delete().eq("id", conflitoId);
             return jsonResponse(req, { error: RECADASTRO_429 }, 429);
           }
         }
+      }
+      if (!erroAbertos && (abertos?.length ?? 0) > 0) {
+        // Conflito igual já aberto: não enche a fila, mas a tentativa entra no orçamento (via auditoria).
+        await auditar(admin, req, "recadastro_conflito_repetido", { app: ident.origem, detalhe: ident.chave });
+        const dep = await contarTentativasRecadastro(admin, ident.chave);
+        if (dep && dep.desafios + dep.outros > RECADASTRO_TENTATIVAS_MAX) {
+          return jsonResponse(req, { error: RECADASTRO_429 }, 429);
+        }
+        return jsonResponse(req, { error: "não foi possível concluir, o responsável foi avisado" }, 409);
       }
       await auditar(admin, req, "recadastro_conflito", { app: ident.origem, detalhe: `${ident.chave} ${motivo}` });
       return jsonResponse(req, { error: "não foi possível concluir, o responsável foi avisado" }, 409);
@@ -1857,7 +1868,7 @@ Deno.serve(async (req) => {
     }
     // Conta depois de gravar (inclui este desafio): acima do teto, apaga e não envia e-mail.
     const dep = await contarTentativasRecadastro(admin, ident.chave);
-    if (dep && (dep.desafios > RECADASTRO_CODES_MAX || dep.desafios + dep.conflitos > RECADASTRO_TENTATIVAS_MAX)) {
+    if (dep && (dep.desafios > RECADASTRO_CODES_MAX || dep.desafios + dep.outros > RECADASTRO_TENTATIVAS_MAX)) {
       await admin.from("fa_gestao_desafios").delete().eq("id", challengeId);
       return jsonResponse(req, { error: RECADASTRO_429 }, 429);
     }
