@@ -45,3 +45,19 @@ Deno.test("convite_valido_cria_conta_nova", async () => {
   assert.equal(r.status, 200);
   assert.equal(conta("nova@t.com")?.papel, "gerente");
 });
+
+Deno.test("convite_novo_grava_so_hash", async () => {
+  const r = await chamar("convite_link_gerar", { sistema: "clinica", funcao: "Gerente", permissao: "operar" });
+  assert.equal(r.status, 200);
+  const linha = A.tabela("fa_gestao_convites").at(-1)!;
+  assert.equal(linha.token, null);
+  assert.equal(linha.token_hash, await sha(r.corpo.token));
+});
+
+Deno.test("convite_antigo_backfill_abre", async () => {
+  const c = await criarConvite("t1-antigo");
+  c.token = null; // depois da migration o token em claro pode não existir mais; só o hash vale
+  const r = await chamar("convite_consultar", { token: "t1-antigo" }, null);
+  assert.equal(r.status, 200);
+  assert.equal(r.corpo.ok, true);
+});

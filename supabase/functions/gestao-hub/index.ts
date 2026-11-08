@@ -1293,7 +1293,7 @@ Deno.serve(async (req) => {
     const { data: convite, error } = await admin
       .from("fa_gestao_convites")
       .select("*")
-      .eq("token", token)
+      .eq("token_hash", await sha256Hex(token))
       .maybeSingle();
 
     if (error || !convite) {
@@ -1313,7 +1313,7 @@ Deno.serve(async (req) => {
     return jsonResponse(req, {
       ok: true,
       convite: {
-        token: convite.token,
+        token,
         unidade: convite.unidade,
         sistema: convite.sistema,
         sistema_nome: sistemaInfo?.rotulo || convite.sistema,
@@ -1343,7 +1343,7 @@ Deno.serve(async (req) => {
     const { data: convite, error: convErr } = await admin
       .from("fa_gestao_convites")
       .select("*")
-      .eq("token", token)
+      .eq("token_hash", await sha256Hex(token))
       .maybeSingle();
 
     if (convErr || !convite) return jsonResponse(req, { error: "convite não encontrado" }, 404);
@@ -1408,7 +1408,7 @@ Deno.serve(async (req) => {
     await admin.from("fa_gestao_convites").update({
       usado_em: agoraIso,
       usado_por: emailReal
-    }).eq("token", token);
+    }).eq("id", convite.id);
 
     await auditar(admin, req, "usuario_cadastrado_convite", {
       email: emailReal,
@@ -2314,7 +2314,8 @@ async function acaoOwner(
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
     const { error: insErr } = await admin.from("fa_gestao_convites").insert({
-      token,
+      token: null,
+      token_hash: await sha256Hex(token),
       unidade,
       sistema,
       funcao,
