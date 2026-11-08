@@ -850,6 +850,18 @@ function clientIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
+// Segredo compartilhado Hub <-> Clínica para sincronizar_login_clinica. Comparação em tempo constante
+// (compara os SHA-256, de tamanho fixo, byte a byte).
+async function segredoSincronizacaoConfere(req: Request): Promise<"sem_segredo" | "ok" | "recusado"> {
+  const esperado = Deno.env.get("GESTAO_SYNC_SECRET") ?? "";
+  if (!esperado) return "sem_segredo";
+  const recebido = req.headers.get("x-gestao-sync-secret") ?? "";
+  const [a, b] = await Promise.all([sha256Hex(esperado), sha256Hex(recebido)]);
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0 && recebido.length > 0 ? "ok" : "recusado";
+}
+
 // Já existe conta que entra com este e-mail? Confere `email` e `login_email` (acharContaPorLogin usa os dois).
 async function emailEmUso(admin: Admin, email: string): Promise<boolean> {
   const q = quoteFilterValue(email.toLowerCase());
@@ -1015,13 +1027,19 @@ Deno.serve(async (req) => {
     if (!raw || !password) return jsonResponse(req, { ok: false }, 400);
 
     const loginInput = raw.toLowerCase();
-    // Só limite por login: quem chama é o servidor da Clínica, então o IP é sempre o mesmo para todos.
-    if (await excedeuTentativas(admin, null, loginInput)) {
+    // Segredo compartilhado com o servidor da Clínica (GESTAO_SYNC_SECRET). Sem a variável configurada, a ação
+    // segue aberta como antes (janela de transição); com ela, quem não manda o segredo nem chega a consultar nada.
+    const segredo = await segredoSincronizacaoConfere(req);
+    if (segredo === "recusado") return jsonResponse(req, { ok: false }, 401);
+    // O IP real do usuário só vale quando vem do servidor da Clínica autenticado pelo segredo.
+    const ipCliente = segredo === "ok" ? str(req.headers.get("x-cliente-ip")).slice(0, 64) || null : null;
+    if (await excedeuTentativas(admin, ipCliente, loginInput)) {
       return jsonResponse(req, { ok: false, error: "muitas tentativas, aguarde 15 minutos" }, 429);
     }
     const falhou = async () => {
-      // IP fixo de marcador: o IP real aqui é o do servidor da Clínica e não pode contar no limite por IP do login.
-      await admin.from("fa_gestao_login_attempts").insert({ ip: "sincronizar_clinica", login: loginInput });
+      // Sem IP do cliente, grava um marcador: o IP da conexão é o do servidor da Clínica e não pode contar
+      // no limite por IP do login.
+      await admin.from("fa_gestao_login_attempts").insert({ ip: ipCliente ?? "sincronizar_clinica", login: loginInput });
       return jsonResponse(req, { ok: false });
     };
     const contaHub = await acharContaPorLogin(admin, loginInput);

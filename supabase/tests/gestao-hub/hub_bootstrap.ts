@@ -59,9 +59,14 @@ A.tabela("fa_gestao_sessoes").push(
   { token_hash: await sha(TOKEN_GERENTE), email: "gerente@t.com", expires_at: validade },
 );
 
-// deno-lint-ignore no-explicit-any
-export async function chamar(action: string, corpo: Record<string, unknown> = {}, token: string | null = TOKEN_OWNER): Promise<{ status: number; corpo: any }> {
-  const headers: Record<string, string> = { "content-type": "application/json", "x-forwarded-for": "10.0.0.1" };
+export async function chamar(
+  action: string,
+  corpo: Record<string, unknown> = {},
+  token: string | null = TOKEN_OWNER,
+  extras: Record<string, string> = {},
+  // deno-lint-ignore no-explicit-any
+): Promise<{ status: number; corpo: any }> {
+  const headers: Record<string, string> = { "content-type": "application/json", "x-forwarded-for": "10.0.0.1", ...extras };
   if (token) headers.authorization = `Bearer ${token}`;
   const res = await handler(new Request("http://hub", { method: "POST", headers, body: JSON.stringify({ action, ...corpo }) }));
   return { status: res.status, corpo: await res.json() };
