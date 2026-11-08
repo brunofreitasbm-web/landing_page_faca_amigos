@@ -225,6 +225,13 @@
     .tile[data-app="cacau"] { --accent: #E9CBB5; }
     .tile[data-app="painel"] { --accent: #C9E7DD; }
     .tile[data-app="eventos"] { --accent: #FFD9A8; }
+    .tile[data-ti] { --accent: #D9D2F0; }
+    .ti-lista { display: grid; gap: 14px; margin-top: 20px; }
+    .ti-item { background: #fff; border: 2px solid var(--ink, #1b1b1b); border-radius: 18px; padding: 18px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .ti-item h2 { font-size: 1.05rem; }
+    .ti-item p { color: var(--ink-soft); font-weight: 600; margin-top: 4px; }
+    .ti-meta { margin-top: 8px; font-size: .8rem; color: var(--ink-soft); word-break: break-all; }
+    .ti-meta code { font-family: ui-monospace, Menlo, Consolas, monospace; }
 
     .tile .nivel {
       position: absolute; top: 14px; right: 14px; font-size: 0.8rem; font-weight: 800;
@@ -893,6 +900,14 @@
               <span class="desc">Hub de operações: caixa, envelopes e equipe das lojas</span>
               <span class="host">hub-operacoes</span>
             </button>
+            <button type="button" class="tile" id="btnAbrirTi" data-ti hidden>
+              <div class="tile-top">
+                <span class="icon" aria-hidden="true">🛠️</span>
+              </div>
+              <span class="name">Manutenção TI</span>
+              <span class="desc">Script de otimização do Windows 11 e comandos de instalação</span>
+              <span class="host">só owner</span>
+            </button>
           </div>
         </section>
 
@@ -946,6 +961,23 @@
         </div>
 
         <p class="hub-foot">Cada clique fica registrado. A sessão do hub vale 7 dias neste aparelho.</p>
+      </div>
+    </main>
+
+    <!-- ===== Manutenção TI (só owner): arquivos de TI por link assinado ===== -->
+    <main class="hub-main" id="tiMain" hidden>
+      <div class="wrap">
+        <div class="people-head">
+          <div>
+            <h1>Manutenção TI</h1>
+            <p>Arquivos de TI da clínica. Cada download fica registrado na auditoria.</p>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-link" id="voltarTiBtn">Voltar aos sistemas</button>
+          </div>
+        </div>
+        <div id="tiErro" class="form-error" role="alert"></div>
+        <div id="tiLista" class="ti-lista"></div>
       </div>
     </main>
 
@@ -1351,7 +1383,9 @@
         pessoasMain.hidden = true;
         equipeMain.hidden = true;
         var pm = document.getElementById('portalMain'); if (pm) pm.hidden = true;
+        var tm = document.getElementById('tiMain'); if (tm) tm.hidden = true;
         meuPapel = papel || 'gerente';
+        var tiCard = document.getElementById('btnAbrirTi'); if (tiCard) tiCard.hidden = meuPapel !== 'owner';
         pessoasBtn.hidden = meuPapel !== 'owner';
         if (equipeHubBtn) equipeHubBtn.hidden = true;
         if (balcaoDlBtn) balcaoDlBtn.hidden = meuPapel !== 'owner';
@@ -1410,7 +1444,7 @@
       if (hubSearch) {
         hubSearch.addEventListener('input', function () {
           var term = hubSearch.value.trim().toLowerCase();
-          var allItems = document.querySelectorAll('.tile[data-app], .tile[data-portal], .portal-card');
+          var allItems = document.querySelectorAll('.tile[data-app], .tile[data-portal], .tile[data-ti], .portal-card');
           allItems.forEach(function (item) {
             if (!term) {
               item.classList.remove('search-hidden');
@@ -1568,6 +1602,77 @@
           showMsg(loginNotice, 'Senha trocada! Entre com a senha nova.');
         });
       });
+
+      // ---------- página Manutenção TI (só owner) ----------
+      var btnAbrirTi = document.getElementById('btnAbrirTi');
+      var tiMain = document.getElementById('tiMain');
+      var tiLista = document.getElementById('tiLista');
+      var tiErro = document.getElementById('tiErro');
+      function tamanhoLegivel(n) {
+        if (n >= 1048576) return (n / 1048576).toFixed(1).replace('.', ',') + ' MB';
+        if (n >= 1024) return (n / 1024).toFixed(1).replace('.', ',') + ' KB';
+        return n + ' bytes';
+      }
+      function tiSessaoExpirou(r) {
+        if (r.status !== 401) return false;
+        clearSession();
+        showMsg(senhaError, 'Sua sessão expirou. Entre de novo.');
+        showLogin('senha');
+        return true;
+      }
+      function renderTiItem(a) {
+        var item = document.createElement('div');
+        item.className = 'ti-item';
+        var info = document.createElement('div');
+        var h = document.createElement('h2');
+        h.textContent = a.rotulo;
+        var d = document.createElement('p');
+        d.textContent = a.descricao;
+        var meta = document.createElement('div');
+        meta.className = 'ti-meta';
+        meta.appendChild(document.createTextNode(tamanhoLegivel(a.tamanho_bytes) + (a.versao ? ' · versão ' + a.versao : '') + ' · SHA256 '));
+        var code = document.createElement('code');
+        code.textContent = a.sha256;
+        meta.appendChild(code);
+        info.appendChild(h); info.appendChild(d); info.appendChild(meta);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-link';
+        btn.textContent = 'Baixar';
+        btn.addEventListener('click', function () {
+          showMsg(tiErro, '');
+          btn.disabled = true;
+          api('ti_baixar', { id: a.id }).then(function (r) {
+            btn.disabled = false;
+            if (tiSessaoExpirou(r)) return;
+            if (!r.ok || !r.data.url) { showMsg(tiErro, r.data.error || 'Não foi possível baixar agora.'); return; }
+            window.location.assign(r.data.url);
+          });
+        });
+        item.appendChild(info); item.appendChild(btn);
+        return item;
+      }
+      if (btnAbrirTi && tiMain) {
+        btnAbrirTi.addEventListener('click', function () {
+          showMsg(hubError, '');
+          showMsg(tiErro, '');
+          hubMain.hidden = true;
+          tiMain.hidden = false;
+          window.scrollTo(0, 0);
+          tiLista.textContent = 'Carregando...';
+          api('ti_listar').then(function (r) {
+            if (tiSessaoExpirou(r)) return;
+            tiLista.textContent = '';
+            if (!r.ok) { showMsg(tiErro, r.data.error || 'Não foi possível carregar os arquivos.'); return; }
+            r.data.arquivos.forEach(function (a) { tiLista.appendChild(renderTiItem(a)); });
+          });
+        });
+        document.getElementById('voltarTiBtn').addEventListener('click', function () {
+          tiMain.hidden = true;
+          hubMain.hidden = false;
+          window.scrollTo(0, 0);
+        });
+      }
 
       // ---------- página Portal do Site ----------
       var btnAbrirPortalSite = document.getElementById('btnAbrirPortalSite');
