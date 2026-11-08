@@ -850,6 +850,17 @@ function clientIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
+// Falhas recentes de login (janela LOGIN_WINDOW_MS). `ip` nulo = só o limite por login.
+async function excedeuTentativas(admin: Admin, ip: string | null, login: string): Promise<boolean> {
+  const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
+  const porLogin = admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true })
+    .eq("login", login.toLowerCase()).gte("created_at", since);
+  const porIp = ip === null ? null : admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true })
+    .eq("ip", ip).gte("created_at", since);
+  const [byLogin, byIp] = await Promise.all([porLogin, porIp]);
+  return (byLogin.count ?? 0) >= LOGIN_MAX_FAILS_PER_LOGIN || (byIp?.count ?? 0) >= LOGIN_MAX_FAILS_PER_IP;
+}
+
 async function auditar(
   admin: Admin,
   req: Request,
@@ -997,14 +1008,22 @@ Deno.serve(async (req) => {
     if (!raw || !password) return jsonResponse(req, { ok: false }, 400);
 
     const loginInput = raw.toLowerCase();
+    // Só limite por login: quem chama é o servidor da Clínica, então o IP é sempre o mesmo para todos.
+    if (await excedeuTentativas(admin, null, loginInput)) {
+      return jsonResponse(req, { ok: false, error: "muitas tentativas, aguarde 15 minutos" }, 429);
+    }
+    const falhou = async () => {
+      await admin.from("fa_gestao_login_attempts").insert({ ip: clientIp(req), login: loginInput });
+      return jsonResponse(req, { ok: false });
+    };
     const contaHub = await acharContaPorLogin(admin, loginInput);
     if (!contaHub || !contaHub.ativo || !contaHub.senha_hash || contaHub.auth_modo !== "hub") {
-      return jsonResponse(req, { ok: false });
+      return await falhou();
     }
 
     const confere = await verificarSenhaHub(password, contaHub.senha_hash);
     if (!confere) {
-      return jsonResponse(req, { ok: false });
+      return await falhou();
     }
 
     const clinicaEmail = (contaHub.clinica_email || contaHub.login_email || contaHub.email).toLowerCase();
@@ -1056,12 +1075,7 @@ Deno.serve(async (req) => {
     if (!loginInput || !password) return jsonResponse(req, { error: "informe e-mail/CPF e senha" }, 400);
 
     const ip = clientIp(req);
-    const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
-    const [byIp, byLogin] = await Promise.all([
-      admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true }).eq("ip", ip).gte("created_at", since),
-      admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true }).eq("login", loginInput.toLowerCase()).gte("created_at", since),
-    ]);
-    if ((byIp.count ?? 0) >= LOGIN_MAX_FAILS_PER_IP || (byLogin.count ?? 0) >= LOGIN_MAX_FAILS_PER_LOGIN) {
+    if (await excedeuTentativas(admin, ip, loginInput)) {
       return jsonResponse(req, { error: "muitas tentativas, aguarde 15 minutos" }, 429);
     }
 

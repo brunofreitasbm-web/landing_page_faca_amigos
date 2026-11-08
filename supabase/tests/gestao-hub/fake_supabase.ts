@@ -114,6 +114,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
           if (ex) { Object.assign(ex, nova); afetadas.push(ex); continue; }
         }
         if (nova.id === undefined) nova.id = crypto.randomUUID();
+        if (nova.created_at === undefined) nova.created_at = new Date().toISOString(); // como o default now() do banco
         t.push(nova);
         afetadas.push(nova);
       }
