@@ -67,6 +67,9 @@ test('monta_payload_multi_sistema', async () => {
   assert.deepEqual(env.itens.map((i) => [i.sistema, i.nivel]), [['clinica', 'admin'], ['playground', 'operar']]);
   assert.deepEqual(env.itens[1].unidades, ['Circuito', 'Parque']);
   assert.match(await page.textContent('#resSistemaNome'), /Clínica.*Playground/);
+  // Convite é só por e-mail: não existe mais o botão de WhatsApp.
+  assert.equal(await page.locator('#btnWhatsLinkGerado').count(), 0);
+  assert.equal(await page.locator('#boxLinkGerado').getByText(/WhatsApp/i).count(), 0);
   await page.close();
 });
 

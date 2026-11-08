@@ -625,13 +625,6 @@
       transition: transform var(--t-fast), filter var(--t-fast);
     }
     .btn-copiar:hover { filter: brightness(1.08); transform: scale(1.02); }
-    .btn-whatsapp {
-      background: #25D366; color: #053B1C; font-weight: 800; font-size: 0.85rem;
-      padding: 10px 18px; border-radius: 9999px; border: none; cursor: pointer;
-      text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-      transition: transform var(--t-fast), filter var(--t-fast);
-    }
-    .btn-whatsapp:hover { filter: brightness(1.08); transform: scale(1.02); }
 
     /* ---------- Tela de Cadastro do Colaborador Convidado ---------- */
     .cadastro-screen {
@@ -1288,9 +1281,6 @@
           <button type="button" class="btn-copiar" id="btnCopiarLinkGerado">
             <span>📋</span> Copiar Link
           </button>
-          <a href="#" class="btn-whatsapp" id="btnWhatsLinkGerado" target="_blank" rel="noopener">
-            <span>💬</span> Enviar no WhatsApp
-          </a>
         </div>
         <div id="statusEmailEnvio" style="margin-top:10px;font-size:0.85rem;font-weight:700;color:#11705F;" hidden></div>
       </div>
@@ -1351,7 +1341,6 @@
       var boxLinkGerado = document.getElementById('boxLinkGerado');
       var inputLinkPronto = document.getElementById('inputLinkPronto');
       var btnCopiarLinkGerado = document.getElementById('btnCopiarLinkGerado');
-      var btnWhatsLinkGerado = document.getElementById('btnWhatsLinkGerado');
       var statusEmailEnvio = document.getElementById('statusEmailEnvio');
 
       // Elementos da Tela de Cadastro
@@ -2518,9 +2507,6 @@
               aLink.textContent = sistemaUrl || '—';
             }
 
-            var saudacao = destNome ? ('Olá, ' + destNome + '!') : 'Olá!';
-            var txtWhats = saudacao + '\n\nVocê recebeu acesso ao sistema ' + sistemaNome + ' (' + sistemaUrl + '):\n\n👉 Complete seu cadastro por aqui:\n' + r.data.link + '\n\nBasta clicar no link acima para criar sua senha e começar!';
-            btnWhatsLinkGerado.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(txtWhats);
 
             if (r.data.email_enviado) {
               statusEmailEnvio.hidden = false;
