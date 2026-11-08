@@ -854,6 +854,8 @@ const LOGIN_MAX_FAILS_PER_IP = 5;
 const LOGIN_MAX_FAILS_PER_LOGIN = 10;
 const CODES_MAX_PER_WINDOW = 5;
 const RECADASTRO_CODES_MAX = 3;
+const RECADASTRO_TENTATIVAS_MAX = 5; // desafios + conflitos por chave na janela
+const RECADASTRO_429 = "muitos códigos pedidos, aguarde 15 minutos";
 
 type Admin = SupabaseClient;
 
@@ -1117,6 +1119,19 @@ async function conflitosRecadastro(
     }
   }
   return null;
+}
+
+// Conta, na janela, os desafios de recadastro e os conflitos da chave. null = erro de leitura.
+async function contarTentativasRecadastro(admin: Admin, chave: string): Promise<{ desafios: number; conflitos: number } | null> {
+  const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
+  const [d, c] = await Promise.all([
+    admin.from("fa_gestao_desafios").select("id", { count: "exact", head: true })
+      .eq("finalidade", "recadastro").eq("alvo_id", chave).gte("created_at", since),
+    admin.from("fa_gestao_recadastro_conflitos").select("id", { count: "exact", head: true })
+      .eq("chave", chave).gte("criado_em", since),
+  ]);
+  if (d.error || c.error) return null;
+  return { desafios: d.count ?? 0, conflitos: c.count ?? 0 };
 }
 
 async function exigirSessao(admin: Admin, req: Request): Promise<{ tokenHash: string; conta: Conta } | null> {
@@ -1791,16 +1806,11 @@ Deno.serve(async (req) => {
     if (erroEst) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
     if (est?.concluido_em) return jsonResponse(req, { error: "recadastro já concluído" }, 409);
 
-    const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
-    const { count: recentes, error: erroCont } = await admin
-      .from("fa_gestao_desafios")
-      .select("id", { count: "exact", head: true })
-      .eq("finalidade", "recadastro")
-      .eq("alvo_id", ident.chave)
-      .gte("created_at", since);
-    if (erroCont) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
-    if ((recentes ?? 0) >= RECADASTRO_CODES_MAX) {
-      return jsonResponse(req, { error: "muitos códigos pedidos, aguarde 15 minutos" }, 429);
+    // Orçamento único por chave: o 429 vem antes de qualquer consulta de conflito, então não revela nada.
+    const antes = await contarTentativasRecadastro(admin, ident.chave);
+    if (!antes) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
+    if (antes.desafios >= RECADASTRO_CODES_MAX || antes.desafios + antes.conflitos >= RECADASTRO_TENTATIVAS_MAX) {
+      return jsonResponse(req, { error: RECADASTRO_429 }, 429);
     }
 
     const motivo = await conflitosRecadastro(admin, ident, cpf, email);
@@ -1809,10 +1819,20 @@ Deno.serve(async (req) => {
         .from("fa_gestao_recadastro_conflitos").select("id")
         .eq("chave", ident.chave).eq("motivo", motivo).eq("cpf_informado", cpf).is("resolvido_em", null).limit(1);
       if (!erroAbertos && (abertos?.length ?? 0) === 0) {
+        // Grava primeiro e conta depois (inclui a própria linha): requisições paralelas não furam o teto.
+        const conflitoId = crypto.randomUUID();
         const { error: erroGrava } = await admin.from("fa_gestao_recadastro_conflitos").insert({
-          chave: ident.chave, motivo, cpf_informado: cpf, email_informado: email,
+          id: conflitoId, chave: ident.chave, motivo, cpf_informado: cpf, email_informado: email,
+          criado_em: new Date().toISOString(),
         });
         if (erroGrava) console.error("conflito gravar:", erroGrava.message);
+        else {
+          const dep = await contarTentativasRecadastro(admin, ident.chave);
+          if (dep && dep.desafios + dep.conflitos > RECADASTRO_TENTATIVAS_MAX) {
+            await admin.from("fa_gestao_recadastro_conflitos").delete().eq("id", conflitoId);
+            return jsonResponse(req, { error: RECADASTRO_429 }, 429);
+          }
+        }
       }
       await auditar(admin, req, "recadastro_conflito", { app: ident.origem, detalhe: `${ident.chave} ${motivo}` });
       return jsonResponse(req, { error: "não foi possível concluir, o responsável foi avisado" }, 409);
@@ -1834,6 +1854,12 @@ Deno.serve(async (req) => {
     if (insErr) {
       console.error("desafio recadastro:", insErr.message);
       return jsonResponse(req, { error: "falha ao gerar código" }, 500);
+    }
+    // Conta depois de gravar (inclui este desafio): acima do teto, apaga e não envia e-mail.
+    const dep = await contarTentativasRecadastro(admin, ident.chave);
+    if (dep && (dep.desafios > RECADASTRO_CODES_MAX || dep.desafios + dep.conflitos > RECADASTRO_TENTATIVAS_MAX)) {
+      await admin.from("fa_gestao_desafios").delete().eq("id", challengeId);
+      return jsonResponse(req, { error: RECADASTRO_429 }, 429);
     }
     if (!(await enviarCodigo(email, ident.nome || "", code, "recadastro"))) {
       return jsonResponse(req, { error: "não foi possível enviar o código por e-mail" }, 502);

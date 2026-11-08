@@ -193,3 +193,91 @@ Deno.test("cors_aceita_origem_do_rh", async () => {
     assert.equal(res.headers.get("Access-Control-Allow-Origin"), origem);
   }
 });
+
+function cpfsValidos(qtd: number): string[] {
+  const dv = (d: number[]) => {
+    let r = (d.reduce((a, v, i) => a + v * (d.length + 1 - i), 0) * 10) % 11;
+    return r === 10 ? 0 : r;
+  };
+  const out: string[] = [];
+  for (let i = 1; out.length < qtd; i++) {
+    const base = String(100000000 + i * 7919).slice(0, 9).split("").map(Number);
+    if (new Set(base).size === 1) continue;
+    base.push(dv(base)); base.push(dv(base));
+    out.push(base.join(""));
+  }
+  return out;
+}
+const CPF_LIVRE = cpfsValidos(30)[29];
+const semear = (chave: string, minutosAtras: number) =>
+  A.tabela("fa_gestao_desafios").push({
+    id: crypto.randomUUID(), email: "a@b.com", finalidade: "recadastro", alvo_id: chave, tentativas: 0,
+    created_at: new Date(Date.now() - minutosAtras * 60_000).toISOString(),
+  });
+
+Deno.test("conflitos_contam_no_orcamento_e_dao_429", async () => {
+  ligar();
+  try {
+    const cpfs = cpfsValidos(8);
+    for (const c of cpfs.slice(0, 7)) A.tabela("fa_gestao_pessoas").push({ cpf: c, email_real: "dona@real.com", nome: "D" });
+    const p = await pagina();
+    const antes = emailsEnviados.length;
+    for (let i = 0; i < 5; i++) assert.equal((await enviar(p.token, cpfs[i], "outra@real.com")).status, 409);
+    assert.equal(conflitos().filter((l) => l.chave === p.chave).length, 5);
+    const existente = await enviar(p.token, cpfs[5], "outra@real.com");
+    const livre = await enviar(p.token, cpfs[7], "outra@real.com");
+    for (const r of [existente, livre]) {
+      assert.equal(r.status, 429);
+      assert.equal(r.corpo.error, "muitos códigos pedidos, aguarde 15 minutos");
+    }
+    assert.equal(conflitos().filter((l) => l.chave === p.chave).length, 5);
+    assert.equal(emailsEnviados.length, antes);
+  } finally { desligar(); }
+});
+
+Deno.test("desafio_acima_do_limite_e_apagado_e_nao_envia_email", async () => {
+  ligar();
+  try {
+    const p = await pagina();
+    for (let i = 0; i < 3; i++) semear(p.chave, 1);
+    const antes = emailsEnviados.length;
+    const r = await enviar(p.token, CPF_LIVRE, "a@b.com");
+    assert.equal(r.status, 429);
+    assert.equal(desafios().filter((l) => l.alvo_id === p.chave).length, 3);
+    assert.equal(emailsEnviados.length, antes);
+  } finally { desligar(); }
+});
+
+Deno.test("rajada_paralela_nao_passa_de_3_codigos", async () => {
+  ligar();
+  try {
+    const p = await pagina();
+    const antes = emailsEnviados.length;
+    const rs = await Promise.all(Array.from({ length: 8 }, () => enviar(p.token, CPF_LIVRE, "a@b.com")));
+    const ok = rs.filter((r) => r.status === 200).length;
+    assert.ok(ok <= 3);
+    assert.equal(desafios().filter((l) => l.alvo_id === p.chave).length, ok);
+    assert.equal(emailsEnviados.length - antes, ok);
+    assert.ok(rs.every((r) => r.status === 200 || r.status === 429));
+  } finally { desligar(); }
+});
+
+Deno.test("janela_de_15_min_expira", async () => {
+  ligar();
+  try {
+    const p = await pagina();
+    for (let i = 0; i < 3; i++) semear(p.chave, 16);
+    assert.equal((await enviar(p.token, CPF_LIVRE, "a@b.com")).status, 200);
+  } finally { desligar(); }
+});
+
+Deno.test("orcamento_isolado_por_chave", async () => {
+  ligar();
+  try {
+    const p1 = await pagina();
+    const p2 = await pagina();
+    for (let i = 0; i < 3; i++) semear(p1.chave, 1);
+    assert.equal((await enviar(p1.token, CPF_LIVRE, "a@b.com")).status, 429);
+    assert.equal((await enviar(p2.token, CPF_LIVRE, "a@b.com")).status, 200);
+  } finally { desligar(); }
+});
