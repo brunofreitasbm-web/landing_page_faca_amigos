@@ -1013,7 +1013,8 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { ok: false, error: "muitas tentativas, aguarde 15 minutos" }, 429);
     }
     const falhou = async () => {
-      await admin.from("fa_gestao_login_attempts").insert({ ip: clientIp(req), login: loginInput });
+      // IP fixo de marcador: o IP real aqui é o do servidor da Clínica e não pode contar no limite por IP do login.
+      await admin.from("fa_gestao_login_attempts").insert({ ip: "sincronizar_clinica", login: loginInput });
       return jsonResponse(req, { ok: false });
     };
     const contaHub = await acharContaPorLogin(admin, loginInput);
@@ -1118,6 +1119,7 @@ Deno.serve(async (req) => {
       if (!conta) return falhou(401, "fora_da_lista", check.email);
     }
 
+    const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
     const { count: codigosRecentes } = await admin
       .from("fa_gestao_desafios")
       .select("id", { count: "exact", head: true })

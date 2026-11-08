@@ -28,3 +28,17 @@ Deno.test("sincronizar_senha_certa_passa", async () => {
   assert.equal(r.status, 200);
   assert.equal(r.corpo.ok, false);
 });
+
+Deno.test("login_conta_hub_com_senha_certa_pede_codigo", async () => {
+  A.tabela("fa_gestao_convites").push({
+    id: crypto.randomUUID(), token: null, token_hash: await sha("tk-hugo"), unidade: "U", sistema: "clinica",
+    funcao: "Gerente", permissao: "operar", destinatario_email: "hugo@t.com", criado_por: "bruno@t.com",
+    usado_em: null, expires_at: new Date(Date.now() + 86400_000).toISOString(),
+  });
+  await chamar("convite_cadastrar", {
+    token: "tk-hugo", nome: "Hugo Teste", data_nascimento: "1990-01-01", email: "hugo@t.com", password: "SenhaCerta@1",
+  }, null);
+  const r = await chamar("login", { identifier: "hugo@t.com", password: "SenhaCerta@1" }, null);
+  assert.equal(r.status, 200, JSON.stringify(r.corpo));
+  assert.ok(r.corpo.challenge_id ?? r.corpo.challengeId ?? r.corpo.desafio, JSON.stringify(r.corpo));
+});
