@@ -903,14 +903,14 @@
             <h2 class="section-title">Portal do Site FaçaAmigos</h2>
           </div>
           
-          <div class="portal-card portal-card-mini" id="cardPortalSite">
-            <button type="button" class="tile tile-subaction" id="btnAbrirPortalSite">
-              <span class="icon" aria-hidden="true">🌐</span>
-              <div class="sub-info">
-                <span class="name">Portal do Site FaçaAmigos</span>
-                <span class="desc">Leads, eventos, cupons Wi-Fi e avaliações — uso raro, central do site público</span>
+          <div class="grid">
+            <button type="button" class="tile" id="btnAbrirPortalSite" data-portal>
+              <div class="tile-top">
+                <span class="icon" aria-hidden="true">🌐</span>
               </div>
-              <span class="sub-arrow">Abrir painel ↗</span>
+              <span class="name">Portal do Site FaçaAmigos</span>
+              <span class="desc">Leads, eventos, cupons Wi-Fi e avaliações: central do site público</span>
+              <span class="host">institutofacaamigos.com.br/admin</span>
             </button>
           </div>
         </section>
@@ -946,6 +946,42 @@
         </div>
 
         <p class="hub-foot">Cada clique fica registrado. A sessão do hub vale 7 dias neste aparelho.</p>
+      </div>
+    </main>
+
+    <!-- ===== Portal do Site FaçaAmigos (página própria) ===== -->
+    <main class="hub-main" id="portalMain" hidden>
+      <div class="wrap">
+        <div class="people-head">
+          <div>
+            <h1>Portal do Site FaçaAmigos</h1>
+            <p>Funil de leads do teste comportamental, eventos e inscrições, cupons Wi-Fi e avaliações.</p>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-link" id="voltarPortalBtn">Voltar aos sistemas</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <button type="button" class="tile" data-app="painel">
+            <div class="tile-top">
+              <span class="icon" aria-hidden="true">🧭</span>
+              <span class="live-indicator"><span class="live-dot"></span> Online</span>
+            </div>
+            <span class="name">Mapeamento Comportamental</span>
+            <span class="desc">Leads do Teste, respostas, relatórios e textos de persona</span>
+            <span class="host">institutofacaamigos.com.br/admin</span>
+          </button>
+          <button type="button" class="tile" data-app="eventos">
+            <div class="tile-top">
+              <span class="icon" aria-hidden="true">🎟️</span>
+              <span class="live-indicator"><span class="live-dot"></span> Online</span>
+            </div>
+            <span class="name">Eventos & Ingressos</span>
+            <span class="desc">Criação de eventos, ingressos, lista de inscritos e check-in</span>
+            <span class="host">institutofacaamigos.com.br/admin</span>
+          </button>
+        </div>
       </div>
     </main>
 
@@ -1098,54 +1134,6 @@
         </section>
       </div>
     </main>
-  </div>
-
-  <!-- ================= MODAL PORTAL DO SITE ================= -->
-  <div class="modal-backdrop" id="modalPortalSite" hidden role="dialog" aria-modal="true" aria-labelledby="modalPortalSiteTitulo">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div>
-          <div class="portal-badge-row" style="margin-bottom: 6px;">
-            <span class="badge-system">🌐 Painel Integrado do Site</span>
-            <span class="badge-dest">institutofacaamigos.com.br/admin</span>
-          </div>
-          <h2 class="modal-title" id="modalPortalSiteTitulo">Painel Administrativo do Site</h2>
-          <p class="modal-desc">Funil de leads do teste comportamental, gestão de eventos e inscrições, cupons Wi-Fi e avaliações.</p>
-        </div>
-        <button type="button" class="modal-close" id="btnFecharModalPortalSite" aria-label="Fechar modal">&times;</button>
-      </div>
-
-      <div class="portal-modules-pill">
-        <span>Recursos integrados:</span>
-        <span class="pill-item">🧭 Mapeamento & Leads</span>
-        <span class="pill-item">🎟️ Eventos & Ingressos</span>
-        <span class="pill-item">📶 Cupons Wi-Fi</span>
-        <span class="pill-item">⭐ Avaliações NPS</span>
-      </div>
-
-      <div class="portal-actions">
-        <div class="portal-actions-label">Acesse diretamente a aba desejada:</div>
-        <div class="portal-actions-grid">
-          <button type="button" class="tile tile-subaction" data-app="painel">
-            <span class="icon" aria-hidden="true">🧭</span>
-            <div class="sub-info">
-              <span class="name">Mapeamento Comportamental</span>
-              <span class="desc">Leads do Teste, respostas, relatórios e textos de persona</span>
-            </div>
-            <span class="sub-arrow">Abrir Leads ↗</span>
-          </button>
-
-          <button type="button" class="tile tile-subaction" data-app="eventos">
-            <span class="icon" aria-hidden="true">🎟️</span>
-            <div class="sub-info">
-              <span class="name">Eventos & Ingressos</span>
-              <span class="desc">Criação de eventos, ingressos, lista de inscritos e check-in</span>
-            </div>
-            <span class="sub-arrow">Abrir Eventos ↗</span>
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- ================= MODAL CRIAR / ENVIAR LINK DE USUÁRIO ================= -->
@@ -1362,6 +1350,7 @@
         hubMain.hidden = false;
         pessoasMain.hidden = true;
         equipeMain.hidden = true;
+        var pm = document.getElementById('portalMain'); if (pm) pm.hidden = true;
         meuPapel = papel || 'gerente';
         pessoasBtn.hidden = meuPapel !== 'owner';
         if (equipeHubBtn) equipeHubBtn.hidden = true;
@@ -1401,7 +1390,7 @@
         });
 
         // Super-Card do Portal do Site (Opção A): esconde a seção se a pessoa não tiver nenhum módulo
-        var portalCard = document.getElementById('cardPortalSite');
+        var portalCard = document.getElementById('btnAbrirPortalSite');
         if (portalCard) {
           var pN = niveis ? niveis['painel'] : 'admin';
           var eN = niveis ? niveis['eventos'] : 'admin';
@@ -1421,7 +1410,7 @@
       if (hubSearch) {
         hubSearch.addEventListener('input', function () {
           var term = hubSearch.value.trim().toLowerCase();
-          var allItems = document.querySelectorAll('.tile[data-app], .portal-card');
+          var allItems = document.querySelectorAll('.tile[data-app], .tile[data-portal], .portal-card');
           allItems.forEach(function (item) {
             if (!term) {
               item.classList.remove('search-hidden');
@@ -1580,23 +1569,23 @@
         });
       });
 
-      // ---------- modal Portal do Site ----------
+      // ---------- página Portal do Site ----------
       var btnAbrirPortalSite = document.getElementById('btnAbrirPortalSite');
-      var modalPortalSite = document.getElementById('modalPortalSite');
-      var btnFecharModalPortalSite = document.getElementById('btnFecharModalPortalSite');
-      if (btnAbrirPortalSite && modalPortalSite) {
+      var portalMain = document.getElementById('portalMain');
+      var voltarPortalBtn = document.getElementById('voltarPortalBtn');
+      if (btnAbrirPortalSite && portalMain) {
         btnAbrirPortalSite.addEventListener('click', function () {
-          modalPortalSite.hidden = false;
+          showMsg(hubError, '');
+          hubMain.hidden = true;
+          portalMain.hidden = false;
+          window.scrollTo(0, 0);
         });
       }
-      if (btnFecharModalPortalSite && modalPortalSite) {
-        btnFecharModalPortalSite.addEventListener('click', function () {
-          modalPortalSite.hidden = true;
-        });
-      }
-      if (modalPortalSite) {
-        modalPortalSite.addEventListener('click', function (e) {
-          if (e.target === modalPortalSite) modalPortalSite.hidden = true;
+      if (voltarPortalBtn && portalMain) {
+        voltarPortalBtn.addEventListener('click', function () {
+          portalMain.hidden = true;
+          hubMain.hidden = false;
+          window.scrollTo(0, 0);
         });
       }
 
