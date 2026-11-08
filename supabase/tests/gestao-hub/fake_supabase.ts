@@ -32,6 +32,12 @@ export class Projeto {
   operacoesComErro = new Set<string>();
   /** Gancho por tabela, chamado logo antes de um insert gravar (injeta linhas "concorrentes"). */
   antesDoInsert: Record<string, () => void> = {};
+  /** Gancho por tabela, chamado logo antes de um update gravar (imita uma gravação concorrente). */
+  antesDoUpdate: Record<string, () => void> = {};
+  /** Colunas com índice único (parcial: nulos não contam) por tabela; insert/update que repete falha com 23505. */
+  unicos: Record<string, string[]> = {};
+  /** Atributos pedidos a auth.admin.updateUserById, na ordem (para os testes conferirem o que foi enviado). */
+  atualizacoesUsuario: Array<{ id: string; attrs: Record<string, unknown> }> = [];
   /** URLs assinadas pedidas ao Storage (imita storage.from(bucket).createSignedUrl). */
   assinaturas: Array<{ bucket: string; path: string; seconds: number; download: string | boolean | undefined }> = [];
   tabela(nome: string): Linha[] {
@@ -103,21 +109,39 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
   maybeSingle() { this.modo = "talvez"; return this; }
   single() { this.modo = "unica"; return this; }
 
-  then<T1, T2>(ok?: (v: { data: any; count?: number; error: { message: string } | null }) => T1 | PromiseLike<T1>, ko?: (e: unknown) => T2 | PromiseLike<T2>) {
+  then<T1, T2>(ok?: (v: { data: any; count?: number; error: { message: string; code?: string } | null }) => T1 | PromiseLike<T1>, ko?: (e: unknown) => T2 | PromiseLike<T2>) {
     return Promise.resolve(this.executar()).then(ok, ko);
   }
 
-  private executar(): { data: any; count?: number; error: { message: string } | null } {
+  // Repete um valor de coluna única em outra linha? (nulos não contam, como no índice parcial)
+  private violaUnico(t: Linha[], novas: Linha[], ignorar: Linha[]): boolean {
+    const cols = this.p.unicos[this.nome] ?? [];
+    for (const c of cols) {
+      const vistos = new Set<unknown>();
+      for (const l of t) if (!ignorar.includes(l) && l[c] != null) vistos.add(l[c]);
+      for (const n of novas) {
+        if (n[c] == null) continue;
+        if (vistos.has(n[c])) return true;
+        vistos.add(n[c]);
+      }
+    }
+    return false;
+  }
+
+  private executar(): { data: any; count?: number; error: { message: string; code?: string } | null } {
     this.p.chamadas.push(`${this.op}:${this.nome}`);
     if (this.p.operacoesComErro.has(`${this.op}:${this.nome}`)) return { data: null, error: { message: `falha simulada em ${this.op}:${this.nome}` } };
     if (this.p.tabelasComErro.has(this.nome)) return { data: null, error: { message: `relation "${this.nome}" does not exist` } };
     if (this.op === "insert") this.p.antesDoInsert[this.nome]?.();
+    if (this.op === "update") this.p.antesDoUpdate[this.nome]?.();
+    const duplicada = { data: null, error: { message: "duplicate key value violates unique constraint", code: "23505" } };
     const t = this.p.tabela(this.nome);
     const casa = (l: Linha) => this.filtros.every((f) => f(l));
     let afetadas: Linha[] = [];
 
     if (this.op === "insert" || this.op === "upsert") {
       const novas = (Array.isArray(this.payload) ? this.payload : [this.payload!]).map((l) => ({ ...l }));
+      if (this.op === "insert" && this.violaUnico(t, novas, [])) return duplicada;
       for (const nova of novas) {
         if (this.op === "upsert" && this.onConflict.length) {
           const ex = t.find((l) => this.onConflict.every((c) => l[c] === nova[c]));
@@ -130,6 +154,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
       }
     } else if (this.op === "update") {
       afetadas = t.filter(casa);
+      if (this.violaUnico(t, afetadas.map((l) => ({ ...l, ...this.payload })), afetadas)) return duplicada;
       for (const l of afetadas) Object.assign(l, this.payload);
     } else if (this.op === "delete") {
       afetadas = t.filter(casa);
@@ -160,6 +185,7 @@ function adminAuth(p: Projeto) {
     },
     async listUsers(opts?: { page?: number; perPage?: number }) {
       p.chamadas.push("auth.listUsers");
+      if (p.operacoesComErro.has("auth.listUsers")) return { data: { users: [] }, error: { message: "falha simulada em auth.listUsers" } };
       const pagina = opts?.page ?? 1;
       const por = opts?.perPage ?? 50;
       return { data: { users: p.usuarios.slice((pagina - 1) * por, pagina * por).map((u) => ({ ...u })) }, error: null };
@@ -180,10 +206,22 @@ function adminAuth(p: Projeto) {
       p.usuarios = p.usuarios.filter((u) => u.id !== id);
       return { data: null, error: null };
     },
-    async updateUserById(id: string, attrs: { ban_duration?: string; app_metadata?: Record<string, unknown>; password?: string }) {
+    async updateUserById(
+      id: string,
+      attrs: { ban_duration?: string; app_metadata?: Record<string, unknown>; password?: string; email?: string; email_confirm?: boolean },
+    ) {
       p.chamadas.push("auth.updateUserById");
+      p.atualizacoesUsuario.push({ id, attrs: { ...attrs } });
+      if (p.operacoesComErro.has("auth.updateUserById")) return { data: { user: null }, error: { message: "falha simulada em auth.updateUserById" } };
       const u = achar(id);
       if (!u) return { data: { user: null }, error: { message: "não achei" } };
+      if (attrs.email !== undefined) {
+        const novo = attrs.email.toLowerCase();
+        if (p.usuarios.some((x) => x.id !== id && x.email.toLowerCase() === novo)) {
+          return { data: { user: null }, error: { message: "A user with this email address has already been registered", code: "email_exists", status: 422 } };
+        }
+        u.email = attrs.email;
+      }
       if (attrs.ban_duration !== undefined) {
         u.banned_until = attrs.ban_duration === "none" ? null : new Date(Date.now() + 100 * 365 * 24 * 3600 * 1000).toISOString();
       }

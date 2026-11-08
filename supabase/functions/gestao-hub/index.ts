@@ -1136,6 +1136,173 @@ async function contarTentativasRecadastro(admin: Admin, chave: string): Promise<
   return { desafios: d.count ?? 0, outros: (c.count ?? 0) + (r.count ?? 0) };
 }
 
+// Logins com e-mail fictício (sem caixa de entrada): só esses têm o e-mail do login trocado pelo real.
+const EMAIL_SINTETICO = /@(staff\.facaamigos\.local|grupoib\.internal|kiosk\.internal|familia\.clinica\.local)$/i;
+const RECAD_CONFLITO_MSG = "não foi possível concluir, o responsável foi avisado";
+const RECAD_FALHA_MSG = "não foi possível concluir agora";
+
+// Abre (sem duplicar o aberto igual) um conflito para o owner resolver e responde a mensagem genérica.
+async function abrirConflitoRecadastro(
+  admin: Admin,
+  req: Request,
+  ident: IdentRecad,
+  motivo: "cpf_de_outra_pessoa" | "email_de_outro_login",
+  cpf: string,
+  email: string,
+): Promise<Response> {
+  const { data: abertos, error } = await admin
+    .from("fa_gestao_recadastro_conflitos").select("id")
+    .eq("chave", ident.chave).eq("motivo", motivo).eq("cpf_informado", cpf).is("resolvido_em", null).limit(1);
+  if (!error && (abertos?.length ?? 0) === 0) {
+    const { error: erroGrava } = await admin.from("fa_gestao_recadastro_conflitos").insert({
+      chave: ident.chave, motivo, cpf_informado: cpf, email_informado: email, criado_em: new Date().toISOString(),
+    });
+    if (erroGrava) console.error("conflito gravar:", erroGrava.message);
+  }
+  await auditar(admin, req, "recadastro_conflito", { app: ident.origem, detalhe: `${ident.chave} ${motivo}` });
+  return jsonResponse(req, { error: RECAD_CONFLITO_MSG }, 409);
+}
+
+// Falha de gravação que é, na verdade, conflito: e-mail já usado por outro login ou CPF repetido (índice único).
+class ConflitoRecadastro extends Error {
+  constructor(public motivo: "cpf_de_outra_pessoa" | "email_de_outro_login") {
+    super(motivo);
+  }
+}
+const ehUnicidade = (e: { code?: string; message?: string } | null) =>
+  !!e && (e.code === "23505" || /duplicate key|unique constraint/i.test(e.message ?? ""));
+const ehEmailJaUsado = (e: { code?: string; status?: number; message?: string } | null) =>
+  !!e && (e.code === "email_exists" || /already (been )?registered|already exists|email.*(in use|exists)/i.test(e.message ?? ""));
+
+// Grava a confirmação tudo ou nada: cada passo empilha o seu desfazer; qualquer falha desfaz em ordem inversa.
+// Devolve null quando tudo foi gravado, ou o motivo do conflito / "falha" depois de desfazer.
+async function gravarConfirmacaoRecadastro(
+  admin: Admin,
+  ident: IdentRecad,
+  cpf: string,
+  emailReal: string,
+): Promise<null | "falha" | "cpf_de_outra_pessoa" | "email_de_outro_login"> {
+  const desfazer: Array<{ passo: string; fn: () => PromiseLike<unknown> }> = [];
+  const b = ident.origem === "hub" ? null : clinicaAdmin();
+  try {
+    if (ident.origem !== "hub" && (!b || !ident.authUserId)) throw new Error("projeto B indisponível");
+    const loginAntes = ident.loginEmail.trim().toLowerCase();
+    const trocarLogin = ident.origem !== "hub" && EMAIL_SINTETICO.test(loginAntes);
+
+    // (2a) pessoa por CPF: se já existe com o mesmo e-mail real, é a mesma pessoa em outro login
+    const { data: criadas, error: erroPessoa } = await admin
+      .from("fa_gestao_pessoas")
+      .upsert({ cpf, email_real: emailReal, nome: ident.nome || null, confirmado_em: new Date().toISOString() }, { onConflict: "cpf", ignoreDuplicates: true })
+      .select("cpf");
+    if (erroPessoa) throw new Error(`pessoa: ${erroPessoa.message}`);
+    if ((criadas?.length ?? 0) > 0) {
+      desfazer.push({ passo: "pessoa", fn: () => admin.from("fa_gestao_pessoas").delete().eq("cpf", cpf) });
+    } else {
+      const { data: existente, error } = await admin.from("fa_gestao_pessoas").select("email_real").eq("cpf", cpf).maybeSingle();
+      if (error || !existente) throw new Error(`pessoa reler: ${error?.message ?? "sumiu"}`);
+      if (String(existente.email_real ?? "").toLowerCase() !== emailReal) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+    }
+
+    // (2b) vínculo do login com a pessoa (índices únicos planos por origem + login)
+    const porHub = ident.origem === "hub";
+    const chaveVinculo = porHub ? "hub_email" : "auth_user_id";
+    const valorVinculo = porHub ? (ident.hubEmail ?? "").toLowerCase() : ident.authUserId;
+    const { data: vincCriado, error: erroVinc } = await admin
+      .from("fa_gestao_pessoa_contas")
+      .upsert({
+        cpf,
+        origem: ident.origem,
+        auth_user_id: porHub ? null : ident.authUserId,
+        hub_email: porHub ? valorVinculo : null,
+        email_login_antes: trocarLogin ? loginAntes : null,
+      }, { onConflict: `origem,${chaveVinculo}`, ignoreDuplicates: true })
+      .select("id");
+    if (erroVinc) throw new Error(`vínculo: ${erroVinc.message}`);
+    if ((vincCriado?.length ?? 0) > 0) {
+      const idVinc = vincCriado![0].id;
+      desfazer.push({ passo: "vínculo", fn: () => admin.from("fa_gestao_pessoa_contas").delete().eq("id", idVinc) });
+    } else {
+      const { data: v, error } = await admin.from("fa_gestao_pessoa_contas").select("id, cpf, email_login_antes")
+        .eq("origem", ident.origem).eq(chaveVinculo, valorVinculo).maybeSingle();
+      if (error || !v) throw new Error(`vínculo reler: ${error?.message ?? "sumiu"}`);
+      if (v.cpf !== cpf) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+      if (trocarLogin && !v.email_login_antes) {
+        const { error: e2 } = await admin.from("fa_gestao_pessoa_contas").update({ email_login_antes: loginAntes }).eq("id", v.id);
+        if (e2) throw new Error(`vínculo email_login_antes: ${e2.message}`);
+        desfazer.push({ passo: "vínculo email_login_antes", fn: () => admin.from("fa_gestao_pessoa_contas").update({ email_login_antes: null }).eq("id", v.id) });
+      }
+    }
+
+    // (3) login com e-mail fictício passa a usar o e-mail real, mesmo id (e-mail real já existente não muda)
+    if (trocarLogin) {
+      const { error } = await b!.auth.admin.updateUserById(ident.authUserId!, { email: emailReal, email_confirm: true });
+      if (error) {
+        if (ehEmailJaUsado(error as { code?: string; message?: string })) throw new ConflitoRecadastro("email_de_outro_login");
+        throw new Error(`login: ${error.message}`);
+      }
+      desfazer.push({
+        passo: "e-mail do login",
+        fn: () => b!.auth.admin.updateUserById(ident.authUserId!, { email: loginAntes, email_confirm: true }),
+      });
+    }
+
+    // (4) perfil do projeto B (quem é só do RH pode não ter perfil: não cria)
+    if (b) {
+      const { data: perfil, error: erroPerfil } = await b.from("profiles").select("cpf, email").eq("id", ident.authUserId!).maybeSingle();
+      if (erroPerfil) throw new Error(`perfil ler: ${erroPerfil.message}`);
+      if (perfil) {
+        const patch: Record<string, string> = { cpf };
+        if (trocarLogin) patch.email = emailReal;
+        const { error } = await b.from("profiles").update(patch).eq("id", ident.authUserId!);
+        if (error) {
+          if (ehUnicidade(error as { code?: string; message?: string })) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+          throw new Error(`perfil: ${error.message}`);
+        }
+        const antes: Record<string, unknown> = { cpf: perfil.cpf ?? null };
+        if (trocarLogin) antes.email = perfil.email ?? null;
+        desfazer.push({ passo: "perfil", fn: () => b.from("profiles").update(antes).eq("id", ident.authUserId!) });
+      }
+    }
+
+    // (5) conta do Hub ligada a esse login: cpf e e-mail de código; a chave `email` não é renomeada
+    const ligado = quoteFilterValue((porHub ? ident.hubEmail ?? "" : loginAntes).toLowerCase());
+    const { data: contas, error: erroContas } = await admin
+      .from("fa_gestao_contas").select("email, cpf, email_codigo")
+      .or(`email.eq.${ligado},login_email.eq.${ligado},clinica_email.eq.${ligado},rh_email.eq.${ligado}`)
+      .limit(5);
+    if (erroContas) throw new Error(`contas ler: ${erroContas.message}`);
+    for (const c of contas ?? []) {
+      const { error } = await admin.from("fa_gestao_contas").update({ cpf, email_codigo: emailReal }).eq("email", c.email);
+      if (error) {
+        if (ehUnicidade(error as { code?: string; message?: string })) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+        throw new Error(`conta: ${error.message}`);
+      }
+      desfazer.push({
+        passo: "conta do Hub",
+        fn: () => admin.from("fa_gestao_contas").update({ cpf: c.cpf ?? null, email_codigo: c.email_codigo }).eq("email", c.email),
+      });
+    }
+
+    // (6) concluído (sem tocar em primeiro_aviso_em)
+    const { error: erroEstado } = await admin
+      .from("fa_gestao_recadastro_estado")
+      .upsert({ chave: ident.chave, concluido_em: new Date().toISOString() }, { onConflict: "chave" });
+    if (erroEstado) throw new Error(`estado: ${erroEstado.message}`);
+    return null;
+  } catch (e) {
+    console.error("recadastro confirmar:", e instanceof Error ? e.message : e);
+    for (const d of desfazer.reverse()) {
+      try {
+        const r = await d.fn() as { error?: { message: string } | null } | undefined;
+        if (r?.error) console.error(`recadastro desfazer ${d.passo}:`, r.error.message);
+      } catch (err) {
+        console.error(`recadastro desfazer ${d.passo}:`, err);
+      }
+    }
+    return e instanceof ConflitoRecadastro ? e.motivo : "falha";
+  }
+}
+
 async function exigirSessao(admin: Admin, req: Request): Promise<{ tokenHash: string; conta: Conta } | null> {
   const authHeader = req.headers.get("authorization") ?? "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
@@ -1167,6 +1334,7 @@ type Desafio = {
   usado_em: string | null;
   finalidade: string;
   alvo_id: string | null;
+  dados?: Record<string, unknown> | null;
 };
 
 // Confere o código de um desafio (mesmas regras para entrar e para redefinir a senha) e o marca como usado.
@@ -1182,7 +1350,7 @@ async function conferirCodigo(
   }
   const { data } = await admin
     .from("fa_gestao_desafios")
-    .select("id, email, code_hash, tentativas, expires_at, usado_em, finalidade, alvo_id")
+    .select("id, email, code_hash, tentativas, expires_at, usado_em, finalidade, alvo_id, dados")
     .eq("id", challengeId)
     .maybeSingle();
   const desafio = data as Desafio | null;
@@ -1877,6 +2045,57 @@ Deno.serve(async (req) => {
     }
     await auditar(admin, req, "recadastro_codigo_enviado", { app: ident.origem, detalhe: ident.chave });
     return jsonResponse(req, { challenge_id: challengeId });
+  }
+
+  if (action === "recadastro_confirmar") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    if (ident === "isento") return jsonResponse(req, { error: "não disponível" }, 403);
+    const { data: est, error: erroEst } = await admin
+      .from("fa_gestao_recadastro_estado").select("concluido_em").eq("chave", ident.chave).maybeSingle();
+    if (erroEst) return jsonResponse(req, { error: RECAD_FALHA_MSG }, 500);
+    // Clique duplo: já concluído responde ok sem gravar nada.
+    if (est?.concluido_em) return jsonResponse(req, { ok: true });
+
+    const challengeId = str(body.challenge_id);
+    // Desafio de outra chave é recusado antes de tocar nele (não gasta tentativa nem o código de ninguém).
+    if (/^[0-9a-f-]{36}$/.test(challengeId)) {
+      const { data: dono } = await admin.from("fa_gestao_desafios").select("alvo_id").eq("id", challengeId).maybeSingle();
+      if (dono && dono.alvo_id !== ident.chave) return jsonResponse(req, { error: "não disponível" }, 403);
+    }
+    const conf = await conferirCodigo(admin, req, challengeId, str(body.code).replace(/\D/g, ""), "recadastro");
+    if (!conf.ok) return conf.resp;
+    const desafio = conf.desafio;
+    if (desafio.alvo_id !== ident.chave) return jsonResponse(req, { error: "não disponível" }, 403);
+    // CPF e e-mail vêm do desafio confirmado, nunca do corpo da requisição.
+    const cpf = String(desafio.dados?.cpf ?? "").replace(/\D/g, "");
+    const emailReal = String(desafio.email ?? "").trim().toLowerCase();
+    if (!cpfValido(cpf) || !EMAIL_RE.test(emailReal)) return jsonResponse(req, { error: "não disponível" }, 403);
+
+    const motivo = await conflitosRecadastro(admin, ident, cpf, emailReal);
+    if (motivo) return await abrirConflitoRecadastro(admin, req, ident, motivo, cpf, emailReal);
+
+    const resultado = await gravarConfirmacaoRecadastro(admin, ident, cpf, emailReal);
+    if (resultado === "falha") return jsonResponse(req, { error: RECAD_FALHA_MSG }, 500);
+    if (resultado) return await abrirConflitoRecadastro(admin, req, ident, resultado, cpf, emailReal);
+    await auditar(admin, req, "recadastro_concluido", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, { ok: true });
+  }
+
+  if (action === "recadastro_adiar") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    if (ident === "isento") return jsonResponse(req, { error: "não disponível" }, 403);
+    const st = await statusRecadastro(admin, ident);
+    if (!st.pendente) return jsonResponse(req, { ok: true });
+    if (st.dias_restantes <= 0) return jsonResponse(req, { error: "prazo encerrado" }, 409);
+    const { error } = await admin
+      .from("fa_gestao_recadastro_estado").update({ adiado_em: new Date().toISOString() }).eq("chave", ident.chave);
+    if (error) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
+    await auditar(admin, req, "recadastro_adiado", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, { ok: true });
   }
 
   // --- daqui para baixo exige sessão ---
