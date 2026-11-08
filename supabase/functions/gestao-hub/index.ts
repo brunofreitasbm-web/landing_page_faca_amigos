@@ -1338,6 +1338,9 @@ Deno.serve(async (req) => {
         permissao: convite.permissao,
         destinatario_nome: convite.destinatario_nome || null,
         destinatario_email: convite.destinatario_email,
+        itens: (await itensDoConvite(admin, convite.id)).map((i) => ({
+          sistema: i.modulo, sistema_nome: APPS[i.modulo]?.rotulo ?? i.modulo, funcao: i.funcao, nivel: i.nivel, unidades: i.unidades ?? [],
+        })),
       },
     });
   }
@@ -1384,6 +1387,11 @@ Deno.serve(async (req) => {
     }
     const senhaHash = await hashSenha(senha);
     const agoraIso = new Date().toISOString();
+
+    const itensConvite = await itensDoConvite(admin, convite.id);
+    if (itensConvite.length > 0) {
+      return await cadastrarConviteMulti(admin, req, convite, itensConvite, { emailReal, nome, dataNascimento, senhaHash, agoraIso });
+    }
 
     const dadosConta: Record<string, unknown> = {
       email: emailReal,
@@ -2316,7 +2324,7 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
     return jsonResponse(req, { error: "não foi possível gravar o convite no banco" }, 500);
   }
   const { error: itensErr } = await admin.from("fa_gestao_convite_itens").insert(
-    itens.map((i) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades })),
+    itens.map((i, ordem) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades, ordem })),
   );
   if (itensErr) {
     console.error("fa_gestao_convite_itens insert:", itensErr.message);
@@ -2362,6 +2370,94 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
       destinatario_email: destinatarioEmail,
     },
     itens: itens.map((i) => ({ sistema: i.modulo, sistema_nome: APPS[i.modulo].rotulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades })),
+  });
+}
+
+type LinhaItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; papel_nativo: string | null; escopo: string | null; unidades: string[] | null; ordem: number | null };
+
+// Itens na ordem em que o owner escolheu (o primeiro é o destino depois do cadastro).
+async function itensDoConvite(admin: Admin, conviteId: string): Promise<LinhaItemConvite[]> {
+  const { data } = await admin.from("fa_gestao_convite_itens")
+    .select("modulo, funcao, nivel, papel_nativo, escopo, unidades, ordem").eq("convite_id", conviteId);
+  return ((data ?? []) as LinhaItemConvite[]).filter((i) => APPS[i.modulo]).sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0));
+}
+
+// Cadastro por convite com vários sistemas: cria a conta, grava a função de cada sistema e já provisiona.
+// Uma falha de provisão em um sistema não desfaz a conta: o estado de cada um volta na resposta e o Hub
+// tenta de novo quando a pessoa abre o quadrado.
+async function cadastrarConviteMulti(
+  admin: Admin,
+  req: Request,
+  convite: Record<string, any>,
+  itens: LinhaItemConvite[],
+  p: { emailReal: string; nome: string; dataNascimento: string; senhaHash: string; agoraIso: string },
+): Promise<Response> {
+  const cpf = typeof convite.cpf === "string" && convite.cpf ? convite.cpf : null;
+  if (cpf) {
+    const { data: porCpf } = await admin.from("fa_gestao_contas").select("email").eq("cpf", cpf).maybeSingle();
+    if (porCpf) return jsonResponse(req, { error: "já existe uma conta com este CPF. Entre no Hub e peça acesso ao responsável" }, 409);
+  }
+  const primeiro = itens[0];
+  const dadosConta: Record<string, unknown> = {
+    email: p.emailReal,
+    email_codigo: p.emailReal,
+    nome: p.nome,
+    data_nascimento: p.dataNascimento,
+    cpf,
+    unidade: primeiro.unidades?.[0] ?? convite.unidade,
+    funcao: primeiro.funcao,
+    papel: "gerente",
+    auth_modo: "hub",
+    senha_hash: p.senhaHash,
+    senha_definida_em: p.agoraIso,
+    ativo: true,
+    criado_por: convite.criado_por || "convite",
+  };
+  for (const i of itens) {
+    const app = APPS[i.modulo];
+    if (i.modulo === "painel" || i.modulo === "eventos") dadosConta.painel_usuario = p.emailReal;
+    else if (app.campo) dadosConta[app.campo] = i.modulo === "cacau" ? p.emailReal.split("@")[0] : p.emailReal;
+  }
+  const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
+  if (insErr) {
+    console.error("ins conta convite (multi):", insErr.message);
+    return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
+  }
+
+  const por = convite.criado_por || "convite";
+  await admin.from("fa_gestao_permissoes").upsert(
+    itens.map((i) => ({
+      email: p.emailReal, modulo: i.modulo, nivel: i.nivel, papel_nativo: i.papel_nativo, escopo: i.escopo,
+      unidades: i.unidades ?? [], atualizado_por: por,
+    })),
+    { onConflict: "email,modulo" },
+  );
+  await admin.from("fa_gestao_convites").update({ usado_em: p.agoraIso, usado_por: p.emailReal }).eq("id", convite.id);
+  await auditar(admin, req, "usuario_cadastrado_convite", {
+    email: p.emailReal,
+    detalhe: itens.map((i) => `${i.modulo}:${i.nivel}`).join(",").slice(0, 300),
+  });
+
+  const conta = await carregarConta(admin, p.emailReal);
+  let provisionamento: ResultadoProvisao[] = [];
+  if (conta) {
+    try {
+      provisionamento = await provisionarModulos(admin, req, conta, await carregarNiveis(admin, conta), "convite");
+    } catch (e) {
+      console.error("provisionar (convite):", e instanceof Error ? e.message : e);
+    }
+  }
+  const app = APPS[primeiro.modulo];
+  const destino = (Deno.env.get(app.baseEnv) ?? app.baseDefault).replace(/\/+$/, "");
+  return jsonResponse(req, {
+    ok: true,
+    mensagem: "Cadastro concluído com sucesso!",
+    sistema_nome: app.rotulo,
+    sistema_url: destino,
+    destino,
+    unidade: dadosConta.unidade,
+    funcao: primeiro.funcao,
+    provisionamento,
   });
 }
 

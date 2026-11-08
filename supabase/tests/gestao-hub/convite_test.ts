@@ -1,7 +1,7 @@
 // Convites do Hub: segurança (não sobrescrever conta) e convite com vários sistemas.
 // Rodar: deno test --no-check --config supabase/tests/gestao-hub/deno.json --allow-env --allow-net=none supabase/tests/gestao-hub
 import assert from "node:assert/strict";
-import { A, TOKEN_GERENTE, chamar, contaBase, emailsEnviados, sha } from "./hub_bootstrap.ts";
+import { A, B, TOKEN_GERENTE, chamar, contaBase, emailsEnviados, sha } from "./hub_bootstrap.ts";
 
 async function criarConvite(token: string, over: Record<string, unknown> = {}) {
   const linha = {
@@ -127,4 +127,64 @@ Deno.test("itens_vazio_recusa", async () => {
 Deno.test("nao_owner_recusa", async () => {
   const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x5@t.com" }), TOKEN_GERENTE);
   assert.equal(r.status, 403);
+});
+
+// ---------- Fase 1: cadastro aplica os sistemas do convite e provisiona ----------
+async function linkMulti(email: string, cpf: string) {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: email, cpf }));
+  assert.equal(r.status, 200, JSON.stringify(r.corpo));
+  return r.corpo.token as string;
+}
+const permissao = (email: string, modulo: string) =>
+  A.tabela("fa_gestao_permissoes").find((p) => p.email === email && p.modulo === modulo);
+
+Deno.test("consultar_mostra_itens", async () => {
+  const token = await linkMulti("diego@t.com", "11144477735");
+  const r = await chamar("convite_consultar", { token }, null);
+  assert.equal(r.status, 200);
+  assert.deepEqual(r.corpo.convite.itens.map((i: { sistema: string; nivel: string }) => [i.sistema, i.nivel]), [["clinica", "admin"], ["playground", "operar"]]);
+});
+
+Deno.test("cadastro_multi_item_cria_permissoes_e_provisiona", async () => {
+  const token = await linkMulti("elisa@t.com", "39053344705");
+  const r = await chamar("convite_cadastrar", cadastro(token, "elisa@t.com"), null);
+  assert.equal(r.status, 200, JSON.stringify(r.corpo));
+  const c = conta("elisa@t.com")!;
+  assert.equal(c.cpf, "39053344705");
+  assert.equal(c.papel, "gerente");
+  assert.equal(c.clinica_email, "elisa@t.com");
+  assert.equal(c.playground_email, "elisa@t.com");
+  assert.equal(permissao("elisa@t.com", "clinica")?.nivel, "admin");
+  assert.deepEqual(permissao("elisa@t.com", "clinica")?.unidades, ["Unidade A"]);
+  assert.equal(permissao("elisa@t.com", "playground")?.nivel, "operar");
+  assert.equal(B.tabela("profiles").find((p) => p.email === "elisa@t.com")?.role, "supervisor");
+  assert.equal(r.corpo.provisionamento.length, 2);
+  assert.ok(String(r.corpo.destino).startsWith("http"));
+});
+
+Deno.test("cadastro_provisao_parcial_mantem_conta", async () => {
+  const token = await linkMulti("fabio@t.com", "86288366757");
+  B.operacoesComErro.add("upsert:profiles");
+  B.operacoesComErro.add("update:profiles");
+  B.operacoesComErro.add("insert:profiles");
+  try {
+    const r = await chamar("convite_cadastrar", cadastro(token, "fabio@t.com"), null);
+    assert.equal(r.status, 200, JSON.stringify(r.corpo));
+    assert.ok(conta("fabio@t.com"));
+    assert.equal(permissao("fabio@t.com", "clinica")?.nivel, "admin");
+    const conv = A.tabela("fa_gestao_convites").find((l) => l.destinatario_email === "fabio@t.com")!;
+    assert.ok(conv.usado_em);
+    const cli = r.corpo.provisionamento.find((p: { app: string }) => p.app === "clinica");
+    assert.equal(cli.estado, "erro");
+  } finally {
+    B.operacoesComErro.clear();
+  }
+});
+
+Deno.test("convite_sem_itens_segue_fluxo_antigo", async () => {
+  const g = await chamar("convite_link_gerar", { sistema: "clinica", funcao: "Gerente", permissao: "ver", destinatario_email: "gabi@t.com" });
+  const r = await chamar("convite_cadastrar", cadastro(g.corpo.token, "gabi@t.com"), null);
+  assert.equal(r.status, 200);
+  assert.equal(permissao("gabi@t.com", "clinica")?.nivel, "ver");
+  assert.equal(r.corpo.provisionamento, undefined);
 });

@@ -29,6 +29,7 @@ create table if not exists public.fa_gestao_convite_itens (
   papel_nativo text,
   escopo text,
   unidades text[] not null default '{}',
+  ordem smallint not null default 0, -- ordem escolhida no convite; o primeiro é o destino após o cadastro
   primary key (convite_id, modulo)
 );
 
