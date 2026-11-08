@@ -52,6 +52,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
   private filtros: Array<(l: Linha) => boolean> = [];
   private payload: Linha | Linha[] | null = null;
   private onConflict: string[] = [];
+  private ignorarDuplicata = false;
   private modo: "lista" | "unica" | "talvez" = "lista";
   private limite: number | null = null;
   private retorna = false;
@@ -68,8 +69,9 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
   }
   insert(v: Linha | Linha[]) { this.op = "insert"; this.payload = v; return this; }
   update(v: Linha) { this.op = "update"; this.payload = v; return this; }
-  upsert(v: Linha | Linha[], opts?: { onConflict?: string }) {
+  upsert(v: Linha | Linha[], opts?: { onConflict?: string; ignoreDuplicates?: boolean }) {
     this.op = "upsert";
+    this.ignorarDuplicata = opts?.ignoreDuplicates === true;
     this.payload = v;
     this.onConflict = (opts?.onConflict ?? "").split(",").map((c) => c.trim()).filter(Boolean);
     return this;
@@ -115,7 +117,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
       for (const nova of novas) {
         if (this.op === "upsert" && this.onConflict.length) {
           const ex = t.find((l) => this.onConflict.every((c) => l[c] === nova[c]));
-          if (ex) { Object.assign(ex, nova); afetadas.push(ex); continue; }
+          if (ex) { if (!this.ignorarDuplicata) { Object.assign(ex, nova); afetadas.push(ex); } continue; }
         }
         if (nova.id === undefined) nova.id = crypto.randomUUID();
         if (nova.created_at === undefined) nova.created_at = new Date().toISOString(); // como o default now() do banco

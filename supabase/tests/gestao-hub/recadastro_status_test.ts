@@ -162,3 +162,43 @@ Deno.test("conta_hub_inativa_e_isenta", async () => {
     assert.equal(estado("hub:off@t.com"), undefined);
   } finally { desligar(); }
 });
+
+Deno.test("erro_de_leitura_do_estado_nao_bloqueia_nem_reescreve_a_data", async () => {
+  ligar();
+  try {
+    const u = usuarioB();
+    const velha = antes(8);
+    A.tabela("fa_gestao_recadastro_estado").push({ chave: `b:${u.id}`, primeiro_aviso_em: velha });
+    A.operacoesComErro.add("select:fa_gestao_recadastro_estado");
+    const r = await status(u.jwt);
+    A.operacoesComErro.delete("select:fa_gestao_recadastro_estado");
+    assert.deepEqual(r.corpo, { pendente: true, bloquear: false, dias_restantes: 7 });
+    assert.equal(estado(`b:${u.id}`)!.primeiro_aviso_em, velha);
+    const depois = await status(u.jwt);
+    assert.deepEqual(depois.corpo, { pendente: true, bloquear: true, dias_restantes: 0 });
+  } finally { A.operacoesComErro.delete("select:fa_gestao_recadastro_estado"); desligar(); }
+});
+
+Deno.test("erro_na_consulta_de_conflitos_nao_bloqueia", async () => {
+  ligar();
+  try {
+    const u = usuarioB();
+    A.tabela("fa_gestao_recadastro_estado").push({ chave: `b:${u.id}`, primeiro_aviso_em: antes(8) });
+    A.operacoesComErro.add("select:fa_gestao_recadastro_conflitos");
+    const r = await status(u.jwt);
+    assert.equal(r.corpo.pendente, true);
+    assert.equal(r.corpo.bloquear, false);
+  } finally { A.operacoesComErro.delete("select:fa_gestao_recadastro_conflitos"); desligar(); }
+});
+
+Deno.test("segunda_consulta_nao_muda_primeiro_aviso_em", async () => {
+  ligar();
+  try {
+    const u = usuarioB();
+    await status(u.jwt);
+    const primeiro = estado(`b:${u.id}`)!.primeiro_aviso_em;
+    await new Promise((res) => setTimeout(res, 5));
+    await status(u.jwt);
+    assert.equal(estado(`b:${u.id}`)!.primeiro_aviso_em, primeiro);
+  } finally { desligar(); }
+});

@@ -1006,24 +1006,31 @@ async function identificarRecadastro(
 
 async function statusRecadastro(admin: Admin, ident: IdentRecad | "isento"): Promise<StatusRecadastro> {
   if (!recadastroLigado() || ident === "isento") return { ...STATUS_RECAD_ISENTO };
-  const { data: est } = await admin
-    .from("fa_gestao_recadastro_estado")
-    .select("primeiro_aviso_em, concluido_em")
-    .eq("chave", ident.chave)
-    .maybeSingle();
+  // Erro de leitura nunca bloqueia nem reinicia o prazo: devolve status não bloqueante sem gravar nada.
+  const NAO_BLOQUEIA: StatusRecadastro = { pendente: true, bloquear: false, dias_restantes: RECADASTRO_DIAS };
+  const lerEstado = () =>
+    admin.from("fa_gestao_recadastro_estado").select("primeiro_aviso_em, concluido_em").eq("chave", ident.chave).maybeSingle();
+  let { data: est, error: erroEstado } = await lerEstado();
+  if (erroEstado) return NAO_BLOQUEIA;
   if (est?.concluido_em) return { ...STATUS_RECAD_ISENTO };
-  let primeiro = est?.primeiro_aviso_em as string | undefined;
   if (!est) {
-    primeiro = new Date().toISOString();
-    await admin.from("fa_gestao_recadastro_estado").upsert({ chave: ident.chave, primeiro_aviso_em: primeiro }, { onConflict: "chave" });
+    // Cria sem sobrescrever (consultas simultâneas) e relê: vale sempre a data que está gravada.
+    const { error: erroInsert } = await admin
+      .from("fa_gestao_recadastro_estado")
+      .upsert({ chave: ident.chave, primeiro_aviso_em: new Date().toISOString() }, { onConflict: "chave", ignoreDuplicates: true });
+    if (erroInsert) return NAO_BLOQUEIA;
+    ({ data: est, error: erroEstado } = await lerEstado());
+    if (erroEstado || !est) return NAO_BLOQUEIA;
+    if (est.concluido_em) return { ...STATUS_RECAD_ISENTO };
   }
-  const dias = diasRestantesRecadastro(primeiro as string);
-  const { data: conflitos } = await admin
+  const dias = diasRestantesRecadastro(est.primeiro_aviso_em as string);
+  const { data: conflitos, error: erroConflitos } = await admin
     .from("fa_gestao_recadastro_conflitos")
     .select("id")
     .eq("chave", ident.chave)
     .is("resolvido_em", null)
     .limit(1);
+  if (erroConflitos) return { pendente: true, bloquear: false, dias_restantes: dias };
   const comConflito = (conflitos?.length ?? 0) > 0;
   return { pendente: true, bloquear: dias <= 0 && !comConflito, dias_restantes: dias };
 }
