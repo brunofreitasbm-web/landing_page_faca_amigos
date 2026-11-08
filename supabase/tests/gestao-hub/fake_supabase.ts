@@ -51,11 +51,15 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
   private modo: "lista" | "unica" | "talvez" = "lista";
   private limite: number | null = null;
   private retorna = false;
+  private contar = false;
+  private cabeca = false;
 
   constructor(private p: Projeto, private nome: string) {}
 
-  select(_cols?: string) {
+  select(_cols?: string, opts?: { count?: string; head?: boolean }) {
     if (this.op !== "select") this.retorna = true;
+    if (opts?.count) this.contar = true;
+    if (opts?.head) this.cabeca = true;
     return this;
   }
   insert(v: Linha | Linha[]) { this.op = "insert"; this.payload = v; return this; }
@@ -70,7 +74,12 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
   eq(c: string, v: unknown) { this.filtros.push((l) => l[c] === v); return this; }
   // Como no Postgres, `neq` não casa linha com a coluna nula.
   neq(c: string, v: unknown) { this.filtros.push((l) => l[c] != null && l[c] !== v); return this; }
-  ilike(c: string, v: string) { this.filtros.push((l) => String(l[c] ?? "").toLowerCase() === v.toLowerCase()); return this; }
+  // Como no Postgres: `%` é curinga; sem `%` vira comparação exata (sem diferenciar maiúsculas).
+  ilike(c: string, v: string) {
+    const re = new RegExp("^" + v.split("%").map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$", "i");
+    this.filtros.push((l) => re.test(String(l[c] ?? "")));
+    return this;
+  }
   is(c: string, v: unknown) { this.filtros.push((l) => (v === null ? l[c] == null : l[c] === v)); return this; }
   gte(c: string, v: unknown) { this.filtros.push((l) => String(l[c] ?? "") >= String(v)); return this; }
   in(c: string, vs: unknown[]) { this.filtros.push((l) => vs.includes(l[c])); return this; }
@@ -85,11 +94,11 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
   maybeSingle() { this.modo = "talvez"; return this; }
   single() { this.modo = "unica"; return this; }
 
-  then<T1, T2>(ok?: (v: { data: any; error: { message: string } | null }) => T1 | PromiseLike<T1>, ko?: (e: unknown) => T2 | PromiseLike<T2>) {
+  then<T1, T2>(ok?: (v: { data: any; count?: number; error: { message: string } | null }) => T1 | PromiseLike<T1>, ko?: (e: unknown) => T2 | PromiseLike<T2>) {
     return Promise.resolve(this.executar()).then(ok, ko);
   }
 
-  private executar(): { data: any; error: { message: string } | null } {
+  private executar(): { data: any; count?: number; error: { message: string } | null } {
     this.p.chamadas.push(`${this.op}:${this.nome}`);
     if (this.p.operacoesComErro.has(`${this.op}:${this.nome}`)) return { data: null, error: { message: `falha simulada em ${this.op}:${this.nome}` } };
     if (this.p.tabelasComErro.has(this.nome)) return { data: null, error: { message: `relation "${this.nome}" does not exist` } };
@@ -105,6 +114,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
           if (ex) { Object.assign(ex, nova); afetadas.push(ex); continue; }
         }
         if (nova.id === undefined) nova.id = crypto.randomUUID();
+        if (nova.created_at === undefined) nova.created_at = new Date().toISOString(); // como o default now() do banco
         t.push(nova);
         afetadas.push(nova);
       }
@@ -118,6 +128,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
       afetadas = t.filter(casa);
     }
 
+    if (this.op === "select" && this.contar && this.cabeca) return { data: null, count: afetadas.length, error: null };
     const devolve = this.op === "select" || this.retorna ? afetadas.map((l) => ({ ...l })) : null;
     if (this.limite !== null && devolve) devolve.splice(this.limite);
     if (devolve === null) return { data: null, error: null };

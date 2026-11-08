@@ -37,6 +37,7 @@
 //     Eventos (`escopo_eventos`, lido por eventos-admin).
 
 import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2";
+import { type Escopo, escopoDoNivel } from "./escopo.ts";
 
 // deno-lint-ignore no-explicit-any
 type Admin = SupabaseClient<any, any, any, any, any>;
@@ -345,7 +346,7 @@ function newSessionToken(): string {
   return toHex(arr.buffer);
 }
 
-type Escopo = "owner" | "equipe" | "ver" | "nenhum";
+// Nível do Hub -> escopo da sessão: ver ./escopo.ts (falha fechado).
 
 // Escopos de quem não é owner. Lista de permissão: ação nova nasce negada.
 //   equipe  (nível "operar" no Hub; também o login direto): cupons Wi-Fi (listar e resgatar).
@@ -363,13 +364,6 @@ function acoesDoEscopo(escopo: Escopo): Set<string> | null {
   return null; // owner: sem restrição
 }
 
-// Nível do Hub -> escopo da sessão. Ticket sem nível (anterior aos níveis) só existia para owner.
-function escopoDoNivel(nivel: unknown): Escopo {
-  if (nivel === "operar") return "equipe";
-  if (nivel === "ver") return "ver";
-  if (nivel === "admin" || nivel == null) return "owner";
-  return "nenhum";
-}
 
 function lerEscopo(v: unknown): Escopo {
   return v === "owner" || v === "equipe" || v === "ver" || v === "nenhum" ? v : "nenhum";
