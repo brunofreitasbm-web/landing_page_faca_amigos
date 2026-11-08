@@ -238,124 +238,6 @@
       padding: 3px 10px; border-radius: 9999px; background: var(--gray-bg); color: var(--ink-soft);
     }
 
-    /* ---------- Super-Card: Portal do Site (Opção A - Estilo Hero Premium) ---------- */
-    .portal-card {
-      position: relative;
-      background: linear-gradient(135deg, #FFFFFF 0%, #F5FBF9 45%, #FFF5F9 100%);
-      border-radius: var(--r-card);
-      border: 2px solid rgba(46, 207, 181, 0.52);
-      box-shadow: 0 12px 36px rgba(46, 207, 181, 0.13), 0 4px 16px rgba(26, 63, 53, 0.05);
-      padding: 28px 26px;
-      transition: box-shadow var(--t-fast), border-color 0.25s, transform var(--t-fast);
-      overflow: hidden;
-    }
-    .portal-card::before {
-      content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px;
-      background: radial-gradient(circle, rgba(46, 207, 181, 0.18) 0%, transparent 70%);
-      border-radius: 50%; pointer-events: none;
-    }
-    .portal-card::after {
-      content: ''; position: absolute; bottom: -50px; left: -50px; width: 160px; height: 160px;
-      background: radial-gradient(circle, rgba(240, 25, 107, 0.1) 0%, transparent 70%);
-      border-radius: 50%; pointer-events: none;
-    }
-    .portal-card:hover {
-      box-shadow: 0 18px 46px rgba(46, 207, 181, 0.22), 0 6px 20px rgba(240, 25, 107, 0.08);
-      border-color: var(--teal);
-    }
-    .portal-card.search-hidden { display: none !important; }
-    .portal-card-mini { padding: 0; border-width: 1.5px; }
-    .portal-card-mini::before, .portal-card-mini::after { display: none; }
-    .portal-card-mini .tile-subaction { border: none; box-shadow: none; border-radius: var(--r-card); }
-    .portal-card-mini .tile-subaction:hover { box-shadow: 0 14px 32px rgba(46, 207, 181, 0.18); }
-
-    .portal-header { position: relative; z-index: 1; margin-bottom: 22px; }
-    .portal-badge-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-    .badge-system {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.8rem; font-weight: 800; background: linear-gradient(135deg, #E3F8F4, #D5F5EF); color: #0E6857;
-      padding: 5px 14px; border-radius: 9999px; border: 1px solid rgba(46, 207, 181, 0.35);
-      box-shadow: 0 2px 8px rgba(46, 207, 181, 0.15);
-    }
-    .badge-dest {
-      font-size: 0.8rem; font-weight: 700; color: var(--gray); font-family: monospace;
-      background: rgba(255, 255, 255, 0.8); padding: 3px 10px; border-radius: 8px; border: 1px solid rgba(26, 63, 53, 0.06);
-    }
-    .portal-title {
-      font-family: 'Fredoka One', cursive, sans-serif; font-size: 1.55rem; color: var(--dark); margin-bottom: 6px;
-      letter-spacing: -0.01em;
-    }
-    .portal-desc { color: var(--ink-soft); font-size: 0.94rem; font-weight: 600; line-height: 1.5; max-width: 820px; }
-    
-    .portal-modules-pill {
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 14px; font-size: 0.82rem; font-weight: 700; color: var(--ink-soft);
-    }
-    .pill-item {
-      background: rgba(255, 255, 255, 0.9); border: 1.5px solid rgba(26, 63, 53, 0.08);
-      padding: 4px 12px; border-radius: 9999px; font-weight: 800; color: var(--dark);
-      box-shadow: 0 2px 6px rgba(26, 63, 53, 0.04);
-    }
-
-    .portal-actions {
-      position: relative; z-index: 1;
-      border-top: 1.5px solid rgba(26, 63, 53, 0.08); padding-top: 20px; margin-top: 20px;
-    }
-    .portal-actions-label {
-      font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 14px;
-    }
-    .portal-actions-grid {
-      display: grid; gap: 16px; grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width: 680px) {
-      .portal-actions-grid { grid-template-columns: 1fr; }
-    }
-
-    .tile-subaction {
-      display: flex; flex-direction: row; align-items: center; gap: 16px; min-height: auto;
-      padding: 18px 20px; border-radius: 20px; background: var(--white);
-      border: 2px solid rgba(26, 63, 53, 0.08); box-shadow: 0 6px 18px rgba(26, 63, 53, 0.06);
-      cursor: pointer; transition: transform var(--t-fast), border-color 0.2s, box-shadow var(--t-fast);
-      text-align: left; position: relative;
-    }
-    .tile-subaction:hover {
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 14px 32px rgba(26, 63, 53, 0.12);
-    }
-    .tile-subaction[data-app="painel"]:hover {
-      border-color: var(--teal);
-      box-shadow: 0 14px 32px rgba(46, 207, 181, 0.22);
-    }
-    .tile-subaction[data-app="eventos"]:hover {
-      border-color: #FFA858;
-      box-shadow: 0 14px 32px rgba(255, 168, 88, 0.24);
-    }
-    .tile-subaction:active { transform: scale(0.98); }
-
-    .tile-subaction .icon {
-      width: 52px; height: 52px; min-width: 52px; border-radius: 16px; font-size: 1.7rem;
-      box-shadow: 0 6px 16px rgba(26, 63, 53, 0.12);
-    }
-    .tile-subaction[data-app="painel"] .icon {
-      background: linear-gradient(135deg, #C9E7DD 0%, #A5DDD0 100%);
-    }
-    .tile-subaction[data-app="eventos"] .icon {
-      background: linear-gradient(135deg, #FFE4BD 0%, #FFCE94 100%);
-    }
-
-    .tile-subaction .sub-info { flex: 1; min-width: 0; }
-    .tile-subaction .name { font-family: 'Fredoka One', cursive, sans-serif; font-size: 1.2rem; color: var(--dark); display: block; }
-    .tile-subaction .desc { font-size: 0.86rem; color: var(--ink-soft); font-weight: 600; line-height: 1.35; display: block; margin-top: 3px; }
-    .tile-subaction .sub-arrow {
-      font-size: 0.82rem; font-weight: 800; color: var(--white); white-space: nowrap; padding: 7px 14px; border-radius: 9999px;
-      background: var(--pink); box-shadow: 0 4px 12px rgba(240, 25, 107, 0.28);
-      display: inline-flex; align-items: center; gap: 4px;
-      transition: transform var(--t-fast), filter var(--t-fast);
-    }
-    .tile-subaction:hover .sub-arrow {
-      filter: brightness(1.08);
-      transform: translateX(2px);
-    }
-
     /* ---------- Grid Corporativo & Ajuste de Espaço ---------- */
     .grid-corp {
       grid-template-columns: repeat(2, minmax(280px, 1fr));
@@ -462,8 +344,6 @@
       .search-box { max-width: 100%; }
       .grid { grid-template-columns: 1fr; gap: 14px; }
       .tile { min-height: auto; padding: 18px 16px; }
-      .tile-subaction { flex-direction: column; align-items: flex-start; gap: 12px; }
-      .tile-subaction .sub-arrow { align-self: flex-start; }
       .download-banner { flex-direction: column; align-items: flex-start; }
       .dl-btn { width: 100%; text-align: center; }
       .brand span { font-size: 1.05rem; }
@@ -489,8 +369,6 @@
       .hub-sections .tile .name { font-size: 1.05rem; }
       .hub-sections .tile .desc { font-size: 0.82rem; line-height: 1.25; }
       .hub-sections .tile .host { font-size: 0.8rem; }
-      .hub-sections .tile.tile-subaction { padding: 12px 16px; gap: 12px; }
-      .hub-sections .tile-subaction .icon { width: 44px; height: 44px; min-width: 44px; font-size: 1.4rem; }
       .download-banner { padding: 12px 16px; gap: 12px; }
       .dl-icon { width: 40px; height: 40px; min-width: 40px; font-size: 1.3rem; }
       .dl-left { gap: 12px; }
@@ -498,16 +376,6 @@
       .dl-desc { font-size: 0.8rem; }
       .dl-meta { display: none; }
       .dl-btn { padding: 8px 16px; font-size: 0.85rem; }
-      .portal-card { padding: 14px 18px; }
-      .portal-header { margin-bottom: 8px; }
-      .portal-badge-row { margin-bottom: 4px; }
-      .portal-title { font-size: 1.2rem; margin-bottom: 2px; }
-      .portal-desc { font-size: 0.85rem; line-height: 1.35; }
-      .portal-modules-pill { margin-top: 8px; font-size: 0.8rem; }
-      .pill-item { padding: 2px 10px; }
-      .portal-actions { padding-top: 10px; margin-top: 10px; }
-      .portal-actions-label { display: none; }
-      .portal-actions-grid { gap: 12px; }
       .hub-foot { margin-top: 10px; font-size: 0.8rem; }
     }
 
@@ -580,6 +448,34 @@
     }
     .modal-close:hover { color: var(--dark); background: var(--gray-bg); }
 
+    .item-convite {
+      border: 1.5px solid rgba(26, 63, 53, 0.12); border-radius: 14px;
+      padding: 12px 12px 4px; margin-bottom: 10px; background: #FBFDFC; position: relative;
+    }
+    .item-convite .item-grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 10px; }
+    .item-convite .item-grade > * { min-width: 0; }
+    .item-convite .form-control { width: 100%; min-width: 0; text-overflow: ellipsis; }
+    .item-convite .form-group { margin-bottom: 10px; }
+    .item-convite .item-topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .item-convite .item-titulo { font-size: 0.8rem; font-weight: 800; color: #0E6857; }
+    .btn-remover-item {
+      background: none; border: none; color: var(--gray); font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; padding: 4px 8px; border-radius: 8px;
+    }
+    .btn-remover-item:hover { color: var(--pink); background: var(--gray-bg); }
+    .btn-add-sistema {
+      width: 100%; background: none; border: 1.5px dashed rgba(19, 122, 106, 0.45); color: #0E6857;
+      font-weight: 800; font-size: 0.88rem; padding: 10px; border-radius: 12px; cursor: pointer; margin-bottom: 16px;
+    }
+    .btn-add-sistema:hover { background: #F2FBF8; }
+    .aviso-duplicados {
+      background: #FFF6E5; border: 1.5px solid #F2B84B; color: #6B4A00; border-radius: 12px;
+      padding: 10px 12px; font-size: 0.84rem; line-height: 1.5; margin: -6px 0 14px;
+    }
+    .aviso-duplicados[hidden] { display: none; }
+    .aviso-duplicados ul { margin: 4px 0 0 18px; padding: 0; }
+    @media (max-width: 480px) { .item-convite .item-grade { grid-template-columns: minmax(0, 1fr); } }
+
     .resultado-link-box {
       margin-top: 20px; padding: 18px 16px;
       background: linear-gradient(135deg, #FFF9F1 0%, #F5FBF9 100%);
@@ -604,13 +500,6 @@
       transition: transform var(--t-fast), filter var(--t-fast);
     }
     .btn-copiar:hover { filter: brightness(1.08); transform: scale(1.02); }
-    .btn-whatsapp {
-      background: #25D366; color: #053B1C; font-weight: 800; font-size: 0.85rem;
-      padding: 10px 18px; border-radius: 9999px; border: none; cursor: pointer;
-      text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-      transition: transform var(--t-fast), filter var(--t-fast);
-    }
-    .btn-whatsapp:hover { filter: brightness(1.08); transform: scale(1.02); }
 
     /* ---------- Tela de Cadastro do Colaborador Convidado ---------- */
     .cadastro-screen {
@@ -756,6 +645,7 @@
           <span>Permissão:</span>
           <span id="cadBadgePermissao">—</span>
         </div>
+        <ul id="cadItensConvite" style="margin:8px 0 0 18px;padding:0;text-align:left;font-size:0.9rem;line-height:1.6;" hidden></ul>
       </div>
 
       <form id="formCadastroConvidado" novalidate hidden>
@@ -799,6 +689,7 @@
         <div class="card-sistema-liberado">
           <div style="font-size:0.85rem;font-weight:800;color:var(--teal-dark);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Seu Sistema de Acesso</div>
           <div id="cadSucessoSistemaNome" style="font-family:'Fredoka One',cursive;font-size:1.45rem;color:var(--dark);margin-bottom:14px;">—</div>
+          <ul id="cadSucessoProvisao" style="margin:0 0 14px 18px;padding:0;text-align:left;font-size:0.88rem;line-height:1.6;" hidden></ul>
           <a href="#" id="cadBtnAcessarSistema" class="btn-acesso-direto" target="_blank" rel="noopener">
             Acessar Sistema Agora ↗
           </a>
@@ -1174,7 +1065,7 @@
       <div class="modal-header">
         <div>
           <h2 class="modal-title" id="modalCriarLinkTitulo">Criar Link de Usuário</h2>
-          <p class="modal-desc">Configure o sistema e nível de acesso para gerar o link de cadastro.</p>
+          <p class="modal-desc">Escolha um ou mais sistemas, com a função e a permissão em cada um. O convite vai por e-mail.</p>
         </div>
         <button type="button" class="modal-close" id="btnFecharModalLink" aria-label="Fechar modal">&times;</button>
       </div>
@@ -1189,8 +1080,26 @@
         </div>
 
         <div class="form-group">
-          <label for="selSistema" class="form-label">Sistema a Acessar</label>
-          <select id="selSistema" class="form-control" required>
+          <label for="txtDestinatarioCpf" class="form-label">CPF da Pessoa</label>
+          <input type="text" id="txtDestinatarioCpf" class="form-control" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" required>
+        </div>
+
+        <div id="avisoDuplicados" class="aviso-duplicados" role="status" hidden></div>
+
+        <div class="form-label" style="margin-bottom:8px;">Sistemas e função em cada um</div>
+        <div id="listaItensConvite"></div>
+        <button type="button" class="btn-add-sistema" id="btnAddSistema">+ adicionar sistema</button>
+
+        <template id="tplItemConvite">
+          <div class="item-convite">
+            <div class="item-topo">
+              <span class="item-titulo">Sistema</span>
+              <button type="button" class="btn-remover-item">Remover</button>
+            </div>
+            <div class="item-grade">
+              <div class="form-group">
+                <label class="form-label">Sistema a Acessar</label>
+                <select class="form-control item-sistema" required>
             <option value="clinica">🩺 Clínica (sistema.institutofacaamigos.com.br)</option>
             <option value="porto">🌿 Porto Terapia (porto-terapia-gestao.vercel.app)</option>
             <option value="playground">🎠 Playground (app.institutofacaamigos.com.br)</option>
@@ -1200,11 +1109,10 @@
             <option value="financeiro">📊 Simulador Financeiro</option>
             <option value="rh">👥 Gestão de Pessoas / RH (rh.institutofacaamigos.com.br)</option>
           </select>
-        </div>
-
-        <div class="form-group">
-          <label for="selFuncao" class="form-label">Função / Cargo</label>
-          <select id="selFuncao" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Função / Cargo</label>
+                <select class="form-control item-funcao" required>
             <option value="Supervisor(a)">Supervisor(a) — Terá autonomia de criar equipe</option>
             <option value="Gerente">Gerente</option>
             <option value="Coordenador(a)">Coordenador(a)</option>
@@ -1212,20 +1120,34 @@
             <option value="Estagiário(a)">Estagiário(a)</option>
             <option value="PJ / CLT / Freelancer">PJ / CLT / Freelancer</option>
           </select>
-        </div>
-
-        <div class="form-group">
-          <label for="selPermissao" class="form-label">Nível de Permissão no Sistema</label>
-          <select id="selPermissao" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Permissão no Sistema</label>
+                <select class="form-control item-nivel" required>
             <option value="operar">Operador (Atendimento e operações rotineiras)</option>
             <option value="admin">Administrador (Acesso completo e gestão)</option>
             <option value="ver">Visualizador (Somente consulta e relatórios)</option>
           </select>
-        </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Unidades (opcional)</label>
+                <input type="text" class="form-control item-unidades" placeholder="Ex.: Circuito, Parque">
+              </div>
+              <div class="form-group item-escopo-grupo" hidden>
+                <label class="form-label">Empresa (RH)</label>
+                <select class="form-control item-escopo">
+                  <option value="">Escolha…</option>
+                  <option value="grupoib">Grupo IB</option>
+                  <option value="porto-terapia">Porto Terapia</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </template>
 
         <div class="form-group">
-          <label for="txtDestinatarioEmail" class="form-label">E-mail do Destinatário (Opcional)</label>
-          <input type="email" id="txtDestinatarioEmail" class="form-control" placeholder="exemplo@email.com (envia direto por e-mail se preenchido)">
+          <label for="txtDestinatarioEmail" class="form-label">E-mail da Pessoa</label>
+          <input type="email" id="txtDestinatarioEmail" class="form-control" placeholder="exemplo@email.com (o convite vai para este e-mail)" required>
         </div>
 
         <button type="submit" id="btnSubmitGerarLink" class="btn btn-pink" style="width:100%;margin-top:8px;">
@@ -1247,9 +1169,6 @@
           <button type="button" class="btn-copiar" id="btnCopiarLinkGerado">
             <span>📋</span> Copiar Link
           </button>
-          <a href="#" class="btn-whatsapp" id="btnWhatsLinkGerado" target="_blank" rel="noopener">
-            <span>💬</span> Enviar no WhatsApp
-          </a>
         </div>
         <div id="statusEmailEnvio" style="margin-top:10px;font-size:0.85rem;font-weight:700;color:#11705F;" hidden></div>
       </div>
@@ -1310,7 +1229,6 @@
       var boxLinkGerado = document.getElementById('boxLinkGerado');
       var inputLinkPronto = document.getElementById('inputLinkPronto');
       var btnCopiarLinkGerado = document.getElementById('btnCopiarLinkGerado');
-      var btnWhatsLinkGerado = document.getElementById('btnWhatsLinkGerado');
       var statusEmailEnvio = document.getElementById('statusEmailEnvio');
 
       // Elementos da Tela de Cadastro
@@ -1419,7 +1337,7 @@
             var s = document.createElement('span');
             s.className = 'status';
             s.textContent = 'Acesso ainda não configurado';
-            tile.insertBefore(s, tile.querySelector('.host') || tile.querySelector('.sub-arrow') || null);
+            tile.insertBefore(s, tile.querySelector('.host') || null);
           }
         });
 
@@ -1462,7 +1380,7 @@
               sec.classList.remove('search-hidden');
               return;
             }
-            var visibleChildren = sec.querySelectorAll('.tile:not(.search-hidden), .portal-card:not(.search-hidden)');
+            var visibleChildren = sec.querySelectorAll('.tile:not(.search-hidden)');
             if (visibleChildren.length === 0) {
               sec.classList.add('search-hidden');
             } else {
@@ -2403,6 +2321,7 @@
         btnAbrirCriarLink.addEventListener('click', function () {
           modalCriarLink.hidden = false;
           boxLinkGerado.hidden = true;
+          if (listaItensConvite && !listaItensConvite.children.length) novaLinhaItem();
           showMsg(modalLinkNotice, '');
           showMsg(modalLinkError, '');
         });
@@ -2420,14 +2339,100 @@
         });
       }
 
+      // Linhas "Sistema / Função / Permissão" do convite (uma por sistema).
+      var listaItensConvite = document.getElementById('listaItensConvite');
+      var tplItemConvite = document.getElementById('tplItemConvite');
+      var btnAddSistema = document.getElementById('btnAddSistema');
+      var avisoDuplicados = document.getElementById('avisoDuplicados');
+
+      function renumerarItens() {
+        var linhas = listaItensConvite.querySelectorAll('.item-convite');
+        for (var i = 0; i < linhas.length; i++) {
+          linhas[i].querySelector('.item-titulo').textContent = 'Sistema ' + (i + 1);
+          linhas[i].querySelector('.btn-remover-item').hidden = linhas.length === 1;
+        }
+      }
+      function novaLinhaItem() {
+        var frag = tplItemConvite.content.cloneNode(true);
+        var linha = frag.querySelector('.item-convite');
+        var selSis = linha.querySelector('.item-sistema');
+        var grupoEscopo = linha.querySelector('.item-escopo-grupo');
+        selSis.addEventListener('change', function () { grupoEscopo.hidden = selSis.value !== 'rh'; });
+        linha.querySelector('.btn-remover-item').addEventListener('click', function () {
+          linha.remove();
+          renumerarItens();
+        });
+        listaItensConvite.appendChild(frag);
+        renumerarItens();
+        return linha;
+      }
+      function coletarItens() {
+        var out = [];
+        var linhas = listaItensConvite.querySelectorAll('.item-convite');
+        for (var i = 0; i < linhas.length; i++) {
+          var l = linhas[i];
+          var sistema = l.querySelector('.item-sistema').value;
+          var unidades = l.querySelector('.item-unidades').value.split(',')
+            .map(function (u) { return u.trim(); }).filter(Boolean);
+          var item = {
+            sistema: sistema,
+            funcao: l.querySelector('.item-funcao').value,
+            nivel: l.querySelector('.item-nivel').value,
+            unidades: unidades
+          };
+          if (sistema === 'rh') item.escopo = l.querySelector('.item-escopo').value;
+          out.push(item);
+        }
+        return out;
+      }
+      if (btnAddSistema) btnAddSistema.addEventListener('click', function () { novaLinhaItem(); });
+
+      // Antes de convidar: a pessoa já existe? Busca por nome (3+ letras) ou CPF completo.
+      var buscaTimer = null;
+      var buscaSeq = 0;
+      function buscarDuplicados() {
+        var termo = (document.getElementById('txtDestinatarioNome').value || '').trim();
+        var cpf = (document.getElementById('txtDestinatarioCpf').value || '').replace(/\D/g, '');
+        var payload = cpf.length === 11 ? { cpf: cpf } : (termo.length >= 3 ? { termo: termo } : null);
+        if (!payload) { avisoDuplicados.hidden = true; return; }
+        var seq = ++buscaSeq;
+        api('pessoa_buscar', payload).then(function (r) {
+          if (seq !== buscaSeq) return;
+          var pessoas = (r.ok && r.data.pessoas) || [];
+          avisoDuplicados.textContent = '';
+          if (!pessoas.length) { avisoDuplicados.hidden = true; return; }
+          var titulo = document.createElement('strong');
+          titulo.textContent = 'Possível cadastro existente:';
+          var ul = document.createElement('ul');
+          var ORIGEM = { hub: 'Hub', clinica: 'Clínica', playground: 'Playground' };
+          pessoas.forEach(function (p) {
+            var li = document.createElement('li');
+            li.textContent = p.nome + ' (' + (ORIGEM[p.origem] || p.origem) + ')' + (p.cpf ? ', CPF ' + p.cpf : '') + (p.email ? ', ' + p.email : '');
+            ul.appendChild(li);
+          });
+          avisoDuplicados.appendChild(titulo);
+          avisoDuplicados.appendChild(ul);
+          avisoDuplicados.hidden = false;
+        });
+      }
+      ['txtDestinatarioNome', 'txtDestinatarioCpf'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', function () {
+          clearTimeout(buscaTimer);
+          buscaTimer = setTimeout(buscarDuplicados, 350);
+        });
+      });
+
       if (formGerarLinkConvite) {
         formGerarLinkConvite.addEventListener('submit', function (ev) {
           ev.preventDefault();
           var destNome = (document.getElementById('txtDestinatarioNome') && document.getElementById('txtDestinatarioNome').value.trim()) || '';
-          var sistema = document.getElementById('selSistema').value;
-          var funcao = document.getElementById('selFuncao').value;
-          var permissao = document.getElementById('selPermissao').value;
+          var destCpf = document.getElementById('txtDestinatarioCpf').value.trim();
           var destEmail = document.getElementById('txtDestinatarioEmail').value.trim();
+          var itens = coletarItens();
+          var sistema = itens.length ? itens[0].sistema : '';
+          if (!destEmail) { showMsg(modalLinkError, 'Informe o e-mail da pessoa.'); return; }
+          if (destCpf.replace(/\D/g, '').length !== 11) { showMsg(modalLinkError, 'Informe o CPF completo da pessoa.'); return; }
 
           btnSubmitGerarLink.disabled = true;
           btnSubmitGerarLink.textContent = 'Gerando link…';
@@ -2436,10 +2441,9 @@
 
           api('convite_link_gerar', {
             destinatario_nome: destNome,
-            sistema: sistema,
-            funcao: funcao,
-            permissao: permissao,
-            destinatario_email: destEmail
+            destinatario_email: destEmail,
+            cpf: destCpf,
+            itens: itens
           }).then(function (r) {
             btnSubmitGerarLink.disabled = false;
             btnSubmitGerarLink.textContent = 'Gerar Link de Cadastro';
@@ -2451,7 +2455,9 @@
             inputLinkPronto.value = r.data.link;
             boxLinkGerado.hidden = false;
 
-            var sistemaNome = (r.data.convite && r.data.convite.sistema_nome) || sistema;
+            var sistemaNome = (r.data.itens && r.data.itens.length)
+              ? r.data.itens.map(function (i) { return i.sistema_nome; }).join(', ')
+              : ((r.data.convite && r.data.convite.sistema_nome) || sistema);
             var sistemaUrl = (r.data.convite && r.data.convite.sistema_url) || '';
 
             if (document.getElementById('resSistemaNome')) {
@@ -2463,9 +2469,6 @@
               aLink.textContent = sistemaUrl || '—';
             }
 
-            var saudacao = destNome ? ('Olá, ' + destNome + '!') : 'Olá!';
-            var txtWhats = saudacao + '\n\nVocê recebeu acesso ao sistema ' + sistemaNome + ' (' + sistemaUrl + '):\n\n👉 Complete seu cadastro por aqui:\n' + r.data.link + '\n\nBasta clicar no link acima para criar sua senha e começar!';
-            btnWhatsLinkGerado.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(txtWhats);
 
             if (r.data.email_enviado) {
               statusEmailEnvio.hidden = false;
@@ -2547,6 +2550,22 @@
           document.getElementById('cadBadgeSistema').textContent = c.sistema_nome || c.sistema;
           document.getElementById('cadBadgePermissao').textContent = c.permissao === 'admin' ? 'Administrador' : (c.permissao === 'ver' ? 'Visualizador' : 'Operador');
 
+          var ulItens = document.getElementById('cadItensConvite');
+          if (c.itens && c.itens.length && ulItens) {
+            var NIV = { admin: 'Administrador', operar: 'Operador', ver: 'Visualizador' };
+            ulItens.textContent = '';
+            c.itens.forEach(function (i) {
+              var li = document.createElement('li');
+              li.textContent = i.sistema_nome + ': ' + i.funcao + ' (' + (NIV[i.nivel] || i.nivel) + ')' + (i.unidades && i.unidades.length ? ', ' + i.unidades.join(', ') : '');
+              ulItens.appendChild(li);
+            });
+            ulItens.hidden = false;
+            ['cadBadgeFuncao', 'cadBadgeSistema', 'cadBadgePermissao'].forEach(function (id) {
+              var row = document.getElementById(id).parentNode;
+              row.hidden = true;
+            });
+          }
+
           if (c.destinatario_nome && document.getElementById('cad-nome')) {
             document.getElementById('cad-nome').value = c.destinatario_nome;
           }
@@ -2599,6 +2618,16 @@
             var btnAcesso = document.getElementById('cadBtnAcessarSistema');
             btnAcesso.href = r.data.sistema_url || '#';
             btnAcesso.textContent = 'Acessar ' + (r.data.sistema_nome || 'Sistema') + ' ↗';
+            var ulProv = document.getElementById('cadSucessoProvisao');
+            if (ulProv && r.data.provisionamento && r.data.provisionamento.length) {
+              ulProv.textContent = '';
+              r.data.provisionamento.forEach(function (p) {
+                var li = document.createElement('li');
+                li.textContent = p.rotulo + ': ' + (p.estado === 'ok' ? 'acesso liberado' : (p.estado === 'erro' ? 'será concluído no primeiro acesso pelo Hub' : p.texto));
+                ulProv.appendChild(li);
+              });
+              ulProv.hidden = false;
+            }
             cadSucessoBox.hidden = false;
           });
         });

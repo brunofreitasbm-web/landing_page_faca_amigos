@@ -850,6 +850,36 @@ function clientIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
+// Segredo compartilhado Hub <-> Clínica para sincronizar_login_clinica. Comparação em tempo constante
+// (compara os SHA-256, de tamanho fixo, byte a byte).
+async function segredoSincronizacaoConfere(req: Request): Promise<"sem_segredo" | "ok" | "recusado"> {
+  const esperado = Deno.env.get("GESTAO_SYNC_SECRET") ?? "";
+  if (!esperado) return "sem_segredo";
+  const recebido = req.headers.get("x-gestao-sync-secret") ?? "";
+  const [a, b] = await Promise.all([sha256Hex(esperado), sha256Hex(recebido)]);
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0 && recebido.length > 0 ? "ok" : "recusado";
+}
+
+// Já existe conta que entra com este e-mail? Confere `email` e `login_email` (acharContaPorLogin usa os dois).
+async function emailEmUso(admin: Admin, email: string): Promise<boolean> {
+  const q = quoteFilterValue(email.toLowerCase());
+  const { data } = await admin.from("fa_gestao_contas").select("email").or(`email.eq.${q},login_email.eq.${q}`).limit(1);
+  return (data ?? []).length > 0;
+}
+
+// Falhas recentes de login (janela LOGIN_WINDOW_MS). `ip` nulo = só o limite por login.
+async function excedeuTentativas(admin: Admin, ip: string | null, login: string): Promise<boolean> {
+  const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
+  const porLogin = admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true })
+    .eq("login", login.toLowerCase()).gte("created_at", since);
+  const porIp = ip === null ? null : admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true })
+    .eq("ip", ip).gte("created_at", since);
+  const [byLogin, byIp] = await Promise.all([porLogin, porIp]);
+  return (byLogin.count ?? 0) >= LOGIN_MAX_FAILS_PER_LOGIN || (byIp?.count ?? 0) >= LOGIN_MAX_FAILS_PER_IP;
+}
+
 async function auditar(
   admin: Admin,
   req: Request,
@@ -997,14 +1027,29 @@ Deno.serve(async (req) => {
     if (!raw || !password) return jsonResponse(req, { ok: false }, 400);
 
     const loginInput = raw.toLowerCase();
+    // Segredo compartilhado com o servidor da Clínica (GESTAO_SYNC_SECRET). Sem a variável configurada, a ação
+    // segue aberta como antes (janela de transição); com ela, quem não manda o segredo nem chega a consultar nada.
+    const segredo = await segredoSincronizacaoConfere(req);
+    if (segredo === "recusado") return jsonResponse(req, { ok: false }, 401);
+    // O IP real do usuário só vale quando vem do servidor da Clínica autenticado pelo segredo.
+    const ipCliente = segredo === "ok" ? str(req.headers.get("x-cliente-ip")).slice(0, 64) || null : null;
+    if (await excedeuTentativas(admin, ipCliente, loginInput)) {
+      return jsonResponse(req, { ok: false, error: "muitas tentativas, aguarde 15 minutos" }, 429);
+    }
+    const falhou = async () => {
+      // Sem IP do cliente, grava um marcador: o IP da conexão é o do servidor da Clínica e não pode contar
+      // no limite por IP do login.
+      await admin.from("fa_gestao_login_attempts").insert({ ip: ipCliente ?? "sincronizar_clinica", login: loginInput });
+      return jsonResponse(req, { ok: false });
+    };
     const contaHub = await acharContaPorLogin(admin, loginInput);
     if (!contaHub || !contaHub.ativo || !contaHub.senha_hash || contaHub.auth_modo !== "hub") {
-      return jsonResponse(req, { ok: false });
+      return await falhou();
     }
 
     const confere = await verificarSenhaHub(password, contaHub.senha_hash);
     if (!confere) {
-      return jsonResponse(req, { ok: false });
+      return await falhou();
     }
 
     const clinicaEmail = (contaHub.clinica_email || contaHub.login_email || contaHub.email).toLowerCase();
@@ -1056,12 +1101,7 @@ Deno.serve(async (req) => {
     if (!loginInput || !password) return jsonResponse(req, { error: "informe e-mail/CPF e senha" }, 400);
 
     const ip = clientIp(req);
-    const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
-    const [byIp, byLogin] = await Promise.all([
-      admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true }).eq("ip", ip).gte("created_at", since),
-      admin.from("fa_gestao_login_attempts").select("id", { count: "exact", head: true }).eq("login", loginInput.toLowerCase()).gte("created_at", since),
-    ]);
-    if ((byIp.count ?? 0) >= LOGIN_MAX_FAILS_PER_IP || (byLogin.count ?? 0) >= LOGIN_MAX_FAILS_PER_LOGIN) {
+    if (await excedeuTentativas(admin, ip, loginInput)) {
       return jsonResponse(req, { error: "muitas tentativas, aguarde 15 minutos" }, 429);
     }
 
@@ -1104,6 +1144,7 @@ Deno.serve(async (req) => {
       if (!conta) return falhou(401, "fora_da_lista", check.email);
     }
 
+    const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
     const { count: codigosRecentes } = await admin
       .from("fa_gestao_desafios")
       .select("id", { count: "exact", head: true })
@@ -1293,7 +1334,7 @@ Deno.serve(async (req) => {
     const { data: convite, error } = await admin
       .from("fa_gestao_convites")
       .select("*")
-      .eq("token", token)
+      .eq("token_hash", await sha256Hex(token))
       .maybeSingle();
 
     if (error || !convite) {
@@ -1313,7 +1354,7 @@ Deno.serve(async (req) => {
     return jsonResponse(req, {
       ok: true,
       convite: {
-        token: convite.token,
+        token,
         unidade: convite.unidade,
         sistema: convite.sistema,
         sistema_nome: sistemaInfo?.rotulo || convite.sistema,
@@ -1322,6 +1363,9 @@ Deno.serve(async (req) => {
         permissao: convite.permissao,
         destinatario_nome: convite.destinatario_nome || null,
         destinatario_email: convite.destinatario_email,
+        itens: (await itensDoConvite(admin, convite.id)).map((i) => ({
+          sistema: i.modulo, sistema_nome: APPS[i.modulo]?.rotulo ?? i.modulo, funcao: i.funcao, nivel: i.nivel, unidades: i.unidades ?? [],
+        })),
       },
     });
   }
@@ -1343,7 +1387,7 @@ Deno.serve(async (req) => {
     const { data: convite, error: convErr } = await admin
       .from("fa_gestao_convites")
       .select("*")
-      .eq("token", token)
+      .eq("token_hash", await sha256Hex(token))
       .maybeSingle();
 
     if (convErr || !convite) return jsonResponse(req, { error: "convite não encontrado" }, 404);
@@ -1354,9 +1398,31 @@ Deno.serve(async (req) => {
     const sistemaInfo = APPS[appId];
     if (!sistemaInfo) return jsonResponse(req, { error: "sistema de destino inválido" }, 400);
 
-    const { data: contaExistente } = await admin.from("fa_gestao_contas").select("email").eq("email", emailReal).maybeSingle();
+    // O convite vale só para o e-mail a quem foi enviado (quando foi enviado a alguém).
+    const destinatario = str(convite.destinatario_email).toLowerCase();
+    if (destinatario && destinatario !== emailReal) {
+      return jsonResponse(req, { error: "use o e-mail para o qual o convite foi enviado" }, 403);
+    }
+
+    // Convite só cria conta NOVA. Nunca sobrescreve senha, papel ou e-mail de código de quem já existe:
+    // dar acesso a uma conta existente é feito pelo owner no Hub (conta_salvar).
+    if (await emailEmUso(admin, emailReal)) {
+      return jsonResponse(req, { error: "já existe uma conta com este e-mail. Entre no Hub e peça acesso ao responsável" }, 409);
+    }
     const senhaHash = await hashSenha(senha);
     const agoraIso = new Date().toISOString();
+
+    // Reserva o convite antes de criar a conta: dois cadastros simultâneos com o mesmo link não geram duas contas.
+    const { data: reservado } = await admin.from("fa_gestao_convites")
+      .update({ usado_em: agoraIso, usado_por: emailReal })
+      .eq("id", convite.id).is("usado_em", null).select("id");
+    if (!reservado || reservado.length === 0) return jsonResponse(req, { error: "este convite já foi utilizado" }, 410);
+    const liberarConvite = () => admin.from("fa_gestao_convites").update({ usado_em: null, usado_por: null }).eq("id", convite.id);
+
+    const itensConvite = await itensDoConvite(admin, convite.id);
+    if (itensConvite.length > 0) {
+      return await cadastrarConviteMulti(admin, req, convite, itensConvite, { emailReal, nome, dataNascimento, senhaHash, agoraIso, liberarConvite });
+    }
 
     const dadosConta: Record<string, unknown> = {
       email: emailReal,
@@ -1380,18 +1446,11 @@ Deno.serve(async (req) => {
       dadosConta.painel_usuario = emailReal;
     }
 
-    if (contaExistente) {
-      const { error: updErr } = await admin.from("fa_gestao_contas").update(dadosConta).eq("email", emailReal);
-      if (updErr) {
-        console.error("upd conta convite:", updErr.message);
-        return jsonResponse(req, { error: "não foi possível atualizar os dados" }, 500);
-      }
-    } else {
-      const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
-      if (insErr) {
-        console.error("ins conta convite:", insErr.message);
-        return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
-      }
+    const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
+    if (insErr) {
+      console.error("ins conta convite:", insErr.message);
+      await liberarConvite();
+      return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
     }
 
     const nivelPermissao = convite.permissao === "admin" || convite.permissao === "ver" ? convite.permissao : "operar";
@@ -1401,11 +1460,6 @@ Deno.serve(async (req) => {
       nivel: nivelPermissao,
       atualizado_por: convite.criado_por || "convite"
     });
-
-    await admin.from("fa_gestao_convites").update({
-      usado_em: agoraIso,
-      usado_por: emailReal
-    }).eq("token", token);
 
     await auditar(admin, req, "usuario_cadastrado_convite", {
       email: emailReal,
@@ -2362,7 +2416,40 @@ async function acaoOwner(
     return jsonResponse(req, { eventos: data ?? [] });
   }
 
+  // Antes de convidar: a pessoa já existe em algum lugar? Busca por nome (parte dele) ou por CPF.
+  if (action === "pessoa_buscar") {
+    const cpf = str(body.cpf).replace(/\D/g, "");
+    const termo = str(body.termo).replace(/[%_,()]/g, " ").trim();
+    if (!cpf && termo.length < 3) return jsonResponse(req, { error: "digite pelo menos 3 letras do nome ou o CPF" }, 400);
+    type Achado = { origem: "hub" | "clinica" | "playground"; nome: string; cpf: string | null; email: string | null };
+    const pessoas: Achado[] = [];
+    const padrao = `%${termo}%`;
+
+    const hub = cpf
+      ? await admin.from("fa_gestao_contas").select("nome, cpf, email").eq("cpf", cpf).limit(10)
+      : await admin.from("fa_gestao_contas").select("nome, cpf, email").ilike("nome", padrao).limit(10);
+    for (const c of hub.data ?? []) pessoas.push({ origem: "hub", nome: c.nome, cpf: mascararCpf(c.cpf ?? null), email: c.email });
+
+    const b = clienteSupabase("supabase_b");
+    if (b) {
+      const cli = cpf
+        ? await b.from("profiles").select("full_name, cpf, email").eq("cpf", cpf).limit(10)
+        : await b.from("profiles").select("full_name, cpf, email").ilike("full_name", padrao).limit(10);
+      for (const p of cli.data ?? []) pessoas.push({ origem: "clinica", nome: p.full_name, cpf: mascararCpf(p.cpf ?? null), email: p.email ?? null });
+    }
+
+    const pg = cpf
+      ? await admin.from("fa_kiosk_employees").select("full_name, cpf").eq("cpf", cpf).limit(10)
+      : await admin.from("fa_kiosk_employees").select("full_name, cpf").ilike("full_name", padrao).limit(10);
+    for (const e of pg.data ?? []) pessoas.push({ origem: "playground", nome: e.full_name, cpf: mascararCpf(e.cpf ?? null), email: null });
+
+    return jsonResponse(req, { pessoas });
+  }
+
   if (action === "convite_link_gerar") {
+    // Formato novo: uma pessoa (CPF + e-mail) e vários sistemas, cada um com sua função e nível.
+    if (Array.isArray(body.itens)) return await gerarLinkMultiSistema(admin, req, body, dono);
+
     const unidade = str(body.unidade) || "Instituto Faça Amigos";
     const sistema = str(body.sistema) as AppId;
     const funcao = str(body.funcao) || "Supervisor";
@@ -2378,7 +2465,8 @@ async function acaoOwner(
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
     const { error: insErr } = await admin.from("fa_gestao_convites").insert({
-      token,
+      token: null,
+      token_hash: await sha256Hex(token),
       unidade,
       sistema,
       funcao,
