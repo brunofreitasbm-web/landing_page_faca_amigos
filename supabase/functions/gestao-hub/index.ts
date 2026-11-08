@@ -1550,6 +1550,7 @@ Deno.serve(async (req) => {
     "sessoes_revogar",
     "auditoria_listar",
     "convite_link_gerar",
+    "pessoa_buscar",
   ];
   if (ACOES_OWNER.includes(action)) {
     if (conta.papel !== "owner") {
@@ -2310,6 +2311,36 @@ async function acaoOwner(
     const { data, error } = await q;
     if (error) return jsonResponse(req, { error: "falha ao listar" }, 500);
     return jsonResponse(req, { eventos: data ?? [] });
+  }
+
+  // Antes de convidar: a pessoa já existe em algum lugar? Busca por nome (parte dele) ou por CPF.
+  if (action === "pessoa_buscar") {
+    const cpf = str(body.cpf).replace(/\D/g, "");
+    const termo = str(body.termo).replace(/[%_,()]/g, " ").trim();
+    if (!cpf && termo.length < 3) return jsonResponse(req, { error: "digite pelo menos 3 letras do nome ou o CPF" }, 400);
+    type Achado = { origem: "hub" | "clinica" | "playground"; nome: string; cpf: string | null; email: string | null };
+    const pessoas: Achado[] = [];
+    const padrao = `%${termo}%`;
+
+    const hub = cpf
+      ? await admin.from("fa_gestao_contas").select("nome, cpf, email").eq("cpf", cpf).limit(10)
+      : await admin.from("fa_gestao_contas").select("nome, cpf, email").ilike("nome", padrao).limit(10);
+    for (const c of hub.data ?? []) pessoas.push({ origem: "hub", nome: c.nome, cpf: mascararCpf(c.cpf ?? null), email: c.email });
+
+    const b = clienteSupabase("supabase_b");
+    if (b) {
+      const cli = cpf
+        ? await b.from("profiles").select("full_name, cpf, email").eq("cpf", cpf).limit(10)
+        : await b.from("profiles").select("full_name, cpf, email").ilike("full_name", padrao).limit(10);
+      for (const p of cli.data ?? []) pessoas.push({ origem: "clinica", nome: p.full_name, cpf: mascararCpf(p.cpf ?? null), email: p.email ?? null });
+    }
+
+    const pg = cpf
+      ? await admin.from("fa_kiosk_employees").select("full_name, cpf").eq("cpf", cpf).limit(10)
+      : await admin.from("fa_kiosk_employees").select("full_name, cpf").ilike("full_name", padrao).limit(10);
+    for (const e of pg.data ?? []) pessoas.push({ origem: "playground", nome: e.full_name, cpf: mascararCpf(e.cpf ?? null), email: null });
+
+    return jsonResponse(req, { pessoas });
   }
 
   if (action === "convite_link_gerar") {
