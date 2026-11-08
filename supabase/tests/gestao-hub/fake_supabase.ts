@@ -87,6 +87,7 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
     return this;
   }
   is(c: string, v: unknown) { this.filtros.push((l) => (v === null ? l[c] == null : l[c] === v)); return this; }
+  gt(c: string, v: unknown) { this.filtros.push((l) => String(l[c] ?? "") > String(v)); return this; }
   gte(c: string, v: unknown) { this.filtros.push((l) => String(l[c] ?? "") >= String(v)); return this; }
   in(c: string, vs: unknown[]) { this.filtros.push((l) => vs.includes(l[c])); return this; }
   or(expr: string) {

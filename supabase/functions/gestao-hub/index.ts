@@ -1035,6 +1035,18 @@ async function statusRecadastro(admin: Admin, ident: IdentRecad | "isento"): Pro
   return { pendente: true, bloquear: dias <= 0 && !comConflito, dias_restantes: dias };
 }
 
+const TICKET_RECAD_MS = 2 * 60_000;
+const PAGINA_RECAD_MS = 30 * 60_000;
+
+// Para onde o botão "voltar" da página de recadastro leva: o sistema de origem (ou o Hub).
+function voltarUrlRecadastro(origem: string): string {
+  if (origem === "clinica" || origem === "rh") {
+    const app = APPS[origem];
+    return (Deno.env.get(app.baseEnv) ?? app.baseDefault).replace(/\/+$/, "");
+  }
+  return HUB_URL;
+}
+
 async function exigirSessao(admin: Admin, req: Request): Promise<{ tokenHash: string; conta: Conta } | null> {
   const authHeader = req.headers.get("authorization") ?? "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
@@ -1613,6 +1625,83 @@ Deno.serve(async (req) => {
     const ident = await identificarRecadastro(admin, req, body);
     if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
     return jsonResponse(req, await statusRecadastro(admin, ident));
+  }
+
+  if (action === "recadastro_ticket") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    // Isentos e contas do Hub (que já usam a sessão do Hub) não pedem código.
+    if (ident === "isento" || ident.origem === "hub") return jsonResponse(req, { error: "não disponível" }, 403);
+    const codigo = randomHex(32);
+    const { error } = await admin.from("fa_gestao_recadastro_tickets").insert({
+      ticket_hash: await sha256Hex(codigo),
+      chave: ident.chave,
+      origem: ident.origem,
+      auth_user_id: ident.authUserId,
+      hub_email: ident.hubEmail,
+      login_email: ident.loginEmail.toLowerCase(),
+      nome: ident.nome,
+      expira_em: new Date(Date.now() + TICKET_RECAD_MS).toISOString(),
+    });
+    if (error) return jsonResponse(req, { error: "não foi possível gerar o acesso" }, 500);
+    await auditar(admin, req, "recadastro_ticket", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, { url: `${HUB_URL}/#recadastro&c=${codigo}` });
+  }
+
+  if (action === "recadastro_consultar") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const codigo = typeof body.c === "string" ? body.c : "";
+    const pagina = randomHex(32);
+    const paginaHash = await sha256Hex(pagina);
+    const paginaExpira = new Date(Date.now() + PAGINA_RECAD_MS).toISOString();
+    let ident: IdentRecad;
+    if (codigo) {
+      // Marca como usado de forma atômica: quem não conseguir marcar a linha não troca o código.
+      const hashCodigo = await sha256Hex(codigo);
+      const { data: usadas, error } = await admin
+        .from("fa_gestao_recadastro_tickets")
+        .update({ usado_em: new Date().toISOString(), pagina_hash: paginaHash, pagina_expira_em: paginaExpira })
+        .eq("ticket_hash", hashCodigo)
+        .is("usado_em", null)
+        .gt("expira_em", new Date().toISOString())
+        .select("chave, origem, auth_user_id, hub_email, login_email, nome");
+      if (error) return jsonResponse(req, { error: "não foi possível validar o acesso" }, 500);
+      const t = usadas?.[0];
+      if (!t) return jsonResponse(req, { error: "código inválido ou já usado" }, 410);
+      ident = {
+        chave: t.chave, origem: t.origem, authUserId: t.auth_user_id ?? null,
+        hubEmail: t.hub_email ?? null, loginEmail: t.login_email ?? "", nome: t.nome ?? "",
+      };
+    } else {
+      const id = await identificarRecadastro(admin, req, {});
+      if (!id) return jsonResponse(req, { error: "não autorizado" }, 401);
+      if (id === "isento" || id.origem !== "hub") return jsonResponse(req, { error: "não disponível" }, 403);
+      ident = id;
+      const { error } = await admin.from("fa_gestao_recadastro_tickets").insert({
+        ticket_hash: await sha256Hex(randomHex(32)),
+        chave: ident.chave,
+        origem: "hub",
+        auth_user_id: null,
+        hub_email: ident.hubEmail,
+        login_email: ident.loginEmail.toLowerCase(),
+        nome: ident.nome,
+        expira_em: new Date().toISOString(),
+        usado_em: new Date().toISOString(),
+        pagina_hash: paginaHash,
+        pagina_expira_em: paginaExpira,
+      });
+      if (error) return jsonResponse(req, { error: "não foi possível validar o acesso" }, 500);
+    }
+    const st = await statusRecadastro(admin, ident);
+    await auditar(admin, req, "recadastro_consultado", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, {
+      nome: ident.nome,
+      dias_restantes: st.dias_restantes,
+      bloquear: st.bloquear,
+      voltar_url: voltarUrlRecadastro(ident.origem),
+      pagina,
+    });
   }
 
   // --- daqui para baixo exige sessão ---
