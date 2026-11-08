@@ -545,6 +545,30 @@
     }
     .btn-acesso-direto:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.08); }
     .btn-acesso-direto:active { transform: scale(0.98); }
+    /* ---------- Recadastro de identidade (#recadastro) e bloco do owner ---------- */
+    .recad-card { max-width: 440px; }
+    .recad-card h1 { font-size: 1.6rem; margin-bottom: 8px; }
+    .recad-intro { color: var(--ink-soft); font-weight: 600; margin-bottom: 18px; overflow-wrap: anywhere; }
+    .recad-prazo { background: var(--cream); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.9rem; font-weight: 700; text-align: left; }
+    .recad-prazo.urgente { background: #FFF3C4; color: #7A5B00; }
+    .recad-acoes { display: flex; flex-direction: column; gap: 8px; align-items: center; margin-top: 8px; }
+    .recad-card .form-control { width: 100%; min-width: 0; }
+    .recad-adiar { margin-top: 12px; text-align: center; }
+    .recad-painel { margin-top: 30px; }
+    .recad-painel h2 { font-size: 1.2rem; margin-bottom: 6px; }
+    .recad-painel .ajuda { color: var(--ink-soft); font-weight: 600; font-size: 0.9rem; margin-bottom: 12px; }
+    .recad-resumo { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 14px; }
+    .recad-kpi { background: var(--white); border-radius: 14px; box-shadow: var(--shadow-sm); padding: 12px 14px; min-width: 0; }
+    .recad-kpi .n { font-family: 'Fredoka One', cursive, sans-serif; font-size: 1.5rem; }
+    .recad-kpi .r { display: block; font-size: 0.78rem; font-weight: 800; color: var(--ink-soft); }
+    .recad-kpi .c { display: block; font-size: 0.78rem; font-weight: 700; color: var(--gray); margin-top: 2px; }
+    @media (max-width: 520px) { .recad-resumo { grid-template-columns: 1fr; } }
+    .recad-sub { font-size: 1rem; font-weight: 800; margin: 14px 0 8px; }
+    .recad-vazio { color: var(--gray); font-weight: 700; font-size: 0.9rem; }
+    .recad-lista { list-style: none; display: grid; gap: 8px; }
+    .recad-item { background: var(--white); border-radius: 12px; padding: 10px 14px; font-size: 0.9rem; font-weight: 600; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; min-width: 0; }
+    .recad-item .info { min-width: 0; overflow-wrap: anywhere; }
+    .recad-item .info small { display: block; color: var(--gray); font-weight: 700; }
   </style>
 </head>
 
@@ -698,6 +722,54 @@
         <p style="font-size:0.85rem;color:var(--gray);font-weight:600;">
           Guarde sua senha para os próximos acessos.
         </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= RECADASTRO DE IDENTIDADE (#recadastro) ================= -->
+  <div class="cadastro-screen" id="recadScreen" hidden>
+    <div class="cadastro-card recad-card">
+      <img src="img/logo-simbolo.png" alt="" class="logo-simbolo" width="56" height="56" decoding="async" style="margin-bottom:12px;">
+      <h1>Confirme seus dados</h1>
+      <p class="recad-intro" id="recadIntro">Precisamos confirmar o seu CPF e um e-mail seu, que você realmente acessa.</p>
+
+      <div id="recadCarregando" class="form-notice show" role="status">Carregando…</div>
+      <div id="recadErro" class="form-error" role="alert"></div>
+      <div class="recad-acoes" id="recadAcoesErro" hidden>
+        <button type="button" class="btn btn-pink btn-sm" id="recadTentar" hidden>Tentar de novo</button>
+        <button type="button" class="btn-link" id="recadIrLogin" hidden>Ir para o login</button>
+      </div>
+
+      <div id="recadPrazo" class="recad-prazo" hidden></div>
+
+      <form id="recadForm1" novalidate hidden>
+        <div class="form-group">
+          <label for="recad-cpf" class="form-label">CPF</label>
+          <input type="text" id="recad-cpf" class="form-control" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" required>
+        </div>
+        <div class="form-group">
+          <label for="recad-email" class="form-label">E-mail</label>
+          <input type="email" id="recad-email" class="form-control" autocomplete="email" placeholder="seuemail@exemplo.com" required>
+        </div>
+        <button type="submit" id="recadEnviar" class="btn btn-pink" style="width:100%;">Enviar código</button>
+        <div class="recad-adiar" id="recadAdiarBox"></div>
+      </form>
+
+      <form id="recadForm2" novalidate hidden>
+        <p class="recad-intro">Enviamos um código de 6 dígitos para o seu e-mail. Digite abaixo.</p>
+        <div class="form-group">
+          <label for="recad-codigo" class="form-label">Código de 6 dígitos</label>
+          <input type="text" id="recad-codigo" class="form-control code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required>
+        </div>
+        <button type="submit" id="recadConfirmar" class="btn btn-pink" style="width:100%;">Confirmar</button>
+        <p class="login-footer"><button type="button" class="btn-link" id="recadVoltar">Corrigir CPF ou e-mail</button></p>
+      </form>
+
+      <div id="recadSucesso" class="sucesso-box" hidden>
+        <span class="sucesso-icon" aria-hidden="true">✅</span>
+        <h2 class="sucesso-title" id="recadSucessoTitulo">Dados confirmados!</h2>
+        <p class="sucesso-desc" id="recadSucessoTexto"></p>
+        <button type="button" class="btn btn-pink" id="recadContinuar" hidden>Continuar</button>
       </div>
     </div>
   </div>
@@ -979,6 +1051,17 @@
               <button type="button" class="btn btn-ghost btn-sm" id="pf-cancelar">Cancelar</button>
             </div>
           </form>
+        </section>
+
+        <section class="recad-painel" id="recadPainel">
+          <h2>Recadastro</h2>
+          <p class="ajuda">Dê baixa em um conflito só depois de resolver o caso à mão (conferir quem é a pessoa e corrigir o cadastro).</p>
+          <div id="recadPainelError" class="form-error" role="alert"></div>
+          <div class="recad-resumo" id="recadResumo"></div>
+          <h3 class="recad-sub">Pendentes</h3>
+          <ul class="recad-lista" id="recadPendentes"></ul>
+          <h3 class="recad-sub">Conflitos para resolver</h3>
+          <ul class="recad-lista" id="recadConflitos"></ul>
         </section>
 
         <section class="audit">
@@ -1441,7 +1524,7 @@
           }
           saveSession(r.data.token, r.data.expires_at);
           challengeId = null;
-          showHub(r.data.nome, r.data.apps, r.data.papel, r.data.niveis, r.data.pode_gerir_equipe);
+          entrarNoHub(r.data);
         });
       });
 
@@ -1696,6 +1779,7 @@
         showMsg(pessoasError, '');
         showMsg(pessoasNotice, '');
         carregarPessoas();
+        carregarRecadastroPainel();
         carregarAuditoria();
       }
       function voltarHub() {
@@ -2288,13 +2372,352 @@
         });
       });
 
+      // ---------- Recadastro de identidade (#recadastro) ----------
+      // Tudo o que vem do servidor entra na tela com textContent; os textos de erro são fixos aqui no front.
+      var RECAD_TXT = {
+        invalido: 'Confira o CPF e o e-mail e tente de novo.',
+        conflito: 'Não foi possível concluir com esses dados. O responsável foi avisado e vai ajudar você.',
+        tentativas: 'Muitas tentativas. Aguarde 15 minutos e tente de novo.',
+        expirado: 'O código expirou ou acabaram as tentativas. Peça um novo código.',
+        codigo: 'Código incorreto. Confira e tente de novo.',
+        acesso: 'Este acesso expirou. Volte ao sistema e abra o recadastro de novo, ou entre pelo login.',
+        sem_acesso: 'Para continuar, entre pelo login.',
+        nao_se_aplica: 'Não há recadastro para fazer com este acesso.',
+        concluido: 'Seu recadastro já foi concluído.',
+        rede: 'Não conseguimos concluir agora. Confira a internet e tente de novo.'
+      };
+      var recadScreen = document.getElementById('recadScreen');
+      var recadErro = document.getElementById('recadErro');
+      var recadForm1 = document.getElementById('recadForm1');
+      var recadForm2 = document.getElementById('recadForm2');
+      var recadCpf = document.getElementById('recad-cpf');
+      var recadEmail = document.getElementById('recad-email');
+      var recadCodigo = document.getElementById('recad-codigo');
+      var recadEstado = { pagina: null, challengeId: null, modo: 'hub', c: null, ocupado: false, retentar: null };
+
+      function recadCpfValido(cpf) {
+        if (!/^\d{11}$/.test(cpf) || /^(\d)\1{10}$/.test(cpf)) return false;
+        for (var t = 9; t < 11; t++) {
+          var soma = 0;
+          for (var i = 0; i < t; i++) soma += Number(cpf.charAt(i)) * (t + 1 - i);
+          if (((soma * 10) % 11) % 10 !== Number(cpf.charAt(t))) return false;
+        }
+        return true;
+      }
+      function recadMascaraCpf(v) {
+        var d = v.replace(/\D/g, '').slice(0, 11);
+        var o = d.slice(0, 3);
+        if (d.length > 3) o += '.' + d.slice(3, 6);
+        if (d.length > 6) o += '.' + d.slice(6, 9);
+        if (d.length > 9) o += '-' + d.slice(9, 11);
+        return o;
+      }
+      recadCpf.addEventListener('input', function () { recadCpf.value = recadMascaraCpf(recadCpf.value); });
+      recadCodigo.addEventListener('input', function () { recadCodigo.value = recadCodigo.value.replace(/\D/g, '').slice(0, 6); });
+
+      // Mostra uma das telas do bloco (carregando, passo1, passo2, sucesso, erro).
+      function recadMostrar(qual) {
+        document.getElementById('recadCarregando').hidden = qual !== 'carregando';
+        recadForm1.hidden = qual !== 'passo1';
+        recadForm2.hidden = qual !== 'passo2';
+        document.getElementById('recadSucesso').hidden = qual !== 'sucesso';
+        document.getElementById('recadPrazo').hidden = qual !== 'passo1';
+        document.getElementById('recadAcoesErro').hidden = qual !== 'erro';
+        document.getElementById('recadTentar').hidden = true;
+        document.getElementById('recadIrLogin').hidden = true;
+      }
+      function recadErroMsg(chave) { showMsg(recadErro, chave ? RECAD_TXT[chave] : ''); }
+      function recadOcupar(btn, textoOcupado, ocupar) {
+        recadEstado.ocupado = ocupar;
+        btn.disabled = ocupar;
+        if (ocupar) { btn.setAttribute('data-txt', btn.textContent); btn.textContent = textoOcupado; }
+        else if (btn.hasAttribute('data-txt')) btn.textContent = btn.getAttribute('data-txt');
+      }
+      function recadApi(action, payload) {
+        return api(action, Object.assign({ pagina: recadEstado.pagina || undefined }, payload || {}));
+      }
+      // Erro que não é "do usuário": rede, 5xx, acesso vencido. Nunca deixa a pessoa sem saída.
+      function recadFalhaGeral(r, voltarPara) {
+        var rede = r.status === 0 || r.status >= 500;
+        var acesso = r.status === 401 || r.status === 403;
+        recadMostrar('erro');
+        recadErroMsg(rede ? 'rede' : (acesso ? 'acesso' : 'rede'));
+        document.getElementById('recadTentar').hidden = !rede;
+        document.getElementById('recadIrLogin').hidden = !acesso;
+        recadEstado.retentar = rede ? voltarPara : null;
+      }
+      function recadIrParaLogin() {
+        try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) { /* ignora */ }
+        recadScreen.hidden = true;
+        recadErroMsg('');
+        showLogin('senha');
+      }
+      document.getElementById('recadIrLogin').addEventListener('click', recadIrParaLogin);
+      document.getElementById('recadTentar').addEventListener('click', function () {
+        recadErroMsg('');
+        if (recadEstado.retentar) recadEstado.retentar();
+      });
+
+      function recadIniciar(codigo) {
+        recadEstado = { pagina: null, challengeId: null, modo: codigo ? 'sistema' : 'hub', c: codigo || null, ocupado: false, retentar: null };
+        hubScreen.hidden = true;
+        loginScreen.hidden = true;
+        if (cadastroScreen) cadastroScreen.hidden = true;
+        recadScreen.hidden = false;
+        recadErroMsg('');
+        recadConsultar();
+      }
+      function recadConsultar() {
+        recadMostrar('carregando');
+        var payload = {};
+        if (recadEstado.c) payload.c = recadEstado.c;
+        else if (!memToken) {
+          recadMostrar('erro');
+          recadErroMsg('sem_acesso');
+          document.getElementById('recadIrLogin').hidden = false;
+          return;
+        }
+        api('recadastro_consultar', payload).then(function (r) {
+          if (r.ok && r.data && r.data.pagina) {
+            recadEstado.pagina = r.data.pagina;
+            recadEstado.c = null; // o código vale uma vez só: daqui em diante vale o token da página
+            recadMontarPasso1(r.data);
+            return;
+          }
+          recadMostrar('erro');
+          if (r.status === 0 || r.status >= 500) {
+            recadErroMsg('rede');
+            document.getElementById('recadTentar').hidden = false;
+            recadEstado.retentar = recadConsultar;
+          } else if (r.status === 403) {
+            recadErroMsg('nao_se_aplica');
+            document.getElementById('recadIrLogin').hidden = false;
+          } else {
+            if (r.status === 401 && recadEstado.modo === 'hub') clearSession();
+            recadErroMsg(recadEstado.modo === 'hub' ? 'sem_acesso' : 'acesso');
+            document.getElementById('recadIrLogin').hidden = false;
+          }
+        });
+      }
+      function recadMontarPasso1(d) {
+        var nome = typeof d.nome === 'string' ? d.nome.trim() : '';
+        var intro = document.getElementById('recadIntro');
+        intro.textContent = (nome ? 'Olá, ' + nome.split(' ')[0] + '. ' : '') + 'Precisamos confirmar o seu CPF e um e-mail seu, que você realmente acessa.';
+        var bloqueia = d.bloquear === true;
+        var dias = Number(d.dias_restantes);
+        var prazo = document.getElementById('recadPrazo');
+        prazo.classList.toggle('urgente', bloqueia || dias <= 2);
+        prazo.textContent = bloqueia
+          ? 'O prazo acabou. Para continuar usando o sistema, conclua este passo agora.'
+          : 'Você tem ' + (dias > 0 ? dias + (dias === 1 ? ' dia' : ' dias') : 'pouco tempo') + ' para fazer isso.';
+        // "Fazer depois" só existe quando o servidor diz que não bloqueia e ainda há prazo.
+        var box = document.getElementById('recadAdiarBox');
+        box.textContent = '';
+        if (d.bloquear === false && dias > 0) {
+          var b = el('button', 'btn-link', 'Fazer depois');
+          b.type = 'button';
+          b.id = 'recadAdiar';
+          b.addEventListener('click', recadAdiar);
+          box.appendChild(b);
+        }
+        recadMostrar('passo1');
+        recadCpf.focus();
+      }
+
+      recadForm1.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        if (recadEstado.ocupado) return;
+        var cpf = recadCpf.value.replace(/\D/g, '');
+        var email = recadEmail.value.trim().toLowerCase();
+        if (!recadCpfValido(cpf) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { recadErroMsg('invalido'); return; }
+        recadErroMsg('');
+        var btn = document.getElementById('recadEnviar');
+        recadOcupar(btn, 'Enviando…', true);
+        recadApi('recadastro_enviar_codigo', { cpf: cpf, email: email }).then(function (r) {
+          recadOcupar(btn, '', false);
+          if (r.ok && r.data && r.data.challenge_id) {
+            recadEstado.challengeId = r.data.challenge_id;
+            recadCodigo.value = '';
+            recadMostrar('passo2');
+            recadCodigo.focus();
+            return;
+          }
+          if (r.status === 400) return recadErroMsg('invalido');
+          if (r.status === 409) return recadErroMsg(r.data && r.data.error === 'recadastro já concluído' ? 'concluido' : 'conflito');
+          if (r.status === 429) return recadErroMsg('tentativas');
+          if (r.status === 401 || r.status === 403) return recadFalhaGeral(r, null);
+          recadErroMsg('rede'); // rede ou 5xx: o formulário continua aqui para tentar de novo
+        });
+      });
+
+      recadForm2.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        if (recadEstado.ocupado) return;
+        var code = recadCodigo.value.replace(/\D/g, '');
+        if (code.length !== 6) { recadErroMsg('codigo'); return; }
+        recadErroMsg('');
+        var btn = document.getElementById('recadConfirmar');
+        recadOcupar(btn, 'Confirmando…', true);
+        recadApi('recadastro_confirmar', { challenge_id: recadEstado.challengeId, code: code }).then(function (r) {
+          recadOcupar(btn, '', false);
+          if (r.ok && r.data && r.data.ok) return recadSucesso('confirmado');
+          if (r.status === 401 && r.data && r.data.reiniciar) {
+            recadEstado.challengeId = null;
+            recadMostrar('passo1');
+            return recadErroMsg('expirado');
+          }
+          if (r.status === 401 && !(r.data && r.data.error === 'não autorizado')) { recadCodigo.select(); return recadErroMsg('codigo'); }
+          if (r.status === 400) return recadErroMsg('codigo');
+          if (r.status === 409) return recadErroMsg('conflito');
+          if (r.status === 429) return recadErroMsg('tentativas');
+          if (r.status === 401 || r.status === 403) return recadFalhaGeral(r, null);
+          recadErroMsg('rede');
+        });
+      });
+
+      document.getElementById('recadVoltar').addEventListener('click', function () {
+        recadEstado.challengeId = null;
+        recadErroMsg('');
+        recadMostrar('passo1');
+      });
+
+      function recadAdiar() {
+        if (recadEstado.ocupado) return;
+        var btn = document.getElementById('recadAdiar');
+        recadErroMsg('');
+        recadOcupar(btn, 'Aguarde…', true);
+        recadApi('recadastro_adiar').then(function (r) {
+          if (r.ok) return recadSucesso('adiado');
+          recadOcupar(btn, '', false);
+          if (r.status === 401 || r.status === 403) return recadFalhaGeral(r, null);
+          recadErroMsg('rede');
+        });
+      }
+
+      var recadTimer = null;
+      function recadSucesso(tipo) {
+        recadMostrar('sucesso');
+        recadErroMsg('');
+        var titulo = document.getElementById('recadSucessoTitulo');
+        var texto = document.getElementById('recadSucessoTexto');
+        var cont = document.getElementById('recadContinuar');
+        titulo.textContent = tipo === 'adiado' ? 'Tudo bem, fica para depois' : 'Dados confirmados!';
+        if (recadEstado.modo === 'hub') {
+          texto.textContent = tipo === 'adiado' ? 'Vamos pedir de novo em outro momento. Levando você ao painel.' : 'Obrigado. Levando você ao painel.';
+          cont.hidden = false;
+          clearTimeout(recadTimer);
+          recadTimer = setTimeout(recadVoltarAoHub, 3000);
+        } else {
+          texto.textContent = 'Concluído, você já pode voltar ao sistema.';
+          cont.hidden = true;
+        }
+      }
+      function recadVoltarAoHub() {
+        clearTimeout(recadTimer);
+        try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) { /* ignora */ }
+        api('me').then(function (r) {
+          recadScreen.hidden = true;
+          if (!r.ok) { if (r.status === 401) clearSession(); showLogin('senha'); return; }
+          showHub(r.data.nome, r.data.apps, r.data.papel, r.data.niveis, r.data.pode_gerir_equipe);
+        });
+      }
+      document.getElementById('recadContinuar').addEventListener('click', recadVoltarAoHub);
+
+      // Depois do login do Hub: se há recadastro pendente, abre #recadastro; senão segue para o painel.
+      function entrarNoHub(d) {
+        if (d.recadastro && d.recadastro.pendente === true) {
+          try { history.replaceState(null, '', window.location.pathname + window.location.search + '#recadastro'); } catch (e) { /* ignora */ }
+          recadIniciar(null);
+          return;
+        }
+        showHub(d.nome, d.apps, d.papel, d.niveis, d.pode_gerir_equipe);
+      }
+
+      // ---------- Recadastro: bloco do owner em "Pessoas e acessos" ----------
+      var RECAD_MOTIVO = {
+        cpf_de_outra_pessoa: 'CPF já usado por outra pessoa',
+        email_de_outro_login: 'E-mail já usado em outro login'
+      };
+      function carregarRecadastroPainel() {
+        var erroEl = document.getElementById('recadPainelError');
+        showMsg(erroEl, '');
+        api('recadastro_painel').then(function (r) {
+          if (!r.ok) { showMsg(erroEl, 'Não foi possível carregar o recadastro agora.'); return; }
+          renderRecadastroPainel(r.data || {});
+        });
+      }
+      function recadKpi(rotulo, n, ref) {
+        var k = el('div', 'recad-kpi');
+        k.appendChild(el('span', 'n', String(n)));
+        k.appendChild(el('span', 'r', rotulo));
+        k.appendChild(el('span', 'c', ref));
+        return k;
+      }
+      function renderRecadastroPainel(d) {
+        var rs = d.resumo || { concluidos: 0, pendentes: 0, bloqueados: 0 };
+        var total = rs.concluidos + rs.pendentes;
+        var pct = total ? Math.round(rs.concluidos * 100 / total) : 0;
+        var resumo = document.getElementById('recadResumo');
+        resumo.textContent = '';
+        resumo.appendChild(recadKpi('Concluídos', rs.concluidos, 'de ' + total + ' pessoas (' + pct + '%)'));
+        resumo.appendChild(recadKpi('Pendentes', rs.pendentes, 'de ' + total + ' pessoas'));
+        resumo.appendChild(recadKpi('Bloqueados', rs.bloqueados, 'de ' + rs.pendentes + ' pendentes'));
+
+        var ulP = document.getElementById('recadPendentes');
+        ulP.textContent = '';
+        var pend = d.pendentes || [];
+        if (!pend.length) ulP.appendChild(el('li', 'recad-vazio', 'Ninguém pendente.'));
+        pend.forEach(function (p) {
+          var li = el('li', 'recad-item');
+          var info = el('div', 'info');
+          info.appendChild(el('b', null, p.nome));
+          info.appendChild(el('small', null, 'Origem: ' + (p.origem === 'hub' ? 'Hub' : 'Clínica/RH')));
+          li.appendChild(info);
+          var dias = Number(p.dias_restantes);
+          li.appendChild(el('span', 'chip ' + (dias <= 0 ? 'warn' : ''), dias <= 0 ? 'Prazo encerrado' : dias + (dias === 1 ? ' dia restante' : ' dias restantes')));
+          ulP.appendChild(li);
+        });
+
+        var ulC = document.getElementById('recadConflitos');
+        ulC.textContent = '';
+        var conf = d.conflitos || [];
+        if (!conf.length) ulC.appendChild(el('li', 'recad-vazio', 'Nenhum conflito aberto.'));
+        conf.forEach(function (c) {
+          var li = el('li', 'recad-item');
+          var info = el('div', 'info');
+          info.appendChild(el('b', null, RECAD_MOTIVO[c.motivo] || 'Conflito de cadastro'));
+          info.appendChild(el('small', null, fmtData(c.criado_em) + ' · CPF ' + c.cpf));
+          info.appendChild(el('small', null, 'E-mail informado: ' + c.email_informado));
+          li.appendChild(info);
+          var b = el('button', 'btn btn-ghost btn-sm', 'Dar baixa');
+          b.type = 'button';
+          b.addEventListener('click', function () {
+            b.disabled = true;
+            api('recadastro_resolver', { id: c.id }).then(function (r) {
+              if (!r.ok) { b.disabled = false; showMsg(document.getElementById('recadPainelError'), 'Não foi possível dar baixa agora. Tente de novo.'); return; }
+              carregarRecadastroPainel();
+            });
+          });
+          li.appendChild(b);
+          ulC.appendChild(li);
+        });
+      }
+
       // ---------- início ----------
       var loginSubEl = document.getElementById('loginSub');
       if (loginSubEl && (window.location.hostname === 'clinica.institutofacaamigos.com.br' || window.location.hostname.indexOf('clinica') !== -1)) {
         loginSubEl.textContent = 'Centro de Terapia comportamental';
       }
 
-      if (!memToken) {
+      var hashRecad = /^#recadastro(&|$)/.test(window.location.hash || '');
+      if (hashRecad) {
+        // Vindo da clínica/RH (#recadastro&c=código) ou, sem c, com a sessão do Hub ativa.
+        var mc = window.location.hash.match(/[&?]c=([^&]+)/);
+        var codigoRecad = null;
+        try { codigoRecad = mc ? decodeURIComponent(mc[1]) : null; } catch (e) { codigoRecad = null; }
+        try { history.replaceState(null, '', window.location.pathname + window.location.search + '#recadastro'); } catch (e) { /* ignora */ }
+        recadIniciar(codigoRecad);
+      } else if (!memToken) {
         showLogin('senha');
       } else {
         api('me').then(function (r) {
@@ -2305,7 +2728,7 @@
             return;
           }
           if (window.location.hash === '#primeiro-acesso') return;
-          showHub(r.data.nome, r.data.apps, r.data.papel, r.data.niveis, r.data.pode_gerir_equipe);
+          entrarNoHub(r.data);
         });
       }
 
