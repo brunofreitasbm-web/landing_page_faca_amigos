@@ -147,6 +147,7 @@ Deno.test("conta_do_hub_recebe_cpf_sem_renomear_chave", async () => {
     assert.equal(c.email, "carla.hub@t.com");
     assert.equal(c.cpf, cpf);
     assert.equal(c.email_codigo, "carla@real.com");
+    assert.equal(c.clinica_email, "carla@staff.facaamigos.local");
 
     // Conta do próprio Hub (sessão/página com origem hub)
     const cpf2 = novoCpf();
@@ -312,12 +313,13 @@ Deno.test("falha_de_gravacao_no_meio_desfaz_tudo", async () => {
   try {
     const cpf = novoCpf();
     const p = await pagina({ login: "lia@staff.facaamigos.local" });
-    A.tabela("fa_gestao_contas").push(contaBase({ email: "lia.hub@t.com", email_codigo: "lia.hub@t.com", nome: "Lia", clinica_email: "lia@staff.facaamigos.local" }));
     const d = await pedirCodigo(p, cpf, "lia@real.com");
-    A.operacoesComErro.add("update:fa_gestao_contas");
+    A.operacoesComErro.add("upsert:fa_gestao_recadastro_estado");
     const r = await confirmar(p, d);
+    A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado");
     assert.equal(r.status, 500);
     assert.equal(r.corpo.error, "não foi possível concluir agora");
+    assert.equal(trocasDeEmail(p.id!)[0].attrs.email, "lia@real.com", "a troca chegou a acontecer");
     assert.equal(usuario(p.id!).email, "lia@staff.facaamigos.local", "e-mail do login voltou");
     assert.equal(perfil(p.id!)!.cpf, null);
     assert.equal(perfil(p.id!)!.email, "lia@staff.facaamigos.local");
@@ -325,7 +327,7 @@ Deno.test("falha_de_gravacao_no_meio_desfaz_tudo", async () => {
     assert.equal(conflitos().filter((l) => l.chave === p.chave).length, 0, "falha técnica não vira conflito");
     const st = await chamar("recadastro_status", { pagina: p.token }, null);
     assert.equal(st.corpo.bloquear, false);
-  } finally { desligar(); A.operacoesComErro.delete("update:fa_gestao_contas"); }
+  } finally { desligar(); A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado"); }
 });
 
 Deno.test("e_mail_sempre_em_minusculas", async () => {
@@ -333,7 +335,6 @@ Deno.test("e_mail_sempre_em_minusculas", async () => {
   try {
     const cpf = novoCpf();
     const p = await pagina({ login: "mel@staff.facaamigos.local" });
-    A.tabela("fa_gestao_contas").push(contaBase({ email: "mel.hub@t.com", email_codigo: "mel.hub@t.com", nome: "Mel", clinica_email: "mel@staff.facaamigos.local" }));
     const d = await pedirCodigo(p, cpf, "Mel@Real.COM");
     // Mesmo que o desafio tivesse maiúsculas, nada é gravado com elas.
     A.tabela("fa_gestao_desafios").find((l) => l.id === d.challenge_id)!.email = "Mel@Real.COM";
@@ -342,7 +343,134 @@ Deno.test("e_mail_sempre_em_minusculas", async () => {
     assert.equal(pessoas().find((l) => l.cpf === cpf)!.email_real, "mel@real.com");
     assert.equal(usuario(p.id!).email, "mel@real.com");
     assert.equal(perfil(p.id!)!.email, "mel@real.com");
-    assert.equal(A.tabela("fa_gestao_contas").find((l) => l.nome === "Mel")!.email_codigo, "mel@real.com");
     assert.equal(pessoas().filter((l) => l.email_real === "outro@x.com").length, 0, "nunca usa o corpo da requisição");
+
+    const cpf2 = novoCpf();
+    const q = await pagina({ login: "nina@staff.facaamigos.local" });
+    A.tabela("fa_gestao_contas").push(contaBase({ email: "nina.hub@t.com", email_codigo: "nina.hub@t.com", nome: "Nina", clinica_email: "nina@staff.facaamigos.local" }));
+    const d2 = await pedirCodigo(q, cpf2, "Nina@Real.COM");
+    assert.equal((await confirmar(q, d2)).status, 200);
+    assert.equal(A.tabela("fa_gestao_contas").find((l) => l.nome === "Nina")!.email_codigo, "nina@real.com");
+    assert.equal(pessoas().find((l) => l.cpf === cpf2)!.email_real, "nina@real.com");
+  } finally { desligar(); }
+});
+
+Deno.test("conta_ligada_ao_hub_nao_troca_o_login", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "olga@staff.facaamigos.local" });
+    A.tabela("fa_gestao_contas").push(contaBase({ email: "olga.hub@t.com", email_codigo: "olga.hub@t.com", nome: "Olga", clinica_email: "olga@staff.facaamigos.local" }));
+    const r = await confirmar(p, await pedirCodigo(p, cpf, "olga@real.com"));
+    assert.equal(r.status, 200, JSON.stringify(r.corpo));
+    assert.equal(usuario(p.id!).email, "olga@staff.facaamigos.local");
+    assert.equal(trocasDeEmail(p.id!).length, 0);
+    assert.equal(pessoas().find((l) => l.cpf === cpf)!.email_real, "olga@real.com");
+    const c = A.tabela("fa_gestao_contas").find((l) => l.nome === "Olga")!;
+    assert.equal(c.email, "olga.hub@t.com");
+    assert.equal(c.cpf, cpf);
+    assert.equal(c.email_codigo, "olga@real.com");
+    assert.equal(c.clinica_email, "olga@staff.facaamigos.local");
+    assert.equal(perfil(p.id!)!.cpf, cpf);
+    assert.equal(perfil(p.id!)!.email, "olga@staff.facaamigos.local");
+    assert.equal(vinculos().find((l) => l.auth_user_id === p.id)!.email_login_antes, null);
+    assert.ok(estado(p.chave)!.concluido_em);
+  } finally { desligar(); }
+});
+
+Deno.test("launch_da_clinica_continua_achando_o_usuario_e_nao_cria_outro", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "paula@staff.facaamigos.local" });
+    A.tabela("fa_gestao_contas").push(contaBase({ email: "paula.hub@t.com", email_codigo: "paula.hub@t.com", nome: "Paula", papel: "owner", clinica_email: "paula@staff.facaamigos.local" }));
+    const tokenPaula = "c".repeat(64);
+    A.tabela("fa_gestao_sessoes").push({ token_hash: await sha(tokenPaula), email: "paula.hub@t.com", expires_at: new Date(Date.now() + 3600_000).toISOString() });
+    assert.equal((await confirmar(p, await pedirCodigo(p, cpf, "paula@real.com"))).status, 200);
+    const antes = B.usuarios.length;
+    const criacoes = B.chamadas.filter((c) => c === "auth.createUser").length;
+    const l = await chamar("launch", { app: "clinica" }, tokenPaula);
+    assert.equal(l.status, 200, JSON.stringify(l.corpo));
+    assert.equal(B.usuarios.length, antes, "nenhum login novo no projeto B");
+    assert.equal(B.chamadas.filter((c) => c === "auth.createUser").length, criacoes);
+    assert.equal(B.usuarios.filter((u) => u.email === "paula@staff.facaamigos.local").length, 1);
+  } finally { desligar(); }
+});
+
+Deno.test("consulta_do_hub_com_erro_nao_troca_o_login", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "rita@staff.facaamigos.local" });
+    const d = await pedirCodigo(p, cpf, "rita@real.com");
+    A.operacoesComErro.add("select:fa_gestao_contas");
+    const r = await confirmar(p, d);
+    A.operacoesComErro.delete("select:fa_gestao_contas");
+    assert.equal(r.status, 200, JSON.stringify(r.corpo));
+    assert.equal(usuario(p.id!).email, "rita@staff.facaamigos.local");
+    assert.equal(trocasDeEmail(p.id!).length, 0);
+    assert.equal(pessoas().find((l) => l.cpf === cpf)!.email_real, "rita@real.com");
+    assert.ok(estado(p.chave)!.concluido_em);
+  } finally { desligar(); A.operacoesComErro.delete("select:fa_gestao_contas"); }
+});
+
+Deno.test("falha_ao_reverter_login_mantem_consistencia_e_registra", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "sara@staff.facaamigos.local" });
+    const d = await pedirCodigo(p, cpf, "sara@real.com");
+    A.operacoesComErro.add("upsert:fa_gestao_recadastro_estado");
+    B.aoAtualizarUsuario = (_id, attrs) => attrs.email === "sara@staff.facaamigos.local" ? { aplica: false, erro: "timeout" } : undefined;
+    const r = await confirmar(p, d);
+    A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado");
+    B.aoAtualizarUsuario = null;
+    assert.equal(r.status, 500);
+    assert.equal(usuario(p.id!).email, "sara@real.com", "a volta falhou: o login segue com o e-mail real");
+    assert.equal(perfil(p.id!)!.email, "sara@real.com", "perfil consistente com o login");
+    const v = vinculos().find((l) => l.auth_user_id === p.id);
+    assert.ok(v, "vínculo mantido");
+    assert.equal(v!.email_login_antes, "sara@staff.facaamigos.local");
+    assert.ok(pessoas().some((l) => l.cpf === cpf), "pessoa mantida (o vínculo depende dela)");
+    assert.ok(!estado(p.chave)?.concluido_em);
+    const aud = A.tabela("fa_gestao_auditoria").find((l) => l.evento === "recadastro_reversao_falhou");
+    assert.ok(aud);
+    assert.ok(String(aud!.detalhe).includes(p.chave) && String(aud!.detalhe).includes("sara@staff.facaamigos.local"));
+  } finally { desligar(); A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado"); B.aoAtualizarUsuario = null; }
+});
+
+Deno.test("erro_ambiguo_no_updateUser_volta_o_login", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "tina@staff.facaamigos.local" });
+    const d = await pedirCodigo(p, cpf, "tina@real.com");
+    // O GoTrue grava a troca, mas a resposta chega como erro (timeout/5xx).
+    B.aoAtualizarUsuario = (_id, attrs) => attrs.email === "tina@real.com" ? { aplica: true, erro: "AuthRetryableFetchError: 504" } : undefined;
+    const r = await confirmar(p, d);
+    B.aoAtualizarUsuario = null;
+    assert.equal(r.status, 500);
+    assert.equal(usuario(p.id!).email, "tina@staff.facaamigos.local", "login voltou ao e-mail antigo");
+    assert.equal(perfil(p.id!)!.email, "tina@staff.facaamigos.local");
+    nadaGravado(p, cpf);
+  } finally { desligar(); B.aoAtualizarUsuario = null; }
+});
+
+Deno.test("vinculo_existente_sem_concluido_nao_duplica", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "vera@staff.facaamigos.local" });
+    assert.equal((await confirmar(p, await pedirCodigo(p, cpf, "vera@real.com"))).status, 200);
+    // Estado volta a pendente (ex.: owner reabriu): segunda confirmação passa pelo ramo "vínculo já existe".
+    estado(p.chave)!.concluido_em = null;
+    const r = await confirmar(p, await pedirCodigo(p, cpf, "vera@real.com"));
+    assert.equal(r.status, 200, JSON.stringify(r.corpo));
+    assert.equal(pessoas().filter((l) => l.cpf === cpf).length, 1);
+    assert.equal(vinculos().filter((l) => l.cpf === cpf).length, 1);
+    assert.equal(vinculos().find((l) => l.auth_user_id === p.id)!.email_login_antes, "vera@staff.facaamigos.local");
+    assert.equal(trocasDeEmail(p.id!).length, 1, "troca o e-mail do login uma vez só");
+    assert.equal(usuario(p.id!).email, "vera@real.com");
+    assert.ok(estado(p.chave)!.concluido_em);
   } finally { desligar(); }
 });

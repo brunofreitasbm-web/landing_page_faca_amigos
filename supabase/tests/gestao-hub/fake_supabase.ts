@@ -38,6 +38,8 @@ export class Projeto {
   unicos: Record<string, string[]> = {};
   /** Atributos pedidos a auth.admin.updateUserById, na ordem (para os testes conferirem o que foi enviado). */
   atualizacoesUsuario: Array<{ id: string; attrs: Record<string, unknown> }> = [];
+  /** Gancho de auth.admin.updateUserById: devolver { aplica, erro } faz a chamada falhar (aplicando ou não a mudança). */
+  aoAtualizarUsuario: ((id: string, attrs: Record<string, unknown>) => { aplica: boolean; erro: string } | undefined) | null = null;
   /** URLs assinadas pedidas ao Storage (imita storage.from(bucket).createSignedUrl). */
   assinaturas: Array<{ bucket: string; path: string; seconds: number; download: string | boolean | undefined }> = [];
   tabela(nome: string): Linha[] {
@@ -215,6 +217,11 @@ function adminAuth(p: Projeto) {
       if (p.operacoesComErro.has("auth.updateUserById")) return { data: { user: null }, error: { message: "falha simulada em auth.updateUserById" } };
       const u = achar(id);
       if (!u) return { data: { user: null }, error: { message: "não achei" } };
+      const falha = p.aoAtualizarUsuario?.(id, { ...attrs });
+      if (falha) {
+        if (falha.aplica && attrs.email !== undefined) u.email = attrs.email;
+        return { data: { user: null }, error: { message: falha.erro, status: 504 } };
+      }
       if (attrs.email !== undefined) {
         const novo = attrs.email.toLowerCase();
         if (p.usuarios.some((x) => x.id !== id && x.email.toLowerCase() === novo)) {

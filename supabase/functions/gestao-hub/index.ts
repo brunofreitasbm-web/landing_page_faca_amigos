@@ -1178,16 +1178,31 @@ const ehEmailJaUsado = (e: { code?: string; status?: number; message?: string } 
 // Devolve null quando tudo foi gravado, ou o motivo do conflito / "falha" depois de desfazer.
 async function gravarConfirmacaoRecadastro(
   admin: Admin,
+  req: Request,
   ident: IdentRecad,
   cpf: string,
   emailReal: string,
 ): Promise<null | "falha" | "cpf_de_outra_pessoa" | "email_de_outro_login"> {
-  const desfazer: Array<{ passo: string; fn: () => PromiseLike<unknown> }> = [];
+  type Desfazer = { passo: "pessoa" | "vínculo" | "vínculo email_login_antes" | "login" | "perfil" | "conta"; fn: () => PromiseLike<unknown> };
+  const desfazer: Desfazer[] = [];
   const b = ident.origem === "hub" ? null : clinicaAdmin();
+  const loginAntes = ident.loginEmail.trim().toLowerCase();
+  let perfilTrocouEmail = false;
   try {
     if (ident.origem !== "hub" && (!b || !ident.authUserId)) throw new Error("projeto B indisponível");
-    const loginAntes = ident.loginEmail.trim().toLowerCase();
-    const trocarLogin = ident.origem !== "hub" && EMAIL_SINTETICO.test(loginAntes);
+    const porHub = ident.origem === "hub";
+
+    // Contas do Hub ligadas a esse login. Se alguma referencia o e-mail do login, ele NÃO é trocado
+    // (launch, sincronização de senha e o próprio login no Hub dependem desse e-mail). Erro de leitura:
+    // falha seguro, não troca o login e conclui só com o contato.
+    const ligado = quoteFilterValue((porHub ? ident.hubEmail ?? "" : loginAntes).toLowerCase());
+    const { data: contasLidas, error: erroContas } = await admin
+      .from("fa_gestao_contas").select("email, cpf, email_codigo")
+      .or(`email.eq.${ligado},login_email.eq.${ligado},clinica_email.eq.${ligado},rh_email.eq.${ligado}`)
+      .limit(5);
+    if (erroContas) console.error("recadastro contas ler:", erroContas.message);
+    const contas = erroContas ? [] : (contasLidas ?? []);
+    let trocarLogin = !porHub && !erroContas && contas.length === 0 && EMAIL_SINTETICO.test(loginAntes);
 
     // (2a) pessoa por CPF: se já existe com o mesmo e-mail real, é a mesma pessoa em outro login
     const { data: criadas, error: erroPessoa } = await admin
@@ -1204,7 +1219,6 @@ async function gravarConfirmacaoRecadastro(
     }
 
     // (2b) vínculo do login com a pessoa (índices únicos planos por origem + login)
-    const porHub = ident.origem === "hub";
     const chaveVinculo = porHub ? "hub_email" : "auth_user_id";
     const valorVinculo = porHub ? (ident.hubEmail ?? "").toLowerCase() : ident.authUserId;
     const { data: vincCriado, error: erroVinc } = await admin
@@ -1226,24 +1240,32 @@ async function gravarConfirmacaoRecadastro(
         .eq("origem", ident.origem).eq(chaveVinculo, valorVinculo).maybeSingle();
       if (error || !v) throw new Error(`vínculo reler: ${error?.message ?? "sumiu"}`);
       if (v.cpf !== cpf) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
-      if (trocarLogin && !v.email_login_antes) {
+      if (v.email_login_antes) {
+        // O login já foi trocado numa confirmação anterior: não troca de novo.
+        trocarLogin = false;
+      } else if (trocarLogin) {
         const { error: e2 } = await admin.from("fa_gestao_pessoa_contas").update({ email_login_antes: loginAntes }).eq("id", v.id);
         if (e2) throw new Error(`vínculo email_login_antes: ${e2.message}`);
         desfazer.push({ passo: "vínculo email_login_antes", fn: () => admin.from("fa_gestao_pessoa_contas").update({ email_login_antes: null }).eq("id", v.id) });
       }
     }
 
-    // (3) login com e-mail fictício passa a usar o e-mail real, mesmo id (e-mail real já existente não muda)
+    // (3) login com e-mail fictício e sem conta do Hub ligada passa a usar o e-mail real, mesmo id.
+    // A volta é empilhada ANTES da chamada: um erro ambíguo (timeout, 5xx) pode ter gravado a troca.
     if (trocarLogin) {
+      const volta: Desfazer = {
+        passo: "login",
+        fn: () => b!.auth.admin.updateUserById(ident.authUserId!, { email: loginAntes, email_confirm: true }),
+      };
+      desfazer.push(volta);
       const { error } = await b!.auth.admin.updateUserById(ident.authUserId!, { email: emailReal, email_confirm: true });
       if (error) {
-        if (ehEmailJaUsado(error as { code?: string; message?: string })) throw new ConflitoRecadastro("email_de_outro_login");
+        if (ehEmailJaUsado(error as { code?: string; message?: string })) {
+          desfazer.pop(); // recusado com certeza: a troca não aconteceu
+          throw new ConflitoRecadastro("email_de_outro_login");
+        }
         throw new Error(`login: ${error.message}`);
       }
-      desfazer.push({
-        passo: "e-mail do login",
-        fn: () => b!.auth.admin.updateUserById(ident.authUserId!, { email: loginAntes, email_confirm: true }),
-      });
     }
 
     // (4) perfil do projeto B (quem é só do RH pode não ter perfil: não cria)
@@ -1258,27 +1280,22 @@ async function gravarConfirmacaoRecadastro(
           if (ehUnicidade(error as { code?: string; message?: string })) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
           throw new Error(`perfil: ${error.message}`);
         }
+        perfilTrocouEmail = trocarLogin;
         const antes: Record<string, unknown> = { cpf: perfil.cpf ?? null };
         if (trocarLogin) antes.email = perfil.email ?? null;
         desfazer.push({ passo: "perfil", fn: () => b.from("profiles").update(antes).eq("id", ident.authUserId!) });
       }
     }
 
-    // (5) conta do Hub ligada a esse login: cpf e e-mail de código; a chave `email` não é renomeada
-    const ligado = quoteFilterValue((porHub ? ident.hubEmail ?? "" : loginAntes).toLowerCase());
-    const { data: contas, error: erroContas } = await admin
-      .from("fa_gestao_contas").select("email, cpf, email_codigo")
-      .or(`email.eq.${ligado},login_email.eq.${ligado},clinica_email.eq.${ligado},rh_email.eq.${ligado}`)
-      .limit(5);
-    if (erroContas) throw new Error(`contas ler: ${erroContas.message}`);
-    for (const c of contas ?? []) {
+    // (5) conta do Hub ligada a esse login: cpf e e-mail de código; a chave `email` e os e-mails dos sistemas não mudam
+    for (const c of contas) {
       const { error } = await admin.from("fa_gestao_contas").update({ cpf, email_codigo: emailReal }).eq("email", c.email);
       if (error) {
         if (ehUnicidade(error as { code?: string; message?: string })) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
         throw new Error(`conta: ${error.message}`);
       }
       desfazer.push({
-        passo: "conta do Hub",
+        passo: "conta",
         fn: () => admin.from("fa_gestao_contas").update({ cpf: c.cpf ?? null, email_codigo: c.email_codigo }).eq("email", c.email),
       });
     }
@@ -1291,12 +1308,29 @@ async function gravarConfirmacaoRecadastro(
     return null;
   } catch (e) {
     console.error("recadastro confirmar:", e instanceof Error ? e.message : e);
+    // Se a volta do login falhar, o login segue com o e-mail real: o perfil acompanha o login e o vínculo
+    // (único registro de email_login_antes) e a pessoa ficam, para o owner agir.
+    let loginPreso = false;
     for (const d of desfazer.reverse()) {
+      if (loginPreso && (d.passo === "vínculo" || d.passo === "vínculo email_login_antes" || d.passo === "pessoa")) continue;
+      let falhou = false;
       try {
         const r = await d.fn() as { error?: { message: string } | null } | undefined;
-        if (r?.error) console.error(`recadastro desfazer ${d.passo}:`, r.error.message);
+        if (r?.error) {
+          falhou = true;
+          console.error(`recadastro desfazer ${d.passo}:`, r.error.message);
+        }
       } catch (err) {
+        falhou = true;
         console.error(`recadastro desfazer ${d.passo}:`, err);
+      }
+      if (falhou && d.passo === "login") {
+        loginPreso = true;
+        if (perfilTrocouEmail && b) {
+          const { error } = await b.from("profiles").update({ email: emailReal }).eq("id", ident.authUserId!);
+          if (error) console.error("recadastro reaplicar perfil:", error.message);
+        }
+        await auditar(admin, req, "recadastro_reversao_falhou", { app: ident.origem, detalhe: `${ident.chave} ${loginAntes}` });
       }
     }
     return e instanceof ConflitoRecadastro ? e.motivo : "falha";
@@ -2076,7 +2110,7 @@ Deno.serve(async (req) => {
     const motivo = await conflitosRecadastro(admin, ident, cpf, emailReal);
     if (motivo) return await abrirConflitoRecadastro(admin, req, ident, motivo, cpf, emailReal);
 
-    const resultado = await gravarConfirmacaoRecadastro(admin, ident, cpf, emailReal);
+    const resultado = await gravarConfirmacaoRecadastro(admin, req, ident, cpf, emailReal);
     if (resultado === "falha") return jsonResponse(req, { error: RECAD_FALHA_MSG }, 500);
     if (resultado) return await abrirConflitoRecadastro(admin, req, ident, resultado, cpf, emailReal);
     await auditar(admin, req, "recadastro_concluido", { app: ident.origem, detalhe: ident.chave });
