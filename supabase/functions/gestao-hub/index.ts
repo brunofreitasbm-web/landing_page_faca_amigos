@@ -41,6 +41,8 @@ const HUB_URL = "https://gestao.institutofacaamigos.com.br";
 
 const ALLOWED_ORIGINS = [
   "https://gestao.institutofacaamigos.com.br",
+  "https://rh.institutofacaamigos.com.br",
+  "https://porto-terapia-gestao.vercel.app",
   "http://127.0.0.1:5500",
   "http://localhost:5500",
   "http://localhost:3000",
@@ -779,9 +781,17 @@ async function enviarCodigo(
   email: string,
   nome: string,
   code: string,
-  finalidade: "login" | "reset" = "login",
+  finalidade: "login" | "reset" | "recadastro" = "login",
   modo: "clinica" | "hub" = "clinica",
 ): Promise<boolean> {
+  if (finalidade === "recadastro") {
+    const html = moldeEmail(`
+    <p style="margin:0 0 12px;font-size:15px;">Olá, ${escapeHtml(nome)}!</p>
+    <p style="margin:0 0 18px;font-size:14px;color:#4C6B62;">Use este código para confirmar o seu e-mail no recadastro do Instituto Faça Amigos:</p>
+    <div style="font-size:34px;font-weight:900;letter-spacing:10px;color:#1a3f35;background:#FFF9F1;border-radius:16px;padding:16px 0;">${code}</div>
+    <p style="margin:18px 0 0;font-size:12px;color:#8B9A94;">Vale por 10 minutos. Se não foi você, ignore este e-mail: nada muda sem este código.</p>`);
+    return enviarEmail(email, nome, `Confirme o seu e-mail: código ${code}`, html);
+  }
   const reset = finalidade === "reset";
   const quemSenha = modo === "hub" ? "do Hub de Gestão" : "do Hub de Gestão e do Sistema da Clínica";
   const html = moldeEmail(`
@@ -843,6 +853,7 @@ const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_MAX_FAILS_PER_IP = 5;
 const LOGIN_MAX_FAILS_PER_LOGIN = 10;
 const CODES_MAX_PER_WINDOW = 5;
+const RECADASTRO_CODES_MAX = 3;
 
 type Admin = SupabaseClient;
 
@@ -1047,6 +1058,67 @@ function voltarUrlRecadastro(origem: string): string {
   return HUB_URL;
 }
 
+const CPF_MASCARA_RE = /^(\d{3})(\d{3})(\d{3})(\d{2})$/;
+
+// Já existe outra pessoa com este CPF ou com este e-mail de login? Erro de consulta nunca vira conflito:
+// aqui só decide se o código sai (a confirmação refaz a checagem).
+async function conflitosRecadastro(
+  admin: Admin,
+  ident: IdentRecad,
+  cpf: string,
+  emailReal: string,
+): Promise<"cpf_de_outra_pessoa" | "email_de_outro_login" | null> {
+  const email = emailReal.trim().toLowerCase();
+  // (a) CPF já confirmado no Hub para outro e-mail real (mesmo e-mail = mesma pessoa com outro login)
+  try {
+    const { data, error } = await admin.from("fa_gestao_pessoas").select("email_real").eq("cpf", cpf).maybeSingle();
+    if (error) console.error("conflito pessoas:", error.message);
+    else if (data && String(data.email_real ?? "").toLowerCase() !== email) return "cpf_de_outra_pessoa";
+  } catch (e) {
+    console.error("conflito pessoas:", e);
+  }
+  const b = ident.origem === "hub" ? null : clinicaAdmin();
+  if (b) {
+    // (b) CPF já cadastrado no perfil de outro usuário do projeto B
+    try {
+      const mascarado = cpf.replace(CPF_MASCARA_RE, "$1.$2.$3-$4");
+      const { data, error } = await b.from("profiles").select("id").or(`cpf.eq.${quoteFilterValue(cpf)},cpf.eq.${quoteFilterValue(mascarado)}`).limit(5);
+      if (error) console.error("conflito profiles:", error.message);
+      else if ((data ?? []).some((l: { id: string }) => String(l.id) !== ident.authUserId)) return "cpf_de_outra_pessoa";
+    } catch (e) {
+      console.error("conflito profiles:", e);
+    }
+    // (c) e-mail digitado já é login de outro usuário do projeto B
+    try {
+      const POR_PAGINA = 1000;
+      for (let pagina = 1; pagina <= 50; pagina++) {
+        const { data, error } = await b.auth.admin.listUsers({ page: pagina, perPage: POR_PAGINA });
+        if (error) {
+          console.error("conflito auth.users:", error.message);
+          break;
+        }
+        const usuarios = data?.users ?? [];
+        if (usuarios.some((u) => (u.email ?? "").toLowerCase() === email && u.id !== ident.authUserId)) return "email_de_outro_login";
+        if (usuarios.length < POR_PAGINA) break;
+      }
+    } catch (e) {
+      console.error("conflito auth.users:", e);
+    }
+  }
+  if (ident.origem === "hub") {
+    // outra conta do Hub que já usa este e-mail
+    try {
+      const q = quoteFilterValue(email);
+      const { data, error } = await admin.from("fa_gestao_contas").select("email").or(`email.eq.${q},login_email.eq.${q},email_codigo.eq.${q}`).limit(5);
+      if (error) console.error("conflito contas:", error.message);
+      else if ((data ?? []).some((l: { email: string }) => String(l.email).toLowerCase() !== (ident.hubEmail ?? "").toLowerCase())) return "email_de_outro_login";
+    } catch (e) {
+      console.error("conflito contas:", e);
+    }
+  }
+  return null;
+}
+
 async function exigirSessao(admin: Admin, req: Request): Promise<{ tokenHash: string; conta: Conta } | null> {
   const authHeader = req.headers.get("authorization") ?? "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
@@ -1086,7 +1158,7 @@ async function conferirCodigo(
   req: Request,
   challengeId: string,
   code: string,
-  finalidade: "login" | "reset",
+  finalidade: "login" | "reset" | "recadastro",
 ): Promise<{ ok: true; desafio: Desafio } | { ok: false; resp: Response }> {
   if (!/^[0-9a-f-]{36}$/.test(challengeId) || code.length !== 6) {
     return { ok: false, resp: jsonResponse(req, { error: "código inválido" }, 400) };
@@ -1702,6 +1774,72 @@ Deno.serve(async (req) => {
       voltar_url: voltarUrlRecadastro(ident.origem),
       pagina,
     });
+  }
+
+  if (action === "recadastro_enviar_codigo") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    if (ident === "isento") return jsonResponse(req, { error: "não disponível" }, 403);
+    const cpf = str(body.cpf).replace(/\D/g, "");
+    const email = str(body.email).trim().toLowerCase();
+    if (!cpfValido(cpf)) return jsonResponse(req, { error: "CPF inválido" }, 400);
+    if (!EMAIL_RE.test(email)) return jsonResponse(req, { error: "e-mail inválido" }, 400);
+
+    const { data: est, error: erroEst } = await admin
+      .from("fa_gestao_recadastro_estado").select("concluido_em").eq("chave", ident.chave).maybeSingle();
+    if (erroEst) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
+    if (est?.concluido_em) return jsonResponse(req, { error: "recadastro já concluído" }, 409);
+
+    const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
+    const { count: recentes, error: erroCont } = await admin
+      .from("fa_gestao_desafios")
+      .select("id", { count: "exact", head: true })
+      .eq("finalidade", "recadastro")
+      .eq("alvo_id", ident.chave)
+      .gte("created_at", since);
+    if (erroCont) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
+    if ((recentes ?? 0) >= RECADASTRO_CODES_MAX) {
+      return jsonResponse(req, { error: "muitos códigos pedidos, aguarde 15 minutos" }, 429);
+    }
+
+    const motivo = await conflitosRecadastro(admin, ident, cpf, email);
+    if (motivo) {
+      const { data: abertos, error: erroAbertos } = await admin
+        .from("fa_gestao_recadastro_conflitos").select("id")
+        .eq("chave", ident.chave).eq("motivo", motivo).eq("cpf_informado", cpf).is("resolvido_em", null).limit(1);
+      if (!erroAbertos && (abertos?.length ?? 0) === 0) {
+        const { error: erroGrava } = await admin.from("fa_gestao_recadastro_conflitos").insert({
+          chave: ident.chave, motivo, cpf_informado: cpf, email_informado: email,
+        });
+        if (erroGrava) console.error("conflito gravar:", erroGrava.message);
+      }
+      await auditar(admin, req, "recadastro_conflito", { app: ident.origem, detalhe: `${ident.chave} ${motivo}` });
+      return jsonResponse(req, { error: "não foi possível concluir, o responsável foi avisado" }, 409);
+    }
+
+    const code = randomCode();
+    const challengeId = crypto.randomUUID();
+    const { error: insErr } = await admin.from("fa_gestao_desafios").insert({
+      id: challengeId,
+      email,
+      finalidade: "recadastro",
+      alvo_id: ident.chave,
+      dados: { cpf },
+      code_hash: await sha256Hex(`${challengeId}:${code}`),
+      ip: clientIp(req),
+      expires_at: new Date(Date.now() + CODE_TTL_MS).toISOString(),
+      tentativas: 0,
+    });
+    if (insErr) {
+      console.error("desafio recadastro:", insErr.message);
+      return jsonResponse(req, { error: "falha ao gerar código" }, 500);
+    }
+    if (!(await enviarCodigo(email, ident.nome || "", code, "recadastro"))) {
+      return jsonResponse(req, { error: "não foi possível enviar o código por e-mail" }, 502);
+    }
+    await auditar(admin, req, "recadastro_codigo_enviado", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, { challenge_id: challengeId });
   }
 
   // --- daqui para baixo exige sessão ---
