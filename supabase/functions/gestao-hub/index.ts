@@ -2249,6 +2249,8 @@ Deno.serve(async (req) => {
     "pessoa_buscar",
     "ti_listar",
     "ti_baixar",
+    "recadastro_painel",
+    "recadastro_resolver",
   ];
   if (ACOES_OWNER.includes(action)) {
     if (conta.papel !== "owner") {
@@ -3206,6 +3208,88 @@ async function acaoOwner(
   dono: Conta,
 ): Promise<Response> {
   const alvoEmail = str(body.email).toLowerCase();
+
+  // Recadastro de identidade: painel do owner (somente leitura) e baixa manual de conflitos.
+  // Funciona mesmo com GESTAO_RECADASTRO desligado: é administração, não fluxo de login.
+  if (action === "recadastro_painel") {
+    const [estados, abertos] = await Promise.all([
+      admin.from("fa_gestao_recadastro_estado").select("chave, primeiro_aviso_em, concluido_em"),
+      admin.from("fa_gestao_recadastro_conflitos")
+        .select("id, chave, motivo, cpf_informado, email_informado, criado_em")
+        .is("resolvido_em", null)
+        .order("criado_em", { ascending: false }),
+    ]);
+    if (estados.error || abertos.error) {
+      console.error("recadastro_painel:", estados.error?.message ?? abertos.error?.message);
+      return jsonResponse(req, { error: "falha ao carregar o painel" }, 500);
+    }
+    const conflitosAbertos = [...(abertos.data ?? [])].sort((a, b) => String(b.criado_em).localeCompare(String(a.criado_em)));
+    const chavesComConflito = new Set(conflitosAbertos.map((c) => c.chave as string));
+    const linhas = estados.data ?? [];
+    const pendentesBrutos = linhas.filter((l) => !l.concluido_em);
+    const concluidos = linhas.length - pendentesBrutos.length;
+
+    // Nomes: melhor esforço. Falha de leitura vira "(sem nome)", nunca derruba o painel.
+    const nomes = new Map<string, string>();
+    const emailsHub = pendentesBrutos.filter((l) => String(l.chave).startsWith("hub:")).map((l) => String(l.chave).slice(4));
+    const idsB = pendentesBrutos.filter((l) => String(l.chave).startsWith("b:")).map((l) => String(l.chave).slice(2));
+    try {
+      if (emailsHub.length) {
+        const { data } = await admin.from("fa_gestao_contas").select("email, nome").in("email", emailsHub);
+        for (const c of data ?? []) if (c.nome) nomes.set(`hub:${c.email}`, String(c.nome));
+      }
+      const b = idsB.length ? clienteSupabase("supabase_b") : null;
+      if (b) {
+        const { data } = await b.from("profiles").select("id, full_name").in("id", idsB);
+        for (const p of data ?? []) if (p.full_name) nomes.set(`b:${p.id}`, String(p.full_name));
+      }
+    } catch (e) {
+      console.error("recadastro_painel nomes:", e instanceof Error ? e.message : "erro");
+    }
+
+    let bloqueados = 0;
+    const pendentes = pendentesBrutos.map((l) => {
+      const chave = String(l.chave);
+      const dias = diasRestantesRecadastro(l.primeiro_aviso_em as string);
+      if (dias <= 0 && !chavesComConflito.has(chave)) bloqueados++; // mesma regra de statusRecadastro
+      return { nome: nomes.get(chave) ?? "(sem nome)", origem: chave.startsWith("b:") ? "clinica/rh" : "hub", dias_restantes: dias };
+    });
+    const conflitos = conflitosAbertos.map((c) => {
+      const d = String(c.cpf_informado ?? "").replace(/\D/g, "");
+      return {
+        id: c.id as string,
+        motivo: c.motivo as string,
+        criado_em: c.criado_em as string,
+        cpf: d.length === 11 ? `***.***.***-${d.slice(9)}` : "***.***.***-**",
+        email_informado: String(c.email_informado ?? ""),
+      };
+    });
+    return jsonResponse(req, { resumo: { concluidos, pendentes: pendentes.length, bloqueados }, pendentes, conflitos });
+  }
+
+  if (action === "recadastro_resolver") {
+    const id = str(body.id);
+    const NAO_ACHADO = () => jsonResponse(req, { error: "conflito não encontrado" }, 404);
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return NAO_ACHADO();
+    const { data: atual, error: erroLe } = await admin
+      .from("fa_gestao_recadastro_conflitos").select("id, resolvido_em").eq("id", id).maybeSingle();
+    if (erroLe) {
+      console.error("recadastro_resolver:", erroLe.message);
+      return jsonResponse(req, { error: "falha ao dar baixa" }, 500);
+    }
+    if (!atual) return NAO_ACHADO();
+    if (!atual.resolvido_em) {
+      // O filtro is(null) evita sobrescrever uma baixa feita em paralelo.
+      const { error } = await admin
+        .from("fa_gestao_recadastro_conflitos").update({ resolvido_em: new Date().toISOString() }).eq("id", id).is("resolvido_em", null);
+      if (error) {
+        console.error("recadastro_resolver:", error.message);
+        return jsonResponse(req, { error: "falha ao dar baixa" }, 500);
+      }
+      await auditar(admin, req, "recadastro_conflito_resolvido", { email: dono.email, detalhe: id });
+    }
+    return jsonResponse(req, { ok: true });
+  }
 
   if (action === "ti_listar") {
     return jsonResponse(req, {
