@@ -22,6 +22,8 @@ export class Projeto {
   /** Imita o gatilho da Clínica: todo login novo ganha um perfil 'terapeuta'. */
   gatilhoPerfil = false;
   chamadas: string[] = [];
+  /** JWTs válidos deste projeto: token -> id do usuário (imita auth.getUser(jwt)). */
+  tokens: Record<string, string> = {};
   /** Sessões abertas por id de usuário (imita auth.sessions). */
   sessoes: Record<string, number> = {};
   /** Tabelas que respondem com erro (ex.: migração ainda não aplicada). */
@@ -145,6 +147,11 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
 function adminAuth(p: Projeto) {
   const achar = (id: string) => p.usuarios.find((u) => u.id === id);
   return {
+    async getUser(jwt: string) {
+      p.chamadas.push("auth.getUser");
+      const u = p.usuarios.find((x) => x.id === p.tokens[jwt]);
+      return u ? { data: { user: { ...u } }, error: null } : { data: { user: null }, error: { message: "jwt inválido" } };
+    },
     async listUsers(opts?: { page?: number; perPage?: number }) {
       p.chamadas.push("auth.listUsers");
       const pagina = opts?.page ?? 1;
@@ -195,7 +202,7 @@ export function createClient(url: string, _key: string, _opts?: unknown) {
   const p = projeto(url);
   return {
     from: (nome: string) => new Consulta(p, nome),
-    auth: { admin: adminAuth(p) },
+    auth: { admin: adminAuth(p), getUser: (jwt: string) => adminAuth(p).getUser(jwt) },
     storage: {
       from: (bucket: string) => ({
         async createSignedUrl(path: string, seconds: number, opts?: { download?: string | boolean }) {

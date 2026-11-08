@@ -910,6 +910,124 @@ async function acharContaPorLogin(admin: Admin, login: string): Promise<Conta | 
   return c && c.ativo ? c : null;
 }
 
+// ---------- Recadastro de identidade (Fase 2b): prazo, identificação e status ----------
+const RECADASTRO_DIAS = 7;
+const DIA_MS = 86_400_000;
+
+// Lê a variável a cada chamada: o recadastro liga e desliga sem republicar nada.
+function recadastroLigado(): boolean {
+  return Deno.env.get("GESTAO_RECADASTRO") === "1";
+}
+
+function diasRestantesRecadastro(primeiroAvisoEm: string, agora: number = Date.now()): number {
+  const t = new Date(primeiroAvisoEm).getTime();
+  if (!Number.isFinite(t)) return RECADASTRO_DIAS;
+  return Math.max(0, RECADASTRO_DIAS - Math.floor((agora - t) / DIA_MS));
+}
+
+type IdentRecad = {
+  chave: string;
+  origem: "clinica" | "rh" | "hub";
+  authUserId: string | null;
+  hubEmail: string | null;
+  loginEmail: string;
+  nome: string;
+};
+type StatusRecadastro = { pendente: boolean; bloquear: boolean; dias_restantes: number };
+const STATUS_RECAD_ISENTO: StatusRecadastro = { pendente: false, bloquear: false, dias_restantes: RECADASTRO_DIAS };
+
+async function identificarRecadastro(
+  admin: Admin,
+  req: Request,
+  body: Record<string, unknown>,
+): Promise<IdentRecad | "isento" | null> {
+  // (a) código da página de recadastro, emitido por um sistema e de uso curto
+  const pagina = typeof body.pagina === "string" ? body.pagina : "";
+  if (pagina) {
+    const { data } = await admin
+      .from("fa_gestao_recadastro_tickets")
+      .select("chave, origem, auth_user_id, hub_email, login_email, nome, pagina_expira_em")
+      .eq("pagina_hash", await sha256Hex(pagina))
+      .maybeSingle();
+    if (!data || !data.pagina_expira_em || new Date(data.pagina_expira_em).getTime() <= Date.now()) return null;
+    return {
+      chave: data.chave,
+      origem: data.origem,
+      authUserId: data.auth_user_id ?? null,
+      hubEmail: data.hub_email ?? null,
+      loginEmail: data.login_email ?? "",
+      nome: data.nome ?? "",
+    };
+  }
+
+  const authHeader = req.headers.get("authorization") ?? "";
+  const bearer = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
+  if (!bearer) return null;
+
+  // (b) sessão do Hub
+  if (/^[0-9a-f]{64}$/.test(bearer)) {
+    const { data } = await admin
+      .from("fa_gestao_sessoes")
+      .select("email, expires_at")
+      .eq("token_hash", await sha256Hex(bearer))
+      .maybeSingle();
+    if (data && new Date(data.expires_at).getTime() >= Date.now()) {
+      const { data: c } = await admin.from("fa_gestao_contas").select("*").eq("email", data.email).maybeSingle();
+      if (!c) return null;
+      if (!c.ativo) return "isento";
+      return { chave: `hub:${c.email}`, origem: "hub", authUserId: null, hubEmail: c.email, loginEmail: c.email, nome: c.nome ?? "" };
+    }
+  }
+
+  // (c) JWT do projeto B (Clínica ou RH)
+  const sistema = body.sistema;
+  if (sistema !== "clinica" && sistema !== "rh") return null;
+  const b = clinicaAdmin();
+  if (!b) return null;
+  const { data: u } = await b.auth.getUser(bearer);
+  const user = u?.user;
+  if (!user) return null;
+  const papel = String((user.app_metadata as Record<string, unknown> | undefined)?.role ?? "");
+  if (papel.endsWith("_unit") || papel === "intern") return "isento";
+  if (user.banned_until && new Date(user.banned_until).getTime() > Date.now()) return "isento";
+  const { data: perfil } = await b.from("profiles").select("role, active, full_name").eq("id", user.id).maybeSingle();
+  if (perfil?.role === "responsavel" || perfil?.active === false) return "isento";
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+  const email = user.email ?? "";
+  return {
+    chave: `b:${user.id}`,
+    origem: sistema,
+    authUserId: user.id,
+    hubEmail: null,
+    loginEmail: email,
+    nome: String(perfil?.full_name ?? meta.name ?? email),
+  };
+}
+
+async function statusRecadastro(admin: Admin, ident: IdentRecad | "isento"): Promise<StatusRecadastro> {
+  if (!recadastroLigado() || ident === "isento") return { ...STATUS_RECAD_ISENTO };
+  const { data: est } = await admin
+    .from("fa_gestao_recadastro_estado")
+    .select("primeiro_aviso_em, concluido_em")
+    .eq("chave", ident.chave)
+    .maybeSingle();
+  if (est?.concluido_em) return { ...STATUS_RECAD_ISENTO };
+  let primeiro = est?.primeiro_aviso_em as string | undefined;
+  if (!est) {
+    primeiro = new Date().toISOString();
+    await admin.from("fa_gestao_recadastro_estado").upsert({ chave: ident.chave, primeiro_aviso_em: primeiro }, { onConflict: "chave" });
+  }
+  const dias = diasRestantesRecadastro(primeiro as string);
+  const { data: conflitos } = await admin
+    .from("fa_gestao_recadastro_conflitos")
+    .select("id")
+    .eq("chave", ident.chave)
+    .is("resolvido_em", null)
+    .limit(1);
+  const comConflito = (conflitos?.length ?? 0) > 0;
+  return { pendente: true, bloquear: dias <= 0 && !comConflito, dias_restantes: dias };
+}
+
 async function exigirSessao(admin: Admin, req: Request): Promise<{ tokenHash: string; conta: Conta } | null> {
   const authHeader = req.headers.get("authorization") ?? "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
@@ -1208,6 +1326,9 @@ Deno.serve(async (req) => {
       apps: appsDisponiveis(conta, niveis),
       niveis,
       pode_gerir_equipe: conta.papel === "owner" || niveis.clinica === "admin",
+      recadastro: await statusRecadastro(admin, {
+        chave: `hub:${conta.email}`, origem: "hub", authUserId: null, hubEmail: conta.email, loginEmail: conta.email, nome: conta.nome ?? "",
+      }),
     });
   }
 
@@ -1479,6 +1600,14 @@ Deno.serve(async (req) => {
     });
   }
 
+  // Ações de cliente do recadastro: públicas no roteador, cada uma se identifica por conta própria.
+  if (action === "recadastro_status") {
+    if (!recadastroLigado()) return jsonResponse(req, { ...STATUS_RECAD_ISENTO });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    return jsonResponse(req, await statusRecadastro(admin, ident));
+  }
+
   // --- daqui para baixo exige sessão ---
   const sessao = await exigirSessao(admin, req);
   if (!sessao) return jsonResponse(req, { error: "sessão inválida ou expirada" }, 401);
@@ -1494,6 +1623,9 @@ Deno.serve(async (req) => {
       niveis,
       // Mostra a "Equipe da Clínica": owner ou administrador da Clínica (administração delegada).
       pode_gerir_equipe: conta.papel === "owner" || niveis.clinica === "admin",
+      recadastro: await statusRecadastro(admin, {
+        chave: `hub:${conta.email}`, origem: "hub", authUserId: null, hubEmail: conta.email, loginEmail: conta.email, nome: conta.nome ?? "",
+      }),
     });
   }
 
