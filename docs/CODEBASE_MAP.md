@@ -49,7 +49,7 @@ Deploy: push na `main` publica na Vercel. **Funções e migrations não vão pel
 ├── aprender.html + aprender/*.html (9 artigos), glossario.html   conteúdo/SEO
 ├── wifi.html             página pós-portal Wi-Fi (noindex)
 ├── admin.html            painel privado (leads, textos, cupons Wi-Fi, eventos)
-├── gestao.html           Hub de Gestão (login + 7 atalhos SSO)
+├── gestao.html           Hub de Gestão (login + 7 atalhos SSO + card Manutenção TI, só owner; fonte dos arquivos em supabase/ops/ti/)
 ├── termos.html, politica-privacidade.html, 404.html
 ├── assets/               fa-track.js, fa-footer.js, fa-cta.js, fa-back.js
 ├── img/, downloads/      mídia pública (downloads/ tem o capítulo 1 grátis)
