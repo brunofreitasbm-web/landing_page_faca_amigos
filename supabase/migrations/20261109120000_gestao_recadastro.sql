@@ -20,9 +20,9 @@ create table if not exists public.fa_gestao_pessoa_contas (
   criado_em timestamptz not null default now()
 );
 create unique index if not exists fa_gestao_pessoa_contas_origem_user_uidx
-  on public.fa_gestao_pessoa_contas (origem, auth_user_id) where auth_user_id is not null;
+  on public.fa_gestao_pessoa_contas (origem, auth_user_id);
 create unique index if not exists fa_gestao_pessoa_contas_origem_hub_email_uidx
-  on public.fa_gestao_pessoa_contas (origem, hub_email) where hub_email is not null;
+  on public.fa_gestao_pessoa_contas (origem, hub_email);
 
 -- Prazo de 7 dias: chave é 'b:<auth_user_id>' ou 'hub:<email>'.
 create table if not exists public.fa_gestao_recadastro_estado (
