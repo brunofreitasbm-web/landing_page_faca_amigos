@@ -4,21 +4,23 @@ Data: 2026-11-08. Status: aprovado em conversa, aguardando revisão deste texto.
 
 ## Objetivo
 
-Mover o conteúdo da pasta pública `/fa7k2m9` (papéis de parede e ferramentas de TI) para dentro do Hub de
+Mover as ferramentas de TI da pasta pública `/fa7k2m9` para dentro do Hub de
 Gestão, num card chamado **Manutenção TI**, de modo que os arquivos só sejam baixados por quem está logado
 como owner (Bruno e Isabella).
 
 ## Escopo
 
 Dentro:
-- Os 3 arquivos hoje em `public/fa7k2m9/`: `papeis-de-parede-faca-amigos.zip` (58 MB),
-  `otimizar-win11.ps1` (versão 2026.11.04-3) e `comandos-otimizar.txt`.
+- Os 2 arquivos de TI hoje em `public/fa7k2m9/`: `otimizar-win11.ps1` (versão 2026.11.04-3) e
+  `comandos-otimizar.txt`.
 - Card e tela interna no `public/gestao.html`.
 - Duas ações novas na função `gestao-hub`.
 - Bucket privado no Supabase Storage.
 - Desligar o endereço público antigo.
 
 Fora (decidido em conversa):
+- Os papéis de parede (`papeis-de-parede-faca-amigos.zip`, 58 MB) não vão para o Hub. Serão excluídos do
+  repositório no mesmo commit que remove a pasta. Nada deles está no banco de dados ou no Storage.
 - Gerentes não veem o card. Só `papel = owner`. Não se mexe em `APPS`, `APP_IDS`, na matriz de permissões
   nem em `launch`, `conta_salvar` e provisionamento.
 - Nenhuma checklist de programas instalados nas máquinas.
@@ -29,11 +31,10 @@ Fora (decidido em conversa):
 - Migração nova em `supabase/migrations/` cria o bucket `ti-arquivos` com `public = false` e nenhuma policy
   de leitura para `anon` ou `authenticated`. Só a service role (usada por `gestao-hub`) acessa.
 - Catálogo fixo na função, não no banco: nome do arquivo no bucket, rótulo, descrição, versão, tamanho e
-  SHA256, tudo como constantes. Calcular hash de 58 MB a cada listagem seria lento, então o hash do ZIP é
-  calculado uma vez no upload (`sha256sum`) e colado no catálogo. O hash do `.ps1` já existe em
-  `comandos-otimizar.txt`.
+  SHA256, tudo como constantes. O hash do `.ps1` já existe em `comandos-otimizar.txt`; o do `.txt` é
+  calculado uma vez no upload (`sha256sum`).
 - Upload inicial dos arquivos: manual pelo painel do Supabase ou por script único, fora do deploy.
-- O `index.html` da pasta antiga é descartado (era só a lista de links). Os arquivos saem de `public/` no mesmo commit que liga o Hub, para nunca existirem nos dois lugares.
+- O `index.html` e o ZIP da pasta antiga são descartados (o primeiro era só a lista de links). Os arquivos saem de `public/` no mesmo commit que liga o Hub, para nunca existirem nos dois lugares.
 
 ## Backend (`supabase/functions/gestao-hub/index.ts`)
 
@@ -50,7 +51,7 @@ Duas ações, ambas exigem token de sessão válido e `conta.papel === "owner"`.
 - Card `.tile[data-portal]` "Manutenção TI" na seção de operações, visível só para owner (mesma lógica que o
   Hub já usa para elementos de owner). Gerente não recebe o elemento.
 - Tela interna `main#tiMain[hidden]`, no mesmo padrão de `#portalMain`, com botão "Voltar aos sistemas".
-- Três itens com nome, descrição, tamanho, versão e hash SHA256 visível. Botão "Baixar" chama `ti_baixar` e
+- Dois itens com nome, descrição, tamanho, versão e hash SHA256 visível. Botão "Baixar" chama `ti_baixar` e
   inicia o download pela URL devolvida.
 - Estados: carregando, erro (mensagem do servidor), sessão expirada (volta ao login, como as demais telas).
 
@@ -69,10 +70,7 @@ não é necessário, o script em si não muda.
 
 ## Riscos em aberto
 
-- **Limite por arquivo do Storage.** O ZIP tem 58 MB. No plano gratuito o limite global é 50 MB. Conferir o
-  plano antes do upload. Se for 50 MB, recomprimir o ZIP ou dividir em duas partes (o catálogo aceita mais
-  de um item).
-- O ZIP e o script permanecem no histórico do git. Se o conteúdo for sensível, é decisão separada.
+- O ZIP e o script permanecem no histórico do git mesmo excluídos da árvore. Se o conteúdo for sensível, reescrever o histórico é decisão separada.
 - Quem já guardou a URL antiga (atalho, impresso, QR code) vai ao login do Hub em vez do arquivo.
 
 ## Testes
@@ -83,5 +81,5 @@ Seguem o padrão de `supabase/tests/gestao-hub/` (Deno, workflow `gestao-hub.yml
 - `ti_baixar` com `id` fora do catálogo: 404, sem chamar o Storage.
 - `ti_baixar` com owner: devolve URL, grava auditoria, `createSignedUrl` recebe 60 s e o nome certo.
 - Falha do Storage: 502 e nenhuma linha de auditoria de sucesso.
-- Verificação manual no Hub depois do deploy: card visível para owner, ausente para gerente, download do ZIP
+- Verificação manual no Hub depois do deploy: card visível para owner, ausente para gerente, download do `.ps1`
   e conferência do hash.
