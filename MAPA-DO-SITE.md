@@ -128,6 +128,7 @@ flowchart LR
 | `/descadastrar` | descadastrar.html | Sair da sequência de e-mails | não | noindex |
 | `/admin` | admin.html | Painel do teste | não | noindex, no-store |
 | `/gestao` | gestao.html | Hub de Gestão | não | só pelo host `gestao.` |
+| `/fa7k2m9` | (redireciona) | Antiga pasta pública de TI; hoje 301 para o Hub. Os arquivos de TI ficam no bucket privado `ti-arquivos` (card Manutenção TI, só owner) | não | redirect |
 | `/tv` | tv.html | Vitrine Digital e canal de cultura para as Smart TVs das operações (/vitrine-digital) | não | noindex (uso interno nas lojas) |
 | `/tv2` | tv2.html | Vitrine Digital da TV 50" deitada 90º (retrato) do Quiosque do Circuito — só carrinhos, preço R$ 48,00 · 20/30 min | não | noindex (uso interno quiosque) |
 | `/tv3` | tv3.html | Mídia indoor da sala de espera da Clínica (atalhos `/clinica/tv` e `/tv-clinica`): voltas de ~9 min, conversão principal no Portal da Família. Ver `PLANO-TV3.md` | não | noindex (uso interno na clínica) |

@@ -28,6 +28,8 @@ export class Projeto {
   tabelasComErro = new Set<string>();
   /** Operações pontuais que falham, no formato "upsert:profiles". */
   operacoesComErro = new Set<string>();
+  /** URLs assinadas pedidas ao Storage (imita storage.from(bucket).createSignedUrl). */
+  assinaturas: Array<{ bucket: string; path: string; seconds: number; download: string | boolean | undefined }> = [];
   tabela(nome: string): Linha[] {
     return (this.tabelas[nome] ??= []);
   }
@@ -194,6 +196,15 @@ export function createClient(url: string, _key: string, _opts?: unknown) {
   return {
     from: (nome: string) => new Consulta(p, nome),
     auth: { admin: adminAuth(p) },
+    storage: {
+      from: (bucket: string) => ({
+        async createSignedUrl(path: string, seconds: number, opts?: { download?: string | boolean }) {
+          if (p.operacoesComErro.has("storage:createSignedUrl")) return { data: null, error: { message: "Object not found" } };
+          p.assinaturas.push({ bucket, path, seconds, download: opts?.download });
+          return { data: { signedUrl: `http://a/storage/${bucket}/${path}?t=x` }, error: null };
+        },
+      }),
+    },
     // Imita public.hub_encerrar_sessoes (projeto B): só age em quem já está banido e nunca em conta de unidade.
     async rpc(nome: string, args: { p_user_id: string }) {
       p.chamadas.push(`rpc:${nome}`);

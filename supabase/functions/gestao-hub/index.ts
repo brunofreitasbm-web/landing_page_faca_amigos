@@ -1587,7 +1587,8 @@ Deno.serve(async (req) => {
     "sessoes_revogar",
     "auditoria_listar",
     "convite_link_gerar",
-    "pessoa_buscar",
+    "ti_listar",
+    "ti_baixar",
   ];
   if (ACOES_OWNER.includes(action)) {
     if (conta.papel !== "owner") {
@@ -2277,226 +2278,43 @@ async function acaoEquipe(
 }
 
 // ---------------------------------------------------------------------
-// Link de usuário com vários sistemas (botão "Enviar Link de Usuário")
+// Manutenção TI: arquivos de TI só para owner. Ficam num bucket privado do Storage
+// (migração 20261108120000_ti_arquivos_bucket.sql); a função gera um link de 60 s.
+// A fonte dos arquivos é supabase/ops/ti/: ao mudar um deles, atualize tamanho e SHA256 aqui
+// (o teste "tamanho e SHA256 do catálogo batem com os arquivos reais" avisa se esquecer).
 // ---------------------------------------------------------------------
+const BUCKET_TI = "ti-arquivos";
 
-const NIVEIS_CONVITE = ["ver", "operar", "admin"] as const;
-type NivelConvite = typeof NIVEIS_CONVITE[number];
-type ItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; escopo: string | null; unidades: string[] };
-const ROTULO_NIVEL: Record<NivelConvite, string> = { ver: "Visualizador", operar: "Operador", admin: "Administrador" };
+type ArquivoTi = {
+  id: string;
+  rotulo: string;
+  descricao: string;
+  nome: string;
+  versao: string | null;
+  tamanho_bytes: number;
+  sha256: string;
+};
 
-// Valida os itens do convite. Devolve a lista limpa ou a mensagem de erro (nada é gravado antes disso).
-function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
-  if (bruto.length === 0) return "adicione pelo menos um sistema";
-  if (bruto.length > Object.keys(APPS).length) return "sistemas demais no convite";
-  const itens: ItemConvite[] = [];
-  for (const b of bruto) {
-    const o = (b ?? {}) as Record<string, unknown>;
-    const modulo = str(o.sistema) as AppId;
-    if (!Object.hasOwn(APPS, modulo)) return "selecione um sistema válido";
-    if (itens.some((i) => i.modulo === modulo)) return "cada sistema só pode aparecer uma vez no convite";
-    const nivel = str(o.nivel) as NivelConvite;
-    if (!NIVEIS_CONVITE.includes(nivel)) return "permissão inválida";
-    const funcao = str(o.funcao).slice(0, 80);
-    if (!funcao) return "informe a função em cada sistema";
-    let escopo: string | null = null;
-    if (Object.hasOwn(ESCOPOS, modulo)) {
-      escopo = escopoValido(modulo, o.escopo);
-      if (!escopo) return "escolha a empresa (Grupo IB ou Porto Terapia) desta pessoa";
-    }
-    const unidades = Array.isArray(o.unidades)
-      ? [...new Set(o.unidades.map((u) => str(u).slice(0, 80)).filter(Boolean))].slice(0, 20)
-      : [];
-    itens.push({ modulo, funcao, nivel, escopo, unidades });
-  }
-  return itens;
-}
-
-async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<string, unknown>, dono: Conta): Promise<Response> {
-  const destinatarioNome = str(body.destinatario_nome).slice(0, 120);
-  const destinatarioEmail = str(body.destinatario_email).toLowerCase();
-  const cpf = str(body.cpf).replace(/\D/g, "");
-  if (!EMAIL_RE.test(destinatarioEmail)) return jsonResponse(req, { error: "informe o e-mail da pessoa" }, 400);
-  if (!cpfValido(cpf)) return jsonResponse(req, { error: "CPF inválido" }, 400);
-  const itens = lerItensConvite(body.itens as unknown[]);
-  if (typeof itens === "string") return jsonResponse(req, { error: itens }, 400);
-
-  // Convite só cria conta nova: quem já tem conta recebe acesso pelo owner em "Pessoas e acessos".
-  const [{ data: porCpf }, porEmail] = await Promise.all([
-    admin.from("fa_gestao_contas").select("email").eq("cpf", cpf).maybeSingle(),
-    emailEmUso(admin, destinatarioEmail),
-  ]);
-  if (porCpf) return jsonResponse(req, { error: "já existe uma conta com este CPF. Dê o acesso pela lista de pessoas" }, 409);
-  if (porEmail) return jsonResponse(req, { error: "já existe uma conta com este e-mail. Dê o acesso pela lista de pessoas" }, 409);
-
-  const token = randomHex(24);
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
-  const primeiro = itens[0];
-  const { data: convite, error: insErr } = await admin.from("fa_gestao_convites").insert({
-    token: null,
-    token_hash: await sha256Hex(token),
-    // Colunas antigas (not null) recebem o primeiro sistema; os itens são a fonte de verdade.
-    unidade: primeiro.unidades[0] ?? "Instituto Faça Amigos",
-    sistema: primeiro.modulo,
-    funcao: primeiro.funcao,
-    permissao: primeiro.nivel,
-    destinatario_nome: destinatarioNome || null,
-    destinatario_email: destinatarioEmail,
-    cpf,
-    criado_por: dono.email,
-    expires_at: expiresAt,
-  }).select("id").single();
-  if (insErr || !convite) {
-    console.error("fa_gestao_convites insert (multi):", insErr?.message);
-    return jsonResponse(req, { error: "não foi possível gravar o convite no banco" }, 500);
-  }
-  const { error: itensErr } = await admin.from("fa_gestao_convite_itens").insert(
-    itens.map((i, ordem) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades, ordem })),
-  );
-  if (itensErr) {
-    console.error("fa_gestao_convite_itens insert:", itensErr.message);
-    await admin.from("fa_gestao_convites").delete().eq("id", convite.id);
-    return jsonResponse(req, { error: "não foi possível gravar o convite no banco" }, 500);
-  }
-
-  const link = `${HUB_URL}/#cadastro?token=${token}`;
-  const linhas = itens.map((i) =>
-    `<div><strong>${escapeHtml(APPS[i.modulo].rotulo)}</strong>: ${escapeHtml(i.funcao)} (${ROTULO_NIVEL[i.nivel]})` +
-    `${i.unidades.length ? `, ${escapeHtml(i.unidades.join(", "))}` : ""}</div>`
-  ).join("");
-  const html = moldeEmail(`
-    <p style="margin:0 0 12px;font-size:15px;">Olá${destinatarioNome ? `, ${escapeHtml(destinatarioNome)}` : ""}!</p>
-    <p style="margin:0 0 16px;font-size:14px;color:#4C6B62;">${escapeHtml(dono.nome)} liberou o seu acesso aos sistemas abaixo.</p>
-    <div style="background:#FFF9F1;border:1.5px solid #2ECFB5;border-radius:16px;padding:16px;margin:16px 0;text-align:left;font-size:13px;line-height:1.6;">${linhas}</div>
-    <p style="margin:20px 0;">
-      <a href="${link}" style="display:inline-block;background:#f0196b;color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:12px 24px;border-radius:999px;">Criar minha conta</a>
-    </p>
-    <p style="margin:0;font-size:12px;color:#8B9A94;">O link vale por 7 dias. Ou copie: ${link}</p>
-  `);
-  const emailEnviado = await enviarEmail(destinatarioEmail, destinatarioNome || "Novo Colaborador", "Convite de acesso aos sistemas Faça Amigos", html);
-
-  await auditar(admin, req, "convite_link_gerado", {
-    email: dono.email,
-    detalhe: `dest=${destinatarioEmail}; itens=${itens.map((i) => `${i.modulo}:${i.nivel}`).join(",")}`.slice(0, 300),
-  });
-
-  const sistemaBase = (Deno.env.get(APPS[primeiro.modulo].baseEnv) ?? APPS[primeiro.modulo].baseDefault).replace(/\/+$/, "");
-  return jsonResponse(req, {
-    ok: true,
-    token,
-    link,
-    email_enviado: emailEnviado,
-    convite: {
-      unidade: primeiro.unidades[0] ?? null,
-      sistema: primeiro.modulo,
-      sistema_nome: APPS[primeiro.modulo].rotulo,
-      sistema_url: sistemaBase,
-      funcao: primeiro.funcao,
-      permissao: primeiro.nivel,
-      destinatario_nome: destinatarioNome || null,
-      destinatario_email: destinatarioEmail,
-    },
-    itens: itens.map((i) => ({ sistema: i.modulo, sistema_nome: APPS[i.modulo].rotulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades })),
-  });
-}
-
-type LinhaItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; papel_nativo: string | null; escopo: string | null; unidades: string[] | null; ordem: number | null };
-
-// Itens na ordem em que o owner escolheu (o primeiro é o destino depois do cadastro).
-async function itensDoConvite(admin: Admin, conviteId: string): Promise<LinhaItemConvite[]> {
-  const { data } = await admin.from("fa_gestao_convite_itens")
-    .select("modulo, funcao, nivel, papel_nativo, escopo, unidades, ordem").eq("convite_id", conviteId);
-  return ((data ?? []) as LinhaItemConvite[]).filter((i) => APPS[i.modulo]).sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0));
-}
-
-// Cadastro por convite com vários sistemas: cria a conta, grava a função de cada sistema e já provisiona.
-// Uma falha de provisão em um sistema não desfaz a conta: o estado de cada um volta na resposta e o Hub
-// tenta de novo quando a pessoa abre o quadrado.
-async function cadastrarConviteMulti(
-  admin: Admin,
-  req: Request,
-  convite: Record<string, any>,
-  itens: LinhaItemConvite[],
-  p: { emailReal: string; nome: string; dataNascimento: string; senhaHash: string; agoraIso: string; liberarConvite: () => PromiseLike<unknown> },
-): Promise<Response> {
-  const cpf = typeof convite.cpf === "string" && convite.cpf ? convite.cpf : null;
-  if (cpf) {
-    const { data: porCpf } = await admin.from("fa_gestao_contas").select("email").eq("cpf", cpf).maybeSingle();
-    if (porCpf) {
-      await p.liberarConvite();
-      return jsonResponse(req, { error: "já existe uma conta com este CPF. Entre no Hub e peça acesso ao responsável" }, 409);
-    }
-  }
-  const primeiro = itens[0];
-  const dadosConta: Record<string, unknown> = {
-    email: p.emailReal,
-    email_codigo: p.emailReal,
-    nome: p.nome,
-    data_nascimento: p.dataNascimento,
-    cpf,
-    unidade: primeiro.unidades?.[0] ?? convite.unidade,
-    funcao: primeiro.funcao,
-    papel: "gerente",
-    auth_modo: "hub",
-    senha_hash: p.senhaHash,
-    senha_definida_em: p.agoraIso,
-    ativo: true,
-    criado_por: convite.criado_por || "convite",
-  };
-  for (const i of itens) {
-    const app = APPS[i.modulo];
-    if (i.modulo === "painel" || i.modulo === "eventos") dadosConta.painel_usuario = p.emailReal;
-    // Cacau: o usuário de lá não sai do e-mail (admin@x viraria o "admin" de outra pessoa). O owner informa depois.
-    else if (i.modulo !== "cacau" && app.campo) dadosConta[app.campo] = p.emailReal;
-  }
-  const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
-  if (insErr) {
-    console.error("ins conta convite (multi):", insErr.message);
-    await p.liberarConvite();
-    return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
-  }
-
-  const avisos: string[] = [];
-  const por = convite.criado_por || "convite";
-  const { error: permErr } = await admin.from("fa_gestao_permissoes").upsert(
-    itens.map((i) => ({
-      email: p.emailReal, modulo: i.modulo, nivel: i.nivel, papel_nativo: i.papel_nativo, escopo: i.escopo,
-      unidades: i.unidades ?? [], atualizado_por: por,
-    })),
-    { onConflict: "email,modulo" },
-  );
-  if (permErr) {
-    console.error("permissoes convite (multi):", permErr.message);
-    avisos.push("Sua conta foi criada, mas os acessos ainda não foram gravados. Avise quem enviou o convite.");
-  }
-  await auditar(admin, req, "usuario_cadastrado_convite", {
-    email: p.emailReal,
-    detalhe: itens.map((i) => `${i.modulo}:${i.nivel}`).join(",").slice(0, 300),
-  });
-
-  const conta = await carregarConta(admin, p.emailReal);
-  let provisionamento: ResultadoProvisao[] = [];
-  if (conta) {
-    try {
-      provisionamento = await provisionarModulos(admin, req, conta, await carregarNiveis(admin, conta), "convite");
-    } catch (e) {
-      console.error("provisionar (convite):", e instanceof Error ? e.message : e);
-    }
-  }
-  const app = APPS[primeiro.modulo];
-  const destino = (Deno.env.get(app.baseEnv) ?? app.baseDefault).replace(/\/+$/, "");
-  return jsonResponse(req, {
-    ok: true,
-    mensagem: "Cadastro concluído com sucesso!",
-    sistema_nome: app.rotulo,
-    sistema_url: destino,
-    destino,
-    unidade: dadosConta.unidade,
-    funcao: primeiro.funcao,
-    provisionamento,
-    avisos,
-  });
-}
+const ARQUIVOS_TI: ArquivoTi[] = [
+  {
+    id: "otimizar-win11",
+    rotulo: "Script de otimização do Windows 11",
+    descricao: "Remove bloatware, neutraliza o Edge, desativa telemetria e enxuga a inicialização de um PC recém-instalado.",
+    nome: "otimizar-win11.ps1",
+    versao: "2026.11.04-3",
+    tamanho_bytes: 21725,
+    sha256: "71d1dde0cf4ecbce6413067b5f5d7184b54852b68df243287554bd1ce045f5e8",
+  },
+  {
+    id: "comandos-otimizar",
+    rotulo: "Comandos para o PowerShell",
+    descricao: "Passo a passo e blocos para copiar: conferir o hash do script e executá-lo.",
+    nome: "comandos-otimizar.txt",
+    versao: null,
+    tamanho_bytes: 2619,
+    sha256: "05ed213b1e52b3b8640e95fff19c447d3701d262590b6dc5d00df2ca51870c2c",
+  },
+];
 
 async function acaoOwner(
   admin: Admin,
@@ -2506,6 +2324,32 @@ async function acaoOwner(
   dono: Conta,
 ): Promise<Response> {
   const alvoEmail = str(body.email).toLowerCase();
+
+  if (action === "ti_listar") {
+    return jsonResponse(req, {
+      arquivos: ARQUIVOS_TI.map(({ id, rotulo, descricao, versao, tamanho_bytes, sha256 }) => ({
+        id,
+        rotulo,
+        descricao,
+        versao,
+        tamanho_bytes,
+        sha256,
+      })),
+    });
+  }
+
+  if (action === "ti_baixar") {
+    // Só igualdade estrita com o catálogo: a entrada nunca vira caminho no Storage.
+    const arquivo = typeof body.id === "string" ? ARQUIVOS_TI.find((a) => a.id === body.id) : undefined;
+    if (!arquivo) return jsonResponse(req, { error: "arquivo não encontrado" }, 404);
+    const { data, error } = await admin.storage.from(BUCKET_TI).createSignedUrl(arquivo.nome, 60, { download: arquivo.nome });
+    if (error || !data?.signedUrl) {
+      console.error("ti_baixar:", error?.message);
+      return jsonResponse(req, { error: "não consegui gerar o link agora, tente de novo" }, 502);
+    }
+    await auditar(admin, req, "ti_download", { email: dono.email, app: "ti", detalhe: arquivo.id });
+    return jsonResponse(req, { url: data.signedUrl });
+  }
 
   if (action === "contas_listar") {
     const [{ data: contas, error }, { data: perms }, { data: provs }] = await Promise.all([
