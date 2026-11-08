@@ -474,3 +474,65 @@ Deno.test("vinculo_existente_sem_concluido_nao_duplica", async () => {
     assert.ok(estado(p.chave)!.concluido_em);
   } finally { desligar(); }
 });
+
+Deno.test("erro_ambiguo_e_volta_falha_perfil_acompanha_login", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "ugo@staff.facaamigos.local" });
+    const d = await pedirCodigo(p, cpf, "ugo@real.com");
+    // A troca é gravada mas responde erro; a volta também falha.
+    B.aoAtualizarUsuario = (_id, attrs) =>
+      attrs.email === "ugo@real.com" ? { aplica: true, erro: "AuthRetryableFetchError: 504" }
+      : attrs.email === "ugo@staff.facaamigos.local" ? { aplica: false, erro: "timeout" } : undefined;
+    const r = await confirmar(p, d);
+    B.aoAtualizarUsuario = null;
+    assert.equal(r.status, 500);
+    assert.equal(usuario(p.id!).email, "ugo@real.com");
+    assert.equal(perfil(p.id!)!.email, "ugo@real.com", "perfil acompanha o login");
+    assert.equal(vinculos().find((l) => l.auth_user_id === p.id)!.email_login_antes, "ugo@staff.facaamigos.local");
+    assert.ok(pessoas().some((l) => l.cpf === cpf));
+    assert.ok(!estado(p.chave)?.concluido_em);
+    assert.ok(A.tabela("fa_gestao_auditoria").some((l) => l.evento === "recadastro_reversao_falhou" && String(l.detalhe).includes(p.chave)));
+  } finally { desligar(); B.aoAtualizarUsuario = null; }
+});
+
+Deno.test("falha_no_perfil_e_volta_falha_perfil_acompanha_login", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "vivi@staff.facaamigos.local" });
+    const d = await pedirCodigo(p, cpf, "vivi@real.com");
+    B.operacoesComErro.add("select:profiles");
+    B.aoAtualizarUsuario = (_id, attrs) => attrs.email === "vivi@staff.facaamigos.local" ? { aplica: false, erro: "timeout" } : undefined;
+    const r = await confirmar(p, d);
+    B.operacoesComErro.delete("select:profiles");
+    B.aoAtualizarUsuario = null;
+    assert.equal(r.status, 500);
+    assert.equal(usuario(p.id!).email, "vivi@real.com");
+    assert.equal(perfil(p.id!)!.email, "vivi@real.com", "perfil acompanha o login");
+    assert.equal(perfil(p.id!)!.cpf, null, "cpf do perfil não é gravado");
+    assert.equal(vinculos().find((l) => l.auth_user_id === p.id)!.email_login_antes, "vivi@staff.facaamigos.local");
+    assert.ok(!estado(p.chave)?.concluido_em);
+    assert.ok(A.tabela("fa_gestao_auditoria").some((l) => l.evento === "recadastro_reversao_falhou" && String(l.detalhe).includes(p.chave)));
+  } finally { desligar(); B.operacoesComErro.delete("select:profiles"); B.aoAtualizarUsuario = null; }
+});
+
+Deno.test("falha_depois_da_conta_do_hub_volta_cpf_e_email_codigo", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "xena@staff.facaamigos.local" });
+    A.tabela("fa_gestao_contas").push(contaBase({ email: "xena.hub@t.com", email_codigo: "xena.hub@t.com", nome: "Xena", clinica_email: "xena@staff.facaamigos.local" }));
+    const d = await pedirCodigo(p, cpf, "xena@real.com");
+    A.operacoesComErro.add("upsert:fa_gestao_recadastro_estado");
+    const r = await confirmar(p, d);
+    A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado");
+    assert.equal(r.status, 500);
+    const c = A.tabela("fa_gestao_contas").find((l) => l.nome === "Xena")!;
+    assert.equal(c.cpf, null);
+    assert.equal(c.email_codigo, "xena.hub@t.com");
+    assert.equal(perfil(p.id!)!.cpf, null);
+    nadaGravado(p, cpf);
+  } finally { desligar(); A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado"); }
+});

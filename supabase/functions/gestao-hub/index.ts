@@ -1187,7 +1187,7 @@ async function gravarConfirmacaoRecadastro(
   const desfazer: Desfazer[] = [];
   const b = ident.origem === "hub" ? null : clinicaAdmin();
   const loginAntes = ident.loginEmail.trim().toLowerCase();
-  let perfilTrocouEmail = false;
+  let trocaTentada = false;
   try {
     if (ident.origem !== "hub" && (!b || !ident.authUserId)) throw new Error("projeto B indisponível");
     const porHub = ident.origem === "hub";
@@ -1258,10 +1258,12 @@ async function gravarConfirmacaoRecadastro(
         fn: () => b!.auth.admin.updateUserById(ident.authUserId!, { email: loginAntes, email_confirm: true }),
       };
       desfazer.push(volta);
+      trocaTentada = true;
       const { error } = await b!.auth.admin.updateUserById(ident.authUserId!, { email: emailReal, email_confirm: true });
       if (error) {
         if (ehEmailJaUsado(error as { code?: string; message?: string })) {
           desfazer.pop(); // recusado com certeza: a troca não aconteceu
+          trocaTentada = false;
           throw new ConflitoRecadastro("email_de_outro_login");
         }
         throw new Error(`login: ${error.message}`);
@@ -1280,7 +1282,6 @@ async function gravarConfirmacaoRecadastro(
           if (ehUnicidade(error as { code?: string; message?: string })) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
           throw new Error(`perfil: ${error.message}`);
         }
-        perfilTrocouEmail = trocarLogin;
         const antes: Record<string, unknown> = { cpf: perfil.cpf ?? null };
         if (trocarLogin) antes.email = perfil.email ?? null;
         desfazer.push({ passo: "perfil", fn: () => b.from("profiles").update(antes).eq("id", ident.authUserId!) });
@@ -1326,7 +1327,9 @@ async function gravarConfirmacaoRecadastro(
       }
       if (falhou && d.passo === "login") {
         loginPreso = true;
-        if (perfilTrocouEmail && b) {
+        // O login pode ter ficado com o e-mail real mesmo sem o perfil ter sido tocado (erro ambíguo na troca
+        // ou falha no passo do perfil): reaplica sempre; perfil inexistente não é criado (update não casa nada).
+        if (trocaTentada && b) {
           const { error } = await b.from("profiles").update({ email: emailReal }).eq("id", ident.authUserId!);
           if (error) console.error("recadastro reaplicar perfil:", error.message);
         }
