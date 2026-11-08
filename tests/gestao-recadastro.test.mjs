@@ -326,3 +326,66 @@ test('nao_usa_innerHTML_com_dados_do_servidor', async () => {
   assert.ok((await page.textContent('#recadConflitos')).includes(MAU));
   await page.close();
 });
+
+// Contrato com o Hub: a página escolhe a mensagem pelo TEXTO destes erros (travado também em
+// supabase/tests/gestao-hub/recadastro_contrato_front_test.ts). Nada do texto do servidor aparece na tela.
+async function ate(page, passo, respostas) {
+  await page.waitForSelector('#recadForm1:not([hidden])');
+  await page.fill('#recad-cpf', CPF);
+  await page.fill('#recad-email', 'carla@t.com');
+  await page.click('#recadEnviar');
+  if (passo === 'enviar') return;
+  await page.waitForSelector('#recadForm2:not([hidden])');
+  await page.fill('#recad-codigo', '123456');
+  await page.click('#recadConfirmar');
+}
+const erroVisivel = async (page) => {
+  await page.waitForFunction(() => document.getElementById('recadErro').classList.contains('show'));
+  return page.textContent('#recadErro');
+};
+
+test('confirmar_401_nao_autorizado_e_acesso_expirado_e_outro_401_e_codigo_incorreto', async () => {
+  let msg = 'não autorizado';
+  const resp = {
+    recadastro_consultar: CONSULTA(),
+    recadastro_enviar_codigo: () => ({ challenge_id: 'ch-1' }),
+    recadastro_confirmar: () => ({ status: 401, body: { error: msg } }),
+  };
+  let { page } = await abrir(resp, { hash: '#recadastro&c=x' });
+  await ate(page, 'confirmar');
+  let txt = await erroVisivel(page);
+  assert.match(txt, /acesso expirou/);
+  assert.match(txt, /abra o recadastro de novo/);
+  assert.doesNotMatch(txt, /incorreto|autorizado/);
+  await page.close();
+
+  msg = 'código incorreto (restam 2 tentativas)';
+  ({ page } = await abrir(resp, { hash: '#recadastro&c=x' }));
+  await ate(page, 'confirmar');
+  txt = await erroVisivel(page);
+  assert.match(txt, /Código incorreto/);
+  assert.doesNotMatch(txt, /expirou|restam/);
+  await page.close();
+});
+
+test('enviar_codigo_409_ja_concluido_tem_mensagem_propria_e_outro_409_e_conflito', async () => {
+  let msg = 'recadastro já concluído';
+  const resp = {
+    recadastro_consultar: CONSULTA(),
+    recadastro_enviar_codigo: () => ({ status: 409, body: { error: msg } }),
+  };
+  let { page } = await abrir(resp, { hash: '#recadastro&c=x' });
+  await ate(page, 'enviar');
+  let txt = await erroVisivel(page);
+  assert.match(txt, /já foi concluído/);
+  assert.doesNotMatch(txt, /responsável/);
+  await page.close();
+
+  msg = 'não foi possível concluir, o responsável foi avisado';
+  ({ page } = await abrir(resp, { hash: '#recadastro&c=x' }));
+  await ate(page, 'enviar');
+  txt = await erroVisivel(page);
+  assert.match(txt, /O responsável foi avisado/);
+  assert.doesNotMatch(txt, /já foi concluído/);
+  await page.close();
+});
