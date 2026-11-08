@@ -850,6 +850,13 @@ function clientIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
+// Já existe conta que entra com este e-mail? Confere `email` e `login_email` (acharContaPorLogin usa os dois).
+async function emailEmUso(admin: Admin, email: string): Promise<boolean> {
+  const q = quoteFilterValue(email.toLowerCase());
+  const { data } = await admin.from("fa_gestao_contas").select("email").or(`email.eq.${q},login_email.eq.${q}`).limit(1);
+  return (data ?? []).length > 0;
+}
+
 // Falhas recentes de login (janela LOGIN_WINDOW_MS). `ip` nulo = só o limite por login.
 async function excedeuTentativas(admin: Admin, ip: string | null, login: string): Promise<boolean> {
   const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
@@ -1381,16 +1388,22 @@ Deno.serve(async (req) => {
 
     // Convite só cria conta NOVA. Nunca sobrescreve senha, papel ou e-mail de código de quem já existe:
     // dar acesso a uma conta existente é feito pelo owner no Hub (conta_salvar).
-    const { data: contaExistente } = await admin.from("fa_gestao_contas").select("email").eq("email", emailReal).maybeSingle();
-    if (contaExistente) {
+    if (await emailEmUso(admin, emailReal)) {
       return jsonResponse(req, { error: "já existe uma conta com este e-mail. Entre no Hub e peça acesso ao responsável" }, 409);
     }
     const senhaHash = await hashSenha(senha);
     const agoraIso = new Date().toISOString();
 
+    // Reserva o convite antes de criar a conta: dois cadastros simultâneos com o mesmo link não geram duas contas.
+    const { data: reservado } = await admin.from("fa_gestao_convites")
+      .update({ usado_em: agoraIso, usado_por: emailReal })
+      .eq("id", convite.id).is("usado_em", null).select("id");
+    if (!reservado || reservado.length === 0) return jsonResponse(req, { error: "este convite já foi utilizado" }, 410);
+    const liberarConvite = () => admin.from("fa_gestao_convites").update({ usado_em: null, usado_por: null }).eq("id", convite.id);
+
     const itensConvite = await itensDoConvite(admin, convite.id);
     if (itensConvite.length > 0) {
-      return await cadastrarConviteMulti(admin, req, convite, itensConvite, { emailReal, nome, dataNascimento, senhaHash, agoraIso });
+      return await cadastrarConviteMulti(admin, req, convite, itensConvite, { emailReal, nome, dataNascimento, senhaHash, agoraIso, liberarConvite });
     }
 
     const dadosConta: Record<string, unknown> = {
@@ -1418,6 +1431,7 @@ Deno.serve(async (req) => {
     const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
     if (insErr) {
       console.error("ins conta convite:", insErr.message);
+      await liberarConvite();
       return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
     }
 
@@ -1428,11 +1442,6 @@ Deno.serve(async (req) => {
       nivel: nivelPermissao,
       atualizado_por: convite.criado_por || "convite"
     });
-
-    await admin.from("fa_gestao_convites").update({
-      usado_em: agoraIso,
-      usado_por: emailReal
-    }).eq("id", convite.id);
 
     await auditar(admin, req, "usuario_cadastrado_convite", {
       email: emailReal,
@@ -2266,14 +2275,14 @@ function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
   for (const b of bruto) {
     const o = (b ?? {}) as Record<string, unknown>;
     const modulo = str(o.sistema) as AppId;
-    if (!APPS[modulo]) return "selecione um sistema válido";
+    if (!Object.hasOwn(APPS, modulo)) return "selecione um sistema válido";
     if (itens.some((i) => i.modulo === modulo)) return "cada sistema só pode aparecer uma vez no convite";
     const nivel = str(o.nivel) as NivelConvite;
     if (!NIVEIS_CONVITE.includes(nivel)) return "permissão inválida";
     const funcao = str(o.funcao).slice(0, 80);
     if (!funcao) return "informe a função em cada sistema";
     let escopo: string | null = null;
-    if (ESCOPOS[modulo]) {
+    if (Object.hasOwn(ESCOPOS, modulo)) {
       escopo = escopoValido(modulo, o.escopo);
       if (!escopo) return "escolha a empresa (Grupo IB ou Porto Terapia) desta pessoa";
     }
@@ -2295,9 +2304,9 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
   if (typeof itens === "string") return jsonResponse(req, { error: itens }, 400);
 
   // Convite só cria conta nova: quem já tem conta recebe acesso pelo owner em "Pessoas e acessos".
-  const [{ data: porCpf }, { data: porEmail }] = await Promise.all([
+  const [{ data: porCpf }, porEmail] = await Promise.all([
     admin.from("fa_gestao_contas").select("email").eq("cpf", cpf).maybeSingle(),
-    admin.from("fa_gestao_contas").select("email").eq("email", destinatarioEmail).maybeSingle(),
+    emailEmUso(admin, destinatarioEmail),
   ]);
   if (porCpf) return jsonResponse(req, { error: "já existe uma conta com este CPF. Dê o acesso pela lista de pessoas" }, 409);
   if (porEmail) return jsonResponse(req, { error: "já existe uma conta com este e-mail. Dê o acesso pela lista de pessoas" }, 409);
@@ -2390,12 +2399,15 @@ async function cadastrarConviteMulti(
   req: Request,
   convite: Record<string, any>,
   itens: LinhaItemConvite[],
-  p: { emailReal: string; nome: string; dataNascimento: string; senhaHash: string; agoraIso: string },
+  p: { emailReal: string; nome: string; dataNascimento: string; senhaHash: string; agoraIso: string; liberarConvite: () => PromiseLike<unknown> },
 ): Promise<Response> {
   const cpf = typeof convite.cpf === "string" && convite.cpf ? convite.cpf : null;
   if (cpf) {
     const { data: porCpf } = await admin.from("fa_gestao_contas").select("email").eq("cpf", cpf).maybeSingle();
-    if (porCpf) return jsonResponse(req, { error: "já existe uma conta com este CPF. Entre no Hub e peça acesso ao responsável" }, 409);
+    if (porCpf) {
+      await p.liberarConvite();
+      return jsonResponse(req, { error: "já existe uma conta com este CPF. Entre no Hub e peça acesso ao responsável" }, 409);
+    }
   }
   const primeiro = itens[0];
   const dadosConta: Record<string, unknown> = {
@@ -2416,23 +2428,29 @@ async function cadastrarConviteMulti(
   for (const i of itens) {
     const app = APPS[i.modulo];
     if (i.modulo === "painel" || i.modulo === "eventos") dadosConta.painel_usuario = p.emailReal;
-    else if (app.campo) dadosConta[app.campo] = i.modulo === "cacau" ? p.emailReal.split("@")[0] : p.emailReal;
+    // Cacau: o usuário de lá não sai do e-mail (admin@x viraria o "admin" de outra pessoa). O owner informa depois.
+    else if (i.modulo !== "cacau" && app.campo) dadosConta[app.campo] = p.emailReal;
   }
   const { error: insErr } = await admin.from("fa_gestao_contas").insert(dadosConta);
   if (insErr) {
     console.error("ins conta convite (multi):", insErr.message);
+    await p.liberarConvite();
     return jsonResponse(req, { error: "não foi possível criar o usuário" }, 500);
   }
 
+  const avisos: string[] = [];
   const por = convite.criado_por || "convite";
-  await admin.from("fa_gestao_permissoes").upsert(
+  const { error: permErr } = await admin.from("fa_gestao_permissoes").upsert(
     itens.map((i) => ({
       email: p.emailReal, modulo: i.modulo, nivel: i.nivel, papel_nativo: i.papel_nativo, escopo: i.escopo,
       unidades: i.unidades ?? [], atualizado_por: por,
     })),
     { onConflict: "email,modulo" },
   );
-  await admin.from("fa_gestao_convites").update({ usado_em: p.agoraIso, usado_por: p.emailReal }).eq("id", convite.id);
+  if (permErr) {
+    console.error("permissoes convite (multi):", permErr.message);
+    avisos.push("Sua conta foi criada, mas os acessos ainda não foram gravados. Avise quem enviou o convite.");
+  }
   await auditar(admin, req, "usuario_cadastrado_convite", {
     email: p.emailReal,
     detalhe: itens.map((i) => `${i.modulo}:${i.nivel}`).join(",").slice(0, 300),
@@ -2458,6 +2476,7 @@ async function cadastrarConviteMulti(
     unidade: dadosConta.unidade,
     funcao: primeiro.funcao,
     provisionamento,
+    avisos,
   });
 }
 

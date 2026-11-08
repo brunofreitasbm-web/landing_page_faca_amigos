@@ -188,3 +188,55 @@ Deno.test("convite_sem_itens_segue_fluxo_antigo", async () => {
   assert.equal(permissao("gabi@t.com", "clinica")?.nivel, "ver");
   assert.equal(r.corpo.provisionamento, undefined);
 });
+
+// ---------- Ajustes da revisão ----------
+Deno.test("link_recusa_email_que_e_login_de_outra_conta", async () => {
+  A.tabela("fa_gestao_contas").push(contaBase({ email: "ivo@corp.com", login_email: "ivo@gmail.com" }));
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "ivo@gmail.com", cpf: "71428793860" }));
+  assert.equal(r.status, 409);
+});
+
+Deno.test("cadastro_recusa_email_que_e_login_de_outra_conta", async () => {
+  A.tabela("fa_gestao_contas").push(contaBase({ email: "jo@corp.com", login_email: "jo@gmail.com" }));
+  await criarConvite("tk-jo");
+  const r = await chamar("convite_cadastrar", cadastro("tk-jo", "jo@gmail.com"), null);
+  assert.equal(r.status, 409);
+  assert.equal(conta("jo@gmail.com"), undefined);
+});
+
+Deno.test("sistema_do_prototype_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x6@t.com", itens: [{ sistema: "constructor", funcao: "x", nivel: "ver" }] }));
+  assert.equal(r.status, 400);
+});
+
+Deno.test("convite_ja_reservado_nao_cria_segunda_conta", async () => {
+  const c = await criarConvite("tk-corrida");
+  c.usado_em = new Date().toISOString(); // outro cadastro já reservou
+  const r = await chamar("convite_cadastrar", cadastro("tk-corrida", "corrida@t.com"), null);
+  assert.equal(r.status, 410);
+  assert.equal(conta("corrida@t.com"), undefined);
+});
+
+Deno.test("multi_nao_deriva_usuario_cacau_do_email", async () => {
+  const r = await chamar("convite_link_gerar", multi({
+    destinatario_email: "admin@qualquer.com", cpf: "15350946056",
+    itens: [{ sistema: "cacau", funcao: "Gerente", nivel: "operar" }],
+  }));
+  assert.equal(r.status, 200);
+  const cad = await chamar("convite_cadastrar", cadastro(r.corpo.token, "admin@qualquer.com"), null);
+  assert.equal(cad.status, 200, JSON.stringify(cad.corpo));
+  assert.equal(conta("admin@qualquer.com")!.cacau_usuario ?? null, null);
+});
+
+Deno.test("multi_avisa_quando_permissoes_falham", async () => {
+  const token = await linkMulti("lia@t.com", "34608514300");
+  A.operacoesComErro.add("upsert:fa_gestao_permissoes");
+  try {
+    const r = await chamar("convite_cadastrar", cadastro(token, "lia@t.com"), null);
+    assert.equal(r.status, 200);
+    assert.ok(conta("lia@t.com"));
+    assert.ok(Array.isArray(r.corpo.avisos) && r.corpo.avisos.length > 0, JSON.stringify(r.corpo));
+  } finally {
+    A.operacoesComErro.clear();
+  }
+});
