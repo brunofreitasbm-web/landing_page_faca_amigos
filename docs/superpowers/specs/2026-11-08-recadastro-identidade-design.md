@@ -117,6 +117,8 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 
 ## Riscos e pontos abertos
 
+- Um login da Clínica ou do RH prova só a senha dele, não a posse do CPF informado. O CPF vindo dessas origens fica em `fa_gestao_pessoas` e `profiles.cpf` sem prova de identidade: alguém pode reservar o CPF de outra pessoa (vira conflito `cpf_de_outra_pessoa` na fila do owner, sem bloquear ninguém). A Fase 2 (login por CPF) não pode tratar `fa_gestao_pessoas` vindo dessas origens como prova de identidade.
+- Quando o `email_codigo` de uma conta do Hub muda pela sessão do próprio Hub, o endereço antigo não é avisado (melhoria futura).
 - Troca de e-mail do login em contas fictícias é a única alteração em dado de acesso existente. Fica atrás da chave e é reversível por `email_login_antes`.
 - A clínica tem hoje 9 perfis com e-mail fictício e só 4 com CPF. O RH tem 10 supervisores com e-mail real. O Hub tem 6 contas, nenhuma com CPF. Os números pequenos permitem acompanhar caso a caso.
 - A `sync-grupoib-professional` pode recriar `profiles.email` de pessoas sincronizadas do Grupo IB. Hoje ela só grava o e-mail na criação do perfil. Se isso mudar, o recadastro pode ser sobrescrito.
