@@ -29,6 +29,8 @@ let handler!: (req: Request) => Promise<Response>;
 };
 await import("../../functions/gestao-hub/index.ts");
 
+export const handlerParaTeste = (req: Request) => handler(req);
+
 export const A = projeto("http://a");
 export const B = projeto("http://b");
 B.gatilhoPerfil = true;
