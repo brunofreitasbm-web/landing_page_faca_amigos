@@ -3589,6 +3589,21 @@ async function acaoOwner(
     if (atual && atual.email === dono.email && papel !== "owner") {
       return jsonResponse(req, { error: "você não pode rebaixar a si mesmo" }, 400);
     }
+    // Conta nova: exige CPF válido e ainda sem conta. O caminho normal para criar pessoa é "Enviar Link de
+    // Usuário"; esta porta existe só para o owner e nunca cria conta sem CPF.
+    let cpfNovo: string | null = null;
+    if (novo) {
+      cpfNovo = str(body.cpf).replace(/\D/g, "");
+      if (!cpfValido(cpfNovo)) {
+        return jsonResponse(req, { error: "informe o CPF da pessoa (11 dígitos válidos). Para criar pessoa nova, use Enviar Link de Usuário" }, 400);
+      }
+      const { data: donoDoCpf, error: cpfErr } = await admin.from("fa_gestao_contas").select("email").eq("cpf", cpfNovo).maybeSingle();
+      if (cpfErr) {
+        console.error("conta_salvar cpf:", cpfErr.message);
+        return jsonResponse(req, { error: "não foi possível salvar" }, 500);
+      }
+      if (donoDoCpf) return jsonResponse(req, { error: "já existe uma conta com este CPF" }, 409);
+    }
     // Conta nova: o e-mail de acesso não pode ser o login de outra conta.
     if (novo) {
       const q = quoteFilterValue(alvoEmail);
@@ -3649,7 +3664,7 @@ async function acaoOwner(
 
     const linha = { email: alvoEmail, nome, email_codigo: emailCodigo, papel, ...campos };
     const { error: gravaErr } = novo
-      ? await admin.from("fa_gestao_contas").insert({ ...linha, auth_modo: "hub", ativo: true, criado_por: dono.email })
+      ? await admin.from("fa_gestao_contas").insert({ ...linha, cpf: cpfNovo, auth_modo: "hub", ativo: true, criado_por: dono.email })
       : await admin.from("fa_gestao_contas").update(linha).eq("email", alvoEmail);
     if (gravaErr) {
       console.error("conta_salvar:", gravaErr.message);
