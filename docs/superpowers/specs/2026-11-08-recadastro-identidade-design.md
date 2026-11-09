@@ -59,10 +59,10 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 3. **Conta com e-mail fictício** (`@staff.facaamigos.local`, `@grupoib.internal`): troca o e-mail do login pelo real com `auth.admin.updateUserById`, **mantendo o mesmo `id`**. Guarda o e-mail antigo em `email_login_antes` para reverter.
 4. **Conta que já tem e-mail real: o e-mail do login não muda.** Motivo: o RH entra por nomes fixos ligados a e-mails fixos em `src/config/branding.js` (`bruno`, `isabella` etc.), e trocar esses e-mails quebraria o login. O e-mail confirmado fica guardado como contato em `fa_gestao_pessoas`.
 5. **Clínica:** preenche `profiles.cpf` (índice único parcial já existente) só quando está vazio, e `profiles.email` quando mudou o e-mail do login. Perfil que já tem **outro** CPF: conflito `cpf_de_outra_pessoa`, nada gravado. O mesmo CPF já gravado (com ou sem máscara) fica como está.
-6. **Hub:** se existir conta em `fa_gestao_contas` ligada a esse login (por `email`, `login_email`, `clinica_email` ou `rh_email`):
-   - **Nunca sobrescreve `cpf` já preenchido.** Conta com **outro** CPF: conflito `cpf_de_outra_pessoa` e nada é gravado (tudo ou nada).
-   - `email_codigo` é o destino do "esqueci a senha" do Hub, então só é preenchido quando está **vazio, é fictício** (mesma lista de domínios fictícios do login) **ou é igual ao login** com que a pessoa se identificou (o e-mail do login do projeto B, ou a própria conta quando a origem é o Hub). Nesses casos grava também o `cpf`, se estiver vazio.
-   - Fora disso, vindo da Clínica ou do RH, a conta do Hub **não é tocada** (nem `cpf`, nem `email_codigo`): o e-mail confirmado fica só como contato em `fa_gestao_pessoas`. Motivo: quem tem só a senha da Clínica ou do RH não pode redirecionar o código de acesso de uma conta do Hub. Vindo do próprio Hub (sessão da conta), o `cpf` vazio é preenchido e o `email_codigo` segue a regra acima.
+6. **Hub (`fa_gestao_contas`):**
+   - **Vindo da Clínica ou do RH (login nativo do projeto B), nada é escrito na conta do Hub**, nem `cpf` nem `email_codigo`, mesmo que a conta esteja ligada a esse login (por `email`, `login_email`, `clinica_email` ou `rh_email`). Motivo de segurança: a senha de outro sistema não prova posse do CPF informado nem do canal de código do Hub (`email_codigo` é o segundo fator do login e o destino do "esqueci a senha"); quem tivesse só a senha da Clínica ou do RH assumiria a conta do Hub. O CPF e o e-mail confirmados ficam em `fa_gestao_pessoas`, `fa_gestao_pessoa_contas` e `profiles`.
+   - A conta do Hub ligada é só **lida**: se já tem **outro** CPF, abre conflito `cpf_de_outra_pessoa` e nada é gravado (tudo ou nada).
+   - **Vindo do próprio Hub (sessão da conta):** a conta da sessão recebe o `cpf` se estiver vazio (**nunca sobrescreve** CPF preenchido; outro CPF é conflito). O `email_codigo` só muda quando está **vazio, é fictício** (mesma lista de domínios fictícios do login) **ou é igual ao e-mail da própria conta**; senão fica intacto e o e-mail confirmado fica só como contato. Outras contas do Hub não são tocadas.
    - A chave `email` da conta **não é renomeada**.
 7. **RH:** não escreve em `app_metadata` (papel e escopo ficam intocados).
 8. Marca `concluido_em` e grava a auditoria `recadastro_concluido`.
@@ -82,7 +82,7 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 - **Exceção ao bloqueio:** quem tem um conflito aberto (seção anterior) nunca é bloqueado, porque o impasse não é culpa da pessoa. `recadastro_status` devolve `bloquear:false` enquanto houver conflito sem baixa.
 - **Se o Hub não responder, nunca bloqueia.** O sistema trata falha de rede ou erro como "sem pendência".
 - **Erro de leitura do estado nunca deixa pendente.** Se o Hub não consegue ler ou criar o estado, `recadastro_status`, `me` e o login respondem `pendente:false` (e não gravam nada). Na página, no modo Hub, qualquer falha de `recadastro_consultar` que não seja sessão vencida segue para o painel; só quem já está bloqueado vê "Tentar de novo" e "Sair".
-- **Conta do Hub com CPF preenchido conta como concluída** (por exemplo, quem concluiu pela Clínica ou pelo RH e teve a conta do Hub ligada preenchida).
+- **Conta do Hub com CPF preenchido conta como concluída.** O CPF só entra na conta do Hub pelo recadastro feito com a sessão do Hub (ou pelo owner). Consequência: quem concluiu só pela Clínica ou pelo RH continua pendente na chave `hub:` e faz o recadastro uma vez no Hub.
 
 ## Integração nos três sistemas
 
@@ -110,7 +110,7 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 
 ## Testes
 
-- **Hub (`deno test`, fake do Supabase):** ticket expira e é de uso único; token de outro projeto ou de quiosque é recusado; CPF inválido; conflito de CPF e de e-mail não gravam nada; e-mail fictício é trocado mantendo o `id`; e-mail real não é trocado; conta do Hub recebe CPF sem renomear a chave; prazo de 7 dias (dia 6 adia, dia 8 bloqueia); Hub fora do ar não bloqueia; recurso desligado não faz nada; código errado 5 vezes bloqueia.
+- **Hub (`deno test`, fake do Supabase):** ticket expira e é de uso único; token de outro projeto ou de quiosque é recusado; CPF inválido; conflito de CPF e de e-mail não gravam nada; e-mail fictício é trocado mantendo o `id`; e-mail real não é trocado; conta do Hub recebe CPF sem renomear a chave (só pela sessão do Hub; vindo da Clínica/RH a conta do Hub fica intacta); prazo de 7 dias (dia 6 adia, dia 8 bloqueia); Hub fora do ar não bloqueia; recurso desligado não faz nada; código errado 5 vezes bloqueia.
 - **Clínica (`npm test`):** função pura que decide o redirecionamento a partir do status e do cookie.
 - **Navegador (Playwright, API simulada):** página de recadastro em 390 px, fluxo completo, botão "Fazer depois" some depois do prazo.
 - **Antes de ligar em produção:** consulta somente leitura para listar conflitos esperados (CPF repetido, e-mail repetido).

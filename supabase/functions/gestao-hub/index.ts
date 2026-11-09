@@ -1023,8 +1023,8 @@ async function statusRecadastro(admin: Admin, ident: IdentRecad | "isento"): Pro
   // Erro de leitura nunca bloqueia, nunca deixa pendente (o Hub abriria o recadastro e a pessoa ficaria
   // presa) e nunca reinicia o prazo: devolve "sem pendência" sem gravar nada.
   const NAO_BLOQUEIA: StatusRecadastro = { ...STATUS_RECAD_ISENTO };
-  // Conta do Hub que já tem CPF (por exemplo, concluiu pela Clínica ou pelo RH e a conta ligada recebeu
-  // o CPF) conta como concluída.
+  // Conta do Hub que já tem CPF conta como concluída (o CPF só entra na conta pelo recadastro feito com a
+  // sessão do Hub, ou pelo owner). Quem concluiu só pela Clínica/RH segue pendente na chave hub:.
   if (ident.origem === "hub" && ident.hubEmail) {
     const { data: conta, error: erroConta } = await admin
       .from("fa_gestao_contas").select("cpf").eq("email", ident.hubEmail).maybeSingle();
@@ -1243,16 +1243,17 @@ async function gravarConfirmacaoRecadastro(
       if (e0) console.error("recadastro perfil pré-checar:", e0.message); // o passo (4) relê e confere de novo
       else if (soDigitos(p0?.cpf) && soDigitos(p0?.cpf) !== cpf) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
     }
-    // O e-mail de código da conta do Hub é o destino do "esqueci a senha": só é preenchido quando está vazio,
-    // é fictício ou é o próprio login com que a pessoa se identificou. Vindo da Clínica/RH, fora isso a conta
-    // não é tocada (nem o CPF) e o e-mail confirmado fica só em fa_gestao_pessoas. Vindo do próprio Hub
-    // (sessão da conta), o CPF vazio é preenchido mesmo assim.
-    const patchesConta = contas.map((c) => {
+    // Só o recadastro feito com a sessão do próprio Hub escreve na conta do Hub (Ruling 15). Vindo da
+    // Clínica/RH, nada é escrito em fa_gestao_contas: a senha de outro sistema não prova posse do CPF nem do
+    // canal de código do Hub (o e-mail de código é o segundo fator e o destino do "esqueci a senha").
+    // Na origem Hub: CPF vazio é preenchido; o e-mail de código só muda quando está vazio, é fictício ou é o
+    // e-mail da própria conta da sessão.
+    const contaPropria = porHub ? (ident.hubEmail ?? "").toLowerCase() : "";
+    const patchesConta = contas.filter((c) => porHub && String(c.email).toLowerCase() === contaPropria).map((c) => {
       const ec = String(c.email_codigo ?? "").trim().toLowerCase();
-      const liberado = !ec || EMAIL_SINTETICO.test(ec) || ec === loginAntes;
       const patch: Record<string, string> = {};
-      if (liberado) patch.email_codigo = emailReal;
-      if (!soDigitos(c.cpf) && (liberado || porHub)) patch.cpf = cpf;
+      if (!ec || EMAIL_SINTETICO.test(ec) || ec === contaPropria) patch.email_codigo = emailReal;
+      if (!soDigitos(c.cpf)) patch.cpf = cpf;
       return { c, patch };
     }).filter((x) => Object.keys(x.patch).length > 0);
 
@@ -1346,8 +1347,8 @@ async function gravarConfirmacaoRecadastro(
       }
     }
 
-    // (5) conta do Hub ligada a esse login, com o que foi liberado acima (cpf só se vazio; e-mail de código só
-    // se vazio, fictício ou igual ao login); a chave `email` e os e-mails dos sistemas não mudam
+    // (5) só origem Hub: a própria conta da sessão, com o que foi liberado acima (cpf só se vazio; e-mail de
+    // código só se vazio, fictício ou igual ao e-mail da conta); a chave `email` não muda
     for (const { c, patch: patchConta } of patchesConta) {
       const { error } = await admin.from("fa_gestao_contas").update(patchConta).eq("email", c.email);
       if (error) {

@@ -144,10 +144,11 @@ Deno.test("conta_do_hub_recebe_cpf_sem_renomear_chave", async () => {
     A.tabela("fa_gestao_contas").push(contaBase({ email: "carla.hub@t.com", email_codigo: "carla@staff.facaamigos.local", nome: "Carla", clinica_email: "carla@staff.facaamigos.local" }));
     const r = await confirmar(p, await pedirCodigo(p, cpf, "carla@real.com"));
     assert.equal(r.status, 200, JSON.stringify(r.corpo));
+    // Origem clínica (Ruling 15): a conta do Hub ligada não recebe nada.
     const c = A.tabela("fa_gestao_contas").find((l) => l.nome === "Carla")!;
     assert.equal(c.email, "carla.hub@t.com");
-    assert.equal(c.cpf, cpf);
-    assert.equal(c.email_codigo, "carla@real.com");
+    assert.equal(c.cpf, null);
+    assert.equal(c.email_codigo, "carla@staff.facaamigos.local");
     assert.equal(c.clinica_email, "carla@staff.facaamigos.local");
 
     // Conta do próprio Hub (sessão/página com origem hub)
@@ -351,7 +352,7 @@ Deno.test("e_mail_sempre_em_minusculas", async () => {
     A.tabela("fa_gestao_contas").push(contaBase({ email: "nina.hub@t.com", email_codigo: "nina@staff.facaamigos.local", nome: "Nina", clinica_email: "nina@staff.facaamigos.local" }));
     const d2 = await pedirCodigo(q, cpf2, "Nina@Real.COM");
     assert.equal((await confirmar(q, d2)).status, 200);
-    assert.equal(A.tabela("fa_gestao_contas").find((l) => l.nome === "Nina")!.email_codigo, "nina@real.com");
+    assert.equal(A.tabela("fa_gestao_contas").find((l) => l.nome === "Nina")!.email_codigo, "nina@staff.facaamigos.local", "origem clínica não escreve na conta do Hub");
     assert.equal(pessoas().find((l) => l.cpf === cpf2)!.email_real, "nina@real.com");
   } finally { desligar(); }
 });
@@ -369,8 +370,8 @@ Deno.test("conta_ligada_ao_hub_nao_troca_o_login", async () => {
     assert.equal(pessoas().find((l) => l.cpf === cpf)!.email_real, "olga@real.com");
     const c = A.tabela("fa_gestao_contas").find((l) => l.nome === "Olga")!;
     assert.equal(c.email, "olga.hub@t.com");
-    assert.equal(c.cpf, cpf);
-    assert.equal(c.email_codigo, "olga@real.com");
+    assert.equal(c.cpf, null, "origem clínica não escreve na conta do Hub");
+    assert.equal(c.email_codigo, "olga@staff.facaamigos.local");
     assert.equal(c.clinica_email, "olga@staff.facaamigos.local");
     assert.equal(perfil(p.id!)!.cpf, cpf);
     assert.equal(perfil(p.id!)!.email, "olga@staff.facaamigos.local");
@@ -523,8 +524,8 @@ Deno.test("falha_depois_da_conta_do_hub_volta_cpf_e_email_codigo", async () => {
   ligar();
   try {
     const cpf = novoCpf();
-    const p = await pagina({ login: "xena@staff.facaamigos.local" });
-    A.tabela("fa_gestao_contas").push(contaBase({ email: "xena.hub@t.com", email_codigo: "xena@staff.facaamigos.local", nome: "Xena", clinica_email: "xena@staff.facaamigos.local" }));
+    A.tabela("fa_gestao_contas").push(contaBase({ email: "xena.hub@t.com", email_codigo: "xena.hub@t.com", nome: "Xena" }));
+    const p = await pagina({ origem: "hub", hubEmail: "xena.hub@t.com" });
     const d = await pedirCodigo(p, cpf, "xena@real.com");
     A.operacoesComErro.add("upsert:fa_gestao_recadastro_estado");
     const r = await confirmar(p, d);
@@ -532,8 +533,7 @@ Deno.test("falha_depois_da_conta_do_hub_volta_cpf_e_email_codigo", async () => {
     assert.equal(r.status, 500);
     const c = A.tabela("fa_gestao_contas").find((l) => l.nome === "Xena")!;
     assert.equal(c.cpf, null);
-    assert.equal(c.email_codigo, "xena@staff.facaamigos.local");
-    assert.equal(perfil(p.id!)!.cpf, null);
+    assert.equal(c.email_codigo, "xena.hub@t.com");
     nadaGravado(p, cpf);
   } finally { desligar(); A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado"); }
 });
@@ -561,52 +561,89 @@ Deno.test("conta_do_hub_com_cpf_diferente_vira_conflito_e_nada_gravado", async (
   } finally { desligar(); }
 });
 
-Deno.test("conta_do_hub_com_email_codigo_real_distinto_fica_intacta", async () => {
+Deno.test("origem_b_nunca_escreve_na_conta_do_hub_ligada", async () => {
   ligar();
   try {
-    // (a) cpf nulo e e-mail de código real de outra caixa: nada da conta muda, o e-mail fica só como contato.
-    const cpf = novoCpf();
-    const p = await pagina({ origem: "rh", login: "yara@grupoib.com.br" });
-    A.tabela("fa_gestao_contas").push(contaBase({ email: "yara.hub@t.com", email_codigo: "yara.dona@real.com", nome: "Yara", papel: "owner", rh_email: "yara@grupoib.com.br" }));
-    const r = await confirmar(p, await pedirCodigo(p, cpf, "yara.outra@real.com"));
-    assert.equal(r.status, 200, JSON.stringify(r.corpo));
-    assert.equal(conta("Yara").email_codigo, "yara.dona@real.com");
-    assert.equal(conta("Yara").cpf, null, "sem caixa confirmada, o CPF também não entra na conta do Hub");
-    assert.equal(pessoas().find((l) => l.cpf === cpf)!.email_real, "yara.outra@real.com");
-    assert.ok(estado(p.chave)!.concluido_em);
-
-    // (b) cpf igual já preenchido: não reescreve o cpf e não troca o e-mail de código real.
-    const cpf2 = novoCpf();
-    const q = await pagina({ origem: "rh", login: "zuza@grupoib.com.br" });
-    A.tabela("fa_gestao_contas").push(contaBase({ email: "zuza.hub@t.com", email_codigo: "zuza.dona@real.com", nome: "Zuza", rh_email: "zuza@grupoib.com.br", cpf: cpf2 }));
-    const atualizacoes = () => A.chamadas.filter((c) => c === "update:fa_gestao_contas").length;
-    const antes = atualizacoes();
-    const r2 = await confirmar(q, await pedirCodigo(q, cpf2, "zuza.nova@real.com"));
-    assert.equal(r2.status, 200, JSON.stringify(r2.corpo));
-    assert.equal(conta("Zuza").cpf, cpf2);
-    assert.equal(conta("Zuza").email_codigo, "zuza.dona@real.com");
-    assert.equal(atualizacoes(), antes, "conta do Hub nem é tocada");
-  } finally { desligar(); }
-});
-
-Deno.test("conta_do_hub_com_cpf_nulo_e_email_codigo_ficticio_vazio_ou_igual_ao_login_preenche", async () => {
-  ligar();
-  try {
+    // Ruling 15: senha da Clínica/RH não prova posse do CPF nem do canal de código do Hub. Em todos os casos
+    // (e-mail de código vazio, fictício, igual ao login do sistema ou real distinto) a conta do Hub fica intacta.
     const casos: Array<[string, string, string | null]> = [
-      ["Fic", "fic@staff.facaamigos.local", "fic.velho@grupoib.internal"],
-      ["Vaz", "vaz@staff.facaamigos.local", null],
       ["Igu", "igu@grupoib.com.br", "igu@grupoib.com.br"],
+      ["Vaz", "vaz@staff.facaamigos.local", null],
+      ["Fic", "fic@staff.facaamigos.local", "fic.velho@grupoib.internal"],
+      ["Rea", "rea@grupoib.com.br", "rea.dona@real.com"],
     ];
     for (const [nome, login, emailCodigo] of casos) {
       const cpf = novoCpf();
       const p = await pagina({ origem: "rh", login });
-      A.tabela("fa_gestao_contas").push(contaBase({ email: `${nome.toLowerCase()}.hub@t.com`, email_codigo: emailCodigo, nome, rh_email: login }));
-      const r = await confirmar(p, await pedirCodigo(p, cpf, `${nome.toLowerCase()}@real.com`));
+      const email = `${nome.toLowerCase()}.hub@t.com`;
+      // Owner com o mesmo e-mail como login do sistema (caso comum) e conta ligada pelo rh_email.
+      A.tabela("fa_gestao_contas").push(contaBase({ email, email_codigo: emailCodigo, nome, papel: "owner", rh_email: login }));
+      const antes = { ...conta(nome) };
+      const escritas = () => A.chamadas.filter((c) => c === "update:fa_gestao_contas" || c === "upsert:fa_gestao_contas" || c === "insert:fa_gestao_contas").length;
+      const n0 = escritas();
+      const r = await confirmar(p, await pedirCodigo(p, cpf, `${nome.toLowerCase()}.invasor@real.com`));
+      assert.equal(r.status, 200, JSON.stringify(r.corpo));
+      assert.deepEqual(conta(nome), antes, `${nome}: conta do Hub intacta`);
+      assert.equal(escritas(), n0, `${nome}: nenhuma escrita em fa_gestao_contas`);
+      assert.equal(pessoas().find((l) => l.cpf === cpf)!.email_real, `${nome.toLowerCase()}.invasor@real.com`);
+      assert.ok(estado(p.chave)!.concluido_em);
+    }
+    // Conta do Hub ligada com o mesmo CPF já preenchido: também intacta.
+    const cpf2 = novoCpf();
+    const q = await pagina({ origem: "rh", login: "zuza@grupoib.com.br" });
+    A.tabela("fa_gestao_contas").push(contaBase({ email: "zuza.hub@t.com", email_codigo: null, nome: "Zuza", rh_email: "zuza@grupoib.com.br", cpf: cpf2 }));
+    assert.equal((await confirmar(q, await pedirCodigo(q, cpf2, "zuza@real.com"))).status, 200);
+    assert.equal(conta("Zuza").cpf, cpf2);
+    assert.equal(conta("Zuza").email_codigo, null);
+  } finally { desligar(); }
+});
+
+Deno.test("concluir_pela_clinica_nao_conclui_a_chave_do_hub", async () => {
+  ligar();
+  try {
+    const cpf = novoCpf();
+    const p = await pagina({ login: "lara@staff.facaamigos.local" });
+    A.tabela("fa_gestao_contas").push(contaBase({ email: "lara.hub@t.com", email_codigo: "lara.hub@t.com", nome: "Lara", clinica_email: "lara@staff.facaamigos.local" }));
+    const tok = "d".repeat(64);
+    A.tabela("fa_gestao_sessoes").push({ token_hash: await sha(tok), email: "lara.hub@t.com", expires_at: new Date(Date.now() + 3600_000).toISOString() });
+    assert.equal((await confirmar(p, await pedirCodigo(p, cpf, "lara@real.com"))).status, 200);
+    const me = await chamar("me", {}, tok);
+    assert.equal(me.corpo.recadastro.pendente, true, "a chave hub: segue pendente até o recadastro com a sessão do Hub");
+  } finally { desligar(); }
+});
+
+Deno.test("origem_hub_email_codigo_vazio_ficticio_ou_igual_a_propria_conta_e_preenchido", async () => {
+  ligar();
+  try {
+    const casos: Array<[string, string | null]> = [["Hvz", null], ["Hfc", "hfc@staff.facaamigos.local"], ["Hig", "hig@t.com"]];
+    for (const [nome, emailCodigo] of casos) {
+      const cpf = novoCpf();
+      const email = `${nome.toLowerCase()}@t.com`;
+      A.tabela("fa_gestao_contas").push(contaBase({ email, email_codigo: emailCodigo, nome }));
+      const h = await pagina({ origem: "hub", hubEmail: email });
+      const r = await confirmar(h, await pedirCodigo(h, cpf, `${nome.toLowerCase()}@real.com`));
       assert.equal(r.status, 200, JSON.stringify(r.corpo));
       assert.equal(conta(nome).cpf, cpf, nome);
       assert.equal(conta(nome).email_codigo, `${nome.toLowerCase()}@real.com`, nome);
-      assert.equal(conta(nome).email, `${nome.toLowerCase()}.hub@t.com`, "a chave não é renomeada");
+      assert.equal(conta(nome).email, email, "a chave não é renomeada");
     }
+  } finally { desligar(); }
+});
+
+Deno.test("origem_hub_so_escreve_na_propria_conta", async () => {
+  ligar();
+  try {
+    // Outra conta do Hub que usa o e-mail desta como e-mail de sistema não é tocada.
+    const cpf = novoCpf();
+    A.tabela("fa_gestao_contas").push(
+      contaBase({ email: "ivo@t.com", email_codigo: "ivo@t.com", nome: "Ivo" }),
+      contaBase({ email: "outra@t.com", email_codigo: null, nome: "Outra", clinica_email: "ivo@t.com" }),
+    );
+    const h = await pagina({ origem: "hub", hubEmail: "ivo@t.com" });
+    assert.equal((await confirmar(h, await pedirCodigo(h, cpf, "ivo@real.com"))).status, 200);
+    assert.equal(conta("Ivo").cpf, cpf);
+    assert.equal(conta("Outra").cpf, null);
+    assert.equal(conta("Outra").email_codigo, null);
   } finally { desligar(); }
 });
 

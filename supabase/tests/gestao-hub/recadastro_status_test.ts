@@ -255,7 +255,7 @@ Deno.test("adiado_ha_pouco_nao_reabre_a_cada_carga", async () => {
 Deno.test("conta_do_hub_com_cpf_ja_preenchido_conta_como_concluida", async () => {
   ligar();
   try {
-    // Ex.: concluiu pela clínica/RH e a conta do Hub ligada recebeu o CPF.
+    // CPF gravado na conta (recadastro pela sessão do Hub ou pelo owner), mesmo sem o estado concluído.
     const tok = await contaHub("comcpf@t.com", { cpf: "52998224725" });
     A.tabela("fa_gestao_recadastro_estado").push({ chave: "hub:comcpf@t.com", primeiro_aviso_em: antes(8) });
     const r = await chamar("me", {}, tok);
