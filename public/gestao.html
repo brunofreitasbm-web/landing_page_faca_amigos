@@ -579,7 +579,7 @@
     <div class="login-card">
       <img src="img/logo-simbolo.png" alt="" class="logo-simbolo" decoding="async">
       <h1>Hub de Gestão</h1>
-      <p class="sub" id="loginSub">Exclusivo Owner</p>
+      <p class="sub" id="loginSub" hidden></p>
 
       <form id="senhaForm" novalidate>
         <div id="loginNotice" class="form-notice" role="status"></div>
@@ -2751,6 +2751,7 @@
       var loginSubEl = document.getElementById('loginSub');
       if (loginSubEl && (window.location.hostname === 'clinica.institutofacaamigos.com.br' || window.location.hostname.indexOf('clinica') !== -1)) {
         loginSubEl.textContent = 'Centro de Terapia comportamental';
+        loginSubEl.hidden = false;
       }
 
       var hashRecad = /^#recadastro(&|$)/.test(window.location.hash || '');
