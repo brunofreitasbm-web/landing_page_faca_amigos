@@ -349,3 +349,19 @@ Deno.test("conflito_repetido_conta_no_orcamento", async () => {
     assert.equal(conflitos().filter((l) => l.chave === p.chave).length, 1);
   } finally { desligar(); }
 });
+
+Deno.test("conflito_e_gravado_mesmo_se_a_checagem_de_duplicado_falhar", async () => {
+  ligar();
+  try {
+    const cpf = "27182818205"; // válido, só deste teste
+    A.tabela("fa_gestao_pessoas").push({ cpf, email_real: "dona2@real.com", nome: "Dona" });
+    const p = await pagina();
+    A.operacoesComErro.add("select-linhas:fa_gestao_recadastro_conflitos");
+    const r = await enviar(p.token, cpf, "outra2@real.com");
+    A.operacoesComErro.delete("select-linhas:fa_gestao_recadastro_conflitos");
+    assert.equal(r.status, 409);
+    const c = conflitos().filter((l) => l.chave === p.chave);
+    assert.equal(c.length, 1, "conflito gravado mesmo sem a checagem de duplicado");
+    assert.equal(c[0].motivo, "cpf_de_outra_pessoa");
+  } finally { A.operacoesComErro.delete("select-linhas:fa_gestao_recadastro_conflitos"); desligar(); }
+});

@@ -389,3 +389,130 @@ test('enviar_codigo_409_ja_concluido_tem_mensagem_propria_e_outro_409_e_conflito
   assert.doesNotMatch(txt, /já foi concluído/);
   await page.close();
 });
+
+// ---------- Correção final: I1 (nunca trancar no Hub), Sair, I3 (voltar ao sistema) e M2 ----------
+test('hub_consulta_com_falha_segue_para_o_painel', async () => {
+  for (const falha of [{ status: 500, body: {} }, { status: 403, body: { error: 'não disponível' } }]) {
+    const { page } = await abrir({
+      me: ME_OWNER({ recadastro: { pendente: true, bloquear: false, dias_restantes: 4 } }),
+      recadastro_consultar: () => falha,
+    }, { comToken: true });
+    await page.waitForSelector('#hubScreen:not([hidden])');
+    assert.equal(await page.locator('#recadScreen').isVisible(), false, `status ${falha.status}`);
+    await page.close();
+  }
+});
+
+test('hub_bloqueado_com_falha_na_consulta_oferece_tentar_e_sair', async () => {
+  const { page } = await abrir({
+    me: ME_OWNER({ recadastro: { pendente: true, bloquear: true, dias_restantes: 0 } }),
+    recadastro_consultar: () => ({ status: 500, body: {} }),
+  }, { comToken: true });
+  await page.waitForSelector('#recadTentar:not([hidden])');
+  assert.equal(await page.locator('#hubScreen').isVisible(), false);
+  assert.equal(await page.locator('#recadSair').isVisible(), true);
+  await page.close();
+});
+
+test('hub_bloqueado_tem_botao_sair_que_faz_logout', async () => {
+  const { page, chamadas } = await abrir({
+    me: ME_OWNER({ recadastro: { pendente: true, bloquear: true, dias_restantes: 0 } }),
+    recadastro_consultar: CONSULTA({ bloquear: true, dias_restantes: 0 }),
+    logout: () => ({ success: true }),
+  }, { comToken: true });
+  await page.waitForSelector('#recadForm1:not([hidden])');
+  await page.click('#recadSair');
+  await page.waitForSelector('#loginScreen:not([hidden])');
+  assert.ok(chamadas.some((c) => c.action === 'logout'));
+  assert.equal(await page.locator('#recadScreen').isVisible(), false);
+  assert.equal(await page.evaluate(() => localStorage.getItem('fa_gestao_token')), null);
+  await page.close();
+});
+
+test('sair_nao_aparece_para_quem_veio_de_sistema_nem_sem_bloqueio', async () => {
+  let { page } = await abrir({ recadastro_consultar: CONSULTA({ bloquear: true, dias_restantes: 0 }) }, { hash: '#recadastro&c=x' });
+  await page.waitForSelector('#recadForm1:not([hidden])');
+  assert.equal(await page.locator('#recadSair').isVisible(), false);
+  await page.close();
+  ({ page } = await abrir({
+    me: ME_OWNER({ recadastro: { pendente: true, bloquear: false, dias_restantes: 4 } }),
+    recadastro_consultar: CONSULTA(),
+  }, { comToken: true }));
+  await page.waitForSelector('#recadForm1:not([hidden])');
+  assert.equal(await page.locator('#recadSair').isVisible(), false);
+  await page.close();
+});
+
+async function concluir(page) {
+  await page.waitForSelector('#recadForm1:not([hidden])');
+  await page.fill('#recad-cpf', CPF);
+  await page.fill('#recad-email', 'carla@t.com');
+  await page.click('#recadEnviar');
+  await page.waitForSelector('#recadForm2:not([hidden])');
+  await page.fill('#recad-codigo', '123456');
+  await page.click('#recadConfirmar');
+  await page.waitForSelector('#recadSucesso:not([hidden])');
+}
+
+test('voltar_ao_sistema_com_url_permitida_apos_concluir_e_apos_adiar', async () => {
+  const URL_PORTO = 'https://porto-terapia-gestao.vercel.app';
+  let { page } = await abrir({
+    recadastro_consultar: CONSULTA({ voltar_url: URL_PORTO }),
+    recadastro_enviar_codigo: () => ({ challenge_id: 'ch-1' }),
+    recadastro_confirmar: () => ({ ok: true, login_trocado: false }),
+  }, { hash: '#recadastro&c=x' });
+  await concluir(page);
+  const link = page.locator('#recadVoltarSistema');
+  assert.equal(await link.isVisible(), true);
+  assert.equal(await link.textContent(), 'Voltar ao sistema');
+  assert.equal(await link.getAttribute('href'), URL_PORTO + '/');
+  await page.close();
+
+  ({ page } = await abrir({
+    recadastro_consultar: CONSULTA({ voltar_url: 'https://sistema.institutofacaamigos.com.br' }),
+    recadastro_adiar: () => ({ ok: true }),
+  }, { hash: '#recadastro&c=x' }));
+  await page.waitForSelector('#recadAdiar');
+  await page.click('#recadAdiar');
+  await page.waitForSelector('#recadSucesso:not([hidden])');
+  assert.equal(await page.locator('#recadVoltarSistema').getAttribute('href'), 'https://sistema.institutofacaamigos.com.br/');
+  const txt = await page.textContent('#recadSucesso');
+  assert.doesNotMatch(txt, /[Cc]onclu[íi]do/);
+  assert.match(txt, /voltar ao sistema/);
+  await page.close();
+});
+
+test('voltar_ao_sistema_nao_aparece_com_url_invalida', async () => {
+  const ruins = ['javascript:alert(1)', 'https://evil.test/', 'http://sistema.institutofacaamigos.com.br',
+    'https://sistema.institutofacaamigos.com.br.evil.test/', 'https://u:p@sistema.institutofacaamigos.com.br/', 42, null];
+  for (const voltar of ruins) {
+    const { page } = await abrir({
+      recadastro_consultar: CONSULTA({ voltar_url: voltar }),
+      recadastro_enviar_codigo: () => ({ challenge_id: 'ch-1' }),
+      recadastro_confirmar: () => ({ ok: true }),
+    }, { hash: '#recadastro&c=x' });
+    await concluir(page);
+    assert.equal(await page.locator('#recadVoltarSistema').count(), 0, String(voltar));
+    assert.equal(await page.locator('#recadSucesso a').count(), 0, String(voltar));
+    await page.close();
+  }
+});
+
+test('login_trocado_orienta_entrar_com_cpf_ou_email_confirmado', async () => {
+  let { page } = await abrir({
+    recadastro_consultar: CONSULTA(),
+    recadastro_enviar_codigo: () => ({ challenge_id: 'ch-1' }),
+    recadastro_confirmar: () => ({ ok: true, login_trocado: true }),
+  }, { hash: '#recadastro&c=x' });
+  await concluir(page);
+  assert.match(await page.textContent('#recadSucesso'), /entre com seu CPF ou com o e-mail confirmado/);
+  await page.close();
+  ({ page } = await abrir({
+    recadastro_consultar: CONSULTA(),
+    recadastro_enviar_codigo: () => ({ challenge_id: 'ch-1' }),
+    recadastro_confirmar: () => ({ ok: true, login_trocado: false }),
+  }, { hash: '#recadastro&c=x' }));
+  await concluir(page);
+  assert.doesNotMatch(await page.textContent('#recadSucesso'), /entre com seu CPF/);
+  await page.close();
+});

@@ -143,3 +143,25 @@ Deno.test("pagina_expira_em_30_min", async () => {
     void DIA;
   } finally { desligar(); }
 });
+
+Deno.test("voltar_host_do_rh_so_vale_se_estiver_na_lista", async () => {
+  ligar();
+  try {
+    const padraoRh = (Deno.env.get("GESTAO_URL_RH") ?? "https://rh.institutofacaamigos.com.br").replace(/\/+$/, "");
+    const casos: Array<[string, unknown, string]> = [
+      ["rh", "porto-terapia-gestao.vercel.app", "https://porto-terapia-gestao.vercel.app"],
+      ["rh", "RH.institutofacaamigos.com.br", "https://rh.institutofacaamigos.com.br"],
+      ["rh", "evil.com", padraoRh],
+      ["rh", "porto-terapia-gestao.vercel.app.evil.com", padraoRh],
+      ["rh", "porto-terapia-gestao.vercel.app/x", padraoRh],
+      ["rh", 42, padraoRh],
+      ["clinica", "porto-terapia-gestao.vercel.app", (Deno.env.get("GESTAO_URL_CLINICA") ?? "https://sistema.institutofacaamigos.com.br").replace(/\/+$/, "")],
+    ];
+    for (const [sistema, host, esperado] of casos) {
+      const r = await chamar("recadastro_ticket", { sistema, voltar_host: host }, usuarioB().jwt);
+      assert.equal(r.status, 200);
+      const c = await chamar("recadastro_consultar", { c: codigoDe(r.corpo.url) }, null);
+      assert.equal(c.corpo.voltar_url, esperado, `${sistema} ${host}`);
+    }
+  } finally { desligar(); }
+});

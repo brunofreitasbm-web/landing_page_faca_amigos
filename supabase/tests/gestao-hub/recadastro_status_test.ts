@@ -172,7 +172,8 @@ Deno.test("erro_de_leitura_do_estado_nao_bloqueia_nem_reescreve_a_data", async (
     A.operacoesComErro.add("select:fa_gestao_recadastro_estado");
     const r = await status(u.jwt);
     A.operacoesComErro.delete("select:fa_gestao_recadastro_estado");
-    assert.deepEqual(r.corpo, { pendente: true, bloquear: false, dias_restantes: 7 });
+    // Erro de leitura nunca deixa pendente (senão o Hub abre o recadastro e a pessoa fica presa).
+    assert.deepEqual(r.corpo, { pendente: false, bloquear: false, dias_restantes: 7 });
     assert.equal(estado(`b:${u.id}`)!.primeiro_aviso_em, velha);
     const depois = await status(u.jwt);
     assert.deepEqual(depois.corpo, { pendente: true, bloquear: true, dias_restantes: 0 });
@@ -200,5 +201,66 @@ Deno.test("segunda_consulta_nao_muda_primeiro_aviso_em", async () => {
     await new Promise((res) => setTimeout(res, 5));
     await status(u.jwt);
     assert.equal(estado(`b:${u.id}`)!.primeiro_aviso_em, primeiro);
+  } finally { desligar(); }
+});
+
+// ---------- Correção final: I1 (erro de leitura) e I4 (adiado e conta do Hub com CPF) ----------
+async function contaHub(email: string, over: Record<string, unknown> = {}) {
+  const { sha } = await import("./hub_bootstrap.ts");
+  A.tabela("fa_gestao_contas").push(contaBase({ email, email_codigo: email, nome: "Conta " + email, ...over }));
+  const tok = Array.from(crypto.getRandomValues(new Uint8Array(32))).map((b) => b.toString(16).padStart(2, "0")).join("");
+  A.tabela("fa_gestao_sessoes").push({ token_hash: await sha(tok), email, expires_at: new Date(Date.now() + 3600_000).toISOString() });
+  return tok;
+}
+
+Deno.test("me_com_erro_de_leitura_do_estado_nao_fica_pendente", async () => {
+  ligar();
+  try {
+    const tok = await contaHub("leitura@t.com");
+    A.operacoesComErro.add("select:fa_gestao_recadastro_estado");
+    const r = await chamar("me", {}, tok);
+    A.operacoesComErro.delete("select:fa_gestao_recadastro_estado");
+    assert.equal(r.status, 200);
+    assert.equal(r.corpo.recadastro.pendente, false);
+    assert.equal(r.corpo.recadastro.bloquear, false);
+    A.operacoesComErro.add("upsert:fa_gestao_recadastro_estado");
+    const r2 = await chamar("me", {}, tok);
+    A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado");
+    assert.equal(r2.corpo.recadastro.pendente, false, "falha ao criar o estado também não deixa pendente");
+  } finally { A.operacoesComErro.delete("select:fa_gestao_recadastro_estado"); A.operacoesComErro.delete("upsert:fa_gestao_recadastro_estado"); desligar(); }
+});
+
+Deno.test("adiado_ha_pouco_nao_reabre_a_cada_carga", async () => {
+  ligar();
+  try {
+    const tok = await contaHub("adia@t.com");
+    const primeira = await chamar("me", {}, tok);
+    assert.equal(primeira.corpo.recadastro.pendente, true);
+    const adiar = await chamar("recadastro_adiar", {}, tok);
+    assert.equal(adiar.status, 200, JSON.stringify(adiar.corpo));
+    const recarga = await chamar("me", {}, tok);
+    assert.deepEqual(recarga.corpo.recadastro, { pendente: false, bloquear: false, dias_restantes: 7 });
+    // Passadas 12 horas, volta a pedir.
+    estado("hub:adia@t.com")!.adiado_em = new Date(Date.now() - 13 * 3600_000).toISOString();
+    const depois = await chamar("me", {}, tok);
+    assert.equal(depois.corpo.recadastro.pendente, true);
+    // Prazo vencido: adiamento recente não impede o bloqueio.
+    estado("hub:adia@t.com")!.primeiro_aviso_em = antes(8);
+    estado("hub:adia@t.com")!.adiado_em = new Date().toISOString();
+    const vencido = await chamar("me", {}, tok);
+    assert.deepEqual(vencido.corpo.recadastro, { pendente: true, bloquear: true, dias_restantes: 0 });
+  } finally { desligar(); }
+});
+
+Deno.test("conta_do_hub_com_cpf_ja_preenchido_conta_como_concluida", async () => {
+  ligar();
+  try {
+    // Ex.: concluiu pela clínica/RH e a conta do Hub ligada recebeu o CPF.
+    const tok = await contaHub("comcpf@t.com", { cpf: "52998224725" });
+    A.tabela("fa_gestao_recadastro_estado").push({ chave: "hub:comcpf@t.com", primeiro_aviso_em: antes(8) });
+    const r = await chamar("me", {}, tok);
+    assert.deepEqual(r.corpo.recadastro, { pendente: false, bloquear: false, dias_restantes: 7 });
+    const viaAcao = await chamar("recadastro_status", {}, tok);
+    assert.equal(viaAcao.corpo.pendente, false);
   } finally { desligar(); }
 });

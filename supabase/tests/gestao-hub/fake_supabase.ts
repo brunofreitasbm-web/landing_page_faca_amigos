@@ -28,7 +28,8 @@ export class Projeto {
   sessoes: Record<string, number> = {};
   /** Tabelas que respondem com erro (ex.: migração ainda não aplicada). */
   tabelasComErro = new Set<string>();
-  /** Operações pontuais que falham, no formato "upsert:profiles". */
+  /** Operações pontuais que falham, no formato "upsert:profiles". "select-linhas:tabela" falha só o select
+   *  que devolve linhas (não o de contagem com head). */
   operacoesComErro = new Set<string>();
   /** Gancho por tabela, chamado logo antes de um insert gravar (injeta linhas "concorrentes"). */
   antesDoInsert: Record<string, () => void> = {};
@@ -133,6 +134,9 @@ class Consulta implements PromiseLike<{ data: any; error: { message: string } | 
   private executar(): { data: any; count?: number; error: { message: string; code?: string } | null } {
     this.p.chamadas.push(`${this.op}:${this.nome}`);
     if (this.p.operacoesComErro.has(`${this.op}:${this.nome}`)) return { data: null, error: { message: `falha simulada em ${this.op}:${this.nome}` } };
+    if (this.op === "select" && !this.cabeca && this.p.operacoesComErro.has(`select-linhas:${this.nome}`)) {
+      return { data: null, error: { message: `falha simulada em select-linhas:${this.nome}` } };
+    }
     if (this.p.tabelasComErro.has(this.nome)) return { data: null, error: { message: `relation "${this.nome}" does not exist` } };
     if (this.op === "insert") this.p.antesDoInsert[this.nome]?.();
     if (this.op === "update") this.p.antesDoUpdate[this.nome]?.();

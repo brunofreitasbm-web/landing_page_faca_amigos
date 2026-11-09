@@ -31,8 +31,8 @@ Ficam fora do recadastro: papel `*_unit` ou `intern`, `profiles.role = 'responsa
 
 - `fa_gestao_pessoas`: `cpf text primary key` (só dígitos, validado por `cpfValido`), `email_real text not null`, `nome text`, `confirmado_em timestamptz`.
 - `fa_gestao_pessoa_contas`: `cpf` (FK), `origem text` (`clinica` | `rh` | `hub`), `auth_user_id uuid null` (projeto B), `hub_email text null`, `email_login_antes text`, `criado_em`. Chave única em `(origem, auth_user_id)` e em `(origem, hub_email)`.
-- `fa_gestao_recadastro_estado`: `chave text primary key` (`b:<auth_user_id>` ou `hub:<email>`), `primeiro_aviso_em timestamptz`, `concluido_em timestamptz null`.
-- `fa_gestao_recadastro_tickets`: `ticket_hash`, `chave`, `origem`, `expira_em` (2 minutos), `usado_em`.
+- `fa_gestao_recadastro_estado`: `chave text primary key` (`b:<auth_user_id>` ou `hub:<email>`), `primeiro_aviso_em timestamptz`, `concluido_em timestamptz null`, `adiado_em timestamptz null` (último "Fazer depois"; dentro do prazo, por 12 horas o status responde `pendente:false` para a página não reabrir a cada carga).
+- `fa_gestao_recadastro_tickets`: `ticket_hash`, `chave`, `origem`, `expira_em` (2 minutos), `usado_em`, `voltar_host` (só origem `rh`: o host de onde a pessoa veio, aceito só se for `rh.institutofacaamigos.com.br` ou `porto-terapia-gestao.vercel.app`; monta o `voltar_url`).
 - `fa_gestao_recadastro_conflitos`: `id`, `chave`, `motivo` (`cpf_de_outra_pessoa` | `email_de_outro_login`), `cpf_informado`, `email_informado`, `criado_em`, `resolvido_em`.
 - `fa_gestao_desafios`: a constraint `finalidade in ('login','reset')` passa a aceitar também `'recadastro'`. O código de 6 dígitos reaproveita `conferirCodigo`, que já limita tentativas.
 - Todas com RLS ligado e sem policy (só a service role, como as demais `fa_gestao_*`).
@@ -45,7 +45,7 @@ Ficam fora do recadastro: papel `*_unit` ou `intern`, `profiles.role = 'responsa
 | `recadastro_ticket` | sistema (Bearer = token do projeto B) | Valida o token, gera código de uso único (hash, 2 min) e devolve a URL `…/#recadastro&c=<código>`. |
 | `recadastro_consultar` | página | Consome o ticket ou usa a sessão do Hub e mostra nome e dias restantes. Nunca devolve CPF nem e-mail já cadastrados. |
 | `recadastro_enviar_codigo` | página | Recebe CPF e e-mail, valida CPF, checa conflitos e envia o código de 6 dígitos ao e-mail informado, via Brevo. |
-| `recadastro_confirmar` | página | Confere o código (máx. 5 tentativas, 10 min) e aplica a confirmação. |
+| `recadastro_confirmar` | página | Confere o código (máx. 5 tentativas, 10 min) e aplica a confirmação. Responde `{ok, login_trocado}`; `login_trocado` (booleano) faz a página orientar a entrar com o CPF ou com o e-mail confirmado. |
 | `recadastro_adiar` | página | Só dentro dos 7 dias. Registra o adiamento e segue. |
 | `recadastro_painel` (owner) | Hub | Lista quem concluiu, quem está pendente e os conflitos abertos. |
 | `recadastro_resolver` (owner) | Hub | Dá baixa num conflito depois de resolvido à mão. |
@@ -58,8 +58,12 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 2. Grava `fa_gestao_pessoas` e `fa_gestao_pessoa_contas`.
 3. **Conta com e-mail fictício** (`@staff.facaamigos.local`, `@grupoib.internal`): troca o e-mail do login pelo real com `auth.admin.updateUserById`, **mantendo o mesmo `id`**. Guarda o e-mail antigo em `email_login_antes` para reverter.
 4. **Conta que já tem e-mail real: o e-mail do login não muda.** Motivo: o RH entra por nomes fixos ligados a e-mails fixos em `src/config/branding.js` (`bruno`, `isabella` etc.), e trocar esses e-mails quebraria o login. O e-mail confirmado fica guardado como contato em `fa_gestao_pessoas`.
-5. **Clínica:** preenche `profiles.cpf` (índice único parcial já existente) e `profiles.email` quando mudou o e-mail do login.
-6. **Hub:** se existir conta em `fa_gestao_contas` ligada a esse login (por `email`, `login_email`, `clinica_email` ou `rh_email`), preenche `cpf` e `email_codigo`. A chave `email` da conta **não é renomeada**.
+5. **Clínica:** preenche `profiles.cpf` (índice único parcial já existente) só quando está vazio, e `profiles.email` quando mudou o e-mail do login. Perfil que já tem **outro** CPF: conflito `cpf_de_outra_pessoa`, nada gravado. O mesmo CPF já gravado (com ou sem máscara) fica como está.
+6. **Hub:** se existir conta em `fa_gestao_contas` ligada a esse login (por `email`, `login_email`, `clinica_email` ou `rh_email`):
+   - **Nunca sobrescreve `cpf` já preenchido.** Conta com **outro** CPF: conflito `cpf_de_outra_pessoa` e nada é gravado (tudo ou nada).
+   - `email_codigo` é o destino do "esqueci a senha" do Hub, então só é preenchido quando está **vazio, é fictício** (mesma lista de domínios fictícios do login) **ou é igual ao login** com que a pessoa se identificou (o e-mail do login do projeto B, ou a própria conta quando a origem é o Hub). Nesses casos grava também o `cpf`, se estiver vazio.
+   - Fora disso, vindo da Clínica ou do RH, a conta do Hub **não é tocada** (nem `cpf`, nem `email_codigo`): o e-mail confirmado fica só como contato em `fa_gestao_pessoas`. Motivo: quem tem só a senha da Clínica ou do RH não pode redirecionar o código de acesso de uma conta do Hub. Vindo do próprio Hub (sessão da conta), o `cpf` vazio é preenchido e o `email_codigo` segue a regra acima.
+   - A chave `email` da conta **não é renomeada**.
 7. **RH:** não escreve em `app_metadata` (papel e escopo ficam intocados).
 8. Marca `concluido_em` e grava a auditoria `recadastro_concluido`.
 
@@ -68,6 +72,7 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 - CPF já ligado a **outra** pessoa (ou `profiles.cpf` já usado por outro perfil): bloqueia e abre conflito `cpf_de_outra_pessoa`.
 - E-mail real já em uso por **outro** login no mesmo projeto: bloqueia e abre conflito `email_de_outro_login`.
 - A pessoa vê só "não foi possível concluir, o responsável foi avisado". Nenhum dado de terceiros aparece.
+- O conflito é sempre gravado: se a checagem de conflito aberto igual (para não duplicar) falhar, grava assim mesmo.
 - Dentro dos 7 dias a pessoa continua entrando normalmente. Depois do prazo, o conflito não pode trancá-la: enquanto houver conflito aberto, ela fica **liberada** e a fila do owner mostra o caso.
 
 ## Prazo e bloqueio
@@ -76,13 +81,15 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 - Passados os 7 dias e sem conclusão, `bloquear:true`: o sistema leva à página de recadastro sem o botão "Fazer depois".
 - **Exceção ao bloqueio:** quem tem um conflito aberto (seção anterior) nunca é bloqueado, porque o impasse não é culpa da pessoa. `recadastro_status` devolve `bloquear:false` enquanto houver conflito sem baixa.
 - **Se o Hub não responder, nunca bloqueia.** O sistema trata falha de rede ou erro como "sem pendência".
+- **Erro de leitura do estado nunca deixa pendente.** Se o Hub não consegue ler ou criar o estado, `recadastro_status`, `me` e o login respondem `pendente:false` (e não gravam nada). Na página, no modo Hub, qualquer falha de `recadastro_consultar` que não seja sessão vencida segue para o painel; só quem já está bloqueado vê "Tentar de novo" e "Sair".
+- **Conta do Hub com CPF preenchido conta como concluída** (por exemplo, quem concluiu pela Clínica ou pelo RH e teve a conta do Hub ligada preenchida).
 
 ## Integração nos três sistemas
 
 - **Clínica** (`lib/supabase/middleware.ts`, no mesmo ponto da troca de senha obrigatória): após o login, `signIn` chama `recadastro_status` e grava um cookie curto (`fa_recad`, 12 h). O middleware lê o cookie, sem chamar o Hub a cada página. Se pendente, redireciona via `recadastro_ticket` para a página do Hub. Isenta `/login`, `/trocar-senha`, rotas públicas e o portal da família.
 - **RH** (`src/App.jsx`, `handleSession`, só `role === 'supervisor'`): consulta o status e, se pendente, abre a página do Hub com o código de uso único. Quiosques e estagiário nominal ficam de fora.
 - **Hub:** após o login, se a conta não tem CPF, abre `#recadastro` com a sessão do Hub.
-- **Página** `gestao.html#recadastro`: campos CPF e e-mail real, código de 6 dígitos, botão "Fazer depois" (só nos 7 dias), mensagens sem revelar dados de terceiros. Funciona a 390 px de largura.
+- **Página** `gestao.html#recadastro`: campos CPF e e-mail real, código de 6 dígitos, botão "Fazer depois" (só nos 7 dias), mensagens sem revelar dados de terceiros. Funciona a 390 px de largura. Vindo de um sistema, depois de concluir ou de "Fazer depois" mostra "Voltar ao sistema", cujo endereço só é usado se for https e de um host da lista fixa da página (Clínica e os dois do RH). No modo Hub, quem está bloqueado tem o botão "Sair".
 - **Chaves de liberação, desligadas por padrão:** `GESTAO_RECADASTRO` (Hub), `GESTAO_RECADASTRO` (Clínica) e `VITE_GESTAO_RECADASTRO` (RH). Ligar e desligar não exige novo deploy de código, só da configuração.
 
 ## Segurança
@@ -95,7 +102,7 @@ Todas as ações respondem `pendente:false` e não fazem nada quando o recurso e
 
 ## Implantação e reversão
 
-1. Migration e Hub publicados com `GESTAO_RECADASTRO` desligada: nada muda para ninguém.
+1. Migrations (`20261109120000_gestao_recadastro.sql` e `20261109130000_gestao_recadastro_voltar_host.sql`, antes do Hub) e Hub publicados com `GESTAO_RECADASTRO` desligada: nada muda para ninguém.
 2. Ligar no Hub e testar com o owner.
 3. Publicar a clínica e ligar a chave. Acompanhar o painel.
 4. Publicar o RH e ligar a chave.

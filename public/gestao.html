@@ -770,7 +770,9 @@
         <h2 class="sucesso-title" id="recadSucessoTitulo">Dados confirmados!</h2>
         <p class="sucesso-desc" id="recadSucessoTexto"></p>
         <button type="button" class="btn btn-pink" id="recadContinuar" hidden>Continuar</button>
+        <div class="recad-acoes" id="recadVoltarBox"></div>
       </div>
+      <p class="login-footer"><button type="button" class="btn-link" id="recadSair" hidden>Sair</button></p>
     </div>
   </div>
 
@@ -2364,13 +2366,14 @@
       });
 
       // ---------- sair ----------
-      document.getElementById('logoutBtn').addEventListener('click', function () {
+      function sairDoHub() {
         api('logout').then(function () {
           clearSession();
           showMsg(senhaError, '');
           showLogin('senha');
         });
-      });
+      }
+      document.getElementById('logoutBtn').addEventListener('click', sairDoHub);
 
       // ---------- Recadastro de identidade (#recadastro) ----------
       // Tudo o que vem do servidor entra na tela com textContent; os textos de erro são fixos aqui no front.
@@ -2393,7 +2396,16 @@
       var recadCpf = document.getElementById('recad-cpf');
       var recadEmail = document.getElementById('recad-email');
       var recadCodigo = document.getElementById('recad-codigo');
-      var recadEstado = { pagina: null, challengeId: null, modo: 'hub', c: null, ocupado: false, retentar: null };
+      var recadEstado = { pagina: null, challengeId: null, modo: 'hub', c: null, ocupado: false, retentar: null, bloqueado: false, voltarUrl: null };
+      // "Voltar ao sistema": só https e só estes endereços (lista fixa daqui; a URL do servidor nunca vale sozinha).
+      var RECAD_VOLTAR_HOSTS = ['sistema.institutofacaamigos.com.br', 'rh.institutofacaamigos.com.br', 'porto-terapia-gestao.vercel.app'];
+      function recadUrlVoltarValida(v) {
+        if (typeof v !== 'string' || !v) return null;
+        var u;
+        try { u = new URL(v); } catch (e) { return null; }
+        if (u.protocol !== 'https:' || u.username || u.password || u.port) return null;
+        return RECAD_VOLTAR_HOSTS.indexOf(u.hostname.toLowerCase()) === -1 ? null : u.href;
+      }
 
       function recadCpfValido(cpf) {
         if (!/^\d{11}$/.test(cpf) || /^(\d)\1{10}$/.test(cpf)) return false;
@@ -2425,6 +2437,8 @@
         document.getElementById('recadAcoesErro').hidden = qual !== 'erro';
         document.getElementById('recadTentar').hidden = true;
         document.getElementById('recadIrLogin').hidden = true;
+        // Conta do Hub bloqueada pelo prazo: sempre há como sair.
+        document.getElementById('recadSair').hidden = !(recadEstado.modo === 'hub' && recadEstado.bloqueado && qual !== 'sucesso' && qual !== 'carregando');
       }
       function recadErroMsg(chave) { showMsg(recadErro, chave ? RECAD_TXT[chave] : ''); }
       function recadOcupar(btn, textoOcupado, ocupar) {
@@ -2453,13 +2467,22 @@
         showLogin('senha');
       }
       document.getElementById('recadIrLogin').addEventListener('click', recadIrParaLogin);
+      document.getElementById('recadSair').addEventListener('click', function () {
+        try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) { /* ignora */ }
+        recadScreen.hidden = true;
+        recadErroMsg('');
+        sairDoHub();
+      });
       document.getElementById('recadTentar').addEventListener('click', function () {
         recadErroMsg('');
         if (recadEstado.retentar) recadEstado.retentar();
       });
 
-      function recadIniciar(codigo) {
-        recadEstado = { pagina: null, challengeId: null, modo: codigo ? 'sistema' : 'hub', c: codigo || null, ocupado: false, retentar: null };
+      function recadIniciar(codigo, bloqueado) {
+        recadEstado = {
+          pagina: null, challengeId: null, modo: codigo ? 'sistema' : 'hub', c: codigo || null, ocupado: false, retentar: null,
+          bloqueado: bloqueado === true, voltarUrl: null
+        };
         hubScreen.hidden = true;
         loginScreen.hidden = true;
         if (cadastroScreen) cadastroScreen.hidden = true;
@@ -2484,6 +2507,12 @@
             recadMontarPasso1(r.data);
             return;
           }
+          // Conta do Hub: qualquer falha que não seja sessão vencida segue para o painel, a menos que o prazo
+          // já tenha acabado (aí oferece tentar de novo e sair). Nunca tranca a pessoa no Hub.
+          if (recadEstado.modo === 'hub' && r.status !== 401 && (r.status === 403 || !recadEstado.bloqueado)) {
+            recadVoltarAoHub();
+            return;
+          }
           recadMostrar('erro');
           if (r.status === 0 || r.status >= 500) {
             recadErroMsg('rede');
@@ -2504,6 +2533,8 @@
         var intro = document.getElementById('recadIntro');
         intro.textContent = (nome ? 'Olá, ' + nome.split(' ')[0] + '. ' : '') + 'Precisamos confirmar o seu CPF e um e-mail seu, que você realmente acessa.';
         var bloqueia = d.bloquear === true;
+        if (recadEstado.modo === 'hub') recadEstado.bloqueado = bloqueia;
+        recadEstado.voltarUrl = recadEstado.modo === 'sistema' ? recadUrlVoltarValida(d.voltar_url) : null;
         var dias = Number(d.dias_restantes);
         var prazo = document.getElementById('recadPrazo');
         prazo.classList.toggle('urgente', bloqueia || dias <= 2);
@@ -2560,7 +2591,7 @@
         recadOcupar(btn, 'Confirmando…', true);
         recadApi('recadastro_confirmar', { challenge_id: recadEstado.challengeId, code: code }).then(function (r) {
           recadOcupar(btn, '', false);
-          if (r.ok && r.data && r.data.ok) return recadSucesso('confirmado');
+          if (r.ok && r.data && r.data.ok) return recadSucesso('confirmado', r.data.login_trocado === true);
           if (r.status === 401 && r.data && r.data.reiniciar) {
             recadEstado.challengeId = null;
             recadMostrar('passo1');
@@ -2595,21 +2626,34 @@
       }
 
       var recadTimer = null;
-      function recadSucesso(tipo) {
+      function recadSucesso(tipo, loginTrocado) {
         recadMostrar('sucesso');
         recadErroMsg('');
         var titulo = document.getElementById('recadSucessoTitulo');
         var texto = document.getElementById('recadSucessoTexto');
         var cont = document.getElementById('recadContinuar');
+        var voltarBox = document.getElementById('recadVoltarBox');
+        voltarBox.textContent = '';
+        var dica = loginTrocado ? ' Na próxima vez, entre com seu CPF ou com o e-mail confirmado.' : '';
         titulo.textContent = tipo === 'adiado' ? 'Tudo bem, fica para depois' : 'Dados confirmados!';
         if (recadEstado.modo === 'hub') {
-          texto.textContent = tipo === 'adiado' ? 'Vamos pedir de novo em outro momento. Levando você ao painel.' : 'Obrigado. Levando você ao painel.';
+          texto.textContent = (tipo === 'adiado' ? 'Vamos pedir de novo em outro momento. Levando você ao painel.' : 'Obrigado. Levando você ao painel.') + dica;
           cont.hidden = false;
           clearTimeout(recadTimer);
           recadTimer = setTimeout(recadVoltarAoHub, 3000);
         } else {
-          texto.textContent = 'Concluído, você já pode voltar ao sistema.';
+          texto.textContent = (tipo === 'adiado'
+            ? 'Vamos pedir de novo em outro momento. Você já pode voltar ao sistema.'
+            : 'Concluído, você já pode voltar ao sistema.') + dica;
           cont.hidden = true;
+          // Só com URL que passou na lista fixa do front (https e host exato).
+          if (recadEstado.voltarUrl) {
+            var a = el('a', 'btn btn-pink', 'Voltar ao sistema');
+            a.id = 'recadVoltarSistema';
+            a.href = recadEstado.voltarUrl;
+            a.rel = 'noopener';
+            voltarBox.appendChild(a);
+          }
         }
       }
       function recadVoltarAoHub() {
@@ -2627,7 +2671,7 @@
       function entrarNoHub(d) {
         if (d.recadastro && d.recadastro.pendente === true) {
           try { history.replaceState(null, '', window.location.pathname + window.location.search + '#recadastro'); } catch (e) { /* ignora */ }
-          recadIniciar(null);
+          recadIniciar(null, d.recadastro.bloquear === true);
           return;
         }
         showHub(d.nome, d.apps, d.papel, d.niveis, d.pode_gerir_equipe);
