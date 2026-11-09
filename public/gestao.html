@@ -991,7 +991,6 @@
             <p>Quem entra no Hub, em quais sistemas e com qual nível.</p>
           </div>
           <div class="form-actions">
-            <button type="button" class="btn btn-pink btn-sm" id="novaPessoaBtn">Nova pessoa</button>
             <button type="button" class="btn-link" id="voltarHubBtn">Voltar aos sistemas</button>
           </div>
         </div>
@@ -2160,7 +2159,6 @@
       });
 
       function fecharFormPessoa() { pessoaForm.hidden = true; editando = null; }
-      document.getElementById('novaPessoaBtn').addEventListener('click', function () { abrirFormPessoa(null); });
       document.getElementById('pf-cancelar').addEventListener('click', fecharFormPessoa);
 
       pessoaFormEl.addEventListener('submit', function (ev) {
