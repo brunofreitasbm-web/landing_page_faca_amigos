@@ -73,6 +73,20 @@ Deno.serve(async (req) => {
   const url = Deno.env.get("SUPABASE_URL");
   const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!url || !key) return json({ error: "serviço indisponível" }, 500);
+
+  // Só o servidor do Mural chama, com a chave de serviço DESTE projeto. O gateway
+  // (verify_jwt) aceita também a chave anon, que é pública: sem esta checagem
+  // qualquer pessoa emitia cupons de meia entrada. A prova é uma operação de
+  // admin feita com a própria chave recebida — vale para a chave legada (JWT) e
+  // para a nova (sb_secret_...).
+  const bearer = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "").trim();
+  if (!bearer) return json({ error: "não autorizado" }, 401);
+  if (bearer !== key) {
+    const probe = createClient(url, bearer, { auth: { persistSession: false, autoRefreshToken: false } });
+    const { error: probeErr } = await probe.auth.admin.listUsers({ page: 1, perPage: 1 });
+    if (probeErr) return json({ error: "não autorizado" }, 403);
+  }
+
   const admin = createClient(url, key);
 
   // Já emitiu nos últimos 30 dias? Devolve o mesmo cupom (idempotente: recarregar o Mural não gera outro).
