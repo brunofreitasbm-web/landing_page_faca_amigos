@@ -32,7 +32,7 @@ jobs:
     # ~15 s por foto nova: 200 fotos cabem com folga. O catálogo é salvo a cada 10 fotos.
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: scripts/fotos
       - uses: actions/setup-node@v4
