@@ -77,7 +77,7 @@ const waTexto = new URL(zap).searchParams.get('text') ?? '';
       <div class="sozinha">
         <p>Você não está sozinha(o) nessa.</p>
         <a class="btn btn-wa" href={zap} target="_blank" rel="noopener" data-cta="sozinha"><Fragment set:html={icone} /> Chamar no WhatsApp</a>
-        <p class="mais"><a href={a.clinicaLink} data-cta="clinica">{a.clinicaTexto}</a></p>
+        <p class="mais"><a href={a.clinicaLink} data-cta="clinica" data-fa-link="aprender_clinica">{a.clinicaTexto}</a></p>
       </div>
 
       <div class="leia-tambem">

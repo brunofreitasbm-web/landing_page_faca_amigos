@@ -49,6 +49,11 @@ function arquivoDaUrl(loc) {
   if (dinamica && existsSync(join(root, 'src/data/aprender', dinamica[1] + '.json'))) {
     return [join('src/data/aprender', dinamica[1] + '.json'), join('src/data/aprender', dinamica[1] + '.html')];
   }
+  // Especialidades da Clínica (src/pages/clinica/[slug].astro): a fonte é o par <slug>.json + <slug>.html em src/data/especialidades/.
+  const espec = /^clinica\/([^/]+)\.html$/.exec(rel);
+  if (espec && existsSync(join(root, 'src/data/especialidades', espec[1] + '.json'))) {
+    return [join('src/data/especialidades', espec[1] + '.json'), join('src/data/especialidades', espec[1] + '.html')];
+  }
   // Vagas (src/pages/trabalhe-conosco/[slug].astro): a fonte da data é o arquivo da própria vaga.
   const vaga = /^trabalhe-conosco\/([^/]+)\.html$/.exec(rel);
   if (vaga && existsSync(join(root, 'src/content/vagas', vaga[1] + '.json'))) return [join('src/content/vagas', vaga[1] + '.json')];
