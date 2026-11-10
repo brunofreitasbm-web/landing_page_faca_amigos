@@ -11,8 +11,8 @@ const ordens: Record<string, UnidadeId[]> = { hub: ['parque', 'graopara', 'clini
 const ordem: UnidadeId[] = ordens[contexto] ?? ordens.hub;
 // Páginas de cada unidade (links do cartão) e o rótulo de status que o rodapé sempre mostrou na Clínica.
 const paginas: Record<string, [string, string][]> = {
-  parque: [['Playground', '/playground'], ['Circuito', '/circuito']],
-  graopara: [['Playground', '/playground']],
+  parque: [['Playground', '/playground/parque-shopping'], ['Circuito', '/circuito']],
+  graopara: [['Playground', '/playground/grao-para']],
   clinica: [['Clínica', '/clinica'], ['Pacotes particulares', '/planos']],
 };
 const status: Record<string, string> = { clinica: 'Atendendo' };
@@ -95,6 +95,8 @@ function endereco(id: UnidadeId) {
         <ul class="rodape-lista">
           <li>E-mail: <a href={'mailto:' + SITE.email}>{SITE.email}</a></li>
           <li>Instagram: <a href={SITE.instagram} target="_blank" rel="noopener">{SITE.instagramUser}</a></li>
+          <li><a href="/quem-somos">Quem somos</a></li>
+          <li><a href="/equipe/isabella-freitas">Equipe: Isabella Freitas, psicóloga infantil</a></li>
           <li><a href="/trabalhe-conosco">Faça parte do nosso time</a></li>
           <li><a href="/politica-privacidade">Política de Privacidade</a></li>
           <li><a href="/termos">Termos de Uso e de Compra</a></li>
