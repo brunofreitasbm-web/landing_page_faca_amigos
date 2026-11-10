@@ -36,7 +36,7 @@ jobs:
           fail: false
       - name: Abrir issue se houver link quebrado
         if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@v6
         with:
           title: Links externos quebrados no site
           content-filepath: ./lychee/out.md
