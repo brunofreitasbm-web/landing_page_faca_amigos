@@ -1194,24 +1194,9 @@
             <option value="rh">👥 Gestão de Pessoas / RH (rh.institutofacaamigos.com.br)</option>
           </select>
               </div>
-              <div class="form-group">
-                <label class="form-label">Função / Cargo</label>
-                <select class="form-control item-funcao" required>
-            <option value="Supervisor(a)">Supervisor(a) — Terá autonomia de criar equipe</option>
-            <option value="Gerente">Gerente</option>
-            <option value="Coordenador(a)">Coordenador(a)</option>
-            <option value="Terapeuta">Terapeuta</option>
-            <option value="Estagiário(a)">Estagiário(a)</option>
-            <option value="PJ / CLT / Freelancer">PJ / CLT / Freelancer</option>
-          </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Permissão no Sistema</label>
-                <select class="form-control item-nivel" required>
-            <option value="operar">Operador (Atendimento e operações rotineiras)</option>
-            <option value="admin">Administrador (Acesso completo e gestão)</option>
-            <option value="ver">Visualizador (Somente consulta e relatórios)</option>
-          </select>
+              <div class="form-group item-funcao-grupo" hidden>
+                <label class="form-label">Função no sistema</label>
+                <select class="form-control item-funcao"></select>
               </div>
               <div class="form-group">
                 <label class="form-label">Unidades (opcional)</label>
@@ -2788,6 +2773,13 @@
           modalCriarLink.hidden = false;
           boxLinkGerado.hidden = true;
           if (listaItensConvite && !listaItensConvite.children.length) novaLinhaItem();
+          if (!modulos.length) {
+            api('contas_listar').then(function (r) {
+              if (!r.ok) return;
+              modulos = r.data.modulos || [];
+              listaItensConvite.querySelectorAll('.item-convite').forEach(preencherFuncoes);
+            });
+          }
           showMsg(modalLinkNotice, '');
           showMsg(modalLinkError, '');
         });
@@ -2818,12 +2810,33 @@
           linhas[i].querySelector('.btn-remover-item').hidden = linhas.length === 1;
         }
       }
+      // Função = papel nativo do sistema escolhido (catálogo vem do Hub). Sistema sem catálogo: sem campo.
+      function preencherFuncoes(linha) {
+        var sis = linha.querySelector('.item-sistema').value;
+        var m = modulos.filter(function (x) { return x.id === sis; })[0];
+        var sel = linha.querySelector('.item-funcao');
+        var grupo = linha.querySelector('.item-funcao-grupo');
+        sel.textContent = '';
+        var papeis = (m && m.papeis) || [];
+        papeis.forEach(function (o) {
+          var op = document.createElement('option');
+          op.value = o.id;
+          op.textContent = o.rotulo;
+          sel.appendChild(op);
+        });
+        if (papeis.length) sel.value = m.papel_padrao || papeis[0].id;
+        grupo.hidden = !papeis.length;
+      }
       function novaLinhaItem() {
         var frag = tplItemConvite.content.cloneNode(true);
         var linha = frag.querySelector('.item-convite');
         var selSis = linha.querySelector('.item-sistema');
         var grupoEscopo = linha.querySelector('.item-escopo-grupo');
-        selSis.addEventListener('change', function () { grupoEscopo.hidden = selSis.value !== 'rh'; });
+        selSis.addEventListener('change', function () {
+          grupoEscopo.hidden = selSis.value !== 'rh';
+          preencherFuncoes(linha);
+        });
+        preencherFuncoes(linha);
         linha.querySelector('.btn-remover-item').addEventListener('click', function () {
           linha.remove();
           renumerarItens();
@@ -2840,12 +2853,8 @@
           var sistema = l.querySelector('.item-sistema').value;
           var unidades = l.querySelector('.item-unidades').value.split(',')
             .map(function (u) { return u.trim(); }).filter(Boolean);
-          var item = {
-            sistema: sistema,
-            funcao: l.querySelector('.item-funcao').value,
-            nivel: l.querySelector('.item-nivel').value,
-            unidades: unidades
-          };
+          var item = { sistema: sistema, unidades: unidades };
+          if (!l.querySelector('.item-funcao-grupo').hidden) item.papel = l.querySelector('.item-funcao').value;
           if (sistema === 'rh') item.escopo = l.querySelector('.item-escopo').value;
           out.push(item);
         }
@@ -3018,11 +3027,10 @@
 
           var ulItens = document.getElementById('cadItensConvite');
           if (c.itens && c.itens.length && ulItens) {
-            var NIV = { admin: 'Administrador', operar: 'Operador', ver: 'Visualizador' };
             ulItens.textContent = '';
             c.itens.forEach(function (i) {
               var li = document.createElement('li');
-              li.textContent = i.sistema_nome + ': ' + i.funcao + ' (' + (NIV[i.nivel] || i.nivel) + ')' + (i.unidades && i.unidades.length ? ', ' + i.unidades.join(', ') : '');
+              li.textContent = i.sistema_nome + (i.tem_funcao ? ': ' + i.funcao : '') + (i.unidades && i.unidades.length ? ', ' + i.unidades.join(', ') : '');
               ulItens.appendChild(li);
             });
             ulItens.hidden = false;

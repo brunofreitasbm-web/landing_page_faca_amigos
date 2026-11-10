@@ -64,8 +64,8 @@ Deno.test("convite_antigo_backfill_abre", async () => {
 
 // ---------- Fase 1: link com vários sistemas, função por sistema ----------
 const DOIS_ITENS = [
-  { sistema: "clinica", funcao: "Supervisor(a)", nivel: "admin", unidades: ["Unidade A"] },
-  { sistema: "playground", funcao: "Gerente", nivel: "operar", unidades: ["Circuito"] },
+  { sistema: "clinica", papel: "supervisor", unidades: ["Unidade A"] },
+  { sistema: "playground", papel: "GERENTE", unidades: ["Circuito"] },
 ];
 const multi = (over: Record<string, unknown> = {}) => ({
   destinatario_nome: "Carla Dias", destinatario_email: "carla@t.com", cpf: "529.982.247-25", itens: DOIS_ITENS, ...over,
@@ -78,7 +78,8 @@ Deno.test("link_dois_sistemas_funcoes_diferentes", async () => {
   assert.equal(conv.cpf, "52998224725");
   assert.equal(conv.token, null);
   const itens = A.tabela("fa_gestao_convite_itens").filter((i) => i.convite_id === conv.id);
-  assert.deepEqual(itens.map((i) => [i.modulo, i.nivel, i.funcao]).sort(), [["clinica", "admin", "Supervisor(a)"], ["playground", "operar", "Gerente"]]);
+  assert.deepEqual(itens.map((i) => [i.modulo, i.nivel, i.funcao]).sort(), [["clinica", "operar", "Supervisão"], ["playground", "operar", "Gerente"]]);
+  assert.deepEqual(itens.map((i) => [i.modulo, i.papel_nativo]).sort(), [["clinica", "supervisor"], ["playground", "GERENTE"]]);
   assert.equal(r.corpo.itens.length, 2);
   const mail = emailsEnviados.find((e) => e.para === "carla@t.com")!;
   assert.ok(mail.html.includes("Clínica") && mail.html.includes("Playground"));
@@ -109,7 +110,7 @@ Deno.test("cpf_ja_tem_conta_recusa", async () => {
 });
 
 Deno.test("rh_sem_escopo_recusa", async () => {
-  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x2@t.com", itens: [{ sistema: "rh", funcao: "Supervisor(a)", nivel: "operar" }] }));
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x2@t.com", itens: [{ sistema: "rh", papel: "supervisor" }] }));
   assert.equal(r.status, 400);
   assert.equal(r.corpo.error, "escolha a empresa (Grupo IB ou Porto Terapia) desta pessoa");
 });
@@ -142,7 +143,7 @@ Deno.test("consultar_mostra_itens", async () => {
   const token = await linkMulti("diego@t.com", "11144477735");
   const r = await chamar("convite_consultar", { token }, null);
   assert.equal(r.status, 200);
-  assert.deepEqual(r.corpo.convite.itens.map((i: { sistema: string; nivel: string }) => [i.sistema, i.nivel]), [["clinica", "admin"], ["playground", "operar"]]);
+  assert.deepEqual(r.corpo.convite.itens.map((i: { sistema: string; nivel: string }) => [i.sistema, i.nivel]), [["clinica", "operar"], ["playground", "operar"]]);
 });
 
 Deno.test("cadastro_multi_item_cria_permissoes_e_provisiona", async () => {
@@ -154,7 +155,8 @@ Deno.test("cadastro_multi_item_cria_permissoes_e_provisiona", async () => {
   assert.equal(c.papel, "gerente");
   assert.equal(c.clinica_email, "elisa@t.com");
   assert.equal(c.playground_email, "elisa@t.com");
-  assert.equal(permissao("elisa@t.com", "clinica")?.nivel, "admin");
+  assert.equal(permissao("elisa@t.com", "clinica")?.nivel, "operar");
+  assert.equal(permissao("elisa@t.com", "clinica")?.papel_nativo, "supervisor");
   assert.deepEqual(permissao("elisa@t.com", "clinica")?.unidades, ["Unidade A"]);
   assert.equal(permissao("elisa@t.com", "playground")?.nivel, "operar");
   assert.equal(B.tabela("profiles").find((p) => p.email === "elisa@t.com")?.role, "supervisor");
@@ -171,7 +173,7 @@ Deno.test("cadastro_provisao_parcial_mantem_conta", async () => {
     const r = await chamar("convite_cadastrar", cadastro(token, "fabio@t.com"), null);
     assert.equal(r.status, 200, JSON.stringify(r.corpo));
     assert.ok(conta("fabio@t.com"));
-    assert.equal(permissao("fabio@t.com", "clinica")?.nivel, "admin");
+    assert.equal(permissao("fabio@t.com", "clinica")?.nivel, "operar");
     const conv = A.tabela("fa_gestao_convites").find((l) => l.destinatario_email === "fabio@t.com")!;
     assert.ok(conv.usado_em);
     const cli = r.corpo.provisionamento.find((p: { app: string }) => p.app === "clinica");
@@ -205,7 +207,7 @@ Deno.test("cadastro_recusa_email_que_e_login_de_outra_conta", async () => {
 });
 
 Deno.test("sistema_do_prototype_recusa", async () => {
-  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x6@t.com", itens: [{ sistema: "constructor", funcao: "x", nivel: "ver" }] }));
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x6@t.com", itens: [{ sistema: "constructor", papel: "x" }] }));
   assert.equal(r.status, 400);
 });
 
@@ -220,7 +222,7 @@ Deno.test("convite_ja_reservado_nao_cria_segunda_conta", async () => {
 Deno.test("multi_nao_deriva_usuario_cacau_do_email", async () => {
   const r = await chamar("convite_link_gerar", multi({
     destinatario_email: "admin@qualquer.com", cpf: "15350946056",
-    itens: [{ sistema: "cacau", funcao: "Gerente", nivel: "operar" }],
+    itens: [{ sistema: "cacau" }],
   }));
   assert.equal(r.status, 200);
   const cad = await chamar("convite_cadastrar", cadastro(r.corpo.token, "admin@qualquer.com"), null);
@@ -239,4 +241,26 @@ Deno.test("multi_avisa_quando_permissoes_falham", async () => {
   } finally {
     A.operacoesComErro.clear();
   }
+});
+
+Deno.test("papel_de_outro_sistema_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x7@t.com", itens: [{ sistema: "clinica", papel: "GERENTE" }] }));
+  assert.equal(r.status, 400);
+  assert.equal(r.corpo.error, "escolha a função de Clínica");
+});
+
+Deno.test("papel_ausente_em_sistema_com_catalogo_recusa", async () => {
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x8@t.com", itens: [{ sistema: "playground" }] }));
+  assert.equal(r.status, 400);
+});
+
+Deno.test("sistema_sem_catalogo_nao_pede_funcao_e_nivel_vem_fixo", async () => {
+  // nivel "admin" vindo do cliente é ignorado: o servidor fixa operar.
+  const r = await chamar("convite_link_gerar", multi({ destinatario_email: "x9@t.com", cpf: "52998224725", itens: [{ sistema: "porto", nivel: "admin" }] }));
+  assert.equal(r.status, 200, JSON.stringify(r.corpo));
+  const conv = A.tabela("fa_gestao_convites").find((l) => l.destinatario_email === "x9@t.com")!;
+  const item = A.tabela("fa_gestao_convite_itens").find((i) => i.convite_id === conv.id)!;
+  assert.equal(item.nivel, "operar");
+  assert.equal(item.papel_nativo, null);
+  assert.equal(r.corpo.itens[0].tem_funcao, false);
 });

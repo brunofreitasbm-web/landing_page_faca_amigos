@@ -1866,7 +1866,7 @@ Deno.serve(async (req) => {
         destinatario_nome: convite.destinatario_nome || null,
         destinatario_email: convite.destinatario_email,
         itens: (await itensDoConvite(admin, convite.id)).map((i) => ({
-          sistema: i.modulo, sistema_nome: APPS[i.modulo]?.rotulo ?? i.modulo, funcao: i.funcao, nivel: i.nivel, unidades: i.unidades ?? [],
+          sistema: i.modulo, sistema_nome: APPS[i.modulo]?.rotulo ?? i.modulo, funcao: i.funcao, nivel: i.nivel, tem_funcao: !!i.papel_nativo, unidades: i.unidades ?? [],
         })),
       },
     });
@@ -3019,8 +3019,10 @@ async function acaoEquipe(
 
 const NIVEIS_CONVITE = ["ver", "operar", "admin"] as const;
 type NivelConvite = typeof NIVEIS_CONVITE[number];
-type ItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; escopo: string | null; unidades: string[] };
-const ROTULO_NIVEL: Record<NivelConvite, string> = { ver: "Visualizador", operar: "Operador", admin: "Administrador" };
+type ItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; papelNativo: string | null; escopo: string | null; unidades: string[] };
+// O convite não pergunta permissão: toda pessoa entra como Operador em cada sistema (admin/visualizador
+// se ajustam depois em "Pessoas e acessos"). A função é o papel nativo do sistema, quando ele tem catálogo.
+const NIVEL_CONVITE_PADRAO: NivelConvite = "operar";
 
 // Valida os itens do convite. Devolve a lista limpa ou a mensagem de erro (nada é gravado antes disso).
 function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
@@ -3032,10 +3034,15 @@ function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
     const modulo = str(o.sistema) as AppId;
     if (!Object.hasOwn(APPS, modulo)) return "selecione um sistema válido";
     if (itens.some((i) => i.modulo === modulo)) return "cada sistema só pode aparecer uma vez no convite";
-    const nivel = str(o.nivel) as NivelConvite;
-    if (!NIVEIS_CONVITE.includes(nivel)) return "permissão inválida";
-    const funcao = str(o.funcao).slice(0, 80);
-    if (!funcao) return "informe a função em cada sistema";
+    const catalogo = PAPEIS_NATIVOS[modulo];
+    let funcao: string = APPS[modulo].rotulo; // sistema sem catálogo: não há função a escolher
+    let papelNativo: string | null = null;
+    if (catalogo) {
+      const opcao = catalogo.opcoes.find((x) => x.id === str(o.papel));
+      if (!opcao) return `escolha a função de ${APPS[modulo].rotulo}`;
+      funcao = opcao.rotulo;
+      papelNativo = opcao.id;
+    }
     let escopo: string | null = null;
     if (Object.hasOwn(ESCOPOS, modulo)) {
       escopo = escopoValido(modulo, o.escopo);
@@ -3044,7 +3051,7 @@ function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
     const unidades = Array.isArray(o.unidades)
       ? [...new Set(o.unidades.map((u) => str(u).slice(0, 80)).filter(Boolean))].slice(0, 20)
       : [];
-    itens.push({ modulo, funcao, nivel, escopo, unidades });
+    itens.push({ modulo, funcao, nivel: NIVEL_CONVITE_PADRAO, papelNativo, escopo, unidades });
   }
   return itens;
 }
@@ -3088,7 +3095,7 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
     return jsonResponse(req, { error: "não foi possível gravar o convite no banco" }, 500);
   }
   const { error: itensErr } = await admin.from("fa_gestao_convite_itens").insert(
-    itens.map((i, ordem) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades, ordem })),
+    itens.map((i, ordem) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, papel_nativo: i.papelNativo, escopo: i.escopo, unidades: i.unidades, ordem })),
   );
   if (itensErr) {
     console.error("fa_gestao_convite_itens insert:", itensErr.message);
@@ -3098,7 +3105,7 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
 
   const link = `${HUB_URL}/#cadastro?token=${token}`;
   const linhas = itens.map((i) =>
-    `<div><strong>${escapeHtml(APPS[i.modulo].rotulo)}</strong>: ${escapeHtml(i.funcao)} (${ROTULO_NIVEL[i.nivel]})` +
+    `<div><strong>${escapeHtml(APPS[i.modulo].rotulo)}</strong>${i.papelNativo ? `: ${escapeHtml(i.funcao)}` : ""}` +
     `${i.unidades.length ? `, ${escapeHtml(i.unidades.join(", "))}` : ""}</div>`
   ).join("");
   const html = moldeEmail(`
@@ -3133,7 +3140,7 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
       destinatario_nome: destinatarioNome || null,
       destinatario_email: destinatarioEmail,
     },
-    itens: itens.map((i) => ({ sistema: i.modulo, sistema_nome: APPS[i.modulo].rotulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades })),
+    itens: itens.map((i) => ({ sistema: i.modulo, sistema_nome: APPS[i.modulo].rotulo, funcao: i.funcao, nivel: i.nivel, tem_funcao: !!i.papelNativo, escopo: i.escopo, unidades: i.unidades })),
   });
 }
 
