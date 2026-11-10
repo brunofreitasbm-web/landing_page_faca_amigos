@@ -44,6 +44,10 @@
       }).then(function (data) {
         if (!data || !Array.isArray(data.reviews) || data.reviews.length === 0) return;
         var html = '';
+        // Texto vem de avaliações enviadas por clientes: escapar antes do innerHTML.
+        var esc = function (v) {
+          return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        };
         data.reviews.forEach(function (r) {
           var initial = (r.author_initial || (r.author_name ? r.author_name.charAt(0) : 'V')).toUpperCase();
           var name = r.author_name || 'Família FaçaAmigos';
@@ -53,11 +57,11 @@
           var comment = r.comment ? r.comment.replace(/^["“”]+|["“”]+$/g, '') : '';
           html += '<div class="review">' +
             '<div class="who">' +
-            '<div class="av"><div>' + initial + '</div></div>' +
-            '<div><b>' + name + '</b>' + (meta ? '<small>' + meta + '</small>' : '') + '</div>' +
+            '<div class="av"><div>' + esc(initial) + '</div></div>' +
+            '<div><b>' + esc(name) + '</b>' + (meta ? '<small>' + esc(meta) + '</small>' : '') + '</div>' +
             '</div>' +
             '<div class="stars">' + stars + '</div>' +
-            '<p>"' + comment + '"</p>' +
+            '<p>"' + esc(comment) + '"</p>' +
             '</div>';
         });
         if (html) container.innerHTML = html;
