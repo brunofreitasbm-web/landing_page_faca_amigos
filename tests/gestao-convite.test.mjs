@@ -38,11 +38,17 @@ async function abrir(respostas, largura = 1200) {
   return { page, chamadas };
 }
 
+const MODULOS = [
+  { id: 'clinica', rotulo: 'Clínica', papeis: [{ id: 'supervisor', rotulo: 'Supervisão' }, { id: 'recepcao', rotulo: 'Recepção' }, { id: 'faturamento', rotulo: 'Faturamento' }], papel_padrao: 'supervisor' },
+  { id: 'playground', rotulo: 'Playground', papeis: [{ id: 'GERENTE', rotulo: 'Gerente' }, { id: 'OPERADOR', rotulo: 'Operador' }], papel_padrao: 'GERENTE' },
+  { id: 'porto', rotulo: 'Porto Terapia', papeis: [], papel_padrao: null },
+];
 const ME = () => ({ nome: 'Bruno', email: 'bruno@t.com', papel: 'owner', apps: {}, niveis: {}, pode_gerir_equipe: true });
 
 test('monta_payload_multi_sistema', async () => {
   const { page, chamadas } = await abrir({
     me: ME,
+    contas_listar: () => ({ contas: [], niveis: [], modulos: MODULOS }),
     pessoa_buscar: () => ({ pessoas: [] }),
     convite_link_gerar: () => ({ ok: true, token: 't', link: 'https://gestao/#cadastro?token=t', email_enviado: true,
       convite: { sistema: 'clinica', sistema_nome: 'Clínica', sistema_url: 'https://sistema' },
@@ -54,17 +60,17 @@ test('monta_payload_multi_sistema', async () => {
   await page.fill('#txtDestinatarioEmail', 'carla@t.com');
   const linhas = page.locator('.item-convite');
   await linhas.nth(0).locator('.item-sistema').selectOption('clinica');
-  await linhas.nth(0).locator('.item-nivel').selectOption('admin');
+  await linhas.nth(0).locator('.item-funcao').selectOption('recepcao');
   await page.click('#btnAddSistema');
   await linhas.nth(1).locator('.item-sistema').selectOption('playground');
-  await linhas.nth(1).locator('.item-nivel').selectOption('operar');
+  await linhas.nth(1).locator('.item-funcao').selectOption('OPERADOR');
   await linhas.nth(1).locator('.item-unidades').fill('Circuito, Parque');
   await page.click('#btnSubmitGerarLink');
   await page.waitForSelector('#boxLinkGerado:not([hidden])');
   const env = chamadas.find((c) => c.action === 'convite_link_gerar');
   assert.equal(env.cpf, '529.982.247-25');
   assert.equal(env.destinatario_email, 'carla@t.com');
-  assert.deepEqual(env.itens.map((i) => [i.sistema, i.nivel]), [['clinica', 'admin'], ['playground', 'operar']]);
+  assert.deepEqual(env.itens.map((i) => [i.sistema, i.papel]), [['clinica', 'recepcao'], ['playground', 'OPERADOR']]);
   assert.deepEqual(env.itens[1].unidades, ['Circuito', 'Parque']);
   assert.match(await page.textContent('#resSistemaNome'), /Clínica.*Playground/);
   // Convite é só por e-mail: não existe mais o botão de WhatsApp.
@@ -74,7 +80,7 @@ test('monta_payload_multi_sistema', async () => {
 });
 
 test('rh_mostra_empresa', async () => {
-  const { page } = await abrir({ me: ME, pessoa_buscar: () => ({ pessoas: [] }) });
+  const { page } = await abrir({ me: ME, contas_listar: () => ({ contas: [], niveis: [], modulos: MODULOS }), pessoa_buscar: () => ({ pessoas: [] }) });
   await page.click('#btnAbrirCriarLink');
   const linha = page.locator('.item-convite').first();
   assert.equal(await linha.locator('.item-escopo-grupo').isVisible(), false);
@@ -111,5 +117,21 @@ test('celular_sem_rolagem_horizontal', async () => {
   });
   assert.equal(vaza, false);
   await page.screenshot({ path: process.env.SHOT || '/dev/null', fullPage: false }).catch(() => {});
+  await page.close();
+});
+
+test('funcao_muda_por_sistema_e_some_sem_catalogo', async () => {
+  const { page } = await abrir({ me: ME, contas_listar: () => ({ contas: [], niveis: [], modulos: MODULOS }), pessoa_buscar: () => ({ pessoas: [] }) });
+  await page.click('#btnAbrirCriarLink');
+  const linha = page.locator('.item-convite').first();
+  await page.waitForFunction(() => document.querySelectorAll('.item-funcao option').length > 0);
+  const ops = async () => linha.locator('.item-funcao option').allTextContents();
+  await linha.locator('.item-sistema').selectOption('clinica');
+  assert.deepEqual(await ops(), ['Supervisão', 'Recepção', 'Faturamento']);
+  await linha.locator('.item-sistema').selectOption('playground');
+  assert.deepEqual(await ops(), ['Gerente', 'Operador']);
+  await linha.locator('.item-sistema').selectOption('porto');
+  assert.equal(await linha.locator('.item-funcao-grupo').isVisible(), false);
+  assert.equal(await linha.locator('.item-nivel').count(), 0);
   await page.close();
 });

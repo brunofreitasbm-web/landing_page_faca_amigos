@@ -44,6 +44,10 @@
       }).then(function (d) {
         if (!d || !Array.isArray(d.reviews) || !d.reviews.length) return;
         var html = '';
+        // Texto vem de avaliações enviadas por clientes: escapar antes do innerHTML.
+        var esc = function (v) {
+          return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        };
         d.reviews.forEach(function (r) {
           var nameParts = (r.author_name || 'Cliente').split(' ');
           var shortName = nameParts[0] + (nameParts[1] ? ' ' + nameParts[1].charAt(0) + '.' : '');
@@ -51,9 +55,9 @@
           var visitLabel = r.author_role || (r.visit_count ? r.visit_count + 'ª visita' : '');
           var figText = [shortName, visitLabel].filter(Boolean).join(' · ');
           var comment = r.comment ? r.comment.replace(/^["“”]+|["“”]+$/g, '') : '';
-          html += '<figure class="rv"><div class="rv-stars" aria-label="' + (r.rating || 5) + ' estrelas">' + stars + '</div>' +
-            '<blockquote>“' + comment + '”</blockquote>' +
-            '<figcaption>' + figText + '</figcaption></figure>';
+          html += '<figure class="rv"><div class="rv-stars" aria-label="' + (Number(r.rating) || 5) + ' estrelas">' + stars + '</div>' +
+            '<blockquote>“' + esc(comment) + '”</blockquote>' +
+            '<figcaption>' + esc(figText) + '</figcaption></figure>';
         });
         if (html) grid.innerHTML = html;
       }).catch(function () { /* fallback estático preservado */ });

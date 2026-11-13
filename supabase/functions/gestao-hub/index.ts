@@ -41,6 +41,8 @@ const HUB_URL = "https://gestao.institutofacaamigos.com.br";
 
 const ALLOWED_ORIGINS = [
   "https://gestao.institutofacaamigos.com.br",
+  "https://rh.institutofacaamigos.com.br",
+  "https://porto-terapia-gestao.vercel.app",
   "http://127.0.0.1:5500",
   "http://localhost:5500",
   "http://localhost:3000",
@@ -779,9 +781,17 @@ async function enviarCodigo(
   email: string,
   nome: string,
   code: string,
-  finalidade: "login" | "reset" = "login",
+  finalidade: "login" | "reset" | "recadastro" = "login",
   modo: "clinica" | "hub" = "clinica",
 ): Promise<boolean> {
+  if (finalidade === "recadastro") {
+    const html = moldeEmail(`
+    <p style="margin:0 0 12px;font-size:15px;">Olá, ${escapeHtml(nome)}!</p>
+    <p style="margin:0 0 18px;font-size:14px;color:#4C6B62;">Use este código para confirmar o seu e-mail no recadastro do Instituto Faça Amigos:</p>
+    <div style="font-size:34px;font-weight:900;letter-spacing:10px;color:#1a3f35;background:#FFF9F1;border-radius:16px;padding:16px 0;">${code}</div>
+    <p style="margin:18px 0 0;font-size:12px;color:#8B9A94;">Vale por 10 minutos. Se não foi você, ignore este e-mail: nada muda sem este código.</p>`);
+    return enviarEmail(email, nome, `Confirme o seu e-mail: código ${code}`, html);
+  }
   const reset = finalidade === "reset";
   const quemSenha = modo === "hub" ? "do Hub de Gestão" : "do Hub de Gestão e do Sistema da Clínica";
   const html = moldeEmail(`
@@ -843,6 +853,9 @@ const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_MAX_FAILS_PER_IP = 5;
 const LOGIN_MAX_FAILS_PER_LOGIN = 10;
 const CODES_MAX_PER_WINDOW = 5;
+const RECADASTRO_CODES_MAX = 3;
+const RECADASTRO_TENTATIVAS_MAX = 5; // desafios + conflitos por chave na janela
+const RECADASTRO_429 = "muitos códigos pedidos, aguarde 15 minutos";
 
 type Admin = SupabaseClient;
 
@@ -910,6 +923,491 @@ async function acharContaPorLogin(admin: Admin, login: string): Promise<Conta | 
   return c && c.ativo ? c : null;
 }
 
+// ---------- Recadastro de identidade (Fase 2b): prazo, identificação e status ----------
+const RECADASTRO_DIAS = 7;
+const DIA_MS = 86_400_000;
+const RECADASTRO_ADIAMENTO_MS = 12 * 3600_000;
+
+// Lê a variável a cada chamada: o recadastro liga e desliga sem republicar nada.
+function recadastroLigado(): boolean {
+  return Deno.env.get("GESTAO_RECADASTRO") === "1";
+}
+
+function diasRestantesRecadastro(primeiroAvisoEm: string, agora: number = Date.now()): number {
+  const t = new Date(primeiroAvisoEm).getTime();
+  if (!Number.isFinite(t)) return RECADASTRO_DIAS;
+  return Math.max(0, RECADASTRO_DIAS - Math.floor((agora - t) / DIA_MS));
+}
+
+type IdentRecad = {
+  chave: string;
+  origem: "clinica" | "rh" | "hub";
+  authUserId: string | null;
+  hubEmail: string | null;
+  loginEmail: string;
+  nome: string;
+};
+type StatusRecadastro = { pendente: boolean; bloquear: boolean; dias_restantes: number };
+const STATUS_RECAD_ISENTO: StatusRecadastro = { pendente: false, bloquear: false, dias_restantes: RECADASTRO_DIAS };
+
+async function identificarRecadastro(
+  admin: Admin,
+  req: Request,
+  body: Record<string, unknown>,
+): Promise<IdentRecad | "isento" | null> {
+  // (a) código da página de recadastro, emitido por um sistema e de uso curto
+  const pagina = typeof body.pagina === "string" ? body.pagina : "";
+  if (pagina) {
+    const { data } = await admin
+      .from("fa_gestao_recadastro_tickets")
+      .select("chave, origem, auth_user_id, hub_email, login_email, nome, pagina_expira_em")
+      .eq("pagina_hash", await sha256Hex(pagina))
+      .maybeSingle();
+    if (!data || !data.pagina_expira_em || new Date(data.pagina_expira_em).getTime() <= Date.now()) return null;
+    return {
+      chave: data.chave,
+      origem: data.origem,
+      authUserId: data.auth_user_id ?? null,
+      hubEmail: data.hub_email ?? null,
+      loginEmail: data.login_email ?? "",
+      nome: data.nome ?? "",
+    };
+  }
+
+  const authHeader = req.headers.get("authorization") ?? "";
+  const bearer = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
+  if (!bearer) return null;
+
+  // (b) sessão do Hub
+  if (/^[0-9a-f]{64}$/.test(bearer)) {
+    const { data } = await admin
+      .from("fa_gestao_sessoes")
+      .select("email, expires_at")
+      .eq("token_hash", await sha256Hex(bearer))
+      .maybeSingle();
+    if (data && new Date(data.expires_at).getTime() >= Date.now()) {
+      const { data: c } = await admin.from("fa_gestao_contas").select("*").eq("email", data.email).maybeSingle();
+      if (!c) return null;
+      if (!c.ativo) return "isento";
+      return { chave: `hub:${c.email}`, origem: "hub", authUserId: null, hubEmail: c.email, loginEmail: c.email, nome: c.nome ?? "" };
+    }
+  }
+
+  // (c) JWT do projeto B (Clínica ou RH)
+  const sistema = body.sistema;
+  if (sistema !== "clinica" && sistema !== "rh") return null;
+  const b = clinicaAdmin();
+  if (!b) return null;
+  const { data: u } = await b.auth.getUser(bearer);
+  const user = u?.user;
+  if (!user) return null;
+  const papel = String((user.app_metadata as Record<string, unknown> | undefined)?.role ?? "");
+  if (papel.endsWith("_unit") || papel === "intern") return "isento";
+  if (user.banned_until && new Date(user.banned_until).getTime() > Date.now()) return "isento";
+  const { data: perfil } = await b.from("profiles").select("role, active, full_name").eq("id", user.id).maybeSingle();
+  if (perfil?.role === "responsavel" || perfil?.active === false) return "isento";
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+  const email = user.email ?? "";
+  return {
+    chave: `b:${user.id}`,
+    origem: sistema,
+    authUserId: user.id,
+    hubEmail: null,
+    loginEmail: email,
+    nome: String(perfil?.full_name ?? meta.name ?? email),
+  };
+}
+
+async function statusRecadastro(admin: Admin, ident: IdentRecad | "isento"): Promise<StatusRecadastro> {
+  if (!recadastroLigado() || ident === "isento") return { ...STATUS_RECAD_ISENTO };
+  // Erro de leitura nunca bloqueia, nunca deixa pendente (o Hub abriria o recadastro e a pessoa ficaria
+  // presa) e nunca reinicia o prazo: devolve "sem pendência" sem gravar nada.
+  const NAO_BLOQUEIA: StatusRecadastro = { ...STATUS_RECAD_ISENTO };
+  // Conta do Hub que já tem CPF conta como concluída (o CPF só entra na conta pelo recadastro feito com a
+  // sessão do Hub, ou pelo owner). Quem concluiu só pela Clínica/RH segue pendente na chave hub:.
+  if (ident.origem === "hub" && ident.hubEmail) {
+    const { data: conta, error: erroConta } = await admin
+      .from("fa_gestao_contas").select("cpf").eq("email", ident.hubEmail).maybeSingle();
+    if (erroConta) return NAO_BLOQUEIA;
+    if (conta?.cpf) return { ...STATUS_RECAD_ISENTO };
+  }
+  const lerEstado = () =>
+    admin.from("fa_gestao_recadastro_estado").select("primeiro_aviso_em, concluido_em, adiado_em").eq("chave", ident.chave).maybeSingle();
+  let { data: est, error: erroEstado } = await lerEstado();
+  if (erroEstado) return NAO_BLOQUEIA;
+  if (est?.concluido_em) return { ...STATUS_RECAD_ISENTO };
+  if (!est) {
+    // Cria sem sobrescrever (consultas simultâneas) e relê: vale sempre a data que está gravada.
+    const { error: erroInsert } = await admin
+      .from("fa_gestao_recadastro_estado")
+      .upsert({ chave: ident.chave, primeiro_aviso_em: new Date().toISOString() }, { onConflict: "chave", ignoreDuplicates: true });
+    if (erroInsert) return NAO_BLOQUEIA;
+    ({ data: est, error: erroEstado } = await lerEstado());
+    if (erroEstado || !est) return NAO_BLOQUEIA;
+    if (est.concluido_em) return { ...STATUS_RECAD_ISENTO };
+  }
+  const dias = diasRestantesRecadastro(est.primeiro_aviso_em as string);
+  // "Fazer depois" vale por algumas horas: não reabre a página a cada carga (só dentro do prazo).
+  const adiadoEm = est.adiado_em ? new Date(est.adiado_em as string).getTime() : NaN;
+  if (dias > 0 && Number.isFinite(adiadoEm) && Date.now() - adiadoEm < RECADASTRO_ADIAMENTO_MS) {
+    return { pendente: false, bloquear: false, dias_restantes: dias };
+  }
+  const { data: conflitos, error: erroConflitos } = await admin
+    .from("fa_gestao_recadastro_conflitos")
+    .select("id")
+    .eq("chave", ident.chave)
+    .is("resolvido_em", null)
+    .limit(1);
+  if (erroConflitos) return { pendente: true, bloquear: false, dias_restantes: dias };
+  const comConflito = (conflitos?.length ?? 0) > 0;
+  return { pendente: true, bloquear: dias <= 0 && !comConflito, dias_restantes: dias };
+}
+
+const TICKET_RECAD_MS = 2 * 60_000;
+const PAGINA_RECAD_MS = 30 * 60_000;
+
+// O RH roda em dois endereços (Grupo IB e Porto Terapia, os mesmos do CORS): o sistema informa o próprio
+// host no pedido do código e o Hub só aceita um desta lista.
+const VOLTAR_HOSTS_RH = ["rh.institutofacaamigos.com.br", "porto-terapia-gestao.vercel.app"];
+function voltarHostRh(v: unknown): string | null {
+  const h = typeof v === "string" ? v.trim().toLowerCase() : "";
+  return VOLTAR_HOSTS_RH.includes(h) ? h : null;
+}
+
+// Para onde o botão "voltar" da página de recadastro leva: o sistema de origem (ou o Hub).
+function voltarUrlRecadastro(origem: string, voltarHost?: string | null): string {
+  if (origem === "rh") {
+    const h = voltarHostRh(voltarHost);
+    if (h) return `https://${h}`;
+  }
+  if (origem === "clinica" || origem === "rh") {
+    const app = APPS[origem];
+    return (Deno.env.get(app.baseEnv) ?? app.baseDefault).replace(/\/+$/, "");
+  }
+  return HUB_URL;
+}
+
+const CPF_MASCARA_RE = /^(\d{3})(\d{3})(\d{3})(\d{2})$/;
+
+// Já existe outra pessoa com este CPF ou com este e-mail de login? Erro de consulta nunca vira conflito:
+// aqui só decide se o código sai (a confirmação refaz a checagem).
+async function conflitosRecadastro(
+  admin: Admin,
+  ident: IdentRecad,
+  cpf: string,
+  emailReal: string,
+): Promise<"cpf_de_outra_pessoa" | "email_de_outro_login" | null> {
+  const email = emailReal.trim().toLowerCase();
+  // (a) CPF já confirmado no Hub para outro e-mail real (mesmo e-mail = mesma pessoa com outro login)
+  try {
+    const { data, error } = await admin.from("fa_gestao_pessoas").select("email_real").eq("cpf", cpf).maybeSingle();
+    if (error) console.error("conflito pessoas:", error.message);
+    else if (data && String(data.email_real ?? "").toLowerCase() !== email) return "cpf_de_outra_pessoa";
+  } catch (e) {
+    console.error("conflito pessoas:", e);
+  }
+  const b = ident.origem === "hub" ? null : clinicaAdmin();
+  if (b) {
+    // (b) CPF já cadastrado no perfil de outro usuário do projeto B
+    try {
+      const mascarado = cpf.replace(CPF_MASCARA_RE, "$1.$2.$3-$4");
+      const { data, error } = await b.from("profiles").select("id").or(`cpf.eq.${quoteFilterValue(cpf)},cpf.eq.${quoteFilterValue(mascarado)}`).limit(5);
+      if (error) console.error("conflito profiles:", error.message);
+      else if ((data ?? []).some((l: { id: string }) => String(l.id) !== ident.authUserId)) return "cpf_de_outra_pessoa";
+    } catch (e) {
+      console.error("conflito profiles:", e);
+    }
+    // (c) e-mail digitado já é login de outro usuário do projeto B
+    try {
+      const POR_PAGINA = 1000;
+      for (let pagina = 1; pagina <= 50; pagina++) {
+        const { data, error } = await b.auth.admin.listUsers({ page: pagina, perPage: POR_PAGINA });
+        if (error) {
+          console.error("conflito auth.users:", error.message);
+          break;
+        }
+        const usuarios = data?.users ?? [];
+        if (usuarios.some((u) => (u.email ?? "").toLowerCase() === email && u.id !== ident.authUserId)) return "email_de_outro_login";
+        if (usuarios.length < POR_PAGINA) break;
+      }
+    } catch (e) {
+      console.error("conflito auth.users:", e);
+    }
+  }
+  if (ident.origem === "hub") {
+    // outra conta do Hub que já usa este e-mail
+    try {
+      const q = quoteFilterValue(email);
+      const { data, error } = await admin.from("fa_gestao_contas").select("email").or(`email.eq.${q},login_email.eq.${q},email_codigo.eq.${q}`).limit(5);
+      if (error) console.error("conflito contas:", error.message);
+      else if ((data ?? []).some((l: { email: string }) => String(l.email).toLowerCase() !== (ident.hubEmail ?? "").toLowerCase())) return "email_de_outro_login";
+    } catch (e) {
+      console.error("conflito contas:", e);
+    }
+  }
+  return null;
+}
+
+// Conta, na janela, desafios, conflitos e conflitos repetidos (só na auditoria) da chave. null = erro de leitura.
+async function contarTentativasRecadastro(admin: Admin, chave: string): Promise<{ desafios: number; outros: number } | null> {
+  const since = new Date(Date.now() - LOGIN_WINDOW_MS).toISOString();
+  const [d, c, r] = await Promise.all([
+    admin.from("fa_gestao_desafios").select("id", { count: "exact", head: true })
+      .eq("finalidade", "recadastro").eq("alvo_id", chave).gte("created_at", since),
+    admin.from("fa_gestao_recadastro_conflitos").select("id", { count: "exact", head: true })
+      .eq("chave", chave).gte("criado_em", since),
+    admin.from("fa_gestao_auditoria").select("id", { count: "exact", head: true })
+      .eq("evento", "recadastro_conflito_repetido").eq("detalhe", chave).gte("created_at", since),
+  ]);
+  if (d.error || c.error || r.error) return null;
+  return { desafios: d.count ?? 0, outros: (c.count ?? 0) + (r.count ?? 0) };
+}
+
+// Logins com e-mail fictício (sem caixa de entrada): só esses têm o e-mail do login trocado pelo real.
+const EMAIL_SINTETICO = /@(staff\.facaamigos\.local|grupoib\.internal|kiosk\.internal|familia\.clinica\.local)$/i;
+const RECAD_CONFLITO_MSG = "não foi possível concluir, o responsável foi avisado";
+const RECAD_FALHA_MSG = "não foi possível concluir agora";
+
+// Abre (sem duplicar o aberto igual) um conflito para o owner resolver e responde a mensagem genérica.
+async function abrirConflitoRecadastro(
+  admin: Admin,
+  req: Request,
+  ident: IdentRecad,
+  motivo: "cpf_de_outra_pessoa" | "email_de_outro_login",
+  cpf: string,
+  email: string,
+): Promise<Response> {
+  const { data: abertos, error } = await admin
+    .from("fa_gestao_recadastro_conflitos").select("id")
+    .eq("chave", ident.chave).eq("motivo", motivo).eq("cpf_informado", cpf).is("resolvido_em", null).limit(1);
+  // Sem conseguir checar duplicado, grava assim mesmo: melhor um caso repetido na fila do que nenhum.
+  if (error) console.error("conflito checar duplicado:", error.message);
+  if (error || (abertos?.length ?? 0) === 0) {
+    const { error: erroGrava } = await admin.from("fa_gestao_recadastro_conflitos").insert({
+      chave: ident.chave, motivo, cpf_informado: cpf, email_informado: email, criado_em: new Date().toISOString(),
+    });
+    if (erroGrava) console.error("conflito gravar:", erroGrava.message);
+  }
+  await auditar(admin, req, "recadastro_conflito", { app: ident.origem, detalhe: `${ident.chave} ${motivo}` });
+  return jsonResponse(req, { error: RECAD_CONFLITO_MSG }, 409);
+}
+
+// Falha de gravação que é, na verdade, conflito: e-mail já usado por outro login ou CPF repetido (índice único).
+class ConflitoRecadastro extends Error {
+  constructor(public motivo: "cpf_de_outra_pessoa" | "email_de_outro_login") {
+    super(motivo);
+  }
+}
+const ehUnicidade = (e: { code?: string; message?: string } | null) =>
+  !!e && (e.code === "23505" || /duplicate key|unique constraint/i.test(e.message ?? ""));
+const ehEmailJaUsado = (e: { code?: string; status?: number; message?: string } | null) =>
+  !!e && (e.code === "email_exists" || /already (been )?registered|already exists|email.*(in use|exists)/i.test(e.message ?? ""));
+
+const soDigitos = (v: unknown) => String(v ?? "").replace(/\D/g, "");
+
+// Grava a confirmação tudo ou nada: cada passo empilha o seu desfazer; qualquer falha desfaz em ordem inversa.
+// Devolve { loginTrocado } quando tudo foi gravado, ou o motivo do conflito / "falha" depois de desfazer.
+async function gravarConfirmacaoRecadastro(
+  admin: Admin,
+  req: Request,
+  ident: IdentRecad,
+  cpf: string,
+  emailReal: string,
+): Promise<{ loginTrocado: boolean } | "falha" | "cpf_de_outra_pessoa" | "email_de_outro_login"> {
+  type Desfazer = { passo: "pessoa" | "vínculo" | "vínculo email_login_antes" | "login" | "perfil" | "conta"; fn: () => PromiseLike<unknown> };
+  const desfazer: Desfazer[] = [];
+  const b = ident.origem === "hub" ? null : clinicaAdmin();
+  const loginAntes = ident.loginEmail.trim().toLowerCase();
+  let trocaTentada = false;
+  try {
+    if (ident.origem !== "hub" && (!b || !ident.authUserId)) throw new Error("projeto B indisponível");
+    const porHub = ident.origem === "hub";
+
+    // Contas do Hub ligadas a esse login. Se alguma referencia o e-mail do login, ele NÃO é trocado
+    // (launch, sincronização de senha e o próprio login no Hub dependem desse e-mail). Erro de leitura:
+    // falha seguro, não troca o login e conclui só com o contato.
+    const ligado = quoteFilterValue((porHub ? ident.hubEmail ?? "" : loginAntes).toLowerCase());
+    const { data: contasLidas, error: erroContas } = await admin
+      .from("fa_gestao_contas").select("email, cpf, email_codigo")
+      .or(`email.eq.${ligado},login_email.eq.${ligado},clinica_email.eq.${ligado},rh_email.eq.${ligado}`)
+      .limit(5);
+    if (erroContas) console.error("recadastro contas ler:", erroContas.message);
+    const contas = erroContas ? [] : (contasLidas ?? []);
+    let trocarLogin = !porHub && !erroContas && contas.length === 0 && EMAIL_SINTETICO.test(loginAntes);
+
+    // CPF já preenchido nunca é sobrescrito: conta do Hub ou perfil com outro CPF é conflito, antes de gravar
+    // qualquer coisa. (A senha de um sistema não pode trocar a identidade guardada em outro.)
+    if (contas.some((c) => soDigitos(c.cpf) && soDigitos(c.cpf) !== cpf)) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+    if (b) {
+      const { data: p0, error: e0 } = await b.from("profiles").select("cpf").eq("id", ident.authUserId!).maybeSingle();
+      if (e0) console.error("recadastro perfil pré-checar:", e0.message); // o passo (4) relê e confere de novo
+      else if (soDigitos(p0?.cpf) && soDigitos(p0?.cpf) !== cpf) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+    }
+    // Só o recadastro feito com a sessão do próprio Hub escreve na conta do Hub (Ruling 15). Vindo da
+    // Clínica/RH, nada é escrito em fa_gestao_contas: a senha de outro sistema não prova posse do CPF nem do
+    // canal de código do Hub (o e-mail de código é o segundo fator e o destino do "esqueci a senha").
+    // Na origem Hub: CPF vazio é preenchido; o e-mail de código só muda quando está vazio, é fictício ou é o
+    // e-mail da própria conta da sessão.
+    const contaPropria = porHub ? (ident.hubEmail ?? "").toLowerCase() : "";
+    const patchesConta = contas.filter((c) => porHub && String(c.email).toLowerCase() === contaPropria).map((c) => {
+      const ec = String(c.email_codigo ?? "").trim().toLowerCase();
+      const patch: Record<string, string> = {};
+      if (!ec || EMAIL_SINTETICO.test(ec) || ec === contaPropria) patch.email_codigo = emailReal;
+      if (!soDigitos(c.cpf)) patch.cpf = cpf;
+      return { c, patch };
+    }).filter((x) => Object.keys(x.patch).length > 0);
+
+    // (2a) pessoa por CPF: se já existe com o mesmo e-mail real, é a mesma pessoa em outro login
+    const { data: criadas, error: erroPessoa } = await admin
+      .from("fa_gestao_pessoas")
+      .upsert({ cpf, email_real: emailReal, nome: ident.nome || null, confirmado_em: new Date().toISOString() }, { onConflict: "cpf", ignoreDuplicates: true })
+      .select("cpf");
+    if (erroPessoa) throw new Error(`pessoa: ${erroPessoa.message}`);
+    if ((criadas?.length ?? 0) > 0) {
+      desfazer.push({ passo: "pessoa", fn: () => admin.from("fa_gestao_pessoas").delete().eq("cpf", cpf) });
+    } else {
+      const { data: existente, error } = await admin.from("fa_gestao_pessoas").select("email_real").eq("cpf", cpf).maybeSingle();
+      if (error || !existente) throw new Error(`pessoa reler: ${error?.message ?? "sumiu"}`);
+      if (String(existente.email_real ?? "").toLowerCase() !== emailReal) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+    }
+
+    // (2b) vínculo do login com a pessoa (índices únicos planos por origem + login)
+    const chaveVinculo = porHub ? "hub_email" : "auth_user_id";
+    const valorVinculo = porHub ? (ident.hubEmail ?? "").toLowerCase() : ident.authUserId;
+    const { data: vincCriado, error: erroVinc } = await admin
+      .from("fa_gestao_pessoa_contas")
+      .upsert({
+        cpf,
+        origem: ident.origem,
+        auth_user_id: porHub ? null : ident.authUserId,
+        hub_email: porHub ? valorVinculo : null,
+        email_login_antes: trocarLogin ? loginAntes : null,
+      }, { onConflict: `origem,${chaveVinculo}`, ignoreDuplicates: true })
+      .select("id");
+    if (erroVinc) throw new Error(`vínculo: ${erroVinc.message}`);
+    if ((vincCriado?.length ?? 0) > 0) {
+      const idVinc = vincCriado![0].id;
+      desfazer.push({ passo: "vínculo", fn: () => admin.from("fa_gestao_pessoa_contas").delete().eq("id", idVinc) });
+    } else {
+      const { data: v, error } = await admin.from("fa_gestao_pessoa_contas").select("id, cpf, email_login_antes")
+        .eq("origem", ident.origem).eq(chaveVinculo, valorVinculo).maybeSingle();
+      if (error || !v) throw new Error(`vínculo reler: ${error?.message ?? "sumiu"}`);
+      if (v.cpf !== cpf) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+      if (v.email_login_antes) {
+        // O login já foi trocado numa confirmação anterior: não troca de novo.
+        trocarLogin = false;
+      } else if (trocarLogin) {
+        const { error: e2 } = await admin.from("fa_gestao_pessoa_contas").update({ email_login_antes: loginAntes }).eq("id", v.id);
+        if (e2) throw new Error(`vínculo email_login_antes: ${e2.message}`);
+        desfazer.push({ passo: "vínculo email_login_antes", fn: () => admin.from("fa_gestao_pessoa_contas").update({ email_login_antes: null }).eq("id", v.id) });
+      }
+    }
+
+    // (3) login com e-mail fictício e sem conta do Hub ligada passa a usar o e-mail real, mesmo id.
+    // A volta é empilhada ANTES da chamada: um erro ambíguo (timeout, 5xx) pode ter gravado a troca.
+    if (trocarLogin) {
+      const volta: Desfazer = {
+        passo: "login",
+        fn: () => b!.auth.admin.updateUserById(ident.authUserId!, { email: loginAntes, email_confirm: true }),
+      };
+      desfazer.push(volta);
+      trocaTentada = true;
+      const { error } = await b!.auth.admin.updateUserById(ident.authUserId!, { email: emailReal, email_confirm: true });
+      if (error) {
+        if (ehEmailJaUsado(error as { code?: string; message?: string })) {
+          desfazer.pop(); // recusado com certeza: a troca não aconteceu
+          trocaTentada = false;
+          throw new ConflitoRecadastro("email_de_outro_login");
+        }
+        throw new Error(`login: ${error.message}`);
+      }
+    }
+
+    // (4) perfil do projeto B (quem é só do RH pode não ter perfil: não cria)
+    if (b) {
+      const { data: perfil, error: erroPerfil } = await b.from("profiles").select("cpf, email").eq("id", ident.authUserId!).maybeSingle();
+      if (erroPerfil) throw new Error(`perfil ler: ${erroPerfil.message}`);
+      if (perfil) {
+        const cpfPerfil = soDigitos(perfil.cpf);
+        if (cpfPerfil && cpfPerfil !== cpf) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+        const patch: Record<string, string> = {};
+        if (!cpfPerfil) patch.cpf = cpf; // o mesmo CPF já gravado (com ou sem máscara) fica como está
+        if (trocarLogin) patch.email = emailReal;
+        if (Object.keys(patch).length > 0) {
+          const { error } = await b.from("profiles").update(patch).eq("id", ident.authUserId!);
+          if (error) {
+            if (ehUnicidade(error as { code?: string; message?: string })) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+            throw new Error(`perfil: ${error.message}`);
+          }
+          const antes: Record<string, unknown> = {};
+          if ("cpf" in patch) antes.cpf = perfil.cpf ?? null;
+          if (trocarLogin) antes.email = perfil.email ?? null;
+          desfazer.push({ passo: "perfil", fn: () => b.from("profiles").update(antes).eq("id", ident.authUserId!) });
+        }
+      }
+    }
+
+    // (5) só origem Hub: a própria conta da sessão, com o que foi liberado acima (cpf só se vazio; e-mail de
+    // código só se vazio, fictício ou igual ao e-mail da conta); a chave `email` não muda
+    for (const { c, patch: patchConta } of patchesConta) {
+      const { error } = await admin.from("fa_gestao_contas").update(patchConta).eq("email", c.email);
+      if (error) {
+        if (ehUnicidade(error as { code?: string; message?: string })) throw new ConflitoRecadastro("cpf_de_outra_pessoa");
+        throw new Error(`conta: ${error.message}`);
+      }
+      desfazer.push({
+        passo: "conta",
+        fn: () => admin.from("fa_gestao_contas").update({ cpf: c.cpf ?? null, email_codigo: c.email_codigo }).eq("email", c.email),
+      });
+    }
+
+    // (6) concluído (sem tocar em primeiro_aviso_em)
+    const { error: erroEstado } = await admin
+      .from("fa_gestao_recadastro_estado")
+      .upsert({ chave: ident.chave, concluido_em: new Date().toISOString() }, { onConflict: "chave" });
+    if (erroEstado) throw new Error(`estado: ${erroEstado.message}`);
+    return { loginTrocado: trocarLogin };
+  } catch (e) {
+    console.error("recadastro confirmar:", e instanceof Error ? e.message : e);
+    // Se a volta do login falhar, o login segue com o e-mail real: o perfil acompanha o login e o vínculo
+    // (único registro de email_login_antes) e a pessoa ficam, para o owner agir.
+    let loginPreso = false;
+    for (const d of desfazer.reverse()) {
+      if (loginPreso && (d.passo === "vínculo" || d.passo === "vínculo email_login_antes" || d.passo === "pessoa")) continue;
+      let falhou = false;
+      try {
+        const r = await d.fn() as { error?: { message: string } | null } | undefined;
+        if (r?.error) {
+          falhou = true;
+          console.error(`recadastro desfazer ${d.passo}:`, r.error.message);
+        }
+      } catch (err) {
+        falhou = true;
+        console.error(`recadastro desfazer ${d.passo}:`, err);
+      }
+      if (falhou && d.passo === "login") {
+        loginPreso = true;
+        // O login pode ter ficado com o e-mail real mesmo sem o perfil ter sido tocado (erro ambíguo na troca
+        // ou falha no passo do perfil): reaplica sempre; perfil inexistente não é criado (update não casa nada).
+        if (trocaTentada && b) {
+          const { error } = await b.from("profiles").update({ email: emailReal }).eq("id", ident.authUserId!);
+          if (error) console.error("recadastro reaplicar perfil:", error.message);
+        }
+        await auditar(admin, req, "recadastro_reversao_falhou", { app: ident.origem, detalhe: `${ident.chave} ${loginAntes}` });
+      }
+    }
+    return e instanceof ConflitoRecadastro ? e.motivo : "falha";
+  }
+}
+
+// O e-mail do login deste vínculo já foi trocado pelo real? (email_login_antes só é gravado quando troca.)
+async function loginFoiTrocado(admin: Admin, ident: IdentRecad): Promise<boolean> {
+  if (ident.origem === "hub" || !ident.authUserId) return false;
+  const { data, error } = await admin.from("fa_gestao_pessoa_contas").select("email_login_antes")
+    .eq("origem", ident.origem).eq("auth_user_id", ident.authUserId).maybeSingle();
+  return !error && !!data?.email_login_antes;
+}
+
 async function exigirSessao(admin: Admin, req: Request): Promise<{ tokenHash: string; conta: Conta } | null> {
   const authHeader = req.headers.get("authorization") ?? "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
@@ -941,6 +1439,7 @@ type Desafio = {
   usado_em: string | null;
   finalidade: string;
   alvo_id: string | null;
+  dados?: Record<string, unknown> | null;
 };
 
 // Confere o código de um desafio (mesmas regras para entrar e para redefinir a senha) e o marca como usado.
@@ -949,14 +1448,14 @@ async function conferirCodigo(
   req: Request,
   challengeId: string,
   code: string,
-  finalidade: "login" | "reset",
+  finalidade: "login" | "reset" | "recadastro",
 ): Promise<{ ok: true; desafio: Desafio } | { ok: false; resp: Response }> {
   if (!/^[0-9a-f-]{36}$/.test(challengeId) || code.length !== 6) {
     return { ok: false, resp: jsonResponse(req, { error: "código inválido" }, 400) };
   }
   const { data } = await admin
     .from("fa_gestao_desafios")
-    .select("id, email, code_hash, tentativas, expires_at, usado_em, finalidade, alvo_id")
+    .select("id, email, code_hash, tentativas, expires_at, usado_em, finalidade, alvo_id, dados")
     .eq("id", challengeId)
     .maybeSingle();
   const desafio = data as Desafio | null;
@@ -1208,6 +1707,9 @@ Deno.serve(async (req) => {
       apps: appsDisponiveis(conta, niveis),
       niveis,
       pode_gerir_equipe: conta.papel === "owner" || niveis.clinica === "admin",
+      recadastro: await statusRecadastro(admin, {
+        chave: `hub:${conta.email}`, origem: "hub", authUserId: null, hubEmail: conta.email, loginEmail: conta.email, nome: conta.nome ?? "",
+      }),
     });
   }
 
@@ -1364,7 +1866,7 @@ Deno.serve(async (req) => {
         destinatario_nome: convite.destinatario_nome || null,
         destinatario_email: convite.destinatario_email,
         itens: (await itensDoConvite(admin, convite.id)).map((i) => ({
-          sistema: i.modulo, sistema_nome: APPS[i.modulo]?.rotulo ?? i.modulo, funcao: i.funcao, nivel: i.nivel, unidades: i.unidades ?? [],
+          sistema: i.modulo, sistema_nome: APPS[i.modulo]?.rotulo ?? i.modulo, funcao: i.funcao, nivel: i.nivel, tem_funcao: !!i.papel_nativo, unidades: i.unidades ?? [],
         })),
       },
     });
@@ -1479,6 +1981,234 @@ Deno.serve(async (req) => {
     });
   }
 
+  // Ações de cliente do recadastro: públicas no roteador, cada uma se identifica por conta própria.
+  if (action === "recadastro_status") {
+    if (!recadastroLigado()) return jsonResponse(req, { ...STATUS_RECAD_ISENTO });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    return jsonResponse(req, await statusRecadastro(admin, ident));
+  }
+
+  if (action === "recadastro_ticket") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    // Isentos e contas do Hub (que já usam a sessão do Hub) não pedem código.
+    if (ident === "isento" || ident.origem === "hub") return jsonResponse(req, { error: "não disponível" }, 403);
+    const codigo = randomHex(32);
+    const { error } = await admin.from("fa_gestao_recadastro_tickets").insert({
+      ticket_hash: await sha256Hex(codigo),
+      chave: ident.chave,
+      origem: ident.origem,
+      auth_user_id: ident.authUserId,
+      hub_email: ident.hubEmail,
+      login_email: ident.loginEmail.toLowerCase(),
+      nome: ident.nome,
+      expira_em: new Date(Date.now() + TICKET_RECAD_MS).toISOString(),
+      ...(ident.origem === "rh" && voltarHostRh(body.voltar_host) ? { voltar_host: voltarHostRh(body.voltar_host) } : {}),
+    });
+    if (error) return jsonResponse(req, { error: "não foi possível gerar o acesso" }, 500);
+    await auditar(admin, req, "recadastro_ticket", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, { url: `${HUB_URL}/#recadastro&c=${codigo}` });
+  }
+
+  if (action === "recadastro_consultar") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const codigo = typeof body.c === "string" ? body.c : "";
+    const pagina = randomHex(32);
+    const paginaHash = await sha256Hex(pagina);
+    const paginaExpira = new Date(Date.now() + PAGINA_RECAD_MS).toISOString();
+    let ident: IdentRecad;
+    let voltarHost: string | null = null;
+    if (codigo) {
+      // Marca como usado de forma atômica: quem não conseguir marcar a linha não troca o código.
+      const hashCodigo = await sha256Hex(codigo);
+      const { data: usadas, error } = await admin
+        .from("fa_gestao_recadastro_tickets")
+        .update({ usado_em: new Date().toISOString(), pagina_hash: paginaHash, pagina_expira_em: paginaExpira })
+        .eq("ticket_hash", hashCodigo)
+        .is("usado_em", null)
+        .gt("expira_em", new Date().toISOString())
+        .select("chave, origem, auth_user_id, hub_email, login_email, nome, voltar_host");
+      if (error) return jsonResponse(req, { error: "não foi possível validar o acesso" }, 500);
+      const t = usadas?.[0];
+      if (!t) return jsonResponse(req, { error: "código inválido ou já usado" }, 410);
+      ident = {
+        chave: t.chave, origem: t.origem, authUserId: t.auth_user_id ?? null,
+        hubEmail: t.hub_email ?? null, loginEmail: t.login_email ?? "", nome: t.nome ?? "",
+      };
+      voltarHost = t.voltar_host ?? null;
+    } else {
+      const id = await identificarRecadastro(admin, req, {});
+      if (!id) return jsonResponse(req, { error: "não autorizado" }, 401);
+      if (id === "isento" || id.origem !== "hub") return jsonResponse(req, { error: "não disponível" }, 403);
+      ident = id;
+      const { error } = await admin.from("fa_gestao_recadastro_tickets").insert({
+        ticket_hash: await sha256Hex(randomHex(32)),
+        chave: ident.chave,
+        origem: "hub",
+        auth_user_id: null,
+        hub_email: ident.hubEmail,
+        login_email: ident.loginEmail.toLowerCase(),
+        nome: ident.nome,
+        expira_em: new Date().toISOString(),
+        usado_em: new Date().toISOString(),
+        pagina_hash: paginaHash,
+        pagina_expira_em: paginaExpira,
+      });
+      if (error) return jsonResponse(req, { error: "não foi possível validar o acesso" }, 500);
+    }
+    const st = await statusRecadastro(admin, ident);
+    await auditar(admin, req, "recadastro_consultado", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, {
+      nome: ident.nome,
+      dias_restantes: st.dias_restantes,
+      bloquear: st.bloquear,
+      voltar_url: voltarUrlRecadastro(ident.origem, voltarHost),
+      pagina,
+    });
+  }
+
+  if (action === "recadastro_enviar_codigo") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    if (ident === "isento") return jsonResponse(req, { error: "não disponível" }, 403);
+    const cpf = str(body.cpf).replace(/\D/g, "");
+    const email = str(body.email).trim().toLowerCase();
+    if (!cpfValido(cpf)) return jsonResponse(req, { error: "CPF inválido" }, 400);
+    if (!EMAIL_RE.test(email)) return jsonResponse(req, { error: "e-mail inválido" }, 400);
+
+    const { data: est, error: erroEst } = await admin
+      .from("fa_gestao_recadastro_estado").select("concluido_em").eq("chave", ident.chave).maybeSingle();
+    if (erroEst) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
+    if (est?.concluido_em) return jsonResponse(req, { error: "recadastro já concluído" }, 409);
+
+    // Orçamento único por chave: o 429 vem antes de qualquer consulta de conflito, então não revela nada.
+    const antes = await contarTentativasRecadastro(admin, ident.chave);
+    if (!antes) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
+    if (antes.desafios >= RECADASTRO_CODES_MAX || antes.desafios + antes.outros >= RECADASTRO_TENTATIVAS_MAX) {
+      return jsonResponse(req, { error: RECADASTRO_429 }, 429);
+    }
+
+    const motivo = await conflitosRecadastro(admin, ident, cpf, email);
+    if (motivo) {
+      const { data: abertos, error: erroAbertos } = await admin
+        .from("fa_gestao_recadastro_conflitos").select("id")
+        .eq("chave", ident.chave).eq("motivo", motivo).eq("cpf_informado", cpf).is("resolvido_em", null).limit(1);
+      if (erroAbertos) console.error("conflito checar duplicado:", erroAbertos.message);
+      // Sem conseguir checar duplicado, grava assim mesmo (o orçamento por chave continua valendo).
+      if (erroAbertos || (abertos?.length ?? 0) === 0) {
+        // Grava primeiro e conta depois (inclui a própria linha): requisições paralelas não furam o teto.
+        const conflitoId = crypto.randomUUID();
+        const { error: erroGrava } = await admin.from("fa_gestao_recadastro_conflitos").insert({
+          id: conflitoId, chave: ident.chave, motivo, cpf_informado: cpf, email_informado: email,
+          criado_em: new Date().toISOString(),
+        });
+        if (erroGrava) console.error("conflito gravar:", erroGrava.message);
+        else {
+          const dep = await contarTentativasRecadastro(admin, ident.chave);
+          if (dep && dep.desafios + dep.outros > RECADASTRO_TENTATIVAS_MAX) {
+            await admin.from("fa_gestao_recadastro_conflitos").delete().eq("id", conflitoId);
+            return jsonResponse(req, { error: RECADASTRO_429 }, 429);
+          }
+        }
+      }
+      if (!erroAbertos && (abertos?.length ?? 0) > 0) {
+        // Conflito igual já aberto: não enche a fila, mas a tentativa entra no orçamento (via auditoria).
+        await auditar(admin, req, "recadastro_conflito_repetido", { app: ident.origem, detalhe: ident.chave });
+        const dep = await contarTentativasRecadastro(admin, ident.chave);
+        if (dep && dep.desafios + dep.outros > RECADASTRO_TENTATIVAS_MAX) {
+          return jsonResponse(req, { error: RECADASTRO_429 }, 429);
+        }
+        return jsonResponse(req, { error: "não foi possível concluir, o responsável foi avisado" }, 409);
+      }
+      await auditar(admin, req, "recadastro_conflito", { app: ident.origem, detalhe: `${ident.chave} ${motivo}` });
+      return jsonResponse(req, { error: "não foi possível concluir, o responsável foi avisado" }, 409);
+    }
+
+    const code = randomCode();
+    const challengeId = crypto.randomUUID();
+    const { error: insErr } = await admin.from("fa_gestao_desafios").insert({
+      id: challengeId,
+      email,
+      finalidade: "recadastro",
+      alvo_id: ident.chave,
+      dados: { cpf },
+      code_hash: await sha256Hex(`${challengeId}:${code}`),
+      ip: clientIp(req),
+      expires_at: new Date(Date.now() + CODE_TTL_MS).toISOString(),
+      tentativas: 0,
+    });
+    if (insErr) {
+      console.error("desafio recadastro:", insErr.message);
+      return jsonResponse(req, { error: "falha ao gerar código" }, 500);
+    }
+    // Conta depois de gravar (inclui este desafio): acima do teto, apaga e não envia e-mail.
+    const dep = await contarTentativasRecadastro(admin, ident.chave);
+    if (dep && (dep.desafios > RECADASTRO_CODES_MAX || dep.desafios + dep.outros > RECADASTRO_TENTATIVAS_MAX)) {
+      await admin.from("fa_gestao_desafios").delete().eq("id", challengeId);
+      return jsonResponse(req, { error: RECADASTRO_429 }, 429);
+    }
+    if (!(await enviarCodigo(email, ident.nome || "", code, "recadastro"))) {
+      return jsonResponse(req, { error: "não foi possível enviar o código por e-mail" }, 502);
+    }
+    await auditar(admin, req, "recadastro_codigo_enviado", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, { challenge_id: challengeId });
+  }
+
+  if (action === "recadastro_confirmar") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    if (ident === "isento") return jsonResponse(req, { error: "não disponível" }, 403);
+    const { data: est, error: erroEst } = await admin
+      .from("fa_gestao_recadastro_estado").select("concluido_em").eq("chave", ident.chave).maybeSingle();
+    if (erroEst) return jsonResponse(req, { error: RECAD_FALHA_MSG }, 500);
+    // Clique duplo: já concluído responde ok sem gravar nada (login_trocado vem do vínculo gravado).
+    if (est?.concluido_em) return jsonResponse(req, { ok: true, login_trocado: await loginFoiTrocado(admin, ident) });
+
+    const challengeId = str(body.challenge_id);
+    // Desafio de outra chave é recusado antes de tocar nele (não gasta tentativa nem o código de ninguém).
+    if (/^[0-9a-f-]{36}$/.test(challengeId)) {
+      const { data: dono } = await admin.from("fa_gestao_desafios").select("alvo_id").eq("id", challengeId).maybeSingle();
+      if (dono && dono.alvo_id !== ident.chave) return jsonResponse(req, { error: "não disponível" }, 403);
+    }
+    const conf = await conferirCodigo(admin, req, challengeId, str(body.code).replace(/\D/g, ""), "recadastro");
+    if (!conf.ok) return conf.resp;
+    const desafio = conf.desafio;
+    if (desafio.alvo_id !== ident.chave) return jsonResponse(req, { error: "não disponível" }, 403);
+    // CPF e e-mail vêm do desafio confirmado, nunca do corpo da requisição.
+    const cpf = String(desafio.dados?.cpf ?? "").replace(/\D/g, "");
+    const emailReal = String(desafio.email ?? "").trim().toLowerCase();
+    if (!cpfValido(cpf) || !EMAIL_RE.test(emailReal)) return jsonResponse(req, { error: "não disponível" }, 403);
+
+    const motivo = await conflitosRecadastro(admin, ident, cpf, emailReal);
+    if (motivo) return await abrirConflitoRecadastro(admin, req, ident, motivo, cpf, emailReal);
+
+    const resultado = await gravarConfirmacaoRecadastro(admin, req, ident, cpf, emailReal);
+    if (resultado === "falha") return jsonResponse(req, { error: RECAD_FALHA_MSG }, 500);
+    if (typeof resultado === "string") return await abrirConflitoRecadastro(admin, req, ident, resultado, cpf, emailReal);
+    await auditar(admin, req, "recadastro_concluido", { app: ident.origem, detalhe: ident.chave });
+    // login_trocado: a página orienta a entrar com o CPF ou com o e-mail confirmado (nenhum dado vai junto).
+    return jsonResponse(req, { ok: true, login_trocado: resultado.loginTrocado });
+  }
+
+  if (action === "recadastro_adiar") {
+    if (!recadastroLigado()) return jsonResponse(req, { pendente: false });
+    const ident = await identificarRecadastro(admin, req, body);
+    if (!ident) return jsonResponse(req, { error: "não autorizado" }, 401);
+    if (ident === "isento") return jsonResponse(req, { error: "não disponível" }, 403);
+    const st = await statusRecadastro(admin, ident);
+    if (!st.pendente) return jsonResponse(req, { ok: true });
+    if (st.dias_restantes <= 0) return jsonResponse(req, { error: "prazo encerrado" }, 409);
+    const { error } = await admin
+      .from("fa_gestao_recadastro_estado").update({ adiado_em: new Date().toISOString() }).eq("chave", ident.chave);
+    if (error) return jsonResponse(req, { error: "tente novamente em instantes" }, 500);
+    await auditar(admin, req, "recadastro_adiado", { app: ident.origem, detalhe: ident.chave });
+    return jsonResponse(req, { ok: true });
+  }
+
   // --- daqui para baixo exige sessão ---
   const sessao = await exigirSessao(admin, req);
   if (!sessao) return jsonResponse(req, { error: "sessão inválida ou expirada" }, 401);
@@ -1494,6 +2224,9 @@ Deno.serve(async (req) => {
       niveis,
       // Mostra a "Equipe da Clínica": owner ou administrador da Clínica (administração delegada).
       pode_gerir_equipe: conta.papel === "owner" || niveis.clinica === "admin",
+      recadastro: await statusRecadastro(admin, {
+        chave: `hub:${conta.email}`, origem: "hub", authUserId: null, hubEmail: conta.email, loginEmail: conta.email, nome: conta.nome ?? "",
+      }),
     });
   }
 
@@ -1588,6 +2321,10 @@ Deno.serve(async (req) => {
     "auditoria_listar",
     "convite_link_gerar",
     "pessoa_buscar",
+    "ti_listar",
+    "ti_baixar",
+    "recadastro_painel",
+    "recadastro_resolver",
   ];
   if (ACOES_OWNER.includes(action)) {
     if (conta.papel !== "owner") {
@@ -2282,8 +3019,10 @@ async function acaoEquipe(
 
 const NIVEIS_CONVITE = ["ver", "operar", "admin"] as const;
 type NivelConvite = typeof NIVEIS_CONVITE[number];
-type ItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; escopo: string | null; unidades: string[] };
-const ROTULO_NIVEL: Record<NivelConvite, string> = { ver: "Visualizador", operar: "Operador", admin: "Administrador" };
+type ItemConvite = { modulo: AppId; funcao: string; nivel: NivelConvite; papelNativo: string | null; escopo: string | null; unidades: string[] };
+// O convite não pergunta permissão: toda pessoa entra como Operador em cada sistema (admin/visualizador
+// se ajustam depois em "Pessoas e acessos"). A função é o papel nativo do sistema, quando ele tem catálogo.
+const NIVEL_CONVITE_PADRAO: NivelConvite = "operar";
 
 // Valida os itens do convite. Devolve a lista limpa ou a mensagem de erro (nada é gravado antes disso).
 function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
@@ -2295,10 +3034,15 @@ function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
     const modulo = str(o.sistema) as AppId;
     if (!Object.hasOwn(APPS, modulo)) return "selecione um sistema válido";
     if (itens.some((i) => i.modulo === modulo)) return "cada sistema só pode aparecer uma vez no convite";
-    const nivel = str(o.nivel) as NivelConvite;
-    if (!NIVEIS_CONVITE.includes(nivel)) return "permissão inválida";
-    const funcao = str(o.funcao).slice(0, 80);
-    if (!funcao) return "informe a função em cada sistema";
+    const catalogo = PAPEIS_NATIVOS[modulo];
+    let funcao: string = APPS[modulo].rotulo; // sistema sem catálogo: não há função a escolher
+    let papelNativo: string | null = null;
+    if (catalogo) {
+      const opcao = catalogo.opcoes.find((x) => x.id === str(o.papel));
+      if (!opcao) return `escolha a função de ${APPS[modulo].rotulo}`;
+      funcao = opcao.rotulo;
+      papelNativo = opcao.id;
+    }
     let escopo: string | null = null;
     if (Object.hasOwn(ESCOPOS, modulo)) {
       escopo = escopoValido(modulo, o.escopo);
@@ -2307,7 +3051,7 @@ function lerItensConvite(bruto: unknown[]): ItemConvite[] | string {
     const unidades = Array.isArray(o.unidades)
       ? [...new Set(o.unidades.map((u) => str(u).slice(0, 80)).filter(Boolean))].slice(0, 20)
       : [];
-    itens.push({ modulo, funcao, nivel, escopo, unidades });
+    itens.push({ modulo, funcao, nivel: NIVEL_CONVITE_PADRAO, papelNativo, escopo, unidades });
   }
   return itens;
 }
@@ -2351,7 +3095,7 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
     return jsonResponse(req, { error: "não foi possível gravar o convite no banco" }, 500);
   }
   const { error: itensErr } = await admin.from("fa_gestao_convite_itens").insert(
-    itens.map((i, ordem) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades, ordem })),
+    itens.map((i, ordem) => ({ convite_id: convite.id, modulo: i.modulo, funcao: i.funcao, nivel: i.nivel, papel_nativo: i.papelNativo, escopo: i.escopo, unidades: i.unidades, ordem })),
   );
   if (itensErr) {
     console.error("fa_gestao_convite_itens insert:", itensErr.message);
@@ -2361,7 +3105,7 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
 
   const link = `${HUB_URL}/#cadastro?token=${token}`;
   const linhas = itens.map((i) =>
-    `<div><strong>${escapeHtml(APPS[i.modulo].rotulo)}</strong>: ${escapeHtml(i.funcao)} (${ROTULO_NIVEL[i.nivel]})` +
+    `<div><strong>${escapeHtml(APPS[i.modulo].rotulo)}</strong>${i.papelNativo ? `: ${escapeHtml(i.funcao)}` : ""}` +
     `${i.unidades.length ? `, ${escapeHtml(i.unidades.join(", "))}` : ""}</div>`
   ).join("");
   const html = moldeEmail(`
@@ -2396,7 +3140,7 @@ async function gerarLinkMultiSistema(admin: Admin, req: Request, body: Record<st
       destinatario_nome: destinatarioNome || null,
       destinatario_email: destinatarioEmail,
     },
-    itens: itens.map((i) => ({ sistema: i.modulo, sistema_nome: APPS[i.modulo].rotulo, funcao: i.funcao, nivel: i.nivel, escopo: i.escopo, unidades: i.unidades })),
+    itens: itens.map((i) => ({ sistema: i.modulo, sistema_nome: APPS[i.modulo].rotulo, funcao: i.funcao, nivel: i.nivel, tem_funcao: !!i.papelNativo, escopo: i.escopo, unidades: i.unidades })),
   });
 }
 
@@ -2498,6 +3242,45 @@ async function cadastrarConviteMulti(
   });
 }
 
+// ---------------------------------------------------------------------
+// Manutenção TI: arquivos de TI só para owner. Ficam num bucket privado do Storage
+// (migração 20261108120000_ti_arquivos_bucket.sql); a função gera um link de 60 s.
+// A fonte dos arquivos é supabase/ops/ti/: ao mudar um deles, atualize tamanho e SHA256 aqui
+// (o teste "tamanho e SHA256 do catálogo batem com os arquivos reais" avisa se esquecer).
+// ---------------------------------------------------------------------
+const BUCKET_TI = "ti-arquivos";
+
+type ArquivoTi = {
+  id: string;
+  rotulo: string;
+  descricao: string;
+  nome: string;
+  versao: string | null;
+  tamanho_bytes: number;
+  sha256: string;
+};
+
+const ARQUIVOS_TI: ArquivoTi[] = [
+  {
+    id: "otimizar-win11",
+    rotulo: "Script de otimização do Windows 11",
+    descricao: "Remove bloatware, neutraliza o Edge, desativa telemetria e enxuga a inicialização de um PC recém-instalado.",
+    nome: "otimizar-win11.ps1",
+    versao: "2026.11.04-3",
+    tamanho_bytes: 21725,
+    sha256: "71d1dde0cf4ecbce6413067b5f5d7184b54852b68df243287554bd1ce045f5e8",
+  },
+  {
+    id: "comandos-otimizar",
+    rotulo: "Comandos para o PowerShell",
+    descricao: "Passo a passo e blocos para copiar: conferir o hash do script e executá-lo.",
+    nome: "comandos-otimizar.txt",
+    versao: null,
+    tamanho_bytes: 2619,
+    sha256: "05ed213b1e52b3b8640e95fff19c447d3701d262590b6dc5d00df2ca51870c2c",
+  },
+];
+
 async function acaoOwner(
   admin: Admin,
   req: Request,
@@ -2506,6 +3289,114 @@ async function acaoOwner(
   dono: Conta,
 ): Promise<Response> {
   const alvoEmail = str(body.email).toLowerCase();
+
+  // Recadastro de identidade: painel do owner (somente leitura) e baixa manual de conflitos.
+  // Funciona mesmo com GESTAO_RECADASTRO desligado: é administração, não fluxo de login.
+  if (action === "recadastro_painel") {
+    const [estados, abertos] = await Promise.all([
+      admin.from("fa_gestao_recadastro_estado").select("chave, primeiro_aviso_em, concluido_em"),
+      admin.from("fa_gestao_recadastro_conflitos")
+        .select("id, chave, motivo, cpf_informado, email_informado, criado_em")
+        .is("resolvido_em", null)
+        .order("criado_em", { ascending: false }),
+    ]);
+    if (estados.error || abertos.error) {
+      console.error("recadastro_painel:", estados.error?.message ?? abertos.error?.message);
+      return jsonResponse(req, { error: "falha ao carregar o painel" }, 500);
+    }
+    const conflitosAbertos = [...(abertos.data ?? [])].sort((a, b) => String(b.criado_em).localeCompare(String(a.criado_em)));
+    const chavesComConflito = new Set(conflitosAbertos.map((c) => c.chave as string));
+    const linhas = estados.data ?? [];
+    const pendentesBrutos = linhas.filter((l) => !l.concluido_em);
+    const concluidos = linhas.length - pendentesBrutos.length;
+
+    // Nomes: melhor esforço. Falha de leitura vira "(sem nome)", nunca derruba o painel.
+    const nomes = new Map<string, string>();
+    const emailsHub = pendentesBrutos.filter((l) => String(l.chave).startsWith("hub:")).map((l) => String(l.chave).slice(4));
+    const idsB = pendentesBrutos.filter((l) => String(l.chave).startsWith("b:")).map((l) => String(l.chave).slice(2));
+    try {
+      if (emailsHub.length) {
+        const { data } = await admin.from("fa_gestao_contas").select("email, nome").in("email", emailsHub);
+        for (const c of data ?? []) if (c.nome) nomes.set(`hub:${c.email}`, String(c.nome));
+      }
+      const b = idsB.length ? clienteSupabase("supabase_b") : null;
+      if (b) {
+        const { data } = await b.from("profiles").select("id, full_name").in("id", idsB);
+        for (const p of data ?? []) if (p.full_name) nomes.set(`b:${p.id}`, String(p.full_name));
+      }
+    } catch (e) {
+      console.error("recadastro_painel nomes:", e instanceof Error ? e.message : "erro");
+    }
+
+    let bloqueados = 0;
+    const pendentes = pendentesBrutos.map((l) => {
+      const chave = String(l.chave);
+      const dias = diasRestantesRecadastro(l.primeiro_aviso_em as string);
+      if (dias <= 0 && !chavesComConflito.has(chave)) bloqueados++; // mesma regra de statusRecadastro
+      return { nome: nomes.get(chave) ?? "(sem nome)", origem: chave.startsWith("b:") ? "clinica/rh" : "hub", dias_restantes: dias };
+    });
+    const conflitos = conflitosAbertos.map((c) => {
+      const d = String(c.cpf_informado ?? "").replace(/\D/g, "");
+      return {
+        id: c.id as string,
+        motivo: c.motivo as string,
+        criado_em: c.criado_em as string,
+        cpf: d.length === 11 ? `***.***.***-${d.slice(9)}` : "***.***.***-**",
+        email_informado: String(c.email_informado ?? ""),
+      };
+    });
+    return jsonResponse(req, { resumo: { concluidos, pendentes: pendentes.length, bloqueados }, pendentes, conflitos });
+  }
+
+  if (action === "recadastro_resolver") {
+    const id = str(body.id);
+    const NAO_ACHADO = () => jsonResponse(req, { error: "conflito não encontrado" }, 404);
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return NAO_ACHADO();
+    const { data: atual, error: erroLe } = await admin
+      .from("fa_gestao_recadastro_conflitos").select("id, resolvido_em").eq("id", id).maybeSingle();
+    if (erroLe) {
+      console.error("recadastro_resolver:", erroLe.message);
+      return jsonResponse(req, { error: "falha ao dar baixa" }, 500);
+    }
+    if (!atual) return NAO_ACHADO();
+    if (!atual.resolvido_em) {
+      // O filtro is(null) evita sobrescrever uma baixa feita em paralelo.
+      const { error } = await admin
+        .from("fa_gestao_recadastro_conflitos").update({ resolvido_em: new Date().toISOString() }).eq("id", id).is("resolvido_em", null);
+      if (error) {
+        console.error("recadastro_resolver:", error.message);
+        return jsonResponse(req, { error: "falha ao dar baixa" }, 500);
+      }
+      await auditar(admin, req, "recadastro_conflito_resolvido", { email: dono.email, detalhe: id });
+    }
+    return jsonResponse(req, { ok: true });
+  }
+
+  if (action === "ti_listar") {
+    return jsonResponse(req, {
+      arquivos: ARQUIVOS_TI.map(({ id, rotulo, descricao, versao, tamanho_bytes, sha256 }) => ({
+        id,
+        rotulo,
+        descricao,
+        versao,
+        tamanho_bytes,
+        sha256,
+      })),
+    });
+  }
+
+  if (action === "ti_baixar") {
+    // Só igualdade estrita com o catálogo: a entrada nunca vira caminho no Storage.
+    const arquivo = typeof body.id === "string" ? ARQUIVOS_TI.find((a) => a.id === body.id) : undefined;
+    if (!arquivo) return jsonResponse(req, { error: "arquivo não encontrado" }, 404);
+    const { data, error } = await admin.storage.from(BUCKET_TI).createSignedUrl(arquivo.nome, 60, { download: arquivo.nome });
+    if (error || !data?.signedUrl) {
+      console.error("ti_baixar:", error?.message);
+      return jsonResponse(req, { error: "não consegui gerar o link agora, tente de novo" }, 502);
+    }
+    await auditar(admin, req, "ti_download", { email: dono.email, app: "ti", detalhe: arquivo.id });
+    return jsonResponse(req, { url: data.signedUrl });
+  }
 
   if (action === "contas_listar") {
     const [{ data: contas, error }, { data: perms }, { data: provs }] = await Promise.all([
@@ -2705,6 +3596,21 @@ async function acaoOwner(
     if (atual && atual.email === dono.email && papel !== "owner") {
       return jsonResponse(req, { error: "você não pode rebaixar a si mesmo" }, 400);
     }
+    // Conta nova: exige CPF válido e ainda sem conta. O caminho normal para criar pessoa é "Enviar Link de
+    // Usuário"; esta porta existe só para o owner e nunca cria conta sem CPF.
+    let cpfNovo: string | null = null;
+    if (novo) {
+      cpfNovo = str(body.cpf).replace(/\D/g, "");
+      if (!cpfValido(cpfNovo)) {
+        return jsonResponse(req, { error: "informe o CPF da pessoa (11 dígitos válidos). Para criar pessoa nova, use Enviar Link de Usuário" }, 400);
+      }
+      const { data: donoDoCpf, error: cpfErr } = await admin.from("fa_gestao_contas").select("email").eq("cpf", cpfNovo).maybeSingle();
+      if (cpfErr) {
+        console.error("conta_salvar cpf:", cpfErr.message);
+        return jsonResponse(req, { error: "não foi possível salvar" }, 500);
+      }
+      if (donoDoCpf) return jsonResponse(req, { error: "já existe uma conta com este CPF" }, 409);
+    }
     // Conta nova: o e-mail de acesso não pode ser o login de outra conta.
     if (novo) {
       const q = quoteFilterValue(alvoEmail);
@@ -2765,7 +3671,7 @@ async function acaoOwner(
 
     const linha = { email: alvoEmail, nome, email_codigo: emailCodigo, papel, ...campos };
     const { error: gravaErr } = novo
-      ? await admin.from("fa_gestao_contas").insert({ ...linha, auth_modo: "hub", ativo: true, criado_por: dono.email })
+      ? await admin.from("fa_gestao_contas").insert({ ...linha, cpf: cpfNovo, auth_modo: "hub", ativo: true, criado_por: dono.email })
       : await admin.from("fa_gestao_contas").update(linha).eq("email", alvoEmail);
     if (gravaErr) {
       console.error("conta_salvar:", gravaErr.message);

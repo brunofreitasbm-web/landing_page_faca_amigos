@@ -1,0 +1,2 @@
+# Os arquivos de TI sao enviados ao bucket ti-arquivos e conferidos por SHA256: nunca converter fim de linha.
+supabase/ops/ti/** -text

@@ -81,7 +81,7 @@ const banido = (u: { banned_until: string | null }) => !!u.banned_until && Date.
 const resultado = (r: any, app: string) => r.corpo.provisionamento.find((x: any) => x.app === app);
 
 const ANA = {
-  novo: true, email: "ana@t.com", nome: "Ana", email_codigo: "ana@t.com", papel: "gerente", convidar: false,
+  novo: true, cpf: "529.982.247-25", email: "ana@t.com", nome: "Ana", email_codigo: "ana@t.com", papel: "gerente", convidar: false,
   permissoes: { clinica: "operar", rh: "operar", playground: "operar", financeiro: "ver", cacau: "operar" },
   papeis: { clinica: "recepcao", playground: "OPERADOR" },
   escopos: { rh: "grupoib" },
@@ -131,7 +131,7 @@ Deno.test("colaborador do Playground com o mesmo e-mail (login do convite) fica 
   const antigo = { id: crypto.randomUUID(), auth_user_id: crypto.randomUUID(), email: "Dani.PG@t.com", role: "GERENTE", active: true, full_name: "Dani" };
   A.tabela("fa_kiosk_employees").push(antigo);
   const r = await chamar("conta_salvar", {
-    novo: true, email: "dani@t.com", nome: "Dani", email_codigo: "dani@t.com", papel: "gerente", convidar: false,
+    novo: true, cpf: "111.444.777-35", email: "dani@t.com", nome: "Dani", email_codigo: "dani@t.com", papel: "gerente", convidar: false,
     permissoes: { playground: "operar" }, papeis: { playground: "GERENTE" }, mapeamentos: { playground_email: "dani.pg@t.com" },
   });
   assert.equal(resultado(r, "playground").estado, "ok", JSON.stringify(r.corpo.provisionamento));
@@ -147,7 +147,7 @@ Deno.test("papel que a pessoa já tinha no sistema não é trocado, e o motivo a
   B.usuarios.push(u);
   B.tabela("profiles").push({ id: u.id, email: u.email, role: "recepcao", active: true });
   const r = await chamar("conta_salvar", {
-    novo: true, email: "bia@t.com", nome: "Bia", email_codigo: "bia@t.com", papel: "gerente", convidar: false,
+    novo: true, cpf: "390.533.447-05", email: "bia@t.com", nome: "Bia", email_codigo: "bia@t.com", papel: "gerente", convidar: false,
     permissoes: { clinica: "operar" }, papeis: { clinica: "supervisor" }, mapeamentos: { clinica_email: "bia.clinica@t.com" },
   });
   const c = resultado(r, "clinica");
@@ -160,7 +160,7 @@ Deno.test("conta de unidade (quiosque) nunca é aberta nem alterada", async () =
   const quiosque = { id: crypto.randomUUID(), email: "quiosque@t.com", app_metadata: { role: "intern_unit" }, user_metadata: {}, created_at: "2026-01-01T00:00:00Z", last_sign_in_at: null, banned_until: null };
   B.usuarios.push(quiosque);
   const r = await chamar("conta_salvar", {
-    novo: true, email: "caio@t.com", nome: "Caio", email_codigo: "caio@t.com", papel: "gerente", convidar: false,
+    novo: true, cpf: "168.995.350-09", email: "caio@t.com", nome: "Caio", email_codigo: "caio@t.com", papel: "gerente", convidar: false,
     permissoes: { rh: "operar" }, escopos: { rh: "grupoib" }, mapeamentos: { rh_email: "quiosque@t.com" },
   });
   assert.equal(resultado(r, "rh").estado, "pulado");
@@ -170,7 +170,7 @@ Deno.test("conta de unidade (quiosque) nunca é aberta nem alterada", async () =
 
 Deno.test("Cacau: usuário que não existe e nível 'ver' viram erro explicado; o Hub não cria colaborador", async () => {
   const semUsuario = await chamar("conta_salvar", {
-    novo: true, email: "dora@t.com", nome: "Dora", email_codigo: "dora@t.com", papel: "gerente", convidar: false,
+    novo: true, cpf: "746.971.314-01", email: "dora@t.com", nome: "Dora", email_codigo: "dora@t.com", papel: "gerente", convidar: false,
     permissoes: { cacau: "operar" }, mapeamentos: { cacau_usuario: "Dora" },
   });
   assert.match(resultado(semUsuario, "cacau").texto, /não existe no Cacau Show/);
@@ -178,14 +178,14 @@ Deno.test("Cacau: usuário que não existe e nível 'ver' viram erro explicado; 
 
   cacau.set("Eva", { ativo: true, role: "consultora" });
   const soLeitura = await chamar("conta_salvar", {
-    novo: true, email: "eva@t.com", nome: "Eva", email_codigo: "eva@t.com", papel: "gerente", convidar: false,
+    novo: true, cpf: "935.411.347-80", email: "eva@t.com", nome: "Eva", email_codigo: "eva@t.com", papel: "gerente", convidar: false,
     permissoes: { cacau: "ver" }, mapeamentos: { cacau_usuario: "Eva" },
   });
   assert.match(resultado(soLeitura, "cacau").texto, /acesso só de leitura/);
 });
 
 Deno.test("conta owner não é provisionada", async () => {
-  const r = await chamar("conta_salvar", { novo: true, email: "fabi@t.com", nome: "Fabi", email_codigo: "fabi@t.com", papel: "owner", convidar: false });
+  const r = await chamar("conta_salvar", { novo: true, cpf: "123.456.789-09", email: "fabi@t.com", nome: "Fabi", email_codigo: "fabi@t.com", papel: "owner", convidar: false });
   assert.equal(r.status, 200, JSON.stringify(r.corpo));
   assert.deepEqual(r.corpo.provisionamento, []);
 });
@@ -212,7 +212,7 @@ Deno.test("a gerência recebe só a empresa escolhida, nunca 'all'", async () =>
 Deno.test("gerência com Gestão de Pessoas sem empresa escolhida não é salva", async () => {
   const antes = A.tabela("fa_gestao_contas").length;
   const r = await chamar("conta_salvar", {
-    novo: true, email: "gil@t.com", nome: "Gil", email_codigo: "gil@t.com", papel: "gerente", convidar: false,
+    novo: true, cpf: "135.792.468-28", email: "gil@t.com", nome: "Gil", email_codigo: "gil@t.com", papel: "gerente", convidar: false,
     permissoes: { rh: "operar" }, mapeamentos: { rh_email: "gil.rh@t.com" },
   });
   assert.equal(r.status, 400);
@@ -230,7 +230,7 @@ Deno.test("o Hub muda a empresa que ele mesmo deu, mas não o escopo de quem já
   const u = { id: crypto.randomUUID(), email: "hugo.rh@t.com", app_metadata: { role: "supervisor", workspace_scope: ["all"] }, user_metadata: {}, created_at: "2026-01-01T00:00:00Z", last_sign_in_at: "2026-02-01T00:00:00Z", banned_until: null };
   B.usuarios.push(u);
   const h = await chamar("conta_salvar", {
-    novo: true, email: "hugo@t.com", nome: "Hugo", email_codigo: "hugo@t.com", papel: "gerente", convidar: false,
+    novo: true, cpf: "112.233.445-17", email: "hugo@t.com", nome: "Hugo", email_codigo: "hugo@t.com", papel: "gerente", convidar: false,
     permissoes: { rh: "operar" }, escopos: { rh: "grupoib" }, mapeamentos: { rh_email: "hugo.rh@t.com" },
   });
   const rh = resultado(h, "rh");
@@ -404,7 +404,7 @@ Deno.test("não mexe em conta do Hub, em família nem em quem não é da equipe;
 // =====================================================================
 
 const DAVI = {
-  novo: true, email: "davi@t.com", nome: "Davi", email_codigo: "davi@t.com", papel: "gerente", convidar: false,
+  novo: true, cpf: "987.654.321-00", email: "davi@t.com", nome: "Davi", email_codigo: "davi@t.com", papel: "gerente", convidar: false,
   permissoes: { clinica: "admin" }, papeis: { clinica: "supervisor" }, mapeamentos: { clinica_email: "davi.clinica@t.com" },
 };
 const TOKEN_DAVI = "d".repeat(64);
@@ -611,4 +611,127 @@ Deno.test("sem a função do banco o login fica bloqueado, o erro aparece e repe
   await chamar("conta_ativo", { email: "ana@t.com", ativo: true });
 });
 
+
+// ---- Manutenção TI: arquivos de TI só para owner, por URL assinada ----
+const GTOKEN = "e".repeat(64);
+A.tabela("fa_gestao_contas").push(contaBase({ email: "ti-gerente@t.com", email_codigo: "ti-gerente@t.com", nome: "Gerente TI", papel: "gerente" }));
+A.tabela("fa_gestao_sessoes").push({ token_hash: await sha(GTOKEN), email: "ti-gerente@t.com", expires_at: new Date(Date.now() + 3600_000).toISOString() });
+const eventosTi = () => A.tabela("fa_gestao_auditoria").filter((l) => l.evento === "ti_download");
+
+async function shaBytes(b: Uint8Array) {
+  const h = await crypto.subtle.digest("SHA-256", b);
+  return Array.from(new Uint8Array(h)).map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+
+Deno.test("ti_listar: owner recebe os 2 arquivos, sem o campo nome", async () => {
+  const r = await chamar("ti_listar");
+  assert.equal(r.status, 200);
+  assert.deepEqual(r.corpo.arquivos.map((a: any) => a.id), ["otimizar-win11", "comandos-otimizar"]);
+  for (const a of r.corpo.arquivos) assert.equal("nome" in a, false);
+});
+
+Deno.test("ti_listar e ti_baixar: gerente recebe 403 e fica na auditoria como acao_owner_negada", async () => {
+  const antes = A.assinaturas.length;
+  for (const acao of ["ti_listar", "ti_baixar"]) {
+    const r = await chamar(acao, { id: "otimizar-win11" }, GTOKEN);
+    assert.equal(r.status, 403, acao);
+  }
+  assert.equal(A.assinaturas.length, antes);
+  assert.ok(A.tabela("fa_gestao_auditoria").some((l) => l.evento === "acao_owner_negada" && l.email === "ti-gerente@t.com" && l.detalhe === "ti_baixar"));
+});
+
+Deno.test("ti_listar e ti_baixar: sem token ou com token inexistente recebem 401", async () => {
+  for (const acao of ["ti_listar", "ti_baixar"]) {
+    assert.equal((await chamar(acao, { id: "otimizar-win11" }, "")).status, 401, `${acao} sem token`);
+    assert.equal((await chamar(acao, { id: "otimizar-win11" }, "f".repeat(64))).status, 401, `${acao} token inexistente`);
+  }
+});
+
+Deno.test("ti_baixar: owner recebe url, 60 segundos e auditoria ti_download", async () => {
+  const antes = eventosTi().length;
+  const r = await chamar("ti_baixar", { id: "otimizar-win11" });
+  assert.equal(r.status, 200);
+  assert.match(r.corpo.url, /^http:\/\/a\/storage\/ti-arquivos\/otimizar-win11\.ps1/);
+  assert.deepEqual(A.assinaturas.at(-1), { bucket: "ti-arquivos", path: "otimizar-win11.ps1", seconds: 60, download: "otimizar-win11.ps1" });
+  const novos = eventosTi().slice(antes);
+  assert.equal(novos.length, 1);
+  assert.equal(novos[0].email, "bruno@t.com");
+  assert.equal(novos[0].app, "ti");
+  assert.equal(novos[0].detalhe, "otimizar-win11");
+});
+
+Deno.test("ti_baixar: id fora do catálogo é 404 e nada é assinado", async () => {
+  const antes = A.assinaturas.length;
+  for (const id of ["../otimizar-win11.ps1", "otimizar-win11.ps1/..", "otimizar-win11.ps1", "nao-existe", "", undefined, 42, {}]) {
+    const r = await chamar("ti_baixar", id === undefined ? {} : { id });
+    assert.equal(r.status, 404, JSON.stringify(id));
+  }
+  assert.equal(A.assinaturas.length, antes);
+});
+
+Deno.test("ti_baixar: objeto ausente no Storage é 502 sem vazar o bucket e sem auditoria de sucesso", async () => {
+  const antes = eventosTi().length;
+  A.operacoesComErro.add("storage:createSignedUrl");
+  const r = await chamar("ti_baixar", { id: "comandos-otimizar" });
+  A.operacoesComErro.delete("storage:createSignedUrl");
+  assert.equal(r.status, 502);
+  assert.equal(JSON.stringify(r.corpo).includes("ti-arquivos"), false);
+  assert.equal(eventosTi().length, antes);
+});
+
+Deno.test("ti_listar: tamanho e SHA256 do catálogo batem com os arquivos reais", async () => {
+  const r = await chamar("ti_listar");
+  const porId = Object.fromEntries(r.corpo.arquivos.map((a: any) => [a.id, a]));
+  const reais: Record<string, string> = {
+    "otimizar-win11": "supabase/ops/ti/otimizar-win11.ps1",
+    "comandos-otimizar": "supabase/ops/ti/comandos-otimizar.txt",
+  };
+  for (const [id, caminho] of Object.entries(reais)) {
+    const bytes = await Deno.readFile(new URL(`../../../${caminho}`, import.meta.url));
+    assert.equal(porId[id].tamanho_bytes, bytes.length, `${id} tamanho`);
+    assert.equal(porId[id].sha256, await shaBytes(bytes), `${id} sha256`);
+  }
+});
+
 void projetos;
+
+// =====================================================================
+// Criar pessoa pelo conta_salvar exige CPF (o caminho normal é Enviar Link de Usuário)
+// =====================================================================
+
+const BASE_NOVA = { novo: true, nome: "Nina", papel: "gerente", convidar: false, permissoes: {}, papeis: {}, mapeamentos: {} };
+
+Deno.test("conta_salvar novo sem CPF e recusado e nada e gravado", async () => {
+  const r = await chamar("conta_salvar", { ...BASE_NOVA, email: "nina@t.com", email_codigo: "nina@t.com" });
+  assert.equal(r.status, 400, JSON.stringify(r.corpo));
+  assert.match(String(r.corpo.error), /CPF/i);
+  assert.equal(A.tabela("fa_gestao_contas").some((c) => c.email === "nina@t.com"), false);
+});
+
+Deno.test("conta_salvar novo com CPF invalido e recusado", async () => {
+  for (const cpf of ["123", "11111111111", "52998224726", "abc", ""]) {
+    const r = await chamar("conta_salvar", { ...BASE_NOVA, email: "nina@t.com", email_codigo: "nina@t.com", cpf });
+    assert.equal(r.status, 400, `cpf ${cpf}: ${JSON.stringify(r.corpo)}`);
+  }
+  assert.equal(A.tabela("fa_gestao_contas").some((c) => c.email === "nina@t.com"), false);
+});
+
+Deno.test("conta_salvar novo com CPF de outra conta e recusado com 409", async () => {
+  A.tabela("fa_gestao_contas").push({ email: "dono.do.cpf@t.com", nome: "Dono", email_codigo: "dono.do.cpf@t.com", papel: "gerente", ativo: true, auth_modo: "hub", cpf: "52998224725" });
+  const r = await chamar("conta_salvar", { ...BASE_NOVA, email: "nina@t.com", email_codigo: "nina@t.com", cpf: "529.982.247-25" });
+  assert.equal(r.status, 409, JSON.stringify(r.corpo));
+  assert.equal(A.tabela("fa_gestao_contas").some((c) => c.email === "nina@t.com"), false);
+});
+
+Deno.test("conta_salvar novo com CPF valido grava o CPF so com digitos", async () => {
+  const r = await chamar("conta_salvar", { ...BASE_NOVA, email: "nina@t.com", email_codigo: "nina@t.com", cpf: "246.813.579-28" });
+  assert.equal(r.status, 200, JSON.stringify(r.corpo));
+  assert.equal(A.tabela("fa_gestao_contas").find((c) => c.email === "nina@t.com")?.cpf, "24681357928");
+});
+
+Deno.test("editar conta existente nao exige CPF nem altera o CPF gravado", async () => {
+  const antes = A.tabela("fa_gestao_contas").find((c) => c.email === "nina@t.com")?.cpf;
+  const r = await chamar("conta_salvar", { ...BASE_NOVA, novo: false, email: "nina@t.com", email_codigo: "nina@t.com", nome: "Nina Souza", cpf: "11144477735" });
+  assert.equal(r.status, 200, JSON.stringify(r.corpo));
+  assert.equal(A.tabela("fa_gestao_contas").find((c) => c.email === "nina@t.com")?.cpf, antes);
+});

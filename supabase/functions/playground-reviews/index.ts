@@ -45,6 +45,26 @@ function jsonResponse(req: Request, body: unknown, status = 200, cacheSeconds = 
   return new Response(JSON.stringify(body), { status, headers });
 }
 
+/** Remove marcação HTML e caracteres de controle de texto livre vindo de fora (vai para a home). */
+function plain(v: unknown): string {
+  return String(v ?? "")
+    .replace(/<[^>]*>/g, "")
+    .replace(/[<>]/g, "")
+    // deno-lint-ignore no-control-regex
+    .replace(/[\u0000-\u001f\u007f]/g, " ")
+    .trim();
+}
+
+/** Compara em tempo constante. */
+function safeEqual(a: string, b: string): boolean {
+  const enc = new TextEncoder();
+  const x = enc.encode(a);
+  const y = enc.encode(b);
+  let diff = x.length ^ y.length;
+  for (let i = 0; i < Math.max(x.length, y.length); i++) diff |= (x[i] ?? 0) ^ (y[i] ?? 0);
+  return diff === 0;
+}
+
 function str(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
 }
@@ -94,17 +114,17 @@ Deno.serve(async (req) => {
 
         return {
           id: r.id,
-          author_name: r.author_name,
-          author_first_name: firstName,
-          author_initial: initial,
-          author_role: visitLabel,
+          author_name: plain(r.author_name),
+          author_first_name: plain(firstName),
+          author_initial: plain(initial),
+          author_role: plain(visitLabel),
           visit_count: visitCount,
           rating: Number(r.rating) || 5,
           nps_score: r.nps_score != null ? Number(r.nps_score) : null,
-          comment: r.comment,
-          unit: r.unit || "Playground (Parque Shopping)",
+          comment: plain(r.comment),
+          unit: plain(r.unit) || "Playground (Parque Shopping)",
           source: r.source || "app_nps",
-          visit_date: r.visit_date || "",
+          visit_date: plain(r.visit_date),
           featured: !!r.featured,
           created_at: r.created_at,
         };
@@ -180,7 +200,7 @@ Deno.serve(async (req) => {
     // Notas inferiores (neutros e detratores) ficam pendentes de moderação no admin.
     const opsKey = Deno.env.get("OPS_KEY");
     const reqOpsKey = req.headers.get("x-ops-key");
-    const explicitOpsApprove = !!(opsKey && reqOpsKey && opsKey === reqOpsKey);
+    const explicitOpsApprove = !!(opsKey && reqOpsKey && safeEqual(opsKey, reqOpsKey));
     const isPromoter = (npsScore !== null && npsScore >= 9) || (npsScore === null && rating >= 5);
     const autoApprove = explicitOpsApprove || isPromoter;
 
@@ -188,15 +208,15 @@ Deno.serve(async (req) => {
     const visitRole = str(body.author_role) || `${visitCount}ª visita`;
 
     const newRecord = {
-      author_name: authorName.slice(0, 100),
-      author_role: visitRole,
+      author_name: plain(authorName).slice(0, 100),
+      author_role: plain(visitRole).slice(0, 60),
       visit_count: visitCount,
       rating,
       nps_score: npsScore,
-      comment: comment.slice(0, 1000),
-      unit,
-      source,
-      visit_date: visitDate,
+      comment: plain(comment).slice(0, 1000),
+      unit: plain(unit).slice(0, 80),
+      source: plain(source).slice(0, 40),
+      visit_date: plain(visitDate).slice(0, 40),
       approved: autoApprove,
       featured: false,
       approved_at: autoApprove ? new Date().toISOString() : null,

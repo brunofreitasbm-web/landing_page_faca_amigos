@@ -109,7 +109,17 @@ Teste ponta a ponta: login errado, e-mail fora da lista (mesma mensagem de senha
 código certo, cada quadrado abre logado, reabrir a mesma URL de entrada tem que falhar, Sair, e conferir
 `fa_gestao_auditoria`.
 
-## Lote 7: Eventos (palestras, encontros e treinamentos) — pendente, feito só no código em 30/09/2026
+## Lote 7: Eventos (palestras, encontros e treinamentos) — no ar e testado ponta a ponta em 13/11/2026
+
+**Estado em 13/11/2026** (leia antes dos passos abaixo, que são o histórico da implantação):
+
+- Migrations, `eventos-public`, `eventos-admin` e `eventos-dispatch` estão em produção, com o cron `fa-eventos-dispatch` respondendo 200.
+- **Segredos no Vault, não em `supabase secrets`.** `OPS_KEY` e `EVENTOS_SECRET` vivem no Vault (`ops_key`, `eventos_secret`) e as três funções os leem por `fa_eventos_segredo(nome)` (só service role) quando a variável de ambiente não existe. Se um dia criar o secret `OPS_KEY`/`EVENTOS_SECRET` na função, ele vence o do Vault e **precisa ter o mesmo valor** do Vault (o cron lê o `ops_key` de lá). Trocar `eventos_secret` invalida todos os links de ingresso já enviados.
+- Teste feito com evento de 2 vagas e e-mails `example.com`: 3 inscrições (2 confirmadas, 1 na fila), e-mail repetido, cancelamento promovendo a fila, confirmação da promoção, check-in duas vezes (a segunda diz "já fez"), token adulterado recusado, cada e-mail uma vez em `fa_eventos_envios`, página `/eventos/<slug>` com título, canonical e JSON-LD no HTML e entrada no `sitemap-eventos.xml`. Tudo apagado depois.
+- **Bug corrigido:** `evento_cancelar` usava `upsert` com `onConflict` contra índice único parcial (erro 42P10), a fila ficava vazia e o cancelamento não avisava ninguém. Agora é `insert`.
+- **Extras (migration `20261113130000_fa_eventos_extras.sql`):** upload da capa e da foto do palestrante (ação `imagem_upload`, bucket público `eventos-imagens`, até 2 MB, JPG/PNG/WebP validado pelos bytes; o painel reduz a foto para 1600 px antes de enviar); aviso por e-mail a cada inscrição pelo site (destino: Vault `eventos_aviso_email`, senão `ALERT_EMAIL`, senão `LEAD_NOTIFY_EMAIL`; valor `off` desliga; sem destino, não envia); comunicado aos inscritos (botão "Enviar comunicado" no painel do evento, com "Enviar teste para mim", histórico e trava de clique duplo; sai pela fila do dispatch, 60 e-mails por rodada de 30 min).
+- **Ainda é seu:** listas do Brevo (`BREVO_LIST_EVENTOS_FAMILIAS/PROFISSIONAIS`), links da Comunidade WhatsApp e criar o primeiro evento real. Ingresso pago continua pendente: exige publicar o `hotmart-webhook` novo (passo 5 abaixo).
+
 
 Inscrição com vagas reais, lista de espera com promoção automática (24h para confirmar), voucher `EVT-XXXX-XXXX`
 com QR, check-in na porta pelo painel, ingresso pago via Hotmart e Comunidade WhatsApp (só avisos) + listas do Brevo.
@@ -325,3 +335,11 @@ Só o site: nada de migration, função ou secret. Arquivos novos: `familia.html
 - **Textos:** `wifi.html`, `hotspot/alogin.html` e `hotspot/logout.html` trocam "Seu cupom está no seu e-mail" por "Cliente da clínica? Seu cupom está no Mural da Família". Falta copiar `alogin.html` e `logout.html` para o roteador.
 - **Ordem:** (1) migração 20261102120000 (já aplicada, se o Mural já emite) e depois 20261103120000; (2) deploy de `wifi-lead-webhook` (`--no-verify-jwt`) e `behavior-test-admin`; (3) site; (4) roteador. Deploy da função antes da migração faz o cadastro falhar (500) por causa do `coupon_code` nulo.
 - **Fora desta mudança:** e-mail de produto no lugar do cupom (nenhum definido) e o campo de e-mail do `login.html`, que continua obrigatório.
+
+## Lote 15: Manutenção TI no Hub de Gestão, 08/11/2026 (pendente: banco, arquivos, função e site)
+
+- **O que muda.** O script de otimização do Windows 11 e o texto de comandos saem da pasta pública `/fa7k2m9` e passam a um bucket privado `ti-arquivos`. Só `owner` vê o card "Manutenção TI" no Hub e baixa, por link assinado de 60 s (ações `ti_listar` e `ti_baixar` do `gestao-hub`). Cada download grava `ti_download` na auditoria. Os papéis de parede foram excluídos do repositório.
+- **Fonte dos arquivos:** `supabase/ops/ti/`. Ao mudar o `.ps1` ou o `.txt`, atualize `tamanho_bytes` e `sha256` no catálogo `ARQUIVOS_TI` do `gestao-hub` (o teste "tamanho e SHA256 do catálogo batem com os arquivos reais" avisa) e envie o arquivo novo ao bucket.
+- **Ordem:** (1) migração `20261108120000_ti_arquivos_bucket.sql`; (2) enviar `supabase/ops/ti/otimizar-win11.ps1` e `supabase/ops/ti/comandos-otimizar.txt` ao bucket `ti-arquivos` pelo painel do Supabase, com esses nomes exatos e **bytes idênticos aos do repositório** (confira `sha256sum` antes do envio; o `.gitattributes` impede conversão de fim de linha no clone, mas um arquivo editado no Windows pode trocar LF por CRLF e o hash do Hub deixa de bater); (3) conferir `select public from storage.buckets where id = 'ti-arquivos'` = `false`; conferir também `select policyname, qual from pg_policies where schemaname = 'storage' and tablename = 'objects'`: nenhuma policy sem filtro de `bucket_id` (ex.: "authenticated lê tudo") pode existir, senão ela expõe este bucket; (4) deploy de `gestao-hub` (`--no-verify-jwt`); (5) site. Se o site subir antes do passo 2, o card abre mas o download dá erro.
+- **Teste:** como owner, abrir Manutenção TI, baixar os 2 arquivos e conferir o SHA256 mostrado na tela com `Get-FileHash`; como gerente, confirmar que o card não aparece e que chamar `ti_baixar` direto na API dá 403; abrir `institutofacaamigos.com.br/fa7k2m9/otimizar-win11.ps1` e cair no login do Hub.
+- **Atenção:** `/fa7k2m9` agora redireciona (301) para o Hub, e quem usava a URL antiga (atalho, impresso) não baixa mais. O ZIP dos papéis de parede e o script antigo continuam no histórico do git. Se isso for sensível, reescrever o histórico é um passo separado.

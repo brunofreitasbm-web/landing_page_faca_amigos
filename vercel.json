@@ -12,7 +12,9 @@
     { "source": "/servicos", "destination": "/clinica", "permanent": true },
     { "source": "/servicos.html", "destination": "/clinica", "permanent": true },
     { "source": "/playground/politica-privacidade", "destination": "/politica-privacidade", "permanent": true },
-    { "source": "/playground/politica-privacidade.html", "destination": "/politica-privacidade", "permanent": true }
+    { "source": "/playground/politica-privacidade.html", "destination": "/politica-privacidade", "permanent": true },
+    { "source": "/fa7k2m9", "destination": "https://gestao.institutofacaamigos.com.br/", "permanent": true },
+    { "source": "/fa7k2m9/:path*", "destination": "https://gestao.institutofacaamigos.com.br/", "permanent": true }
   ],
   "rewrites": [
     { "source": "/fatech", "destination": "https://fa-tech-bruno-bm-projects.vercel.app/fatech" },
@@ -50,13 +52,6 @@
           "key": "Cache-Control",
           "value": "public, max-age=0, must-revalidate"
         }
-      ]
-    },
-    {
-      "source": "/fa7k2m9/:path*",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
-        { "key": "Cache-Control", "value": "no-store" }
       ]
     },
     {

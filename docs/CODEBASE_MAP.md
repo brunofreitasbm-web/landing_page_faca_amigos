@@ -49,7 +49,7 @@ Deploy: push na `main` publica na Vercel. **Funções e migrations não vão pel
 ├── aprender.html + aprender/*.html (9 artigos), glossario.html   conteúdo/SEO
 ├── wifi.html             página pós-portal Wi-Fi (noindex)
 ├── admin.html            painel privado (leads, textos, cupons Wi-Fi, eventos)
-├── gestao.html           Hub de Gestão (login + 7 atalhos SSO)
+├── gestao.html           Hub de Gestão (login + 7 atalhos SSO + card Manutenção TI, só owner; fonte dos arquivos em supabase/ops/ti/)
 ├── termos.html, politica-privacidade.html, 404.html
 ├── assets/               fa-track.js, fa-footer.js, fa-cta.js, fa-back.js
 ├── img/, downloads/      mídia pública (downloads/ tem o capítulo 1 grátis)
@@ -126,8 +126,8 @@ Padrões comuns: `Deno.serve` único roteado por `action`; CORS e helpers copiad
 | `behavior-test-webhook` | Funil `/teste`: `start`/`complete`, score no servidor, e-mails, oferta de e-book | Pública (honeypot, 10/h por IP) | `fa_leads_teste_comportamento`, `fa_teste_config` |
 | `behavior-test-admin` | Backend do `/admin`: login (Auth da Clínica), SSO, leads, CSV, insight Gemini, config, cupons Wi-Fi | login/`sso` sem sessão; resto Bearer em `fa_teste_admin_sessions` | leads, config, `fa_wifi_leads`, `fa_kiosk_coupons`, sessões, tickets |
 | `eventos-public` | listar/detalhe/inscrever/ingresso/cancelar/confirmar_promocao | Pública + token HMAC (`EVENTOS_SECRET`) | `fa_eventos*`, view `fa_eventos_publicos`, RPCs `fa_eventos_*` |
-| `eventos-admin` | CRUD de eventos/tipos/inscrições, check-in, dashboard, reprocessar Hotmart | Bearer (mesma sessão do admin); equipe só lista/checkin | `fa_eventos*`, `fa_hotmart_eventos` |
-| `eventos-dispatch` | Único emissor dos 8 e-mails de eventos; `run` (cron 30 min): expira promoções, drena fila, lembretes, pós-evento; `descadastrar` | `x-ops-key` (`run`/`enviar`); token HMAC (`descadastrar`) | `fa_eventos_envios`, RPC `fa_eventos_expirar_promocoes` |
+| `eventos-admin` | CRUD de eventos/tipos/inscrições, check-in, dashboard, reprocessar Hotmart, `imagem_upload` (bucket `eventos-imagens`), `comunicado_enviar`/`comunicados_listar` (owner) | Bearer (mesma sessão do admin); equipe só lista/checkin | `fa_eventos*`, `fa_hotmart_eventos` |
+| `eventos-dispatch` | Único emissor dos 9 e-mails de eventos (8 fixos + `comunicado`; avisa o organizador a cada inscrição); `run` (cron 30 min): expira promoções, drena fila, lembretes, pós-evento; `descadastrar` | `x-ops-key` (`run`/`enviar`); token HMAC (`descadastrar`) | `fa_eventos_envios`, RPC `fa_eventos_expirar_promocoes` |
 | `gestao-hub` | Login único do Hub, 2FA por e-mail, reset de senha da Clínica, `launch` (tickets SSO) | Senha (projeto Clínica) + código; Bearer 7 dias | `fa_gestao_*`; `auth.admin` de **dois** projetos |
 | `guia-sequence` | 3 e-mails (24h/72h/144h) pós-resultado; descadastro | `x-run-key` (`SEQ_RUN_KEY`); HMAC (`SEQ_SECRET`) | leads, `fa_teste_ebook_seq`, `fa_ebook_compras` |
 | `hotmart-webhook` | Eventos de compra/reembolso/chargeback/carrinho; ingressos pagos; GA4 MP + Meta CAPI | `hottok` | `fa_hotmart_eventos`, `fa_ebook_compras`, `fa_ebook_carrinhos`, RPCs de eventos |
@@ -158,7 +158,7 @@ Convenção: **RLS ligada e nenhuma policy**; só a service role (Edge Functions
 | E-books | `fa_ebook_compras` (PK `transaction`), `fa_hotmart_eventos` (idempotência por `event_id`), `fa_ebook_carrinhos` (sem recuperação por e-mail ainda) |
 | Wi-Fi | `fa_wifi_leads` (`coupon_code` único; liga a `fa_kiosk_coupons`; `kiosk_/playground_/graopara_coupon_synced_at` e `_error` dizem se cada cupom chegou ao caixa) |
 | Hub | `fa_gestao_contas` (mãe), `_desafios`, `_sessoes` (hash do token), `_login_attempts`, `_auditoria`, `_painel_tickets` (em uso), `_tickets_painel` (**órfã**) |
-| Eventos | `fa_eventos` 1:N `fa_eventos_ingresso_tipos` 1:N `fa_eventos_inscricoes` 1:N `fa_eventos_envios`; view `fa_eventos_publicos` (`security_invoker`); RPCs `fa_eventos_inscrever/cancelar/checkin/confirmar_*/expirar_promocoes/reprocessar_vagas` (lock `for update` no evento); `fa_health_snapshot()` |
+| Eventos | `fa_eventos` 1:N `fa_eventos_ingresso_tipos` 1:N `fa_eventos_inscricoes` 1:N `fa_eventos_envios` (+ `fa_eventos_comunicados` 1:N envios); view `fa_eventos_publicos` (`security_invoker`); RPCs `fa_eventos_inscrever/cancelar/checkin/confirmar_*/expirar_promocoes/reprocessar_vagas` (lock `for update` no evento); `fa_health_snapshot()` |
 | Externas a este repo | `fa_kiosk_units/plans/packages/coupons/loyalty_rules/app_settings` (app dos quiosques); `profiles` e `auth` no projeto Supabase da Clínica |
 
 Migrations (20, ordem cronológica) vão de `20260914120000_fa_leads_teste_comportamento` a `20261001160000_wifi_cupom_um_uso_no_caixa` (trigger que desativa o cupom `ESPERA-%` equivalente na outra unidade).

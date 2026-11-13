@@ -4,6 +4,7 @@ on:
     paths:
       - 'supabase/functions/gestao-hub/**'
       - 'supabase/tests/gestao-hub/**'
+      - 'supabase/ops/ti/**'
       - 'supabase/functions/recuperar-senha/**'
       - 'supabase/tests/recuperar-senha/**'
       - '.github/workflows/gestao-hub.yml'
@@ -12,6 +13,7 @@ on:
     paths:
       - 'supabase/functions/gestao-hub/**'
       - 'supabase/tests/gestao-hub/**'
+      - 'supabase/ops/ti/**'
       - 'supabase/functions/recuperar-senha/**'
       - 'supabase/tests/recuperar-senha/**'
       - '.github/workflows/gestao-hub.yml'
@@ -32,6 +34,6 @@ jobs:
       # Supabase e Cacau simulados em memória (supabase/tests/gestao-hub/fake_supabase.ts): nada sai do runner.
       # --no-check: o fake não reproduz os tipos do supabase-js; a função é tipada no deploy.
       - name: Provisionar, desligar e religar (fases 2 e 3)
-        run: deno test --no-check --config supabase/tests/gestao-hub/deno.json --allow-env supabase/tests/gestao-hub
+        run: deno test --no-check --config supabase/tests/gestao-hub/deno.json --allow-env --allow-read supabase/tests/gestao-hub
       - name: Esqueci minha senha (Clínica e Gestão de Pessoas)
         run: deno test --no-check --config supabase/tests/recuperar-senha/deno.json --allow-env supabase/tests/recuperar-senha
