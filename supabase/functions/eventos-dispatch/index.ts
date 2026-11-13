@@ -18,6 +18,25 @@
 
 import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2";
 
+// Segredos: variavel de ambiente (supabase secrets) ou, se ausente, o Vault via fa_eventos_segredo (so service role).
+const SEG: Record<string, string> = {};
+try {
+  const u = Deno.env.get("SUPABASE_URL"), k = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  const faltam = ["OPS_KEY", "EVENTOS_SECRET", "EVENTOS_AVISO_EMAIL"].filter((n) => !Deno.env.get(n));
+  if (u && k && faltam.length) {
+    const c = createClient(u, k);
+    for (const n of faltam) {
+      const { data } = await c.rpc("fa_eventos_segredo", { p_nome: n });
+      if (typeof data === "string" && data) SEG[n] = data;
+    }
+  }
+} catch (err) {
+  console.error("segredos do Vault indisponiveis", err instanceof Error ? err.message : err);
+}
+function segredo(nome: string): string {
+  return Deno.env.get(nome) || SEG[nome] || "";
+}
+
 // deno-lint-ignore no-explicit-any
 type Admin = SupabaseClient<any, any, any, any, any>;
 
@@ -37,7 +56,7 @@ const ALLOWED_ORIGINS = [
 
 const TIPOS_ENVIO = [
   "voucher", "voucher_reenvio", "lista_espera", "promocao",
-  "lembrete_24h", "lembrete_hoje", "pos_evento", "evento_cancelado",
+  "lembrete_24h", "lembrete_hoje", "pos_evento", "evento_cancelado", "comunicado",
 ] as const;
 type TipoEnvio = (typeof TIPOS_ENVIO)[number];
 
@@ -92,7 +111,7 @@ function b64urlDecode(s: string): Uint8Array | null {
 }
 
 async function hmac(payload: string): Promise<Uint8Array> {
-  const secret = Deno.env.get("EVENTOS_SECRET") ?? "";
+  const secret = segredo("EVENTOS_SECRET") ?? "";
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   return new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload)));
 }
@@ -104,7 +123,7 @@ async function signToken(inscricaoId: string, escopo: "acesso" | "confirmar", ex
 }
 
 async function verifyToken(token: string): Promise<{ inscricaoId: string; escopo: string } | null> {
-  if (!Deno.env.get("EVENTOS_SECRET")) return null;
+  if (!segredo("EVENTOS_SECRET")) return null;
   const [p, s] = token.split(".");
   if (!p || !s) return null;
   const payloadBytes = b64urlDecode(p);
@@ -175,6 +194,12 @@ interface Evento {
   status: string;
   comunidade_whatsapp_url: string | null;
   cancel_mensagem: string | null;
+}
+
+interface Comunicado {
+  id: string;
+  assunto: string;
+  mensagem: string;
 }
 
 interface Tipo {
@@ -379,7 +404,7 @@ interface Mensagem {
   marketing: boolean; // marketing = leva List-Unsubscribe
 }
 
-async function montar(admin: Admin, tipo: TipoEnvio, ins: Inscricao, extra: { proximos?: Evento[] }): Promise<Mensagem> {
+async function montar(admin: Admin, tipo: TipoEnvio, ins: Inscricao, extra: { proximos?: Evento[]; comunicado?: Comunicado }): Promise<Mensagem> {
   const ev = ins.evento;
   const nome = primeiroNome(ins.nome);
   const expAcesso = new Date(ev.fim).getTime() + 30 * 86400_000;
@@ -451,6 +476,17 @@ async function montar(admin: Admin, tipo: TipoEnvio, ins: Inscricao, extra: { pr
         ${proximos ? `<p style="margin:18px 0 6px;font-weight:800;color:#065264;">Próximos encontros</p><ul style="margin:0;padding-left:20px;">${proximos}</ul>` : `<p style="margin:0;"><a href="${esc(`${SITE}/eventos`)}" style="color:#065264;">Ver os próximos encontros</a></p>`}`;
       return { subject: `Obrigada por participar: ${ev.titulo}`, html: layout("Obrigada por vir", corpo, "Você recebe este e-mail porque participou de um evento do Instituto e aceitou receber novidades."), marketing: true };
     }
+    case "comunicado": {
+      const c = extra.comunicado;
+      if (!c) throw new Error("comunicado não encontrado");
+      const corpo = `
+        <p style="margin:0 0 14px;">Olá, ${esc(nome)}! Um recado sobre <b>${esc(ev.titulo)}</b>:</p>
+        <div style="background:#F4FAFB;border-radius:14px;padding:14px 18px;margin:0 0 14px;white-space:pre-line;">${esc(c.mensagem)}</div>
+        ${quandoOnde(ev, ins.status === "confirmada")}
+        ${ins.status === "confirmada" ? botao(ingressoUrl, "Abrir meu ingresso") : ""}
+        <p style="margin:18px 0 0;font-size:13px;color:#4C6B62;">Dúvidas? Responda este e-mail.</p>`;
+      return { subject: c.assunto, html: layout(esc(c.assunto), corpo, rodapeTransacional), marketing: false };
+    }
     case "evento_cancelado": {
       const corpo = `
         <p style="margin:0 0 14px;">${esc(nome)}, precisamos cancelar <b>${esc(ev.titulo)}</b>, que aconteceria em ${esc(fmtDataHora(ev.inicio))}.</p>
@@ -467,7 +503,7 @@ async function montar(admin: Admin, tipo: TipoEnvio, ins: Inscricao, extra: { pr
 // Envio com reserva (claim) em fa_eventos_envios
 // ---------------------------------------------------------------------------------------------
 
-async function enviar(admin: Admin, inscricaoId: string, tipo: TipoEnvio, opts: { dry?: boolean; envioId?: number } = {}) {
+async function enviar(admin: Admin, inscricaoId: string, tipo: TipoEnvio, opts: { dry?: boolean; envioId?: number; comunicadoId?: string } = {}) {
   const ins = await loadInscricao(admin, inscricaoId);
   if (!ins) return { ok: false, error: "inscrição não encontrada" };
 
@@ -475,7 +511,7 @@ async function enviar(admin: Admin, inscricaoId: string, tipo: TipoEnvio, opts: 
   let envioId = opts.envioId ?? null;
   if (envioId === null) {
     if (opts.dry) return { ok: true, dry: true };
-    const { data, error } = await admin.from("fa_eventos_envios").insert({ inscricao_id: ins.id, tipo, status: "pendente" }).select("id").single();
+    const { data, error } = await admin.from("fa_eventos_envios").insert({ inscricao_id: ins.id, tipo, status: "pendente", comunicado_id: opts.comunicadoId ?? null }).select("id").single();
     if (error) {
       if (error.code === "23505") return { ok: true, duplicate: true };
       return { ok: false, error: `reserva: ${error.message}` };
@@ -491,7 +527,16 @@ async function enviar(admin: Admin, inscricaoId: string, tipo: TipoEnvio, opts: 
         .eq("status", "published").eq("publico", ins.evento.publico).gt("inicio", new Date().toISOString()).order("inicio").limit(3);
       proximos = (data ?? []) as unknown as Evento[];
     }
-    msg = await montar(admin, tipo, ins, { proximos });
+    let comunicado: Comunicado | undefined;
+    if (tipo === "comunicado") {
+      const { data: envio } = await admin.from("fa_eventos_envios").select("comunicado_id").eq("id", envioId).maybeSingle();
+      const { data: c } = envio?.comunicado_id
+        ? await admin.from("fa_eventos_comunicados").select("id, assunto, mensagem").eq("id", envio.comunicado_id).maybeSingle()
+        : { data: null };
+      if (!c) throw new Error("comunicado não encontrado");
+      comunicado = c as Comunicado;
+    }
+    msg = await montar(admin, tipo, ins, { proximos, comunicado });
   } catch (err) {
     const e = err instanceof Error ? err.message : "erro ao montar";
     await admin.from("fa_eventos_envios").update({ status: "erro", error: e }).eq("id", envioId);
@@ -511,7 +556,37 @@ async function enviar(admin: Admin, inscricaoId: string, tipo: TipoEnvio, opts: 
   if (r.ok && (tipo === "voucher" || tipo === "lista_espera") && !ins.brevo_sync_at) {
     await syncBrevoList(admin, ins);
   }
+  if (r.ok && (tipo === "voucher" || tipo === "lista_espera") && ins.origem === "site") {
+    await avisarOrganizador(admin, ins);
+  }
   return r.ok ? { ok: true, message_id: r.messageId } : { ok: false, error: r.error };
+}
+
+// Aviso ao organizador a cada inscrição feita pelo site (best-effort: nunca falha o envio ao participante).
+// Destino: EVENTOS_AVISO_EMAIL (ou Vault eventos_aviso_email), senão ALERT_EMAIL, senão LEAD_NOTIFY_EMAIL (varios, separados por virgula).
+// O valor "off" desliga. Sem destino configurado, nao faz nada.
+async function avisarOrganizador(admin: Admin, ins: Inscricao): Promise<void> {
+  try {
+    const raw = segredo("EVENTOS_AVISO_EMAIL") || Deno.env.get("ALERT_EMAIL") || Deno.env.get("LEAD_NOTIFY_EMAIL") || "";
+    if (raw.trim().toLowerCase() === "off") return;
+    const destinos = raw.split(/[,;]/).map((e) => e.trim()).filter((e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
+    if (!destinos.length) return;
+    const { data: tipo } = await admin.from("fa_eventos_ingresso_tipos").select("vagas").eq("id", ins.tipo_id).maybeSingle();
+    const { count: ocupadas } = await admin.from("fa_eventos_inscricoes").select("id", { count: "exact", head: true })
+      .eq("tipo_id", ins.tipo_id).in("status", ["confirmada", "promovida"]);
+    const { count: fila } = await admin.from("fa_eventos_inscricoes").select("id", { count: "exact", head: true })
+      .eq("tipo_id", ins.tipo_id).eq("status", "lista_espera");
+    const placar = `${ocupadas ?? 0}/${tipo?.vagas ?? "?"} vagas ocupadas${fila ? `, ${fila} na lista de espera` : ""}`;
+    const situacao = ins.status === "lista_espera" ? "entrou na lista de espera" : "garantiu a vaga";
+    const corpo = `<p style="margin:0 0 14px;"><b>${esc(ins.nome)}</b> ${situacao} em <b>${esc(ins.evento.titulo)}</b>.</p>
+      <p style="margin:0 0 14px;">${esc(placar)}</p>
+      <p style="margin:0;font-size:13px;color:#4C6B62;">Para desligar este aviso, defina EVENTOS_AVISO_EMAIL como off.</p>`;
+    for (const to of destinos) {
+      await brevoSend({ to: { email: to }, subject: `Nova inscrição: ${ins.evento.titulo} (${placar})`, html: layout("Nova inscrição", corpo, "Aviso interno do módulo de eventos."), tag: "eventos_aviso" });
+    }
+  } catch (err) {
+    console.error("eventos-dispatch: aviso ao organizador", err instanceof Error ? err.message : err);
+  }
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -557,12 +632,12 @@ async function run(admin: Admin, dry: boolean) {
   }
 
   // 2) Fila (envios em massa deixados como 'pendente', ex.: evento cancelado)
-  const { data: pend } = await admin.from("fa_eventos_envios").select("id, inscricao_id, tipo").eq("status", "pendente").order("created_at").limit(200);
+  const { data: pend } = await admin.from("fa_eventos_envios").select("id, inscricao_id, tipo, comunicado_id").eq("status", "pendente").order("created_at").limit(200);
   summary.pendentes = pend?.length ?? 0;
   if (!dry) {
     for (const p of pend ?? []) {
       if (enviados >= MAX_PER_RUN) break;
-      const e = await enviar(admin, p.inscricao_id as string, p.tipo as TipoEnvio, { envioId: p.id as number });
+      const e = await enviar(admin, p.inscricao_id as string, p.tipo as TipoEnvio, { envioId: p.id as number, comunicadoId: (p.comunicado_id as string | null) ?? undefined });
       if (e.ok) { summary.pendentes_enviados++; enviados++; } else summary.falhas++;
     }
   }
@@ -649,7 +724,7 @@ Deno.serve(async (req) => {
   }
 
   // Tudo abaixo exige a chave de operação (cron e as outras funções).
-  const expected = Deno.env.get("OPS_KEY") ?? "";
+  const expected = segredo("OPS_KEY") ?? "";
   const given = req.headers.get("x-ops-key") ?? "";
   if (!expected || !safeEqual(given, expected)) return json(req, { error: "não autorizado" }, 401);
 
@@ -657,10 +732,27 @@ Deno.serve(async (req) => {
     return json(req, await run(admin, dry));
   }
 
+  // Teste de comunicado: manda a mensagem so para o endereco informado (o do proprio organizador), sem reserva nem fila.
+  if (action === "comunicado_teste") {
+    const to = str(body.to).toLowerCase();
+    const assunto = str(body.assunto);
+    const mensagem = str(body.mensagem);
+    const eventoId = str(body.evento_id);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to) || assunto.length < 3 || mensagem.length < 10 || !/^[0-9a-f-]{36}$/i.test(eventoId)) {
+      return json(req, { error: "dados inválidos" }, 400);
+    }
+    const { data: ev } = await admin.from("fa_eventos").select("id, slug, titulo, categoria, publico, formato, descricao_curta, local_nome, local_endereco, online_url, inicio, fim, status, comunidade_whatsapp_url, cancel_mensagem").eq("id", eventoId).maybeSingle();
+    if (!ev) return json(req, { error: "evento não encontrado" }, 404);
+    const falsa = { id: "00000000-0000-0000-0000-000000000000", evento_id: ev.id, tipo_id: "", nome: "Participante", email: to, whatsapp: null, status: "lista_espera", origem: "admin", codigo: "", marketing_opt_in_email: false, promocao_prazo: null, checkin_at: null, brevo_sync_at: null, evento: ev as unknown as Evento, tipo: { id: "", nome: "", tipo: "gratuito" } } as Inscricao;
+    const msg = await montar(admin, "comunicado", falsa, { comunicado: { id: "teste", assunto: `[TESTE] ${assunto}`, mensagem } });
+    const r = await brevoSend({ to: { email: to }, subject: msg.subject, html: msg.html, tag: "eventos_comunicado_teste" });
+    return json(req, r, r.ok ? 200 : 502);
+  }
+
   if (action === "enviar") {
     const inscricaoId = str(body.inscricao_id);
     const tipo = str(body.tipo) as TipoEnvio;
-    if (!/^[0-9a-f-]{36}$/i.test(inscricaoId) || !TIPOS_ENVIO.includes(tipo)) {
+    if (!/^[0-9a-f-]{36}$/i.test(inscricaoId) || !TIPOS_ENVIO.includes(tipo) || tipo === "comunicado") {
       return json(req, { error: "inscricao_id/tipo inválidos" }, 400);
     }
     const r = await enviar(admin, inscricaoId, tipo, { dry });

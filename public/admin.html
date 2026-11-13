@@ -861,6 +861,7 @@
               <a class="btn btn-ghost btn-sm" id="evVerBtn" href="#" target="_blank" rel="noopener">Ver página</a>
               <button type="button" class="btn btn-ghost btn-sm owner-only" id="evEditarBtn">Editar</button>
               <button type="button" class="btn btn-teal btn-sm" id="evCheckinBtn">Check-in</button>
+              <button type="button" class="btn btn-ghost btn-sm owner-only" id="evComunicadoBtn">Enviar comunicado</button>
               <button type="button" class="btn btn-ghost btn-sm owner-only" id="evCsvBtn">Exportar CSV</button>
               <button type="button" class="btn btn-ghost btn-sm owner-only" id="evCancelarBtn" style="color: var(--pink-dark); border-color: var(--pink-dark);">Cancelar evento</button>
               <button type="button" class="btn btn-ghost btn-sm" id="evFecharBtn" aria-label="Fechar painel">✕</button>
@@ -1041,7 +1042,7 @@
             <select class="form-control" id="evf-publico"><option value="familias">Famílias / responsáveis</option><option value="profissionais">Profissionais</option></select></div>
           <div class="form-group"><label class="form-label" for="evf-formato">Formato</label>
             <select class="form-control" id="evf-formato"><option value="presencial">Presencial</option><option value="online">Online</option><option value="hibrido">Híbrido</option></select></div>
-          <div class="form-group"><label class="form-label" for="evf-capa">Imagem de capa (URL)</label><input class="form-control" id="evf-capa" type="url" placeholder="https://institutofacaamigos.com.br/img/..."></div>
+          <div class="form-group"><label class="form-label" for="evf-capa">Imagem de capa</label><div style="display:flex;gap:8px;"><input class="form-control" id="evf-capa" type="url" placeholder="Link da imagem"><button type="button" class="btn btn-ghost btn-sm" style="white-space:nowrap;flex-shrink:0;" data-upload-for="evf-capa">Enviar imagem</button></div><div class="ev-help" data-upload-msg="evf-capa">Ideal: 1200 x 630 px (a foto é reduzida sozinha).</div></div>
           <div class="form-group"><label class="form-label" for="evf-inicio">Início (horário de Belém)</label><input class="form-control" id="evf-inicio" type="datetime-local" required></div>
           <div class="form-group"><label class="form-label" for="evf-fim">Fim</label><input class="form-control" id="evf-fim" type="datetime-local" required></div>
           <div class="form-group"><label class="form-label" for="evf-inscricoes-ate">Inscrições até (opcional)</label><input class="form-control" id="evf-inscricoes-ate" type="datetime-local"><div class="ev-help">Vazio = até o início. Prazo real gera a contagem regressiva na página.</div></div>
@@ -1055,7 +1056,7 @@
           <div class="form-group"><label class="form-label" for="evf-nao-e-para">Para quem NÃO é</label><textarea class="form-control" id="evf-nao-e-para" style="min-height:64px;"></textarea></div>
           <div class="form-group wide"><label class="form-label" for="evf-descricao-longa">Descrição completa (parágrafos separados por linha em branco)</label><textarea class="form-control" id="evf-descricao-longa" style="min-height:140px;"></textarea></div>
           <div class="form-group"><label class="form-label" for="evf-palestrante-nome">Palestrante / condução</label><input class="form-control" id="evf-palestrante-nome"></div>
-          <div class="form-group"><label class="form-label" for="evf-palestrante-foto">Foto do palestrante (URL)</label><input class="form-control" id="evf-palestrante-foto" type="url"></div>
+          <div class="form-group"><label class="form-label" for="evf-palestrante-foto">Foto do palestrante</label><div style="display:flex;gap:8px;"><input class="form-control" id="evf-palestrante-foto" type="url" placeholder="Link da imagem"><button type="button" class="btn btn-ghost btn-sm" style="white-space:nowrap;flex-shrink:0;" data-upload-for="evf-palestrante-foto">Enviar imagem</button></div><div class="ev-help" data-upload-msg="evf-palestrante-foto"></div></div>
           <div class="form-group wide"><label class="form-label" for="evf-palestrante-bio">Mini bio</label><textarea class="form-control" id="evf-palestrante-bio" style="min-height:64px;"></textarea></div>
           <div class="form-group wide"><label class="form-label" for="evf-comunidade">Link da Comunidade WhatsApp (só quem confirmou recebe)</label><input class="form-control" id="evf-comunidade" type="url" placeholder="https://chat.whatsapp.com/..."><div class="ev-help">Vazio = usa o link padrão da trilha (secret COMUNIDADE_WHATSAPP_FAMILIAS / _PROFISSIONAIS).</div></div>
         </div>
@@ -1116,6 +1117,30 @@
   </div>
 
   <!-- ================= MODAL: CHECK-IN (porta) ================= -->
+  <!-- ================= MODAL: COMUNICADO AOS INSCRITOS ================= -->
+  <div class="modal-overlay" id="comModalOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="comModalTitle" id="comModal">
+      <button type="button" class="modal-close" data-close="comModalOverlay" aria-label="Fechar">✕</button>
+      <h3 id="comModalTitle">Enviar comunicado</h3>
+      <p class="sub" id="comModalSub"></p>
+      <div id="comError" class="form-error" role="alert"></div>
+      <div id="comNotice" class="form-notice" role="status"></div>
+      <form id="comForm" novalidate>
+        <div class="form-group"><label class="form-label" for="com-destinatarios">Para quem</label>
+          <select class="form-control" id="com-destinatarios"><option value="confirmadas">Só quem tem vaga confirmada</option><option value="ativos">Confirmados, promovidos e lista de espera</option></select></div>
+        <div class="form-group"><label class="form-label" for="com-assunto">Assunto</label><input class="form-control" id="com-assunto" maxlength="150" placeholder="Ex.: Mudança de sala"></div>
+        <div class="form-group"><label class="form-label" for="com-mensagem">Mensagem</label><textarea class="form-control" id="com-mensagem" maxlength="5000" style="min-height:140px;" placeholder="Escreva o recado. Quando e onde do evento seguem abaixo do texto automaticamente."></textarea>
+          <div class="ev-help">Use só para assuntos deste evento (mudança de sala, horário, o que levar). O e-mail sai em até 60 pessoas a cada 30 minutos; acima disso o resto segue nas rodadas seguintes. Use "Enviar teste" para ver como chega.</div></div>
+        <div class="modal-actions" style="margin-top:14px;">
+          <button type="button" class="btn btn-ghost btn-sm" id="comTesteBtn">Enviar teste para mim</button>
+          <button type="submit" class="btn btn-pink btn-sm" id="comEnviarBtn">Enviar comunicado</button>
+        </div>
+      </form>
+      <h4 style="margin:20px 0 6px;font-size:0.95rem;">Já enviados</h4>
+      <div id="comHist" class="ev-help">Carregando…</div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="checkinModalOverlay">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="checkinModalTitle" id="checkinModal">
       <button type="button" class="modal-close" data-close="checkinModalOverlay" aria-label="Fechar">✕</button>
@@ -1152,7 +1177,7 @@
       // ---------- Voltar do aparelho (assets/fa-back.js) ----------
       // Camadas, da mais interna à mais externa: modal aberto -> painel do evento -> aba diferente da inicial.
       // Cada camada aberta soma 1 ao depth; na aba inicial sem nada aberto (depth 0) o voltar sai da página.
-      var OVERLAY_IDS = ['leadModalOverlay', 'evModalOverlay', 'tipoModalOverlay', 'insModalOverlay', 'checkinModalOverlay'];
+      var OVERLAY_IDS = ['leadModalOverlay', 'evModalOverlay', 'tipoModalOverlay', 'insModalOverlay', 'checkinModalOverlay', 'comModalOverlay'];
       var TAB_BTN_IDS = { leads: 'tabLeadsBtn', config: 'tabConfigBtn', wifi: 'tabWifiBtn', eventos: 'tabEventosBtn' };
       var activeTab = 'leads';
       var homeTab = 'leads';
@@ -2513,13 +2538,13 @@
       Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (btn) {
         btn.addEventListener('click', function () { closeOverlay(btn.getAttribute('data-close')); });
       });
-      ['evModalOverlay', 'tipoModalOverlay', 'insModalOverlay', 'checkinModalOverlay'].forEach(function (id) {
+      ['evModalOverlay', 'tipoModalOverlay', 'insModalOverlay', 'checkinModalOverlay', 'comModalOverlay'].forEach(function (id) {
         var ov = document.getElementById(id);
         ov.addEventListener('click', function (e) { if (e.target === ov) closeOverlay(id); });
       });
       document.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape') return;
-        ['evModalOverlay', 'tipoModalOverlay', 'insModalOverlay', 'checkinModalOverlay'].forEach(function (id) {
+        ['evModalOverlay', 'tipoModalOverlay', 'insModalOverlay', 'checkinModalOverlay', 'comModalOverlay'].forEach(function (id) {
           if (document.getElementById(id).classList.contains('active')) closeOverlay(id);
         });
       });
@@ -2838,6 +2863,131 @@
           msg(evNotice, 'Hotmart: ' + data.processados + ' venda(s) viraram inscrição; ' + data.pendentes + ' ainda sem tipo de ingresso correspondente.');
           loadEventos();
         }).catch(function (err) { if (!err.handled) msg(evError, err.message); });
+      });
+
+      // ---------- imagens do evento (capa e foto do palestrante) ----------
+      // O navegador reduz para no maximo 1600 px e converte para JPEG antes de enviar: foto de celular de 8 MB cabe no limite de 2 MB.
+      function reduzirImagem(file) {
+        return new Promise(function (resolve, reject) {
+          var url = URL.createObjectURL(file);
+          var img = new Image();
+          img.onload = function () {
+            var max = 1600, w = img.naturalWidth, h = img.naturalHeight;
+            if (!w || !h) { URL.revokeObjectURL(url); reject(new Error('Não consegui ler essa imagem.')); return; }
+            var escala = Math.min(1, max / Math.max(w, h));
+            var c = document.createElement('canvas');
+            c.width = Math.round(w * escala); c.height = Math.round(h * escala);
+            var ctx = c.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, c.width, c.height);
+            ctx.drawImage(img, 0, 0, c.width, c.height);
+            URL.revokeObjectURL(url);
+            var data = c.toDataURL('image/jpeg', 0.85);
+            resolve(data.slice(data.indexOf(',') + 1));
+          };
+          img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('Use uma imagem JPG, PNG ou WebP.')); };
+          img.src = url;
+        });
+      }
+      Array.prototype.forEach.call(document.querySelectorAll('[data-upload-for]'), function (btn) {
+        var campo = btn.getAttribute('data-upload-for');
+        var aviso = document.querySelector('[data-upload-msg="' + campo + '"]');
+        var padrao = aviso ? aviso.textContent : '';
+        var arquivo = document.createElement('input');
+        arquivo.type = 'file';
+        arquivo.accept = 'image/jpeg,image/png,image/webp';
+        btn.addEventListener('click', function () { arquivo.click(); });
+        arquivo.addEventListener('change', function () {
+          var f = arquivo.files && arquivo.files[0];
+          if (!f) return;
+          btn.disabled = true;
+          if (aviso) aviso.textContent = 'Enviando…';
+          reduzirImagem(f).then(function (b64) {
+            return apiEventos({ action: 'imagem_upload', data_base64: b64 });
+          }).then(function (data) {
+            document.getElementById(campo).value = data.url;
+            if (aviso) aviso.textContent = 'Imagem enviada. Clique em Salvar para aplicar ao evento.';
+          }).catch(function (err) {
+            if (aviso && !err.handled) aviso.textContent = err.message || 'Não foi possível enviar a imagem.';
+          }).then(function () { btn.disabled = false; arquivo.value = ''; if (aviso && aviso.textContent === 'Enviando…') aviso.textContent = padrao; });
+        });
+      });
+
+      // ---------- comunicado aos inscritos ----------
+      var comError = document.getElementById('comError');
+      var comNotice = document.getElementById('comNotice');
+      var comHist = document.getElementById('comHist');
+      function comPayload(teste) {
+        return {
+          action: 'comunicado_enviar', evento_id: eventoAtual.id,
+          assunto: document.getElementById('com-assunto').value.trim(),
+          mensagem: document.getElementById('com-mensagem').value.trim(),
+          destinatarios: document.getElementById('com-destinatarios').value,
+          teste: !!teste
+        };
+      }
+      function comTotal() {
+        var c = (eventoAtual && eventoAtual.contagens) || {};
+        return document.getElementById('com-destinatarios').value === 'confirmadas'
+          ? (c.confirmadas || 0)
+          : (c.confirmadas || 0) + (c.lista_espera || 0) + (c.promovidas || 0);
+      }
+      function comAtualizaSub() {
+        document.getElementById('comModalSub').textContent = (eventoAtual ? eventoAtual.titulo + ' · ' : '') + comTotal() + ' pessoa(s) vão receber.';
+      }
+      function loadComunicados() {
+        if (!eventoAtual) return;
+        comHist.textContent = 'Carregando…';
+        apiEventos({ action: 'comunicados_listar', evento_id: eventoAtual.id }).then(function (data) {
+          var lista = (data && data.comunicados) || [];
+          if (!lista.length) { comHist.textContent = 'Nenhum comunicado enviado ainda.'; return; }
+          comHist.innerHTML = lista.map(function (c) {
+            var extra = (c.pendente ? ' · ' + c.pendente + ' na fila' : '') + (c.erro ? ' · ' + c.erro + ' com erro' : '');
+            return '<div style="padding:6px 0;border-bottom:1px solid rgba(26,63,53,0.08);"><b>' + escapeHtml(c.assunto) + '</b><br>' +
+              escapeHtml(fmtBelem(c.created_at)) + ' · ' + (c.enviado || 0) + ' de ' + (c.total || 0) + ' enviados' + escapeHtml(extra) + '</div>';
+          }).join('');
+        }).catch(function (err) { if (!err.handled) comHist.textContent = err.message || 'Não foi possível carregar o histórico.'; });
+      }
+      document.getElementById('evComunicadoBtn').addEventListener('click', function () {
+        if (!eventoAtual) return;
+        msg(comError, ''); msg(comNotice, '');
+        document.getElementById('com-assunto').value = '';
+        document.getElementById('com-mensagem').value = '';
+        document.getElementById('com-destinatarios').value = 'confirmadas';
+        comAtualizaSub();
+        loadComunicados();
+        openOverlay('comModalOverlay');
+      });
+      document.getElementById('com-destinatarios').addEventListener('change', comAtualizaSub);
+      document.getElementById('comTesteBtn').addEventListener('click', function () {
+        if (!eventoAtual) return;
+        var btn = this;
+        msg(comError, ''); msg(comNotice, '');
+        btn.disabled = true;
+        apiEventos(comPayload(true)).then(function () {
+          msg(comNotice, 'Teste enviado para o e-mail da sua conta. Confira a caixa de entrada (e o spam).');
+        }).catch(function (err) { if (!err.handled) msg(comError, err.message || 'Não foi possível enviar o teste.'); })
+          .then(function () { btn.disabled = false; });
+      });
+      document.getElementById('comForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!eventoAtual) return;
+        var btn = document.getElementById('comEnviarBtn');
+        msg(comError, ''); msg(comNotice, '');
+        var p = comPayload(false);
+        if (p.assunto.length < 3) { msg(comError, 'Escreva o assunto.'); return; }
+        if (p.mensagem.length < 10) { msg(comError, 'Escreva a mensagem (mínimo de 10 caracteres).'); return; }
+        var total = comTotal();
+        if (!total) { msg(comError, 'Não há inscritos nesse grupo.'); return; }
+        if (!window.confirm('Enviar este comunicado para ' + total + ' pessoa(s)? Não dá para desfazer.')) return;
+        btn.disabled = true;
+        apiEventos(p).then(function (data) {
+          msg(comNotice, 'Comunicado enviado para ' + data.total + ' pessoa(s)' + (data.dispatch_ok ? '.' : '. O envio automático roda em até 30 min.') + ' O andamento aparece abaixo.');
+          document.getElementById('com-assunto').value = '';
+          document.getElementById('com-mensagem').value = '';
+          setTimeout(loadComunicados, 3000);
+        }).catch(function (err) { if (!err.handled) msg(comError, err.message || 'Não foi possível enviar.'); })
+          .then(function () { btn.disabled = false; });
       });
 
       // ---------- inscritos ----------
