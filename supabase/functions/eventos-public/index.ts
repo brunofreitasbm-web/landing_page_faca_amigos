@@ -22,6 +22,25 @@
 
 import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2";
 
+// Segredos: variavel de ambiente (supabase secrets) ou, se ausente, o Vault via fa_eventos_segredo (so service role).
+const SEG: Record<string, string> = {};
+try {
+  const u = Deno.env.get("SUPABASE_URL"), k = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  const faltam = ["OPS_KEY", "EVENTOS_SECRET"].filter((n) => !Deno.env.get(n));
+  if (u && k && faltam.length) {
+    const c = createClient(u, k);
+    for (const n of faltam) {
+      const { data } = await c.rpc("fa_eventos_segredo", { p_nome: n });
+      if (typeof data === "string" && data) SEG[n] = data;
+    }
+  }
+} catch (err) {
+  console.error("segredos do Vault indisponiveis", err instanceof Error ? err.message : err);
+}
+function segredo(nome: string): string {
+  return Deno.env.get(nome) || SEG[nome] || "";
+}
+
 // deno-lint-ignore no-explicit-any
 type Admin = SupabaseClient<any, any, any, any, any>;
 
@@ -93,7 +112,7 @@ function b64urlDecode(s: string): Uint8Array | null {
   }
 }
 async function hmac(payload: string): Promise<Uint8Array> {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(Deno.env.get("EVENTOS_SECRET") ?? ""), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(segredo("EVENTOS_SECRET") ?? ""), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   return new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload)));
 }
 async function signToken(inscricaoId: string, escopo: "acesso" | "confirmar", expMs: number): Promise<string> {
@@ -101,7 +120,7 @@ async function signToken(inscricaoId: string, escopo: "acesso" | "confirmar", ex
   return `${b64url(new TextEncoder().encode(payload))}.${b64url(await hmac(payload))}`;
 }
 async function verifyToken(token: string, escopo: "acesso" | "confirmar"): Promise<string | null> {
-  if (!Deno.env.get("EVENTOS_SECRET") || !token || token.length > 400) return null;
+  if (!segredo("EVENTOS_SECRET") || !token || token.length > 400) return null;
   const [p, s] = token.split(".");
   if (!p || !s) return null;
   const payloadBytes = b64urlDecode(p);
@@ -118,7 +137,7 @@ async function verifyToken(token: string, escopo: "acesso" | "confirmar"): Promi
 // ---------------------------------------------------------------------------------------------
 
 async function dispatch(inscricaoId: string, tipo: string): Promise<boolean> {
-  const key = Deno.env.get("OPS_KEY");
+  const key = segredo("OPS_KEY");
   if (!key) {
     console.error("eventos-public: OPS_KEY ausente, e-mail não enviado");
     return false;
@@ -251,7 +270,7 @@ Deno.serve(async (req) => {
   // ao entregar o voucher. Enquanto o Lote 7 do PUBLICAR.md não estiver completo, essas ações são recusadas
   // ANTES de gravar qualquer coisa. Listar e detalhe seguem funcionando.
   if (["inscrever", "ingresso", "cancelar", "confirmar_promocao"].includes(action) &&
-      (!Deno.env.get("EVENTOS_SECRET") || !Deno.env.get("OPS_KEY"))) {
+      (!segredo("EVENTOS_SECRET") || !segredo("OPS_KEY"))) {
     console.error("eventos-public: EVENTOS_SECRET/OPS_KEY ausentes, ação recusada:", action);
     return json(req, { error: "inscrições temporariamente indisponíveis, tente novamente em instantes" }, 503);
   }

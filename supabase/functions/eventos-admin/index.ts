@@ -17,10 +17,32 @@
 //   checkin {codigo, evento_id?}                   rpc fa_eventos_checkin (idempotente)
 //   dashboard {evento_id?}
 //   hotmart_reprocessar {}                         vendas que chegaram antes do tipo existir
+//   imagem_upload {data_base64}                    capa/foto do palestrante no bucket publico eventos-imagens (owner)
+//   comunicados_listar {evento_id}                 historico de comunicados com o andamento do envio (owner)
+//   comunicado_enviar {evento_id, assunto, mensagem, destinatarios, teste?}  recado a quem esta inscrito (owner)
 //
 // Secrets: OPS_KEY (para chamar o eventos-dispatch). CORS/JSON inline como nas demais funções.
 
 import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2";
+
+// Segredos: variavel de ambiente (supabase secrets) ou, se ausente, o Vault via fa_eventos_segredo (so service role).
+const SEG: Record<string, string> = {};
+try {
+  const u = Deno.env.get("SUPABASE_URL"), k = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  const faltam = ["OPS_KEY", "EVENTOS_SECRET"].filter((n) => !Deno.env.get(n));
+  if (u && k && faltam.length) {
+    const c = createClient(u, k);
+    for (const n of faltam) {
+      const { data } = await c.rpc("fa_eventos_segredo", { p_nome: n });
+      if (typeof data === "string" && data) SEG[n] = data;
+    }
+  }
+} catch (err) {
+  console.error("segredos do Vault indisponiveis", err instanceof Error ? err.message : err);
+}
+function segredo(nome: string): string {
+  return Deno.env.get(nome) || SEG[nome] || "";
+}
 
 // deno-lint-ignore no-explicit-any
 type Admin = SupabaseClient<any, any, any, any, any>;
@@ -132,7 +154,7 @@ function pick(row: Record<string, unknown>, cols: string[]): Record<string, unkn
 // ---------------------------------------------------------------------------------------------
 
 async function dispatch(body: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> {
-  const key = Deno.env.get("OPS_KEY");
+  const key = segredo("OPS_KEY");
   if (!key) return { ok: false, error: "OPS_KEY ausente" };
   try {
     const r = await fetch(DISPATCH_URL, {
@@ -151,6 +173,14 @@ async function enviarPromocoes(ids: unknown): Promise<void> {
   for (const id of (Array.isArray(ids) ? ids : []) as string[]) {
     await dispatch({ action: "enviar", inscricao_id: id, tipo: "promocao" });
   }
+}
+
+// Tipo real da imagem pelos primeiros bytes (nao confia no content-type enviado pelo navegador).
+function tipoDaImagem(b: Uint8Array): { mime: string; ext: string } | null {
+  if (b.length > 12 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return { mime: "image/jpeg", ext: "jpg" };
+  if (b.length > 12 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return { mime: "image/png", ext: "png" };
+  if (b.length > 12 && String.fromCharCode(b[0], b[1], b[2], b[3]) === "RIFF" && String.fromCharCode(b[8], b[9], b[10], b[11]) === "WEBP") return { mime: "image/webp", ext: "webp" };
+  return null;
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -371,7 +401,9 @@ Deno.serve(async (req) => {
       .eq("evento_id", id).in("status", ["confirmada", "lista_espera", "promovida"]);
     const fila = (ativos ?? []).map((i) => ({ inscricao_id: i.id, tipo: "evento_cancelado", status: "pendente" }));
     if (fila.length) {
-      const { error: e2 } = await admin.from("fa_eventos_envios").upsert(fila, { onConflict: "inscricao_id,tipo", ignoreDuplicates: true });
+      // insert simples: upsert com onConflict nao casa com o indice unico PARCIAL (erro 42P10) e a fila ficava vazia.
+      // Um evento so e cancelado uma vez (409 acima), entao nao ha envio anterior do mesmo tipo.
+      const { error: e2 } = await admin.from("fa_eventos_envios").insert(fila);
       if (e2) console.error("evento_cancelar: fila", e2);
     }
     const disp = await dispatch({ action: "run" });
@@ -649,6 +681,90 @@ Deno.serve(async (req) => {
       processados++;
     }
     return jsonResponse(req, { ok: true, processados, pendentes });
+  }
+
+  // --- imagens: capa e foto do palestrante ---
+  if (action === "imagem_upload") {
+    const b64 = str(body.data_base64).replace(/^data:[^,]*,/, "");
+    if (!b64) return jsonResponse(req, { error: "envie uma imagem" }, 400);
+    if (b64.length > 3_000_000) return jsonResponse(req, { error: "imagem muito grande (máximo 2 MB)" }, 413);
+    let bytes: Uint8Array;
+    try {
+      bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+    } catch {
+      return jsonResponse(req, { error: "imagem inválida" }, 400);
+    }
+    if (bytes.length > 2 * 1024 * 1024) return jsonResponse(req, { error: "imagem muito grande (máximo 2 MB)" }, 413);
+    const tipo = tipoDaImagem(bytes);
+    if (!tipo) return jsonResponse(req, { error: "use uma imagem JPG, PNG ou WebP" }, 400);
+    const nome = `${crypto.randomUUID()}.${tipo.ext}`;
+    const { error } = await admin.storage.from("eventos-imagens").upload(nome, bytes, { contentType: tipo.mime, upsert: false, cacheControl: "31536000" });
+    if (error) {
+      console.error("imagem_upload", error);
+      return jsonResponse(req, { error: "falha ao enviar a imagem" }, 500);
+    }
+    return jsonResponse(req, { ok: true, url: `${supabaseUrl}/storage/v1/object/public/eventos-imagens/${nome}` });
+  }
+
+  // --- comunicados ---
+  if (action === "comunicados_listar") {
+    const eventoId = str(body.evento_id);
+    if (!isUuid(eventoId)) return jsonResponse(req, { error: "evento inválido" }, 400);
+    const { data, error } = await admin.from("fa_eventos_comunicados").select("id, assunto, destinatarios, total, criado_por, created_at")
+      .eq("evento_id", eventoId).order("created_at", { ascending: false }).limit(50);
+    if (error) return jsonResponse(req, { error: "falha ao listar comunicados" }, 500);
+    const ids = (data ?? []).map((c) => c.id);
+    const andamento: Record<string, { enviado: number; pendente: number; erro: number }> = {};
+    if (ids.length) {
+      const { data: envios } = await admin.from("fa_eventos_envios").select("comunicado_id, status").in("comunicado_id", ids).limit(20000);
+      for (const e of envios ?? []) {
+        const a = (andamento[e.comunicado_id] ??= { enviado: 0, pendente: 0, erro: 0 });
+        if (e.status === "enviado" || e.status === "pendente" || e.status === "erro") a[e.status as "enviado" | "pendente" | "erro"]++;
+      }
+    }
+    return jsonResponse(req, { comunicados: (data ?? []).map((c) => ({ ...c, ...(andamento[c.id] ?? { enviado: 0, pendente: 0, erro: 0 }) })) });
+  }
+
+  if (action === "comunicado_enviar") {
+    const eventoId = str(body.evento_id);
+    const assunto = str(body.assunto);
+    const mensagem = str(body.mensagem);
+    const destinatarios = str(body.destinatarios);
+    if (!isUuid(eventoId)) return jsonResponse(req, { error: "evento inválido" }, 400);
+    if (assunto.length < 3 || assunto.length > 150) return jsonResponse(req, { error: "o assunto precisa ter de 3 a 150 caracteres" }, 400);
+    if (mensagem.length < 10 || mensagem.length > 5000) return jsonResponse(req, { error: "a mensagem precisa ter de 10 a 5000 caracteres" }, 400);
+    if (!["confirmadas", "ativos"].includes(destinatarios)) return jsonResponse(req, { error: "escolha os destinatários" }, 400);
+
+    const { data: ev } = await admin.from("fa_eventos").select("id, status").eq("id", eventoId).maybeSingle();
+    if (!ev) return jsonResponse(req, { error: "evento não encontrado" }, 404);
+    if (ev.status !== "published" && ev.status !== "closed") return jsonResponse(req, { error: "só dá para enviar comunicado de evento publicado ou encerrado" }, 409);
+
+    if (body.teste === true) {
+      const t = await dispatch({ action: "comunicado_teste", to: session.email, assunto, mensagem, evento_id: eventoId });
+      if (!t.ok) return jsonResponse(req, { error: t.error ?? "falha ao enviar o teste" }, 502);
+      return jsonResponse(req, { ok: true, teste: true });
+    }
+
+    const statuses = destinatarios === "confirmadas" ? ["confirmada"] : ["confirmada", "lista_espera", "promovida"];
+    const { data: alvo, error: eAlvo } = await admin.from("fa_eventos_inscricoes").select("id").eq("evento_id", eventoId).in("status", statuses).limit(5000);
+    if (eAlvo) return jsonResponse(req, { error: "falha ao buscar os inscritos" }, 500);
+    if (!alvo?.length) return jsonResponse(req, { error: "não há inscritos nesse grupo" }, 409);
+
+    // Trava contra clique duplo: mesmo texto, mesmo evento, nos últimos 2 minutos.
+    const { count: repetido } = await admin.from("fa_eventos_comunicados").select("id", { count: "exact", head: true })
+      .eq("evento_id", eventoId).eq("assunto", assunto).eq("mensagem", mensagem).gte("created_at", new Date(Date.now() - 120_000).toISOString());
+    if ((repetido ?? 0) > 0) return jsonResponse(req, { error: "este comunicado já foi enviado agora há pouco" }, 409);
+
+    const { data: com, error: eCom } = await admin.from("fa_eventos_comunicados")
+      .insert({ evento_id: eventoId, assunto, mensagem, destinatarios, total: alvo.length, criado_por: session.email }).select("id").single();
+    if (eCom || !com) return jsonResponse(req, { error: "falha ao registrar o comunicado" }, 500);
+    for (let i = 0; i < alvo.length; i += 500) {
+      const fila = alvo.slice(i, i + 500).map((a) => ({ inscricao_id: a.id, tipo: "comunicado", status: "pendente", comunicado_id: com.id }));
+      const { error: eFila } = await admin.from("fa_eventos_envios").insert(fila);
+      if (eFila) console.error("comunicado_enviar: fila", eFila);
+    }
+    const disp = await dispatch({ action: "run" });
+    return jsonResponse(req, { ok: true, comunicado_id: com.id, total: alvo.length, dispatch_ok: disp.ok });
   }
 
   return jsonResponse(req, { error: "ação inválida" }, 400);
