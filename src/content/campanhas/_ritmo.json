@@ -1,0 +1,69 @@
+{
+  "nome": "Ritmo",
+  "rotulo": "Plano {nome} · terapia infantil em Belém",
+  "titulo": "Seis sessões por mês, nas terapias que a avaliação indicar",
+  "subtitulo": "O plano {nome} organiza o mês de terapia da criança: a equipe define as especialidades e distribui as sessões. Você acompanha pelo Portal da Família.",
+  "descricao": "Plano {nome}: 6 sessões de terapia por mês em Belém, nas especialidades que a avaliação indicar. Fale com a equipe da clínica pelo WhatsApp.",
+  "unidade": "clinica",
+  "imagem": { "src": "img/ritmo-mes.svg", "alt": "Ilustração abstrata de um mês em quatro semanas, com seis pontos coloridos em ritmo" },
+  "destaques": ["6 sessões por mês", "Especialidades combináveis", "Portal da Família"],
+  "beneficios": [
+    { "titulo": "Frequência definida pela equipe", "texto": "Depois da avaliação, a equipe indica quais especialidades fazem sentido e como distribuir as sessões do mês." },
+    { "titulo": "Especialidades combináveis", "texto": "As 6 sessões podem ser divididas entre as terapias do plano terapêutico, por exemplo 3 de fonoaudiologia e 3 de terapia ocupacional." },
+    { "titulo": "Acompanhamento pelo Portal da Família", "texto": "Você acompanha as sessões do plano pelo Portal da Família." }
+  ],
+  "comparacao": {
+    "titulo": "Rotina de 6 sessões",
+    "intro": "A diferença está em como o mês é organizado.",
+    "antes": {
+      "rotulo": "Sessão a sessão",
+      "itens": [
+        "Cada sessão é marcada de forma avulsa.",
+        "A frequência do mês depende do que couber em cada semana.",
+        "Semanas com feriado ou recesso pedem remarcação sessão por sessão."
+      ]
+    },
+    "depois": {
+      "rotulo": "Plano {nome}",
+      "itens": [
+        "O mês é planejado com 6 sessões.",
+        "A equipe indica a frequência depois da avaliação.",
+        "As sessões são divididas entre as terapias do plano terapêutico.",
+        "Você acompanha tudo pelo Portal da Família."
+      ]
+    },
+    "nota": "Seis sessões por mês é o indicado para algumas crianças. Para outras, a equipe indica outra frequência e o plano acompanha essa indicação."
+  },
+  "passos": {
+    "titulo": "Como funciona",
+    "itens": [
+      { "titulo": "Você chama no WhatsApp", "texto": "Conta o que você procura. A recepção responde e combina a avaliação inicial." },
+      { "titulo": "A equipe conhece a criança", "texto": "Na avaliação inicial, a equipe monta o plano terapêutico e indica as especialidades e a frequência." },
+      { "titulo": "O mês é organizado", "texto": "Se a indicação for de 6 sessões por mês, o plano {nome} distribui as sessões entre as terapias. Se for outra, a equipe conversa sobre o plano que se encaixa." },
+      { "titulo": "Você acompanha", "texto": "As sessões do plano ficam no Portal da Família." }
+    ]
+  },
+  "faqTitulo": "Perguntas de quem está começando",
+  "faq": [
+    { "q": "A avaliação conta como sessão do plano?", "a": "Sim. A avaliação inicial conta como uma das sessões do plano." },
+    { "q": "Preciso de laudo para começar?", "a": "Não. O laudo ajuda, mas a avaliação inicial mostra o caminho." },
+    { "q": "E se a criança precisar de mais sessões?", "a": "A equipe indica a frequência na avaliação. Se a indicação for diferente de 6, a gente conversa sobre o plano que se encaixa." },
+    { "q": "Posso combinar especialidades? Como conta o Treino ABA?", "a": "Pode combinar as especialidades indicadas no plano terapêutico, por exemplo 3 de fonoaudiologia e 3 de terapia ocupacional. Cada bloco de Treino ABA, de 3 sessões seguidas, conta como 3 sessões do plano." },
+    { "q": "Quanto custa e como pago?", "a": "Esta página não mostra valores. A equipe passa os detalhes e conversa com você sobre a forma de pagamento no WhatsApp." },
+    { "q": "Preciso decidir algo agora?", "a": "Não. A primeira conversa serve para tirar dúvidas e combinar a avaliação." }
+  ],
+  "fim": {
+    "titulo": "Vamos conversar sobre o mês da sua criança?",
+    "texto": "Chame a equipe no WhatsApp. A conversa começa pelas suas dúvidas.",
+    "imagem": { "src": "img/clinica-fachada.webp", "alt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém" }
+  },
+  "cta": {
+    "rotulo": "Falar com a equipe no WhatsApp",
+    "tipo": "whatsapp",
+    "mensagem": "Oi! Vim pelo Instagram e quero entender o plano {nome}.",
+    "origemNaMensagem": true,
+    "microtexto": "A primeira conversa serve para tirar dúvidas e combinar a avaliação. Sobre a forma de pagamento, conversamos no WhatsApp."
+  },
+  "regrasSaude": true,
+  "encerraEm": "2027-02-28"
+}
