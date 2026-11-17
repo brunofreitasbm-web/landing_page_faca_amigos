@@ -3,13 +3,13 @@
   <!-- Hub Principal FaçaAmigos -->
   <url>
     <loc>https://institutofacaamigos.com.br/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/playground</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -45,7 +45,7 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/clinica</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -135,7 +135,7 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/trabalhe-conosco</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -267,7 +267,7 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/clinica/fonoaudiologia</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -315,19 +315,19 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/clinica/psicopedagogia</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/clinica/terapia-aba</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/clinica/terapia-ocupacional</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
