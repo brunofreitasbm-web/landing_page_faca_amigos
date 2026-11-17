@@ -3,14 +3,14 @@
   "nome": "Avaliação Neuropsicológica",
   "area": "psicologia",
   "titleTag": "Avaliação neuropsicológica infantil em Belém | FaçaAmigos",
-  "descricao": "Avaliação neuropsicológica infantil em Belém/PA: testes de atenção, memória e funções executivas, para apoiar a investigação de TDAH, TEA e aprendizagem.",
+  "descricao": "Neuropsicólogo infantil em Belém/PA: avaliação com testes de atenção, memória e funções executivas, para apoiar a investigação de TDAH, TEA e aprendizagem.",
   "h1": "Avaliação neuropsicológica infantil em Belém",
   "eyebrow": "Clínica · Avaliação Neuropsicológica",
   "resposta": "A avaliação neuropsicológica mede, com testes e entrevistas, funções como atenção, memória, linguagem, raciocínio e funções executivas. Gera um laudo que apoia a investigação de TDAH, autismo e dificuldades de aprendizagem. Não substitui a avaliação médica: o diagnóstico é feito pela equipe.",
   "path": "/clinica/avaliacao-neuropsicologica",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "dataTexto": "4 de novembro de 2026",
+  "dateModified": "2026-11-17",
+  "dataTexto": "17 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse na Avaliação Neuropsicológica na Clínica FaçaAmigos.",
@@ -20,6 +20,10 @@
     "name": "Avaliação Neuropsicológica"
   },
   "faq": [
+    {
+      "q": "O que faz um neuropsicólogo e quem conduz a avaliação?",
+      "a": "O neuropsicólogo é um psicólogo com formação em neuropsicologia. Ele aplica os testes e as tarefas, analisa os resultados junto com a história da criança e escreve o laudo. Na Clínica FaçaAmigos, a avaliação é conduzida por esse profissional."
+    },
     {
       "q": "A avaliação neuropsicológica dá diagnóstico de TDAH ou autismo?",
       "a": "Ela fornece dados e um laudo que apoiam o diagnóstico, mas o diagnóstico clínico é feito por médico (neuropediatra ou psiquiatra infantil), com base em todo o quadro. Os dois profissionais costumam trabalhar juntos."
