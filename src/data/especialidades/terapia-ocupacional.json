@@ -2,15 +2,15 @@
   "slug": "terapia-ocupacional",
   "nome": "Terapia Ocupacional",
   "area": "outra",
-  "titleTag": "Terapia Ocupacional infantil em Belém | FaçaAmigos",
-  "descricao": "Terapia Ocupacional infantil em Belém/PA: autonomia, vestir, comer, coordenação motora fina e brincar. Atendimento com convênio ou particular.",
-  "h1": "Terapia Ocupacional infantil em Belém",
+  "titleTag": "Terapia Ocupacional Infantil e Autismo em Belém | FaçaAmigos",
+  "descricao": "Terapia ocupacional infantil em Belém/PA: autonomia, coordenação motora fina, brincar e rotina, inclusive no autismo. Atendemos IASEP, PROASA e particular.",
+  "h1": "Terapia ocupacional infantil em Belém: autonomia e autismo",
   "eyebrow": "Clínica · Terapia Ocupacional",
   "resposta": "A terapia ocupacional (T.O.) ajuda a criança a fazer o que faz parte do seu dia: vestir-se, comer, brincar, usar lápis e tesoura, participar da escola. O foco é a autonomia nas atividades do cotidiano, adaptando a tarefa, o ambiente ou a forma de fazer.",
   "path": "/clinica/terapia-ocupacional",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "dataTexto": "4 de novembro de 2026",
+  "dateModified": "2026-11-17",
+  "dataTexto": "17 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse em Terapia Ocupacional na Clínica FaçaAmigos.",
@@ -53,5 +53,6 @@
   "condicoes": [
     "autonomia",
     "coordenação motora fina"
-  ]
+  ],
+  "ancoraClinica": "clínica de terapia ocupacional infantil em Belém"
 }

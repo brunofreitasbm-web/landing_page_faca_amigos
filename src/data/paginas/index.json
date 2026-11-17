@@ -1,11 +1,11 @@
 {
   "slug": "index",
   "path": "/",
-  "titleTag": "Terapia Infantil e Espaço Kids em Belém | FaçaAmigos",
-  "descricao": "Terapia ABA, fonoaudiologia e terapia ocupacional em Belém, com IASEP, PROASA e particular. Espaço kids no Parque Shopping e no Grão-Pará.",
+  "titleTag": "Clínica de Autismo e Terapia Infantil em Belém | FaçaAmigos",
+  "descricao": "Clínica de autismo em Belém: terapia ABA, fonoaudiologia e terapia ocupacional infantil. Convênios IASEP e PROASA. Também Playground e Circuito.",
   "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
-  "ogTitle": "Terapia Infantil e Espaço Kids em Belém | FaçaAmigos",
-  "ogDescricao": "Terapia ABA, fonoaudiologia e terapia ocupacional em Belém, com IASEP, PROASA e particular. Espaço kids no Parque Shopping e no Grão-Pará.",
+  "ogTitle": "Clínica de Autismo e Terapia Infantil em Belém | FaçaAmigos",
+  "ogDescricao": "Clínica de autismo em Belém: terapia ABA, fonoaudiologia e terapia ocupacional infantil. Convênios IASEP e PROASA. Também Playground e Circuito.",
   "ogSiteName": "FaçaAmigos",
   "ogType": "website",
   "ogImage": "img/og/og-hub.jpg",
@@ -31,8 +31,8 @@
       "@type": "WebPage",
       "@id": "https://institutofacaamigos.com.br/#webpage",
       "url": "https://institutofacaamigos.com.br/",
-      "name": "Terapia Infantil e Espaço Kids em Belém | FaçaAmigos",
-      "description": "Clínica infantil em Belém, atendendo desde novembro de 2026: convênios IASEP e PROASA e particular. Também Playground e Circuito.",
+      "name": "Clínica de Autismo e Terapia Infantil em Belém | FaçaAmigos",
+      "description": "Clínica de autismo e terapia infantil em Belém, no Umarizal, com convênios IASEP e PROASA e atendimento particular. O FaçaAmigos também tem Playground e Circuito.",
       "inLanguage": "pt-BR",
       "isPartOf": {
         "@id": "https://institutofacaamigos.com.br/#website"
@@ -170,7 +170,7 @@
           "@type": "OpeningHoursSpecification",
           "dayOfWeek": "Saturday",
           "opens": "08:00",
-          "closes": "12:00"
+          "closes": "11:45"
         }
       ],
       "parentOrganization": {
@@ -194,11 +194,9 @@
       "hasMap": "https://share.google/QnOuCGKHLVgtPtWQj",
       "medicalSpecialty": [
         "Pediatric",
-        "Behavioral",
-        "OccupationalTherapy",
-        "SpeechTherapy",
+        "SpeechPathology",
         "Physiotherapy",
-        "Psychology"
+        "DietNutrition"
       ],
       "knowsAbout": [
         "Terapia ABA (Análise do Comportamento Aplicada)",

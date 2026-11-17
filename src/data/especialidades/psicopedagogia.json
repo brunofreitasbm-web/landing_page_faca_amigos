@@ -2,15 +2,15 @@
   "slug": "psicopedagogia",
   "nome": "Psicopedagogia",
   "area": "outra",
-  "titleTag": "Psicopedagogia infantil em Belém | FaçaAmigos",
+  "titleTag": "Psicopedagogia Infantil e Aprendizagem em Belém | FaçaAmigos",
   "descricao": "Psicopedagogia em Belém/PA: dificuldades de leitura, escrita, matemática, atenção e adaptação escolar. Entenda como funciona e quando procurar.",
   "h1": "Psicopedagogia infantil em Belém",
   "eyebrow": "Clínica · Psicopedagogia",
   "resposta": "A psicopedagogia investiga e acompanha as dificuldades de aprendizagem: leitura, escrita, matemática, memória, atenção e adaptação à escola. O trabalho identifica como a criança aprende, o que a trava e quais estratégias ajudam, em diálogo com a família e a escola.",
   "path": "/clinica/psicopedagogia",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "dataTexto": "4 de novembro de 2026",
+  "dateModified": "2026-11-17",
+  "dataTexto": "17 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse em Psicopedagogia na Clínica FaçaAmigos.",
@@ -46,5 +46,6 @@
   "revisor": null,
   "condicoes": [
     "dificuldades de aprendizagem"
-  ]
+  ],
+  "ancoraClinica": "clínica infantil em Belém"
 }

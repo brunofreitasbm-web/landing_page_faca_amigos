@@ -377,6 +377,25 @@ for (const arq of paginas) {
     }
   }
 
+  // SEO da Clínica (briefing de nov/2026): a clínica é o destaque da home e de /clinica.
+  // - H1 da home e de /clinica com "clínica de autismo em Belém";
+  // - páginas da clínica sem o telefone do Playground e sem Playground/"espaço kids" no conteúdo (o menu e o rodapé são do site inteiro);
+  // - o produto gratuito se chama "mapeamento": nunca "avaliação" nem "teste" colados nele.
+  {
+    const ehClinica = arq === 'clinica.html' || /^clinica\/(?!equipe\.html$)[^/]+\.html$/.test(arq);
+    const h1 = textoVisivel(limpo.match(/<h1\b[\s\S]*?<\/h1>/i)?.[0] ?? '');
+    if ((arq === 'index.html' || arq === 'clinica.html') && !/cl[ií]nica de autismo em bel[ée]m/i.test(h1)) erros.push('SEO: o H1 deve conter "clínica de autismo em Belém"');
+    if (ehClinica) {
+      if (/99234-?7673|99110-?1215/.test(limpo)) erros.push('SEO: telefone do Playground em página da Clínica');
+      const principal = textoVisivel(limpo.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? '');
+      if (arq === 'clinica.html' && /playground|espa[çc]o kids/i.test(principal)) erros.push('SEO: "Playground"/"Espaço Kids" no conteúdo de /clinica');
+    }
+    if (ehClinica || arq === 'index.html') {
+      const publico = textoVisivel(limpo.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? '');
+      if (/(teste|avalia[çc][ãa]o) (de |do )?mapeamento|mapeamento (de |do )?(teste|avalia[çc][ãa]o)|(teste|avalia[çc][ãa]o) (gr[áa]tis|gratuit[ao])/i.test(publico)) erros.push('SEO: o produto gratuito se chama "mapeamento", nunca "teste" ou "avaliação" (grátis)');
+    }
+  }
+
   // Páginas de saúde (especialidades, condições e guias de /aprender): conteúdo de saúde infantil exige cuidado extra (CFP, COFFITO, CFFa).
   {
     const ehEspecialidade = /^clinica\/(?!equipe\.html$)[^/]+\.html$/.test(arq);

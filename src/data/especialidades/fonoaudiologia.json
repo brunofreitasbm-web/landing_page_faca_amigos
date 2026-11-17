@@ -2,15 +2,15 @@
   "slug": "fonoaudiologia",
   "nome": "Fonoaudiologia",
   "area": "outra",
-  "titleTag": "Fonoaudiologia infantil em Belém | FaçaAmigos",
-  "descricao": "Fonoaudiologia infantil em Belém/PA: atraso de fala, comunicação alternativa (CAA), troca de sons, deglutição e seletividade oral. Convênios e particular.",
-  "h1": "Fonoaudiologia infantil em Belém",
+  "titleTag": "Fonoaudiologia Infantil para Autismo em Belém | FaçaAmigos",
+  "descricao": "Fonoaudiologia infantil em Belém/PA: atraso de fala, comunicação alternativa (CAA), troca de sons e deglutição, inclusive no autismo. IASEP e PROASA.",
+  "h1": "Fonoaudiologia infantil em Belém: fala, comunicação e autismo",
   "eyebrow": "Clínica · Fonoaudiologia",
   "resposta": "A fonoaudiologia cuida da comunicação e da alimentação: linguagem, fala, voz, audição e deglutição. Na infância, ajuda crianças com atraso de fala, troca de sons, gagueira, dificuldade para mastigar ou engolir, e também apresenta comunicação alternativa (CAA) a quem não fala.",
   "path": "/clinica/fonoaudiologia",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "dataTexto": "4 de novembro de 2026",
+  "dateModified": "2026-11-17",
+  "dataTexto": "17 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse em Fonoaudiologia na Clínica FaçaAmigos.",
@@ -39,6 +39,10 @@
     {
       "q": "Preciso de pedido médico para fazer fonoaudiologia?",
       "a": "Para iniciar a avaliação particular, não é obrigatório. Para convênio, a guia costuma exigir pedido médico e laudo; a clínica orienta quais documentos reunir."
+    },
+    {
+      "q": "Toda criança autista precisa de fonoaudiologia?",
+      "a": "Não necessariamente. Quem indica é a avaliação de cada criança: algumas têm dificuldade de comunicação e se beneficiam, outras falam bem e precisam de apoio em outras áreas. Por isso o plano é montado caso a caso."
     }
   ],
   "relacionadosSlugs": [
@@ -56,5 +60,6 @@
   "condicoes": [
     "atraso de fala",
     "comunicação alternativa"
-  ]
+  ],
+  "ancoraClinica": "clínica de autismo em Belém"
 }

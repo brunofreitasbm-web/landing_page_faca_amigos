@@ -6,7 +6,7 @@ import Foto from './Foto.astro';
 import FAQ from './FAQ.astro';
 import '../styles/artigo.css';
 import '../styles/saude.css';
-import { abs, faqNo, trilhaNo, waUrl, SITE } from '../data/marca';
+import { abs, faqNo, trilhaNo, waUrl, horarioTexto, fmtFone, unidades, SITE } from '../data/marca';
 
 const { d, corpo, trilha, tipo = 'especialidade', extraLd = [] } = Astro.props as {
   d: any; corpo: string; trilha: { nome: string; path: string }[]; tipo?: 'especialidade' | 'condicao'; extraLd?: Record<string, unknown>[];
@@ -73,7 +73,8 @@ const pagina: Record<string, unknown> = {
         <div class="atende">
           <h2>Como é na FaçaAmigos</h2>
           <ul>
-            <li>Atendimento no Centro de Terapia Comportamental, Rua Boaventura da Silva, 1573, Umarizal, Belém/PA.</li>
+            <li>Atendimento no Centro de Terapia Comportamental, Rua Boaventura da Silva, 1573, Umarizal, Belém/PA. Faz parte da <a href="/clinica" data-cta="atende_clinica">{d.ancoraClinica ?? 'clínica de autismo em Belém'}</a>.</li>
+            <li>Horário: {horarioTexto('clinica')}. Domingo, fechado. WhatsApp: {fmtFone(unidades.clinica.whatsapp as string)}.</li>
             <li>{d.duracao ?? 'Cada sessão dura 40 minutos.'}</li>
             <li>Convênios IASEP e PROASA, ou particular. <a href="/planos">Ver os planos</a>.</li>
             <li>Não precisa de laudo para começar: a <a href="/clinica/avaliacao-inicial">avaliação inicial</a> organiza o Plano Terapêutico Singular.</li>
