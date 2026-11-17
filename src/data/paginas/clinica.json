@@ -282,6 +282,11 @@
           "@type": "State",
           "name": "Pará"
         }
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -1.4458406,
+        "longitude": -48.4764358
       }
     },
     {

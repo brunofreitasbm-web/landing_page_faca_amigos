@@ -365,7 +365,12 @@
       },
       "sameAs": [
         "https://www.google.com/search?kgmid=/g/11p2bythv6"
-      ]
+      ],
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -1.4458406,
+        "longitude": -48.4764358
+      }
     },
     {
       "@type": [

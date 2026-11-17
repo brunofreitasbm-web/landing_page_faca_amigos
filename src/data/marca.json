@@ -96,8 +96,8 @@
       "mapa": "https://maps.google.com/?q=Rua+Boaventura+da+Silva,+1573,+Bel%C3%A9m+PA",
       "foto": "img/clinica-fachada.webp",
       "fotoAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos",
-      "lat": null,
-      "lng": null,
+      "lat": -1.4458406,
+      "lng": -48.4764358,
       "comoChegar": []
     }
   },
