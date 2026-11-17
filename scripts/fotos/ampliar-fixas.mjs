@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-// Gera versões 4K das fotos fixas da tv2 (public/img/tv2hd/) a partir das melhores fontes locais.
+// Gera versões Full HD das fotos fixas da tv2 (public/img/tv2hd/) a partir das melhores fontes locais.
 // Não recupera detalhe que o arquivo não tem: faz a ampliação offline (Lanczos + nitidez leve), que
 // fica mais limpa que o esticão bilinear que o navegador da TV faria. Quando a fotógrafa entregar
 // os originais, troque a fonte em FONTES e rode de novo: `node ampliar-fixas.mjs`.
-// Alvo: a foto cobre o quadro 1080x1180 do palco, em 2x (TV 4K), com margem de 6% para o zoom.
+// Alvo: a foto cobre o quadro 1080x1180 do palco, em 1x (TV Full HD), com margem de 6% para o zoom.
+// Era 2x (4K), mas ~530 MB de imagens decodificadas derrubavam o navegador da Smart TV em ~3 min.
 import { mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,7 +26,7 @@ mkdirSync(join(RAIZ, SAIDA), { recursive: true });
 for (const n of nomes) {
   const fonte = join(RAIZ, `${FONTES[n] || `img/${n}`}.webp`);
   const { width: w, height: h } = await sharp(fonte).metadata();
-  const k = Math.max(1080 / w, 1180 / h) * 2 * 1.06;
+  const k = Math.max(1080 / w, 1180 / h) * 1 * 1.06;
   const W = Math.round(w * k), H = Math.round(h * k);
   const base = () => sharp(fonte).resize(W, H, { kernel: 'lanczos3' }).sharpen({ sigma: 1.1, m1: 0.6, m2: 1.5 });
   await base().webp({ quality: 88 }).toFile(join(RAIZ, SAIDA, `${n}.webp`));
