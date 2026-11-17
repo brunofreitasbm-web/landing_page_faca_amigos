@@ -1,0 +1,61 @@
+{
+  "slug": "diferenca-atraso-de-fala-e-atraso-de-linguagem",
+  "titulo": "Diferença entre atraso de fala e atraso de linguagem: como saber qual é",
+  "titleTag": "Atraso de fala e atraso de linguagem: diferença | FaçaAmigos",
+  "descricao": "Fala é produzir os sons; linguagem é entender e se expressar. Veja a diferença entre atraso de fala e de linguagem e quando buscar fonoaudiologia.",
+  "ogImage": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "ogImageAlt": "Capa do e-book O Código do Desenvolvimento Infantil, do FaçaAmigos",
+  "ogImageW": "1200",
+  "ogImageH": "630",
+  "eyebrow": "Guia · 5 min de leitura",
+  "dataTexto": "17 de novembro de 2026",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "about": [
+    "atraso de fala",
+    "atraso de linguagem",
+    "fonoaudiologia",
+    "desenvolvimento infantil"
+  ],
+  "imagemJsonLd": "https://institutofacaamigos.com.br/img/codigo/og-codigo.jpg",
+  "proximo": {
+    "rotulo": "Próximo passo",
+    "titulo": "Quer organizar o que você observa no dia a dia?",
+    "href": "/mapeamento",
+    "cta": "proximo_passo",
+    "externo": false,
+    "botao": "Fazer o mapeamento grátis"
+  },
+  "whatsapp": "https://wa.me/5591991782027?text=Oi%21%20Vim%20pelo%20site%20%28Aprender%29%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida.",
+  "clinicaLink": "/clinica",
+  "clinicaTexto": "Conhecer a Clínica FaçaAmigos, em Belém →",
+  "leiaTambem": [
+    {
+      "href": "/aprender/autismo-ou-atraso-de-fala",
+      "tag": "6 min · Comunicação",
+      "titulo": "Autismo ou atraso de fala? Como diferenciar e quem avalia"
+    },
+    {
+      "href": "/aprender/sinais-de-autismo-por-idade",
+      "tag": "6 min · Autismo",
+      "titulo": "Sinais de autismo por idade: o que observar em cada fase?"
+    }
+  ],
+  "aviso": "Conteúdo educativo, escrito pela idealizadora do FaçaAmigos. Não constitui diagnóstico nem substitui a avaliação e o acompanhamento de profissionais de saúde.",
+  "fa_cta": {
+    "label": "Fazer o mapeamento grátis",
+    "href": "/mapeamento",
+    "event": "aprender_cta"
+  },
+  "card": {
+    "img": "img/clinica-recursos-terapeuticos.jpg",
+    "alt": "Recursos terapêuticos da clínica",
+    "w": "1440",
+    "h": "1920",
+    "estilo": "object-position:50% 40%",
+    "tag": "5 min · Comunicação",
+    "titulo": "Diferença entre atraso de fala e atraso de linguagem",
+    "resumo": "Fala é produzir sons, linguagem é entender e se expressar. Veja como separar."
+  },
+  "ordemIndice": 25
+}
