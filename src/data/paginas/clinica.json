@@ -1,11 +1,11 @@
 {
   "slug": "clinica",
   "path": "/clinica",
-  "titleTag": "Terapia ABA e Fonoaudiologia Infantil em Belém | FaçaAmigos",
-  "descricao": "Centro de Terapia Comportamental em Belém: ABA, fonoaudiologia, terapia ocupacional e psicologia infantil. Convênios IASEP e PROASA e particular.",
+  "titleTag": "Clínica de Autismo em Belém | ABA, Fono e TO | FaçaAmigos",
+  "descricao": "Clínica de autismo em Belém, no Umarizal: terapia ABA, fonoaudiologia, terapia ocupacional e psicopedagogia. Atendemos PROASA e IASEP. Fale pelo WhatsApp.",
   "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
-  "ogTitle": "Terapia ABA e Fonoaudiologia Infantil em Belém | FaçaAmigos",
-  "ogDescricao": "Centro de Terapia Comportamental em Belém: ABA, fonoaudiologia, terapia ocupacional e psicologia infantil. Convênios IASEP e PROASA e particular.",
+  "ogTitle": "Clínica de Autismo em Belém | ABA, Fono e TO | FaçaAmigos",
+  "ogDescricao": "Clínica de autismo em Belém, no Umarizal: terapia ABA, fonoaudiologia, terapia ocupacional e psicopedagogia. Atendemos PROASA e IASEP. Fale pelo WhatsApp.",
   "ogSiteName": "FaçaAmigos — Centro de Terapia Comportamental",
   "ogType": "website",
   "ogImage": "img/clinica-fachada.jpg",
@@ -19,7 +19,7 @@
     {
       "@type": "WebPage",
       "@id": "https://institutofacaamigos.com.br/clinica#webpage",
-      "name": "Terapia ABA e Fonoaudiologia Infantil em Belém — FaçaAmigos",
+      "name": "Clínica de Autismo em Belém: ABA, Fono e T.O. — FaçaAmigos",
       "url": "https://institutofacaamigos.com.br/clinica",
       "isPartOf": {
         "@id": "https://institutofacaamigos.com.br/#organization"
@@ -27,13 +27,14 @@
       "about": {
         "@id": "https://institutofacaamigos.com.br/#clinica"
       },
-      "inLanguage": "pt-BR"
+      "inLanguage": "pt-BR",
+      "description": "Clínica de autismo em Belém, no Umarizal: terapia ABA, fonoaudiologia, terapia ocupacional e psicopedagogia. Atendemos PROASA e IASEP. Fale pelo WhatsApp."
     },
     {
       "@type": "MedicalClinic",
       "@id": "https://institutofacaamigos.com.br/#clinica",
       "name": "FaçaAmigos — Centro de Terapia Comportamental",
-      "description": "Clínica especializada em Terapia ABA, Psicologia, Fonoaudiologia, Terapia Ocupacional com Integração Sensorial, Fisioterapia, Psicomotricidade, Musicoterapia, Nutrição e Avaliação Neuropsicológica em Belém/PA. Convênios IASEP e PROASA.",
+      "description": "Clínica de autismo e terapia infantil em Belém/PA, no Umarizal: Terapia ABA, Fonoaudiologia, Terapia Ocupacional, Psicopedagogia, Psicologia, Fisioterapia e outras especialidades, com equipe multidisciplinar. Convênios IASEP e PROASA e atendimento particular.",
       "url": "https://institutofacaamigos.com.br/clinica",
       "telephone": "+5591991782027",
       "email": "institutofacaamigos@gmail.com",
@@ -55,7 +56,7 @@
           "@type": "OpeningHoursSpecification",
           "dayOfWeek": "Saturday",
           "opens": "08:00",
-          "closes": "12:00"
+          "closes": "11:45"
         }
       ],
       "parentOrganization": {
@@ -79,11 +80,9 @@
       "hasMap": "https://share.google/QnOuCGKHLVgtPtWQj",
       "medicalSpecialty": [
         "Pediatric",
-        "Behavioral",
-        "OccupationalTherapy",
-        "SpeechTherapy",
+        "SpeechPathology",
         "Physiotherapy",
-        "Psychology"
+        "DietNutrition"
       ],
       "knowsAbout": [
         "Terapia ABA (Análise do Comportamento Aplicada)",
@@ -251,13 +250,68 @@
         ]
       },
       "sameAs": [
-        "https://www.google.com/search?kgmid=/g/11p2bythv6"
-      ]
+        "https://www.google.com/search?kgmid=/g/11p2bythv6",
+        "https://www.instagram.com/facaamigos.belem/"
+      ],
+      "availableService": [
+        {
+          "@type": "MedicalTherapy",
+          "name": "Terapia ABA",
+          "url": "https://institutofacaamigos.com.br/clinica/terapia-aba"
+        },
+        {
+          "@type": "MedicalTherapy",
+          "name": "Fonoaudiologia infantil",
+          "url": "https://institutofacaamigos.com.br/clinica/fonoaudiologia"
+        },
+        {
+          "@type": "OccupationalTherapy",
+          "name": "Terapia Ocupacional infantil",
+          "url": "https://institutofacaamigos.com.br/clinica/terapia-ocupacional"
+        },
+        {
+          "@type": "MedicalTherapy",
+          "name": "Psicopedagogia",
+          "url": "https://institutofacaamigos.com.br/clinica/psicopedagogia"
+        }
+      ],
+      "areaServed": {
+        "@type": "City",
+        "name": "Belém",
+        "containedInPlace": {
+          "@type": "State",
+          "name": "Pará"
+        }
+      }
     },
     {
       "@type": "FAQPage",
       "@id": "https://institutofacaamigos.com.br/clinica#faq",
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "A FaçaAmigos é uma clínica de autismo em Belém?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. O Centro de Terapia Comportamental FaçaAmigos fica no Umarizal, em Belém, e atende crianças e adolescentes com autismo (TEA) com terapia ABA, fonoaudiologia, terapia ocupacional e psicopedagogia, entre outras especialidades. O atendimento também está aberto a quem tem TDAH, atraso de fala ou dúvidas sobre o desenvolvimento, com ou sem laudo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Onde fica a clínica e qual é o horário?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rua Boaventura da Silva, 1573, bairro Umarizal, Belém (PA). Atendemos de segunda a sexta, das 8h às 18h, e aos sábados, das 8h às 11h45. Aos domingos a clínica fica fechada. O WhatsApp é (91) 99178-2027."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O que é o mapeamento do desenvolvimento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "É um questionário gratuito, de 25 perguntas rápidas e cerca de 5 minutos, que organiza o que você observa no dia a dia do seu filho e mostra por onde começar a conversa com a equipe. É um material informativo: não é diagnóstico e não substitui a consulta com profissionais de saúde."
+          }
+        },
         {
           "@type": "Question",
           "name": "A Clínica já está atendendo?",

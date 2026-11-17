@@ -2,15 +2,15 @@
   "slug": "terapia-aba",
   "nome": "Terapia ABA",
   "area": "psicologia",
-  "titleTag": "Terapia ABA para autismo em Belém | FaçaAmigos",
+  "titleTag": "Terapia ABA para Autismo em Belém | FaçaAmigos",
   "descricao": "Terapia ABA (Análise do Comportamento Aplicada) infantil em Belém/PA: o que é, para quem serve, como são as sessões e como funciona com convênio.",
   "h1": "Terapia ABA em Belém: o que é e como funciona",
   "eyebrow": "Clínica · Terapia ABA",
   "resposta": "ABA (Análise do Comportamento Aplicada) é uma abordagem que ensina habilidades, como comunicação e autonomia, por meio de metas pequenas, registro de dados e reforço positivo. É muito usada no autismo, mas não é exclusiva dele nem é a única opção de terapia.",
   "path": "/clinica/terapia-aba",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "dataTexto": "4 de novembro de 2026",
+  "dateModified": "2026-11-17",
+  "dataTexto": "17 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse na Terapia ABA na Clínica FaçaAmigos.",
@@ -68,5 +68,6 @@
     "autismo",
     "atrasos de desenvolvimento"
   ],
-  "duracao": "O Treino ABA acontece em blocos de 3 sessões seguidas de 40 minutos (120 minutos no total). As demais especialidades têm sessões de 40 minutos."
+  "duracao": "O Treino ABA acontece em blocos de 3 sessões seguidas de 40 minutos (120 minutos no total). As demais especialidades têm sessões de 40 minutos.",
+  "ancoraClinica": "clínica de terapia ABA em Belém"
 }
