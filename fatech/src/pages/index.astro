@@ -22,6 +22,10 @@ import { u } from '../lib/url.js';
       <a class="btn pri" href={u('/demo')}>Ver os sistemas funcionando</a>
       <a class="btn sec" href={u('/demo/calculadora')}>Quanto sua clínica deixa de receber?</a>
     </div>
+    <section class="quem" aria-label="Quem somos">
+      <h2>Quem somos</h2>
+      <p>Começamos a construir essas ferramentas dentro da própria clínica e fomos ajustando com a equipe no dia a dia. O que funcionou para nós virou a FA Tech.</p>
+    </section>
     <p class="priv">{marca.privacidade}</p>
     <nav class="mais" aria-label="Materiais do estande">
       <a href={u('/apresentacao')}>Apresentação</a>
@@ -41,7 +45,10 @@ import { u } from '../lib/url.js';
   .btn { display: block; text-align: center; padding: 16px 18px; border-radius: var(--raio); font-weight: 600; font-size: 17px; text-decoration: none; }
   .pri { background: var(--agua); color: var(--petroleo-900); }
   .sec { border: 1px solid rgba(255,255,255,.3); color: #fff; }
-  .priv { font-size: 14px; opacity: .6; margin-top: 28px; }
+  .priv { font-size: 16px; opacity: .85; margin-top: 28px; }
+  .quem { margin-top: 48px; }
+  .quem h2 { font-size: 18px; font-weight: 600; color: var(--agua); margin: 0 0 8px; }
+  .quem p { font-size: 16px; }
   .mais { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.15); }
   .mais a { color: rgba(255,255,255,.75); font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; }
 </style>

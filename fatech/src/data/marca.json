@@ -2,7 +2,7 @@
   "nome": "FA Tech",
   "descritor": "Gestão para clínicas",
   "origem": "Sistemas criados dentro de uma clínica real, para clínicas reais.",
-  "privacidade": "Os dados da sua clínica ficam só com a sua clínica.",
+  "privacidade": "Todas as demonstrações usam dados inventados. Nenhum dado real de paciente aparece neste estande.",
   "siteUrl": "https://institutofacaamigos.com.br/fatech",
   "urlDefinitiva": true,
   "contato": {
