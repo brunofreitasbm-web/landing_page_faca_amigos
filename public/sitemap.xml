@@ -3,7 +3,7 @@
   <!-- Hub Principal FaçaAmigos -->
   <url>
     <loc>https://institutofacaamigos.com.br/</loc>
-    <lastmod>2026-11-17</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image><image:loc>https://institutofacaamigos.com.br/img/circuito-lamborghini-menino.jpg</image:loc></image:image>
@@ -30,7 +30,7 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/circuito</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image><image:loc>https://institutofacaamigos.com.br/img/circuito-bombeiro.jpg</image:loc></image:image>
@@ -130,23 +130,23 @@
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/ambiente-sensorial.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/circuito-bombeiro.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-atividade-pedagogica.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-fachada.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-painel-sensorial.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-recursos-terapeuticos.jpg</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/ambiente-sensorial.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/circuito-bombeiro.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-atividade-pedagogica.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-fachada.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-painel-sensorial.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/clinica-recursos-terapeuticos.webp</image:loc></image:image>
     <image:image><image:loc>https://institutofacaamigos.com.br/img/codigo/capa.webp</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/equipe-recepcao.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/galeria-oficinas.jpg</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/equipe-recepcao.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/galeria-oficinas.webp</image:loc></image:image>
     <image:image><image:loc>https://institutofacaamigos.com.br/img/guia/capa.webp</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/guia/og-guia.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/idealizadora.jpg</image:loc></image:image>
-    <image:image><image:loc>https://institutofacaamigos.com.br/img/inclusao-cantinho-leitura.jpg</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/guia/og-guia.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/hero-piscina-bolinhas.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/idealizadora.webp</image:loc></image:image>
+    <image:image><image:loc>https://institutofacaamigos.com.br/img/inclusao-cantinho-leitura.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://institutofacaamigos.com.br/aprender/e-para-todas-as-criancas</loc>

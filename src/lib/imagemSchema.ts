@@ -21,7 +21,7 @@ async function objeto(entrada: unknown): Promise<unknown> {
   const rel = relativo(base.url as string);
   if (!rel) return entrada; // imagem de fora do site: não mexe
   try { statSync(join(process.cwd(), 'public', rel)); } catch { return entrada; }
-  const meta = (porArquivo[rel] ?? {}) as { caption?: string; description?: string };
+  const meta = (porArquivo[rel] ?? porArquivo[rel.replace(/\.webp$/, '.jpg')] ?? {}) as { caption?: string; description?: string };
   const { width, height } = await dims(rel);
   const ext = rel.split('.').pop()!.toLowerCase();
   const completo: Record<string, unknown> = {
@@ -35,7 +35,6 @@ async function objeto(entrada: unknown): Promise<unknown> {
     creditText: cred.creditText,
     copyrightNotice: `© ${cred.ano} ${cred.criador}`,
     creator: { '@type': 'Organization', name: cred.criador, url: SITE.url + '/' },
-    acquireLicensePage: SITE.url + cred.paginaDeLicenca,
     ...base, // o que a página já declarava tem prioridade
   };
   return completo;
