@@ -17,5 +17,5 @@ segredo aparece aqui, só onde está e o que fazer. Apague cada item ao concluir
 - [ ] Tokens de sessão de `/admin` e `/gestao` em `localStorage`.
 - [ ] `gestao-hub` cria usuários do Simulador no Auth do projeto do PDV: eles herdam leitura de toda a base do PDV. Separar.
 - [ ] `gestao-hub` aceitar um segredo dedicado da Clínica em vez da service_role dela.
-- [ ] Arquivos internos em `public/`: `fa7k2m9/`, `NEWVITTA/proposta/*.pdf`, `contexto.md`.
+- [ ] Arquivos internos em `public/`: `fa7k2m9/`, `contexto.md` (NEWVITTA já foi para `_arquivo/`).
 - [ ] `error.message` em `geo-facts` e `hotmart-sync`; CORS com `*` de reserva em `playground-reviews`.
