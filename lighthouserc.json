@@ -4,6 +4,7 @@
       "staticDistDir": "dist",
       "url": [
         "http://localhost/index.html",
+        "http://localhost/clinica.html",
         "http://localhost/playground.html",
         "http://localhost/circuito.html"
       ],

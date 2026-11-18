@@ -354,6 +354,8 @@
             saveState();
             pushEvent({ event: 'teste_lead' });
             pushEvent({ event: 'generate_lead', lead_source: 'teste_comportamento' });
+            // Meta: só o evento, sem parâmetros (nada sobre a criança, as respostas ou o resultado vai ao pixel).
+            if (window.fbq) { try { window.fbq('track', 'Lead'); } catch (e) { /* pixel indisponível */ } }
             // As respostas já estão em state.answers: envia na sequência (a tela mostra "Montando o retrato...").
             showStep('step-question', 'question-heading');
             submitAnswers();

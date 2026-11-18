@@ -651,7 +651,7 @@ async function sendLeadEmailToIdealizadora(params: {
     <p style="margin:0 0 6px;font-size:15px;"><strong>Criança:</strong> ${escapeHtml(params.childFirstName)} · faixa etária ${escapeHtml(params.childAgeRange)}</p>
     <p style="margin:0 0 6px;font-size:15px;"><strong>Unidade de interesse:</strong> ${escapeHtml(params.preferredUnit || "não informado")}</p>
     <p style="margin:14px 0 6px;font-size:15px;"><strong>Resultado:</strong> ${escapeHtml(TIER_LEGEND[params.resultBand])} · ${params.tier3Count} área(s) em atenção especial · dificuldades ${params.score}/40</p>
-    ${params.listaEspera ? `<p style="margin:10px 0 6px;padding:10px 12px;background:#FDF3E1;border:1px solid #EED8A1;border-radius:10px;font-size:14px;color:#80581B;"><strong>Clínica ainda não abriu:</strong> registrar na lista de espera e avisar na abertura.</p>` : ""}
+    ${params.listaEspera ? `<p style="margin:10px 0 6px;padding:10px 12px;background:#FDF3E1;border:1px solid #EED8A1;border-radius:10px;font-size:14px;color:#80581B;"><strong>Área em atenção especial:</strong> chamar o responsável para agendar a avaliação na Clínica.</p>` : ""}
     <div style="text-align:center;margin:20px 0;">
       <a href="${waLink}" style="display:inline-block;background:#25D366;color:#fff;font-weight:800;text-decoration:none;padding:14px 28px;border-radius:9999px;font-size:15px;">Abrir WhatsApp do responsável</a>
     </div>
@@ -743,12 +743,12 @@ async function sendResultEmailToGuardian(params: {
     `Olá! Fiz o questionário sobre ${params.childFirstName} e gostaria de conversar.`,
   );
   const waLink = `https://wa.me/${LEAD_WHATSAPP}?text=${waText}`;
-  // A Clínica ainda não abriu: com área em atenção especial, o convite é para a lista de espera (mesmo WhatsApp).
-  const waitText = encodeURIComponent(
-    `Olá! Fiz o questionário sobre ${params.childFirstName} e gostaria de entrar na lista de espera da Clínica.`,
+  // A Clínica já está atendendo: com área em atenção especial, o convite é para agendar a avaliação (mesmo WhatsApp).
+  const scheduleText = encodeURIComponent(
+    `Olá! Fiz o mapeamento sobre ${params.childFirstName} e gostaria de agendar uma avaliação na Clínica. (vim pelo e-mail do mapeamento)`,
   );
-  const waitLink = `https://wa.me/${LEAD_WHATSAPP}?text=${waitText}`;
-  const clinicaLink = "https://institutofacaamigos.com.br/#clinica";
+  const scheduleLink = `https://wa.me/${LEAD_WHATSAPP}?text=${scheduleText}`;
+  const clinicaLink = "https://institutofacaamigos.com.br/clinica?utm_source=email_mapeamento&utm_medium=email";
 
   const humanBlock = hasTier3
     ? `
@@ -760,11 +760,11 @@ async function sendResultEmailToGuardian(params: {
             terei prazer em conversar com você antes de qualquer outra coisa.
           </p>
           <p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#4A3A0C;margin:0 0 12px 0;">
-            O Centro de Terapia Comportamental FaçaAmigos ainda não abriu. Se quiser, entre na nossa
-            <b>lista de espera</b>: avisamos você assim que a Clínica abrir.
+            O Centro de Terapia Comportamental FaçaAmigos já está atendendo, em Belém. Se quiser,
+            <b>agende uma avaliação</b> e conversamos sobre o que você observou, com calma.
           </p>
           <div style="text-align:center;">
-            <a href="${waitLink}" style="display:inline-block;background:#25D366;color:#fff;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:9999px;font-size:14px;">Entrar na lista de espera da Clínica</a>
+            <a href="${scheduleLink}" style="display:inline-block;background:#25D366;color:#fff;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:9999px;font-size:14px;">Agendar avaliação na Clínica</a>
           </div>
         </td></tr>
       </table>
@@ -1134,7 +1134,8 @@ Deno.serve(async (req) => {
           // Grava qual e-book o lead viu na tela. A guia-sequence lê isso para mandar os e-mails do produto
           // certo: sem a coluna, quem via o Código na tela recebia a sequência do guia.
           ebook_offer: loadEbookOffer(tier3Count)?.key ?? null,
-          // A Clínica ainda não abriu: área em atenção especial = entra na lista de espera (nunca volta a false aqui).
+          // A coluna mantém o nome histórico: hoje significa "prioridade de contato" (área em atenção especial,
+          // chamar para agendar avaliação). Nunca volta a false aqui.
           ...(tier3Count > 0 ? { lista_espera_clinica: true } : {}),
         })
         .eq("id", targetId);

@@ -11,9 +11,9 @@
   "ogImage": "img/og/og-hub.jpg",
   "ogImageAlt": "FaçaAmigos em Belém: fachada da clínica, piscina de bolinhas do playground e carrinhos elétricos do circuito",
   "fa_cta": {
-    "label": "Fazer o mapeamento grátis",
-    "href": "/mapeamento",
-    "event": "mapeamento"
+    "label": "Agendar avaliação",
+    "href": "whatsapp",
+    "event": "whatsapp"
   },
   "jsonLd": [
     {
@@ -505,6 +505,38 @@
       "@type": "FAQPage",
       "@id": "https://institutofacaamigos.com.br/#faq",
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como funciona o primeiro contato com a Clínica?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Você chama a equipe pelo WhatsApp e conta o que está acontecendo. Depois da conversa com a família (a Anamnese), a criança é avaliada em ambiente natural, brincando, e a família acompanha tudo pelo Mural da Família. Ao final do processo, recebe a devolutiva e o plano, construído em conjunto. Conheça o Método FaçaAmigos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "A Clínica já está atendendo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. A Clínica FaçaAmigos está atendendo desde novembro de 2026, em Belém. Para agendar a avaliação, chame a equipe pelo WhatsApp."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Preciso ter laudo para ser atendido na Clínica?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não é obrigatório. A avaliação inicial e o acolhimento servem justamente para entender o caso, com ou sem laudo prévio."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "A Clínica atende convênio ou só particular?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Atendemos de forma particular e pelos convênios parceiros IASEP e PROASA (a clínica solicita a autorização da guia mediante envio de laudo com CID, carteirinha e documento). Para outros convênios, emitimos nota fiscal e relatórios detalhados para você dar entrada no reembolso junto à operadora. Os valores do atendimento particular são passados pela nossa equipe no WhatsApp."
+          }
+        },
         {
           "@type": "Question",
           "name": "O que é o Ecossistema FaçaAmigos?",
