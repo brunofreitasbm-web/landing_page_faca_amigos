@@ -28,7 +28,8 @@
         "@id": "https://institutofacaamigos.com.br/#clinica"
       },
       "inLanguage": "pt-BR",
-      "description": "Clínica de autismo em Belém, no Umarizal: terapia ABA, fonoaudiologia, terapia ocupacional e psicopedagogia. Atendemos PROASA e IASEP. Fale pelo WhatsApp."
+      "description": "Clínica de autismo em Belém, no Umarizal: terapia ABA, fonoaudiologia, terapia ocupacional e psicopedagogia. Atendemos PROASA e IASEP. Fale pelo WhatsApp.",
+      "primaryImageOfPage": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg"
     },
     {
       "@type": "MedicalClinic",
@@ -38,7 +39,16 @@
       "url": "https://institutofacaamigos.com.br/clinica",
       "telephone": "+5591991782027",
       "email": "institutofacaamigos@gmail.com",
-      "image": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg",
+      "image": [
+        "https://institutofacaamigos.com.br/img/clinica-fachada.jpg",
+        "https://institutofacaamigos.com.br/img/clinica-fachada-noite.jpg",
+        "https://institutofacaamigos.com.br/img/clinica-entrada.jpg",
+        "https://institutofacaamigos.com.br/img/clinica-recepcao-espera.jpg",
+        "https://institutofacaamigos.com.br/img/clinica-recepcao-balcao.jpg",
+        "https://institutofacaamigos.com.br/img/clinica-painel-sensorial.jpg",
+        "https://institutofacaamigos.com.br/img/clinica-atividade-pedagogica.jpg",
+        "https://institutofacaamigos.com.br/img/clinica-recursos-terapeuticos.jpg"
+      ],
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",

@@ -57,7 +57,7 @@ const pagina: Record<string, unknown> = {
       <span class="eyebrow">{d.eyebrow}</span>
       <h1>{d.h1}</h1>
       <div class="byline">
-        {rev ? <Foto src={rev.foto} alt={`Foto de ${rev.nome}`} /> : <Foto src="img/logo-clinica.png" alt="FaçaAmigos — Centro de Terapia Comportamental" />}
+        {rev ? <Foto src={rev.foto} alt={`${rev.nome}, equipe FaçaAmigos`} /> : <Foto src="img/logo-clinica.png" alt="FaçaAmigos — Centro de Terapia Comportamental" />}
         <div class="who">
           {rev
             ? <Fragment><b>Equipe FaçaAmigos</b><span>Revisado por <a href={rev.rota}>{rev.nome}</a>, {rev.papel} · {rev.registro}</span><span class="rev">Atualizado em {d.dataTexto}</span></Fragment>
