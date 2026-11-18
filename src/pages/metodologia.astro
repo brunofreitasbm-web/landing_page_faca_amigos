@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import { abs, waUrl, trilhaNo, SITE } from '../data/marca';
+
+// Método FaçaAmigos da Clínica. Conteúdo definido pelo responsável (fluxo de avaliação inicial).
+// Regras que esta página respeita: sem número nem duração de sessões, sem prazo de PTI, sem preço, sem promessa de
+// resultado, só o WhatsApp da Clínica, e "mapeamento" continua sendo o nome do produto gratuito.
+const path = '/metodologia';
+const zap = waUrl('clinica', 'Olá! Li sobre o Método FaçaAmigos e quero agendar a primeira conversa (vim pelo site).') as string;
+
+const passos = [
+  { n: '1', t: 'Anamnese', p: 'Uma conversa com os responsáveis para conhecer a história da criança, o desenvolvimento, a rotina, o que preocupa e o que a família sonha para ela. Se tiver laudos ou relatórios de terapias anteriores, leve.' },
+  { n: '2', t: 'Avaliação em Ambiente Natural', p: 'O passo seguinte da Anamnese, já combinado logo depois dela. A criança é observada brincando, em um dos nossos Playgrounds, ao longo de várias sessões.' },
+  { n: '3', t: 'Acompanhamento da família', p: 'Enquanto as sessões acontecem, você acompanha cada etapa pelo Mural da Família, a nossa plataforma própria.' },
+  { n: '4', t: 'Plano Terapêutico Individualizado', p: 'O PTI vai sendo elaborado ao longo das sessões, com a contribuição de cada área da equipe.' },
+  { n: '5', t: 'Devolutiva', p: 'Ao final do processo, a família recebe a devolutiva e o PTI, construído em conjunto, e não no primeiro dia.' },
+  { n: '6', t: 'Início das terapias', p: 'Só depois da devolutiva seguimos para as terapias, já com um plano sob medida.' },
+];
+const areas = ['Fonoaudiologia', 'Terapia Ocupacional', 'Integração Sensorial', 'Psicopedagogia', 'Psicologia', 'e demais profissionais'];
+const faq = [
+  { q: 'Por que a avaliação acontece no Playground?', r: 'Porque é onde a criança está mais ela mesma: escolhendo, interagindo e se movendo com liberdade. É assim que vemos como ela se comunica, se regula, se relaciona e resolve situações do dia a dia.' },
+  { q: 'Em qual Playground será?', r: 'No FaçaAmigos Playground Inclusivo, no Parque Shopping Belém ou no Shopping Bosque Grão-Pará. A equipe combina com você a unidade conforme a agenda.' },
+  { q: 'Quando acontecem as avaliações?', r: 'Às segundas e quartas-feiras, pela manhã ou à tarde. Você escolhe o turno que fica melhor para a família.' },
+  { q: 'Os profissionais estão todos juntos com a criança?', r: 'Não. Eles atuam por escala, cada um no seu momento. Cada área olha a criança pelo seu campo, e todas contribuem para um único plano.' },
+  { q: 'Quando recebo o plano?', r: 'Ao final do processo. O plano é elaborado durante as sessões e entregue na devolutiva, construído em conjunto com a família.' },
+];
+---
+<Base
+  title="Método FaçaAmigos: avaliação no ambiente natural | Clínica em Belém"
+  description="Como a Clínica FaçaAmigos avalia uma criança: anamnese, avaliação em ambiente natural no Playground, acompanhamento pelo Mural da Família, devolutiva e plano individual."
+  path={path}
+  ogImage="img/clinica-fachada.jpg"
+  ogImageAlt="Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém"
+  secao="clinica"
+  wa="clinica"
+  waTexto="Olá! Li sobre o Método FaçaAmigos e quero agendar a primeira conversa (vim pelo site)."
+  cta={{ label: 'Agendar a primeira conversa', href: 'whatsapp', event: 'whatsapp' }}
+  jsonLd={[
+    { '@type': 'WebPage', '@id': `${abs(path)}#pagina`, url: abs(path), name: 'Método FaçaAmigos', about: { '@id': `${SITE.url}/#clinica` }, isPartOf: { '@id': `${SITE.url}/#organization` }, inLanguage: 'pt-BR' },
+    trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Clínica', path: '/clinica' }, { nome: 'Método FaçaAmigos', path }]),
+  ]}
+>
+  <section class="section">
+    <div class="wrap stack-lg">
+      <p class="crumbs"><a href="/">Início</a> › <a href="/clinica">Clínica</a> › <b>Método FaçaAmigos</b></p>
+      <p class="eyebrow">Centro de Terapia Comportamental · Belém</p>
+      <h1>Método FaçaAmigos: avaliar a criança onde ela é mais ela mesma</h1>
+      <p class="lead">Depois da conversa com a família, a avaliação continua em ambiente natural, brincando, com tempo e sem pressão. Uma equipe multiprofissional observa, você acompanha cada etapa e o plano é construído junto com vocês.</p>
+      <div class="actions">
+        <a class="btn btn-pri" href={zap} data-fa-link="metodologia_hero_wa">Agendar a primeira conversa</a>
+        <a class="btn btn-ghost" href="/mapeamento" data-fa-link="metodologia_hero_mapeamento">Fazer o mapeamento grátis (5 min)</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>O caminho, passo a passo</h2>
+      <p>A ordem em que a família vive o método, do primeiro contato ao início das terapias.</p>
+      <div class="grid cols-3">
+        {passos.map((x) => <div class="card"><p class="eyebrow">Passo {x.n}</p><h3>{x.t}</h3><p>{x.p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="stack-lg">
+        <p class="eyebrow">Avaliação em Ambiente Natural</p>
+        <h2>Por que no Playground</h2>
+        <p>Uma criança observada brincando mostra como se comunica, como se regula, como se relaciona e como resolve situações do dia a dia. Por isso, depois da Anamnese, a avaliação acontece no FaçaAmigos Playground Inclusivo, no Parque Shopping Belém ou no Shopping Bosque Grão-Pará.</p>
+        <p>É um espaço acolhedor, colorido e pensado para a criança se sentir bem desde o primeiro minuto. O olhar da equipe é sobre a criança real, e é com ele que o plano terapêutico é feito sob medida.</p>
+      </div>
+      <div class="stack-lg">
+        <h3>Quem observa</h3>
+        <p>Uma equipe multiprofissional, em escala, cada profissional no seu momento. Cada área olha a criança pelo seu campo, e todas contribuem para um único plano.</p>
+        <ul class="chips">{areas.map((a) => <li>{a}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-petrol">
+    <div class="wrap split">
+      <div class="stack-lg">
+        <p class="eyebrow">Acompanhamento</p>
+        <h2>Você acompanha tudo pelo Mural da Família</h2>
+        <p>Durante as sessões, o responsável segue cada etapa pela nossa plataforma própria, sem esperar o fim do processo para saber como está.</p>
+      </div>
+      <div class="stack-lg">
+        <h3>E depois?</h3>
+        <p>O Plano Terapêutico Individualizado é elaborado enquanto as sessões acontecem. Ao final do processo, a equipe entrega a devolutiva com o que observou e o plano, construído em conjunto com a família. Daí seguimos para as terapias.</p>
+        <p>Não prometemos cura nem prazo de melhora. O que oferecemos é um olhar atento e um plano feito com vocês.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack-lg">
+      <h2>Dúvidas sobre o método</h2>
+      <div class="grid cols-2">
+        {faq.map((x) => <div class="card"><h3>{x.q}</h3><p>{x.r}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-ice">
+    <div class="wrap stack-lg">
+      <h2>Quer conhecer o caminho completo?</h2>
+      <p>O primeiro passo é uma conversa. Chame a equipe da Clínica pelo WhatsApp e combinamos a Anamnese. Se preferir começar sozinho, o mapeamento do desenvolvimento é gratuito e leva cerca de 5 minutos.</p>
+      <div class="actions">
+        <a class="btn btn-pri" href={zap} data-fa-link="metodologia_final_wa">Agendar a primeira conversa</a>
+        <a class="btn btn-ghost" href="/mapeamento" data-fa-link="metodologia_final_mapeamento">Fazer o mapeamento grátis</a>
+        <a class="btn btn-ghost" href="/clinica">Ver a Clínica</a>
+      </div>
+    </div>
+  </section>
+</Base>
