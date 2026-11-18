@@ -40,8 +40,8 @@
     { "tipo": "produto", "id": "wifi" },
     {
       "tipo": "chamada",
-      "texto": "Os dados da sua clínica <strong>ficam só com a sua clínica.</strong>",
-      "apoio": "Acesso por perfil. Registro de quem viu o quê. Dados separados por clínica."
+      "texto": "Todas as demonstrações usam <strong>dados inventados.</strong>",
+      "apoio": "Nenhum dado real de paciente aparece neste estande."
     },
     {
       "tipo": "encerramento",
