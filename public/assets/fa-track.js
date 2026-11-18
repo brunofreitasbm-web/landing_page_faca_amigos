@@ -305,6 +305,34 @@
     return s ? (s.getAttribute('data-section') || s.id || s.tagName.toLowerCase()) : '';
   }
 
+  // Código curto da origem, para o atendimento anotar de onde veio cada conversa da Clínica:
+  // G anúncio do Google (gclid) · M anúncio da Meta (utm_medium pago + origem Meta) · I Instagram orgânico ·
+  // E e-mail do mapeamento · B busca orgânica · S site ou acesso direto. Anúncios da Meta precisam de
+  // utm_medium=paid_social, senão o clique do Instagram orgânico (que também carrega fbclid) seria contado como anúncio.
+  function originCode() {
+    try {
+      var o = window.faOrigin ? window.faOrigin() : {};
+      var src = (o.utm_source || '').toLowerCase();
+      var med = (o.utm_medium || '').toLowerCase();
+      var ref = (o.referrer || '').toLowerCase();
+      var meta = /facebook|(^|[^a-z])fb([^a-z]|$)|meta|instagram|(^|[^a-z])ig([^a-z]|$)/.test(src);
+      if (o.gclid || (/google/.test(src) && /cpc|ppc|paid/.test(med))) return 'G';
+      if (meta && /paid|cpc|ppc/.test(med)) return 'M';
+      if (src === 'email_mapeamento' || med === 'email') return 'E';
+      if (meta || /instagram/.test(ref)) return 'I';
+      if (/(^|\.)(google|bing|duckduckgo|yahoo|ecosia)\./.test(src + ' ' + ref)) return 'B';
+    } catch (e) { /* sem origem */ }
+    return 'S';
+  }
+  // Acrescenta " (ref X)" ao fim do texto pronto do WhatsApp (o text= é sempre o último parâmetro dos nossos links).
+  function tagWaHref(a, code) {
+    try {
+      var h = a.getAttribute('href') || '';
+      if (!/[?&]text=/.test(h) || /\(ref%20[A-Z]\)/.test(h)) return;
+      a.setAttribute('href', h.replace(/(text=[^&#]*)/, '$1' + encodeURIComponent(' (ref ' + code + ')')));
+    } catch (e) { /* link intacto */ }
+  }
+
   function onClick(ev) {
     var a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
     if (!a) return;
@@ -324,6 +352,14 @@
         link_text: (a.textContent || '').trim().slice(0, 60)
       };
       if (linkId) evt.cta_location = linkId;
+      // Clínica: marca a origem na própria mensagem (a recepção anota o código e se virou avaliação) e avisa a Meta.
+      if (evt.unidade === 'clinica') {
+        var code = originCode();
+        evt.origem_ref = code;
+        tagWaHref(a, code);
+        // O pixel só existe com o aceite "todos". Sem parâmetros: nada sobre a criança nem sobre a queixa vai à Meta.
+        if (window.fbq) { try { window.fbq('track', 'Contact'); } catch (e) { /* pixel indisponível */ } }
+      }
       track('whatsapp_click', evt);
       return;
     }
