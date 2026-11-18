@@ -620,7 +620,7 @@ type UsoCaixa = { playground: Set<string>; circuito: Set<string>; graopara: Set<
 // Códigos ESPERA já usados no caixa, por unidade. Sem lista de códigos = todos.
 async function usoNoCaixa(admin: Admin, codes?: string[]): Promise<UsoCaixa> {
   const uso: UsoCaixa = { playground: new Set(), circuito: new Set(), graopara: new Set() };
-  let q = admin.from("fa_kiosk_coupons").select("code, unit_id, used_count").like("code", "ESPERA-%").gt("used_count", 0).limit(20000);
+  let q = admin.from("fa_kiosk_coupons").select("code, unit_id, used_count").or("code.like.ESPERA-%,code.like.BEMVINDO-%").gt("used_count", 0).limit(20000);
   if (codes) {
     if (!codes.length) return uso;
     q = q.in("code", codes);
@@ -1102,6 +1102,13 @@ Deno.serve(async (req) => {
     if (new Date(lead.coupon_expires_at) < new Date()) {
       return jsonResponse(req, { error: "cupom expirado" }, 409);
     }
+    // Cupom de boas-vindas só vale de segunda a quinta (dia de Belém). Mesma regra do trigger do caixa.
+    if (code.startsWith("BEMVINDO-")) {
+      const diaBelem = new Date(Date.now() - 3 * 3600 * 1000).getUTCDay(); // 0 = domingo
+      if (diaBelem === 0 || diaBelem >= 5) {
+        return jsonResponse(req, { error: "cupom de boas-vindas vale de segunda a quinta" }, 409);
+      }
+    }
 
     // Já usado direto no caixa (Playground, Playground do Grão-Pará ou Circuito): o benefício de hoje acabou, não vale de novo pela aba.
     const usoCaixa = await usoNoCaixa(admin, [code]);
@@ -1129,7 +1136,7 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: "este cupom já foi usado — um benefício por cupom" }, 409);
     }
     // Resgatado pela aba: desativa o cupom nas três unidades do caixa para o código não valer de novo lá.
-    const { error: caixaErr } = await admin.from("fa_kiosk_coupons").update({ active: false }).eq("code", code).like("code", "ESPERA-%");
+    const { error: caixaErr } = await admin.from("fa_kiosk_coupons").update({ active: false }).eq("code", code).or("code.like.ESPERA-%,code.like.BEMVINDO-%");
     if (caixaErr) console.error("Erro ao desativar cupom no caixa:", caixaErr.message);
     return jsonResponse(req, { ok: true, coupon_code: code, operation });
   }
