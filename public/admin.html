@@ -1546,7 +1546,7 @@
           var wa = waLink(guardianPhone);
           var unit = lead.preferred_unit || '—';
           var resultBadge = badgeForResult(lead) +
-            (lead.lista_espera_clinica ? ' <span class="badge badge-yellow" title="Clínica ainda não abriu: registrar na lista de espera">Lista de espera</span>' : '');
+            (lead.lista_espera_clinica ? ' <span class="badge badge-yellow" title="Área em atenção especial: chamar para agendar avaliação na Clínica">Chamar para agendar</span>' : '');
           var originBlock = originHtml(lead);
           var statusBadge = badgeForStatus(lead.status);
           var dateStr = formatDate(lead.created_at);
