@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gabarito do wobbler Ø29 — FaçaAmigos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@700;800&display=swap">
+<style>
+  :root { --petrol:#065264; --pink:#D61F4A; --ice:#F4FAFB; --gray:#4F646B; --line:#D7E6E9; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:'Nunito','Segoe UI',sans-serif; background:var(--ice); color:#0B1416; line-height:1.5; }
+  .wrap { max-width:1000px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-family:'Fredoka',sans-serif; color:var(--petrol); font-size:clamp(1.7rem,5vw,2.3rem); line-height:1.1; }
+  .lead { color:var(--gray); max-width:68ch; margin-top:8px; }
+  .row { display:grid; grid-template-columns:minmax(0,300px) minmax(0,1fr); gap:18px; margin-top:18px; align-items:start; }
+  .box { background:#fff; border:1px solid var(--line); border-radius:18px; padding:14px; }
+  .box img, .box svg { width:100%; height:auto; display:block; border-radius:10px; }
+  .box p { font-size:.92rem; color:var(--gray); margin-top:8px; }
+  .box p:first-child { margin-top:0; }
+  b { color:var(--petrol); }
+  ol { margin:8px 0 0 18px; font-size:.92rem; color:var(--gray); }
+  @media (max-width:640px) { .row { grid-template-columns:1fr; } }
+
+  /* Impressão: ?print=a3 (1 folha A3) ou ?print=a4 (4 folhas A4 para montar) — tamanho real 1:1 */
+  body.print { background:#fff; }
+  body.print .wrap { display:none; }
+  .page { position:relative; overflow:hidden; background:#fff; page-break-after:always; break-after:page; }
+  .page:last-child { page-break-after:auto; break-after:auto; }
+  .win { position:absolute; overflow:hidden; }
+  .win svg { position:absolute; display:block; }
+  .mk { position:absolute; width:6mm; height:6mm; }
+  .mk::before, .mk::after { content:''; position:absolute; background:#000; }
+  .mk::before { left:50%; top:0; width:.25mm; height:100%; margin-left:-.125mm; }
+  .mk::after { top:50%; left:0; height:.25mm; width:100%; margin-top:-.125mm; }
+  .guia { position:absolute; border:0 dashed #888; }
+  .rot { position:absolute; left:0; right:0; text-align:center; font-size:9pt; font-weight:800; color:#333; }
+  .regua { position:absolute; width:100mm; height:4mm; border:.3mm solid #000; border-top:0; background:repeating-linear-gradient(90deg,#000 0 .3mm,transparent .3mm 10mm); background-size:100% 3mm; background-repeat:no-repeat; }
+  .regua span { position:absolute; top:3.2mm; font-size:6.5pt; font-weight:800; white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Gabarito do wobbler Ø29</h1>
+  <p class="lead">Contorno do original com o loop da montanha-russa no canto superior direito e as barras de chocolate na base, em tamanho real (parte redonda = Ø290 mm). A linha sólida é o original; a tracejada fica 2 mm fora, onde o adesivo é cortado para dobrar na espessura do papelão.</p>
+  <div class="row">
+    <div class="box"><img src="original29-contorno.jpg" alt="Foto do wobbler Ø29 com o contorno extraído em vermelho"><p><b>Contorno extraído da foto</b> (linha vermelha).</p></div>
+    <div class="box">
+      <div id="prev"></div>
+      <p><b id="dim">—</b> no total, com a parte redonda em Ø290 mm.</p>
+      <ol>
+        <li><b>Gráfica (recomendado):</b> imprimir <b>gabarito-29cm-A3.pdf</b> em papel comum. O desenho ocupa 292 mm de largura e a folha A3 tem 297 mm, sobram 2,5 mm de cada lado. Se a impressora não imprimir até a borda, peça escala 100% em papel A3+ ou rolo.</li>
+        <li><b>Em casa:</b> imprimir <b>gabarito-29cm-A4.pdf</b> (4 folhas), em 100% e sem "ajustar à página". Alinhe as cruzes e as linhas tracejadas de sobreposição de 14 mm, cole com fita e recorte.</li>
+        <li>Confira a régua de 10 cm antes de recortar. Encaixe no original: deve cobrir exatamente, inclusive o retângulo das barras.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<script src="forma29.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const MODE = params.get('print');           // 'a3' | 'a4' | null
+  if (MODE) document.body.classList.add('print');
+  const NS = 'http://www.w3.org/2000/svg';
+  const { SHAPE, CUT, orig } = FORMA29;
+  // Desenho em mm, 1:1. Moldura = original + 3 mm (a linha de corte fica 2 mm fora).
+  const M = 3;
+  const X0 = orig.x0 - M, Y0 = orig.y0 - M, W = orig.x1 - orig.x0 + 2*M, H = orig.y1 - orig.y0 + 2*M;
+  const CX = 145, CY = 145, R = 145;           // círculo da base: Ø290 mm
+  const art = (mm) => `<svg xmlns="${NS}" viewBox="${X0} ${Y0} ${W} ${H}" ${mm ? `width="${W.toFixed(2)}mm" height="${H.toFixed(2)}mm"` : ''}>
+      <path d="${SHAPE}" fill="#f3f3f3" stroke="#000" stroke-width="0.4"/>
+      <path d="${CUT}" fill="none" stroke="#000" stroke-width="0.25" stroke-dasharray="2.2 1.6"/>
+      <g stroke="#777" stroke-width="0.25" fill="none"><path d="M${CX-5} ${CY}H${CX+5}M${CX} ${CY-5}V${CY+5}"/><path d="M${CX-R} ${CY}H${CX+R}" stroke-dasharray="1 1.2"/><path d="M${CX-R} ${CY-2.5}v5M${CX+R} ${CY-2.5}v5"/></g>
+      <text x="${CX}" y="${CY+9}" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="6" fill="#555">Ø290 mm</text>
+    </svg>`;
+  const prev = document.getElementById('prev');
+  if (prev) { prev.innerHTML = art(false); document.getElementById('dim').textContent = `${(orig.x1-orig.x0).toFixed(0)} × ${(orig.y1-orig.y0).toFixed(0)} mm`; }
+
+  const addStyle = (css) => { const s = document.createElement('style'); s.textContent = css; document.head.appendChild(s); };
+  const regua = (left, top) => `<div class="regua" style="left:${left}mm;top:${top}mm"><span style="left:0">0</span><span style="left:47mm">5 cm</span><span style="left:94mm">10 cm</span></div>`;
+
+  if (MODE === 'a3') {
+    addStyle('@page{size:297mm 420mm;margin:0}');
+    const p = document.createElement('div'); p.className = 'page'; p.style.cssText = 'width:297mm;height:419.5mm';
+    const left = (297 - W) / 2, top = 14;
+    p.innerHTML = `<div class="win" style="left:${left}mm;top:${top}mm;width:${W}mm;height:${H}mm">${art(true).replace('<svg', '<svg style="left:0;top:0"')}</div>` +
+      regua(left, top + H + 8) +
+      `<div class="rot" style="top:${top + H + 22}mm;padding:0 20mm">Gabarito do wobbler Ø29 · imprimir em 100% · linha sólida = original · tracejada = corte do adesivo (2 mm fora)</div>`;
+    document.body.appendChild(p);
+  }
+
+  if (MODE === 'a4') {
+    addStyle('@page{size:210mm 297mm;margin:0}');
+    const mg = 8, ww = 194, wh = 268, ov = 14;           // janela útil por folha e sobreposição
+    const sx = ww - ov, sy = wh - ov;
+    const cols = Math.ceil((W - ov) / sx), rows = Math.ceil((H - ov) / sy), total = cols * rows;
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const p = document.createElement('div'); p.className = 'page'; p.style.cssText = 'width:210mm;height:296.5mm';
+      let guias = '';
+      for (let k = 0; k < cols; k++) { // bordas de janela que caem nesta folha
+        const a = k * sx - c * sx, b = a + ww;
+        [a, b].forEach((v, i) => { if (k !== c && v > 0 && v < ww) guias += `<div class="guia" style="left:${mg+v}mm;top:${mg}mm;height:${wh}mm;border-left-width:.25mm" title="${i}"></div>`; });
+      }
+      for (let k = 0; k < rows; k++) {
+        const a = k * sy - r * sy, b = a + wh;
+        [a, b].forEach((v) => { if (k !== r && v > 0 && v < wh) guias += `<div class="guia" style="top:${mg+v}mm;left:${mg}mm;width:${ww}mm;border-top-width:.25mm"></div>`; });
+      }
+      const marks = [[mg,mg],[mg+ww,mg],[mg,mg+wh],[mg+ww,mg+wh]].map(([x,y]) => `<div class="mk" style="left:${x-3}mm;top:${y-3}mm"></div>`).join('');
+      const nb = [c > 0 && `esquerda: L${r+1}C${c}`, c < cols-1 && `direita: L${r+1}C${c+2}`, r > 0 && `acima: L${r}C${c+1}`, r < rows-1 && `abaixo: L${r+2}C${c+1}`].filter(Boolean).join(' · ');
+      p.innerHTML = `<div class="win" style="left:${mg}mm;top:${mg}mm;width:${ww}mm;height:${wh}mm">${art(true).replace('<svg', `<svg style="left:${-c*sx}mm;top:${-r*sy}mm"`)}</div>${guias}${marks}` +
+        `<div class="rot" style="top:${mg+wh+4}mm">Folha L${r+1}C${c+1} de ${total} (linha ${r+1}, coluna ${c+1}) · vizinhas: ${nb} · sobreposição de ${ov} mm: alinhe as linhas tracejadas</div>` +
+        regua(mg, mg + wh + 12) +
+        `<div class="rot" style="top:${mg+wh+12}mm;left:112mm;text-align:left;font-weight:700;font-size:8pt">Imprima em 100%. A régua deve medir 10 cm.</div>`;
+      document.body.appendChild(p);
+    }
+  }
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>
