@@ -59,6 +59,7 @@ Todas em **institutofacaamigos.com.br/fatech**. Detalhes de uso no dia estão em
 | `/fatech/demo/calculadora` | Calculadora da dor (quanto a clínica deixa de receber) | `src/pages/demo/calculadora.astro` |
 | `/fatech/tv` | Loop da TV do estande (roda sozinho, com QR fixo). `?rapido=1` acelera para testar | `src/data/tv-slides.json` |
 | `/fatech/apresentacao` | Slides (setas do teclado, F = tela cheia, Imprimir → PDF) | `src/pages/apresentacao.astro` |
+| `/fatech/palestra` | Palestra de 15 min (14 slides). N = notas do apresentador com cronômetro | `src/pages/palestra.astro` |
 | `/fatech/cadastro` | Página que os QR Codes abrem (hoje leva ao WhatsApp) | `src/pages/cadastro.astro` |
 
 **Antes de mostrar os slides:** troque os trechos destacados com borda tracejada (slide 3 e o nome do parceiro do faturamento) por fatos reais.

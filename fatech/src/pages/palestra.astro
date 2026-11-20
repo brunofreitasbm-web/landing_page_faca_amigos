@@ -1,0 +1,520 @@
+---
+// Palestra FA Tech de 15 minutos (16:9). Arco em 3 atos, sem nomear os atos na tela:
+//   Ato 1 (0:00 a 4:30)  o que muda na clínica
+//   Ato 2 (4:30 a 12:15) por que acreditar: história, mecanismo, demonstração, resultados, dados
+//   Ato 3 (12:15 a 15:00) o que a pessoa leva saindo da sala
+// Navegação: setas, clique, deslizar. F = tela cheia. N = notas do apresentador com cronômetro.
+// Imprimir → Salvar como PDF: um slide por página (as notas não saem).
+// Trechos com borda tracejada são fatos que só o Bruno sabe. Sem número real, apague o trecho; nunca invente.
+import '../styles/tokens.css';
+import Logo from '../components/Logo.astro';
+import marca from '../data/marca.json';
+import produtos from '../data/produtos.json';
+import { icone } from '../lib/icone.js';
+import { qrSvg, urlCadastro } from '../lib/qr.js';
+
+const qrCadastro = await qrSvg(urlCadastro('palestra'));
+const qrDemo = await qrSvg(`${marca.siteUrl}/demo/clinica`);
+const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
+const ph = (t) => t.replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
+
+// Conta de exemplo: mesmos valores iniciais e mesma fórmula da calculadora (/demo/calculadora).
+const ex = { sessoes: 600, valor: 90, faltas: 0.12, glosa: 0.08, horas: 10, custo: 18 };
+const perdaFaltas = ex.sessoes * ex.faltas * ex.valor;
+const perdaGlosa = ex.sessoes * (1 - ex.faltas) * ex.glosa * ex.valor;
+const perdaTempo = ex.horas * 4.3 * ex.custo;
+const totalMes = perdaFaltas + perdaGlosa + perdaTempo;
+const brl = (v) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(v);
+const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>FA Tech · Palestra</title>
+</head>
+<body>
+  <main id="palco" class="palco">
+
+    <!-- 1 · capa · 0:00 -->
+    <section class="slide escuro capa" data-ate="0:30"
+      data-notas="Não se apresente ainda. Leia o título devagar e passe. A apresentação vem no slide 6, quando ela já tem motivo para importar.">
+      <Logo tamanho="80px" tema="escuro" />
+      <h1>Fechar o mês sabendo <strong>quanto a clínica recebeu.</strong><br />E por quê.</h1>
+      <p class="pe">{marca.evento}</p>
+    </section>
+
+    <!-- 2 · mão levantada · 0:30 -->
+    <section class="slide claro maos" data-ate="1:30"
+      data-notas="Peça as mãos de verdade e espere. Conte em voz alta: 'metade da sala'. Não comente ainda, só diga: 'guarde essa mão, a gente volta nela'.">
+      <span class="maos__ic" set:html={ic('hand', 64, 1.3)} />
+      <h2>Levante a mão quem já descobriu uma glosa <strong>semanas depois</strong> da sessão.</h2>
+      <p class="maos__2">Agora mantenha a mão levantada se, naquele dia, a criança foi atendida direitinho.</p>
+    </section>
+
+    <!-- 3 · as 4 perdas · 1:30 -->
+    <section class="slide claro" data-ate="2:45"
+      data-notas="Um exemplo curto por perda, nada de lista lida. A frase final é o ponto: ninguém está fazendo nada errado de propósito, o problema é descobrir tarde.">
+      <p class="olho">O que ninguém vê na hora</p>
+      <h2>As 4 perdas silenciosas <strong>da clínica TEA</strong></h2>
+      <div class="perdas">
+        <div class="perda"><span set:html={ic('calendar-x', 40, 1.4)} /><b>Falta sem reposição</b><p>A criança falta, o horário fica vazio e a sessão não volta para a agenda.</p></div>
+        <div class="perda"><span set:html={ic('file-x', 40, 1.4)} /><b>Sessão sem guia</b><p>A sessão acontece, mas a guia venceu ou tinha erro. O plano não paga.</p></div>
+        <div class="perda"><span set:html={ic('file-clock', 40, 1.4)} /><b>Evolução atrasada</b><p>O registro fica para depois e a coordenação só percebe quando o plano cobra.</p></div>
+        <div class="perda"><span set:html={ic('user-x', 40, 1.4)} /><b>Família sem resposta</b><p>A mensagem da noite fica para amanhã. A família cansa e procura outra clínica.</p></div>
+      </div>
+      <p class="fecho">Nenhuma delas faz barulho. Todas aparecem <strong>no fim do mês.</strong></p>
+    </section>
+
+    <!-- 4 · a conta · 2:45 -->
+    <section class="slide escuro conta" data-ate="3:45"
+      data-notas="Diga 'clínica de exemplo, números médios' antes de mostrar o total. Pausa de 3 segundos no total. Depois: 'faça essa conta com os seus números, o QR do final abre a calculadora'.">
+      <p class="olho">Uma clínica de exemplo</p>
+      <h2>{ex.sessoes} sessões por mês, {brl(ex.valor)} por sessão</h2>
+      <div class="conta__grade">
+        <div class="conta__linhas">
+          <div class="linha"><span>Faltas sem reposição <em>{Math.round(ex.faltas * 100)}%</em></span><b>{brl(perdaFaltas)}</b><i style={`--w:${pct(perdaFaltas)}`} /></div>
+          <div class="linha"><span>Glosa do plano <em>{Math.round(ex.glosa * 100)}%</em></span><b>{brl(perdaGlosa)}</b><i style={`--w:${pct(perdaGlosa)}`} /></div>
+          <div class="linha"><span>Recepção respondendo WhatsApp <em>{ex.horas}h por semana</em></span><b>{brl(perdaTempo)}</b><i style={`--w:${pct(perdaTempo)}`} /></div>
+        </div>
+        <div class="conta__total">
+          <span>por mês</span>
+          <b>{brl(totalMes)}</b>
+          <span class="conta__ano">{brl(totalMes * 12)} por ano</span>
+        </div>
+      </div>
+      <p class="fecho">Estimativa para conversa, com a mesma conta da nossa calculadora. A sua pode ser maior ou menor.</p>
+    </section>
+
+    <!-- 5 · o que muda · 3:45 -->
+    <section class="slide claro muda" data-ate="4:30"
+      data-notas="Este é o compromisso da palestra. Fale cada linha como fato do sistema, não como resultado financeiro. Termine com: 'nos próximos 8 minutos eu mostro por que isso é verdade'.">
+      <p class="olho">A partir do primeiro mês</p>
+      <h2>O que muda quando a clínica <strong>vê na hora, não no fim do mês</strong></h2>
+      <ol class="muda__lista">
+        <li><span>1</span><div><b>Sessão sem guia válida não é marcada.</b><p>O sistema barra antes de a criança entrar na sala.</p></div></li>
+        <li><span>2</span><div><b>Guia com erro não vai para o plano.</b><p>Cada uma é conferida antes do envio. Glosa vira exceção.</p></div></li>
+        <li><span>3</span><div><b>Nenhuma família espera até amanhã.</b><p>As dúvidas comuns são respondidas na hora, até de madrugada.</p></div></li>
+      </ol>
+    </section>
+
+    <!-- 6 · quem fala · 4:30 -->
+    <section class="slide escuro historia" data-ate="5:45"
+      data-notas="Agora sim se apresente. Conte UM caso real e específico (o mês da glosa, o valor). Se não tiver o número exato, conte o caso sem número. Volte às mãos: 'eu também levantaria a mão'.">
+      <p class="olho">Por que eu estou aqui</p>
+      <h2>Eu vivi cada uma <strong>dessas perdas</strong></h2>
+      <div class="historia__texto">
+        <p set:html={ph('Eu sou o Bruno e cuido da gestão de uma clínica de terapia para crianças autistas aqui em Belém, com [nº de profissionais] profissionais e [nº de famílias] famílias.')} />
+        <p set:html={ph('Em [mês/ano], [o caso real: ex. descobrimos R$ X de glosa de sessões já feitas]. Testei [quantos] sistemas prontos. Nenhum entendia a rotina de uma clínica TEA.')} />
+        <p set:html={ph('Então construímos as ferramentas dentro da própria clínica, desde [ano], ajustando com a equipe no dia a dia. O que funcionou para nós virou a FA Tech.')} />
+      </div>
+      <Logo tamanho="40px" tema="escuro" descritor={false} />
+    </section>
+
+    <!-- 7 · o mecanismo · 5:45 -->
+    <section class="slide claro mec" data-ate="7:00"
+      data-notas="Esta é a ideia que eles devem levar mesmo se esquecerem o resto: barrar antes em vez de corrigir depois. Aponte a distância de semanas na linha de cima.">
+      <p class="olho">A diferença está na ordem</p>
+      <h2>Barrar antes, <strong>em vez de corrigir depois</strong></h2>
+      <div class="mec__fluxos">
+        <p class="mec__rot">Como costuma ser</p>
+        <div class="fluxo fluxo--hoje">
+          <span>Sessão feita</span><i set:html={ic('arrow-right', 22, 1.6)} />
+          <span>Guia enviada</span><i set:html={ic('arrow-right', 22, 1.6)} />
+          <span class="espera" set:html={`${ic('hourglass', 20, 1.6)} semanas`} /><i set:html={ic('arrow-right', 22, 1.6)} />
+          <span class="ruim">Glosa descoberta</span><i set:html={ic('arrow-right', 22, 1.6)} />
+          <span class="ruim">Refazer tudo</span>
+        </div>
+        <p class="mec__rot mec__rot--bom">Com a FA Tech</p>
+        <div class="fluxo fluxo--fa">
+          <span class="bom" set:html={`${ic('shield-check', 20, 1.8)} Guia conferida`} /><i set:html={ic('arrow-right', 22, 1.6)} />
+          <span>Sessão liberada</span><i set:html={ic('arrow-right', 22, 1.6)} />
+          <span>Evolução no mesmo dia</span><i set:html={ic('arrow-right', 22, 1.6)} />
+          <span class="bom">Envio limpo ao plano</span>
+        </div>
+      </div>
+      <p class="fecho">O erro aparece quando ainda dá para corrigir: <strong>antes da sessão, não depois do pagamento.</strong></p>
+    </section>
+
+    <!-- 8 · demonstração ao vivo · 7:00 -->
+    <section class="slide escuro demo" data-ate="10:00"
+      data-notas="3 minutos, só o FA Clínica. Abra /fatech/demo/clinica no notebook (ou espelhe o iPad). Caminho: sessão vermelha do Lucas → bloqueio (PARE aqui: 'é aqui que a glosa deixa de existir') → Autorizações → evolução por voz. Se a internet falhar, siga para o próximo slide sem pedir desculpa.">
+      <div class="demo__texto">
+        <p class="olho">Ao vivo</p>
+        <h2>Vamos ver <strong>funcionando</strong></h2>
+        <ol class="demo__passos">
+          <li><span>1</span>Uma sessão marcada com a guia vencida</li>
+          <li><span>2</span>O sistema não deixa a sessão acontecer</li>
+          <li><span>3</span>A guia renovada, a sessão liberada</li>
+          <li><span>4</span>A evolução registrada por voz, logo depois</li>
+        </ol>
+        <p class="demo__dica">Dados inventados. Nenhuma criança real aparece aqui.</p>
+      </div>
+      <div class="qrcard">
+        <div class="qrbox" set:html={qrDemo} />
+        <b>Acompanhe no seu celular</b>
+        <span>a mesma demonstração, para mexer depois</span>
+      </div>
+    </section>
+
+    <!-- 9 · os outros sistemas · 10:00 -->
+    <section class="slide claro sistemas" data-ate="10:45"
+      data-notas="Não explique um por um. Diga: 'cada perda tem a sua ferramenta, e você começa só pela que mais dói'. Leia em voz alta só a linha que tem a ver com a plateia.">
+      <p class="olho">Uma ferramenta para cada perda</p>
+      <h2>Você começa <strong>pela que mais dói</strong></h2>
+      <div class="sistemas__grade">
+        {produtos.map((p) => (
+          <div class="sis">
+            <span class="sis__ic" set:html={ic(p.icone, 26, 1.6)} />
+            <div><b>{p.nome}{p.parceria && <em> · em parceria</em>}</b><p class="sis__dor">{p.dorCurta}</p><p>{p.alivio}</p></div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- 10 · resultados reais · 10:45 -->
+    <section class="slide escuro resultados" data-ate="11:30"
+      data-notas="Só números reais da clínica. Se algum quadro ficar sem número verdadeiro, apague o quadro. Se os três ficarem vazios, pule este slide: um número inventado derruba a palestra inteira.">
+      <p class="olho">Na nossa clínica</p>
+      <h2>O que mudou <strong>depois que passamos a usar</strong></h2>
+      <div class="res__grade">
+        <div class="res"><b set:html={ph('[X]% → [Y]%')} /><span>da receita de convênio voltando como glosa</span></div>
+        <div class="res"><b set:html={ph('[N]')} /><span>sessões barradas por guia vencida em [período], antes de virar prejuízo</span></div>
+        <div class="res"><b set:html={ph('[tempo]')} /><span>para a família receber a primeira resposta no WhatsApp</span></div>
+      </div>
+      <p class="fecho">Usamos todos os dias. Quem te atende depois é quem usa.</p>
+    </section>
+
+    <!-- 11 · dados e dúvidas · 11:30 -->
+    <section class="slide claro duvidas" data-ate="12:15"
+      data-notas="Antecipe a pergunta que todo dono de clínica pensa e não fala: 'vou colocar meus dados no sistema de outra clínica?'. Responda antes que perguntem.">
+      <p class="olho">As perguntas que todo mundo faz</p>
+      <h2>Seus dados <strong>ficam com você</strong></h2>
+      <div class="duv__grade">
+        <div><span set:html={ic('building-2', 32, 1.4)} /><b>"É sistema de outra clínica?"</b><p>Cada clínica tem o seu espaço isolado. Nós usamos a mesma ferramenta e não enxergamos nada da sua.</p></div>
+        <div><span set:html={ic('key-round', 32, 1.4)} /><b>"E a LGPD?"</b><p>Cada pessoa vê só o que o cargo permite, e fica registrado quem viu o quê e quando.</p></div>
+        <div><span set:html={ic('layers', 32, 1.4)} /><b>"Preciso trocar tudo?"</b><p>Não. Você começa por um módulo e só soma outro se fizer sentido.</p></div>
+        <div><span set:html={ic('smartphone', 32, 1.4)} /><b>"Tem que instalar?"</b><p>Funciona no navegador do celular, do tablet e do computador.</p></div>
+      </div>
+    </section>
+
+    <!-- 12 · o que você leva · 12:15 -->
+    <section class="slide escuro levar" data-ate="13:30"
+      data-notas="Fale do que a pessoa recebe, não do sistema. O limite de vagas tem que ser real (quantos diagnósticos você consegue fazer por semana). Sem condição de evento definida, apague o terceiro quadro.">
+      <p class="olho">Para quem está nesta sala</p>
+      <h2>Saindo daqui, <strong>você leva</strong></h2>
+      <div class="leva__grade">
+        <div class="leva">
+          <span set:html={ic('calendar-clock', 36, 1.4)} />
+          <b>30 minutos com os números da sua clínica</b>
+          <p>Olhamos juntos agenda, guias, faturamento e atendimento. Sem custo.</p>
+        </div>
+        <div class="leva">
+          <span set:html={ic('list-checks', 36, 1.4)} />
+          <b>A lista das suas perdas, com valor</b>
+          <p>Você sai com ela por escrito, mesmo que nunca use nada da FA Tech.</p>
+        </div>
+        <div class="leva leva--evento">
+          <span set:html={ic('gift', 36, 1.4)} />
+          <b set:html={ph('[Condição do evento: ex. implantação sem custo]')} />
+          <p set:html={ph('Para quem marcar até [data]. São [nº] vagas, porque o diagnóstico sou eu que faço.')} />
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 · como começa · 13:30 -->
+    <section class="slide claro passos" data-ate="14:15"
+      data-notas="Tire o peso da decisão: ninguém precisa decidir nada hoje. O único passo de hoje é o QR.">
+      <p class="olho">Sem decidir nada hoje</p>
+      <h2>Como começa, <strong>em 3 passos</strong></h2>
+      <div class="passos__linha">
+        <div class="pas"><span>1</span><b>Hoje</b><p>Aponte a câmera para o QR. Leva 10 segundos.</p></div>
+        <i set:html={ic('arrow-right', 32, 1.4)} />
+        <div class="pas"><span>2</span><b>Nesta semana ou na próxima</b><p>Os 30 minutos com os números da sua clínica.</p></div>
+        <i set:html={ic('arrow-right', 32, 1.4)} />
+        <div class="pas"><span>3</span><b>Só se fizer sentido</b><p>Você começa pelo módulo da perda que mais pesou na conta.</p></div>
+      </div>
+      <p class="fecho">Se no diagnóstico não aparecer perda que valha resolver, <strong>você leva a lista do mesmo jeito.</strong></p>
+    </section>
+
+    <!-- 14 · chamada final · 14:15 -->
+    <section class="slide escuro final" data-ate="15:00"
+      data-notas="Deixe este slide parado até o fim das perguntas. Feche voltando ao começo: 'no próximo fim de mês, você vai saber quanto recebeu e por quê'. Depois fique em silêncio e deixe o QR trabalhar.">
+      <div class="final__texto">
+        <h2>No próximo fim de mês, <strong>você sabe quanto recebeu.</strong> E por quê.</h2>
+        <div class="contato">
+          <b>{marca.contato.nome}</b> · {marca.contato.cargo}, FA Tech<br />
+          <span set:html={ic('phone', 18, 1.8)} /> WhatsApp {marca.contato.whatsapp}
+        </div>
+        <Logo tamanho="40px" tema="escuro" descritor={false} />
+      </div>
+      <div class="qrcard qrcard--grande">
+        <div class="qrbox" set:html={qrCadastro} />
+        <b>Aponte a câmera</b>
+        <span>para marcar os 30 minutos com a sua clínica</span>
+      </div>
+    </section>
+  </main>
+
+  <aside id="notas" class="notas" hidden>
+    <div class="notas__topo">
+      <span id="n-relogio" class="notas__relogio">0:00</span>
+      <span id="n-meta" class="notas__meta"></span>
+      <button id="n-zerar" type="button">Zerar</button>
+    </div>
+    <p id="n-texto" class="notas__texto"></p>
+  </aside>
+
+  <nav class="controles" aria-label="Navegação dos slides">
+    <button id="ant" type="button" aria-label="Slide anterior" set:html={ic('chevron-left', 22, 2)} />
+    <span id="contador" class="contador">1 / 14</span>
+    <button id="prox" type="button" aria-label="Próximo slide" set:html={ic('chevron-right', 22, 2)} />
+    <button id="bnotas" type="button" aria-label="Notas do apresentador (tecla N)" title="Notas (N)" set:html={ic('presentation', 20, 2)} />
+    <button id="cheia" type="button" aria-label="Tela cheia (tecla F)" title="Tela cheia (F)" set:html={ic('maximize', 20, 2)} />
+  </nav>
+
+  <script>
+    const palco = document.getElementById('palco')!;
+    const slides = [...palco.querySelectorAll<HTMLElement>('.slide')];
+    const contador = document.getElementById('contador')!;
+    const notas = document.getElementById('notas')!;
+    const nTexto = document.getElementById('n-texto')!;
+    const nMeta = document.getElementById('n-meta')!;
+    const nRelogio = document.getElementById('n-relogio')!;
+    let atual = Math.min(Math.max((parseInt(location.hash.slice(1), 10) || 1) - 1, 0), slides.length - 1);
+    let inicio: number | null = null;
+
+    const seg = (t: string) => { const [m, s] = t.split(':').map(Number); return m * 60 + s; };
+    const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+    function escalar() {
+      palco.style.setProperty('--escala', String(Math.min(innerWidth / 1280, innerHeight / 720)));
+    }
+    addEventListener('resize', escalar);
+    escalar();
+
+    function ir(i: number) {
+      atual = Math.min(Math.max(i, 0), slides.length - 1);
+      if (atual > 0 && inicio === null) inicio = Date.now();
+      slides.forEach((s, k) => s.classList.toggle('ativo', k === atual));
+      contador.textContent = `${atual + 1} / ${slides.length}`;
+      nTexto.textContent = slides[atual].dataset.notas || '';
+      nMeta.textContent = `terminar este slide até ${slides[atual].dataset.ate}`;
+      history.replaceState(null, '', `#${atual + 1}`);
+      tique();
+    }
+
+    // Cronômetro começa ao sair da capa. Fica laranja se passou do tempo do slide.
+    function tique() {
+      const s = inicio === null ? 0 : (Date.now() - inicio) / 1000;
+      nRelogio.textContent = fmt(s);
+      nRelogio.classList.toggle('atrasado', s > seg(slides[atual].dataset.ate || '15:00'));
+    }
+    setInterval(tique, 500);
+    document.getElementById('n-zerar')!.addEventListener('click', (e) => { e.stopPropagation(); inicio = Date.now(); tique(); });
+
+    const alternarNotas = () => { notas.hidden = !notas.hidden; };
+    function telaCheia() {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen?.().catch(() => {});
+    }
+
+    addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); ir(atual + 1); }
+      else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); ir(atual - 1); }
+      else if (e.key === 'Home') ir(0);
+      else if (e.key === 'End') ir(slides.length - 1);
+      else if (e.key === 'f' || e.key === 'F') telaCheia();
+      else if (e.key === 'n' || e.key === 'N') alternarNotas();
+    });
+    document.getElementById('ant')!.addEventListener('click', () => ir(atual - 1));
+    document.getElementById('prox')!.addEventListener('click', () => ir(atual + 1));
+    document.getElementById('cheia')!.addEventListener('click', telaCheia);
+    document.getElementById('bnotas')!.addEventListener('click', alternarNotas);
+
+    palco.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) return;
+      ir(e.clientX < innerWidth / 3 ? atual - 1 : atual + 1);
+    });
+
+    let x0: number | null = null, y0 = 0;
+    palco.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    palco.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { e.preventDefault(); ir(dx < 0 ? atual + 1 : atual - 1); }
+    });
+
+    ir(atual);
+  </script>
+</body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0A1F25; }
+  body { font-family: var(--fonte); -webkit-font-smoothing: antialiased; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: 1280px 720px; margin: 0; }
+  @media print { html, body { width: auto; height: auto; overflow: visible; background: none; } }
+</style>
+
+<style>
+  .palco { position: absolute; top: 50%; left: 50%; width: 1280px; height: 720px; transform: translate(-50%, -50%) scale(var(--escala, 1)); transform-origin: center; overflow: hidden; cursor: pointer; user-select: none; }
+  .slide { position: absolute; inset: 0; padding: 72px 96px; display: flex; flex-direction: column; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility 0s .45s; overflow: hidden; }
+  .slide.ativo { opacity: 1; visibility: visible; transition: opacity .45s ease; }
+  .claro { background: var(--gelo); color: var(--tinta); --destaque: var(--petroleo-600); --suave: var(--cinza); --borda: var(--linha); --cartao: #fff; --forte: var(--petroleo-900); }
+  .escuro { background: var(--petroleo-900); color: #fff; --destaque: var(--agua); --suave: rgba(255,255,255,.72); --borda: rgba(255,255,255,.16); --cartao: rgba(255,255,255,.06); --forte: #fff; }
+  .claro h1, .claro h2 { color: var(--petroleo-900); }
+  .slide :global(strong) { font-weight: 600; color: var(--destaque); }
+
+  h1 { font-weight: 300; font-size: 64px; line-height: 1.1; letter-spacing: -.025em; }
+  h2 { font-weight: 300; font-size: 48px; line-height: 1.12; letter-spacing: -.02em; max-width: 1080px; }
+  .olho { font-size: 15px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--destaque); margin-bottom: 18px; }
+  .fecho { margin-top: auto; font-size: 22px; font-weight: 300; color: var(--suave); }
+  .slide :global(.ph) { background: rgba(63,183,191,.16); outline: 1.5px dashed var(--destaque); border-radius: 4px; padding: 0 4px; font-weight: 400; }
+
+  /* 1 capa */
+  .capa { justify-content: center; }
+  .capa h1 { margin-top: 64px; max-width: 1000px; }
+  .capa .pe { position: absolute; left: 96px; bottom: 56px; font-size: 16px; color: var(--suave); letter-spacing: .04em; }
+
+  /* 2 mãos */
+  .maos { justify-content: center; }
+  .maos__ic { color: var(--destaque); margin-bottom: 28px; }
+  .maos h2 { font-size: 56px; max-width: 1040px; }
+  .maos__2 { margin-top: 36px; font-size: 26px; font-weight: 300; color: var(--suave); max-width: 900px; line-height: 1.4; }
+
+  /* 3 perdas */
+  .perdas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: auto 0; }
+  .perda { background: var(--cartao); border: 1px solid var(--borda); border-radius: 14px; padding: 28px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .perda > span { color: var(--destaque); }
+  .perda b { font-size: 21px; font-weight: 600; line-height: 1.2; color: var(--forte); }
+  .perda p { font-size: 17px; line-height: 1.45; color: var(--suave); }
+
+  /* 4 conta */
+  .conta__grade { margin-top: 44px; display: grid; grid-template-columns: 1fr 360px; gap: 56px; align-items: center; }
+  .conta__linhas { display: grid; gap: 26px; }
+  .linha { display: grid; grid-template-columns: 1fr auto; row-gap: 10px; font-size: 21px; }
+  .linha em { font-style: normal; color: var(--suave); font-weight: 300; margin-left: 8px; }
+  .linha b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .linha i { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: var(--borda); position: relative; overflow: hidden; }
+  .linha i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--agua); border-radius: 4px; }
+  .conta__total { border: 1.5px solid var(--agua); border-radius: 18px; padding: 34px 30px; display: flex; flex-direction: column; gap: 6px; text-align: center; }
+  .conta__total span { font-size: 18px; color: var(--suave); }
+  .conta__total b { font-size: 60px; font-weight: 600; color: var(--agua); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .conta__ano { margin-top: 6px; }
+  .conta .fecho { font-size: 17px; }
+
+  /* 5 muda */
+  .muda__lista { list-style: none; margin-top: 44px; display: grid; gap: 22px; }
+  .muda__lista li { display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: start; background: #fff; border: 1px solid var(--linha); border-radius: 14px; padding: 22px 26px; }
+  .muda__lista li > span { width: 48px; height: 48px; border-radius: 50%; background: var(--petroleo-900); color: var(--agua); display: grid; place-items: center; font-size: 22px; font-weight: 600; }
+  .muda__lista b { font-size: 25px; font-weight: 600; color: var(--petroleo-900); }
+  .muda__lista p { margin-top: 4px; font-size: 19px; color: var(--cinza); }
+
+  /* 6 história */
+  .historia__texto { margin-top: 34px; display: grid; gap: 18px; max-width: 1000px; }
+  .historia__texto p { font-size: 21px; line-height: 1.55; font-weight: 300; }
+  .historia > :global(.logo) { margin-top: auto; }
+
+  /* 7 mecanismo */
+  .mec__fluxos { margin: auto 0; display: grid; gap: 12px; }
+  .mec__rot { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cinza); }
+  .mec__rot--bom { margin-top: 22px; color: var(--petroleo-600); }
+  .fluxo { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
+  .fluxo > span { display: inline-flex; align-items: center; gap: 8px; padding: 14px 18px; border-radius: 10px; font-size: 18px; white-space: nowrap; background: #fff; border: 1px solid var(--linha); }
+  .fluxo > i { color: var(--cinza); display: grid; }
+  .fluxo--hoje > span { color: var(--cinza); border-style: dashed; }
+  .fluxo--hoje .espera { background: transparent; border: 0; font-style: italic; }
+  .fluxo--hoje .ruim { color: #9A3B2E; border: 1.5px solid #E4B8B0; background: #FBF1EF; border-style: solid; font-weight: 600; }
+  .fluxo--fa > span { border: 1.5px solid var(--petroleo-600); color: var(--petroleo-900); }
+  .fluxo--fa .bom { background: var(--petroleo-900); color: #fff; border-color: var(--petroleo-900); font-weight: 600; }
+  .fluxo--fa .bom :global(svg) { color: var(--agua); }
+
+  /* 8 demo e cartão de QR */
+  .demo, .final { flex-direction: row; gap: 64px; align-items: center; }
+  .demo__texto, .final__texto { flex: 1; display: flex; flex-direction: column; }
+  .demo__passos { list-style: none; margin-top: 36px; display: grid; gap: 16px; }
+  .demo__passos li { display: flex; align-items: center; gap: 16px; font-size: 22px; font-weight: 300; }
+  .demo__passos li span { width: 36px; height: 36px; flex: none; border-radius: 50%; border: 1.5px solid var(--agua); color: var(--agua); display: grid; place-items: center; font-size: 16px; font-weight: 600; }
+  .demo__dica { margin-top: 32px; font-size: 16px; color: var(--suave); }
+  .qrcard { width: 320px; flex: none; background: #fff; color: var(--petroleo-900); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
+  .qrbox { width: 230px; height: 230px; margin-bottom: 14px; }
+  .qrbox :global(svg) { width: 100%; height: 100%; display: block; }
+  .qrcard b { font-size: 22px; font-weight: 600; }
+  .qrcard span { font-size: 16px; color: var(--cinza); line-height: 1.4; }
+  .qrcard--grande { width: 380px; }
+  .qrcard--grande .qrbox { width: 290px; height: 290px; }
+
+  /* 9 sistemas */
+  .sistemas__grade { margin-top: 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 40px; }
+  .sis { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 10px 0; border-top: 1px solid var(--linha); }
+  .sis__ic { color: var(--petroleo-600); margin-top: 2px; }
+  .sis b { font-size: 18px; font-weight: 600; color: var(--petroleo-900); }
+  .sis b em { font-style: normal; font-weight: 300; color: var(--cinza); }
+  .sis p { font-size: 15px; line-height: 1.4; color: var(--cinza); }
+  .sis .sis__dor { color: var(--tinta); }
+
+  /* 10 resultados */
+  .res__grade { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .res { background: var(--cartao); border: 1px solid var(--borda); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; }
+  .res b { font-size: 44px; font-weight: 600; color: var(--agua); letter-spacing: -.01em; }
+  .res span { font-size: 19px; line-height: 1.45; color: var(--suave); }
+
+  /* 11 dúvidas */
+  .duv__grade { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 48px; margin-top: 36px; }
+  .duv__grade > div { display: grid; grid-template-columns: 48px 1fr; column-gap: 14px; row-gap: 4px; padding: 20px 0; border-top: 1px solid var(--linha); }
+  .duv__grade > div > span { grid-row: span 2; color: var(--petroleo-600); }
+  .duv__grade b { font-size: 21px; font-weight: 600; color: var(--petroleo-900); }
+  .duv__grade p { font-size: 17px; line-height: 1.45; color: var(--cinza); }
+
+  /* 12 leva */
+  .leva__grade { margin-top: 44px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  .leva { background: var(--cartao); border: 1px solid var(--borda); border-radius: 16px; padding: 30px 26px; display: flex; flex-direction: column; gap: 14px; }
+  .leva > span { color: var(--agua); }
+  .leva b { font-size: 22px; font-weight: 600; line-height: 1.25; }
+  .leva p { font-size: 17px; line-height: 1.45; color: var(--suave); }
+  .leva--evento { border: 1.5px solid var(--agua); }
+
+  /* 13 passos */
+  .passos__linha { margin: auto 0; display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; gap: 18px; align-items: center; }
+  .passos__linha > i { color: var(--petroleo-600); display: grid; }
+  .pas { background: #fff; border: 1px solid var(--linha); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; gap: 10px; height: 100%; }
+  .pas span { width: 40px; height: 40px; border-radius: 50%; background: var(--petroleo-900); color: var(--agua); display: grid; place-items: center; font-size: 18px; font-weight: 600; }
+  .pas b { font-size: 22px; font-weight: 600; color: var(--petroleo-900); }
+  .pas p { font-size: 17px; line-height: 1.45; color: var(--cinza); }
+
+  /* 14 final */
+  .final h2 { font-size: 52px; }
+  .contato { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--borda); font-size: 19px; line-height: 1.8; color: var(--suave); }
+  .contato b { color: #fff; }
+  .contato :global(svg) { vertical-align: -3px; color: var(--agua); }
+  .final__texto > :global(.logo) { margin-top: 40px; }
+
+  /* notas do apresentador */
+  .notas { position: fixed; left: 16px; right: 260px; bottom: 14px; background: rgba(10,31,37,.94); color: #fff; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 14px 18px; font-family: var(--fonte); z-index: 11; }
+  .notas[hidden] { display: none; }
+  .notas__topo { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+  .notas__relogio { font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--agua); }
+  .notas__relogio.atrasado { color: #F0A35E; }
+  .notas__meta { font-size: 14px; opacity: .7; flex: 1; }
+  .notas button { background: rgba(255,255,255,.1); color: #fff; border: 0; border-radius: 999px; padding: 6px 14px; font: 400 13px var(--fonte); cursor: pointer; }
+  .notas__texto { font-size: 17px; line-height: 1.5; }
+
+  .controles { position: fixed; right: 16px; bottom: 14px; display: flex; align-items: center; gap: 6px; background: rgba(15,46,54,.82); color: #fff; border-radius: 999px; padding: 6px 8px; font: 400 14px var(--fonte); z-index: 12; }
+  .controles button { width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #fff; cursor: pointer; display: grid; place-items: center; }
+  .controles button:hover, .controles button:focus-visible { background: rgba(255,255,255,.14); outline: none; }
+  .contador { min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) { .slide, .slide.ativo { transition: none; } }
+
+  @media print {
+    .palco { position: static; transform: none; width: 1280px; height: auto; overflow: visible; }
+    .slide { position: relative; width: 1280px; height: 720px; opacity: 1; visibility: visible; transition: none; break-after: page; page-break-after: always; }
+    .slide:last-child { break-after: auto; page-break-after: auto; }
+    .controles, .notas { display: none !important; }
+  }
+</style>
