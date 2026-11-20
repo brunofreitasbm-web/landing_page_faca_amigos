@@ -1,7 +1,7 @@
 ---
 // Palestra FA Tech de 15 minutos (16:9). Arco em 3 atos, sem nomear os atos na tela:
 //   Ato 1 (0:00 a 4:30)  o que muda na clínica
-//   Ato 2 (4:30 a 12:15) por que acreditar: história, mecanismo, demonstração, resultados, dados
+//   Ato 2 (4:30 a 12:15) por que acreditar: história, mecanismo, demonstração, dados
 //   Ato 3 (12:15 a 15:00) o que a pessoa leva saindo da sala
 // Navegação: setas, clique, deslizar. F = tela cheia. N = notas do apresentador com cronômetro.
 // Imprimir → Salvar como PDF: um slide por página (as notas não saem).
@@ -139,7 +139,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
     </section>
 
     <!-- 8 · demonstração ao vivo · 7:00 -->
-    <section class="slide escuro demo" data-ate="10:00"
+    <section class="slide escuro demo" data-ate="10:30"
       data-notas="3 minutos, só o FA Clínica. Abra /fatech/demo/clinica no notebook (ou espelhe o iPad). Caminho: sessão vermelha do Lucas → bloqueio (PARE aqui: 'é aqui que a glosa deixa de existir') → Autorizações → evolução por voz. Se a internet falhar, siga para o próximo slide sem pedir desculpa.">
       <div class="demo__texto">
         <p class="olho">Ao vivo</p>
@@ -159,8 +159,8 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 9 · os outros sistemas · 10:00 -->
-    <section class="slide claro sistemas" data-ate="10:45"
+    <!-- 9 · os outros sistemas · 10:30 -->
+    <section class="slide claro sistemas" data-ate="11:15"
       data-notas="Não explique um por um. Diga: 'cada perda tem a sua ferramenta, e você começa só pela que mais dói'. Leia em voz alta só a linha que tem a ver com a plateia.">
       <p class="olho">Uma ferramenta para cada perda</p>
       <h2>Você começa <strong>pela que mais dói</strong></h2>
@@ -174,20 +174,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 10 · resultados reais · 10:45 -->
-    <section class="slide escuro resultados" data-ate="11:30"
-      data-notas="Só números reais da clínica. Se algum quadro ficar sem número verdadeiro, apague o quadro. Se os três ficarem vazios, pule este slide: um número inventado derruba a palestra inteira.">
-      <p class="olho">Na nossa clínica</p>
-      <h2>O que mudou <strong>depois que passamos a usar</strong></h2>
-      <div class="res__grade">
-        <div class="res"><b set:html={ph('[X]% → [Y]%')} /><span>da receita de convênio voltando como glosa</span></div>
-        <div class="res"><b set:html={ph('[N]')} /><span>sessões barradas por guia vencida em [período], antes de virar prejuízo</span></div>
-        <div class="res"><b set:html={ph('[tempo]')} /><span>para a família receber a primeira resposta no WhatsApp</span></div>
-      </div>
-      <p class="fecho">Usamos todos os dias. Quem te atende depois é quem usa.</p>
-    </section>
-
-    <!-- 11 · dados e dúvidas · 11:30 -->
+    <!-- 10 · dados e dúvidas · 11:15 -->
     <section class="slide claro duvidas" data-ate="12:15"
       data-notas="Antecipe a pergunta que todo dono de clínica pensa e não fala: 'vou colocar meus dados no sistema de outra clínica?'. Responda antes que perguntem.">
       <p class="olho">As perguntas que todo mundo faz</p>
@@ -198,9 +185,10 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
         <div><span set:html={ic('layers', 32, 1.4)} /><b>"Preciso trocar tudo?"</b><p>Não. Você começa por um módulo e só soma outro se fizer sentido.</p></div>
         <div><span set:html={ic('smartphone', 32, 1.4)} /><b>"Tem que instalar?"</b><p>Funciona no navegador do celular, do tablet e do computador.</p></div>
       </div>
+      <p class="fecho">Usamos todos os dias na nossa clínica. <strong>Quem te atende depois é quem usa.</strong></p>
     </section>
 
-    <!-- 12 · o que você leva · 12:15 -->
+    <!-- 11 · o que você leva · 12:15 -->
     <section class="slide escuro levar" data-ate="13:30"
       data-notas="Fale do que a pessoa recebe, não do sistema. O limite de vagas tem que ser real (quantos diagnósticos você consegue fazer por semana). Sem condição de evento definida, apague o terceiro quadro.">
       <p class="olho">Para quem está nesta sala</p>
@@ -224,7 +212,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 13 · como começa · 13:30 -->
+    <!-- 12 · como começa · 13:30 -->
     <section class="slide claro passos" data-ate="14:15"
       data-notas="Tire o peso da decisão: ninguém precisa decidir nada hoje. O único passo de hoje é o QR.">
       <p class="olho">Sem decidir nada hoje</p>
@@ -239,7 +227,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       <p class="fecho">Se no diagnóstico não aparecer perda que valha resolver, <strong>você leva a lista do mesmo jeito.</strong></p>
     </section>
 
-    <!-- 14 · chamada final · 14:15 -->
+    <!-- 13 · chamada final · 14:15 -->
     <section class="slide escuro final" data-ate="15:00"
       data-notas="Deixe este slide parado até o fim das perguntas. Feche voltando ao começo: 'no próximo fim de mês, você vai saber quanto recebeu e por quê'. Depois fique em silêncio e deixe o QR trabalhar.">
       <div class="final__texto">
@@ -269,7 +257,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
 
   <nav class="controles" aria-label="Navegação dos slides">
     <button id="ant" type="button" aria-label="Slide anterior" set:html={ic('chevron-left', 22, 2)} />
-    <span id="contador" class="contador">1 / 14</span>
+    <span id="contador" class="contador">1 / 13</span>
     <button id="prox" type="button" aria-label="Próximo slide" set:html={ic('chevron-right', 22, 2)} />
     <button id="bnotas" type="button" aria-label="Notas do apresentador (tecla N)" title="Notas (N)" set:html={ic('presentation', 20, 2)} />
     <button id="cheia" type="button" aria-label="Tela cheia (tecla F)" title="Tela cheia (F)" set:html={ic('maximize', 20, 2)} />
@@ -458,20 +446,15 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
   .sis p { font-size: 15px; line-height: 1.4; color: var(--cinza); }
   .sis .sis__dor { color: var(--tinta); }
 
-  /* 10 resultados */
-  .res__grade { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-  .res { background: var(--cartao); border: 1px solid var(--borda); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; }
-  .res b { font-size: 44px; font-weight: 600; color: var(--agua); letter-spacing: -.01em; }
-  .res span { font-size: 19px; line-height: 1.45; color: var(--suave); }
 
-  /* 11 dúvidas */
+  /* 10 dúvidas */
   .duv__grade { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 48px; margin-top: 36px; }
   .duv__grade > div { display: grid; grid-template-columns: 48px 1fr; column-gap: 14px; row-gap: 4px; padding: 20px 0; border-top: 1px solid var(--linha); }
   .duv__grade > div > span { grid-row: span 2; color: var(--petroleo-600); }
   .duv__grade b { font-size: 21px; font-weight: 600; color: var(--petroleo-900); }
   .duv__grade p { font-size: 17px; line-height: 1.45; color: var(--cinza); }
 
-  /* 12 leva */
+  /* 11 leva */
   .leva__grade { margin-top: 44px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
   .leva { background: var(--cartao); border: 1px solid var(--borda); border-radius: 16px; padding: 30px 26px; display: flex; flex-direction: column; gap: 14px; }
   .leva > span { color: var(--agua); }
@@ -479,7 +462,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
   .leva p { font-size: 17px; line-height: 1.45; color: var(--suave); }
   .leva--evento { border: 1.5px solid var(--agua); }
 
-  /* 13 passos */
+  /* 12 passos */
   .passos__linha { margin: auto 0; display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; gap: 18px; align-items: center; }
   .passos__linha > i { color: var(--petroleo-600); display: grid; }
   .pas { background: #fff; border: 1px solid var(--linha); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; gap: 10px; height: 100%; }
@@ -487,7 +470,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
   .pas b { font-size: 22px; font-weight: 600; color: var(--petroleo-900); }
   .pas p { font-size: 17px; line-height: 1.45; color: var(--cinza); }
 
-  /* 14 final */
+  /* 13 final */
   .final h2 { font-size: 52px; }
   .contato { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--borda); font-size: 19px; line-height: 1.8; color: var(--suave); }
   .contato b { color: #fff; }
