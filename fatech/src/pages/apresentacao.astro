@@ -6,6 +6,7 @@ import '../styles/tokens.css';
 import Logo from '../components/Logo.astro';
 import marca from '../data/marca.json';
 import produtos from '../data/produtos.json';
+import pers from '../data/personalizacao.json';
 import { icone } from '../lib/icone.js';
 import { qrSvg, urlCadastro } from '../lib/qr.js';
 
@@ -48,7 +49,7 @@ const extra = {
 };
 const produtosSlides = produtos.map((p) => ({ ...p, ...extra[p.id] }));
 const marcaPh = (t) => t.replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
-const total = 4 + produtosSlides.length + 1; // capa, perdas, história, produtos, LGPD, próximo passo
+const total = 5 + produtosSlides.length + 1; // capa, perdas, história, produtos, personalização, LGPD, próximo passo
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -111,7 +112,19 @@ const total = 4 + produtosSlides.length + 1; // capa, perdas, história, produto
       </section>
     ))}
 
-    <!-- 11 LGPD -->
+    <!-- personalização -->
+    <section class="slide claro pers">
+      <p class="olho">{pers.olho}</p>
+      <h2 set:html={pers.titulo} />
+      <div class="pers__grade">
+        {pers.itens.map((it) => (
+          <div class="pers__item"><span set:html={ic(it.icone, 36, 1.4)} /><b>{it.titulo}</b><p>{it.texto}</p></div>
+        ))}
+      </div>
+      <p class="fecho">{pers.fecho}</p>
+    </section>
+
+    <!-- LGPD -->
     <section class="slide escuro">
       <p class="olho">Privacidade e LGPD</p>
       <h2>Seus dados <strong>ficam com você</strong></h2>
@@ -268,6 +281,13 @@ const total = 4 + produtosSlides.length + 1; // capa, perdas, história, produto
   .faz li :global(svg), .passo li :global(svg) { flex: none; color: var(--destaque); margin-top: 2px; }
   .nota { margin-top: 18px; font-size: 16px; color: var(--suave); }
 
+  .pers__grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: auto 0; }
+  .pers__item { padding: 28px 26px !important; }
+  .pers__item { background: var(--cartao); border: 1px solid var(--borda); border-radius: 14px; padding: 22px 24px; display: grid; grid-template-columns: 48px 1fr; column-gap: 14px; row-gap: 4px; }
+  .pers__item > span { grid-row: span 2; color: var(--destaque); }
+  .pers__item b { font-size: 21px; font-weight: 600; color: var(--petroleo-900); }
+  .pers__item p { font-size: 17px; line-height: 1.45; color: var(--suave); }
+  .pers__item:last-child { border: 1.5px solid var(--destaque); }
   .lgpd { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 40px; margin-top: 40px; }
   .lgpd > div { display: grid; grid-template-columns: 52px 1fr; column-gap: 14px; row-gap: 4px; padding: 20px 0; border-top: 1px solid var(--borda); }
   .lgpd > div > span { grid-row: span 2; color: var(--destaque); }

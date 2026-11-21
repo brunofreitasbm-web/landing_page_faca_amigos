@@ -1,7 +1,7 @@
 ---
 // Palestra FA Tech de 15 minutos (16:9). Arco em 3 atos, sem nomear os atos na tela:
 //   Ato 1 (0:00 a 4:30)  o que muda na clínica
-//   Ato 2 (4:30 a 12:15) por que acreditar: história, mecanismo, demonstração, dados
+//   Ato 2 (4:30 a 12:15) por que acreditar: história, mecanismo, demonstração, personalização, dados
 //   Ato 3 (12:15 a 15:00) o que a pessoa leva saindo da sala
 // Navegação: setas, clique, deslizar. F = tela cheia. N = notas do apresentador com cronômetro.
 // Imprimir → Salvar como PDF: um slide por página (as notas não saem).
@@ -9,6 +9,7 @@ import '../styles/tokens.css';
 import Logo from '../components/Logo.astro';
 import marca from '../data/marca.json';
 import produtos from '../data/produtos.json';
+import pers from '../data/personalizacao.json';
 import { icone } from '../lib/icone.js';
 import { qrSvg, urlCadastro } from '../lib/qr.js';
 
@@ -138,7 +139,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
     </section>
 
     <!-- 8 · demonstração ao vivo · 7:00 -->
-    <section class="slide escuro demo" data-ate="10:30"
+    <section class="slide escuro demo" data-ate="10:15"
       data-notas="3 minutos, só o FA Clínica. Abra /fatech/demo/clinica no notebook (ou espelhe o iPad). Caminho: sessão vermelha do Lucas → bloqueio (PARE aqui: 'é aqui que a glosa deixa de existir') → Autorizações → evolução por voz. Se a internet falhar, siga para o próximo slide sem pedir desculpa.">
       <div class="demo__texto">
         <p class="olho">Ao vivo</p>
@@ -158,8 +159,8 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 9 · os outros sistemas · 10:30 -->
-    <section class="slide claro sistemas" data-ate="11:15"
+    <!-- 9 · os outros sistemas · 10:15 -->
+    <section class="slide claro sistemas" data-ate="10:45"
       data-notas="Não explique um por um. Diga: 'cada perda tem a sua ferramenta, e você começa só pela que mais dói'. Leia em voz alta só a linha que tem a ver com a plateia.">
       <p class="olho">Uma ferramenta para cada perda</p>
       <h2>Você começa <strong>pela que mais dói</strong></h2>
@@ -173,7 +174,20 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 10 · dados e dúvidas · 11:15 -->
+    <!-- 10 · personalização · 10:45 -->
+    <section class="slide claro pers" data-ate="11:30"
+      data-notas="Toda clínica acha que é diferente das outras, e é. Diga: 'o sistema nasceu ajustado à nossa rotina e continua sendo ajustado com quem usa'. Só cite como exemplo o que você já ajustou de verdade.">
+      <p class="olho">{pers.olho}</p>
+      <h2 set:html={pers.titulo} />
+      <div class="pers__grade">
+        {pers.itens.map((it) => (
+          <div class="pers__item"><span set:html={ic(it.icone, 36, 1.4)} /><b>{it.titulo}</b><p>{it.texto}</p></div>
+        ))}
+      </div>
+      <p class="fecho">{pers.fecho}</p>
+    </section>
+
+    <!-- 11 · dados e dúvidas · 11:30 -->
     <section class="slide claro duvidas" data-ate="12:15"
       data-notas="Antecipe a pergunta que todo dono de clínica pensa e não fala: 'vou colocar meus dados no sistema de outra clínica?'. Responda antes que perguntem.">
       <p class="olho">As perguntas que todo mundo faz</p>
@@ -187,7 +201,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       <p class="fecho">Usamos todos os dias na nossa clínica. <strong>Quem te atende depois é quem usa.</strong></p>
     </section>
 
-    <!-- 11 · o que você leva · 12:15 -->
+    <!-- 12 · o que você leva · 12:15 -->
     <section class="slide escuro levar" data-ate="13:30"
       data-notas="Fale do que a pessoa recebe, não do sistema. Os 30 minutos são sem custo e a lista fica com ela, use ou não a FA Tech.">
       <p class="olho">Para quem está nesta sala</p>
@@ -206,7 +220,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 12 · como começa · 13:30 -->
+    <!-- 13 · como começa · 13:30 -->
     <section class="slide claro passos" data-ate="14:15"
       data-notas="Tire o peso da decisão: ninguém precisa decidir nada hoje. O único passo de hoje é o QR.">
       <p class="olho">Sem decidir nada hoje</p>
@@ -221,7 +235,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       <p class="fecho">Se no diagnóstico não aparecer perda que valha resolver, <strong>você leva a lista do mesmo jeito.</strong></p>
     </section>
 
-    <!-- 13 · chamada final · 14:15 -->
+    <!-- 14 · chamada final · 14:15 -->
     <section class="slide escuro final" data-ate="15:00"
       data-notas="Deixe este slide parado até o fim das perguntas. Feche voltando ao começo: 'no próximo fim de mês, você vai saber quanto recebeu e por quê'. Depois fique em silêncio e deixe o QR trabalhar.">
       <div class="final__texto">
@@ -251,7 +265,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
 
   <nav class="controles" aria-label="Navegação dos slides">
     <button id="ant" type="button" aria-label="Slide anterior" set:html={ic('chevron-left', 22, 2)} />
-    <span id="contador" class="contador">1 / 13</span>
+    <span id="contador" class="contador">1 / 14</span>
     <button id="prox" type="button" aria-label="Próximo slide" set:html={ic('chevron-right', 22, 2)} />
     <button id="bnotas" type="button" aria-label="Notas do apresentador (tecla N)" title="Notas (N)" set:html={ic('presentation', 20, 2)} />
     <button id="cheia" type="button" aria-label="Tela cheia (tecla F)" title="Tela cheia (F)" set:html={ic('maximize', 20, 2)} />
@@ -441,7 +455,14 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
   .sis .sis__dor { color: var(--tinta); }
 
 
-  /* 10 dúvidas */
+  .pers__grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: auto 0; }
+  .pers__item { padding: 28px 26px !important; }
+  .pers__item { background: var(--cartao); border: 1px solid var(--borda); border-radius: 14px; padding: 22px 24px; display: grid; grid-template-columns: 48px 1fr; column-gap: 14px; row-gap: 4px; }
+  .pers__item > span { grid-row: span 2; color: var(--destaque); }
+  .pers__item b { font-size: 21px; font-weight: 600; color: var(--forte); }
+  .pers__item p { font-size: 17px; line-height: 1.45; color: var(--suave); }
+  .pers__item:last-child { border: 1.5px solid var(--destaque); }
+  /* dúvidas */
   .duv__grade { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 48px; margin-top: 36px; }
   .duv__grade > div { display: grid; grid-template-columns: 48px 1fr; column-gap: 14px; row-gap: 4px; padding: 20px 0; border-top: 1px solid var(--linha); }
   .duv__grade > div > span { grid-row: span 2; color: var(--petroleo-600); }
