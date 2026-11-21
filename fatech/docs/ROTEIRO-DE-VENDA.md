@@ -15,7 +15,7 @@ A conversa tem 4 tempos:
 | 3. Impacto | Faz a dor virar número ou consequência | "Quanto voltou de glosa no último mês? O que isso significou no caixa?" |
 | 4. Necessidade | Deixa ele mesmo dizer o que quer | "Se isso parasse de acontecer, o que mudaria para você?" |
 
-Só depois do tempo 4 você abre o iPad, e **mostra só o sistema da dor que ele falou**. Mostrar os 7 de uma vez cansa e não vende nenhum.
+Só depois do tempo 4 você abre o iPad, e **mostra só o sistema da dor que ele falou**. Mostrar os 6 de uma vez cansa e não vende nenhum.
 
 ### Perguntas de abertura (escolha uma)
 - "Você é de clínica? Atende quantas crianças por semana?"
@@ -39,7 +39,7 @@ No iPad: **Todos os sistemas → "Quanto sua clínica deixa de receber por mês?
 
 A calculadora mostra uma **estimativa para conversa**, não um resultado certo. Diga isso com essas palavras se perguntarem.
 
-## Os 7 sistemas: história, pitch e o que tocar
+## Os 6 sistemas: história, pitch e o que tocar
 
 Cada demonstração tem o botão **"Mostrar o caminho"** no topo. Ele acende onde tocar, passo a passo. Use sempre que se perder.
 
@@ -69,13 +69,6 @@ Cada demonstração tem o botão **"Mostrar o caminho"** no topo. Ele acende ond
 - **10 segundos:** "Ponto pelo celular que confere o lugar e o rosto, e avisa antes de estourar o limite da lei do estágio."
 - **O que tocar:** Bater ponto (localização e rosto confirmados) → **Simular ponto de casa** (é recusado) → Frequência → Banco de talentos.
 
-### FA Play: balcão do espaço de brincar e do circuito
-- **Para quem:** clínicas com brinquedoteca, playground ou espaço de recreação. Pergunte antes se faz sentido para a pessoa.
-- **Espelho:** "O caixa do seu espaço de brincar fecha certo todo dia?"
-- **História:** "Tempo controlado no relógio, criança passando do tempo sem cobrar, diferença de caixa sem explicação."
-- **10 segundos:** "Entrada com os cuidados de cada criança, tempo controlado sozinho, saída conferida e caixa que bate sozinho. Funciona até sem internet."
-- **O que tocar:** Entrada (marque as etiquetas sensoriais) → Painel ao vivo → Saída com pulseira errada (é **bloqueada**) → Caixa → App do dono → Simular queda de internet.
-
 ### FA TV: TV da sala de espera
 - **Espelho:** "O que as famílias fazem enquanto esperam na recepção?"
 - **História:** "A TV ficava num canal aberto e os avisos ficavam colados na parede."
@@ -94,7 +87,7 @@ Cada demonstração tem o botão **"Mostrar o caminho"** no topo. Ele acende ond
 | **Quanto custa?** | "Depende do tamanho da clínica e de quais módulos fazem sentido. Por isso a gente começa com um diagnóstico gratuito de 30 minutos. Posso marcar?" Não invente preço no estande. |
 | **Vocês são uma clínica. Por que eu colocaria meus dados num sistema de concorrente?** | "Os sistemas são da FA Tech. Cada clínica tem os próprios dados, isolados, e ninguém de fora vê. Nós usamos a mesma ferramenta, mas não enxergamos nada da sua clínica." |
 | **E a LGPD? São dados de crianças.** | "Cada pessoa só vê o que o cargo dela permite, e fica registrado quem viu o quê e quando. Nas demonstrações, tudo é inventado justamente por isso." |
-| **E se a internet cair?** | Balcão do playground: "funciona sem internet e sincroniza depois". Para os outros, seja honesto: "precisa de internet, como o banco e o WhatsApp". |
+| **E se a internet cair?** | Seja honesto: "precisa de internet, como o banco e o WhatsApp". |
 | **Funciona com o meu convênio?** | "Os principais planos de Belém já estão no faturamento do nosso parceiro. Me diz quais você atende e eu confirmo." Não confirme na hora o que não sabe. |
 | **Consigo trazer meus dados atuais?** | "Dá para importar planilhas de pacientes e agenda. A gente avalia no diagnóstico." [confirmar com Bruno o que já é possível] |
 | **Em quanto tempo começa a funcionar?** | "Depende do módulo. A gente define junto no diagnóstico." Não diga "amanhã". |

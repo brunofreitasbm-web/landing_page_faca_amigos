@@ -37,15 +37,6 @@
     "pergunta": "Você tem certeza de que o estagiário <strong>estava na clínica</strong> na hora do ponto?"
   },
   {
-    "id": "play",
-    "nome": "FA Play",
-    "icone": "ticket",
-    "dor": "Entrada, saída e caixa do espaço de brincar sem controle.",
-    "dorCurta": "Caixa do espaço de brincar sem controle.",
-    "alivio": "Entrada com cuidados sensoriais, saída conferida e caixa que fecha sozinho.",
-    "pergunta": "O caixa do seu espaço de brincar <strong>fecha certo</strong> todo dia?"
-  },
-  {
     "id": "tv",
     "nome": "FA TV",
     "icone": "monitor-play",

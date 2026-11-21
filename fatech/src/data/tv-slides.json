@@ -31,7 +31,6 @@
       "tipo": "chamada",
       "texto": "Você ainda controla estagiário <strong>em planilha?</strong>"
     },
-    { "tipo": "produto", "id": "play" },
     { "tipo": "produto", "id": "tv" },
     {
       "tipo": "chamada",

@@ -5,7 +5,6 @@
 //   Ato 3 (12:15 a 15:00) o que a pessoa leva saindo da sala
 // Navegação: setas, clique, deslizar. F = tela cheia. N = notas do apresentador com cronômetro.
 // Imprimir → Salvar como PDF: um slide por página (as notas não saem).
-// Trechos com borda tracejada são fatos que só o Bruno sabe. Sem número real, apague o trecho; nunca invente.
 import '../styles/tokens.css';
 import Logo from '../components/Logo.astro';
 import marca from '../data/marca.json';
@@ -102,13 +101,13 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
 
     <!-- 6 · quem fala · 4:30 -->
     <section class="slide escuro historia" data-ate="5:45"
-      data-notas="Agora sim se apresente. Conte UM caso real e específico (o mês da glosa, o valor). Se não tiver o número exato, conte o caso sem número. Volte às mãos: 'eu também levantaria a mão'.">
+      data-notas="Agora sim se apresente. Conte de viva voz UM caso real e específico, como o mês em que a glosa voltou. Sem número exato, conte sem número. Volte às mãos: 'eu também levantaria a mão'.">
       <p class="olho">Por que eu estou aqui</p>
       <h2>Eu vivi cada uma <strong>dessas perdas</strong></h2>
       <div class="historia__texto">
-        <p set:html={ph('Eu sou o Bruno e cuido da gestão de uma clínica de terapia para crianças autistas aqui em Belém, com [nº de profissionais] profissionais e [nº de famílias] famílias.')} />
-        <p set:html={ph('Em [mês/ano], [o caso real: ex. descobrimos R$ X de glosa de sessões já feitas]. Testei [quantos] sistemas prontos. Nenhum entendia a rotina de uma clínica TEA.')} />
-        <p set:html={ph('Então construímos as ferramentas dentro da própria clínica, desde [ano], ajustando com a equipe no dia a dia. O que funcionou para nós virou a FA Tech.')} />
+        <p>Eu sou o Bruno e cuido da gestão de uma clínica de terapia para crianças autistas aqui em Belém.</p>
+        <p>Guia vencida descoberta tarde, glosa voltando, família esperando resposta no WhatsApp. Testei sistemas prontos e nenhum entendia a rotina de uma clínica TEA.</p>
+        <p>Então construímos as ferramentas dentro da própria clínica, ajustando com a equipe no dia a dia. O que funcionou para nós virou a FA Tech.</p>
       </div>
       <Logo tamanho="40px" tema="escuro" descritor={false} />
     </section>
@@ -190,7 +189,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
 
     <!-- 11 · o que você leva · 12:15 -->
     <section class="slide escuro levar" data-ate="13:30"
-      data-notas="Fale do que a pessoa recebe, não do sistema. O limite de vagas tem que ser real (quantos diagnósticos você consegue fazer por semana). Sem condição de evento definida, apague o terceiro quadro.">
+      data-notas="Fale do que a pessoa recebe, não do sistema. Os 30 minutos são sem custo e a lista fica com ela, use ou não a FA Tech.">
       <p class="olho">Para quem está nesta sala</p>
       <h2>Saindo daqui, <strong>você leva</strong></h2>
       <div class="leva__grade">
@@ -203,11 +202,6 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
           <span set:html={ic('list-checks', 36, 1.4)} />
           <b>A lista das suas perdas, com valor</b>
           <p>Você sai com ela por escrito, mesmo que nunca use nada da FA Tech.</p>
-        </div>
-        <div class="leva leva--evento">
-          <span set:html={ic('gift', 36, 1.4)} />
-          <b set:html={ph('[Condição do evento: ex. implantação sem custo]')} />
-          <p set:html={ph('Para quem marcar até [data]. São [nº] vagas, porque o diagnóstico sou eu que faço.')} />
         </div>
       </div>
     </section>
@@ -455,12 +449,11 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
   .duv__grade p { font-size: 17px; line-height: 1.45; color: var(--cinza); }
 
   /* 11 leva */
-  .leva__grade { margin-top: 44px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  .leva__grade { margin-top: 44px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 900px; gap: 22px; }
   .leva { background: var(--cartao); border: 1px solid var(--borda); border-radius: 16px; padding: 30px 26px; display: flex; flex-direction: column; gap: 14px; }
   .leva > span { color: var(--agua); }
   .leva b { font-size: 22px; font-weight: 600; line-height: 1.25; }
   .leva p { font-size: 17px; line-height: 1.45; color: var(--suave); }
-  .leva--evento { border: 1.5px solid var(--agua); }
 
   /* 12 passos */
   .passos__linha { margin: auto 0; display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; gap: 18px; align-items: center; }

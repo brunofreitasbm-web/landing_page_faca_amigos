@@ -123,22 +123,6 @@ const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
                 </div>
               )}
 
-              {c.id === 'play' && (
-                <div class="tela">
-                  <div class="tela__topo"><i /><i /><i /><b>Espaço de brincar</b></div>
-                  <ul class="timers">
-                    {[['verde', 82, 'Cuidado: barulho alto'], ['ambar', 38, 'Faltam poucos minutos'], ['vermelho', 6, 'Tempo encerrado']].map(([cor, pct, txt]) => (
-                      <li>
-                        <span class={`farol farol--${cor}`} />
-                        <span class="timers__nome"><span class="linhas"><span style="width:60%" /></span><small>{txt}</small></span>
-                        <span class="timers__barra"><span class={`farol--${cor}`} style={`width:${pct}%`} /></span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div class="aviso aviso--ok"><span set:html={ic('receipt-text', 26, 1.8)} />Caixa do dia fechado e conferido.</div>
-                </div>
-              )}
-
               {c.id === 'tv' && (
                 <div class="tvmini">
                   <div class="tvmini__tela">
