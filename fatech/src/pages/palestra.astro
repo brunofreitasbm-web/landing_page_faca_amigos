@@ -171,14 +171,15 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
 
     <!-- 10 · os outros sistemas · 10:45 -->
     <section class="slide claro sistemas" data-ate="11:15"
-      data-notas="Não explique um por um. Diga: 'cada perda tem a sua ferramenta, e você começa só pela que mais dói'. Leia em voz alta só a linha que tem a ver com a plateia.">
+      data-notas="Não explique um por um. Diga: 'cada perda tem a sua ferramenta, e você começa só pela que mais dói'. Aponte para a imagem do sistema que tem a ver com a plateia. As telas são as das demonstrações (dados inventados).">
       <p class="olho">Uma ferramenta para cada perda</p>
       <h2>Você começa <strong>pela que mais dói</strong></h2>
       <div class="sistemas__grade">
         {produtos.map((p) => (
           <div class="sis">
-            <span class="sis__ic" set:html={ic(p.icone, 26, 1.6)} />
-            <div><b>{p.nome}{p.parceria && <em> · em parceria</em>}</b><p class="sis__dor">{p.dorCurta}</p><p>{p.alivio}</p></div>
+            <div class="sis__img"><img src={u(`/palestra/sis-${p.id}.jpg`)} alt={`Tela do ${p.nome}`} loading="eager" /></div>
+            <p class="sis__nome"><span set:html={ic(p.icone, 22, 1.7)} />{p.nome}{p.parceria && <em> · em parceria</em>}</p>
+            <p class="sis__dor">{p.dorCurta}</p>
           </div>
         ))}
       </div>
@@ -465,13 +466,16 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
   .real__nota { margin-top: 16px; font-size: 16px; color: var(--suave); }
 
   /* sistemas */
-  .sistemas__grade { margin-top: 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 40px; }
-  .sis { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 10px 0; border-top: 1px solid var(--linha); }
-  .sis__ic { color: var(--petroleo-600); margin-top: 2px; }
-  .sis b { font-size: 18px; font-weight: 600; color: var(--petroleo-900); }
-  .sis b em { font-style: normal; font-weight: 300; color: var(--cinza); }
-  .sis p { font-size: 15px; line-height: 1.4; color: var(--cinza); }
-  .sis .sis__dor { color: var(--tinta); }
+  .sistemas { padding: 48px 96px 40px; }
+  .sistemas h2 { font-size: 44px; }
+  .sistemas__grade { margin-top: 20px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 20px; }
+  .sis { display: grid; align-content: start; gap: 6px; }
+  .sis__img { height: 176px; border-radius: 10px; overflow: hidden; border: 1px solid var(--linha); background: #fff; box-shadow: 0 6px 18px rgba(15,46,54,.12); }
+  .sis__img img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+  .sis__nome { margin-top: 8px; display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; color: var(--petroleo-900); }
+  .sis__nome :global(svg) { color: var(--petroleo-600); flex: none; }
+  .sis__nome em { font-style: normal; font-weight: 300; color: var(--cinza); font-size: 15px; }
+  .sis__dor { font-size: 15px; line-height: 1.35; color: var(--tinta); }
 
 
   .pers__grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: auto 0; }
