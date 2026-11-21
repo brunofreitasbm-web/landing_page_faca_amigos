@@ -1,8 +1,8 @@
 ---
 // Palestra FA Tech de 15 minutos (16:9). Arco em 3 atos, sem nomear os atos na tela:
 //   Ato 1 (0:00 a 4:30)  o que muda na clínica
-//   Ato 2 (4:30 a 12:15) por que acreditar: história, mecanismo, demonstração, personalização, dados
-//   Ato 3 (12:15 a 15:00) o que a pessoa leva saindo da sala
+//   Ato 2 (4:30 a 12:45) por que acreditar: história, mecanismo, demonstração ao vivo, demonstração real em vídeo, personalização, dados
+//   Ato 3 (12:45 a 15:00) o que a pessoa leva saindo da sala
 // Navegação: setas, clique, deslizar. F = tela cheia. N = notas do apresentador com cronômetro.
 // Imprimir → Salvar como PDF: um slide por página (as notas não saem).
 import '../styles/tokens.css';
@@ -10,6 +10,7 @@ import Logo from '../components/Logo.astro';
 import marca from '../data/marca.json';
 import produtos from '../data/produtos.json';
 import pers from '../data/personalizacao.json';
+import { u } from '../lib/url.js';
 import { icone } from '../lib/icone.js';
 import { qrSvg, urlCadastro } from '../lib/qr.js';
 
@@ -139,7 +140,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
     </section>
 
     <!-- 8 · demonstração ao vivo · 7:00 -->
-    <section class="slide escuro demo" data-ate="10:15"
+    <section class="slide escuro demo" data-ate="9:45"
       data-notas="3 minutos, só o FA Clínica. Abra /fatech/demo/clinica no notebook (ou espelhe o iPad). Caminho: sessão vermelha do Lucas → bloqueio (PARE aqui: 'é aqui que a glosa deixa de existir') → Autorizações → evolução por voz. Se a internet falhar, siga para o próximo slide sem pedir desculpa.">
       <div class="demo__texto">
         <p class="olho">Ao vivo</p>
@@ -159,8 +160,17 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 9 · os outros sistemas · 10:15 -->
-    <section class="slide claro sistemas" data-ate="10:45"
+    <!-- 9 · demonstração real em vídeo · 9:45 -->
+    <section class="slide escuro real" data-ate="10:45"
+      data-notas="Vídeo de 52 s, sem áudio, começa sozinho. Narre por cima: 'isto é uma clínica de verdade, o robô anexando cada guia no portal do plano sozinho'. Os dados de pacientes estão borrados no próprio vídeo. Se o vídeo não carregar, diga a frase e passe para o próximo slide.">
+      <p class="olho">Demonstração real</p>
+      <h2>Funcionando numa <strong>clínica que atendemos</strong></h2>
+      <div class="real__tela"><video src={u('/videos/demo-real-clinica.mp4')} poster={u('/videos/demo-real-clinica.jpg')} muted playsinline preload="auto" disablepictureinpicture /></div>
+      <p class="real__nota">Gravação real. Os dados de pacientes foram borrados.</p>
+    </section>
+
+    <!-- 10 · os outros sistemas · 10:45 -->
+    <section class="slide claro sistemas" data-ate="11:15"
       data-notas="Não explique um por um. Diga: 'cada perda tem a sua ferramenta, e você começa só pela que mais dói'. Leia em voz alta só a linha que tem a ver com a plateia.">
       <p class="olho">Uma ferramenta para cada perda</p>
       <h2>Você começa <strong>pela que mais dói</strong></h2>
@@ -174,8 +184,8 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 10 · personalização · 10:45 -->
-    <section class="slide claro pers" data-ate="11:30"
+    <!-- 11 · personalização · 11:15 -->
+    <section class="slide claro pers" data-ate="12:00"
       data-notas="Toda clínica acha que é diferente das outras, e é. Diga: 'o sistema nasceu ajustado à nossa rotina e continua sendo ajustado com quem usa'. Só cite como exemplo o que você já ajustou de verdade.">
       <p class="olho">{pers.olho}</p>
       <h2 set:html={pers.titulo} />
@@ -187,8 +197,8 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       <p class="fecho">{pers.fecho}</p>
     </section>
 
-    <!-- 11 · dados e dúvidas · 11:30 -->
-    <section class="slide claro duvidas" data-ate="12:15"
+    <!-- 12 · dados e dúvidas · 12:00 -->
+    <section class="slide claro duvidas" data-ate="12:45"
       data-notas="Antecipe a pergunta que todo dono de clínica pensa e não fala: 'vou colocar meus dados no sistema de outra clínica?'. Responda antes que perguntem.">
       <p class="olho">As perguntas que todo mundo faz</p>
       <h2>Seus dados <strong>ficam com você</strong></h2>
@@ -201,8 +211,8 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       <p class="fecho">Usamos todos os dias na nossa clínica. <strong>Quem te atende depois é quem usa.</strong></p>
     </section>
 
-    <!-- 12 · o que você leva · 12:15 -->
-    <section class="slide escuro levar" data-ate="13:30"
+    <!-- 13 · o que você leva · 12:45 -->
+    <section class="slide escuro levar" data-ate="13:45"
       data-notas="Fale do que a pessoa recebe, não do sistema. Os 30 minutos são sem custo e a lista fica com ela, use ou não a FA Tech.">
       <p class="olho">Para quem está nesta sala</p>
       <h2>Saindo daqui, <strong>você leva</strong></h2>
@@ -220,8 +230,8 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       </div>
     </section>
 
-    <!-- 13 · como começa · 13:30 -->
-    <section class="slide claro passos" data-ate="14:15"
+    <!-- 14 · como começa · 13:45 -->
+    <section class="slide claro passos" data-ate="14:30"
       data-notas="Tire o peso da decisão: ninguém precisa decidir nada hoje. O único passo de hoje é o QR.">
       <p class="olho">Sem decidir nada hoje</p>
       <h2>Como começa, <strong>em 3 passos</strong></h2>
@@ -235,7 +245,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       <p class="fecho">Se no diagnóstico não aparecer perda que valha resolver, <strong>você leva a lista do mesmo jeito.</strong></p>
     </section>
 
-    <!-- 14 · chamada final · 14:15 -->
+    <!-- 15 · chamada final · 14:30 -->
     <section class="slide escuro final" data-ate="15:00"
       data-notas="Deixe este slide parado até o fim das perguntas. Feche voltando ao começo: 'no próximo fim de mês, você vai saber quanto recebeu e por quê'. Depois fique em silêncio e deixe o QR trabalhar.">
       <div class="final__texto">
@@ -265,7 +275,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
 
   <nav class="controles" aria-label="Navegação dos slides">
     <button id="ant" type="button" aria-label="Slide anterior" set:html={ic('chevron-left', 22, 2)} />
-    <span id="contador" class="contador">1 / 14</span>
+    <span id="contador" class="contador">1 / 15</span>
     <button id="prox" type="button" aria-label="Próximo slide" set:html={ic('chevron-right', 22, 2)} />
     <button id="bnotas" type="button" aria-label="Notas do apresentador (tecla N)" title="Notas (N)" set:html={ic('presentation', 20, 2)} />
     <button id="cheia" type="button" aria-label="Tela cheia (tecla F)" title="Tela cheia (F)" set:html={ic('maximize', 20, 2)} />
@@ -280,6 +290,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
     const nMeta = document.getElementById('n-meta')!;
     const nRelogio = document.getElementById('n-relogio')!;
     let atual = Math.min(Math.max((parseInt(location.hash.slice(1), 10) || 1) - 1, 0), slides.length - 1);
+    const videos = slides.map((sl) => sl.querySelector<HTMLVideoElement>('video'));
     let inicio: number | null = null;
 
     const seg = (t: string) => { const [m, s] = t.split(':').map(Number); return m * 60 + s; };
@@ -295,6 +306,7 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
       atual = Math.min(Math.max(i, 0), slides.length - 1);
       if (atual > 0 && inicio === null) inicio = Date.now();
       slides.forEach((s, k) => s.classList.toggle('ativo', k === atual));
+      videos.forEach((v, k) => { if (!v) return; if (k === atual) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause(); });
       contador.textContent = `${atual + 1} / ${slides.length}`;
       nTexto.textContent = slides[atual].dataset.notas || '';
       nMeta.textContent = `terminar este slide até ${slides[atual].dataset.ate}`;
@@ -445,7 +457,14 @@ const pct = (v) => `${Math.round((v / totalMes) * 100)}%`;
   .qrcard--grande { width: 380px; }
   .qrcard--grande .qrbox { width: 290px; height: 290px; }
 
-  /* 9 sistemas */
+  /* 9 demonstração real em vídeo */
+  .real { padding: 56px 96px 40px; }
+  .real h2 { font-size: 44px; margin-top: 0; }
+  .real__tela { margin-top: 24px; width: 1000px; height: 437px; border-radius: 16px; overflow: hidden; background: #0b1a1f; border: 1px solid rgba(255,255,255,.18); box-shadow: 0 24px 60px rgba(0,0,0,.4); }
+  .real__tela video { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .real__nota { margin-top: 16px; font-size: 16px; color: var(--suave); }
+
+  /* sistemas */
   .sistemas__grade { margin-top: 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 40px; }
   .sis { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 10px 0; border-top: 1px solid var(--linha); }
   .sis__ic { color: var(--petroleo-600); margin-top: 2px; }
