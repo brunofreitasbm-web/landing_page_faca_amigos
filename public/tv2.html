@@ -64,7 +64,7 @@
       top: 50%;
       left: 50%;
       width: 1080px;
-      height: 1920px;
+      height: var(--H, 1920px); /* altura se ajusta ao formato real da tela (JS), sem sobrar faixa */
       transform-origin: center center;
       transform: translate(-50%, -50%);
       overflow: hidden;
@@ -79,7 +79,7 @@
       top: 0;
       left: 0;
       width: 1080px;
-      height: 1180px;
+      height: calc(var(--H, 1920px) - 740px);
       overflow: hidden;
       background: var(--dark);
       clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
@@ -351,7 +351,7 @@
     /* Faixa quadriculada de largada na borda inclinada */
     .c-flag {
       position: absolute;
-      top: 1163px;
+      top: calc(var(--H, 1920px) - 757px);
       left: -10px;
       width: 1120px;
       height: 34px;
@@ -742,7 +742,13 @@
         const h = window.innerHeight;
         let deg = state.rotation === 'auto' ? (w > h ? 90 : 0) : Number(state.rotation);
         const sideways = deg === 90 || deg === 270;
-        const scale = sideways ? Math.min(w / 1920, h / 1080) : Math.min(w / 1080, h / 1920);
+        // Cobre a tela inteira: a largura 1080 sempre preenche o lado curto e a altura do palco
+        // se adapta ao lado longo (16:9 = 1920, outras proporções ganham ou perdem foto, nunca barra).
+        const shortSide = sideways ? h : w;
+        const longSide = sideways ? w : h;
+        const scale = shortSide / 1080;
+        const stageH = Math.max(1500, Math.round(longSide / scale));
+        dom.canvas.style.setProperty('--H', stageH + 'px');
         dom.canvas.style.transform = `translate(-50%, -50%) rotate(${deg}deg) scale(${scale})`;
         dom.btnRotate.textContent = `🔄 [R] Giro: ${state.rotation === 'auto' ? 'auto (' + deg + 'º)' : deg + 'º'}`;
         // Diagnóstico de nitidez: abra /tv2?diag=1 na TV. Se mostrar 1920x1080 numa TV 4K, é o navegador
