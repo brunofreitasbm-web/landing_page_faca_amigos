@@ -26,6 +26,7 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
     <header>
       <Logo tamanho="26px" tema="escuro" />
       <div class="cont"><b id="total">0</b> participantes · <b id="restantes">0</b> no sorteio · <span id="perfis"></span></div>
+      <button id="som" class="btn peq" type="button" aria-pressed="true">Som: ligado</button>
     </header>
 
     <div class="centro">
@@ -102,10 +103,89 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
     // Cadastros em tempo real: atualiza a cada 5 s enquanto o painel está aberto.
     setInterval(() => { if (!$('palco').hidden && !document.hidden) atualiza().catch(() => {}); }, 5000);
 
+    // ---- Som de suspense (Web Audio, gerado aqui: sem arquivo e sem direitos autorais) ----
+    let somLigado = true;
+    try { somLigado = sessionStorage.getItem('fatech-sorteio-som') !== 'off'; } catch {}
+    let ac = null, sus = null;
+    function contexto() {
+      try {
+        ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+        if (ac.state === 'suspended') ac.resume();
+      } catch { ac = null; }
+      return ac;
+    }
+    function ruido(c, dur) {
+      const b = c.createBuffer(1, Math.ceil(c.sampleRate * dur), c.sampleRate);
+      const d = b.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      return b;
+    }
+    // Rufar de tambor cada vez mais rápido e um tom que sobe. Depois de `dur` segundos o tom fica
+    // sustentado até o número chegar (suspenseRevela) ou o sorteio falhar (suspenseParar).
+    function suspenseInicia(dur) {
+      suspenseParar();
+      if (!somLigado) return;
+      const c = contexto(); if (!c) return;
+      const t0 = c.currentTime + 0.03;
+      const saida = c.createGain(); saida.gain.value = 0.9; saida.connect(c.destination);
+      const fontes = [];
+      const o = c.createOscillator(); o.type = 'sawtooth';
+      const lp = c.createBiquadFilter(); lp.type = 'lowpass';
+      const og = c.createGain();
+      o.frequency.setValueAtTime(110, t0); o.frequency.exponentialRampToValueAtTime(660, t0 + dur);
+      lp.frequency.setValueAtTime(300, t0); lp.frequency.exponentialRampToValueAtTime(2200, t0 + dur);
+      og.gain.setValueAtTime(0.0001, t0); og.gain.exponentialRampToValueAtTime(0.22, t0 + dur);
+      o.connect(lp); lp.connect(og); og.connect(saida); o.start(t0); fontes.push(o);
+      const buf = ruido(c, 0.12);
+      for (let t = t0; t < t0 + dur; ) {
+        const p = (t - t0) / dur;
+        const s = c.createBufferSource(); s.buffer = buf;
+        const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 180 + p * 120; bp.Q.value = 1.2;
+        const g = c.createGain();
+        g.gain.setValueAtTime(0.25 + p * 0.55, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+        s.connect(bp); bp.connect(g); g.connect(saida); s.start(t); fontes.push(s);
+        t += 1 / (4 + 16 * p); // de 4 para 20 batidas por segundo
+      }
+      sus = { c, saida, fontes };
+    }
+    function suspenseParar() {
+      if (!sus) return;
+      const { c, saida, fontes } = sus; sus = null;
+      try { saida.gain.cancelScheduledValues(c.currentTime); saida.gain.setTargetAtTime(0.0001, c.currentTime, 0.03); } catch {}
+      setTimeout(() => fontes.forEach((f) => { try { f.stop(); } catch {} }), 200);
+    }
+    // "Tchan": acorde brilhante + golpe de címbalo, no instante em que o número aparece.
+    function suspenseRevela() {
+      const c = ac; const ativo = !!sus;
+      suspenseParar();
+      if (!somLigado || !c || !ativo) return;
+      const t = c.currentTime + 0.05;
+      const saida = c.createGain(); saida.gain.value = 0.8; saida.connect(c.destination);
+      [523.25, 659.25, 783.99, 1046.5].forEach((f) => {
+        const o = c.createOscillator(); o.type = 'triangle'; o.frequency.value = f;
+        const g = c.createGain();
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.28, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + 1.6);
+        o.connect(g); g.connect(saida); o.start(t); o.stop(t + 1.7);
+      });
+      const s = c.createBufferSource(); s.buffer = ruido(c, 1.2);
+      const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 6000;
+      const g = c.createGain(); g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.001, t + 1.1);
+      s.connect(hp); hp.connect(g); g.connect(saida); s.start(t);
+    }
+    function pintaSom() { $('som').textContent = somLigado ? 'Som: ligado' : 'Som: desligado'; $('som').setAttribute('aria-pressed', String(somLigado)); }
+    $('som').addEventListener('click', () => {
+      somLigado = !somLigado;
+      try { sessionStorage.setItem('fatech-sorteio-som', somLigado ? 'on' : 'off'); } catch {}
+      if (!somLigado) suspenseParar(); else contexto(); // o clique libera o áudio já na primeira vez
+      pintaSom();
+    });
+    pintaSom();
+
     function erro(t) { $('erro').textContent = t; $('erro').hidden = !t; }
 
     $('sortear').addEventListener('click', async () => {
       erro(''); $('sortear').disabled = true;
+      suspenseInicia(3); // dentro do clique: o navegador só libera o som a partir de um gesto
       $('rotulo').textContent = 'Sorteando...'; $('nome').innerHTML = '&nbsp;';
       let resultado = null, falha = null;
       chama('sortear').then((d) => { resultado = d; }).catch((e) => { falha = e; });
@@ -117,7 +197,8 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
           if (Date.now() - ini > 3000 && (resultado || falha)) { clearInterval(t); ok(); }
         }, 70);
       });
-      if (falha) { $('num').textContent = '?'; $('rotulo').textContent = 'Pronto para sortear'; erro(falha.message); $('sortear').disabled = false; return; }
+      if (falha) { suspenseParar(); $('num').textContent = '?'; $('rotulo').textContent = 'Pronto para sortear'; erro(falha.message); $('sortear').disabled = false; return; }
+      suspenseRevela();
       pendente = resultado.numero;
       $('num').textContent = resultado.numero;
       $('nome').textContent = resultado.nome;
