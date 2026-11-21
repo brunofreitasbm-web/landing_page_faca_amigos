@@ -30,7 +30,7 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
 
     <div class="centro">
       <div id="rotulo" class="rotulo">Pronto para sortear</div>
-      <div id="num" class="num">---</div>
+      <div id="num" class="num">?</div>
       <div id="nome" class="nome">&nbsp;</div>
       <div class="acoes">
         <button id="sortear" class="btn grande">Sortear</button>
@@ -117,7 +117,7 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
           if (Date.now() - ini > 3000 && (resultado || falha)) { clearInterval(t); ok(); }
         }, 70);
       });
-      if (falha) { $('num').textContent = '---'; $('rotulo').textContent = 'Pronto para sortear'; erro(falha.message); $('sortear').disabled = false; return; }
+      if (falha) { $('num').textContent = '?'; $('rotulo').textContent = 'Pronto para sortear'; erro(falha.message); $('sortear').disabled = false; return; }
       pendente = resultado.numero;
       $('num').textContent = resultado.numero;
       $('nome').textContent = resultado.nome;
@@ -133,7 +133,7 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
         pendente = null;
         $('ganhou').hidden = true; $('ausente').hidden = true; $('sortear').hidden = false;
         $('rotulo').textContent = status === 'ganhou' ? 'Parabéns!' : 'Vamos sortear outro';
-        if (status === 'ausente') { $('num').textContent = '---'; $('nome').innerHTML = '&nbsp;'; }
+        if (status === 'ausente') { $('num').textContent = '?'; $('nome').innerHTML = '&nbsp;'; }
         await atualiza();
       } catch (e) { erro(e.message); }
     }
