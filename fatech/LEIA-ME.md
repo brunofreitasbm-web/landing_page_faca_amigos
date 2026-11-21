@@ -7,7 +7,7 @@ Tudo o que vai para o quiosque fica neste projeto: a mídia da TV, as demonstra�
 | Pasta / arquivo | O que é |
 |---|---|
 | `src/data/marca.json` | **Dados da marca**: endereço do site (usado no QR Code), WhatsApp e e-mail. Quando estiverem definitivos, troque `urlDefinitiva` e `whatsappDefinitivo` para `true`. |
-| `src/data/produtos.json` | Os 7 produtos: nome, a dor que resolvem e o alívio que entregam. Mudou aqui, muda em todas as peças. |
+| `src/data/produtos.json` | Os 6 produtos: nome, a dor que resolvem e o alívio que entregam. Mudou aqui, muda em todas as peças. |
 | `src/styles/tokens.css` | As cores e a fonte da FA Tech (caminho "Petróleo Clínico", fonte Inter). |
 | `src/pages/impressos/` | As artes para a gráfica: roll-up, display de mesa e cartão. |
 | `docs/` | Documentos de apoio: briefing do parceiro do faturamento e opções de identidade. |
@@ -55,10 +55,11 @@ Todas em **institutofacaamigos.com.br/fatech**. Detalhes de uso no dia estão em
 |---|---|---|
 | `/fatech` | Entrada: leva às demonstrações e à calculadora | `src/pages/index.astro` |
 | `/fatech/demo` | Todos os sistemas, organizados pela dor | `src/data/produtos.json` |
-| `/fatech/demo/clinica` · `faturamento` · `atende` · `pessoas` · `play` · `tv` · `wifi` | Demonstrações clicáveis, com dados inventados e o botão "Mostrar o caminho" | `src/data/demo/<nome>.json` |
+| `/fatech/demo/clinica` · `faturamento` · `atende` · `pessoas` · `tv` · `wifi` | Demonstrações clicáveis, com dados inventados e o botão "Mostrar o caminho" | `src/data/demo/<nome>.json` |
 | `/fatech/demo/calculadora` | Calculadora da dor (quanto a clínica deixa de receber) | `src/pages/demo/calculadora.astro` |
 | `/fatech/tv` | Loop da TV do estande (roda sozinho, com QR fixo). `?rapido=1` acelera para testar | `src/data/tv-slides.json` |
 | `/fatech/apresentacao` | Slides (setas do teclado, F = tela cheia, Imprimir → PDF) | `src/pages/apresentacao.astro` |
+| `/fatech/palestra` | Palestra de 15 min (14 slides). N = notas do apresentador com cronômetro | `src/pages/palestra.astro` |
 | `/fatech/cadastro` | Página que os QR Codes abrem (hoje leva ao WhatsApp) | `src/pages/cadastro.astro` |
 
 **Antes de mostrar os slides:** troque os trechos destacados com borda tracejada (slide 3 e o nome do parceiro do faturamento) por fatos reais.

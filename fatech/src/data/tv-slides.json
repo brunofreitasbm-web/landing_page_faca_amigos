@@ -12,7 +12,7 @@
     {
       "tipo": "abertura",
       "titulo": "Sistemas criados dentro de uma clínica real, <strong>para clínicas reais.</strong>",
-      "subtitulo": "Sete sistemas para a gestão da clínica de terapia. Um problema real por trás de cada um."
+      "subtitulo": "Seis sistemas para a gestão da clínica de terapia. Um problema real por trás de cada um."
     },
     { "tipo": "produto", "id": "clinica" },
     {
@@ -31,13 +31,17 @@
       "tipo": "chamada",
       "texto": "Você ainda controla estagiário <strong>em planilha?</strong>"
     },
-    { "tipo": "produto", "id": "play" },
     { "tipo": "produto", "id": "tv" },
     {
       "tipo": "chamada",
       "texto": "Imagine a recepção <strong>sem responder a mesma pergunta</strong> o dia inteiro."
     },
     { "tipo": "produto", "id": "wifi" },
+    {
+      "tipo": "chamada",
+      "texto": "Sua clínica tem um jeito próprio. <strong>O sistema se ajusta a ele.</strong>",
+      "apoio": "Regras dos seus convênios, perfis do seu jeito, telas e mensagens com a sua cara. Necessidade real vira ajuste."
+    },
     {
       "tipo": "chamada",
       "texto": "Os dados da sua clínica <strong>ficam só com a sua clínica.</strong>",

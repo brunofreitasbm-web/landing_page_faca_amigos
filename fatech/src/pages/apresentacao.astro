@@ -2,11 +2,11 @@
 // Apresentação FA Tech (16:9) para o notebook do estande e reuniões depois do evento.
 // Navegação: setas do teclado, clique (lado esquerdo volta), deslizar o dedo. "F" = tela cheia.
 // Imprimir → Salvar como PDF: sai um slide por página, na horizontal.
-// Trechos entre [colchetes] são para o Bruno confirmar antes de usar com cliente.
 import '../styles/tokens.css';
 import Logo from '../components/Logo.astro';
 import marca from '../data/marca.json';
 import produtos from '../data/produtos.json';
+import pers from '../data/personalizacao.json';
 import { icone } from '../lib/icone.js';
 import { qrSvg, urlCadastro } from '../lib/qr.js';
 
@@ -24,7 +24,7 @@ const extra = {
     era: 'A guia ia para o plano com erro de código, de assinatura ou de prazo. A glosa voltava semanas depois e alguém precisava refazer tudo.',
     ficou: 'Cada guia é conferida antes de ir ao plano. O que tem problema aparece com o motivo, para corrigir antes do envio. Glosa vira exceção.',
     faz: ['Conferência das guias antes do envio ao convênio', 'Lista de pendências com o motivo de cada uma', 'Acompanhamento do que foi enviado, pago e glosado'],
-    nota: 'Em parceria com especialista em faturamento de Belém [nome a confirmar].',
+    nota: 'Em parceria com especialista em faturamento de Belém.',
   },
   atende: {
     era: 'A mensagem que chegava à noite só era vista no dia seguinte. A recepção respondia as mesmas perguntas o dia inteiro.',
@@ -35,11 +35,6 @@ const extra = {
     era: 'Ponto em folha de papel ou planilha. Ninguém sabia ao certo se o estagiário estava na clínica, e as horas do estágio eram conferidas à mão.',
     ficou: 'Ponto pelo celular com localização e rosto. As regras da lei do estágio, como jornada e limites, são conferidas sozinhas.',
     faz: ['Registro de ponto pelo celular, com localização e reconhecimento do rosto', 'Conferência automática da jornada do estagiário', 'Espelho de ponto pronto para o fechamento do mês'],
-  },
-  play: {
-    era: 'Entrada anotada em caderno, tempo de brincadeira contado no relógio e caixa que não batia no fim do dia.',
-    ficou: 'Entrada registrada com os cuidados sensoriais de cada criança, tempo acompanhado na tela, saída conferida com o responsável e caixa que fecha sozinho.',
-    faz: ['Entrada com os cuidados sensoriais de cada criança à vista da equipe', 'Tempo de cada criança na tela, com aviso antes de acabar', 'Saída conferida com o responsável e fechamento de caixa'],
   },
   tv: {
     era: 'Famílias esperando sem informação, televisão ligada em canal aberto e avisos colados na parede.',
@@ -54,7 +49,7 @@ const extra = {
 };
 const produtosSlides = produtos.map((p) => ({ ...p, ...extra[p.id] }));
 const marcaPh = (t) => t.replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
-const total = 4 + produtosSlides.length + 1; // capa, perdas, história, 7 produtos, LGPD, próximo passo
+const total = 5 + produtosSlides.length + 1; // capa, perdas, história, produtos, personalização, LGPD, próximo passo
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -87,14 +82,14 @@ const total = 4 + produtosSlides.length + 1; // capa, perdas, história, 7 produ
       <p class="fecho">Nenhuma delas faz barulho. Todas aparecem no fim do mês.</p>
     </section>
 
-    <!-- 3 história (rever com o Bruno) -->
+    <!-- 3 história -->
     <section class="slide escuro historia">
       <p class="olho">Quem somos</p>
       <h2>Nascemos <strong>dentro de uma clínica</strong></h2>
       <div class="historia__texto">
-        <p set:html={marcaPh('Eu sou o Bruno. Cuido da gestão de uma clínica de terapia para crianças autistas aqui em Belém [confirmar com Bruno: citar o nome da clínica?], com [confirmar com Bruno: nº de profissionais] profissionais e [confirmar com Bruno: nº de famílias atendidas] famílias.')} />
-        <p set:html={marcaPh('Eu vivi cada uma dessas perdas. Guia vencida descoberta tarde, glosa voltando, estagiário com ponto em papel, família esperando resposta no WhatsApp. Testei sistemas prontos e nenhum entendia a rotina de uma clínica TEA [confirmar com Bruno: quais/quantos sistemas testou].')} />
-        <p set:html={marcaPh('Então começamos a construir as ferramentas dentro da própria clínica, desde [confirmar com Bruno: ano em que começou], ajustando com a equipe no dia a dia. O que funcionou para nós virou a FA Tech.')} />
+        <p>Eu sou o Bruno. Cuido da gestão de uma clínica de terapia para crianças autistas aqui em Belém.</p>
+        <p>Eu vivi cada uma dessas perdas. Guia vencida descoberta tarde, glosa voltando, estagiário com ponto em papel, família esperando resposta no WhatsApp. Testei sistemas prontos e nenhum entendia a rotina de uma clínica TEA.</p>
+        <p>Então começamos a construir as ferramentas dentro da própria clínica, ajustando com a equipe no dia a dia. O que funcionou para nós virou a FA Tech.</p>
       </div>
       <Logo tamanho="44px" tema="escuro" descritor={false} />
     </section>
@@ -117,7 +112,19 @@ const total = 4 + produtosSlides.length + 1; // capa, perdas, história, 7 produ
       </section>
     ))}
 
-    <!-- 11 LGPD -->
+    <!-- personalização -->
+    <section class="slide claro pers">
+      <p class="olho">{pers.olho}</p>
+      <h2 set:html={pers.titulo} />
+      <div class="pers__grade">
+        {pers.itens.map((it) => (
+          <div class="pers__item"><span set:html={ic(it.icone, 36, 1.4)} /><b>{it.titulo}</b><p>{it.texto}</p></div>
+        ))}
+      </div>
+      <p class="fecho">{pers.fecho}</p>
+    </section>
+
+    <!-- LGPD -->
     <section class="slide escuro">
       <p class="olho">Privacidade e LGPD</p>
       <h2>Seus dados <strong>ficam com você</strong></h2>
@@ -274,6 +281,13 @@ const total = 4 + produtosSlides.length + 1; // capa, perdas, história, 7 produ
   .faz li :global(svg), .passo li :global(svg) { flex: none; color: var(--destaque); margin-top: 2px; }
   .nota { margin-top: 18px; font-size: 16px; color: var(--suave); }
 
+  .pers__grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: auto 0; }
+  .pers__item { padding: 28px 26px !important; }
+  .pers__item { background: var(--cartao); border: 1px solid var(--borda); border-radius: 14px; padding: 22px 24px; display: grid; grid-template-columns: 48px 1fr; column-gap: 14px; row-gap: 4px; }
+  .pers__item > span { grid-row: span 2; color: var(--destaque); }
+  .pers__item b { font-size: 21px; font-weight: 600; color: var(--petroleo-900); }
+  .pers__item p { font-size: 17px; line-height: 1.45; color: var(--suave); }
+  .pers__item:last-child { border: 1.5px solid var(--destaque); }
   .lgpd { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 40px; margin-top: 40px; }
   .lgpd > div { display: grid; grid-template-columns: 52px 1fr; column-gap: 14px; row-gap: 4px; padding: 20px 0; border-top: 1px solid var(--borda); }
   .lgpd > div > span { grid-row: span 2; color: var(--destaque); }

@@ -1,0 +1,12 @@
+{
+  "_leia": "Personalização do sistema: usado na apresentação, na palestra e na TV do estande. Só liste o que dá para ajustar de verdade.",
+  "olho": "Do jeito da sua clínica",
+  "titulo": "O sistema se ajusta <strong>à sua rotina</strong>, não o contrário",
+  "itens": [
+    { "icone": "sliders-horizontal", "titulo": "As regras da sua clínica", "texto": "Convênios, prazos de guia, tipos de terapia e duração das sessões do jeito que vocês trabalham." },
+    { "icone": "user-cog", "titulo": "Perfis do seu jeito", "texto": "Cada cargo vê e faz só o que a sua clínica decidir." },
+    { "icone": "palette", "titulo": "Com a cara da clínica", "texto": "Respostas do robô, telas da TV e página do Wi-Fi com o seu nome, os seus avisos e o seu tom." },
+    { "icone": "wrench", "titulo": "O que faltar, construímos junto", "texto": "Necessidade real da sua clínica vira ajuste no sistema. Foi assim que ele nasceu." }
+  ],
+  "fecho": "Começou dentro de uma clínica e continua sendo ajustado com quem usa."
+}
