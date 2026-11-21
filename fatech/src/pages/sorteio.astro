@@ -1,0 +1,150 @@
+---
+// Cadastro do sorteio de brindes: o QR Code do palco abre esta página. Gera lead da FA Tech.
+// A função fatech-sorteio (Supabase) grava, devolve o número e manda o e-mail.
+import '../styles/tokens.css';
+import Logo from '../components/Logo.astro';
+import { u } from '../lib/url.js';
+const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sorteio';
+---
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Sorteio de brindes | FA Tech</title>
+</head>
+<body>
+  <main>
+    <Logo tamanho="30px" tema="escuro" />
+
+    <section id="form-box">
+      <h1>Concorra aos brindes da FA Tech.</h1>
+      <p class="sub">Leva 20 segundos. Você recebe seu número na tela e no e-mail.</p>
+
+      <form id="f" novalidate>
+        <label>Nome
+          <input name="nome" autocomplete="name" required maxlength="120" />
+        </label>
+        <label>WhatsApp (com DDD)
+          <input name="telefone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(91) 90000-0000" required maxlength="20" />
+        </label>
+        <label>E-mail
+          <input name="email" type="email" autocomplete="email" required maxlength="254" />
+        </label>
+
+        <fieldset>
+          <legend>Você é</legend>
+          <label class="op"><input type="radio" name="perfil" value="gestor_clinica" required /> <span>Dono(a) ou gestor(a) de clínica</span></label>
+          <label class="op"><input type="radio" name="perfil" value="profissional" /> <span>Profissional de saúde</span></label>
+          <label class="op"><input type="radio" name="perfil" value="familia_outro" /> <span>Família ou outro</span></label>
+        </fieldset>
+
+        <input class="hp" type="text" name="website-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <label class="chk">
+          <input type="checkbox" name="consentimento" required />
+          <span>Autorizo a FA Tech e o Instituto FaçaAmigos a me contatar por e-mail e WhatsApp. Posso pedir a remoção quando quiser. <a href="/politica-privacidade" target="_blank" rel="noopener">Política de privacidade</a>.</span>
+        </label>
+
+        <p id="erro" role="alert" hidden></p>
+        <button id="enviar" class="btn" type="submit">Quero meu número</button>
+      </form>
+    </section>
+
+    <section id="ok-box" hidden>
+      <h1 id="ok-titulo">Você está no sorteio.</h1>
+      <div class="numero" id="numero" aria-live="polite"></div>
+      <p id="ok-msg" class="sub"></p>
+      <p class="sub">O sorteio é no fim do dia. Se o seu número sair e você não estiver por perto, sorteamos outro. Tire um print desta tela para não esquecer.</p>
+      <a class="btn" href={u('/demo?origem=sorteio')}>Ver os sistemas funcionando</a>
+    </section>
+  </main>
+
+  <script define:vars={{ API }}>
+    const params = new URLSearchParams(location.search);
+    const origem = params.get('origem') || 'palestra';
+    const f = document.getElementById('f');
+    const erro = document.getElementById('erro');
+    const btn = document.getElementById('enviar');
+
+    // Máscara simples (99) 99999-9999
+    f.telefone.addEventListener('input', () => {
+      const d = f.telefone.value.replace(/\D/g, '').slice(0, 11);
+      f.telefone.value = d.length > 6
+        ? `(${d.slice(0, 2)}) ${d.slice(2, d.length > 10 ? 7 : 6)}-${d.slice(d.length > 10 ? 7 : 6)}`
+        : d.length > 2 ? `(${d.slice(0, 2)}) ${d.slice(2)}` : d;
+    });
+
+    const mostraErro = (t) => { erro.textContent = t; erro.hidden = false; };
+
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      erro.hidden = true;
+      const perfil = f.querySelector('input[name=perfil]:checked');
+      if (!f.nome.value.trim()) return mostraErro('Informe seu nome.');
+      if (f.telefone.value.replace(/\D/g, '').length < 10) return mostraErro('Confira o WhatsApp, com DDD.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) return mostraErro('Confira o e-mail digitado.');
+      if (!perfil) return mostraErro('Escolha uma das opções em "Você é".');
+      if (!f.consentimento.checked) return mostraErro('Marque a autorização para participar.');
+
+      btn.disabled = true; btn.textContent = 'Enviando...';
+      try {
+        const r = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'participar',
+            nome: f.nome.value, telefone: f.telefone.value, email: f.email.value,
+            perfil: perfil.value, origem, consentimento: true,
+            'website-hp': f['website-hp'].value,
+          }),
+        });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || !d.ok) { mostraErro(d.error || 'Não deu certo agora. Tente de novo.'); return; }
+
+        document.getElementById('form-box').hidden = true;
+        document.getElementById('ok-box').hidden = false;
+        if (d.ja_cadastrado) {
+          document.getElementById('ok-titulo').textContent = 'Você já está no sorteio.';
+          document.getElementById('numero').hidden = true;
+          document.getElementById('ok-msg').textContent = 'Reenviamos o seu número para o e-mail do cadastro. Confira também a caixa de spam.';
+        } else {
+          document.getElementById('numero').textContent = d.numero;
+          document.getElementById('ok-msg').textContent = d.email_enviado
+            ? 'Também enviamos para o seu e-mail. Se não chegar, olhe o spam.'
+            : 'Guarde este número. O e-mail pode demorar alguns minutos.';
+        }
+        window.scrollTo(0, 0);
+      } catch {
+        mostraErro('Sem conexão agora. Tente de novo.');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Quero meu número';
+      }
+    });
+  </script>
+</body>
+</html>
+<style>
+  body { margin: 0; min-height: 100vh; background: var(--petroleo-900); color: #fff; font-family: var(--fonte); padding: 28px 16px 48px; box-sizing: border-box; }
+  main { max-width: 460px; margin: 0 auto; }
+  h1 { font-weight: 300; font-size: 28px; line-height: 1.2; letter-spacing: -.01em; margin: 28px 0 8px; }
+  .sub { font-weight: 300; font-size: 16px; line-height: 1.5; opacity: .85; margin: 0 0 18px; }
+  form { display: grid; gap: 14px; margin-top: 8px; }
+  label { display: grid; gap: 6px; font-size: 14px; font-weight: 400; opacity: .95; }
+  input[type=text], input[type=email], input[type=tel], input:not([type]) { font: inherit; font-size: 17px; padding: 14px; border-radius: var(--raio); border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: #fff; }
+  input:focus { outline: 2px solid var(--agua); outline-offset: 1px; }
+  fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; }
+  legend { font-size: 14px; margin-bottom: 8px; padding: 0; }
+  .op { grid-template-columns: auto 1fr; align-items: center; gap: 12px; padding: 14px; border: 1px solid rgba(255,255,255,.25); border-radius: var(--raio); font-size: 16px; cursor: pointer; }
+  .op:has(input:checked) { border-color: var(--agua); background: rgba(63,183,191,.15); }
+  .op input { width: 20px; height: 20px; accent-color: var(--agua); margin: 0; }
+  .chk { grid-template-columns: auto 1fr; align-items: start; gap: 12px; font-size: 13px; line-height: 1.45; opacity: .8; }
+  .chk input { width: 20px; height: 20px; accent-color: var(--agua); margin: 0; }
+  .chk a { color: var(--agua); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  #erro { margin: 0; padding: 12px 14px; border-radius: var(--raio); background: rgba(255,120,120,.16); border: 1px solid rgba(255,120,120,.5); font-size: 15px; }
+  .btn { display: block; text-align: center; padding: 16px; border-radius: var(--raio); background: var(--agua); color: var(--petroleo-900); font-weight: 600; font-size: 17px; text-decoration: none; border: 0; font-family: inherit; cursor: pointer; margin-top: 8px; }
+  .btn:disabled { opacity: .6; }
+  .numero { font-size: 96px; font-weight: 600; letter-spacing: .06em; color: var(--agua); text-align: center; line-height: 1; margin: 20px 0 16px; }
+  [hidden] { display: none !important; }
+</style>

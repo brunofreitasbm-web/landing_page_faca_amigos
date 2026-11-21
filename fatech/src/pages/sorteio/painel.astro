@@ -1,0 +1,166 @@
+---
+// Painel do sorteio, para projetar no palco. Protegido por senha (secret FATECH_SORTEIO_SENHA na função).
+import '../../styles/tokens.css';
+import Logo from '../../components/Logo.astro';
+const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sorteio';
+---
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Painel do sorteio | FA Tech</title>
+</head>
+<body>
+  <section id="login">
+    <Logo tamanho="30px" tema="escuro" />
+    <h1>Painel do sorteio</h1>
+    <form id="lf">
+      <input id="senha" type="password" placeholder="Senha" autocomplete="current-password" required />
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+    <p id="lerro" class="erro" hidden></p>
+  </section>
+
+  <section id="palco" hidden>
+    <header>
+      <Logo tamanho="26px" tema="escuro" />
+      <div class="cont"><b id="total">0</b> participantes · <b id="restantes">0</b> no sorteio · <span id="perfis"></span></div>
+    </header>
+
+    <div class="centro">
+      <div id="rotulo" class="rotulo">Pronto para sortear</div>
+      <div id="num" class="num">---</div>
+      <div id="nome" class="nome">&nbsp;</div>
+      <div class="acoes">
+        <button id="sortear" class="btn grande">Sortear</button>
+        <button id="ganhou" class="btn ok" hidden>Presente, ganhou</button>
+        <button id="ausente" class="btn aus" hidden>Ausente, sortear de novo</button>
+      </div>
+      <p id="erro" class="erro" hidden></p>
+    </div>
+
+    <aside>
+      <h2>Ganhadores</h2>
+      <ol id="lista"></ol>
+      <button id="csv" class="btn peq">Baixar lista (CSV)</button>
+    </aside>
+  </section>
+
+  <script define:vars={{ API }}>
+    const $ = (id) => document.getElementById(id);
+    let senha = sessionStorage.getItem('fatech-sorteio-senha') || '';
+    let pendente = null; // número sorteado aguardando "ganhou" ou "ausente"
+
+    async function chama(action, extra = {}) {
+      const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, senha, ...extra }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw Object.assign(new Error(d.error || 'Erro'), { status: r.status });
+      return d;
+    }
+    const PERFIL = { gestor_clinica: 'gestores', profissional: 'profissionais', familia_outro: 'famílias/outros' };
+
+    async function atualiza() {
+      const d = await chama('painel_resumo');
+      $('total').textContent = d.total;
+      $('restantes').textContent = d.restantes;
+      $('perfis').textContent = Object.entries(d.por_perfil).map(([k, v]) => `${v} ${PERFIL[k] || k}`).join(' · ');
+      $('lista').innerHTML = '';
+      for (const s of d.sorteados) {
+        const li = document.createElement('li');
+        li.textContent = `${s.numero} ${s.nome}${s.status === 'ganhou' ? ' ✓' : s.status === 'ausente' ? ' (ausente)' : ' (aguardando)'}`;
+        $('lista').appendChild(li);
+      }
+      $('sortear').disabled = d.restantes === 0 || !!pendente;
+    }
+
+    async function entrar() {
+      try {
+        await atualiza();
+        $('login').hidden = true; $('palco').hidden = false;
+        sessionStorage.setItem('fatech-sorteio-senha', senha);
+      } catch (e) {
+        sessionStorage.removeItem('fatech-sorteio-senha');
+        $('lerro').textContent = e.message; $('lerro').hidden = false;
+      }
+    }
+    $('lf').addEventListener('submit', (e) => { e.preventDefault(); senha = $('senha').value; entrar(); });
+    if (senha) entrar();
+
+    function erro(t) { $('erro').textContent = t; $('erro').hidden = !t; }
+
+    $('sortear').addEventListener('click', async () => {
+      erro(''); $('sortear').disabled = true;
+      $('rotulo').textContent = 'Sorteando...'; $('nome').innerHTML = '&nbsp;';
+      let resultado = null, falha = null;
+      chama('sortear').then((d) => { resultado = d; }).catch((e) => { falha = e; });
+      // animação: números rolando por ~3 s (e até a resposta chegar)
+      const ini = Date.now();
+      await new Promise((ok) => {
+        const t = setInterval(() => {
+          $('num').textContent = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
+          if (Date.now() - ini > 3000 && (resultado || falha)) { clearInterval(t); ok(); }
+        }, 70);
+      });
+      if (falha) { $('num').textContent = '---'; $('rotulo').textContent = 'Pronto para sortear'; erro(falha.message); $('sortear').disabled = false; return; }
+      pendente = resultado.numero;
+      $('num').textContent = resultado.numero;
+      $('nome').textContent = resultado.nome;
+      $('rotulo').textContent = 'Número sorteado';
+      $('sortear').hidden = true; $('ganhou').hidden = false; $('ausente').hidden = false;
+      atualiza().catch(() => {});
+    });
+
+    async function marca(status) {
+      erro('');
+      try {
+        await chama('marcar', { numero: Number(pendente), status });
+        pendente = null;
+        $('ganhou').hidden = true; $('ausente').hidden = true; $('sortear').hidden = false;
+        $('rotulo').textContent = status === 'ganhou' ? 'Parabéns!' : 'Vamos sortear outro';
+        if (status === 'ausente') { $('num').textContent = '---'; $('nome').innerHTML = '&nbsp;'; }
+        await atualiza();
+      } catch (e) { erro(e.message); }
+    }
+    $('ganhou').addEventListener('click', () => marca('ganhou'));
+    $('ausente').addEventListener('click', () => marca('ausente'));
+
+    $('csv').addEventListener('click', async () => {
+      try {
+        const d = await chama('exportar');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([d.csv], { type: 'text/csv;charset=utf-8' }));
+        a.download = `sorteio-fatech-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+      } catch (e) { erro(e.message); }
+    });
+  </script>
+</body>
+</html>
+<style>
+  body { margin: 0; min-height: 100vh; background: var(--petroleo-900); color: #fff; font-family: var(--fonte); }
+  #login { max-width: 360px; margin: 0 auto; padding: 48px 16px; }
+  #login h1 { font-weight: 300; font-size: 26px; margin: 28px 0 16px; }
+  #login form { display: grid; gap: 12px; }
+  input { font: inherit; font-size: 17px; padding: 14px; border-radius: var(--raio); border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: #fff; }
+  #palco { min-height: 100vh; display: grid; grid-template-columns: 1fr 300px; grid-template-rows: auto 1fr; }
+  header { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 18px 28px; border-bottom: 1px solid rgba(255,255,255,.12); gap: 16px; flex-wrap: wrap; }
+  .cont { font-size: 16px; opacity: .85; } .cont b { color: var(--agua); font-weight: 600; }
+  .centro { display: grid; place-content: center; justify-items: center; gap: 12px; padding: 24px; text-align: center; }
+  .rotulo { font-size: 22px; font-weight: 300; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .num { font-size: clamp(120px, 26vw, 340px); font-weight: 600; line-height: 1; color: var(--agua); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+  .nome { font-size: clamp(32px, 5vw, 64px); font-weight: 300; min-height: 1.2em; }
+  .acoes { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 18px; }
+  aside { border-left: 1px solid rgba(255,255,255,.12); padding: 20px; overflow: auto; max-height: calc(100vh - 70px); }
+  aside h2 { font-size: 15px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 12px; opacity: .7; }
+  aside ol { margin: 0 0 18px; padding-left: 22px; display: grid; gap: 6px; font-size: 16px; }
+  .btn { font-family: inherit; border: 0; cursor: pointer; padding: 16px 28px; border-radius: var(--raio); background: var(--agua); color: var(--petroleo-900); font-weight: 600; font-size: 18px; }
+  .btn.grande { font-size: 28px; padding: 22px 56px; }
+  .btn.ok { background: #7ddc9b; }
+  .btn.aus { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
+  .btn.peq { font-size: 14px; padding: 10px 14px; background: transparent; color: var(--agua); border: 1px solid var(--agua); }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .erro { color: #ff9b9b; margin: 0; }
+  [hidden] { display: none !important; }
+  @media (max-width: 800px) { #palco { grid-template-columns: 1fr; } aside { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); max-height: none; } }
+</style>
