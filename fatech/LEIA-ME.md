@@ -61,6 +61,9 @@ Todas em **institutofacaamigos.com.br/fatech**. Detalhes de uso no dia estão em
 | `/fatech/apresentacao` | Slides (setas do teclado, F = tela cheia, Imprimir → PDF) | `src/pages/apresentacao.astro` |
 | `/fatech/palestra` | Palestra de 15 min (14 slides). N = notas do apresentador com cronômetro | `src/pages/palestra.astro` |
 | `/fatech/cadastro` | Página que os QR Codes abrem (hoje leva ao WhatsApp) | `src/pages/cadastro.astro` |
+| `/fatech/sorteio` | Cadastro do sorteio de brindes (nome, WhatsApp, e-mail, perfil). Mostra o número na tela e manda por e-mail. Função `fatech-sorteio` no Supabase, tabela `fa_fatech_sorteio` | `src/pages/sorteio.astro` |
+| `/fatech/sorteio/qr` | QR Code do sorteio em tela cheia, para projetar ou imprimir | `src/pages/sorteio/qr.astro` |
+| `/fatech/sorteio/painel` | Painel do palco, com senha: sorteia, marca presente ou ausente, baixa a lista (CSV). A senha está no Vault do Supabase (`fatech_sorteio_senha`) | `src/pages/sorteio/painel.astro` |
 
 **Antes de mostrar os slides:** troque os trechos destacados com borda tracejada (slide 3 e o nome do parceiro do faturamento) por fatos reais.
 
