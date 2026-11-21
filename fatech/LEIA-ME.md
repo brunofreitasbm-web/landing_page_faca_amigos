@@ -59,7 +59,7 @@ Todas em **institutofacaamigos.com.br/fatech**. Detalhes de uso no dia estão em
 | `/fatech/demo/calculadora` | Calculadora da dor (quanto a clínica deixa de receber) | `src/pages/demo/calculadora.astro` |
 | `/fatech/tv` | Loop da TV do estande (roda sozinho, com QR fixo). `?rapido=1` acelera para testar. Tem um cartão de vídeo (demonstração do FA Faturamento, sem áudio, ~2 min 20 s) com arquivo em `public/videos/` | `src/data/tv-slides.json` |
 | `/fatech/apresentacao` | Slides (setas do teclado, F = tela cheia, Imprimir → PDF) | `src/pages/apresentacao.astro` |
-| `/fatech/palestra` | Palestra de 15 min (15 slides, com vídeo real em `public/videos/`). N = notas do apresentador com cronômetro | `src/pages/palestra.astro` |
+| `/fatech/palestra` | Palestra de 15 min (14 slides, com vídeo real em `public/videos/`). N = notas do apresentador com cronômetro | `src/pages/palestra.astro` |
 | `/fatech/cadastro` | Página que os QR Codes abrem (hoje leva ao WhatsApp) | `src/pages/cadastro.astro` |
 | `/fatech/sorteio` | Cadastro do sorteio de brindes (nome, WhatsApp, e-mail, perfil). Mostra o número na tela e manda por e-mail. Função `fatech-sorteio` no Supabase, tabela `fa_fatech_sorteio` | `src/pages/sorteio.astro` |
 | `/fatech/sorteio/qr` | QR Code do sorteio em tela cheia, para projetar ou imprimir | `src/pages/sorteio/qr.astro` |
