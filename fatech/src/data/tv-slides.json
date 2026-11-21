@@ -1,5 +1,5 @@
 {
-  "_leia": "Textos da TV do estande (página /fatech/tv). Pode editar os textos à vontade. Em 'sequencia', cada item é um cartão, na ordem em que aparece. tipo 'abertura' = logo; tipo 'produto' = usa o produto de produtos.json pelo 'id' (pergunta e alívio vêm de lá; para trocar só na TV, preencha 'pergunta' ou 'alivio' aqui); tipo 'chamada' = frase grande. Para destacar uma parte da frase, coloque entre <strong> e </strong>. Tempos em segundos. Não coloque números de resultado de clínica aqui.",
+  "_leia": "Textos da TV do estande (página /fatech/tv). Pode editar os textos à vontade. Em 'sequencia', cada item é um cartão, na ordem em que aparece. tipo 'abertura' = logo; tipo 'produto' = usa o produto de produtos.json pelo 'id' (pergunta e alívio vêm de lá; para trocar só na TV, preencha 'pergunta' ou 'alivio' aqui); tipo 'chamada' = frase grande; tipo 'video' = demonstração em vídeo de um produto (arquivo em public/videos, sem áudio; 'duracao' em segundos só vale se o navegador não conseguir ler a duração do arquivo). Para destacar uma parte da frase, coloque entre <strong> e </strong>. Tempos em segundos. Não coloque números de resultado de clínica aqui.",
   "tempos": {
     "abertura": 10,
     "produto": 12,
@@ -20,6 +20,14 @@
       "texto": "Imagine fechar o mês <strong>sem correr atrás de guia.</strong>"
     },
     { "tipo": "produto", "id": "faturamento" },
+    {
+      "tipo": "video",
+      "id": "faturamento",
+      "arquivo": "/videos/fa-faturamento-demo.mp4",
+      "capa": "/videos/fa-faturamento-demo.jpg",
+      "duracao": 142,
+      "titulo": "Do scan ao portal, <strong>num lugar só.</strong>"
+    },
     {
       "tipo": "chamada",
       "texto": "Quanto sua clínica deixa de receber por mês? <strong>Descubra em 1 minuto.</strong>",

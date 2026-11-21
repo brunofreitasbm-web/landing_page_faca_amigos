@@ -57,7 +57,7 @@ Todas em **institutofacaamigos.com.br/fatech**. Detalhes de uso no dia estão em
 | `/fatech/demo` | Todos os sistemas, organizados pela dor | `src/data/produtos.json` |
 | `/fatech/demo/clinica` · `faturamento` · `atende` · `pessoas` · `tv` · `wifi` | Demonstrações clicáveis, com dados inventados e o botão "Mostrar o caminho" | `src/data/demo/<nome>.json` |
 | `/fatech/demo/calculadora` | Calculadora da dor (quanto a clínica deixa de receber) | `src/pages/demo/calculadora.astro` |
-| `/fatech/tv` | Loop da TV do estande (roda sozinho, com QR fixo). `?rapido=1` acelera para testar | `src/data/tv-slides.json` |
+| `/fatech/tv` | Loop da TV do estande (roda sozinho, com QR fixo). `?rapido=1` acelera para testar. Tem um cartão de vídeo (demonstração do FA Faturamento, sem áudio, ~2 min 20 s) com arquivo em `public/videos/` | `src/data/tv-slides.json` |
 | `/fatech/apresentacao` | Slides (setas do teclado, F = tela cheia, Imprimir → PDF) | `src/pages/apresentacao.astro` |
 | `/fatech/palestra` | Palestra de 15 min (14 slides). N = notas do apresentador com cronômetro | `src/pages/palestra.astro` |
 | `/fatech/cadastro` | Página que os QR Codes abrem (hoje leva ao WhatsApp) | `src/pages/cadastro.astro` |
