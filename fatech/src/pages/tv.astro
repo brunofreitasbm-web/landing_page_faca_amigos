@@ -10,11 +10,17 @@ import produtos from '../data/produtos.json';
 import tv from '../data/tv-slides.json';
 import { icone } from '../lib/icone.js';
 import { qrSvg, urlCadastro } from '../lib/qr.js';
+import { u } from '../lib/url.js';
 
 const qr = await qrSvg(urlCadastro('tv'));
 const porId = Object.fromEntries(produtos.map((p) => [p.id, p]));
 const cartoes = tv.sequencia.map((c) => {
-  const dur = tv.tempos[c.tipo] ?? 10;
+  const dur = c.tipo === 'video' ? (c.duracao ?? 60) : (tv.tempos[c.tipo] ?? 10);
+  if (c.tipo === 'video') {
+    const p = porId[c.id];
+    if (!p) throw new Error(`tv-slides.json: produto "${c.id}" não existe em produtos.json`);
+    return { ...p, ...c, dur, src: u(c.arquivo), capa: c.capa ? u(c.capa) : undefined };
+  }
   if (c.tipo !== 'produto') return { ...c, dur };
   const p = porId[c.id];
   if (!p) throw new Error(`tv-slides.json: produto "${c.id}" não existe em produtos.json`);
@@ -58,6 +64,18 @@ const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
             <h2 class="anima a2" set:html={c.titulo} />
             {c.subtitulo && <p class="anima a3">{c.subtitulo}</p>}
             <span class="seta anima a4" set:html={ic('arrow-down-right', 120, 1.2)} />
+          </div>
+        )}
+
+        {c.tipo === 'video' && (
+          <div class="demo">
+            <div class="demo__tela anima a1">
+              <video src={c.src} poster={c.capa} muted playsinline preload="auto" disablepictureinpicture />
+            </div>
+            <div class="demo__texto">
+              <p class="tag anima a2"><span set:html={ic(c.icone, 44, 1.6)} />{c.nome}{c.parceria && <em> · em parceria</em>}</p>
+              <h2 class="anima a3" set:html={c.titulo} />
+            </div>
           </div>
         )}
 
@@ -189,7 +207,21 @@ const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
     addEventListener('resize', escalar);
     escalar();
 
-    const duracao = (i) => (rapido ? 2 : Number(cartoes[i].dataset.dur) || 10) * 1000;
+    // cartão de vídeo dura o tempo do próprio vídeo (+1 s); o número do JSON só vale se o navegador não ler a duração
+    const duracao = (i) => {
+      if (rapido) return 2000;
+      const v = cartoes[i].querySelector('video');
+      if (v && Number.isFinite(v.duration) && v.duration > 0) return (v.duration + 1) * 1000;
+      return (Number(cartoes[i].dataset.dur) || 10) * 1000;
+    };
+    const videos = cartoes.map((c) => c.querySelector('video'));
+    function tocar(i) {
+      videos.forEach((v, k) => { if (v && k !== i) v.pause(); });
+      const v = videos[i];
+      if (!v) return;
+      v.currentTime = 0;
+      if (!pausado) v.play().catch(() => {});
+    }
 
     function mostrar(i) {
       const antigo = cartoes[atual];
@@ -200,9 +232,14 @@ const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
       cartoes[atual].removeAttribute('aria-hidden');
       decorrido = 0;
       barra.style.transform = 'scaleX(0)';
+      tocar(atual);
     }
 
-    function pausar(v) { pausado = v; selo.hidden = !v; }
+    function pausar(v) {
+      pausado = v; selo.hidden = !v;
+      const vd = videos[atual];
+      if (vd) { if (v) vd.pause(); else vd.play().catch(() => {}); }
+    }
 
     setInterval(() => {
       const agora = performance.now();
@@ -288,6 +325,14 @@ const ic = (n, t = 28, s = 1.6) => icone(n, { tamanho: t, traco: s });
   .encerramento h2 { margin-top: 70px; }
   .seta { position: absolute; right: 470px; bottom: 210px; color: var(--agua); }
   .seta :global(svg) { display: block; }
+
+  /* demonstração em vídeo */
+  .demo { display: grid; grid-template-columns: 1088px 1fr; gap: 72px; height: 820px; align-items: center; }
+  .demo__tela { width: 1088px; height: 612px; border-radius: 20px; overflow: hidden; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.18); }
+  .demo__tela video { width: 100%; height: 100%; display: block; object-fit: contain; background: #fff; }
+  .demo__texto { display: flex; flex-direction: column; justify-content: center; padding-bottom: 40px; }
+  .demo h2 { font-weight: 300; font-size: 68px; line-height: 1.12; letter-spacing: -.022em; margin-top: 40px; }
+  .demo .tag { font-size: 30px; flex-wrap: wrap; row-gap: 6px; }
 
   /* produto */
   .produto { display: grid; grid-template-columns: 1fr 640px; gap: 88px; height: 820px; }
