@@ -40,6 +40,11 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
       <p id="erro" class="erro" hidden></p>
     </div>
 
+    <aside class="cad">
+      <h2>Cadastros <span id="ncad"></span></h2>
+      <ol id="cadlista" class="cadlista"></ol>
+    </aside>
+
     <aside>
       <h2>Ganhadores</h2>
       <ol id="lista"></ol>
@@ -71,6 +76,14 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
         li.textContent = `${s.numero} ${s.nome}${s.status === 'ganhou' ? ' ✓' : s.status === 'ausente' ? ' (ausente)' : ' (aguardando)'}`;
         $('lista').appendChild(li);
       }
+      $('ncad').textContent = d.total ? `(${d.total})` : '';
+      $('cadlista').innerHTML = '';
+      for (const c of d.cadastros) {
+        const li = document.createElement('li');
+        const n = document.createElement('b'); n.textContent = c.numero;
+        li.append(n, ` ${c.nome}`);
+        $('cadlista').appendChild(li);
+      }
       $('sortear').disabled = d.restantes === 0 || !!pendente;
     }
 
@@ -86,6 +99,8 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
     }
     $('lf').addEventListener('submit', (e) => { e.preventDefault(); senha = $('senha').value; entrar(); });
     if (senha) entrar();
+    // Cadastros em tempo real: atualiza a cada 5 s enquanto o painel está aberto.
+    setInterval(() => { if (!$('palco').hidden && !document.hidden) atualiza().catch(() => {}); }, 5000);
 
     function erro(t) { $('erro').textContent = t; $('erro').hidden = !t; }
 
@@ -143,15 +158,18 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
   #login h1 { font-weight: 300; font-size: 26px; margin: 28px 0 16px; }
   #login form { display: grid; gap: 12px; }
   input { font: inherit; font-size: 17px; padding: 14px; border-radius: var(--raio); border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: #fff; }
-  #palco { min-height: 100vh; display: grid; grid-template-columns: 1fr 300px; grid-template-rows: auto 1fr; }
+  #palco { min-height: 100vh; display: grid; grid-template-columns: 1fr 280px 300px; grid-template-rows: auto 1fr; }
   header { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 18px 28px; border-bottom: 1px solid rgba(255,255,255,.12); gap: 16px; flex-wrap: wrap; }
   .cont { font-size: 16px; opacity: .85; } .cont b { color: var(--agua); font-weight: 600; }
   .centro { display: grid; place-content: center; justify-items: center; gap: 12px; padding: 24px; text-align: center; }
   .rotulo { font-size: 22px; font-weight: 300; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
-  .num { font-size: clamp(120px, 26vw, 340px); font-weight: 600; line-height: 1; color: var(--agua); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+  .num { white-space: nowrap; font-size: clamp(90px, min(15vw, 32vh), 300px); font-weight: 600; line-height: 1; color: var(--agua); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
   .nome { font-size: clamp(32px, 5vw, 64px); font-weight: 300; min-height: 1.2em; }
   .acoes { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 18px; }
   aside { border-left: 1px solid rgba(255,255,255,.12); padding: 20px; overflow: auto; max-height: calc(100vh - 70px); }
+  aside.cad { border-left: 1px solid rgba(255,255,255,.12); }
+  .cadlista { list-style: none; padding-left: 0 !important; }
+  .cadlista b { color: var(--agua); font-variant-numeric: tabular-nums; margin-right: 6px; }
   aside h2 { font-size: 15px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 12px; opacity: .7; }
   aside ol { margin: 0 0 18px; padding-left: 22px; display: grid; gap: 6px; font-size: 16px; }
   .btn { font-family: inherit; border: 0; cursor: pointer; padding: 16px 28px; border-radius: var(--raio); background: var(--agua); color: var(--petroleo-900); font-weight: 600; font-size: 18px; }
@@ -162,5 +180,5 @@ const API = 'https://ivjvpdzsfjdpyabbzzuj.supabase.co/functions/v1/fatech-sortei
   .btn:disabled { opacity: .4; cursor: default; }
   .erro { color: #ff9b9b; margin: 0; }
   [hidden] { display: none !important; }
-  @media (max-width: 800px) { #palco { grid-template-columns: 1fr; } aside { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); max-height: none; } }
+  @media (max-width: 800px) { #palco { grid-template-columns: 1fr; } aside, aside.cad { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); max-height: none; } }
 </style>

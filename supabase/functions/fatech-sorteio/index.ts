@@ -3,7 +3,7 @@
 //  participar {nome, telefone, email, perfil, origem, consentimento, website-hp}
 //      cadastra, devolve o número e manda o e-mail. Contato repetido NUNCA recebe o número de volta
 //      na tela (senão bastaria digitar o e-mail de outra pessoa): o número é reenviado ao e-mail cadastrado.
-//  painel_resumo {senha}   total, contagem por perfil e ganhadores
+//  painel_resumo {senha}   total, contagem por perfil, cadastros (mais recentes primeiro) e ganhadores
 //  sortear {senha}         sorteia 1 entre quem ainda não foi sorteado (crypto.getRandomValues)
 //  marcar {senha, numero, status}   "ganhou" ou "ausente" (ausente sai do pool; sortear de novo)
 //  exportar {senha}        CSV com todos os cadastros
@@ -259,7 +259,8 @@ Deno.serve(async (req) => {
         .filter((l) => l.sorteado_em)
         .sort((a, b) => (a.sorteado_em! < b.sorteado_em! ? 1 : -1))
         .map((l) => ({ numero: fmtNumero(l.numero), nome: nomePublico(l.nome), status: l.status_sorteio }));
-      return json(req, { ok: true, total: linhas.length, restantes: linhas.filter((l) => !l.sorteado_em).length, por_perfil: porPerfil, sorteados });
+      const cadastros = [...linhas].sort((a, b) => b.numero - a.numero).map((l) => ({ numero: fmtNumero(l.numero), nome: nomePublico(l.nome), perfil: l.perfil }));
+      return json(req, { ok: true, cadastros, total: linhas.length, restantes: linhas.filter((l) => !l.sorteado_em).length, por_perfil: porPerfil, sorteados });
     }
 
     if (action === "sortear") {
