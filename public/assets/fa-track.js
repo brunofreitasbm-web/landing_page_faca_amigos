@@ -33,7 +33,8 @@
   var ROOT_DOMAIN = 'institutofacaamigos.com.br';
   // playground. fica na lista enquanto durar o redirecionamento 308 para /playground (links antigos, QR, anúncios).
   var INTERNAL_HOSTS = ['institutofacaamigos.com.br', 'www.institutofacaamigos.com.br', 'playground.institutofacaamigos.com.br'];
-  var WHATSAPP_UNITS = { '5591991782027': 'clinica', '5591992347673': 'playground_circuito', '5591991101215': 'playground_graopara' };
+  // 5591993199571: linha da clínica usada pela /visita e pelos anúncios do Google (desde 24/11/2026); conta como "clinica".
+  var WHATSAPP_UNITS = { '5591991782027': 'clinica', '5591993199571': 'clinica', '5591992347673': 'playground_circuito', '5591991101215': 'playground_graopara' };
   // GEO & AEO: quando não há utm_source na URL, mas o referrer é um desses domínios, a visita entrou por uma
   // resposta de IA generativa / Answer Engine. Vira utm_source=<engine>&utm_medium=ai em fa_origin, evento GA4 e user_property
   // "ai_engine" (ver fa-weekly-report para o relatório semanal).
