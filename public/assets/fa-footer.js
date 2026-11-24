@@ -53,6 +53,8 @@
       paginas: [['Clínica', '/clinica'], ['Pacotes particulares', '/planos']]
     }
   };
+  // /visita é a página de entrada dos anúncios: o rodapé usa a mesma linha (99319-9571) do botão principal.
+  if (/^\/visita\/?$/.test(location.pathname)) UNITS.clinica.wa = '5591993199571';
   var ORDEM = ['parque', 'graopara', 'clinica'];
   var EMAIL = 'institutofacaamigos@gmail.com';
   var INSTAGRAM = 'https://www.instagram.com/facaamigos.belem/';
