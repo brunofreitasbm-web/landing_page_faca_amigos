@@ -306,7 +306,7 @@
   }
 
   // Código curto da origem, para o atendimento anotar de onde veio cada conversa da Clínica:
-  // G anúncio do Google (gclid) · M anúncio da Meta (utm_medium pago + origem Meta) · I Instagram orgânico ·
+  // G anúncio do Google (gclid) · L anúncio do Google da campanha de liminar/reembolso · M anúncio da Meta (utm_medium pago + origem Meta) · I Instagram orgânico ·
   // E e-mail do mapeamento · B busca orgânica · S site ou acesso direto. Anúncios da Meta precisam de
   // utm_medium=paid_social, senão o clique do Instagram orgânico (que também carrega fbclid) seria contado como anúncio.
   function originCode() {
@@ -316,7 +316,8 @@
       var med = (o.utm_medium || '').toLowerCase();
       var ref = (o.referrer || '').toLowerCase();
       var meta = /facebook|(^|[^a-z])fb([^a-z]|$)|meta|instagram|(^|[^a-z])ig([^a-z]|$)/.test(src);
-      if (o.gclid || (/google/.test(src) && /cpc|ppc|paid/.test(med))) return 'G';
+      // L: anúncio do Google da campanha de liminar/reembolso (o link final leva utm_campaign com "liminar" ou "reembolso").
+      if (o.gclid || (/google/.test(src) && /cpc|ppc|paid/.test(med))) return /liminar|reembolso/.test((o.utm_campaign || '').toLowerCase()) ? 'L' : 'G';
       if (meta && /paid|cpc|ppc/.test(med)) return 'M';
       if (src === 'email_mapeamento' || med === 'email') return 'E';
       if (meta || /instagram/.test(ref)) return 'I';
@@ -325,11 +326,15 @@
     return 'S';
   }
   // Acrescenta " (ref X)" ao fim do texto pronto do WhatsApp (o text= é sempre o último parâmetro dos nossos links).
-  function tagWaHref(a, code) {
+  // Para anúncio do Google (G ou L) leva também o gclid: " (ref G gclid=XXXX)". É o que permite a recepção anotar
+  // quem fechou plano e a gente devolver essa conversão ao Google Ads (importação offline). O gclid só tem
+  // [A-Za-z0-9_-], então não precisa de escape extra.
+  function tagWaHref(a, code, gclid) {
     try {
       var h = a.getAttribute('href') || '';
-      if (!/[?&]text=/.test(h) || /\(ref%20[A-Z]\)/.test(h)) return;
-      a.setAttribute('href', h.replace(/(text=[^&#]*)/, '$1' + encodeURIComponent(' (ref ' + code + ')')));
+      if (!/[?&]text=/.test(h) || /\(ref%20[A-Z]/.test(h)) return;
+      var tag = ' (ref ' + code + ((code === 'G' || code === 'L') && gclid && /^[\w-]{10,120}$/.test(gclid) ? ' gclid=' + gclid : '') + ')';
+      a.setAttribute('href', h.replace(/(text=[^&#]*)/, '$1' + encodeURIComponent(tag)));
     } catch (e) { /* link intacto */ }
   }
 
@@ -359,7 +364,9 @@
       if (evt.unidade === 'clinica') {
         var code = originCode();
         evt.origem_ref = code;
-        tagWaHref(a, code);
+        var gcl = window.faOrigin ? (window.faOrigin().gclid || '') : '';
+        if (gcl) evt.tem_gclid = 'sim';
+        tagWaHref(a, code, gcl);
         // O pixel só existe com o aceite "todos". Sem parâmetros: nada sobre a criança nem sobre a queixa vai à Meta.
         // O pixel é carregado só aqui (loadMetaPixel). As tags do Meta dentro do GTM devem ficar pausadas: duplicam o evento.
         if (window.fbq) { try { window.fbq('track', isVisita ? 'Schedule' : 'Contact'); } catch (e) { /* pixel indisponível */ } }
