@@ -68,10 +68,11 @@ export const fmtFone = (wa: string) => {
   return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
 };
 
-export const waUrl = (id: UnidadeId, texto?: string) => {
+// "numero" troca só o telefone do link (usado pela /visita, cuja linha de WhatsApp é a dos anúncios).
+export const waUrl = (id: UnidadeId, texto?: string, numero?: string) => {
   const u = marca.unidades[id];
   if (!u.whatsapp) return null;
-  return `https://wa.me/${u.whatsapp}?text=${encodeURIComponent(texto ?? u.waTexto)}`;
+  return `https://wa.me/${numero ?? u.whatsapp}?text=${encodeURIComponent(texto ?? u.waTexto)}`;
 };
 
 // Nó schema.org de uma unidade (LocalBusiness). A página de cada unidade é a dona do próprio nó.

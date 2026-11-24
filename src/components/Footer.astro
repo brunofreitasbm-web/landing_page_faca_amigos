@@ -6,7 +6,7 @@ import type { UnidadeId } from '../data/marca';
 // "kind" só alimenta o tracking dos links (data-fa-link="rodape_<kind>").
 // "contexto" escolhe os cartões de unidade (rodapé por contexto, aprovado em 04/11/2026): o telefone da Clínica
 // não aparece no Playground/Circuito, e os do Playground não aparecem na Clínica. "hub" mostra as três.
-const { kind = 'hub', contexto = 'hub' } = Astro.props as { kind?: string; contexto?: 'hub' | 'playground' | 'clinica' };
+const { kind = 'hub', contexto = 'hub', waNumeroClinica } = Astro.props as { kind?: string; contexto?: 'hub' | 'playground' | 'clinica'; waNumeroClinica?: string };
 const ordens: Record<string, UnidadeId[]> = { hub: ['parque', 'graopara', 'clinica'], playground: ['parque', 'graopara'], clinica: ['clinica'] };
 const ordem: UnidadeId[] = ordens[contexto] ?? ordens.hub;
 // Páginas de cada unidade (links do cartão) e o rótulo de status que o rodapé sempre mostrou na Clínica.
@@ -37,14 +37,15 @@ function endereco(id: UnidadeId) {
     <div class="rodape-unidades">
       {ordem.map((id) => {
         const u = unidades[id];
-        const zap = waUrl(id);
+        const numeroId = id === 'clinica' && waNumeroClinica ? waNumeroClinica : undefined;
+const zap = waUrl(id, undefined, numeroId);
         return (
           <div class="rodape-un" data-fa-unit={id}>
             <p class="rodape-nome">{u.shopping || u.nome}</p>
             <span class="rodape-papel">{papel[id]}</span>
             <p>{endereco(id)}{status[id] && <> <strong>({status[id]})</strong></>}</p>
             <p>{horarioTexto(id)}</p>
-            {zap && <a class="rodape-wa" href={zap} target="_blank" rel="noopener">WhatsApp {rotuloWa[id]}: {fmtFone(u.whatsapp as string)}</a>}
+            {zap && <a class="rodape-wa" href={zap} target="_blank" rel="noopener">WhatsApp {rotuloWa[id]}: {fmtFone(numeroId ?? (u.whatsapp as string))}</a>}
             <div class="rodape-links">
               <a href={u.mapa} target="_blank" rel="noopener">Como chegar</a>
               {paginas[id].map(([nome, href]) => <a href={href}>{nome}</a>)}

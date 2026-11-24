@@ -24,12 +24,13 @@ interface Props {
   jsonLd?: Record<string, unknown>[]; // nós schema.org; vão juntos num @graph
   secao?: string; // item ativo do menu
   wa?: UnidadeId; // unidade cujo WhatsApp aparece no botão
+  waNumero?: string; // troca só o telefone do WhatsApp (ex.: /visita usa a linha dos anúncios)
   semWa?: boolean; // esconde o botão de WhatsApp do cabeçalho e o flutuante (páginas legais, 404)
   waTexto?: string; // mensagem inicial do WhatsApp (padrão: a da unidade)
   cta?: { label: string; href: string; event: string }; // barra de ação no celular (assets/fa-cta.js)
   minimo?: boolean; // landing de campanha: só o logo no topo e um rodapé enxuto (sem menu do site)
 }
-const { title, ogTitle, ogDescription, siteName = 'FaçaAmigos', articleAuthor, description, path, ogImage = 'img/og/og-hub.jpg', ogImageAlt = 'FaçaAmigos', ogType = 'website', noindex = false, jsonLd = [], secao = '', wa = 'parque', waTexto, semWa = false, cta, minimo = false } = Astro.props;
+const { title, ogTitle, ogDescription, siteName = 'FaçaAmigos', articleAuthor, description, path, ogImage = 'img/og/og-hub.jpg', ogImageAlt = 'FaçaAmigos', ogType = 'website', noindex = false, jsonLd = [], secao = '', wa = 'parque', waNumero, waTexto, semWa = false, cta, minimo = false } = Astro.props;
 const canonical = abs(path);
 // Rodapé por contexto: Playground/Circuito só com os WhatsApp do Playground; Clínica, conteúdo para pais e Mapeamento só com o da Clínica.
 const rodapeContexto = ['playground', 'circuito'].includes(secao) ? 'playground'
@@ -83,10 +84,10 @@ const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org',
 <body>
   <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${SITE.gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  {minimo ? <LpTopo /> : <Nav atual={secao} wa={wa} texto={waTexto} semWa={semWa} />}
+  {minimo ? <LpTopo /> : <Nav atual={secao} wa={wa} texto={waTexto} semWa={semWa} waNumero={waNumero} />}
   <main id="conteudo"><slot /></main>
-  {minimo ? <LpRodape wa={wa} /> : <Footer kind="hub" contexto={rodapeContexto} />}
-  {!semWa && <WhatsAppFloat href={waUrl(wa, waTexto)} />}
+  {minimo ? <LpRodape wa={wa} /> : <Footer kind="hub" contexto={rodapeContexto} waNumeroClinica={waNumero} />}
+  {!semWa && <WhatsAppFloat href={waUrl(wa, waTexto, waNumero)} />}
   <script is:inline src="/assets/fa-reveal.js" defer></script>
   {cta && <script is:inline src="/assets/fa-cta.js" defer data-label={cta.label} data-href={cta.href} data-event={cta.event}></script>}
 </body>

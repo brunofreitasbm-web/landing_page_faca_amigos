@@ -7,8 +7,8 @@ const dados = import.meta.glob('../data/paginas/*.json', { eager: true, import: 
 const frags = import.meta.glob('../data/paginas/*.html', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 const js = import.meta.glob('../data/paginas/*.js', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 
-const { slug, secao = '', classe = '', semWa = false, wa = 'parque', waTexto, substituir = {}, ogPadrao = 'img/og/og-hub.jpg' } = Astro.props as {
-  slug: string; secao?: string; classe?: string; semWa?: boolean; wa?: UnidadeId; waTexto?: string; substituir?: Record<string, string>; ogPadrao?: string;
+const { slug, secao = '', classe = '', semWa = false, wa = 'parque', waNumero, waTexto, substituir = {}, ogPadrao = 'img/og/og-hub.jpg' } = Astro.props as {
+  slug: string; secao?: string; classe?: string; semWa?: boolean; wa?: UnidadeId; waNumero?: string; waTexto?: string; substituir?: Record<string, string>; ogPadrao?: string;
 };
 const d = dados[`../data/paginas/${slug}.json`];
 let corpo = frags[`../data/paginas/${slug}.html`];
@@ -30,6 +30,7 @@ const noindex = /noindex/.test(d.robots ?? '');
   secao={secao}
   semWa={semWa}
   wa={wa}
+  waNumero={waNumero}
   waTexto={waTexto}
   cta={d.fa_cta ?? undefined}
   jsonLd={d.jsonLd}
