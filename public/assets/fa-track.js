@@ -352,15 +352,19 @@
         link_text: (a.textContent || '').trim().slice(0, 60)
       };
       if (linkId) evt.cta_location = linkId;
+      // Pedido de visita (links com data-fa-evento="visita", hoje só na /visita): conversão própria, visita_click,
+      // NO LUGAR do whatsapp_click (não junto), para não contar duas vezes no GA4/Google Ads. Na Meta vira Schedule.
+      var isVisita = a.getAttribute('data-fa-evento') === 'visita';
       // Clínica: marca a origem na própria mensagem (a recepção anota o código e se virou avaliação) e avisa a Meta.
       if (evt.unidade === 'clinica') {
         var code = originCode();
         evt.origem_ref = code;
         tagWaHref(a, code);
         // O pixel só existe com o aceite "todos". Sem parâmetros: nada sobre a criança nem sobre a queixa vai à Meta.
-        if (window.fbq) { try { window.fbq('track', 'Contact'); } catch (e) { /* pixel indisponível */ } }
+        // O pixel é carregado só aqui (loadMetaPixel). As tags do Meta dentro do GTM devem ficar pausadas: duplicam o evento.
+        if (window.fbq) { try { window.fbq('track', isVisita ? 'Schedule' : 'Contact'); } catch (e) { /* pixel indisponível */ } }
       }
-      track('whatsapp_click', evt);
+      track(isVisita ? 'visita_click' : 'whatsapp_click', evt);
       return;
     }
 

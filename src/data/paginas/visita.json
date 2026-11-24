@@ -1,0 +1,33 @@
+{
+  "slug": "visita",
+  "path": "/visita",
+  "titleTag": "Agende uma visita à Clínica FaçaAmigos | Terapia infantil em Belém",
+  "descricao": "Conheça o Centro de Terapia Comportamental FaçaAmigos, no Umarizal, antes de decidir. Agende uma visita com a nossa equipe pelo WhatsApp.",
+  "robots": "noindex, follow",
+  "ogTitle": "Agende uma visita à Clínica FaçaAmigos",
+  "ogDescricao": "Conheça as salas, a equipe e o jeito de trabalhar do Centro de Terapia Comportamental FaçaAmigos, em Belém.",
+  "ogSiteName": "FaçaAmigos Centro de Terapia Comportamental",
+  "ogType": "website",
+  "ogImage": "img/clinica-fachada.jpg",
+  "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
+  "fa_cta": {
+    "label": "Agendar visita",
+    "href": "#agendar",
+    "event": "visita_barra"
+  },
+  "jsonLd": [
+    {
+      "@type": "WebPage",
+      "@id": "https://institutofacaamigos.com.br/visita#webpage",
+      "url": "https://institutofacaamigos.com.br/visita",
+      "name": "Agende uma visita à Clínica FaçaAmigos",
+      "inLanguage": "pt-BR",
+      "about": {
+        "@type": "MedicalBusiness",
+        "name": "FaçaAmigos Centro de Terapia Comportamental",
+        "url": "https://institutofacaamigos.com.br/clinica"
+      }
+    }
+  ],
+  "scripts": 1
+}
