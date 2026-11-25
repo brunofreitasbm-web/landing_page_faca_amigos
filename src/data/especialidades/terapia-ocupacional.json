@@ -6,11 +6,11 @@
   "descricao": "Terapia ocupacional infantil em Belém/PA: autonomia, coordenação motora fina, brincar e rotina, inclusive no autismo. Atendemos IASEP, PROASA e particular.",
   "h1": "Terapia ocupacional infantil em Belém: autonomia e autismo",
   "eyebrow": "Clínica · Terapia Ocupacional",
-  "resposta": "A terapia ocupacional (T.O.) ajuda a criança a fazer o que faz parte do seu dia: vestir-se, comer, brincar, usar lápis e tesoura, participar da escola. O foco é a autonomia nas atividades do cotidiano, adaptando a tarefa, o ambiente ou a forma de fazer.",
+  "resposta": "A terapia ocupacional (T.O.) ajuda a criança a fazer o que faz parte do seu dia: vestir-se, comer, brincar, usar lápis e tesoura, participar da escola. O foco é a autonomia nas atividades do cotidiano, adaptando a tarefa, o ambiente ou a forma de fazer. A terapia ocupacional infantil em Belém é feita no Umarizal, em um centro de terapia com equipe multidisciplinar.",
   "path": "/clinica/terapia-ocupacional",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-17",
-  "dataTexto": "17 de novembro de 2026",
+  "dateModified": "2026-11-25",
+  "dataTexto": "25 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse em Terapia Ocupacional na Clínica FaçaAmigos.",
@@ -35,6 +35,10 @@
     {
       "q": "A T.O. é só para crianças com autismo?",
       "a": "Não. Atende qualquer criança com dificuldade para realizar atividades esperadas para a idade, com ou sem diagnóstico."
+    },
+    {
+      "q": "Onde fazer terapia ocupacional infantil em Belém? Vocês são uma clínica de T.O.?",
+      "a": "O Centro de Terapia Comportamental FaçaAmigos fica na Rua Boaventura da Silva, 1573, no Umarizal, em Belém. A T.O. infantil é feita ali, junto com as outras especialidades, e atendemos por IASEP, PROASA e particular."
     }
   ],
   "relacionadosSlugs": [

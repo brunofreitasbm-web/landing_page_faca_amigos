@@ -3,6 +3,7 @@
 > Feita em 2026-10-06, a partir do código do repositório (branch `main`). **Não** foi conferido o site no ar,
 > o Google Business Profile, o Search Console nem avaliações. O que depende disso está marcado como _verificar_.
 > Documento interno (`docs/` não vai ao ar).
+> **Atualização de 2026-11-25:** a Clínica abriu em novembro de 2026 e o Google Business Profile dela está verificado. Onde este documento diz que a Clínica "ainda não abriu", vale o que está em `.claude/product-marketing.md` e em `docs/gbp-clinica.md`.
 
 ## Resumo em uma frase
 
