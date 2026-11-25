@@ -3,10 +3,10 @@
   "nome": "Fonoaudiologia",
   "area": "outra",
   "titleTag": "Fonoaudiologia Infantil para Autismo em Belém | FaçaAmigos",
-  "descricao": "Fonoaudiologia infantil (fono pediátrica) em Belém/PA: atraso de fala, CAA, troca de sons e deglutição, inclusive no autismo. IASEP e PROASA.",
+  "descricao": "Fonoaudiologia infantil (fono pediátrica) em Belém/PA: atraso de fala, CAA, troca de sons e deglutição, inclusive no autismo. IASEP, PROASA e particular.",
   "h1": "Fonoaudiologia infantil em Belém: fala, comunicação e autismo",
   "eyebrow": "Clínica · Fonoaudiologia",
-  "resposta": "A fonoaudiologia cuida da comunicação e da alimentação: linguagem, fala, voz, audição e deglutição. Na infância, ajuda crianças com atraso de fala, troca de sons, gagueira, dificuldade para mastigar ou engolir, e também apresenta comunicação alternativa (CAA) a quem não fala. Quem busca fonoaudióloga ou fonoaudiólogo infantil em Belém encontra a fono infantil no Umarizal, por IASEP, PROASA ou particular.",
+  "resposta": "A fonoaudiologia cuida da comunicação e da alimentação: linguagem, fala, voz, audição e deglutição. Na infância, ajuda crianças com atraso de fala, troca de sons, gagueira, dificuldade para mastigar ou engolir, e também apresenta comunicação alternativa (CAA) a quem não fala. A clínica fica no Umarizal, em Belém, e atende fonoaudiologia infantil por IASEP, PROASA ou particular.",
   "path": "/clinica/fonoaudiologia",
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-25",
@@ -45,8 +45,8 @@
       "a": "Não necessariamente. Quem indica é a avaliação de cada criança: algumas têm dificuldade de comunicação e se beneficiam, outras falam bem e precisam de apoio em outras áreas. Por isso o plano é montado caso a caso."
     },
     {
-      "q": "Vocês são uma clínica de fono? Fazem fonoaudiologia pediátrica?",
-      "a": "Sim. A fonoaudiologia infantil, também chamada de fono pediátrica, é uma das especialidades do Centro de Terapia Comportamental FaçaAmigos, no Umarizal, em Belém. Atendemos por IASEP, PROASA e particular, depois de uma avaliação."
+      "q": "Vocês são uma clínica de fono?",
+      "a": "Sim. A fonoaudiologia infantil (fono pediátrica) é uma das especialidades da clínica, no Umarizal, em Belém. Atendemos por IASEP, PROASA e particular, depois de uma avaliação."
     }
   ],
   "relacionadosSlugs": [
