@@ -26,8 +26,10 @@
       "about": {
         "@type": "MedicalBusiness",
         "name": "FaçaAmigos Centro de Terapia Comportamental",
-        "url": "https://institutofacaamigos.com.br/clinica"
-      }
+        "url": "https://institutofacaamigos.com.br/clinica",
+        "image": "https://institutofacaamigos.com.br/img/clinica-fachada.jpg"
+      },
+      "primaryImageOfPage": "https://institutofacaamigos.com.br/img/pacotes/primeiro-passo-600.jpg"
     },
     {
       "@type": "OfferCatalog",

@@ -111,6 +111,32 @@ function paginasIndexaveis() {
   return achadas;
 }
 
+// Sitemap de imagens: cada <url> do sitemap.xml lista as fotos de conteúdo da página (<img src> de dist/, sem logo nem
+// arte de compartilhamento). O Google só lê <image:loc>; legenda e licença ficam no JSON-LD (src/data/imagens.json).
+const NS_IMAGEM = 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"';
+function imagensDaPagina(loc) {
+  const u = new URL(loc);
+  const caminho = u.pathname.replace(/\/+$/, '');
+  const arq = join(root, 'dist', caminho === '' ? 'index.html' : caminho.slice(1) + '.html');
+  if (!existsSync(arq)) return [];
+  const html = readFileSync(arq, 'utf8');
+  const achadas = new Set();
+  for (const m of html.matchAll(/<img\b[^>]*?\ssrc="([^"]+)"/g)) {
+    const src = m[1];
+    if (/logo|\/og\//i.test(src) || !/\.(jpe?g|png|webp)$/i.test(src)) continue;
+    const abs = src.startsWith('http') ? src : new URL(src, loc).href;
+    if (abs.startsWith(HUB + '/img/')) achadas.add(abs);
+  }
+  return [...achadas].sort();
+}
+function comImagens(bloco, loc) {
+  const sem = bloco.replace(/\s*<image:image>[\s\S]*?<\/image:image>/g, '');
+  const imgs = imagensDaPagina(loc);
+  if (!imgs.length) return sem;
+  const linhas = imgs.map((i) => `    <image:image><image:loc>${i}</image:loc></image:image>`).join('\n');
+  return sem.replace(/\s*<\/url>/, `\n${linhas}\n  </url>`);
+}
+
 // Recompõe o sitemap.xml: mantém os blocos (e comentários) das URLs que continuam, tira as que saíram, acrescenta as novas.
 function sincronizarUrls(xml) {
   const alvo = paginasIndexaveis();
@@ -158,9 +184,12 @@ for (const nome of SITEMAPS) {
       defasados++;
       console.log(`${loc}: ${atual ?? '(sem lastmod)'} -> ${nova}  [${arq.join(', ')}]`);
     }
-    if (/<lastmod>/.test(bloco)) return bloco.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${nova}</lastmod>`);
-    return bloco.replace('</loc>', `</loc>\n    <lastmod>${nova}</lastmod>`);
-  });
+    let saida = /<lastmod>/.test(bloco)
+      ? bloco.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${nova}</lastmod>`)
+      : bloco.replace('</loc>', `</loc>\n    <lastmod>${nova}</lastmod>`);
+    if (nome === 'sitemap.xml') saida = comImagens(saida, loc);
+    return saida;
+  }).replace(/<urlset(?![^>]*xmlns:image)([^>]*)>/, nome === 'sitemap.xml' ? `<urlset$1 ${NS_IMAGEM}>` : '<urlset$1>');
   if (xml !== antes) novos.set(sitemapPath, xml);
 }
 

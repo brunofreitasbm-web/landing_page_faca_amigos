@@ -8,6 +8,7 @@ import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { SITE, abs, waUrl } from '../data/marca';
 import type { UnidadeId } from '../data/marca';
 import { dims } from '../lib/img';
+import { enriquecerImagens } from '../lib/imagemSchema';
 
 interface Props {
   title: string;
@@ -38,7 +39,7 @@ const rodapeContexto = ['playground', 'circuito'].includes(secao) ? 'playground'
 const robots = noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 const imagem = abs('/' + ogImage);
 const og = await dims(ogImage);
-const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonLd }) : '';
+const grafo = jsonLd.length ? JSON.stringify({ '@context': 'https://schema.org', '@graph': await enriquecerImagens(jsonLd) }) : '';
 ---
 <!doctype html>
 <html lang="pt-BR">
