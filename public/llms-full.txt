@@ -1,16 +1,20 @@
 # Instituto FaçaAmigos — Documentação Completa para Assistentes de IA e Mecanismos de Busca
 
+> Clínica de terapia infantil em Belém do Pará (autismo, TDAH e desenvolvimento), com atendimento particular em pacotes mensais e convênios IASEP e PROASA. O Instituto também mantém o Playground Inclusivo e o Circuito de Carrinhos Elétricos.
+
 ## Páginas principais
 
-- [Início — visão geral do ecossistema](https://institutofacaamigos.com.br/): Playground, Circuito e Clínica, endereços, horários e perguntas frequentes.
-- [Playground Inclusivo](https://institutofacaamigos.com.br/playground): preços, Horário Inclusivo, meia-entrada inclusiva, como funciona e perguntas frequentes.
+- [Início — Clínica de terapia infantil e ecossistema](https://institutofacaamigos.com.br/): Clínica de autismo e terapia infantil em Belém (atendimento particular e convênios IASEP e PROASA), com Playground e Circuito, endereços, horários e perguntas frequentes.
+- [Clínica FaçaAmigos](https://institutofacaamigos.com.br/clinica): Centro de Terapia Comportamental no Umarizal, em Belém. Avaliação inicial, 14 especialidades terapêuticas, cada uma com página própria (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), atendimento particular e convênios IASEP e PROASA.
+- [Pacotes particulares de terapia](https://institutofacaamigos.com.br/planos): seis pacotes mensais de 4 a 24 sessões de 40 minutos (Primeiro Passo, Laço, Vínculo, Turma, Abraço e Voo Livre), sessão avulsa (Encontro) e Avaliação Neuropsicológica. Terapias combináveis, avaliação inicial inclusa, parcelamento em até 3x sem juros. Os valores são passados pela equipe no WhatsApp.
+- [Método FaçaAmigos](https://institutofacaamigos.com.br/metodologia): como a Clínica avalia uma criança: anamnese com a família, avaliação em ambiente natural no Playground, acompanhamento pelo Mural da Família, devolutiva e plano individual.
+- [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/mapeamento): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
+- [Playground Inclusivo](https://institutofacaamigos.com.br/playground): preços, Horário Inclusivo, meia-entrada inclusiva, como funciona e perguntas frequentes. Para todas as crianças de 0 a 12 anos, com ou sem laudo.
 - [Circuito de Carrinhos Elétricos](https://institutofacaamigos.com.br/circuito): passeios, preço e perguntas frequentes.
-- [Serviços da Clínica](https://institutofacaamigos.com.br/clinica): avaliação inicial, 14 especialidades terapêuticas, cada uma com página própria (Terapia ABA, Psicologia, Fonoaudiologia, T.O., Integração Sensorial, Fisioterapia, Psicopedagogia, Psicomotricidade, Musicoterapia, Nutrição, Ed. Física Adaptada, Habilidades Sociais, Orientação Parental e Avaliação Neuropsicológica), planos particulares de sessões e convênios IASEP e PROASA.
 - [Eventos — palestras, encontros e treinamentos](https://institutofacaamigos.com.br/eventos): agenda do Instituto para famílias e profissionais em Belém, com inscrição gratuita ou paga, vagas limitadas reais e lista de espera.
 - [Aprender — guias educativos](https://institutofacaamigos.com.br/aprender): 24 guias sobre autismo, TDAH, neurodivergência, terapia ABA, plano de saúde, birra e crise, rotina visual, laudo e CIPTEA e mais, escritos pela psicóloga Isabella Gonçalves Freitas.
 - [Direitos da pessoa autista e neurodivergente](https://institutofacaamigos.com.br/direitos): passo a passo (o que levar, como pedir, o que fazer se negarem) de CIPTEA, BPC, plano de saúde, escola, atendimento prioritário e mais. Informação geral, não é consultoria jurídica.
 - [Glossário](https://institutofacaamigos.com.br/glossario): cerca de 50 termos de desenvolvimento infantil e inclusão (TEA, ABA, CIPTEA, integração sensorial...) explicados em linguagem simples.
-- [Mapeamento Comportamental gratuito](https://institutofacaamigos.com.br/mapeamento): questionário de cerca de 5 minutos para famílias de crianças de 4 a 17 anos. Não substitui avaliação profissional.
 - [E-book O Brincar com Propósito](https://institutofacaamigos.com.br/guia): guia prático de Análise do Comportamento para mães, pais e cuidadores.
 - [E-book O Código do Desenvolvimento Infantil](https://institutofacaamigos.com.br/codigo): guia curto e acolhedor sobre o comportamento infantil.
 - [Política de Privacidade](https://institutofacaamigos.com.br/politica-privacidade): tratamento de dados pessoais e de crianças, conforme a LGPD.
@@ -70,7 +74,8 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 | **Política de Desconto PCD / TEA** | Meia-entrada inclusiva no Playground, com laudo ou CIPTEA: R$ 50,00 os 30 minutos (público geral: R$ 60,00) |
 | **Programa de Fidelidade — Playground** | a cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito. |
 | **Programa de Fidelidade — Circuito** | a cada 10 visitas registradas pelo CPF do responsável, a 10ª entrada de 30 minutos é 100% gratuita. Vale no Playground e no Circuito. |
-| **Horário de Funcionamento** | Segunda a sábado, das 10h às 22h; domingo, das 12h às 21h |
+| **Horário da Clínica** | Segunda a sexta, das 8h às 18h; sábado, das 8h às 11h45; atendimento com hora marcada |
+| **Horário do Playground e do Circuito (Parque Shopping)** | Segunda a sábado, das 10h às 22h; domingo, das 12h às 21h |
 | **Melhor Horário Sensorial** | 10h às 16h (Horário Inclusivo, todos os dias; aos domingos, a partir das 12h) |
 | **Endereço Operacional 1** | Parque Shopping Belém — Rod. Augusto Montenegro, 4300, Belém - PA, CEP 66635-110. Playground no 1º piso; Circuito no térreo, em frente à C&A |
 | **Endereço Operacional 2** | Shopping Bosque Grão-Pará — Av. Centenário, 1052, Belém - PA, 1º piso, em frente à Renner. Seg-sáb 10h às 22h, domingo 12h às 21h (Aberto) |
@@ -79,26 +84,6 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 ---
 
 ## Tabela Completa de Serviços e Preços
-
-### Playground Inclusivo (Parque Shopping Belém)
-| Pacote | Público geral | Meia-entrada inclusiva (laudo/CIPTEA) |
-| :--- | :--- | :--- |
-| 30 minutos | R$ 60,00 | R$ 50,00 |
-| 120 minutos | R$ 192,00 | R$ 160,00 |
-| 60 minutos | R$ 108,00 | R$ 90,00 |
-| Passaporte mensal (10h/mês, 3x sem juros) | R$ 840,00 | R$ 700,00 |
-| Day Use (10h no mesmo dia) | R$ 270,00 | R$ 225,00 |
-| Minuto adicional | R$ 1,80 | R$ 1,50 |
-
-- **Crianças ≥ 3 anos**: podem permanecer no parque sob supervisão dos mediadores capacitados, com pulseira de identificação vinculada ao responsável cadastrado na entrada.
-
-- **Olhar FaçaAmigos**: nos planos a partir de 1 hora (60 minutos ou mais) o responsável recebe, por WhatsApp, o Olhar FaçaAmigos, um resumo das anotações da equipe sobre a brincadeira da criança (coordenação, interação social, atenção, comunicação). Cortesia, sem custo adicional. Não é avaliação clínica nem diagnóstico.
-
-### Circuito de Carrinhos Elétricos (Parque Shopping Belém)
-- **Carro e moto(30 min)**: R$ 48,00
-- **Pelúcia e Jeep (20 min)**: R$ 48,00
-- **Minuto adicional**: R$ 3,00
-- **Modos de Pilotagem**: controle remoto pelos pais ou pilotagem autônoma pela criança.
 
 ### FaçaAmigos Clínica (Centro de Terapia Comportamental)
 - **Localização**: Rua Boaventura da Silva, 1573 — Umarizal, Belém/PA
@@ -132,6 +117,27 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
   - Atendimento pelos convênios parceiros **IASEP** e **PROASA** (a clínica solicita a autorização da guia mediante laudo com CID, carteirinha e RG).
   - Para outros convênios: emissão de nota fiscal e relatórios detalhados para solicitação de reembolso junto à operadora de saúde.
 
+### Playground Inclusivo (Parque Shopping Belém)
+| Pacote | Público geral | Meia-entrada inclusiva (laudo/CIPTEA) |
+| :--- | :--- | :--- |
+| 30 minutos | R$ 60,00 | R$ 50,00 |
+| 120 minutos | R$ 192,00 | R$ 160,00 |
+| 60 minutos | R$ 108,00 | R$ 90,00 |
+| Passaporte mensal (10h/mês, 3x sem juros) | R$ 840,00 | R$ 700,00 |
+| Day Use (10h no mesmo dia) | R$ 270,00 | R$ 225,00 |
+| Minuto adicional | R$ 1,80 | R$ 1,50 |
+
+- **Crianças ≥ 3 anos**: podem permanecer no parque sob supervisão dos mediadores capacitados, com pulseira de identificação vinculada ao responsável cadastrado na entrada.
+
+- **Olhar FaçaAmigos**: nos planos a partir de 1 hora (60 minutos ou mais) o responsável recebe, por WhatsApp, o Olhar FaçaAmigos, um resumo das anotações da equipe sobre a brincadeira da criança (coordenação, interação social, atenção, comunicação). Cortesia, sem custo adicional. Não é avaliação clínica nem diagnóstico.
+
+### Circuito de Carrinhos Elétricos (Parque Shopping Belém)
+- **Carro e moto(30 min)**: R$ 48,00
+- **Pelúcia e Jeep (20 min)**: R$ 48,00
+- **Minuto adicional**: R$ 3,00
+- **Modos de Pilotagem**: controle remoto pelos pais ou pilotagem autônoma pela criança.
+
+
 ---
 
 ## Recursos de Acessibilidade e Adaptação Sensorial
@@ -144,22 +150,37 @@ O Instituto FaçaAmigos é uma organização sediada em Belém do Pará dedicada
 
 ## Perguntas Frequentes e Respostas
 
-#### Q1: Como funciona o acesso de crianças autistas no FaçaAmigos?
+#### Q1: Como funciona o primeiro contato com a Clínica FaçaAmigos?
+R: Você chama a equipe pelo WhatsApp e conta o que está acontecendo. Depois da conversa com a família (a Anamnese), a criança é avaliada em ambiente natural, brincando, e a família acompanha tudo pelo Mural da Família. Ao final do processo, recebe a devolutiva e o plano, construído em conjunto. Detalhes: [https://institutofacaamigos.com.br/metodologia](https://institutofacaamigos.com.br/metodologia)
+
+#### Q2: A Clínica FaçaAmigos já está atendendo? Onde fica e qual o horário?
+R: Sim. A Clínica atende desde novembro de 2026, na Rua Boaventura da Silva, 1573, Umarizal, Belém - PA, de segunda a sexta das 8h às 18h e aos sábados das 8h às 11h45, com hora marcada. Para agendar, chame a equipe pelo WhatsApp da Clínica.
+
+#### Q3: Preciso de laudo para ser atendido na Clínica?
+R: Não é obrigatório. A avaliação inicial e o acolhimento servem justamente para entender o caso, com ou sem laudo prévio.
+
+#### Q4: A Clínica atende convênio ou só particular?
+R: Atende de forma particular e pelos convênios parceiros IASEP e PROASA (a clínica solicita a autorização da guia mediante envio de laudo com CID, carteirinha e documento). Para outros convênios, emite nota fiscal e relatórios detalhados para a família pedir reembolso à operadora.
+
+#### Q5: Como funcionam os pacotes particulares de terapia e quanto custam?
+R: Os pacotes são mensais, de 4 a 24 sessões de 40 minutos (Primeiro Passo, Laço, Vínculo, Turma, Abraço e Voo Livre), com sessão avulsa (Encontro) e Avaliação Neuropsicológica à parte. As terapias podem ser combinadas entre as especialidades indicadas no plano da criança, a avaliação inicial é inclusa (conta como 1 sessão) e o pagamento pode ser parcelado em até 3x sem juros no cartão. Os valores não são publicados: a equipe passa pelo WhatsApp conforme o pacote e as terapias de cada criança. Página dos pacotes: [https://institutofacaamigos.com.br/planos](https://institutofacaamigos.com.br/planos)
+
+#### Q6: Como funciona o acesso de crianças autistas no FaçaAmigos?
 R: Apresentando a Carteira de Identificação da Pessoa com Transtorno do Espectro Autista (CIPTEA) ou laudo médico na recepção, a criança paga a meia-entrada inclusiva no Playground: R$ 50,00 os 30 minutos (público geral: R$ 60,00).
 
-#### Q2: É necessário fazer agendamento prévio?
+#### Q7: É necessário fazer agendamento prévio?
 R: Não. O atendimento no Playground e no Circuito é feito por ordem de chegada, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h.
 
-#### Q3: Qual a segurança oferecida para crianças que ficam sem os pais?
+#### Q8: Qual a segurança oferecida para crianças que ficam sem os pais?
 R: Crianças a partir de 3 anos recebem uma pulseira de identificação vinculada ao responsável cadastrado na entrada. A liberação na saída ocorre mediante validação presencial do mesmo responsável.
 
-#### Q4: Onde ficam as unidades e qual o horário?
+#### Q9: Onde ficam as unidades e qual o horário?
 R: O Playground e o Circuito funcionam no Parque Shopping Belém (Rod. Augusto Montenegro, 4300, Belém - PA, CEP 66635-110), com o Playground no 1º piso e o Circuito no térreo, em frente à C&A, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h. O Playground também funciona no Shopping Bosque Grão-Pará (Av. Centenário, 1052, Belém - PA), 1º piso, em frente à Renner, de segunda a sábado das 10h às 22h e aos domingos das 12h às 21h, com os mesmos preços. A Clínica funciona na Rua Boaventura da Silva, 1573, Umarizal, com atendimento por hora marcada desde novembro de 2026.
 
-#### Q5: Qual o melhor horário para crianças com sensibilidade sensorial?
+#### Q10: Qual o melhor horário para crianças com sensibilidade sensorial?
 R: O Horário Inclusivo, das 10h às 16h (aos domingos, a partir das 12h), tem som mais baixo, menos lotação e equipe reforçada. É o horário indicado para a primeira visita.
 
-#### Q6: O Playground FaçaAmigos é só para crianças autistas ou neurodivergentes?
+#### Q11: O Playground FaçaAmigos é só para crianças autistas ou neurodivergentes?
 R: Não. O Playground é para todas as crianças de 0 a 12 anos, com ou sem laudo. Crianças típicas e atípicas brincam juntas no mesmo espaço, sem ala separada. O Horário Inclusivo também é aberto a qualquer família. A estrutura inclusiva (mediadores treinados, abafadores de ruído, canto de descompressão) deixa o ambiente mais seguro e tranquilo para qualquer criança. Guia completo: `https://institutofacaamigos.com.br/aprender/e-para-todas-as-criancas`
 
 ---
@@ -173,6 +194,6 @@ R: Não. O Playground é para todas as crianças de 0 a 12 anos, com ou sem laud
   - Parque Shopping (Playground &amp; Circuito): +55 (91) 99234-7673 (WhatsApp)
   - Shopping Bosque Grão-Pará (Playground): +55 (91) 99110-1215 (WhatsApp)
   - Clínica de Terapia Comportamental: +55 (91) 99178-2027 (WhatsApp)
-- **Outros conteúdos**: `/clinica` (serviços da Clínica), `/eventos` (agenda de palestras e treinamentos), `/aprender` (guias educativos), `/glossario` (glossário de termos), `/mapeamento` (Mapeamento Comportamental gratuito), `/guia` (e-book O Brincar com Propósito), `/codigo` (e-book O Código do Desenvolvimento Infantil)
+- **Outros conteúdos**: `/clinica` (serviços da Clínica), `/planos` (pacotes particulares de terapia), `/metodologia` (Método FaçaAmigos de avaliação), `/eventos` (agenda de palestras e treinamentos), `/aprender` (guias educativos), `/glossario` (glossário de termos), `/mapeamento` (Mapeamento Comportamental gratuito), `/guia` (e-book O Brincar com Propósito), `/codigo` (e-book O Código do Desenvolvimento Infantil)
 - **Resumo curto**: `https://institutofacaamigos.com.br/llms.txt`
 - **Fatos legíveis por máquina**: `https://institutofacaamigos.com.br/geo-facts.json`
