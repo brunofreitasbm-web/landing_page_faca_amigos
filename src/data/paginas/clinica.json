@@ -71,7 +71,7 @@
       },
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Rua Boaventura da Silva, 1573 — Umarizal",
+        "streetAddress": "Rua Boaventura da Silva, 1573",
         "addressLocality": "Belém",
         "addressRegion": "PA",
         "postalCode": "66060-147",
@@ -299,6 +299,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Sim. O Centro de Terapia Comportamental FaçaAmigos fica no Umarizal, em Belém, e atende crianças e adolescentes com autismo (TEA) com terapia ABA, fonoaudiologia, terapia ocupacional e psicopedagogia, entre outras especialidades. O atendimento também está aberto a quem tem TDAH, atraso de fala ou dúvidas sobre o desenvolvimento, com ou sem laudo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vocês são uma clínica ABA? Atendem TEA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. O Centro de Terapia Comportamental FaçaAmigos é uma clínica de terapia ABA e atende crianças e adolescentes com autismo (TEA) em Belém. No mesmo endereço, no Umarizal, também há fonoaudiologia infantil, psicologia infantil e terapia ocupacional."
           }
         },
         {

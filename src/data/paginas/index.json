@@ -185,7 +185,7 @@
       },
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Rua Boaventura da Silva, 1573 — Umarizal",
+        "streetAddress": "Rua Boaventura da Silva, 1573",
         "addressLocality": "Belém",
         "addressRegion": "PA",
         "postalCode": "66060-147",

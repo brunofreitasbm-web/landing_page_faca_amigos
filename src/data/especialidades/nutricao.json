@@ -2,15 +2,15 @@
   "slug": "nutricao",
   "nome": "Nutrição",
   "area": "outra",
-  "titleTag": "Nutrição infantil e seletividade alimentar | FaçaAmigos",
-  "descricao": "Nutrição infantil em Belém/PA: seletividade alimentar, recusa de texturas e introdução de novos alimentos, com orientação à família.",
+  "titleTag": "Nutrição infantil e seletividade em Belém | FaçaAmigos",
+  "descricao": "Nutricionista infantil em Belém/PA: consulta para seletividade alimentar, recusa de texturas e novos alimentos, com orientação à família.",
   "h1": "Nutrição infantil e seletividade alimentar em Belém",
   "eyebrow": "Clínica · Nutrição",
-  "resposta": "A nutrição infantil cuida da alimentação da criança em todas as fases. Na clínica, atende sobretudo seletividade alimentar: recusa de grupos de alimentos por textura, cor ou cheiro, com plano gradual de novos alimentos e orientação à família, sem forçar nem dietas restritivas sem indicação.",
+  "resposta": "A nutrição infantil cuida da alimentação da criança em todas as fases. Na clínica, atende sobretudo seletividade alimentar: recusa de grupos de alimentos por textura, cor ou cheiro, com plano gradual de novos alimentos e orientação à família, sem forçar nem dietas restritivas sem indicação. O atendimento é no Umarizal, em Belém.",
   "path": "/clinica/nutricao",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "dataTexto": "4 de novembro de 2026",
+  "dateModified": "2026-11-25",
+  "dataTexto": "25 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse em Nutrição infantil na Clínica FaçaAmigos.",
@@ -35,6 +35,10 @@
     {
       "q": "Seletividade alimentar é sempre sinal de autismo?",
       "a": "Não. É comum no autismo, mas ocorre em outras crianças também. A avaliação identifica a causa e o tipo de apoio necessário."
+    },
+    {
+      "q": "Como funciona a consulta com nutricionista infantil?",
+      "a": "O foco é entender o que a criança aceita e o que recusa, e montar um plano gradual de novos alimentos, com orientação à família, sem forçar e sem dietas restritivas sem indicação."
     }
   ],
   "relacionadosSlugs": [

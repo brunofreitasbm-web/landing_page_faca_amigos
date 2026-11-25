@@ -9,8 +9,8 @@
   "resposta": "A fisioterapia infantil trata o movimento: marcos motores como sentar, engatinhar e andar, tônus muscular, postura, equilíbrio e marcha. É indicada quando a criança tem atraso motor, hipotonia, quedas frequentes ou alterações no jeito de andar, após avaliação.",
   "path": "/clinica/fisioterapia",
   "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "dataTexto": "4 de novembro de 2026",
+  "dateModified": "2026-11-25",
+  "dataTexto": "25 de novembro de 2026",
   "ogImage": "img/clinica-fachada.jpg",
   "ogImageAlt": "Fachada do Centro de Terapia Comportamental FaçaAmigos, em Belém",
   "waTexto": "Olá! Tenho interesse em Fisioterapia infantil na Clínica FaçaAmigos.",
@@ -35,6 +35,10 @@
     {
       "q": "Com que idade a criança pode começar?",
       "a": "A fisioterapia atende bebês e crianças. A indicação depende da avaliação; o pediatra costuma encaminhar quando há atraso motor."
+    },
+    {
+      "q": "Vocês têm clínica de fisioterapia infantil em Belém?",
+      "a": "Sim. A fisioterapia infantil é uma das especialidades da clínica, no Umarizal, em Belém. A criança passa primeiro por uma avaliação, e o atendimento é por convênio ou particular."
     }
   ],
   "relacionadosSlugs": [
