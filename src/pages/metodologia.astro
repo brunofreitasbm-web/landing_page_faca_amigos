@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { abs, waUrl, trilhaNo, SITE } from '../data/marca';
+import FAQ from '../components/FAQ.astro';
+import { abs, faqNo, waUrl, trilhaNo, SITE } from '../data/marca';
 
 // Método FaçaAmigos da Clínica. Conteúdo definido pelo responsável (fluxo de avaliação inicial).
 // Regras que esta página respeita: sem número nem duração de sessões, sem prazo de PTI, sem preço, sem promessa de
@@ -17,11 +18,11 @@ const passos = [
   { n: '6', t: 'Início das terapias', p: 'Só depois da devolutiva seguimos para as terapias, já com um plano sob medida.' },
 ];
 const areas = ['Fonoaudiologia', 'Terapia Ocupacional', 'Integração Sensorial', 'Psicopedagogia', 'Psicologia', 'e demais profissionais'];
-const faq = [
-  { q: 'Por que a avaliação acontece no Playground?', r: 'Porque é onde a criança está mais ela mesma: escolhendo, interagindo e se movendo com liberdade. É assim que vemos como ela se comunica, se regula, se relaciona e resolve situações do dia a dia.' },
-  { q: 'Em qual Playground será?', r: 'No FaçaAmigos Playground Inclusivo, no Parque Shopping Belém ou no Shopping Bosque Grão-Pará. A equipe combina com você a unidade conforme a agenda.' },
-  { q: 'Os profissionais estão todos juntos com a criança?', r: 'Não. Eles atuam por escala, cada um no seu momento. Cada área olha a criança pelo seu campo, e todas contribuem para um único plano.' },
-  { q: 'Quando recebo o plano?', r: 'Ao final do processo. O plano é elaborado durante as sessões e entregue na devolutiva, construído em conjunto com a família.' },
+const faq: { q: string; a: string }[] = [
+  { q: 'Por que a avaliação acontece no Playground?', a: 'Porque é onde a criança está mais ela mesma: escolhendo, interagindo e se movendo com liberdade. É assim que vemos como ela se comunica, se regula, se relaciona e resolve situações do dia a dia.' },
+  { q: 'Em qual Playground será?', a: 'No FaçaAmigos Playground Inclusivo, no Parque Shopping Belém ou no Shopping Bosque Grão-Pará. A equipe combina com você a unidade conforme a agenda.' },
+  { q: 'Os profissionais estão todos juntos com a criança?', a: 'Não. Eles atuam por escala, cada um no seu momento. Cada área olha a criança pelo seu campo, e todas contribuem para um único plano.' },
+  { q: 'Quando recebo o plano?', a: 'Ao final do processo. O plano é elaborado durante as sessões e entregue na devolutiva, construído em conjunto com a família.' },
 ];
 ---
 <Base
@@ -36,6 +37,7 @@ const faq = [
   cta={{ label: 'Agendar a primeira conversa', href: 'whatsapp', event: 'whatsapp' }}
   jsonLd={[
     { '@type': 'WebPage', '@id': `${abs(path)}#pagina`, url: abs(path), name: 'Método FaçaAmigos', about: { '@id': `${SITE.url}/#clinica` }, isPartOf: { '@id': `${SITE.url}/#organization` }, inLanguage: 'pt-BR' },
+    faqNo(path, faq),
     trilhaNo(path, [{ nome: 'Início', path: '/' }, { nome: 'Clínica', path: '/clinica' }, { nome: 'Método FaçaAmigos', path }]),
   ]}
 >
@@ -96,9 +98,7 @@ const faq = [
   <section class="section">
     <div class="wrap stack-lg">
       <h2>Dúvidas sobre o método</h2>
-      <div class="grid cols-2">
-        {faq.map((x) => <div class="card"><h3>{x.q}</h3><p>{x.r}</p></div>)}
-      </div>
+      <FAQ itens={faq} />
     </div>
   </section>
 
